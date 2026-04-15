@@ -53,7 +53,12 @@
       <div class="stat-value" id="queue-stats">-</div>
       <div class="stat-label">Queue (proc/drop/sum)</div>
     </div>
+    <div class="stat">
+      <div class="stat-value" id="rpm-stats">0</div>
+      <div class="stat-label">Total RPM</div>
+    </div>
   </div>
+  <div id="api-keys-container" style="margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.5rem;"></div>
   <div id="log"></div>
   <script>
     /* =================================================================
@@ -66,6 +71,8 @@
     const maxLagEl = document.getElementById('max-lag');
     const msgCountEl = document.getElementById('msg-count');
     const queueStatsEl = document.getElementById('queue-stats');
+    const rpmStatsEl = document.getElementById('rpm-stats');
+    const apiKeysContainer = document.getElementById('api-keys-container');
 
     // Lag tracking - keeps last 100 measurements for averaging
     const lagHistory = [];
@@ -113,8 +120,28 @@
         queueStatsEl.textContent = `${data.processed}/${data.dropped}/${data.summarized}`;
         // Hover shows more detail
         queueStatsEl.title = `Queue: ${data.queue_size}, Pending: ${data.pending_for_summary}, Lag: ${data.current_lag?.toFixed(1)}s`;
+        
+        // Update RPM stats
+        const apiData = data.api_keys || { total_rpm: 0, keys: [] };
+        rpmStatsEl.textContent = apiData.total_rpm;
+        
+        // Update individual API key indicators
+        apiKeysContainer.innerHTML = '';
+        apiData.keys.forEach(key => {
+          const div = document.createElement('div');
+          div.style.padding = '0.25rem 0.5rem';
+          div.style.borderRadius = '4px';
+          div.style.fontSize = '0.75rem';
+          div.style.background = key.healthy ? '#064e3b' : '#7f1d1d';
+          div.style.color = '#fff';
+          div.title = `Tier: ${key.tier}, Errors: ${key.consecutive_errors}`;
+          div.textContent = `${key.key_id}: ${key.current_rpm}/${key.rpm_limit} RPM`;
+          apiKeysContainer.appendChild(div);
+        });
       } catch (e) {
         queueStatsEl.textContent = '-';  // Service not available
+        rpmStatsEl.textContent = '-';
+        apiKeysContainer.innerHTML = '';
       }
     }
     setInterval(fetchQueueStats, 2000);  // Poll every 2s

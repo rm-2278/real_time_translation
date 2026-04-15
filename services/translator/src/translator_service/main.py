@@ -32,7 +32,8 @@ logger = logging.getLogger(__name__)
 @dataclass(frozen=True)
 class TranslationServiceConfig:
     llm_provider: str
-    google_api_key: str | None
+    google_api_keys: list[str]
+    google_api_keys_free: list[str]
     openai_api_key: str | None
     gemini_model: str
     openai_model: str
@@ -52,17 +53,27 @@ class TranslationServiceConfig:
     @staticmethod
     def from_env() -> TranslationServiceConfig:
         llm_provider = os.getenv("LLM_PROVIDER", "gemini").lower()
-        google_api_key = os.getenv("GOOGLE_API_KEY")
+        
+        def _get_keys(env_name: str) -> list[str]:
+            val = os.getenv(env_name, "")
+            if not val:
+                return []
+            return [k.strip() for k in val.split(",") if k.strip()]
+
+        google_api_keys = _get_keys("GOOGLE_API_KEY")
+        google_api_keys_free = _get_keys("GOOGLE_API_KEY_FREE")
         openai_api_key = os.getenv("OPENAI_API_KEY")
-        if llm_provider == "gemini" and not google_api_key:
-            raise ValueError("GOOGLE_API_KEY is required when using Gemini")
+        
+        if llm_provider == "gemini" and not google_api_keys and not google_api_keys_free:
+            raise ValueError("GOOGLE_API_KEY or GOOGLE_API_KEY_FREE is required when using Gemini")
         if llm_provider == "openai" and not openai_api_key:
             raise ValueError("OPENAI_API_KEY is required when using OpenAI")
 
         dictionary_path = os.getenv("DICTIONARY_PATH")
         return TranslationServiceConfig(
             llm_provider=llm_provider,
-            google_api_key=google_api_key,
+            google_api_keys=google_api_keys,
+            google_api_keys_free=google_api_keys_free,
             openai_api_key=openai_api_key,
             gemini_model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
             openai_model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
@@ -165,19 +176,16 @@ async def lifespan(app: FastAPI):
     logging.basicConfig(level=logging.INFO)
     config = TranslationServiceConfig.from_env()
     
-    # Determine API key and model based on provider
-    api_key = (
-        config.google_api_key
-        if config.llm_provider == "gemini"
-        else config.openai_api_key
-    )
+    # Determine model based on provider
     model = (
         config.gemini_model if config.llm_provider == "gemini" else config.openai_model
     )
 
     translator = FastTranslator(
         provider=config.llm_provider,  # type: ignore[arg-type]
-        api_key=api_key or "",
+        google_api_keys=config.google_api_keys,
+        google_api_keys_free=config.google_api_keys_free,
+        api_key=config.openai_api_key,
         model=model,
         source_language=config.source_language,
         target_language=config.target_language,
@@ -211,7 +219,7 @@ async def lifespan(app: FastAPI):
         output = await translator.translate(
             text,
             context_lines=context,
-            update_context=False,  # Don't update context (managed externally)
+            update_context=False,
         )
         # Build payload to publish to WebSocket service
         payload = {
@@ -222,7 +230,7 @@ async def lifespan(app: FastAPI):
             "is_final": is_final,
             "ts": ts,
             "session_id": session_id,
-            "lag": time.time() - ts,  # Measure end-to-end lag
+            "lag": time.time() - ts,
         }
         await _publish_translation(http_client, config.ws_publish_url, payload)
 
@@ -293,14 +301,7 @@ async def _publish_translation(
 
 @app.post("/translate", response_model=TranslateResponse)
 async def translate(request: TranslateRequest) -> TranslateResponse:
-    """Main translation endpoint - enqueues request for parallel processing.
-    
-    Changed from direct processing to queue-based.
-    
-    Before: await translator.translate(request.text) - blocked other requests
-    After:  await queue_manager.enqueue(request) - returns immediately, 
-            workers process in parallel
-    """
+    """Main translation endpoint - enqueues request for parallel processing."""
     queue_manager: TranslationQueueManager = app.state.queue_manager
 
     ts = request.ts or time.time()
@@ -368,9 +369,7 @@ async def translate_sync(request: TranslateRequest) -> TranslateResponse:
 
 @app.get("/stats")
 async def stats() -> dict[str, Any]:
-    """Get translation queue statistics for monitoring.
-    
-    NEW 2026-02-04: Exposes queue metrics for lag monitoring.
+    """Get translation queue and API key statistics for monitoring.
     
     Returns:
         - processed: Number of successful translations
@@ -379,9 +378,14 @@ async def stats() -> dict[str, Any]:
         - current_lag: Current lag in seconds
         - queue_size: Items currently waiting in queue
         - pending_for_summary: Items waiting for batch summarization
+        - api_keys: Statistics from the KeyManager (RPM per key, health, etc.)
     """
     queue_manager: TranslationQueueManager = app.state.queue_manager
-    return queue_manager.stats
+    translator: FastTranslator = app.state.translator
+    
+    stats_data = queue_manager.stats
+    stats_data["api_keys"] = translator.key_manager_stats
+    return stats_data
 
 
 def main() -> None:

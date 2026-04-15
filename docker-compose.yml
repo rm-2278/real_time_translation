@@ -22,6 +22,8 @@ services:
     ports:
       - "8001:8000"
     env_file: .env
+    environment:
+      - PYTHONUNBUFFERED=1
 
   gemini:
     build: ./services/translator
@@ -29,10 +31,12 @@ services:
       - "8002:8000"
     env_file: .env
     environment:
+      - PYTHONUNBUFFERED=1
       - WS_PUBLISH_URL=http://ws:8000/publish
       - ZOOM_CAPTION_URL=${ZOOM_CAPTION_URL:-}
       - ZOOM_CAPTION_LANG=${ZOOM_CAPTION_LANG:-}
-      # Use fast production model - gemini-2.5-flash has better TTFT
+      # Default is a fast model for lower latency; override in .env for quality.
+      # Example: GEMINI_MODEL=gemini-3.1-pro-preview
       - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash}
       # -----------------------------------------------------------------
       # NEW 2026-02-04: Parallel queue settings to prevent lag accumulation
@@ -54,6 +58,8 @@ services:
     build: ./services/asr
     env_file: .env
     environment:
+      - PYTHONUNBUFFERED=1
+      - DEEPGRAM_VAD_EVENTS=${DEEPGRAM_VAD_EVENTS:-true}
       - RTMP_URL=rtmp://nms:1935/live/zoom
       - WS_PUBLISH_URL=http://ws:8000/publish
       - TRANSLATION_API_URL=http://gemini:8000/translate

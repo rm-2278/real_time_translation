@@ -33,6 +33,7 @@ class Config:
 
     # Gemini
     google_api_key: str | None = None
+    google_api_key_free: str | None = None
     gemini_model: str = "gemini-2.5-flash"
 
     # OpenAI
@@ -103,10 +104,11 @@ class Config:
         llm_provider = os.getenv("LLM_PROVIDER", "gemini").lower()
 
         google_api_key = os.getenv("GOOGLE_API_KEY")
+        google_api_key_free = os.getenv("GOOGLE_API_KEY_FREE")
         openai_api_key = os.getenv("OPENAI_API_KEY")
 
-        if llm_provider == "gemini" and not google_api_key:
-            raise ValueError("GOOGLE_API_KEY is required when using Gemini")
+        if llm_provider == "gemini" and not google_api_key and not google_api_key_free:
+            raise ValueError("At least one GOOGLE_API_KEY or GOOGLE_API_KEY_FREE is required when using Gemini")
         if llm_provider == "openai" and not openai_api_key:
             raise ValueError("OPENAI_API_KEY is required when using OpenAI")
 
@@ -130,6 +132,7 @@ class Config:
             zoom_webhook_port=int(os.getenv("ZOOM_WEBHOOK_PORT", "8080")),
             zoom_webhook_path=os.getenv("ZOOM_WEBHOOK_PATH", "/webhook"),
             google_api_key=google_api_key,
+            google_api_key_free=google_api_key_free,
             gemini_model=os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
             openai_api_key=openai_api_key,
             openai_model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),

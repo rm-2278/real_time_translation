@@ -32,6 +32,8 @@ cp .env.example .env
 | `LLM_PROVIDER`              | `gemini` または `openai`    | ✓            |
 | `GOOGLE_API_KEY`            | Google AI APIキー           | Gemini使用時 |
 | `OPENAI_API_KEY`            | OpenAI APIキー              | OpenAI使用時 |
+| `GEMINI_MODEL`              | Geminiモデル名              |              |
+| `OPENAI_MODEL`              | OpenAIモデル名              |              |
 | `SOURCE_LANGUAGE`           | 元言語コード (例: `en`)     |              |
 | `TARGET_LANGUAGE`           | 翻訳先言語コード (例: `ja`) |              |
 | `CONTEXT_WINDOW_SIZE`       | 文脈保持の文数              |              |
@@ -86,6 +88,12 @@ uv run real-time-translation-asr
 
 WebデモはZoom認証なしで動作します。`DEEPGRAM_API_KEY` と `LLM_PROVIDER`
 に応じたAPIキーのみ設定してください。
+
+Geminiのモデルを最新のPro系にしたい場合は、`.env` に以下を設定して再起動してください。
+
+```bash
+GEMINI_MODEL=gemini-3.1-pro-preview
+```
 
 ## Docker マイクロサービス構成
 

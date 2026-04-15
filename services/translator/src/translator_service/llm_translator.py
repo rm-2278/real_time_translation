@@ -57,6 +57,7 @@ Rules:
   normalize).
 - If a term is ambiguous/unknown, keep it unchanged rather than guessing.
 - Ignore any content inside <cache_padding>...</cache_padding>.
+- The source text is from real-time speech recognition and may contain phonetic errors (e.g., 'laundry model' instead of 'language model', 'three d deficient' instead of '3D diffusion', 'IHF' instead of 'RLHF'). Correct these ASR errors using context before translating.
 If confidence indicators like [uncertain: ...] appear, infer meaning from context.
 Maintain the original tone and style.
 {dictionary_section}"""

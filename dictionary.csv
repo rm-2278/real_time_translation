@@ -42,4 +42,6 @@ rotary positional embeddings,Rotary Positional Embeddings (RoPE),アーキテク
 rectified linear unit,Rectified Linear Unit (ReLU),
 recurrent neural network,再帰型ニューラルネットワーク (RNN),
 principal component analysis,主成分分析 (PCA),
-mixture of experts,専門家混合モデル (MoE),アーキテクチャ
+mixture of experts,専門家混合モデル (MoE),アーキテクチャlanguage model,言語モデル,
+3D diffusion,3D diffusion,
+RLHF,RLHF,
