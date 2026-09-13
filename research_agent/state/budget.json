@@ -34,6 +34,11 @@
       "at": "2026-09-13T12:53:13.903457+00:00",
       "amount_usd": 0.02,
       "note": "h-masking-holdback: experiment run by human (rm-2278) locally on their own machine/keys on 2026-09-13, not by this sandboxed session (Deepgram websocket still blocked here) -- logging a rough actual-cost estimate (90s audio + 8 short LLM translation calls, well under the .50 estimate) for bookkeeping completeness per the hard rule, not charged against this session's own spend"
+    },
+    {
+      "at": "2026-09-13T13:00:17.524429+00:00",
+      "amount_usd": 0.0,
+      "note": "h-deepgram-flux-eot-availability-check: WebSearch/WebFetch feasibility check only, zero new Deepgram/LLM API spend"
     }
   ]
 }
