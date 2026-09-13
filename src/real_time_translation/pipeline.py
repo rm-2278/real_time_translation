@@ -187,6 +187,7 @@ class TranslationPipeline:
             emit_interim=True,  # Emit interim results for real-time UI
             max_interim_duration=config.deepgram_max_interim_duration,
             keyterms=keyterms,
+            local_agreement_commit=config.localagreement_commit_enabled,
         )
 
         # Rate limiter shared across all translation workers, to stay under
@@ -231,6 +232,10 @@ class TranslationPipeline:
         # `_emit_batch_result`), so this doesn't grow unboundedly.
         self._utterance_target_text: dict[int, str] = {}  # text fed to the model
         self._utterance_source_text: dict[int, str] = {}  # raw ASR text, for display
+        # h-continuation-context-anchor: this utterance's own most-recently-
+        # emitted translation, for the next continuation batch to anchor to.
+        # Same lifecycle as `_utterance_target_text`/`_utterance_source_text`.
+        self._utterance_translated_text: dict[int, str] = {}
         self._utterance_locks: dict[int, asyncio.Lock] = {}
 
         self._running = False
@@ -445,6 +450,7 @@ class TranslationPipeline:
         full_target_text: str,
         *,
         live: bool,
+        prior_translation: str | None = None,
     ) -> str:
         """Stream a translation of `full_target_text`, optionally live.
 
@@ -477,6 +483,7 @@ class TranslationPipeline:
             full_target_text,
             context_lines=batch[0].context,
             update_context=False,
+            prior_translation=prior_translation,
         ):
             accumulated += chunk
             if live and self._on_result and batch_id == self._next_emit_batch_id:
@@ -540,6 +547,7 @@ class TranslationPipeline:
                 full_target_text = " ".join(q.text_for_translation for q in batch)
             self._translator.commit_context(full_target_text, translation)
             self._utterance_source_text.pop(utterance_id, None)
+            self._utterance_translated_text.pop(utterance_id, None)
             self._utterance_locks.pop(utterance_id, None)
 
         if self._on_result:
@@ -617,6 +625,17 @@ class TranslationPipeline:
                         if len(words) > holdback:
                             text_to_translate = " ".join(words[:-holdback])
 
+                    # h-continuation-context-anchor: anchor a continuation
+                    # batch's retranslation to this utterance's own
+                    # most-recently-emitted translation, so the model has an
+                    # explicit memory of what's already on screen instead of
+                    # reconstructing it from <target> alone.
+                    prior_translation = None
+                    if self._config.anchor_continuation_translation and is_continuation:
+                        prior_translation = self._utterance_translated_text.get(
+                            utterance_id
+                        )
+
                     await self._translation_rate_limiter.acquire()
                     timeout = self._translation_timeout + 2.0 * (len(batch) - 1)
 
@@ -628,6 +647,7 @@ class TranslationPipeline:
                                     batch,
                                     text_to_translate,
                                     live=not is_continuation,
+                                    prior_translation=prior_translation,
                                 ),
                                 timeout=timeout,
                             )
@@ -653,6 +673,8 @@ class TranslationPipeline:
                             if prior_source
                             else new_source
                         )
+                        if not is_last_of_utterance:
+                            self._utterance_translated_text[utterance_id] = translation
 
                 await self._finish_batch(batch_id, batch, translation)
         except asyncio.CancelledError:

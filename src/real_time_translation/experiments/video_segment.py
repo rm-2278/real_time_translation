@@ -514,6 +514,8 @@ async def run_experiment(
             "deepgram_utterance_end_ms": config.deepgram_utterance_end_ms,
             "deepgram_max_interim_duration": config.deepgram_max_interim_duration,
             "masking_holdback_words": config.masking_holdback_words,
+            "anchor_continuation_translation": config.anchor_continuation_translation,
+            "localagreement_commit_enabled": config.localagreement_commit_enabled,
             "domain_packs": config.domain_packs,
             "dictionary_size": len(pipeline._translator.dictionary),
         },

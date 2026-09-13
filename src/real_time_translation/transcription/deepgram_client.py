@@ -56,6 +56,7 @@ class DeepgramTranscriber:
         vad_events: bool | None = None,
         max_interim_duration: float | None = 4.0,
         keyterms: list[str] | None = None,
+        local_agreement_commit: bool = False,
     ) -> None:
         """Initialize Deepgram transcriber.
 
@@ -81,6 +82,13 @@ class DeepgramTranscriber:
             keyterms: Domain terms to bias the acoustic/language model
                 toward (Deepgram Keyterm Prompting). Only supported on
                 nova-3 models -- pass None/empty when using an older model.
+            local_agreement_commit: Experimental (h-localagreement-asr-commit,
+                research_agent/state/hypotheses.json). When True, also
+                soft-finalize (commit) any word prefix that two consecutive
+                interim hypotheses for the same utterance agree on
+                (LocalAgreement-2), as soon as that agreement is observed,
+                instead of relying solely on `max_interim_duration`'s fixed
+                timer. False (default) preserves today's timer-only behavior.
         """
         self._api_key = api_key
         self._language = language
@@ -95,6 +103,8 @@ class DeepgramTranscriber:
         self._vad_events = vad_events
         self._max_interim_duration = max_interim_duration
         self._keyterms = keyterms
+        self._local_agreement_commit = local_agreement_commit
+        self._prev_interim_words: list[str] | None = None
 
         self._client: AsyncDeepgramClient | None = None
         self._connection_cm: Any = None
@@ -335,6 +345,7 @@ class DeepgramTranscriber:
             self._consumed_word_count = 0
             self._consumed_end_time = start
             self._utterance_id += 1
+            self._prev_interim_words = None
 
     def _reset_utterance_state(self) -> None:
         self._utterance_start_time = None
@@ -342,6 +353,7 @@ class DeepgramTranscriber:
         self._consumed_word_count = 0
         self._consumed_end_time = None
         self._pending_result = None
+        self._prev_interim_words = None
 
     def _soft_finalize_pending(self, *, is_utterance_end: bool) -> None:
         """Emit unconsumed words from the current pending interim as final.
@@ -376,6 +388,60 @@ class DeepgramTranscriber:
         )
         self._consumed_word_count = len(words)
         self._consumed_end_time = self._pending_result.end_time
+        self._emit_result(chunk)
+
+    def _maybe_commit_local_agreement(
+        self, current_words: list[str], end_time: float
+    ) -> None:
+        """LocalAgreement-2 (h-localagreement-asr-commit): commit an agreed prefix.
+
+        Compares this interim's words against the immediately preceding
+        interim's words for the same utterance. Any prefix the two agree on
+        beyond what's already been committed is safe to translate now,
+        rather than waiting for `max_interim_duration`'s fixed timer --
+        Deepgram is unlikely to revise a word once two consecutive updates
+        have already agreed on it. Only ever extends `_consumed_word_count`
+        forward, sharing that ledger with `_soft_finalize_pending` so the
+        two commit paths never double-emit the same words.
+        """
+        prev_words = self._prev_interim_words
+        self._prev_interim_words = current_words
+        if not prev_words:
+            return
+
+        agree_up_to = 0
+        limit = min(len(prev_words), len(current_words))
+        while (
+            agree_up_to < limit
+            and prev_words[agree_up_to] == current_words[agree_up_to]
+        ):
+            agree_up_to += 1
+
+        if agree_up_to <= self._consumed_word_count:
+            return
+
+        new_words = current_words[self._consumed_word_count : agree_up_to]
+        if not new_words:
+            return
+
+        start = (
+            self._consumed_end_time
+            if self._consumed_end_time is not None
+            else self._utterance_start_time
+        )
+        chunk = TranscriptionResult(
+            text=" ".join(new_words),
+            is_final=True,
+            confidence=float(self._pending_result.confidence)
+            if self._pending_result is not None
+            else 1.0,
+            start_time=start if start is not None else end_time,
+            end_time=end_time,
+            utterance_id=self._utterance_id,
+            is_utterance_end=False,
+        )
+        self._consumed_word_count = agree_up_to
+        self._consumed_end_time = end_time
         self._emit_result(chunk)
 
     def _handle_message(self, result: Any) -> None:
@@ -444,6 +510,8 @@ class DeepgramTranscriber:
             self._pending_result = transcript_result
             if self._emit_interim:
                 self._emit_result(transcript_result)
+            if self._local_agreement_commit:
+                self._maybe_commit_local_agreement(transcript.split(), end)
 
         except (AttributeError, IndexError):
             pass  # Ignore malformed results

@@ -263,6 +263,7 @@ Maintain the original tone and style.
         text: str,
         *,
         context_lines: list[str] | None = None,
+        prior_translation: str | None = None,
     ) -> str:
         if context_lines is None:
             context_lines = self._context_buffer[-self._context_window_size :]
@@ -281,8 +282,27 @@ Maintain the original tone and style.
                 formatted = self._dictionary.format_for_prompt(relevant)
                 dictionary_block = f"<dictionary>\n{formatted}\n</dictionary>\n"
 
+        # h-continuation-context-anchor (research_agent/state/hypotheses.json):
+        # for a continuation batch of an in-progress utterance, anchor the
+        # retranslation to what was already shown on screen for this same
+        # utterance, instead of leaving the model to reconstruct it from
+        # <target> alone with no memory of its own prior wording.
+        prior_translation_block = ""
+        if prior_translation:
+            prior_translation_block = (
+                "<prior_translation>\n"
+                f"{prior_translation}\n"
+                "</prior_translation>\n"
+                "The above is your own translation of this same utterance so "
+                "far, already shown to the viewer. <target> is the complete "
+                "utterance heard so far, including that earlier part. Preserve "
+                "and extend <prior_translation> rather than rewording it, "
+                "unless the new text in <target> changes its meaning.\n"
+            )
+
         return (
             f"{dictionary_block}"
+            f"{prior_translation_block}"
             f"<context>\n{context_block}\n</context>\n<target>\n{text}\n</target>"
         )
 
@@ -439,6 +459,7 @@ Maintain the original tone and style.
         *,
         context_lines: list[str] | None = None,
         update_context: bool = True,
+        prior_translation: str | None = None,
     ) -> AsyncIterator[str]:
         """Translate text, yielding output chunks as they are generated.
 
@@ -449,6 +470,10 @@ Maintain the original tone and style.
                 the shared internal context buffer)
             update_context: Whether to update internal context buffers
                 after the translation completes
+            prior_translation: This same utterance's own most-recently-
+                emitted translation, for a continuation-batch retranslation
+                to anchor to (h-continuation-context-anchor). None for a
+                first/only batch of an utterance.
 
         Yields:
             Translation text chunks (concatenate for the full translation)
@@ -456,7 +481,9 @@ Maintain the original tone and style.
         if not text.strip():
             return
 
-        prompt = self._build_user_prompt(text, context_lines=context_lines)
+        prompt = self._build_user_prompt(
+            text, context_lines=context_lines, prior_translation=prior_translation
+        )
 
         full_text = ""
         if self._provider == "gemini":

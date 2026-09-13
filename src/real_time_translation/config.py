@@ -107,6 +107,23 @@ class Config:
     # translator this round* is truncated. 0 (default) disables masking
     # entirely, preserving today's behavior.
     masking_holdback_words: int = 0
+    # Experimental (h-continuation-context-anchor,
+    # research_agent/state/hypotheses.json): when retranslating a
+    # continuation batch of an in-progress utterance, pass the utterance's
+    # own most-recently-emitted translation to the LLM as an explicit
+    # <prior_translation> anchor, instructing it to preserve/extend that
+    # text rather than retranslating from scratch. False (default) preserves
+    # today's behavior (no anchor passed).
+    anchor_continuation_translation: bool = False
+    # Experimental (h-localagreement-asr-commit,
+    # research_agent/state/hypotheses.json): instead of only soft-finalizing
+    # an in-progress utterance on the fixed `deepgram_max_interim_duration`
+    # timer, also commit (and make eligible for translation) any word prefix
+    # that two consecutive Deepgram interim hypotheses agree on
+    # (LocalAgreement-2, per whisper-streaming) as soon as that agreement is
+    # observed. False (default) preserves today's behavior (timer-only
+    # commits, per DeepgramTranscriber's own consumed-word-count tracking).
+    localagreement_commit_enabled: bool = False
 
     # Dictionary
     dictionary_path: Path | None = None
@@ -262,6 +279,12 @@ class Config:
             gemini_rpm_limit=int(os.getenv("GEMINI_RPM_LIMIT", "9")),
             translation_timeout=float(os.getenv("TRANSLATION_TIMEOUT", "15.0")),
             masking_holdback_words=int(os.getenv("MASKING_HOLDBACK_WORDS", "0")),
+            anchor_continuation_translation=(
+                os.getenv("ANCHOR_CONTINUATION_TRANSLATION", "0") == "1"
+            ),
+            localagreement_commit_enabled=(
+                os.getenv("LOCALAGREEMENT_COMMIT_ENABLED", "0") == "1"
+            ),
             dictionary_path=dictionary_path,
             dictionary_dynamic_threshold=int(
                 os.getenv("DICTIONARY_DYNAMIC_THRESHOLD", "80")
