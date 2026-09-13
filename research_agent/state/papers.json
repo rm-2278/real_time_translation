@@ -348,14 +348,17 @@
       "venue": "arXiv",
       "url": "https://arxiv.org/abs/2603.14903",
       "source": "websearch",
-      "status": "extracted",
-      "summary": "",
-      "key_findings": [],
+      "status": "read",
+      "summary": "ExPosST targets a specific engineering problem in applying decoder-only LLMs to simultaneous MT: as source tokens arrive incrementally and the prompt is naively re-sent/re-tokenized, target-token positions shift on every update, forcing implementations to choose between reusing the KV cache (fast, but positionally inconsistent with training) or recomputing from scratch each time (positionally correct, but slow). It fixes this with (1) pre-allocated positional slots for incoming source tokens so target positions never move regardless of how much source has arrived yet, letting the KV cache be reused safely, and (2) policy-consistent fine-tuning that trains the model under the same incremental-decoding behavior it will see at inference time. It is a decoding/serving-layer technique for a self-hosted, fine-tunable LLM -- not a prompting trick applicable to an API-only model.",
+      "key_findings": [
+        "The positional-mismatch problem ExPosST solves is specific to decoder-only LLMs that get re-prompted with a growing source prefix at inference time -- this repo's pipeline instead re-sends the full accumulated source text as a fresh prompt each translation call (per _stream_batch()'s docstring, confirmed by h-cross-utterance-flicker's finding that continuation batches aren't append-only), so there is no persistent KV cache being reused across calls in the first place; ExPosST's KV-cache-preservation benefit doesn't apply to this architecture as-is.",
+        "Requires fine-tuning access to the model's own weights (policy-consistent fine-tuning) -- not compatible with this repo's API-only Gemini/OpenAI usage, similar to the earlier finding for alignatt4llm-iwslt2026's white-box attention requirement.",
+        "Relevant only if this repo ever moves to a self-hosted/fine-tunable translation model; not actionable against the current API-based architecture. Keep h-masking-holdback and h-localagreement-asr-commit scoped to what they already are (text-level, prompt-side interventions) rather than trying to adapt ExPosST's decoding-layer approach."
+      ],
       "relevant_to": [
         "h-masking-holdback",
         "h-localagreement-asr-commit"
-      ],
-      "_extraction_notes": "arXiv:2603.14903, submitted 2026-03-16, rev 2026-03-29. Proposes ExPosST, a general framework for LLM-based SimulMT solving the positional mismatch that arises when decoder-only LLMs are applied incrementally: as more source tokens arrive, naive re-prompting shifts target-token positions each step, forcing a tradeoff between KV-cache reuse (decoding efficiency) and positional consistency. Two components: (1) Pre-allocated Positions Inference -- reserves fixed positional slots for incoming source tokens up front so target positions never shift, enabling KV-cache reuse across positional-encoding schemes; (2) Policy-Consistent Fine-tuning -- aligns training-time behavior with the inference-time incremental decoding policy. No concrete BLEU/chrF/latency numbers surfaced in the search snippets (would need the PDF/HTML full text, both on arxiv.org which is blocked here, to get the numeric table)."
+      ]
     },
     {
       "id": "simulmask2024-attention-mask-decision-policy",
@@ -365,13 +368,16 @@
       "venue": "arXiv",
       "url": "https://arxiv.org/abs/2405.10443",
       "source": "websearch",
-      "status": "extracted",
-      "summary": "",
-      "key_findings": [],
+      "status": "read",
+      "summary": "SimulMask reframes how you fine-tune an LLM for simultaneous translation: instead of teaching a decision policy (e.g. wait-k) through data augmentation or prompt engineering (which bloats training data, wastes compute rebuilding the KV cache as prompts grow, and locks the model to one policy), it bakes the policy directly into training-time attention masks, so the model learns to translate under the same masking pattern it will face online. Reported to match or beat prompting-based fine-tuning on translation quality while being cheaper to train, across multiple language pairs and latency settings (EMNLP 2024; exact chrF/BLEU numbers weren't recoverable from search snippets since arxiv.org WebFetch is blocked in this environment).",
+      "key_findings": [
+        "Like ExPosST, this is a fine-tuning-time technique -- it requires training/adapting model weights under a masking regime, which this repo's API-only LLM usage (Gemini/OpenAI, no fine-tuning access) cannot replicate.",
+        "The conceptual link to this repo's h-masking-holdback is only superficial: SimulMask's 'masking' is an attention mask applied during LLM training to teach a decision policy, whereas h-masking-holdback's 'masking' is truncating the last N words of the ASR text before it's ever sent to the LLM, at inference time, with no fine-tuning involved. Same word, unrelated mechanisms -- do not conflate the two in future hypotheses.",
+        "No actionable follow-up for this repo given the API-only constraint; noting the distinction is itself the useful outcome of this read, so a future cycle doesn't waste a hypothesis slot chasing an inapplicable idea just because both papers use the word 'masking'."
+      ],
       "relevant_to": [
         "h-masking-holdback"
-      ],
-      "_extraction_notes": "arXiv:2405.10443, EMNLP 2024. Proposes SimulMask: instead of fine-tuning an LLM for simultaneous translation via prompting tricks (data augmentation with partial source prefixes, or prompt-structure changes), SimulMask fine-tunes with a novel attention-mask that directly encodes the desired decision policy (e.g. wait-k-style) into the attention computation itself. Claimed benefits over prompting-based fine-tuning: avoids unnecessarily expanded training sets, avoids the compute waste of repeatedly dumping/rebuilding the KV cache as prompts grow, avoids inflated prompt sizes, and is not locked to a single decision policy. Evaluated across multiple language pairs and latency regimes; reports gains in both translation quality and computational cost vs. prompting-based fine-tuning baselines. No specific chrF/BLEU/latency numbers surfaced in search snippets -- would need full-text access (blocked) for the numeric table."
+      ]
     },
     {
       "id": "coval2026-stt-vendor-latency-benchmark",
@@ -381,13 +387,16 @@
       "venue": "Coval.ai blog (independent vendor benchmark, not peer-reviewed)",
       "url": "https://www.coval.ai/blog/best-speech-to-text-providers-in-2026-independent-benchmarks-and-how-to-choose/",
       "source": "websearch",
-      "status": "extracted",
-      "summary": "",
-      "key_findings": [],
+      "status": "read",
+      "summary": "Independent 2026 benchmark comparing 5 streaming STT vendors (Gradium STT, Deepgram Nova-2, Deepgram Nova-3, AssemblyAI Universal Streaming, ElevenLabs Scribe v2) on time-to-first-token latency and word error rate, 2,400 runs per model. Finds a real speed/accuracy tradeoff across current vendors: the fastest two (Deepgram Nova-2/Nova-3, ~992ms median TTFT) also have the highest WER in the comparison (25.2-25.3%), while the most accurate (Gradium STT, 2.4% WER) is slower. Also flags Deepgram Flux Multilingual (released 2026-04-29, after this repo's Deepgram model choice was made) as the first conversational STT with built-in end-of-turn detection, claiming under 300ms median EOT and a 200-600ms saving over a separate STT+VAD pipeline.",
+      "key_findings": [
+        "This repo already uses Deepgram Nova-3 (per experiments/results.csv's deepgram_model column) -- the benchmark's ~25% WER figure for Nova-3 is a general voice-agent-domain number, not specific to this repo's ml_transformers/en_talk domains, so should be treated as an outside data point corroborating that ASR error is a real cost of choosing Deepgram for speed, not as a number to plug directly into this repo's own WER tracking.",
+        "The Flux Multilingual end-of-turn-detection feature is the concrete new lead: h-endpointing-connection-verify already confirmed (2026-09-12, static code audit) that this repo's deepgram_endpointing config value does reach Deepgram's connection params correctly, but that hypothesis's own flagged open question (whether flat asr_word_latency_cla_mean_s across the whole endpointing sweep is because the clip doesn't exercise the threshold, vs. some other reason) is unresolved -- Flux's built-in EOT detection would replace this repo's manual endpointing/utterance_end_ms tuning entirely rather than just adjusting it, which is a bigger question than what h-endpointing-connection-verify was scoped to answer.",
+        "Independent vendor blog, not peer-reviewed, and WebFetch on coval.ai is blocked in this environment so these numbers are WebSearch-snippet-only -- treat as a lead to verify (e.g. by reading the Deepgram Flux announcement directly) before proposing any migration, not as a citable number for the Japanese report."
+      ],
       "relevant_to": [
         "h-endpointing-connection-verify"
-      ],
-      "_extraction_notes": "Coval.ai independent STT vendor benchmark, 2026. Compared 5 streaming STT APIs -- Gradium STT, Deepgram Nova-3, Deepgram Nova-2, AssemblyAI Universal Streaming, ElevenLabs Scribe v2 -- on Time-to-First-Token (TTFT) and Word Error Rate (WER), 2,400 runs per model. Key numbers: Deepgram Nova-3 and Nova-2 are the two fastest on latency (median TTFT ~992ms) but have the highest WER of the group (25.2-25.3%); the most accurate model (Gradium STT, 2.4% WER) is further down the latency distribution -- i.e. a real speed/accuracy tradeoff exists across current vendors, this repo's Deepgram choice sits at the fast/less-accurate end. Also notes Deepgram Flux Multilingual (2026-04-29) as the first conversational STT with integrated end-of-turn detection, median EOT <300ms, saving 200-600ms vs separate STT+VAD pipelines -- directly relevant to h-endpointing-connection-verify. Independent vendor blog, not peer-reviewed; WebFetch on coval.ai was blocked in this environment too, so these numbers come from WebSearch snippets only, not the full article -- treat as provisional until corroborated."
+      ]
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",

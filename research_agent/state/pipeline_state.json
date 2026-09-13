@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 6,
-  "last_updated": "2026-09-13T12:50:38.317943+00:00",
+  "last_updated": "2026-09-13T12:54:11.918038+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -509,6 +509,12 @@
       "to": "READ_PAPERS",
       "at": "2026-09-13T12:50:38.317917+00:00",
       "note": "cycle 12 EXTRACT_PAPERS: extracted claims for exposst2026, simulmask2024, coval2026-stt-benchmark via WebSearch (WebFetch blocked on arxiv.org and coval.ai in this environment -- both direct-fetch domains egress-blocked, distinct from the arxiv-only block noted in earlier cycles). All 3 now status=extracted with _extraction_notes."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-13T12:54:11.918009+00:00",
+      "note": "cycle 12 READ_PAPERS: wrote full summary/key_findings for exposst2026, simulmask2024, coval2026-stt-benchmark. Both exposst2026 and simulmask2024 turn out to be fine-tuning-time techniques not applicable to this repo's API-only LLM usage -- noted explicitly so future cycles don't waste hypothesis slots on them despite superficial keyword overlap with h-masking-holdback ('masking'). coval2026's Deepgram Flux Multilingual EOT-detection lead is the one concrete new thread, tied to h-endpointing-connection-verify's still-open question."
     }
   ]
 }
