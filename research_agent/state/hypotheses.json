@@ -217,8 +217,8 @@
       "required_changes": "None -- rerun the existing real-time-translation-exp-video path with MASKING_HOLDBACK_WORDS=2 and GEMINI_RPM_LIMIT=60 (or whatever the chosen baseline uses) on the same clip/window as chunk_latency_sweep2_300ms. If run in this sandbox, the Deepgram listen-websocket block (unresolved since cycle 3) still applies -- flag as needs_human/pending_approval if so, same as the other ASR-dependent queued hypotheses, or ask the human to rerun locally again but with GEMINI_RPM_LIMIT explicitly set to 60.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 1.5,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     },
@@ -233,8 +233,8 @@
       "required_changes": "None yet. If the SDK/docs check succeeds, a follow-up would add a config flag for the deepgram_model name (already a config field per every experiment JSON's `models.deepgram_model`) -- likely no code changes needed beyond passing a different model string, since video_segment.py already takes deepgram_model as a CLI/config value.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }

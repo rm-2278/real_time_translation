@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 6,
-  "last_updated": "2026-09-13T12:58:44.801822+00:00",
+  "last_updated": "2026-09-13T12:59:09.827975+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -521,6 +521,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-13T12:58:44.801794+00:00",
       "note": "cycle 12 GENERATE_HYPOTHESES: added h-masking-holdback-rpm-matched-retest (clean retest of masking_holdback_words now that the rpm-limit confound is understood) and h-deepgram-flux-eot-availability-check ($0 feasibility check grounded in coval2026's new Flux Multilingual EOT-detection lead). Backlog now 5 queued/proposed, within the ~6 cap."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-13T12:59:09.827951+00:00",
+      "note": "cycle 12 HUMAN_APPROVAL: check-budget AUTO_APPROVE for both new hypotheses ($1.50 and $0, both uses_existing_clips=true). Set approval=auto_approved, status=queued for h-masking-holdback-rpm-matched-retest and h-deepgram-flux-eot-availability-check. Existing queued hypotheses (h-localagreement-asr-commit, h-gemini-only-masking-replay, h-continuation-context-anchor) were already auto_approved from prior cycles. At least one queued hypothesis has approval != needs_human, so advancing to RUN_EXPERIMENTS."
     }
   ]
 }
