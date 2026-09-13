@@ -327,6 +327,25 @@ asyncio.run(main())
 
 ## State: ANALYZE_RESULTS
 
+- **Before trusting any cross-run metric comparison, diff the new
+  experiment JSON's `config` block against its baseline's `config` block**
+  (`python3 -c "import json; ..."` on both files is enough -- no need for
+  a dedicated script). Confirm the *only* difference is the variable the
+  hypothesis is testing. This step exists because of a cycle-12 near-miss:
+  a human-run experiment for `h-masking-holdback` looked like a ~47%
+  flicker improvement until a `config` diff revealed `gemini_rpm_limit=9`
+  vs. the baseline's `60` (the human's own API key tier, not a deliberate
+  variable) -- the tighter rate limit had starved the translation queue
+  badly enough that the "improved" run had only translated ~46% of the
+  clip's utterances, making the comparison invalid. This risk is highest
+  for experiments run outside this session's own sandbox (a human's local
+  machine, a different cloud environment) where config drift (rate
+  limits, SDK versions, model names, endpointing values) is easy to miss
+  and easy to introduce unintentionally. If a mismatch is found, do not
+  silently ignore it or silently "correct for" it with a heuristic --
+  state the confound plainly in `result_summary` and treat the run as
+  inconclusive for the variable under test, same as an environment
+  blocker in `RUN_EXPERIMENTS`.
 - Compare the new experiment's metrics (chrF, latency, and, once
   `h-flicker-metric` has landed, normalized erasure) against the relevant
   baseline row(s) in `experiments/results.csv`.

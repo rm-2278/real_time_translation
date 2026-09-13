@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "WRITE_REPORT",
-  "cycle": 6,
-  "last_updated": "2026-09-13T13:02:52.733521+00:00",
+  "current_state": "SEARCH_PAPERS",
+  "cycle": 7,
+  "last_updated": "2026-09-13T13:05:06.574471+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -539,6 +539,18 @@
       "to": "WRITE_REPORT",
       "at": "2026-09-13T13:02:52.733489+00:00",
       "note": "cycle 12 ANALYZE_RESULTS: h-deepgram-flux-eot-availability-check's analysis is already recorded in its result_summary (written during RUN_EXPERIMENTS). h-masking-holdback's result_summary was corrected earlier this cycle after discovering the gemini_rpm_limit confound. No other experiments ran this cycle. Advancing to WRITE_REPORT."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-13T13:04:14.645298+00:00",
+      "note": "cycle 12 WRITE_REPORT: wrote research_agent/reports/20260913_cycle12_report.md covering paper reads, the h-masking-holdback rpm-limit confound correction, 2 new hypotheses, and the Flux SDK-upgrade feasibility finding. 00_pipeline_overview_ja.md not touched (no structural pipeline changes this cycle)."
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-09-13T13:05:06.574439+00:00",
+      "note": "cycle 12 REFLECT -> cycle 13 SEARCH_PAPERS. Key lesson: always diff config blocks between a new experiment and its baseline before trusting a metric comparison, especially for externally/human-run experiments -- added as an explicit PLAYBOOK.md ANALYZE_RESULTS step after a near-miss this cycle (nearly reported a confounded gemini_rpm_limit difference as a real flicker improvement). Backlog note for next RUN_EXPERIMENTS: prioritize implementing h-gemini-only-masking-replay ($0, no Deepgram needed, untouched since cycle 5) over another blocked-on-Deepgram hypothesis, unless the WS proxy issue has cleared."
     }
   ]
 }

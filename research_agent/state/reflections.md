@@ -748,3 +748,81 @@ dry, so a fresh literature pass is more likely to add value than another
 `GENERATE_HYPOTHESES` no-op. If the Deepgram WS-proxy issue has been
 resolved by then, prioritize running `h-masking-holdback` live
 immediately instead (code has been ready since cycle 2).
+
+---
+
+## Cycle 12 (2026-09-13)
+
+**What worked:** The literature pass (SEARCH_PAPERS carried over from
+cycle 11, EXTRACT_PAPERS + READ_PAPERS this cycle) was efficient and the
+"two papers share the word 'masking' but are unrelated to this repo's
+API-only architecture" finding is exactly the kind of thing worth writing
+down explicitly so a future cycle doesn't re-discover it. The
+coval2026 -> Deepgram Flux thread was a genuinely new, concrete lead that
+came from reading an industry blog rather than academic literature --
+worth remembering that "prefer arXiv/ACL/Semantic Scholar/OpenReview"
+(this file's own SEARCH_PAPERS guidance) shouldn't exclude vendor
+benchmark blogs entirely when they carry a specific, checkable claim.
+
+**What didn't, and the important part of this cycle:** rm-2278 ran
+h-masking-holdback locally and pushed the result -- genuinely valuable,
+since this sandbox's Deepgram WS block has held for 10 cycles now. My
+first pass at analyzing it (comparing translation_ne_char_cross_batch_mean
+0.947 -> 0.502) read that as a ~47% flicker improvement and I nearly
+reported it as a confirmed positive result. Only because I went one level
+deeper -- diffing the two runs' own `config` blocks -- did I find
+gemini_rpm_limit was 9 vs. 60, an unrelated confound (almost certainly the
+human's own API key tier) that fully explains the apparent improvement
+(the holdback run's translation queue backed up under the tighter rate
+limit and only finished translating the first ~46% of the clip's
+utterances, so the "improvement" was really "measured over an easier,
+truncated subset"). I had already committed the wrong conclusion once
+before catching this and had to push a correction commit.
+
+This is the **third** time in this pipeline's history that trusting a
+result/schema at face value produced a wrong conclusion that only surfaced
+on a second, deeper look (after h-gemini-only-masking-replay's cycle-5
+utterance_id assumption and h-asr-final-emission-latency's cycle-11
+is_final-field assumption) -- but this time the wrong assumption wasn't
+about *this repo's own code/schema*, it was about an *externally-provided
+experiment's comparability*. That's a distinct enough failure mode (not
+"I misread a dataclass," but "I compared two runs without checking they
+only differed in the one variable I meant to test") that per this file's
+own cycle-11 note ("if a third hypothesis in a row turns out to have a
+wrong premise, that would be the trigger to add an explicit step"), I'm
+adding an explicit rule to ANALYZE_RESULTS below rather than just noting
+it here again.
+
+**Playbook change made this cycle:** Added a step to `ANALYZE_RESULTS`
+requiring a `config`-block diff between the new experiment and its
+baseline before trusting any metric comparison, called out specifically
+for human-run/externally-provided experiments where the config is even
+more likely to silently differ (API tier limits, SDK versions, etc.) than
+in a same-sandbox rerun.
+
+**Backlog calibration:** 4 queued/proposed (within the 6 cap), but one of
+them (h-gemini-only-masking-replay) is quietly the most valuable thing to
+pick up next cycle -- it's $0, doesn't need the blocked Deepgram path at
+all, and has been sitting untouched since cycle 5 while attention went to
+literature and to hypotheses that turned out blocked. Flagging this
+explicitly so REFLECT doesn't just default to "more SEARCH_PAPERS" out of
+habit: next cycle should implement it rather than search for more papers,
+unless the Deepgram WS block has cleared (in which case
+h-masking-holdback-rpm-matched-retest jumps to first priority instead,
+since it directly finishes the human-provided-experiment thread from this
+cycle).
+
+**Budget policy:** Unchanged recommendation. $0.02 logged this cycle
+(a nominal estimate for the human's own local API usage, not this
+session's spend) -- still effectively $0 across 12 cycles from this
+sandbox's own side.
+
+**Next state:** Advancing to `SEARCH_PAPERS`... reconsidered -- per the
+backlog-calibration note just above, `GENERATE_HYPOTHESES` is not the
+bottleneck (backlog has room but the *right* next hypothesis to work is
+already queued and well-specified: h-gemini-only-masking-replay). Advance
+to `SEARCH_PAPERS` anyway for cycle 13, since a fresh literature pass
+costs nothing and the last one was productive (coval2026's Flux lead),
+but the note above should steer whoever picks up cycle 13's
+RUN_EXPERIMENTS toward implementing h-gemini-only-masking-replay rather
+than defaulting to another blocked-on-Deepgram hypothesis.
