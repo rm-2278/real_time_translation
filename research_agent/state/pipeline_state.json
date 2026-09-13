@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 6,
-  "last_updated": "2026-09-13T12:54:11.918038+00:00",
+  "last_updated": "2026-09-13T12:58:44.801822+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -515,6 +515,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-13T12:54:11.918009+00:00",
       "note": "cycle 12 READ_PAPERS: wrote full summary/key_findings for exposst2026, simulmask2024, coval2026-stt-benchmark. Both exposst2026 and simulmask2024 turn out to be fine-tuning-time techniques not applicable to this repo's API-only LLM usage -- noted explicitly so future cycles don't waste hypothesis slots on them despite superficial keyword overlap with h-masking-holdback ('masking'). coval2026's Deepgram Flux Multilingual EOT-detection lead is the one concrete new thread, tied to h-endpointing-connection-verify's still-open question."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-13T12:58:44.801794+00:00",
+      "note": "cycle 12 GENERATE_HYPOTHESES: added h-masking-holdback-rpm-matched-retest (clean retest of masking_holdback_words now that the rpm-limit confound is understood) and h-deepgram-flux-eot-availability-check ($0 feasibility check grounded in coval2026's new Flux Multilingual EOT-detection lead). Backlog now 5 queued/proposed, within the ~6 cap."
     }
   ]
 }

@@ -205,6 +205,38 @@
         "retroactive: src/real_time_translation/experiments/utterance_end_mix.py (new module) run over all 47 experiments/*.json -- see experiments/utterance_end_mix.csv, chunk_latency_sweep{,2} family (12 files) is the endpointing-ms comparison of interest"
       ],
       "result_summary": "Prediction CONFIRMED and status=tested. Across chunk_latency_sweep (endpointing 300/500/800/1200/1500/2000ms, 16-27 batches each) and chunk_latency_sweep2 (same sweep, 34-37 batches each), pct_soft_finalized (batches cut by the constant 2.5s deepgram_max_interim_duration timer rather than Deepgram's own endpointing-driven is_utterance_end=True finalize) stays in a narrow 50.0-56.2% band across sweep1's full 300-2000ms range and 56.8-64.7% across sweep2's, with NO monotonic trend against the configured endpointing value in either family (e.g. sweep1: 300ms=50.0%, 800ms=52.6%, 1200ms=55.6%, 2000ms=56.2% -- a mild rise that is not clean, and sweep2's 800/1200/1500/2000ms rows are bit-identical: 35 batches, 62.9% soft, genuine_final_duration_mean=1.65s, soft_finalized_duration_mean=~3.2s each -- consistent with h-endpointing-connection-verify's independent cycle-10 finding that those same four configs produced bit-identical final ASR text+timestamps). Neither genuine-final nor soft-finalized batch durations scale monotonically with endpointing either (genuine_final_duration_mean ranges 1.6-3.35s with no ordering by endpointing ms; soft_finalized_duration_mean stays tightly 3.1-3.9s, consistent with h-utterance-batch-timing's independent ~2.5-3.5s first-batch-duration finding). CONCLUSION: this gives a precise, mechanistic account of h-cla-asr-latency-metric's flat CLA result and upgrades h-endpointing-connection-verify's explanation (a) from a plausible default to an evidenced one -- roughly half to two-thirds of all committed batches on this clip are cut by the fixed max_interim_duration soft-finalize timer before Deepgram's own endpointing-driven finalize ever gets a chance to fire, and the timer's own threshold (2.5s) is completely decoupled from the swept endpointing values (300-2000ms), so sweeping endpointing alone was structurally unlikely to move any downstream latency metric much on this clip. Concrete, actionable follow-up for a human (not attempted here -- would need a NEW live experiment, currently blocked on the Deepgram WS-proxy infra issue): rerun the endpointing sweep with deepgram_max_interim_duration raised well above 2.5s (or disabled) to let Deepgram's own endpointing actually govern most finalizations, which should then show a real monotonic latency effect if one exists. Caveat: sample sizes per config are small (16-37 batches); the identical-bit sweep2 rows for endpointing>=800ms suggest this clip's audio may simply not contain silence gaps that fall within the 800-2000ms range at all, so even a from-scratch rerun with a higher max_interim_duration might still show no effect above ~800ms specifically -- that would need checking against the clip's own pause-length distribution, not assumed."
+    },
+    {
+      "id": "h-masking-holdback-rpm-matched-retest",
+      "title": "Re-test masking_holdback_words=2 with a matched gemini_rpm_limit",
+      "description": "h-masking-holdback's 2026-09-13 human-run experiment (experiments/20260913_h_masking_holdback_local.json) is not a valid A/B: it ran with gemini_rpm_limit=9 vs. the comparison baseline's gemini_rpm_limit=60, an 8.5x stricter cap that starved the translation workers (only 17/37 utterances got translated within the run's wait window, confirmed by comparing translation_complete event counts and each JSON's own `config` block) and dominates every downstream metric (NE, chrF, latency). This hypothesis is simply: rerun the exact same masking_holdback_words=2 config, on the exact same clip/window (wjZofJX0v4M 300-390s), with gemini_rpm_limit set to match whatever the comparison baseline uses (60), so the only variable that differs from the baseline is masking_holdback_words itself. No new code needed -- masking_holdback_words has been implemented and env-gated since cycle 2.",
+      "grounded_in": [
+        "arivazhagan2020-retranslation"
+      ],
+      "predicted_effect": "Unknown until re-run with the confound removed -- could still show the flicker reduction the confounded run suggested (NE 0.947 -> ~0.5), could show something smaller, or could show a genuine latency cost outweighing any NE benefit. The point of this hypothesis is specifically to get a clean answer, not to re-assert the confounded run's number.",
+      "required_changes": "None -- rerun the existing real-time-translation-exp-video path with MASKING_HOLDBACK_WORDS=2 and GEMINI_RPM_LIMIT=60 (or whatever the chosen baseline uses) on the same clip/window as chunk_latency_sweep2_300ms. If run in this sandbox, the Deepgram listen-websocket block (unresolved since cycle 3) still applies -- flag as needs_human/pending_approval if so, same as the other ASR-dependent queued hypotheses, or ask the human to rerun locally again but with GEMINI_RPM_LIMIT explicitly set to 60.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 1.5,
+      "approval": null,
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": ""
+    },
+    {
+      "id": "h-deepgram-flux-eot-availability-check",
+      "title": "Check whether Deepgram Flux Multilingual's built-in EOT detection is usable here",
+      "description": "coval2026-stt-vendor-latency-benchmark (read this cycle) flags Deepgram Flux Multilingual (released 2026-04-29, after this repo's nova-3-general choice) as the first conversational STT with integrated end-of-turn detection, claiming <300ms median EOT and a 200-600ms saving vs. a separate STT+VAD/endpointing pipeline. This repo currently does its own utterance-boundary detection via deepgram_endpointing/deepgram_utterance_end_ms config values (see h-endpointing-connection-verify), so a built-in EOT model could plausibly replace that tuning entirely. First step ($0, no live API calls): check whether the pinned deepgram-sdk version in pyproject.toml exposes a Flux/EOT-capable model parameter at all, and read Deepgram's own docs/changelog (WebFetch on developers.deepgram.com, not yet attempted -- only arxiv.org and coval.ai are confirmed blocked in this sandbox so this may work) for the actual model name, pricing, and language support (this repo needs en source ASR, not multilingual, so 'Flux Multilingual' specifically may not even be the right SKU -- check for a non-multilingual Flux variant too).",
+      "grounded_in": [
+        "coval2026-stt-vendor-latency-benchmark"
+      ],
+      "predicted_effect": "Unknown -- this is a feasibility/research step, not yet a predicted-effect experiment. If Flux (or an equivalent EOT-capable model) is available and en-compatible, a follow-up hypothesis would compare it against nova-3-general on end-to-end latency and utterance-boundary quality using an existing cached clip.",
+      "required_changes": "None yet. If the SDK/docs check succeeds, a follow-up would add a config flag for the deepgram_model name (already a config field per every experiment JSON's `models.deepgram_model`) -- likely no code changes needed beyond passing a different model string, since video_segment.py already takes deepgram_model as a CLI/config value.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.0,
+      "approval": null,
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": ""
     }
   ]
 }
