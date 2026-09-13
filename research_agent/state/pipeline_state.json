@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 6,
-  "last_updated": "2026-09-13T00:20:13.971755+00:00",
+  "last_updated": "2026-09-13T12:12:45.832021+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -497,6 +497,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-09-13T00:20:13.971690+00:00",
       "note": "Cycle 11 REFLECT complete. Appended reflection entry to reflections.md. No playbook changes this cycle. Advancing to SEARCH_PAPERS for cycle 12 -- $0 retroactive-analysis angles against the existing 47-file corpus feel largely exhausted after this cycle's genuine/soft-finalize-mix finding (within-batch NE, cross-batch NE, timing, CLA, wiring audit, and now finalize-mix have all been measured). If the Deepgram WS-proxy issue is resolved by then, prioritize running h-masking-holdback live immediately instead."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-09-13T12:12:45.831993+00:00",
+      "note": "Cycle 12 SEARCH_PAPERS: ran 3 WebSearch queries targeting the still-queued masking/LocalAgreement hypotheses and vendor ASR latency numbers per PLAYBOOK guidance. Found 3 new 'found'-stub candidates: exposst2026-adaptive-masking-positioning (arXiv 2603.14903), simulmask2024-attention-mask-decision-policy (arXiv 2405.10443, 2024 paper not previously in corpus), coval2026-stt-vendor-latency-benchmark (independent 2026 STT vendor benchmark blog). See papers.json _websearch_note_cycle12 for full query list and rationale."
     }
   ]
 }
