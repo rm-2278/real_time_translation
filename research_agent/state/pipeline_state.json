@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 6,
-  "last_updated": "2026-09-13T12:59:09.827975+00:00",
+  "last_updated": "2026-09-13T13:02:52.733521+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -527,6 +527,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-09-13T12:59:09.827951+00:00",
       "note": "cycle 12 HUMAN_APPROVAL: check-budget AUTO_APPROVE for both new hypotheses ($1.50 and $0, both uses_existing_clips=true). Set approval=auto_approved, status=queued for h-masking-holdback-rpm-matched-retest and h-deepgram-flux-eot-availability-check. Existing queued hypotheses (h-localagreement-asr-commit, h-gemini-only-masking-replay, h-continuation-context-anchor) were already auto_approved from prior cycles. At least one queued hypothesis has approval != needs_human, so advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-13T13:02:47.375115+00:00",
+      "note": "cycle 12: h-deepgram-flux-eot-availability-check analyzed inline during RUN_EXPERIMENTS (research-only hypothesis, no live run to separately analyze). Remaining queued hypotheses all blocked on the same Deepgram WS-proxy issue except h-gemini-only-masking-replay, which is a real $0 implementation task deferred to a future cycle rather than rushed here."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-13T13:02:52.733489+00:00",
+      "note": "cycle 12 ANALYZE_RESULTS: h-deepgram-flux-eot-availability-check's analysis is already recorded in its result_summary (written during RUN_EXPERIMENTS). h-masking-holdback's result_summary was corrected earlier this cycle after discovering the gemini_rpm_limit confound. No other experiments ran this cycle. Advancing to WRITE_REPORT."
     }
   ]
 }
