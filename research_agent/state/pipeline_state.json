@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 6,
-  "last_updated": "2026-09-13T12:12:45.832021+00:00",
+  "last_updated": "2026-09-13T12:50:38.317943+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -503,6 +503,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-09-13T12:12:45.831993+00:00",
       "note": "Cycle 12 SEARCH_PAPERS: ran 3 WebSearch queries targeting the still-queued masking/LocalAgreement hypotheses and vendor ASR latency numbers per PLAYBOOK guidance. Found 3 new 'found'-stub candidates: exposst2026-adaptive-masking-positioning (arXiv 2603.14903), simulmask2024-attention-mask-decision-policy (arXiv 2405.10443, 2024 paper not previously in corpus), coval2026-stt-vendor-latency-benchmark (independent 2026 STT vendor benchmark blog). See papers.json _websearch_note_cycle12 for full query list and rationale."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-09-13T12:50:38.317917+00:00",
+      "note": "cycle 12 EXTRACT_PAPERS: extracted claims for exposst2026, simulmask2024, coval2026-stt-benchmark via WebSearch (WebFetch blocked on arxiv.org and coval.ai in this environment -- both direct-fetch domains egress-blocked, distinct from the arxiv-only block noted in earlier cycles). All 3 now status=extracted with _extraction_notes."
     }
   ]
 }
