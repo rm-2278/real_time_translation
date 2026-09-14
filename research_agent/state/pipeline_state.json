@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 7,
-  "last_updated": "2026-09-13T13:05:06.574471+00:00",
+  "last_updated": "2026-09-14T00:14:01.158022+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -551,6 +551,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-09-13T13:05:06.574439+00:00",
       "note": "cycle 12 REFLECT -> cycle 13 SEARCH_PAPERS. Key lesson: always diff config blocks between a new experiment and its baseline before trusting a metric comparison, especially for externally/human-run experiments -- added as an explicit PLAYBOOK.md ANALYZE_RESULTS step after a near-miss this cycle (nearly reported a confounded gemini_rpm_limit difference as a real flicker improvement). Backlog note for next RUN_EXPERIMENTS: prioritize implementing h-gemini-only-masking-replay ($0, no Deepgram needed, untouched since cycle 5) over another blocked-on-Deepgram hypothesis, unless the WS proxy issue has cleared."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-09-14T00:14:01.157933+00:00",
+      "note": "cycle 13 SEARCH_PAPERS -> EXTRACT_PAPERS. 3 WebSearch queries run (Deepgram Flux EOT follow-up; LLM translation batching under rate limits, targeting the new RPM-queue-flooding gap the human's h-localagreement-asr-commit retest surfaced this cycle; minimum-commit-interval/threshold policies as a design-level angle on the same gap). Added 3 new found-stub papers to papers.json: simulu2026-training-free-longform-policy, prefix2prefix2026-llm-architecture-simulst, causal-supervision2026-turn-aware-streaming-asr. None are duplicates of the existing 17-paper corpus (all already status read)."
     }
   ]
 }
