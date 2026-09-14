@@ -401,14 +401,20 @@
     {
       "id": "simulu2026-training-free-longform-policy",
       "title": "SimulU: Training-free Policy for Long-form Simultaneous Speech-to-Speech Translation",
-      "authors": "unread -- found via WebSearch 2026-09-14",
+      "authors": "Djanibekov, Bentivogli, Negri, Papi",
       "year": 2026,
       "venue": "arXiv:2603.16924",
       "url": "https://arxiv.org/abs/2603.16924",
       "source": "websearch",
-      "status": "found",
+      "status": "extracted",
       "summary": "",
-      "key_findings": [],
+      "key_findings": [
+        "First training-free policy for long-form (not pre-segmented) simultaneous speech-to-speech translation.",
+        "Exploits cross-attention weights already present in pretrained end-to-end S2ST models to drive two decisions: (1) history management -- how much prior input/output context to keep -- and (2) speech-output selection -- when to commit/emit output -- without any additional training.",
+        "Motivation: most prior SimulST/S2ST policies require resource-intensive training and are evaluated on short, pre-segmented utterances, so they don't generalize to continuous (long-form) speech -- the same unbounded-speech gap papi2025-howreal already flagged for this corpus.",
+        "Evaluated on MuST-C across 8 languages; reports a better-or-comparable quality-latency trade-off vs. strong cascaded baselines.",
+        "No numeric quality/latency figures surfaced via WebSearch snippets (WebFetch to arxiv.org/huggingface.co both EGRESS_BLOCKED in this sandbox, consistent with the cycle-2/cycle-9 notes below) -- treat as directionally useful, not a precise benchmark to cite numbers from."
+      ],
       "relevant_to": [
         "h-localagreement-asr-commit"
       ]
@@ -416,14 +422,19 @@
     {
       "id": "prefix2prefix2026-llm-architecture-simulst",
       "title": "Do LLMs Need Architectural Changes for Simultaneous Speech Translation? A Prefix-to-Prefix Data Driven Approach",
-      "authors": "unread -- found via WebSearch 2026-09-14",
+      "authors": "Chen, Xue, Tang, Heba, Gholami, Fan, Li",
       "year": 2026,
       "venue": "arXiv:2607.13158",
       "url": "https://arxiv.org/abs/2607.13158",
       "source": "websearch",
-      "status": "found",
+      "status": "extracted",
       "summary": "",
-      "key_findings": [],
+      "key_findings": [
+        "Asks whether decoder-only LLM SimulST needs architectural changes at all, and answers with a purely data-driven alternative: no.",
+        "Method (CSSEL-P2P): fixed-length audio chunks fed to a chunked streaming speech-encoder-LLM (CSSEL) doing cumulative streaming decoding with a rewind-based committed prefix (i.e. a commit policy that can retract/rewrite its own tail, not append-only), fine-tuned on teacher-labeled prefix-to-prefix (P2P) targets with bounded waiting.",
+        "Result (in-house conversational speech eval): CSSEL-P2P improves streaming quality by +1.54 COMETKiwi over the CSSEL streaming baseline at comparable latency (+0.15s Average Lagging) -- i.e. supervision/data design closed most of the gap to non-streaming quality without touching model architecture.",
+        "Relevance to this repo: directly on-point for h-localagreement-asr-commit's territory -- this repo's LocalAgreement/masking hypotheses are an inference-time-only analogue of the same 'commit-with-revision' idea, and this paper's rewind-based committed prefix is a training-based version of what this repo tries to approximate via prompting/masking alone. Useful contrast for result_summary framing: if this repo's prompting-only approach underperforms, that's consistent with this paper's finding that fine-tuned supervision (not prompting) is what actually buys the quality-latency win."
+      ],
       "relevant_to": [
         "h-localagreement-asr-commit"
       ]
@@ -431,14 +442,20 @@
     {
       "id": "causal-supervision2026-turn-aware-streaming-asr",
       "title": "The Trade-off Was in the Labels: Causal Supervision for Turn-Aware Streaming ASR",
-      "authors": "unread -- found via WebSearch 2026-09-14",
+      "authors": "Li, Shi",
       "year": 2026,
       "venue": "arXiv:2609.04225",
       "url": "https://arxiv.org/abs/2609.04225",
       "source": "websearch",
-      "status": "found",
+      "status": "extracted",
       "summary": "",
-      "key_findings": [],
+      "key_findings": [
+        "Core claim: within-turn pauses routinely exceed between-turn gaps in natural speech, so silence-duration-only endpointing (what this repo's Deepgram integration currently relies on) is fundamentally the wrong signal -- what actually distinguishes a turn boundary is whether the words spoken so far form a semantically complete thought.",
+        "Method: a small LoRA adapter fine-tuned on Qwen3-ASR-0.6B (trained in hours on one GPU) that jointly transcribes, detects end-of-turn from meaning + silence (not silence alone), handles dictation, and grounds transcription in context. First open training recipe + benchmark for turn-aware streaming ASR.",
+        "Reported numbers (deployment-matched benchmark, replicated on a fresh test set): 0.97 boundary recall at 0.39s median latency, with 0.3 false end-of-turn fires per speech-minute.",
+        "Code/recipe/benchmark released on GitHub (per WebSearch snippet; exact repo URL not confirmed -- WebFetch to arxiv.org/github.com not attempted this cycle beyond the blocked arxiv.org fetch, follow up if this becomes a live hypothesis).",
+        "Relevance to this repo: directly grounds h-endpointing-connection-verify -- this is a concrete, small-footprint (single LoRA, single GPU-hours) alternative to Deepgram's built-in endpointing that this repo could in principle self-host once/if the Deepgram websocket path is confirmed reachable; also a candidate explanation if endpointing-related flicker/latency issues persist even after the Deepgram connectivity question is resolved, since it argues silence-based endpointing has an inherent ceiling regardless of vendor."
+      ],
       "relevant_to": [
         "h-endpointing-connection-verify"
       ]
@@ -446,6 +463,7 @@
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
   "_extraction_note_cycle2": "EXTRACT_PAPERS for the 3 websearch-found papers (2026-09-08, cycle 2) hit an environment gap: WebFetch returned EGRESS_BLOCKED for arxiv.org, research.google, and aclanthology.org in this sandbox (the network egress proxy blocks these domains outright; WebSearch itself works fine and was used instead). All three 'extracted' summaries/key_findings above are therefore built from WebSearch result snippets, not full-text extraction -- they're substantive and specific (not marketing language), but a session with working WebFetch to these domains should verify against full text before treating any numeric claim as precise, especially NeMo's actual stability-metric formula/numbers which WebSearch snippets did not surface.",
+  "_extraction_note_cycle13": "EXTRACT_PAPERS for the 3 cycle-13 websearch-found papers (2026-09-14). Same environment gap as cycle 2: WebFetch to arxiv.org returned EGRESS_BLOCKED for all three abstract pages, and huggingface.co (tried as an alternate mirror for simulu2026) was also EGRESS_BLOCKED. Used targeted WebSearch queries per paper instead, which surfaced substantive detail including concrete numbers for 2 of the 3 (prefix2prefix2026's +1.54 COMETKiwi/+0.15s AL, causal-supervision2026's 0.97 boundary recall/0.39s latency/0.3 false-fires-per-min) -- simulu2026 only yielded qualitative claims (no MuST-C numeric scores in snippets). Status set to 'extracted', not 'read' -- READ_PAPERS still owes each a from-scratch summary in this pipeline's own words plus explicit cross-referencing against experiments/results.csv per the playbook, which this state did not do.",
   "_websearch_note_cycle9": "WebSearch pass on 2026-09-12 targeting the two gaps flagged in the cycle-8 reflection: (1) evaluation methodologies that do not require live ASR access, and (2) continuation-context-anchoring prompt design precedents. Found 3 new candidates: polak2026-meta-evaluation-latency-metrics (meta-evaluation of latency metrics themselves, directly usable offline), machacek-polak2025-cuni-offline-cla-latency (introduces a character-level Continuous Levenshtein Alignment ASR-latency metric computable retroactively against gold transcripts, no live ASR needed -- open-source impl at github.com/ufal/asr_latency), and beavertalk2025-sentence-memory-bank (IWSLT2025 system using a prior-sentence memory bank in the LLM prompt, direct precedent for h-continuation-context-anchor). Also re-surfaced alignatt4llm-iwslt2026 and mllp-vrain-iwslt2026-simulst (already in corpus, not re-added). WebFetch to arxiv.org is expected to be EGRESS_BLOCKED in this sandbox per the cycle-2 note -- EXTRACT_PAPERS should try WebFetch first but fall back to WebSearch snippets if so, same as before.",
   "_websearch_note_cycle12": "WebSearch pass on 2026-09-13 (cycle 12, current SEARCH_PAPERS state) with 3 queries: (1) 'simultaneous speech translation LLM holdback masking policy 2026 arxiv' -- targeting h-masking-holdback and h-localagreement-asr-commit, still queued/blocked on the Deepgram WS-proxy infra gap since cycle 3, to see if newer literature changes their priority or design before a live run is attempted; (2) 'LocalAgreement policy streaming ASR commit strategy simultaneous translation 2026' -- turned up nothing new (all results already in corpus, or non-paper listicles); (3) 'Deepgram Nova streaming ASR latency benchmark 2026 real-time transcription' -- the playbook explicitly calls out 'updated vendor ASR latency numbers' as a search target. Found 3 new 'found'-stub candidates (not yet extracted -- see EXTRACT_PAPERS): exposst2026-adaptive-masking-positioning (ExPosST, arXiv 2603.14903, explicit positional slots + adaptive masking for decoder-only LLM SimulMT -- directly on-topic for the still-blocked masking/LocalAgreement hypotheses), simulmask2024-attention-mask-decision-policy (SimulMask, arXiv 2405.10443, 2024 paper not previously in corpus -- attention-mask-based fine-tuning paradigm for simultaneous-translation decision policies, direct precedent for h-masking-holdback's masking mechanism specifically), and coval2026-stt-vendor-latency-benchmark (independent, non-vendor-authored 2026 STT benchmark blog reporting Deepgram Nova-3 at ~450ms median / <300ms p95 streaming latency and 6.84% streaming WER -- an external sanity-check number for h-endpointing-connection-verify's endpointing/latency work, not itself grounds for a new hypothesis). All three are precedent/framing for already-queued hypotheses rather than triggers for brand-new ones, consistent with cycle-11 reflection's read that fresh literature was more likely to refine existing queued items than to open new angles this cycle.",
   "_websearch_note_cycle13": "WebSearch pass on 2026-09-14 (cycle 13, SEARCH_PAPERS state) with 3 queries: (1) 'Deepgram Flux end-of-turn detection streaming ASR 2026 benchmark' -- following up on the coval2026 Flux lead from cycle 12 for h-deepgram-flux-eot-availability-check/h-endpointing-connection-verify; mostly re-surfaced coval2026-stt-vendor-latency-benchmark and vendor marketing pages already accounted for, but also turned up causal-supervision2026-turn-aware-streaming-asr as a new academic (not vendor-blog) paper on turn-aware streaming ASR supervision; (2) 'LLM translation request batching rate limit streaming simultaneous speech translation 2026' -- targeting the new RPM-limited-queue-flooding problem the human's h-localagreement-asr-commit retest surfaced this cycle (per-word commit granularity floods the translation queue under a tight RPM cap); found only generic offline-LLM-inference batching guides (not applicable -- this repo's bottleneck is external API rate limits, not local inference batch size), no direct hit; (3) 'minimum commit interval word threshold LocalAgreement policy avoid excessive re-translation calls simultaneous translation' -- follow-up on (2) from a different angle (policy design instead of infra), surfaced simulu2026-training-free-longform-policy (SimulU, training-free, directly relevant since it's compatible with this repo's API-only architecture and targets long-form policy design, the same shape of problem as the minimum-new-words-threshold follow-up flagged in hypotheses.json's h-localagreement-asr-commit result_summary) and prefix2prefix2026-llm-architecture-simulst (asks the general architectural question this repo's own LocalAgreement/masking hypotheses are implicitly answering empirically). Added all 3 as 'found' stubs (not yet extracted -- see EXTRACT_PAPERS); none of the 3 are duplicates of anything already in this corpus. No new hypothesis proposed this state -- these are candidate grounding for the next GENERATE_HYPOTHESES pass, most plausibly a minimum-new-words-threshold refinement of h-localagreement-asr-commit's already-negative result."
