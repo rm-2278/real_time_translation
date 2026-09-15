@@ -45,6 +45,9 @@ def _load_experiment(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+SAFE_MARGIN = 24  # a caption is allowed to be ugly, never invisible off-canvas
+
+
 def _render_cue_png(cue: Cue, out_path: Path, font: ImageFont.FreeTypeFont) -> None:
     img = Image.new("RGBA", (CANVAS_W, CANVAS_H), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
@@ -60,6 +63,12 @@ def _render_cue_png(cue: Cue, out_path: Path, font: ImageFont.FreeTypeFont) -> N
     box_left = (CANVAS_W - block_w) // 2 - PAD_X
     box_right = (CANVAS_W + block_w) // 2 + PAD_X
     box_bottom = CANVAS_H - BOTTOM_MARGIN + PAD_Y
+    # An unwrapped line can be wider than the canvas (that's the point of
+    # the "naive" demo mode) -- keep the background box itself on-screen so
+    # a viewer sees "caption box, text overflowing it" instead of the whole
+    # thing silently vanishing past the frame edge.
+    box_left = max(SAFE_MARGIN, box_left)
+    box_right = min(CANVAS_W - SAFE_MARGIN, box_right)
     draw.rounded_rectangle(
         [box_left, box_top, box_right, box_bottom],
         radius=10,
@@ -68,7 +77,7 @@ def _render_cue_png(cue: Cue, out_path: Path, font: ImageFont.FreeTypeFont) -> N
 
     y = box_top + PAD_Y
     for line, (_l, t, _r, b), w in zip(lines, line_sizes, line_widths, strict=True):
-        x = (CANVAS_W - w) // 2
+        x = max(SAFE_MARGIN, (CANVAS_W - w) // 2)
         draw.text((x, y - t), line, font=font, fill=(255, 255, 255, 255))
         y += (b - t) + LINE_GAP
 
@@ -110,6 +119,12 @@ def render(
     cues = format_naive(raw_cues) if mode == "naive" else format_readable(raw_cues)
     if not cues:
         raise SystemExit(f"No translation cues extracted from {experiment_path}")
+    # A translation can genuinely arrive after the clip's own audio ends
+    # (that's real end-to-end latency, e.g. during a translation backlog) --
+    # drop/clip anything past the rendered video's own length rather than
+    # let it silently never show or run past the end of the file.
+    cues = [c for c in cues if c.start < duration_seconds]
+    cues = [Cue(c.start, min(c.end, duration_seconds), c.text) for c in cues]
 
     output_dir.mkdir(parents=True, exist_ok=True)
     srt_path = output_dir / f"{name}.srt"

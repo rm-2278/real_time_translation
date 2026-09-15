@@ -6,10 +6,16 @@ Two formatting modes, for side-by-side readability comparisons:
   what you'd see if you dumped the pipeline's raw per-utterance output onto
   the screen with no post-processing.
 - `format_readable`: the same text, but line-wrapped to a max character
-  count, split into multiple sequential cues when it would otherwise force
-  too many lines, and given a minimum on-screen duration derived from a
-  reading-speed budget (characters per second) rather than just however long
-  the utterance took to speak.
+  count (avoiding breaking a line right before a particle, which reads
+  badly in Japanese), split into multiple sequential cues when it would
+  otherwise force too many lines, and given an on-screen duration derived
+  from a reading-speed budget that weighs kanji as costlier to read than
+  kana/punctuation, rather than a flat per-character rate.
+
+Both modes time a cue by when its translation was actually READY
+(`playback_offset` on the event that finished it), not by when the speaker
+started talking -- the whole point of these demos is to be honest about
+end-to-end latency, not to make translation look faster than it is.
 """
 
 from __future__ import annotations
@@ -26,68 +32,105 @@ class Cue:
     text: str  # may contain \n for multi-line cues
 
 
-def extract_utterance_cues(events: list[dict]) -> list[Cue]:
-    """One cue per spoken utterance: (first batch start, last batch end, final text).
+@dataclass(frozen=True)
+class _RawUtterance:
+    ready_at: float  # playback_offset when the final text for this utterance arrived
+    text: str
 
-    Mirrors flicker_metrics.group_translation_by_utterance's batch-chaining
-    heuristic (results.events carries no utterance_id, only is_utterance_end,
-    so utterance spans are inferred sequentially), but additionally tracks
-    the *last* batch's end time -- group_translation_by_utterance only keeps
-    the first batch's (start, end) key, which understates a multi-batch
-    utterance's true end time and is unusable for subtitle timing.
+
+def extract_utterance_cues(events: list[dict]) -> list[_RawUtterance]:
+    """One entry per spoken utterance: (real arrival time, final text).
+
+    `results.events` carries no utterance_id (only is_utterance_end), so
+    utterance spans are inferred sequentially by chaining batches until one
+    ends the utterance -- same heuristic as
+    flicker_metrics.group_translation_by_utterance. `ready_at` is the
+    *last* batch's `playback_offset`: the true wall-clock moment (relative
+    to clip start) the utterance's complete translation became available,
+    which is what a viewer would actually see it appear at.
     """
-    batches: list[tuple[float, float, str, bool]] = []
-    cur_start: float | None = None
-    cur_end: float | None = None
+    batches: list[tuple[float, str, bool]] = []
+    cur_key: tuple[float, float] | None = None
     cur_texts: list[str] = []
+    cur_offset = 0.0
     cur_ended = True
 
     def flush_batch() -> None:
         if cur_texts:
-            batches.append((cur_start or 0.0, cur_end or 0.0, cur_texts[-1], cur_ended))
+            batches.append((cur_offset, cur_texts[-1], cur_ended))
 
     for e in events:
         if e.get("kind") not in ("translation_partial", "translation_complete"):
             continue
-        start = e.get("asr_start_time", 0.0)
-        end = e.get("asr_end_time", 0.0)
-        if cur_start is None or (start, end) != (cur_start, cur_end):
+        key = (e.get("asr_start_time", 0.0), e.get("asr_end_time", 0.0))
+        if cur_key is None or key != cur_key:
             flush_batch()
-            cur_start, cur_end = start, end
+            cur_key = key
             cur_texts = []
         cur_texts.append(e.get("text", ""))
+        cur_offset = e.get("playback_offset", cur_offset)
         cur_ended = e.get("is_utterance_end", True)
     flush_batch()
 
+    # Each utterance's final content is its LAST batch (later batches in the
+    # same span already contain the whole utterance so far, per
+    # `_stream_batch`'s docstring) -- so just watch for the batch that ends
+    # the utterance. A trailing un-ended batch (recording cut off mid-
+    # utterance) still gets emitted, using whatever text it has so far.
+    out: list[_RawUtterance] = []
+    last_offset = 0.0
+    last_text = ""
+    for offset, text, ended in batches:
+        last_offset, last_text = offset, text
+        if ended:
+            out.append(_RawUtterance(last_offset, last_text))
+    if batches and not batches[-1][2]:
+        out.append(_RawUtterance(last_offset, last_text))
+    return out
+
+
+def format_naive(
+    utterances: list[_RawUtterance], *, hold_seconds: float = 3.0
+) -> list[Cue]:
+    """No formatting at all: full text, shown from real arrival for a flat hold."""
     cues: list[Cue] = []
-    span_start: float | None = None
-    span_end = 0.0
-    span_text = ""
-    prev_ended = True
-    for start, end, text, ended in batches:
-        if prev_ended:
-            if span_start is not None:
-                cues.append(Cue(span_start, span_end, span_text))
-            span_start = start
-        span_end = end
-        span_text = text
-        prev_ended = ended
-    if span_start is not None:
-        cues.append(Cue(span_start, span_end, span_text))
-    return cues
-
-
-def format_naive(cues: list[Cue]) -> list[Cue]:
-    """No formatting at all: exactly what's already extracted."""
-    return list(cues)
+    for u in utterances:
+        text = re.sub(r"\s+", "", u.text)
+        if text:
+            cues.append(Cue(u.ready_at, u.ready_at + hold_seconds, text))
+    return _clip_to_next_start(cues)
 
 
 # Prefer breaking after these characters (natural pause points in Japanese).
 _BREAK_AFTER = "、。！？"
+# Never START a new line/chunk with one of these -- a stranded particle
+# reads worse than a slightly short previous line.
+_PARTICLES = "はがをにでともへやのからまでよりねよわ"
+
+
+def _reading_weight(ch: str) -> float:
+    """Kanji take longer to read than kana or punctuation; weight accordingly."""
+    code = ord(ch)
+    if 0x4E00 <= code <= 0x9FFF:  # CJK Unified Ideographs
+        return 2.0
+    if 0x3040 <= code <= 0x30FF:  # hiragana + katakana
+        return 1.0
+    return 0.7
+
+
+def _weighted_len(text: str) -> float:
+    return sum(_reading_weight(c) for c in text)
+
+
+def _adjust_break(text: str, break_at: int, min_first_len: int = 1) -> int:
+    """Shift a candidate break point left if it would strand a particle."""
+    while break_at > min_first_len and text[break_at] in _PARTICLES:
+        break_at -= 1
+    return break_at
 
 
 def _wrap_lines(text: str, max_chars_per_line: int) -> list[str]:
-    """Greedy wrap, preferring to break right after punctuation."""
+    """Greedy wrap: prefer punctuation, else avoid stranding a particle."""
     if len(text) <= max_chars_per_line:
         return [text]
     lines: list[str] = []
@@ -100,7 +143,7 @@ def _wrap_lines(text: str, max_chars_per_line: int) -> list[str]:
                 break_at = i
                 break
         if break_at is None:
-            break_at = max_chars_per_line
+            break_at = _adjust_break(remaining, max_chars_per_line)
         lines.append(remaining[:break_at])
         remaining = remaining[break_at:]
     if remaining:
@@ -122,7 +165,7 @@ def _split_chunks(text: str, max_chars_per_card: int) -> list[str]:
                 split_at = i
                 break
         if split_at is None:
-            split_at = max_chars_per_card
+            split_at = _adjust_break(remaining, max_chars_per_card)
         chunks.append(remaining[:split_at])
         remaining = remaining[split_at:]
     if remaining:
@@ -130,55 +173,78 @@ def _split_chunks(text: str, max_chars_per_card: int) -> list[str]:
     return chunks
 
 
+def _clip_to_next_start(cues: list[Cue]) -> list[Cue]:
+    """Order by real arrival time, then never let a cue's end run past the next.
+
+    Utterances are translated by a pool of concurrent workers (see
+    pipeline.py's `_translation_worker`), so a later utterance's translation
+    can genuinely finish before an earlier one's -- sort by actual arrival
+    time first, since that's the order a viewer would really see cues
+    appear in, not the order utterances were spoken in.
+    """
+    ordered = sorted(cues, key=lambda c: c.start)
+    out: list[Cue] = []
+    for i, cue in enumerate(ordered):
+        end = cue.end
+        if i + 1 < len(ordered):
+            end = min(end, ordered[i + 1].start)
+        # A strictly-positive floor, not the usual ~1s minimum: two
+        # utterances can genuinely finish translating a few milliseconds
+        # apart, and a hard hold-time floor there would just recreate the
+        # overlap we're clipping away. Sub-frame durations are effectively
+        # invisible at any normal video frame rate anyway.
+        end = max(end, cue.start + 0.001)
+        out.append(Cue(cue.start, end, cue.text))
+    return out
+
+
 def format_readable(
-    cues: list[Cue],
+    utterances: list[_RawUtterance],
     *,
     max_chars_per_line: int = 16,
     max_lines: int = 2,
     min_duration: float = 1.2,
-    reading_cps: float = 6.5,
+    reading_units_per_sec: float = 5.5,
 ) -> list[Cue]:
     """Wrap, split, and re-time cues for actual on-screen readability.
 
-    - Long utterances split into multiple sequential cards (equal time
-      split across the utterance's own span) instead of one overlong block.
-    - Each card wrapped to at most `max_lines` lines of `max_chars_per_line`.
-    - Each card's minimum duration is `len(text) / reading_cps` seconds
-      (capped so it never exceeds its own share of the utterance's real
-      span -- this is a demo, not a system free to hold the screen after
-      the speaker has moved on).
+    - Each utterance's text is wrapped to at most `max_lines` lines of
+      `max_chars_per_line`, breaking after punctuation and never stranding
+      a lone particle at the start of a line.
+    - Text too long for one card splits into multiple sequential cards; the
+      display-time budget for a multi-card utterance is divided across
+      cards by each card's own reading weight (kanji-heavy chunks get more
+      time), not split evenly by count.
+    - Duration comes from a reading-speed budget over that weighted length,
+      never less than `min_duration`, and never allowed to overlap the next
+      utterance's real arrival time.
     """
     max_chars_per_card = max_chars_per_line * max_lines
-    out: list[Cue] = []
-    for cue in cues:
-        text = re.sub(r"\s+", "", cue.text)
+    cues: list[Cue] = []
+    for u in utterances:
+        text = re.sub(r"\s+", "", u.text)
         if not text:
             continue
         chunks = _split_chunks(text, max_chars_per_card)
-        span = max(cue.end - cue.start, 0.01)
-        share = span / len(chunks)
-        t = cue.start
-        for chunk in chunks:
+        weights = [_weighted_len(c) for c in chunks]
+        total_weight = sum(weights) or 1.0
+        total_budget = max(
+            min_duration * len(chunks), total_weight / reading_units_per_sec
+        )
+        t = u.ready_at
+        for chunk, weight in zip(chunks, weights, strict=True):
             wrapped = "\n".join(_wrap_lines(chunk, max_chars_per_line))
-            if len(chunks) == 1:
-                # Single card: free to use a reading-speed-derived duration,
-                # but never past the utterance's own real end.
-                duration = max(min_duration, min(len(chunk) / reading_cps, span))
-            else:
-                # Multiple cards share the span equally -- never let one
-                # card's duration bleed into the next card's slot.
-                duration = share
-            out.append(Cue(t, t + duration, wrapped))
+            share = max(min_duration, total_budget * (weight / total_weight))
+            cues.append(Cue(t, t + share, wrapped))
             t += share
-    return out
+    return _clip_to_next_start(cues)
 
 
 def _srt_timestamp(seconds: float) -> str:
-    seconds = max(seconds, 0.0)
-    h = int(seconds // 3600)
-    m = int((seconds % 3600) // 60)
-    s = int(seconds % 60)
-    ms = int(round((seconds - int(seconds)) * 1000))
+    total_ms = int(round(max(seconds, 0.0) * 1000))
+    h, rem = divmod(total_ms, 3_600_000)
+    m, rem = divmod(rem, 60_000)
+    s, ms = divmod(rem, 1000)
     return f"{h:02d}:{m:02d}:{s:02d},{ms:03d}"
 
 
