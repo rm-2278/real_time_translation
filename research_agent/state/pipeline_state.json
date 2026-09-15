@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 7,
-  "last_updated": "2026-09-14T12:15:54.037956+00:00",
+  "last_updated": "2026-09-15T00:12:01.596688+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -563,6 +563,12 @@
       "to": "READ_PAPERS",
       "at": "2026-09-14T12:15:54.037912+00:00",
       "note": "Extracted 3 cycle-13 found-stub papers (simulu2026, prefix2prefix2026, causal-supervision2026) via WebSearch fallback (arxiv.org/huggingface.co WebFetch EGRESS_BLOCKED). Status -> extracted. READ_PAPERS still owes from-scratch summaries + cross-ref against experiments/results.csv."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-15T00:12:01.596648+00:00",
+      "note": "cycle 13: read simulu2026, prefix2prefix2026, causal-supervision2026 in full; all ground existing tested/blocked hypotheses (h-localagreement-asr-commit, h-endpointing-connection-verify) rather than opening new testable ground on their own. Cross-referenced against results.csv, no already-answered ground at risk of re-testing."
     }
   ]
 }
