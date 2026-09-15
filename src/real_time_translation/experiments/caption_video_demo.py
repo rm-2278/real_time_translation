@@ -46,12 +46,38 @@ def _load_experiment(path: Path) -> dict:
 
 
 SAFE_MARGIN = 24  # a caption is allowed to be ugly, never invisible off-canvas
+MAX_TEXT_WIDTH = CANVAS_W - 2 * SAFE_MARGIN
 
 
-def _render_cue_png(cue: Cue, out_path: Path, font: ImageFont.FreeTypeFont) -> None:
+def _render_cue_png(
+    cue: Cue,
+    out_path: Path,
+    *,
+    shrink_to_fit: bool,
+) -> None:
     img = Image.new("RGBA", (CANVAS_W, CANVAS_H), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
     lines = cue.text.split("\n")
+
+    font = ImageFont.truetype(FONT_PATH, size=FONT_SIZE, index=FONT_INDEX)
+    if shrink_to_fit:
+        # Readable mode has no business overflowing the frame at all -- if
+        # the widest line still doesn't fit at the base size (possible for
+        # a heavily-kanji chunk near the character budget), shrink until it
+        # does rather than let SAFE_MARGIN clamp text into an unreadable
+        # pile-up at the edge.
+        size = FONT_SIZE
+        while size > 20:
+            candidate = ImageFont.truetype(FONT_PATH, size=size, index=FONT_INDEX)
+            widest = max(
+                draw.textbbox((0, 0), line, font=candidate)[2] for line in lines
+            )
+            if widest <= MAX_TEXT_WIDTH:
+                font = candidate
+                break
+            size -= 2
+        else:
+            font = ImageFont.truetype(FONT_PATH, size=20, index=FONT_INDEX)
 
     line_sizes = [draw.textbbox((0, 0), line, font=font) for line in lines]
     line_heights = [b[3] - b[1] for b in line_sizes]
@@ -119,12 +145,15 @@ def render(
     cues = format_naive(raw_cues) if mode == "naive" else format_readable(raw_cues)
     if not cues:
         raise SystemExit(f"No translation cues extracted from {experiment_path}")
-    # A translation can genuinely arrive after the clip's own audio ends
-    # (that's real end-to-end latency, e.g. during a translation backlog) --
-    # drop/clip anything past the rendered video's own length rather than
-    # let it silently never show or run past the end of the file.
-    cues = [c for c in cues if c.start < duration_seconds]
-    cues = [Cue(c.start, min(c.end, duration_seconds), c.text) for c in cues]
+
+    # A translation can genuinely arrive after the clip's own speech audio
+    # ends (real end-to-end latency -- see this repo's own latency
+    # findings), and `format_readable` can deliberately hold a card past
+    # where naive arrival would've cut it. Size the rendered video to fit
+    # every cue instead of silently dropping/truncating whatever runs past
+    # a fixed `duration_seconds` -- that previously made a fully-translated
+    # tail look untranslated just because it displayed a few seconds late.
+    video_length = max(duration_seconds, cues[-1].end + 0.5)
 
     output_dir.mkdir(parents=True, exist_ok=True)
     srt_path = output_dir / f"{name}.srt"
@@ -149,6 +178,8 @@ def render(
                 "2",
                 "-ar",
                 "44100",
+                "-af",
+                f"apad=whole_dur={video_length}",
                 str(audio_path),
             ],
             check=True,
@@ -156,11 +187,11 @@ def render(
         )
         audio_duration = _ffprobe_duration(audio_path)
 
-        font = ImageFont.truetype(FONT_PATH, size=FONT_SIZE, index=FONT_INDEX)
+        shrink_to_fit = mode != "naive"
         png_paths: list[Path] = []
         for i, cue in enumerate(cues):
             png_path = tmp_path / f"cue_{i:04d}.png"
-            _render_cue_png(cue, png_path, font)
+            _render_cue_png(cue, png_path, shrink_to_fit=shrink_to_fit)
             png_paths.append(png_path)
 
         cmd = [

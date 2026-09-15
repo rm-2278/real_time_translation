@@ -224,12 +224,18 @@ def format_readable(
       display-time budget for a multi-card utterance is divided across
       cards by each card's own reading weight (kanji-heavy chunks get more
       time), not split evenly by count.
-    - Duration comes from a reading-speed budget over that weighted length,
-      never less than `min_duration`, and never allowed to overlap the next
-      utterance's real arrival time.
+    - Every card gets its FULL computed reading duration, guaranteed --
+      scheduled hold-and-queue style (a card never starts before its own
+      translation was ready, and never before the previous card's reading
+      time has actually elapsed), rather than clipped short whenever the
+      next translation happens to arrive first. When the pipeline is
+      producing translations faster than a viewer could read them, display
+      intentionally falls behind real arrival time rather than shortchange
+      any one card -- unlike `format_naive`, which shows exactly what
+      happens with no such queueing.
     """
     max_chars_per_card = max_chars_per_line * max_lines
-    cues: list[Cue] = []
+    items: list[tuple[float, str, float]] = []  # (ready_at, wrapped_text, duration)
     for u in utterances:
         text = re.sub(r"\s+", "", u.text)
         if not text:
@@ -240,13 +246,20 @@ def format_readable(
         total_budget = max(
             min_duration * len(chunks), total_weight / reading_units_per_sec
         )
-        t = u.ready_at
         for chunk, weight in zip(chunks, weights, strict=True):
-            wrapped = "\n".join(_wrap_lines(chunk, max_chars_per_line))
-            share = max(min_duration, total_budget * (weight / total_weight))
-            cues.append(Cue(t, t + share, wrapped))
-            t += share
-    return _clip_to_next_start(cues)
+            wrapped = "\n".join(_wrap_lines(chunk, max_chars_per_line, max_lines))
+            duration = max(min_duration, total_budget * (weight / total_weight))
+            items.append((u.ready_at, wrapped, duration))
+
+    items.sort(key=lambda item: item[0])
+    cues: list[Cue] = []
+    cursor = 0.0
+    for ready_at, text, duration in items:
+        start = max(ready_at, cursor)
+        end = start + duration
+        cues.append(Cue(start, end, text))
+        cursor = end
+    return cues
 
 
 def _srt_timestamp(seconds: float) -> str:
