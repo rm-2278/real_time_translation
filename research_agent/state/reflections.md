@@ -826,3 +826,68 @@ costs nothing and the last one was productive (coval2026's Flux lead),
 but the note above should steer whoever picks up cycle 13's
 RUN_EXPERIMENTS toward implementing h-gemini-only-masking-replay rather
 than defaulting to another blocked-on-Deepgram hypothesis.
+
+## Cycle 13 (2026-09-15)
+
+**What worked:** The READ_PAPERS -> GENERATE_HYPOTHESES -> HUMAN_APPROVAL ->
+RUN_EXPERIMENTS -> ANALYZE_RESULTS -> WRITE_REPORT chain went smoothly this
+cycle, all in one session (found a fresh sandbox with DEEPGRAM_API_KEY/
+GOOGLE_API_KEY set and ffmpeg absent but not needed, since the hypothesis I
+picked -- h-endpointing-pause-vs-sentence-boundary-audit -- was fully
+retroactive). The config-diff step added to ANALYZE_RESULTS after the
+cycle-12 near-miss worked exactly as intended here: confirmed the 6-way
+endpointing sweep only differs in the one variable under test, no confound,
+in under a minute.
+
+**What didn't (in a good way):** The hypothesis's own `required_changes`,
+as written at GENERATE_HYPOTHESES time, assumed `asr_interim` events'
+`is_utterance_end` field would tell me which interim was the "real"
+endpointing-triggered final one. Reading `video_segment.py`'s `on_result()`
+before implementing anything showed this is wrong: `TimedEvent.is_utterance_end`
+defaults to `True` and is only ever explicitly set on
+`translation_partial`/`translation_complete` events -- `asr_interim` events
+always carry the unpopulated default, so filtering on it there is
+meaningless. Caught this *before* writing the analysis script, not after,
+by reading the actual construction site rather than trusting the schema
+docstring/my own restated assumption. This is now the third time this kind
+of thing has happened (h-gemini-only-masking-replay's original_text-empty
+discovery in cycle 5; h-cross-utterance-flicker's utterance_id-doesn't-
+exist discovery around the same time; now this). Per this file's own
+cycle-11 rule ("if a third hypothesis in a row turns out to have a wrong
+premise, that would be the trigger to add an explicit step"), I'm adding a
+playbook note this cycle (see below) rather than just logging it here
+again -- though note this is a *third instance of the same underlying
+pattern* (assuming a TimedEvent field is populated uniformly across event
+kinds without checking the construction site), not literally three
+hypotheses in a row, so I'm treating it as a advisory note rather than a
+hard new gate.
+
+**Backlog calibration:** Added exactly 1 new hypothesis this cycle
+(deliberately not more -- both `simulu2026` and `prefix2prefix2026` only
+grounded already-tested hypotheses, no independent new testable claim).
+Backlog is now 2 queued/proposed (well under the 6 cap): the still-blocked
+`h-gemini-only-masking-replay`, and nothing else, since this cycle's new
+hypothesis was fully executed to `tested` in the same session. Search
+queries: no change needed, this cycle's papers were productive.
+
+**Budget policy:** Unchanged recommendation. $0 spent this cycle (pure
+retroactive analysis), consistent with prior cycles' actual sandbox spend.
+
+**Playbook change made this cycle:** Added a short note to
+`GENERATE_HYPOTHESES` warning that a hypothesis referencing specific
+`TimedEvent`/experiment-JSON-event fields should be checked against the
+actual construction sites in `video_segment.py`/`youtube_segment.py` (which
+fields are populated for which `kind` values) before being finalized, not
+assumed uniform across event kinds -- this is the recurring failure mode
+behind the three near-misses above.
+
+**Next state:** Advancing to `SEARCH_PAPERS` for cycle 14 -- the backlog is
+thin (1 blocked hypothesis) and a fresh literature pass costs nothing and
+has been productive each of the last few cycles. If `h-gemini-only-masking-
+replay` is still blocked next cycle (same Deepgram WS proxy issue,
+unchanged again this cycle), the environment-audit follow-up flagged in
+this cycle's report (whether `deepgram_max_interim_duration` is masking the
+true effect of `deepgram_endpointing` at longer thresholds -- a $0 code-
+reading + possibly a small retroactive check, no live API needed) is a good
+candidate to pick up in `GENERATE_HYPOTHESES` if the search pass doesn't
+turn up anything more pressing.
