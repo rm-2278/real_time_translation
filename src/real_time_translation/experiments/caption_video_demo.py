@@ -149,7 +149,7 @@ def render(
     mode: str,
     name: str,
     output_dir: Path,
-    style: str = "boxed",
+    style: str = "outline",
 ) -> tuple[Path, Path]:
     data = _load_experiment(experiment_path)
     events = data["results"]["events"]
@@ -270,7 +270,9 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument(
         "--output-dir", type=Path, default=Path("experiments/caption_demos")
     )
-    parser.add_argument("--style", choices=["boxed", "outline"], default="boxed")
+    # outline (YouTube-caption look) beat the boxed plate in user review
+    # 2026-09-15 -- kept as the default; boxed is still available via --style.
+    parser.add_argument("--style", choices=["boxed", "outline"], default="outline")
     args = parser.parse_args(argv)
 
     video_path, srt_path = render(

@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import statistics
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -32,6 +33,7 @@ _PARTICLES = "はがをにでともへやのからまでよりねよわ"
 class ReadabilityReport:
     n_cues: int
     mean_cps: float
+    median_cps: float
     cps_violations: int
     cps_violation_rate: float
     line_length_violations: int
@@ -81,7 +83,9 @@ def analyze_readability(
 ) -> ReadabilityReport:
     n = len(cues)
     if n == 0:
-        return ReadabilityReport(0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0, 0.0)
+        return ReadabilityReport(
+            0, 0.0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0, 0.0
+        )
 
     cps_values: list[float] = []
     cps_bad = 0
@@ -121,6 +125,7 @@ def analyze_readability(
     return ReadabilityReport(
         n_cues=n,
         mean_cps=sum(cps_values) / n,
+        median_cps=statistics.median(cps_values),
         cps_violations=cps_bad,
         cps_violation_rate=cps_bad / n,
         line_length_violations=line_len_bad,
@@ -138,7 +143,8 @@ def analyze_readability(
 def format_report(name: str, report: ReadabilityReport) -> str:
     return (
         f"{name}: n={report.n_cues} "
-        f"mean_cps={report.mean_cps:.2f} (limit {DEFAULT_MAX_CPS}) "
+        f"mean_cps={report.mean_cps:.2f} median_cps={report.median_cps:.2f} "
+        f"(limit {DEFAULT_MAX_CPS}) "
         f"cps_viol={report.cps_violation_rate:.0%} "
         f"line_len_viol={report.line_length_violation_rate:.0%} "
         f"line_count_viol={report.line_count_violation_rate:.0%} "

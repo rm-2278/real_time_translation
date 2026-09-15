@@ -160,6 +160,32 @@ def _wrap_lines(text: str, max_chars_per_line: int, max_lines: int = 2) -> list[
     return lines
 
 
+# A card shorter than this is an "orphan" -- e.g. a lone trailing "、" left
+# over when an utterance's own text happens to end mid-clause (translation
+# not yet complete when this batch closed out) and the last split point
+# lands right before the end. Flashing that alone for under a second is
+# worse than a slightly-over-budget previous card -- merge it back in,
+# the same trade-off `_adjust_break` already makes for stranded particles.
+_ORPHAN_CHARS = 2
+
+
+def _merge_orphan_chunks(chunks: list[str]) -> list[str]:
+    if len(chunks) < 2:
+        return chunks
+    merged = chunks[:1]
+    for chunk in chunks[1:]:
+        if len(chunk) <= _ORPHAN_CHARS:
+            merged[-1] = merged[-1] + chunk
+        else:
+            merged.append(chunk)
+    # An orphan as the very first chunk (nothing before it to merge into)
+    # gets folded forward into what's now index 1 instead.
+    if len(merged) >= 2 and len(merged[0]) <= _ORPHAN_CHARS:
+        merged[1] = merged[0] + merged[1]
+        merged = merged[1:]
+    return merged
+
+
 def _split_chunks(text: str, max_chars_per_card: int) -> list[str]:
     """Split long text into <= max_chars_per_card chunks, preferring punctuation."""
     if len(text) <= max_chars_per_card:
@@ -179,7 +205,7 @@ def _split_chunks(text: str, max_chars_per_card: int) -> list[str]:
         remaining = remaining[split_at:]
     if remaining:
         chunks.append(remaining)
-    return chunks
+    return _merge_orphan_chunks(chunks)
 
 
 # Netflix's minimum inter-subtitle gap is 2 frames; at a nominal 24fps
@@ -221,36 +247,18 @@ def _clip_to_next_start(cues: list[Cue]) -> list[Cue]:
 # at an effective 2 raw-characters/second, which is the intent of the
 # style guide's own "kanji needs more room than kana" rationale, made
 # explicit and computed rather than left to a human subtitler's judgment.
-def format_readable(
+def _build_readable_items(
     utterances: list[_RawUtterance],
     *,
-    max_chars_per_line: int = 13,
-    max_lines: int = 2,
-    min_duration: float = 5 / 6,
-    max_duration: float = 7.0,
-    reading_units_per_sec: float = 4.0,
-) -> list[Cue]:
-    """Wrap, split, and re-time cues for actual on-screen readability.
-
-    - Each utterance's text is wrapped to at most `max_lines` lines of
-      `max_chars_per_line`, breaking after punctuation and never stranding
-      a lone particle at the start of a line.
-    - Text too long for one card splits into multiple sequential cards; the
-      display-time budget for a multi-card utterance is divided across
-      cards by each card's own reading weight (kanji-heavy chunks get more
-      time), not split evenly by count.
-    - Every card gets its FULL computed reading duration, guaranteed --
-      scheduled hold-and-queue style (a card never starts before its own
-      translation was ready, and never before the previous card's reading
-      time has actually elapsed), rather than clipped short whenever the
-      next translation happens to arrive first. When the pipeline is
-      producing translations faster than a viewer could read them, display
-      intentionally falls behind real arrival time rather than shortchange
-      any one card -- unlike `format_naive`, which shows exactly what
-      happens with no such queueing.
-    """
+    max_chars_per_line: int,
+    max_lines: int,
+    min_duration: float,
+    max_duration: float,
+    reading_units_per_sec: float,
+) -> list[tuple[float, str, float]]:
+    """(ready_at, wrapped_text, duration) for every card, unscheduled."""
     max_chars_per_card = max_chars_per_line * max_lines
-    items: list[tuple[float, str, float]] = []  # (ready_at, wrapped_text, duration)
+    items: list[tuple[float, str, float]] = []
     for u in utterances:
         text = re.sub(r"\s+", "", u.text)
         if not text:
@@ -266,16 +274,154 @@ def format_readable(
             duration = total_budget * (weight / total_weight)
             duration = min(max(duration, min_duration), max_duration)
             items.append((u.ready_at, wrapped, duration))
-
     items.sort(key=lambda item: item[0])
-    cues: list[Cue] = []
+    return items
+
+
+def schedule_with_lag(
+    items: list[tuple[float, str, float]],
+) -> list[tuple[Cue, float]]:
+    """Hold-and-queue schedule; also reports each card's display lag.
+
+    `lag = cue.start - ready_at`: how many seconds after its translation was
+    actually ready a card had to wait for the previous card's reading time
+    to finish before it could show. 0 when a card shows the instant it's
+    ready (no queueing pressure at that point). This is the direct,
+    measurable cost of guaranteeing every card its full reading time.
+
+    Measured 2026-09-15 on 3 real recordings (see
+    `captions/latency_diagnostics.py`, experiments/20260915_*.json): with
+    Netflix's own max_duration=7.0 this schedule accumulates 45-90s of mean
+    lag on a 90-120s clip -- a card holding its full ideal reading time
+    with no regard for how far behind real time the queue already is will
+    let backlog grow without bound whenever translations arrive faster
+    than they can be comfortably read (concurrent workers finishing several
+    utterances close together, or just a speaker not pausing). Simply
+    lowering max_duration "fixes" the lag by breaking the reading-time
+    guarantee for most cards instead (cps_violation_rate jumped from ~23%
+    to ~85-94% across the same recordings at max_duration<=3.0). See
+    `schedule_adaptive` for the actual fix.
+    """
+    out: list[tuple[Cue, float]] = []
     cursor = 0.0
     for ready_at, text, duration in items:
         start = max(ready_at, cursor)
         end = start + duration
-        cues.append(Cue(start, end, text))
+        out.append((Cue(start, end, text), start - ready_at))
         cursor = end
-    return cues
+    return out
+
+
+def schedule_adaptive(
+    items: list[tuple[float, str, float]],
+    *,
+    min_duration: float,
+    catchup_window: float,
+) -> list[tuple[Cue, float]]:
+    """Hold-and-queue, but compress toward min_duration as backlog builds.
+
+    `schedule_with_lag` guarantees every card its full ideal reading
+    duration always, which turns into unbounded queueing lag under
+    backlog (see its docstring for the measured numbers). Capping
+    max_duration "fixes" the lag but breaks the reading-time guarantee for
+    most cards, not just the backlogged ones -- it punishes a calm,
+    well-paced stretch exactly as hard as a bursty one.
+
+    This keeps the full guarantee when the schedule is caught up, and lets
+    it degrade smoothly, in proportion to how far behind it actually is:
+    a card still always gets at least `min_duration` (the hard floor both
+    Netflix's and BBC's own guides use -- readability never fully
+    collapses), but as this card's own lag approaches `catchup_window`
+    seconds, its ideal duration is linearly compressed toward that floor.
+    A backlog can then never grow past roughly `catchup_window`, and it
+    actively drains during any quieter stretch, instead of ratcheting up
+    for the rest of the clip the way a flat guarantee does.
+    """
+    out: list[tuple[Cue, float]] = []
+    cursor = 0.0
+    for ready_at, text, ideal_duration in items:
+        start = max(ready_at, cursor)
+        lag = start - ready_at
+        factor = 1.0
+        if catchup_window > 0:
+            factor = max(0.0, 1.0 - lag / catchup_window)
+        duration = min_duration + factor * (ideal_duration - min_duration)
+        duration = max(duration, min_duration)
+        end = start + duration
+        out.append((Cue(start, end, text), lag))
+        cursor = end
+    return out
+
+
+# Reading-speed and line-length defaults follow Netflix's published
+# Japanese Timed Text Style Guide: 4 CPS, max 13 full-width characters per
+# line, minimum display 5/6s, maximum display 7s. `reading_units_per_sec`
+# is calibrated to that 4 CPS figure for pure-kana text (weight 1.0/char);
+# kanji is weighted 2x (see `_reading_weight`), so a pure-kanji line reads
+# at an effective 2 raw-characters/second, which is the intent of the
+# style guide's own "kanji needs more room than kana" rationale, made
+# explicit and computed rather than left to a human subtitler's judgment.
+#
+# max_duration stays at Netflix's true 7.0 -- it now only caps the IDEAL,
+# caught-up-schedule duration a card computes for itself; `catchup_window`
+# (see `schedule_adaptive`) is what actually keeps a live pipeline's
+# queueing lag bounded, by compressing that ideal duration toward
+# min_duration once a card is running behind.
+#
+# Honest reading of the 2026-09-15 sweep (3 real recordings, see
+# `captions/latency_diagnostics.py --adaptive`): there is no setting that
+# gets both low lag AND Netflix-grade cps_violation_rate on this kind of
+# content -- a guest lecture translated live, dense with kanji technical
+# terms, with utterances arriving close together, is close to the physical
+# limit of what "read it comfortably AND show it promptly" can both mean
+# at once. What catchup_window buys is a strictly *better trade* than
+# flatly capping max_duration: at matched mean lag (~2.4-3.6s), the
+# adaptive schedule's cps_violation_rate ran 8-14 points lower than the
+# flat schedule's nearest max_duration setting across all 3 recordings
+# (e.g. gemini_full: flat max_duration~2.4 interpolates to ~87%
+# cps_violation at that lag; catchup_window=1.5 gets the same ~2.4s lag at
+# 74.3%). catchup_window=4.0 is the default here as a practical middle of
+# that curve, not a value that makes the trade-off disappear.
+def format_readable(
+    utterances: list[_RawUtterance],
+    *,
+    max_chars_per_line: int = 13,
+    max_lines: int = 2,
+    min_duration: float = 5 / 6,
+    max_duration: float = 7.0,
+    reading_units_per_sec: float = 4.0,
+    catchup_window: float = 4.0,
+) -> list[Cue]:
+    """Wrap, split, and re-time cues for actual on-screen readability.
+
+    - Each utterance's text is wrapped to at most `max_lines` lines of
+      `max_chars_per_line`, breaking after punctuation and never stranding
+      a lone particle at the start of a line.
+    - Text too long for one card splits into multiple sequential cards; the
+      display-time budget for a multi-card utterance is divided across
+      cards by each card's own reading weight (kanji-heavy chunks get more
+      time), not split evenly by count.
+    - Every card gets at least `min_duration`, always. When the schedule is
+      caught up it gets its full ideal reading duration; when translations
+      have been arriving faster than they can be read, that ideal duration
+      is adaptively compressed toward the floor so lag stays bounded
+      instead of accumulating for the rest of the clip -- see
+      `schedule_adaptive`. This is a deliberate middle ground between
+      `format_naive` (no guarantee at all) and a flat hold-and-queue (full
+      guarantee always, unbounded lag).
+    """
+    items = _build_readable_items(
+        utterances,
+        max_chars_per_line=max_chars_per_line,
+        max_lines=max_lines,
+        min_duration=min_duration,
+        max_duration=max_duration,
+        reading_units_per_sec=reading_units_per_sec,
+    )
+    scheduled = schedule_adaptive(
+        items, min_duration=min_duration, catchup_window=catchup_window
+    )
+    return [cue for cue, _lag in scheduled]
 
 
 def _srt_timestamp(seconds: float) -> str:
