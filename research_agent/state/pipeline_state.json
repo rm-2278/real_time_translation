@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 7,
-  "last_updated": "2026-09-15T00:17:21.266746+00:00",
+  "last_updated": "2026-09-15T00:17:56.028415+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -587,6 +587,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-09-15T00:17:21.266716+00:00",
       "note": "cycle 13: ran endpointing_boundary_audit.py over the 6 endpointing sweep experiments. Result: mid-sentence commit rate is high (83-100%) at every threshold from 300ms to 2000ms with no clear monotonic gradient by threshold -- writing up analysis next."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-15T00:17:56.028388+00:00",
+      "note": "cycle 13: h-endpointing-pause-vs-sentence-boundary-audit tested, result_summary written. Proceeding to write the Japanese cycle report."
     }
   ]
 }
