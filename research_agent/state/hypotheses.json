@@ -261,8 +261,8 @@
       "required_changes": "New retroactive analysis script under src/real_time_translation/experiments/ (e.g. endpointing_boundary_audit.py): (1) load each chunk_latency_sweep2_*ms.json's results.events, filter to is_utterance_end=true entries, (2) for each, take the committed text's last few words and locate the same words in experiments/refs/wjZofJX0v4M_5_15_en.txt (simple substring/fuzzy match, this transcript has no sentence-level timestamps so matching must be by text content not offset), (3) check whether a sentence-ending punctuation mark ('.', '?', '!') appears within a small trailing-word window of the matched position, (4) report per-threshold mid-sentence-commit rate. No changes to pipeline.py/video_segment.py or any live/production code -- this only reads already-recorded experiment JSON and the existing ground-truth text file, zero new ASR/LLM calls.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": "proposed",
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
