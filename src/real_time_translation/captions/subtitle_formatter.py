@@ -129,13 +129,22 @@ def _adjust_break(text: str, break_at: int, min_first_len: int = 1) -> int:
     return break_at
 
 
-def _wrap_lines(text: str, max_chars_per_line: int) -> list[str]:
-    """Greedy wrap: prefer punctuation, else avoid stranding a particle."""
+def _wrap_lines(text: str, max_chars_per_line: int, max_lines: int = 2) -> list[str]:
+    """Greedy wrap: prefer punctuation, else avoid stranding a particle.
+
+    Shifting a break point left to keep a particle with its line (see
+    `_adjust_break`) shortens that line below `max_chars_per_line`, which
+    can leave more characters in `remaining` than a caller who sized its
+    own budget as `max_chars_per_line * max_lines` accounted for. Once
+    `max_lines - 1` breaks are placed, stop breaking and force everything
+    left onto the final line -- a slightly long last line beats a line the
+    renderer was never told about and silently drops.
+    """
     if len(text) <= max_chars_per_line:
         return [text]
     lines: list[str] = []
     remaining = text
-    while len(remaining) > max_chars_per_line:
+    while len(remaining) > max_chars_per_line and len(lines) < max_lines - 1:
         window = remaining[: max_chars_per_line + 1]
         break_at = None
         for i in range(len(window) - 1, 0, -1):
