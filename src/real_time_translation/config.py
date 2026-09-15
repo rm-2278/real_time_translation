@@ -24,7 +24,14 @@ class Config:
     zoom_client_secret: str
 
     # Deepgram options
-    deepgram_model: str = "nova-2-general"
+    # nova-3-general: measured 2026-09-15 against this repo's own clip +
+    # ground-truth transcript at ~22% relative WER reduction over
+    # nova-2-general, plus nova-2 flatly rejects keyterm prompting (the
+    # default deepgram_keyterms_enabled=True then burns 6 failed WebSocket
+    # connection attempts before falling back to 0 keyterms on every
+    # connect). See experiments/20260915_asr_model_*.json and
+    # technical_term_recall.py.
+    deepgram_model: str = "nova-3-general"
     deepgram_language: str = "en"
     deepgram_interim_results: bool = True
     deepgram_smart_format: bool = True
@@ -238,7 +245,7 @@ class Config:
 
         return cls(
             deepgram_api_key=deepgram_api_key,
-            deepgram_model=os.getenv("DEEPGRAM_MODEL", "nova-2-general"),
+            deepgram_model=os.getenv("DEEPGRAM_MODEL", "nova-3-general"),
             deepgram_language=os.getenv("DEEPGRAM_LANGUAGE", "en"),
             deepgram_interim_results=_get_bool_env("DEEPGRAM_INTERIM_RESULTS", True),
             deepgram_smart_format=_get_bool_env("DEEPGRAM_SMART_FORMAT", True),

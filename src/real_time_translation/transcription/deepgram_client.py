@@ -45,7 +45,7 @@ class DeepgramTranscriber:
         self,
         api_key: str,
         language: str = "en",
-        model: str = "nova-2-general",
+        model: str = "nova-3-general",
         punctuate: bool = True,
         smart_format: bool = True,
         interim_results: bool = True,
