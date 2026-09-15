@@ -99,6 +99,9 @@ class Config:
     # quota instead of firing requests that will 429. Free-tier Gemini flash
     # models measured ~10-15 RPM; default is a conservative margin under that.
     # Raise this once a paid-tier key is available (Tier 1 is ~300 RPM).
+    # <= 0 disables the self-throttle entirely (see RateLimiter) -- only
+    # the provider's own server-side limit and this pipeline's
+    # retry-once-then-drop handling remain as backstops.
     gemini_rpm_limit: int = 9
     # Hard ceiling on a single translation call. Observed in practice:
     # google-genai's async streaming call can hang indefinitely with no
