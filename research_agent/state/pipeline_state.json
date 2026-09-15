@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 7,
-  "last_updated": "2026-09-15T00:12:01.596688+00:00",
+  "last_updated": "2026-09-15T00:13:06.597212+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -569,6 +569,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-15T00:12:01.596648+00:00",
       "note": "cycle 13: read simulu2026, prefix2prefix2026, causal-supervision2026 in full; all ground existing tested/blocked hypotheses (h-localagreement-asr-commit, h-endpointing-connection-verify) rather than opening new testable ground on their own. Cross-referenced against results.csv, no already-answered ground at risk of re-testing."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-15T00:13:06.597182+00:00",
+      "note": "cycle 13: added 1 new hypothesis (h-endpointing-pause-vs-sentence-boundary-audit, $0 retroactive). Backlog: 2 queued/proposed total, well under 6 cap. Not adding more this cycle -- both prefix2prefix2026 and simulu2026 only grounded already-tested hypotheses, no new independent testable claim from them."
     }
   ]
 }
