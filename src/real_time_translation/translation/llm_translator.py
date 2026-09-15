@@ -264,6 +264,7 @@ Maintain the original tone and style.
         *,
         context_lines: list[str] | None = None,
         prior_translation: str | None = None,
+        target_chars: int | None = None,
     ) -> str:
         if context_lines is None:
             context_lines = self._context_buffer[-self._context_window_size :]
@@ -300,9 +301,25 @@ Maintain the original tone and style.
                 "unless the new text in <target> changes its meaning.\n"
             )
 
+        # Reading-speed-budget-aware translation (caption-readability
+        # engineering track, 2026-09-15): a verbatim translation of a long,
+        # dense utterance can simply be too much text for a viewer to read
+        # in the time available, no matter how the caption is scheduled.
+        # This is a soft budget, not a hard limit -- expect real overrun.
+        budget_block = ""
+        if target_chars is not None:
+            budget_block = (
+                f"Aim to keep your Japanese translation within roughly "
+                f"{target_chars} characters. If the source is dense, "
+                "prioritize the core meaning over a literal word-for-word "
+                "rendering -- compress like a simultaneous interpreter "
+                "working under time pressure, not a transcript.\n"
+            )
+
         return (
             f"{dictionary_block}"
             f"{prior_translation_block}"
+            f"{budget_block}"
             f"<context>\n{context_block}\n</context>\n<target>\n{text}\n</target>"
         )
 
@@ -460,6 +477,7 @@ Maintain the original tone and style.
         context_lines: list[str] | None = None,
         update_context: bool = True,
         prior_translation: str | None = None,
+        target_chars: int | None = None,
     ) -> AsyncIterator[str]:
         """Translate text, yielding output chunks as they are generated.
 
@@ -474,6 +492,9 @@ Maintain the original tone and style.
                 emitted translation, for a continuation-batch retranslation
                 to anchor to (h-continuation-context-anchor). None for a
                 first/only batch of an utterance.
+            target_chars: Approximate output-length budget derived from the
+                source's own speech duration, for reading-speed-aware
+                translation. None to translate verbatim (today's default).
 
         Yields:
             Translation text chunks (concatenate for the full translation)
@@ -482,7 +503,10 @@ Maintain the original tone and style.
             return
 
         prompt = self._build_user_prompt(
-            text, context_lines=context_lines, prior_translation=prior_translation
+            text,
+            context_lines=context_lines,
+            prior_translation=prior_translation,
+            target_chars=target_chars,
         )
 
         full_text = ""

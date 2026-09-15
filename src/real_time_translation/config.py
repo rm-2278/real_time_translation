@@ -131,6 +131,26 @@ class Config:
     # observed. False (default) preserves today's behavior (timer-only
     # commits, per DeepgramTranscriber's own consumed-word-count tracking).
     localagreement_commit_enabled: bool = False
+    # Experimental (caption-readability engineering track, 2026-09-15):
+    # the 10-minute real-lecture stress test found that fixing translation
+    # backlog (gemini_rpm_limit) closes most of the *latency* gap but
+    # leaves reading-speed (CPS) compliance mostly unsolved on dense
+    # technical content -- a verbatim translation of a long, information-
+    # dense utterance is simply too much text to read in the time the
+    # speaker took to say it. When True, each batch's translation prompt
+    # includes an approximate target character budget derived from the
+    # batch's own source speech duration (see pipeline.py's
+    # _reading_speed_char_budget), asking the model to compress rather
+    # than translate verbatim when the source is dense -- trading some
+    # literalness for a caption a viewer can actually finish reading.
+    # False (default) preserves today's verbatim-translation behavior.
+    reading_speed_budget_translation: bool = False
+    # Target output reading pace (raw JA characters/second, NOT the
+    # kanji-weighted CPS readability_metrics.py scores against) used to
+    # compute that budget. Deliberately looser than Netflix's 4.0
+    # *weighted* CPS standard -- this is a soft prompt hint, not a hard
+    # cap, and translators already tend to run over an aggressive budget.
+    reading_speed_chars_per_sec: float = 6.0
 
     # Dictionary
     dictionary_path: Path | None = None
@@ -291,6 +311,12 @@ class Config:
             ),
             localagreement_commit_enabled=(
                 os.getenv("LOCALAGREEMENT_COMMIT_ENABLED", "0") == "1"
+            ),
+            reading_speed_budget_translation=(
+                os.getenv("READING_SPEED_BUDGET_TRANSLATION", "0") == "1"
+            ),
+            reading_speed_chars_per_sec=float(
+                os.getenv("READING_SPEED_CHARS_PER_SEC", "6.0")
             ),
             dictionary_path=dictionary_path,
             dictionary_dynamic_threshold=int(

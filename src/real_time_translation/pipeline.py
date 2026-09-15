@@ -236,6 +236,11 @@ class TranslationPipeline:
         # emitted translation, for the next continuation batch to anchor to.
         # Same lifecycle as `_utterance_target_text`/`_utterance_source_text`.
         self._utterance_translated_text: dict[int, str] = {}
+        # h-reading-speed-budget-translation: this utterance's own speech
+        # start time, for computing how much wall-clock speaking time its
+        # accumulated text represents so far. Same lifecycle as the other
+        # `_utterance_*` dicts.
+        self._utterance_speech_start: dict[int, float] = {}
         self._utterance_locks: dict[int, asyncio.Lock] = {}
 
         self._running = False
@@ -451,6 +456,7 @@ class TranslationPipeline:
         *,
         live: bool,
         prior_translation: str | None = None,
+        target_chars: int | None = None,
     ) -> str:
         """Stream a translation of `full_target_text`, optionally live.
 
@@ -484,6 +490,7 @@ class TranslationPipeline:
             context_lines=batch[0].context,
             update_context=False,
             prior_translation=prior_translation,
+            target_chars=target_chars,
         ):
             accumulated += chunk
             if live and self._on_result and batch_id == self._next_emit_batch_id:
@@ -548,6 +555,7 @@ class TranslationPipeline:
             self._translator.commit_context(full_target_text, translation)
             self._utterance_source_text.pop(utterance_id, None)
             self._utterance_translated_text.pop(utterance_id, None)
+            self._utterance_speech_start.pop(utterance_id, None)
             self._utterance_locks.pop(utterance_id, None)
 
         if self._on_result:
@@ -636,6 +644,30 @@ class TranslationPipeline:
                             utterance_id
                         )
 
+                    # h-reading-speed-budget-translation: how much wall-clock
+                    # speech this utterance represents so far, to give the
+                    # translator an approximate output-length budget instead
+                    # of translating an arbitrarily long utterance verbatim.
+                    target_chars = None
+                    if self._config.reading_speed_budget_translation:
+                        if not is_continuation:
+                            self._utterance_speech_start[utterance_id] = batch[
+                                0
+                            ].original.start_time
+                        speech_start = self._utterance_speech_start.get(
+                            utterance_id, batch[0].original.start_time
+                        )
+                        speech_duration = max(
+                            batch[-1].original.end_time - speech_start, 0.5
+                        )
+                        target_chars = max(
+                            8,
+                            round(
+                                speech_duration
+                                * self._config.reading_speed_chars_per_sec
+                            ),
+                        )
+
                     await self._translation_rate_limiter.acquire()
                     timeout = self._translation_timeout + 2.0 * (len(batch) - 1)
 
@@ -648,6 +680,7 @@ class TranslationPipeline:
                                     text_to_translate,
                                     live=not is_continuation,
                                     prior_translation=prior_translation,
+                                    target_chars=target_chars,
                                 ),
                                 timeout=timeout,
                             )

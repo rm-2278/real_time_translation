@@ -516,6 +516,8 @@ async def run_experiment(
             "masking_holdback_words": config.masking_holdback_words,
             "anchor_continuation_translation": config.anchor_continuation_translation,
             "localagreement_commit_enabled": config.localagreement_commit_enabled,
+            "reading_speed_budget_translation": config.reading_speed_budget_translation,
+            "reading_speed_chars_per_sec": config.reading_speed_chars_per_sec,
             "domain_packs": config.domain_packs,
             "dictionary_size": len(pipeline._translator.dictionary),
         },
