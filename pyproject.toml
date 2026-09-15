@@ -48,6 +48,7 @@ real-time-translation-exp-utterance-end-mix = "real_time_translation.experiments
 real-time-translation-exp-endpointing-boundary-audit = "real_time_translation.experiments.endpointing_boundary_audit:main"
 real-time-translation-caption-video-demo = "real_time_translation.experiments.caption_video_demo:main"
 real-time-translation-caption-readability-score = "real_time_translation.captions.readability_metrics:main"
+real-time-translation-exp-technical-term-recall = "real_time_translation.experiments.technical_term_recall:main"
 
 [build-system]
 requires = ["hatchling"]
