@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 7,
-  "last_updated": "2026-09-15T00:13:06.597212+00:00",
+  "last_updated": "2026-09-15T00:13:20.609664+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -575,6 +575,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-15T00:13:06.597182+00:00",
       "note": "cycle 13: added 1 new hypothesis (h-endpointing-pause-vs-sentence-boundary-audit, $0 retroactive). Backlog: 2 queued/proposed total, well under 6 cap. Not adding more this cycle -- both prefix2prefix2026 and simulu2026 only grounded already-tested hypotheses, no new independent testable claim from them."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-15T00:13:20.609637+00:00",
+      "note": "cycle 13: 2 hypotheses queued and auto_approved (h-gemini-only-masking-replay, h-endpointing-pause-vs-sentence-boundary-audit). Both approval!=needs_human, proceeding to RUN_EXPERIMENTS."
     }
   ]
 }
