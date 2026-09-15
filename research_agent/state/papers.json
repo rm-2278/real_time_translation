@@ -406,8 +406,8 @@
       "venue": "arXiv:2603.16924",
       "url": "https://arxiv.org/abs/2603.16924",
       "source": "websearch",
-      "status": "extracted",
-      "summary": "",
+      "status": "read",
+      "summary": "SimulU proposes a training-free simultaneous speech-to-speech translation policy that reuses the cross-attention weights already present inside pretrained end-to-end S2ST models to decide both how much prior context to keep and when to emit output, avoiding the extra training most prior SimulST policies require. It specifically targets long-form, non-pre-segmented audio -- the same unbounded-speech evaluation gap papi2025-howreal already flagged -- and reports a comparable-or-better quality-latency trade-off vs. strong cascaded baselines on MuST-C across 8 languages, though exact figures weren't recoverable via WebSearch snippets in this sandbox (arxiv.org/huggingface.co fetches were EGRESS_BLOCKED). Its core idea -- deriving history/commit decisions from attention signal already inside the model, rather than heuristics -- is the same territory as h-localagreement-asr-commit, but doesn't transfer directly here since this repo's target LLM (Gemini/GPT) is an opaque API with no accessible cross-attention; useful only as a conceptual contrast, not an implementable technique.",
       "key_findings": [
         "First training-free policy for long-form (not pre-segmented) simultaneous speech-to-speech translation.",
         "Exploits cross-attention weights already present in pretrained end-to-end S2ST models to drive two decisions: (1) history management -- how much prior input/output context to keep -- and (2) speech-output selection -- when to commit/emit output -- without any additional training.",
@@ -427,8 +427,8 @@
       "venue": "arXiv:2607.13158",
       "url": "https://arxiv.org/abs/2607.13158",
       "source": "websearch",
-      "status": "extracted",
-      "summary": "",
+      "status": "read",
+      "summary": "This paper asks whether decoder-only LLM-based SimulST needs architectural changes to stream well and answers no: fine-tuning a chunked streaming speech-encoder-LLM on teacher-labeled prefix-to-prefix targets with a rewind-capable committed prefix (CSSEL-P2P) closes most of the gap to non-streaming quality with no architecture change, improving +1.54 COMETKiwi over the streaming baseline at only +0.15s more Average Lagging. The lesson is that the win comes from training-time supervision on committed/retractable prefixes, not from prompting or inference-time heuristics. This bears directly on h-localagreement-asr-commit's inference-time-only (prompting/masking) approach: if this repo's prompting-only masking shows a smaller effect than this paper's fine-tuned approach, that is consistent with -- not contradicted by -- this paper's finding, since this repo does not fine-tune anything.",
       "key_findings": [
         "Asks whether decoder-only LLM SimulST needs architectural changes at all, and answers with a purely data-driven alternative: no.",
         "Method (CSSEL-P2P): fixed-length audio chunks fed to a chunked streaming speech-encoder-LLM (CSSEL) doing cumulative streaming decoding with a rewind-based committed prefix (i.e. a commit policy that can retract/rewrite its own tail, not append-only), fine-tuned on teacher-labeled prefix-to-prefix (P2P) targets with bounded waiting.",
@@ -447,8 +447,8 @@
       "venue": "arXiv:2609.04225",
       "url": "https://arxiv.org/abs/2609.04225",
       "source": "websearch",
-      "status": "extracted",
-      "summary": "",
+      "status": "read",
+      "summary": "This paper argues silence-duration-only endpointing is fundamentally the wrong signal for turn detection, since within-turn pauses in natural speech routinely exceed between-turn gaps -- what actually distinguishes a turn boundary is whether the words spoken so far form a semantically complete thought. It introduces a small LoRA adapter fine-tuned on Qwen3-ASR-0.6B (trainable in hours on one GPU) that jointly transcribes and detects end-of-turn from meaning plus silence, reporting 0.97 boundary recall at 0.39s median latency with only 0.3 false end-of-turn fires per speech-minute on a deployment-matched benchmark. For this repo it is a concrete, small-footprint, self-hostable alternative to Deepgram's built-in silence-based endpointing, and a candidate explanation for any flicker/latency issues that persist regardless of vendor, since it argues the ceiling is inherent to silence-only endpointing rather than vendor-specific.",
       "key_findings": [
         "Core claim: within-turn pauses routinely exceed between-turn gaps in natural speech, so silence-duration-only endpointing (what this repo's Deepgram integration currently relies on) is fundamentally the wrong signal -- what actually distinguishes a turn boundary is whether the words spoken so far form a semantically complete thought.",
         "Method: a small LoRA adapter fine-tuned on Qwen3-ASR-0.6B (trained in hours on one GPU) that jointly transcribes, detects end-of-turn from meaning + silence (not silence alone), handles dictation, and grounds transcription in context. First open training recipe + benchmark for turn-aware streaming ASR.",
