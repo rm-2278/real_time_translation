@@ -33,3 +33,4 @@ experiments/clips/*.wav
 experiments/clips/*.pcm
 experiments/refs/audio/
 experiments/caption_demos/
+.DS_Store
