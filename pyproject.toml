@@ -47,6 +47,7 @@ real-time-translation-exp-cla-latency = "real_time_translation.experiments.asr_l
 real-time-translation-exp-utterance-end-mix = "real_time_translation.experiments.utterance_end_mix:main"
 real-time-translation-exp-endpointing-boundary-audit = "real_time_translation.experiments.endpointing_boundary_audit:main"
 real-time-translation-caption-video-demo = "real_time_translation.experiments.caption_video_demo:main"
+real-time-translation-caption-readability-score = "real_time_translation.captions.readability_metrics:main"
 
 [build-system]
 requires = ["hatchling"]

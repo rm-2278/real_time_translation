@@ -182,6 +182,12 @@ def _split_chunks(text: str, max_chars_per_card: int) -> list[str]:
     return chunks
 
 
+# Netflix's minimum inter-subtitle gap is 2 frames; at a nominal 24fps
+# that's this many seconds. Not exact for every frame rate, but this is a
+# demo, not a broadcast QC pass -- close enough to follow the convention.
+_MIN_GAP_SECONDS = 2 / 24
+
+
 def _clip_to_next_start(cues: list[Cue]) -> list[Cue]:
     """Order by real arrival time, then never let a cue's end run past the next.
 
@@ -196,7 +202,7 @@ def _clip_to_next_start(cues: list[Cue]) -> list[Cue]:
     for i, cue in enumerate(ordered):
         end = cue.end
         if i + 1 < len(ordered):
-            end = min(end, ordered[i + 1].start)
+            end = min(end, ordered[i + 1].start - _MIN_GAP_SECONDS)
         # A strictly-positive floor, not the usual ~1s minimum: two
         # utterances can genuinely finish translating a few milliseconds
         # apart, and a hard hold-time floor there would just recreate the
@@ -207,13 +213,22 @@ def _clip_to_next_start(cues: list[Cue]) -> list[Cue]:
     return out
 
 
+# Reading-speed and line-length defaults follow Netflix's published
+# Japanese Timed Text Style Guide: 4 CPS, max 13 full-width characters per
+# line, minimum display 5/6s, maximum display 7s. `reading_units_per_sec`
+# is calibrated to that 4 CPS figure for pure-kana text (weight 1.0/char);
+# kanji is weighted 2x (see `_reading_weight`), so a pure-kanji line reads
+# at an effective 2 raw-characters/second, which is the intent of the
+# style guide's own "kanji needs more room than kana" rationale, made
+# explicit and computed rather than left to a human subtitler's judgment.
 def format_readable(
     utterances: list[_RawUtterance],
     *,
-    max_chars_per_line: int = 16,
+    max_chars_per_line: int = 13,
     max_lines: int = 2,
-    min_duration: float = 1.2,
-    reading_units_per_sec: float = 5.5,
+    min_duration: float = 5 / 6,
+    max_duration: float = 7.0,
+    reading_units_per_sec: float = 4.0,
 ) -> list[Cue]:
     """Wrap, split, and re-time cues for actual on-screen readability.
 
@@ -248,7 +263,8 @@ def format_readable(
         )
         for chunk, weight in zip(chunks, weights, strict=True):
             wrapped = "\n".join(_wrap_lines(chunk, max_chars_per_line, max_lines))
-            duration = max(min_duration, total_budget * (weight / total_weight))
+            duration = total_budget * (weight / total_weight)
+            duration = min(max(duration, min_duration), max_duration)
             items.append((u.ready_at, wrapped, duration))
 
     items.sort(key=lambda item: item[0])
