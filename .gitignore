@@ -32,3 +32,4 @@ experiments/clips/*.mp4
 experiments/clips/*.wav
 experiments/clips/*.pcm
 experiments/refs/audio/
+experiments/caption_demos/
