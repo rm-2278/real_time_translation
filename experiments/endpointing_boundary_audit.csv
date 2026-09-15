@@ -1,0 +1,7 @@
+experiment_name,json_path,endpointing_threshold_ms,num_utterance_ends,num_matched_to_asr_text,num_asr_self_mid_sentence,asr_self_mid_sentence_rate,num_matched_to_ground_truth,num_ground_truth_mid_sentence,ground_truth_mid_sentence_rate
+chunk_latency_sweep2_300ms,experiments/20260903_chunk_latency_sweep2_300ms.json,300,20,20,17,0.85,18,15,0.8333333333333334
+chunk_latency_sweep2_500ms,experiments/20260903_chunk_latency_sweep2_500ms.json,500,16,16,14,0.875,13,12,0.9230769230769231
+chunk_latency_sweep2_800ms,experiments/20260903_chunk_latency_sweep2_800ms.json,800,17,17,16,0.9411764705882353,14,14,1.0
+chunk_latency_sweep2_1200ms,experiments/20260903_chunk_latency_sweep2_1200ms.json,1200,17,17,15,0.8823529411764706,14,13,0.9285714285714286
+chunk_latency_sweep2_1500ms,experiments/20260903_chunk_latency_sweep2_1500ms.json,1500,17,17,15,0.8823529411764706,14,13,0.9285714285714286
+chunk_latency_sweep2_2000ms,experiments/20260903_chunk_latency_sweep2_2000ms.json,2000,17,17,15,0.8823529411764706,14,13,0.9285714285714286

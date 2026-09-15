@@ -1,6 +1,6 @@
 {
-  "date": "2026-09-13",
-  "spent_today_usd": 0.1,
+  "date": "2026-09-15",
+  "spent_today_usd": 0.0,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
   "total_spent_usd": 0.1,
@@ -44,6 +44,11 @@
       "at": "2026-09-13T22:38:36.284112+00:00",
       "amount_usd": 0.08,
       "note": "local retest session 2026-09-14: 4 matched-rpm live runs (baseline, masking-holdback retest, localagreement, continuation-anchor) by rm-2278 on their own machine/keys, ~90s audio each"
+    },
+    {
+      "at": "2026-09-15T00:17:03.084684+00:00",
+      "amount_usd": 0.0,
+      "note": "h-endpointing-pause-vs-sentence-boundary-audit: implemented endpointing_boundary_audit.py, ran over the 6 existing chunk_latency_sweep2_*ms experiment JSONs, zero new API spend"
     }
   ]
 }

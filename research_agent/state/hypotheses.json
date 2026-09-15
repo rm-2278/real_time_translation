@@ -262,8 +262,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "retroactive: src/real_time_translation/experiments/endpointing_boundary_audit.py over the 6 existing experiments/20260903_chunk_latency_sweep2_*ms.json files; sidecar output at experiments/endpointing_boundary_audit.csv (no new experiment JSON produced, no live ASR/LLM API calls)"
+      ],
       "result_summary": ""
     }
   ]
