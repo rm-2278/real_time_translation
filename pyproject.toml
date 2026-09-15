@@ -50,6 +50,7 @@ real-time-translation-caption-video-demo = "real_time_translation.experiments.ca
 real-time-translation-caption-readability-score = "real_time_translation.captions.readability_metrics:main"
 real-time-translation-exp-technical-term-recall = "real_time_translation.experiments.technical_term_recall:main"
 real-time-translation-caption-latency-diagnostics = "real_time_translation.captions.latency_diagnostics:main"
+real-time-translation-fidelity-judge = "real_time_translation.experiments.translation_fidelity_judge:main"
 
 [build-system]
 requires = ["hatchling"]
