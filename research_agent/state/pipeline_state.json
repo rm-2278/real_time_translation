@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 7,
-  "last_updated": "2026-09-15T00:13:20.609664+00:00",
+  "last_updated": "2026-09-15T00:17:21.266746+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -581,6 +581,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-09-15T00:13:20.609637+00:00",
       "note": "cycle 13: 2 hypotheses queued and auto_approved (h-gemini-only-masking-replay, h-endpointing-pause-vs-sentence-boundary-audit). Both approval!=needs_human, proceeding to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-15T00:17:21.266716+00:00",
+      "note": "cycle 13: ran endpointing_boundary_audit.py over the 6 endpointing sweep experiments. Result: mid-sentence commit rate is high (83-100%) at every threshold from 300ms to 2000ms with no clear monotonic gradient by threshold -- writing up analysis next."
     }
   ]
 }
