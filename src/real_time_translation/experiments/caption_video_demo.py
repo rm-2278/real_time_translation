@@ -54,6 +54,7 @@ def _render_cue_png(
     out_path: Path,
     *,
     shrink_to_fit: bool,
+    style: str = "boxed",
 ) -> None:
     img = Image.new("RGBA", (CANVAS_W, CANVAS_H), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
@@ -95,16 +96,30 @@ def _render_cue_png(
     # thing silently vanishing past the frame edge.
     box_left = max(SAFE_MARGIN, box_left)
     box_right = min(CANVAS_W - SAFE_MARGIN, box_right)
-    draw.rounded_rectangle(
-        [box_left, box_top, box_right, box_bottom],
-        radius=10,
-        fill=(10, 16, 15, 190),
-    )
+    if style == "boxed":
+        # Netflix/broadcast convention: solid semi-opaque background plate.
+        draw.rounded_rectangle(
+            [box_left, box_top, box_right, box_bottom],
+            radius=10,
+            fill=(10, 16, 15, 190),
+        )
 
     y = box_top + PAD_Y
     for line, (_l, t, _r, b), w in zip(lines, line_sizes, line_widths, strict=True):
         x = max(SAFE_MARGIN, (CANVAS_W - w) // 2)
-        draw.text((x, y - t), line, font=font, fill=(255, 255, 255, 255))
+        if style == "outline":
+            # YouTube auto-caption convention: no plate, just a heavy black
+            # stroke around white text for legibility over any background.
+            draw.text(
+                (x, y - t),
+                line,
+                font=font,
+                fill=(255, 255, 255, 255),
+                stroke_width=3,
+                stroke_fill=(0, 0, 0, 235),
+            )
+        else:
+            draw.text((x, y - t), line, font=font, fill=(255, 255, 255, 255))
         y += (b - t) + LINE_GAP
 
     img.save(out_path)
@@ -134,6 +149,7 @@ def render(
     mode: str,
     name: str,
     output_dir: Path,
+    style: str = "boxed",
 ) -> tuple[Path, Path]:
     data = _load_experiment(experiment_path)
     events = data["results"]["events"]
@@ -191,7 +207,7 @@ def render(
         png_paths: list[Path] = []
         for i, cue in enumerate(cues):
             png_path = tmp_path / f"cue_{i:04d}.png"
-            _render_cue_png(cue, png_path, shrink_to_fit=shrink_to_fit)
+            _render_cue_png(cue, png_path, shrink_to_fit=shrink_to_fit, style=style)
             png_paths.append(png_path)
 
         cmd = [
@@ -254,10 +270,11 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument(
         "--output-dir", type=Path, default=Path("experiments/caption_demos")
     )
+    parser.add_argument("--style", choices=["boxed", "outline"], default="boxed")
     args = parser.parse_args(argv)
 
     video_path, srt_path = render(
-        args.experiment, args.mode, args.name, args.output_dir
+        args.experiment, args.mode, args.name, args.output_dir, style=args.style
     )
     print(f"Wrote: {video_path}")
     print(f"Wrote: {srt_path}")
