@@ -106,6 +106,18 @@ human-facing; treat the JSON field as an internal
   hypothesis to pursue).
 - Do not let the backlog exceed ~6 `queued`/`proposed` hypotheses at once --
   prioritize depth (fully testing and reflecting on a few) over breadth.
+- If a hypothesis's `required_changes` references a specific
+  `TimedEvent`/experiment-JSON event field (e.g. `is_utterance_end`,
+  `original_text`, anything under `results.events`), check the actual
+  construction sites in `video_segment.py`/`youtube_segment.py`'s
+  `on_result()` for which `kind` values that field is really populated on
+  before finalizing the hypothesis text -- do not assume a field is
+  populated uniformly across event kinds just because the dataclass
+  defines it once. This has been the wrong assumption behind three
+  separate near-misses now (h-gemini-only-masking-replay's `original_text`-
+  empty discovery, h-cross-utterance-flicker's missing `utterance_id`, and
+  cycle 13's `is_utterance_end`-only-set-on-translation-events discovery --
+  see reflections.md cycle 13).
 - Advance to `HUMAN_APPROVAL`.
 
 ## State: HUMAN_APPROVAL
