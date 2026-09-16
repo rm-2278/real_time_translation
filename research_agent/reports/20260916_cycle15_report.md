@@ -80,6 +80,36 @@ WebSearch 6件 + WebFetch 3件(このセッションはローカルなのでarxi
 
 本番のデフォルト値(2.5秒)を引き上げることを推奨します。次のステップとして8〜10秒や無効化も試し、リファレンス訳を用意してchrFも合わせて見るとより確証が持てます。
 
+## 追記2 (同日、リサーチをさらに深掘り + キャプション付き2分デモ動画)
+
+rm-2278さんから「LLM2025応用編・第8回のtransformerパート(2分クリップ)で、実写映像+字幕のmp4を出力してほしい」「リサーチをもっと深めて仮説を増やしてほしい」という追加依頼がありました。
+
+### キャプション付きデモ動画
+
+`caption_video_demo.py`はこれまで音声だけを抽出し単色キャンバスに字幕を乗せる仕様でした(実写映像は使っていなかった)。`--background video`オプションを追加し、実際のソース映像をレターボックスして字幕を焼き込めるようにしました(字幕がクリップの尺を超えて続く場合は最後のフレームを静止して延長)。
+
+検証済みのbest config(`deepgram_max_interim_duration=6.0`, `endpointing=300`, `rpm=60`)で`experiments/clips/llm_course_ep8_transformer_120s.mp4`(LLM2025応用編第8回・Transformer部分の2分クリップ)をライブ実行し、そのASR+翻訳結果を実写映像に焼き込みました。
+
+- 出力: `experiments/caption_demos/llm_course_transformer_2min_captioned.mp4`(1280x720, 129.5秒, 32セグメント, 平均信頼度0.916)
+- 実験JSON: `experiments/20260916_llm_course_transformer_clip_best_config.json`
+- ※`experiments/caption_demos/`は.gitignore対象(生成物のため)なのでコミットはしていません。ローカルにあります。
+
+1回目のライブ実行はマシンのスリープに巻き込まれてwebsocketのkeepalive pingが失敗し、ハングしたため強制終了→再実行しています(2回目はクリーンに完走、末尾でDeepgramの1011タイムアウトが出ましたが119.3秒/120秒まで取得できておりコンテンツの欠落はありません)。
+
+### 追加リサーチ (文献4本、仮説2件)
+
+- **X2Streaming-ASR**(arXiv:2609.08672)・**GPT-Realtime-Translate**(OpenAI公式)・**SASST**(arXiv:2508.07781)・**Average Token Delay**(Kano et al. 2023)を新たに読了。
+- **h-asr-confidence-early-commit**(承認待ち): Deepgramが既に返している単語ごとの信頼度(`confidence`フィールド、既にログ済み・追加API呼び出し不要)を使い、固定タイマーより早く自信度の高い区間を確定させる。業界の実践("confidence>0.7でコミットしプレフィックスが変わったときだけ再翻訳")にも合致。
+- **h-openai-realtime-translate-feasibility**(実行・分析済み): OpenAIの音声→音声翻訳API。Geminiのライブ翻訳と違い日本語が対象13言語に含まれ、文字起こしが音声と並行してストリームされる設計だが、テキストのみ出力(音声生成の無効化)が可能かはドキュメントからは確定できず「未解決」で結論。
+
+### Q2への追加の手がかり
+
+Average Token Delay (ATD) 論文は、出力の「長さ(duration)」自体が後続の翻訳を遅らせることを罰する指標で、Ear-Voice Span(人間の同時通訳者の自然な遅延)との相関が最も高いと報告されています。ただし公式が要求するのは結局トークン単位のソース消費位置と紐づいたタイムスタンプで、`h-quality-latency-joint-table`が既に指摘した「本番コードへの計装が必要」という結論は変わりません。ただ、今回の`mt_latency_decomposition.py`が既に出している`stream_duration_s`(1バッチの出力の長さ)を使えば、「あるバッチの出力の長さが次のバッチのqueue_waitをどれだけ押し出すか」という簡易版のduration-aware指標は、トークン単位のアライメントなしでも作れそうです。次の一手の候補として記録しておきます。
+
+### バックログの状態 (2026-09-16終了時点)
+
+新規仮説は合計8件(今日1日で): tested 5件(h-mt-queue-wait-decomposition, h-quality-latency-joint-table, h-gemini-live-translate-feasibility, h-max-interim-duration-raise, h-openai-realtime-translate-feasibility)、承認待ち(queued/proposed)3件(h-semantic-completeness-gating, h-monotonic-chunkwise-prompt-enja, h-asr-confidence-early-commit)。
+
 ## 今回のパイプライン状態
 
 - 新規仮説6件追加、うち3件($0, retroactive/research)は本セッション内で実行・分析済み(tested)

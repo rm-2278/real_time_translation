@@ -10,5 +10,11 @@
     "reason": "Needs a production-path prompt change (new translation-style variant in llm_translator.py, gated behind a new Config flag) before it can be run. Grounded in makinae2024-word-order-sync-metric's EN-JA-specific word-order-synchronization argument, found this cycle.",
     "estimated_cost_usd": 0.3,
     "asked_at": "2026-09-16T00:00:00Z"
+  },
+  {
+    "hypothesis_id": "h-asr-confidence-early-commit",
+    "reason": "Needs a production-path code change (new confidence-based early-commit branch in deepgram_client.py's soft-finalize path, gated behind a new Config flag) before it can be run. Zero marginal API cost since it reuses the `confidence` field already logged on every asr_interim event -- grounded in x2streaming-asr2026 and industry practice found this session (confidence>0.7 gate + retranslate-on-prefix-change).",
+    "estimated_cost_usd": 0.3,
+    "asked_at": "2026-09-16T00:00:00Z"
   }
 ]

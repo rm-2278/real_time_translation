@@ -699,6 +699,25 @@
         "h-monotonic-chunkwise-prompt-enja",
         "h-semantic-completeness-gating"
       ]
+    },
+    {
+      "id": "kano2023-average-token-delay",
+      "title": "Average Token Delay: A Duration-aware Latency Metric for Simultaneous Translation",
+      "authors": "Kano, Sudoh, Nakamura",
+      "year": 2023,
+      "venue": "INTERSPEECH 2023 / arXiv:2311.14353",
+      "url": "https://arxiv.org/abs/2311.14353",
+      "source": "websearch",
+      "status": "read",
+      "summary": "Latency metric (ATD) that, unlike AL/LAAL, explicitly penalizes the DURATION of partial translations (not just their start time) -- a long-running output delays every subsequent one, which start-time-only metrics miss. Reported the highest correlation with human Ear-Voice Span (EVS) among baselines tested.",
+      "key_findings": [
+        "Formula (per arxiv.org/html full text): ATD = (1/|y|) sum_t [T(y_t) - T(x_a(t))], where T(.) is a token's ending timestamp and a(t) tracks accumulated duration excess between the output and input prefixes -- confirms this STILL needs per-output-token source-alignment data (g(t): how many input tokens had been read by the time output token t was produced), the same class of instrumentation gap h-quality-latency-joint-table (this session) already flagged as missing from this repo's current event log, not a shortcut around it.",
+        "The genuinely new, more tractable idea for this repo: ATD's core insight (a long streamed output should be charged against how much it delays the NEXT unit, not just measured by its own start time) is already partially visible in this session's mt_latency_decomposition.py output (stream_duration_s) -- a simplified, duration-aware companion metric (does a batch's own stream_duration measurably push back the following batch's queue_wait?) could be built without full token-level source alignment, as a nearer-term step toward what ATD is really arguing for.",
+        "Human baseline context: this line of research measures against Ear-Voice Span (EVS), professional interpreters' natural source-to-target lag -- useful framing for this repo's own ~6s post-h-max-interim-duration-raise latency number (not a claim of exact comparability, different modality/task, but a natural human-performance anchor to cite in reporting)."
+      ],
+      "relevant_to": [
+        "h-quality-latency-joint-table"
+      ]
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
