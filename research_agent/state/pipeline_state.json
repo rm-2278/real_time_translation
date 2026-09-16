@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 8,
-  "last_updated": "2026-09-16T12:14:52.633936+00:00",
+  "last_updated": "2026-09-16T12:18:40.042864+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -671,6 +671,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-09-16T12:14:52.633915+00:00",
       "note": "check-budget(0.05 usd) -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued for h-compression-repeated-sampling-segment5."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-16T12:18:00.585029+00:00",
+      "note": "compression_repeated_sampling.py produced 10 baseline + 10 compression_actions repeats of segments[5] under identical fixed context. Config-diff + result_summary next."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-16T12:18:40.042831+00:00",
+      "note": "Config-diff clean (single variable: extra_system_instructions; identical fixed context for all 20 calls). Result: original n=1 segment-5 truncation reproduces in 4/10 (40%) of compression_actions repeats vs 0/10 baseline -- confirmed real, not a fluke. But found segment 5's source text duplicates its own context tail (segment 4), so the truncation may be a correct (if unreliable, 40%-of-the-time) application of the instruction's own DROP-on-repetition rule rather than a guardrail violation as originally framed -- reframing, not exonerating (still not recommending production use: a 40%-of-the-time DROP is not a dependable behavior). hypothesis.status=tested."
     }
   ]
 }
