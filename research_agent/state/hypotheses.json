@@ -298,8 +298,8 @@
       "required_changes": "New script under src/real_time_translation/experiments/ (e.g. compression_repeated_sampling.py) that: (1) loads results.segments[5].asr from experiments/20260915_budget_translation_baseline.json (the exact source text that triggered the original drop), (2) calls LLMTranslator.translate_stream() with extra_system_instructions=COMPRESSION_INSTRUCTIONS (imported from compression_actions_replay.py, not re-typed) 10 times sequentially, and with extra_system_instructions=None 10 times sequentially as the paired control -- same model/dictionary/thinking_budget as the original replay run, (3) for each of the 20 outputs, records length and a simple heuristic completeness flag (does the translation contain content corresponding to both source clauses, checked by presence of translated-content markers for each clause rather than a strict regex, since exact Japanese wording varies run to run), (4) runs translation_fidelity_judge.judge() on 3 outputs per condition (chosen deterministically, e.g. the first 3) as a spot-check rather than all 20 to bound cost, (5) writes a normal experiments/YYYYMMDD_<name>.json with a per-sample table and a summary drop-rate-per-condition, plus a results.csv row.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }

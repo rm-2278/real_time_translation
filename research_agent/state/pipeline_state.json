@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 8,
-  "last_updated": "2026-09-16T12:14:41.114795+00:00",
+  "last_updated": "2026-09-16T12:14:52.633936+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -665,6 +665,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-16T12:14:41.114767+00:00",
       "note": "GENERATE_HYPOTHESES: added 1 new hypothesis (h-compression-repeated-sampling-segment5), the targeted follow-up flagged in cycle-14 reflections.md -- repeated N=10 sampling per condition (compression_actions vs baseline_replay) on the exact segment-5 source text that showed a single guardrail-violating content drop, to distinguish a reliable behavior from a one-off sampling fluke. Backlog: 1 proposed, well under the 6 cap (depth over breadth, matching cycle 14's own precedent)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-16T12:14:52.633915+00:00",
+      "note": "check-budget(0.05 usd) -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued for h-compression-repeated-sampling-segment5."
     }
   ]
 }
