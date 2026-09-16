@@ -962,3 +962,69 @@ Did NOT touch the approval-gate or budget-check steps.
 well-scoped follow-up already identified in this cycle's report (repeated
 sampling on the segment-5-style content-drop question) worth writing up
 before doing a new literature search.
+
+## Cycle 15 (2026-09-16)
+
+**What worked:** Followed cycle 14's own explicit recommendation exactly
+(repeated sampling on the segment-5 content drop) rather than reaching for
+a fresh SEARCH_PAPERS pass -- the whole GENERATE_HYPOTHESES ->
+HUMAN_APPROVAL -> RUN_EXPERIMENTS -> ANALYZE_RESULTS -> WRITE_REPORT ->
+REFLECT chain ran in one session for $0.01. Designing the repeated-sampling
+script forced a level of care the original n=1 replay didn't need: had to
+explicitly pin `context_lines` + `update_context=False` per call so 10
+repeats of the same segment wouldn't leak into each other's context via
+the translator's internal `_context_buffer` (which stores source text, not
+translations -- checked `llm_translator.py` directly rather than assuming).
+That design choice is itself worth remembering for any future
+single-segment repeated-sampling hypothesis.
+
+**A genuine finding, and a correction of last cycle's own framing:** the
+40% truncation rate is real (reproduced 4/10 times, byte-identical to the
+original n=1 output), so cycle 14's finding was not a fluke -- but while
+building the replay I noticed `results.segments[4]` and `[5]` in the
+source experiment JSON have IDENTICAL source text (a duplicate ASR
+artifact), and segment 4 sits inside segment 5's own context window. That
+means the "guardrail violation" framing from cycle 14's report is probably
+wrong: dropping content already said verbatim in the immediately preceding
+context is what the instruction's own DROP rule explicitly permits. I
+corrected this in this cycle's hypothesis result_summary and report rather
+than repeating the earlier framing uncritically. This is the same pattern
+PLAYBOOK.md's GENERATE_HYPOTHESES section already warns about (checking
+real field population before trusting an assumption) but applied to a
+paper-inspired prompt instruction's behavior rather than a `TimedEvent`
+field -- worth generalizing that lesson: when a paper-inspired instruction
+seems to misbehave, check whether the *input* driving it is what it looks
+like before concluding the *instruction* is unsafe.
+
+**A real methodological limitation, reported honestly rather than
+smoothed over:** the fidelity-judge spot-check (3/10 samples per
+condition) was not a useful signal in this design -- judging a single
+segment fragment in isolation (rather than the full multi-segment
+transcript, as cycle 14's run did) meant the judge couldn't tell a
+continuation clause was expected, and it scored the two most-truncated
+outputs in the sample as 100/100. The char-length heuristic was the
+reliable signal here instead. Noted explicitly in the hypothesis
+result_summary and the Japanese report rather than quietly dropping the
+judge numbers or over-stating what they showed.
+
+**Backlog calibration:** Added exactly 1 new hypothesis (depth over
+breadth, same as cycle 14), fully executed to `tested` in the same
+session. Backlog is 0 queued/proposed, well under the 6 cap.
+
+**Budget policy:** Unchanged recommendation. $0.01 spent this cycle
+(20 short single-segment Gemini translate calls + 6 judge spot-checks,
+zero Deepgram spend).
+
+**Should this playbook change?** No changes made this cycle -- the
+existing RUN_EXPERIMENTS environment-check guidance and the
+`context_lines`/`update_context` mechanics were already discoverable by
+reading `llm_translator.py` directly; nothing here reflects a gap in the
+playbook itself, just ordinary implementation care.
+
+**Next state:** Advancing to `GENERATE_HYPOTHESES` directly again (not a
+fresh `SEARCH_PAPERS` pass) -- the natural next step (testing the same
+compression instruction on a non-duplicated, genuinely long/complex
+segment, since this cycle's 40% figure is likely specific to the
+duplicate-ASR-segment case) is already well-scoped and doesn't need new
+literature. A fresh SEARCH_PAPERS pass is reasonable in a future cycle
+once this narrower thread is resolved.
