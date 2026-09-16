@@ -891,3 +891,74 @@ true effect of `deepgram_endpointing` at longer thresholds -- a $0 code-
 reading + possibly a small retroactive check, no live API needed) is a good
 candidate to pick up in `GENERATE_HYPOTHESES` if the search pass doesn't
 turn up anything more pressing.
+
+## Cycle 14 (2026-09-16)
+
+**What worked:** Ran the full chain EXTRACT_PAPERS -> READ_PAPERS ->
+GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS ->
+ANALYZE_RESULTS -> WRITE_REPORT -> REFLECT in one session. `ffmpeg`
+installed cleanly this time (no mirror-failure drama). The config-diff
+step in ANALYZE_RESULTS again confirmed a clean single-variable
+comparison in under a minute -- this check keeps paying for itself.
+
+**New environment finding:** WebFetch was entirely EGRESS_BLOCKED this
+session for every domain tried (arxiv.org, aclanthology.org,
+semanticscholar.org, awesomepapers.io, pith.science) -- a broader block
+than prior cycles' host-specific Deepgram/Gemini API blocks. WebSearch
+itself still worked fine and returned usable abstract-level content for
+all 3 papers, so EXTRACT_PAPERS proceeded via WebSearch instead of
+WebFetch. Added a note to PLAYBOOK.md's EXTRACT_PAPERS section (see
+below) since the playbook previously only documented WebFetch as the
+extraction tool.
+
+**A near-miss worth naming honestly:** During READ_PAPERS I cross-checked
+the new hypothesis's premise ("no existing experiment varies
+output-compression prompt instructions") against `experiments/` by
+skimming the directory listing and `results.csv`, and initially missed
+that `experiments/20260915_budget_translation_{baseline,enabled,tight}
+.json` (visible in that same listing, added via `git log` commits
+33faed4/c4fd798 the day before) were exactly that: a human-authored,
+just-landed feature (`Config.reading_speed_budget_translation`) doing
+almost the same thing, WITH an already-measured fidelity cost via a new
+`translation_fidelity_judge.py` tool. I only caught this later, during
+RUN_EXPERIMENTS, when reading `llm_translator.py` more closely to design
+the actual code change -- before running any experiment, so no budget was
+wasted, but it was closer than I'd like: eyeballing a file listing is not
+the same as actually checking for topical overlap. Redesigned the
+hypothesis's experiment around this finding (reused the existing clip,
+the existing fidelity judge, and directly engaged with the sibling
+finding) rather than plowing ahead with the original, narrower plan --
+this produced a much more informative result (a concrete content-drop
+example plus a direct comparison point) than the original design would
+have. Adding an explicit PLAYBOOK.md note (see below) so future
+GENERATE_HYPOTHESES/READ_PAPERS passes grep for topical keywords and
+skim recent `git log`, not just the experiment file list, before
+asserting "nothing existing covers this."
+
+**Backlog calibration:** Added exactly 1 new hypothesis (depth over
+breadth -- the other 2 papers read this cycle need model-retraining
+infra not available here). It was fully executed to `tested` in the same
+session, so backlog is now 0 queued/proposed (well under the 6 cap) --
+plenty of room next cycle. Search queries: no change needed.
+
+**Budget policy:** Unchanged recommendation. $0.01 spent this cycle (a
+small Gemini-only replay, zero Deepgram spend).
+
+**Should this playbook change?** Yes, two additions made this cycle:
+
+1. EXTRACT_PAPERS now notes WebSearch as a fallback when WebFetch itself
+   is blocked (not just the RUN_EXPERIMENTS host-specific API blocks the
+   playbook already documented).
+2. READ_PAPERS's cross-reference step now explicitly says to grep
+   `experiments/results.csv` notes and filenames for topical keywords and
+   skim recent `git log -- experiments/ src/` (not just eyeball the
+   directory listing) before asserting a hypothesis is untested -- per
+   the near-miss above.
+
+Did NOT touch the approval-gate or budget-check steps.
+
+**Next state:** Advancing to `GENERATE_HYPOTHESES` directly (not a fresh
+`SEARCH_PAPERS` pass) -- the backlog is empty and there's a concrete,
+well-scoped follow-up already identified in this cycle's report (repeated
+sampling on the segment-5-style content-drop question) worth writing up
+before doing a new literature search.

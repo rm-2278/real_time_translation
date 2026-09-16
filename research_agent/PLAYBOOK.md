@@ -80,6 +80,14 @@ human-facing; treat the JSON field as an internal
 - For each `"status": "found"` paper, WebFetch the abstract (and intro/
   conclusion if the fetch gives you the full text) to pull out the concrete
   claims/numbers, not just the abstract's marketing language.
+- If WebFetch is EGRESS_BLOCKED for the paper's host (found cycle 14,
+  2026-09-16: arxiv.org/aclanthology.org/semanticscholar.org/and other
+  mirrors were ALL blocked that session, a broader block than the
+  RUN_EXPERIMENTS section's host-specific Deepgram/Gemini API notes below),
+  fall back to WebSearch with a query like `"<exact paper title>" abstract`
+  -- it goes through a different path and returned usable abstract-level
+  content even when every WebFetch call failed. Note in the paper's entry
+  which method was used.
 - Update `status` to `"extracted"`.
 - Advance to `READ_PAPERS`.
 
@@ -93,6 +101,21 @@ human-facing; treat the JSON field as an internal
   something already conclusively answered there (e.g. chunk-length/
   endpointing sweeps and ASR keyterm on/off are already covered; see the
   filenames under `experiments/`).
+- Do this cross-reference by actually grepping `experiments/results.csv`
+  (the `notes`/`experiment_name` columns) and `experiments/*.json`
+  filenames for topical keywords related to each candidate hypothesis, and
+  by skimming `git log --oneline -20 -- experiments/ src/` for recent
+  human-authored commits -- not just eyeballing a directory listing. Found
+  cycle 14 (2026-09-16): a hypothesis about compressing long translations
+  via a prompt instruction almost got written up as "nothing existing
+  tests this" despite `experiments/20260915_budget_translation_*.json`
+  (visible in the same `ls experiments/` output, landed via commits
+  `33faed4`/`c4fd798` the day before) being a closely related,
+  already-tested feature with a documented fidelity cost -- caught before
+  running anything, during RUN_EXPERIMENTS design, but only because the
+  code was read closely at that point, not because the READ_PAPERS
+  cross-reference actually caught it. A keyword grep would have caught it
+  directly.
 - Advance to `GENERATE_HYPOTHESES`.
 
 ## State: GENERATE_HYPOTHESES
