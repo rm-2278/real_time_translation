@@ -154,6 +154,18 @@ class Config:
     # *weighted* CPS standard -- this is a soft prompt hint, not a hard
     # cap, and translators already tend to run over an aggressive budget.
     reading_speed_chars_per_sec: float = 6.0
+    # Experimental (h-compression-actions-prompt-instruction,
+    # research_agent/state/hypotheses.json): a paper-inspired explicit
+    # compression instruction (SENTENCE_CUT/DROP/PARTIAL_SUMMARIZATION/
+    # PRONOMINALIZATION, with an explicit anti-content-drop guardrail)
+    # appended to the system prompt, as an alternative to
+    # reading_speed_budget_translation's implicit character-budget nudge.
+    # Previously only tested via a Gemini-only replay
+    # (compression_actions_replay.py) against already-recorded ASR segments
+    # because live Deepgram access was unavailable that cycle -- this flag
+    # wires the same instruction text into the live pipeline for a real
+    # end-to-end A/B. False (default) preserves today's behavior.
+    compression_actions_prompt_enabled: bool = False
 
     # Dictionary
     dictionary_path: Path | None = None
@@ -320,6 +332,9 @@ class Config:
             ),
             reading_speed_chars_per_sec=float(
                 os.getenv("READING_SPEED_CHARS_PER_SEC", "6.0")
+            ),
+            compression_actions_prompt_enabled=(
+                os.getenv("COMPRESSION_ACTIONS_PROMPT_ENABLED", "0") == "1"
             ),
             dictionary_path=dictionary_path,
             dictionary_dynamic_threshold=int(
