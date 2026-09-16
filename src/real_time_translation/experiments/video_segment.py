@@ -518,6 +518,7 @@ async def run_experiment(
             "localagreement_commit_enabled": config.localagreement_commit_enabled,
             "reading_speed_budget_translation": config.reading_speed_budget_translation,
             "reading_speed_chars_per_sec": config.reading_speed_chars_per_sec,
+            "compression_actions_prompt_enabled": config.compression_actions_prompt_enabled,
             "domain_packs": config.domain_packs,
             "dictionary_size": len(pipeline._translator.dictionary),
         },
