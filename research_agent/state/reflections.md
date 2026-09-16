@@ -1053,3 +1053,42 @@ this as sanctioned rather than a deviation to avoid.
 a code change (not more literature), but a fresh search pass is cheap and
 this cycle's queries were productive, so worth trying once more before
 spending a whole cycle just implementing code for the queued items.
+
+## Human validation signal (2026-09-16, same day, interactive)
+
+rm-2278 watched the captioned mp4 rendered from
+`llm_course_transformer_clip_best_config` (deepgram_max_interim_duration=6.0,
+endpointing=300, rpm=60, reading_speed_budget_translation=1, holdback/
+localagreement/anchor all OFF) and called it "結構よくね?" (pretty good) --
+the first qualitative human endorsement of a specific config recorded in
+this log, not just a metric comparison. Worth noting for calibration: this
+positive read came from a config where NONE of the literature-derived
+per-utterance techniques (masking-holdback, LocalAgreement-2, continuation-
+anchor, compression-actions) are active -- the win is entirely a config-
+tuning finding (the timer raise) plus a human-authored captioning-standard
+feature (reading-speed budgeting), not an imported SimulST algorithm. The
+human's own follow-up reaction was sharp and worth internalizing: they
+correctly inferred from watching the video that holdback isn't contributing
+right now, and explicitly redirected priority toward hypotheses "adopted
+from papers" specifically (as opposed to config tuning or human-authored
+heuristics) for the next phase of work -- see the Japanese report's
+same-dated section for the literal instruction. Future GENERATE_HYPOTHESES
+passes should keep this distinction visible (mark each hypothesis whether
+its core technique is literature-derived vs. this-repo's-own-diagnostic-
+derived vs. a general engineering heuristic) since the human has now
+stated a preference for the first category.
+
+Also worth recording as a process note: this session discovered, via a
+`hypotheses.json` diff surprise (two new entries -- `h-soft-final-interval-
+x-append-continuation` and `h-backlog-adaptive-compression-budget` -- both
+human-proposed 2026-09-16 "while reviewing the soft-finalize flow diagram"
+-- that this session never produced) that ANOTHER session was concurrently
+active on this same repo's research_agent state this same day. Flagged
+plainly to the human rather than silently absorbing or overwriting; they
+did not flag it as wrong, so treated as legitimate concurrent work. Worth
+a PLAYBOOK.md note if this becomes a recurring pattern: state-file writes
+in this pipeline are not currently safe against two concurrent sessions
+racing on the same file (plain read-modify-write, no lock), which is fine
+for this repo's actual usage pattern (rare, and conflicts so far have been
+purely additive) but would silently lose data if two sessions both add
+different new hypotheses AND one is not careful to re-read before writing.

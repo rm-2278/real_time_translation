@@ -110,6 +110,18 @@ Average Token Delay (ATD) 論文は、出力の「長さ(duration)」自体が�
 
 新規仮説は合計8件(今日1日で): tested 5件(h-mt-queue-wait-decomposition, h-quality-latency-joint-table, h-gemini-live-translate-feasibility, h-max-interim-duration-raise, h-openai-realtime-translate-feasibility)、承認待ち(queued/proposed)3件(h-semantic-completeness-gating, h-monotonic-chunkwise-prompt-enja, h-asr-confidence-early-commit)。
 
+## 追記3 (同日、方針転換: 「論文由来の知見」に集中)
+
+rm-2278さんが新しいキャプション付きデモ動画を見て「結構よくね？」と評価してくれました。**この評価は記録しておく価値があります**: 良い結果が出た設定(タイマー6秒・endpointing=300・rpm=60・reading-speed-budget)は、ホールドバック・LocalAgreement・continuation-anchorのいずれもOFFの状態です。つまり今の実用性の高さは、論文から輸入した特定のアルゴリズムではなく、①私たち自身の診断から導いたタイマー調整と、②字幕業界の可読速度基準に基づく自作機能(論文由来ではない)によるものだと確認できました。
+
+これを受けて、rm-2278さんから明確な方針が出ました: **「かなり実用的にはなっているから、あとは『論文から組み込んだ知見』での改善をひたすらに目指そう」**。今後のGENERATE_HYPOTHESESでは、各仮説が「文献由来の技術」なのか「自分たちの診断由来のチューニング」なのか「一般的なエンジニアリング上の工夫」なのかを明示し、文献由来のものを優先することにします。
+
+現在の承認待ちバックログのうち文献由来度が高いもの: `h-semantic-completeness-gating`(FastTurn/Phoenix-VAD/SimulSense)、`h-monotonic-chunkwise-prompt-enja`(Makinae et al.)、`h-asr-confidence-early-commit`(X2Streaming-ASR)。`h-backlog-adaptive-compression-budget`は人間発案のエンジニアリング上の工夫で文献グラウンディングは薄めです。
+
+### ①ホールドバック x 新タイマー の再検証
+
+ホールドバックの実測+28%改善(cross-batch NE 0.836→0.605)は、複数バッチ分断が多かった**旧タイマー(2.5秒)**下で測ったもの。新タイマー(6秒)では分断自体が15/21→1/21に激減しているため、ホールドバックの出番がどれだけ残っているかをライブA/Bで再検証中です(`h_holdback_on_raised_timer`、同一クリップ・同一設定でmasking_holdback_words=2のみ追加)。結果は次の追記で報告します。
+
 ## 今回のパイプライン状態
 
 - 新規仮説6件追加、うち3件($0, retroactive/research)は本セッション内で実行・分析済み(tested)
