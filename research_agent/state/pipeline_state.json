@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
-  "cycle": 8,
-  "last_updated": "2026-09-16T00:22:59.116435+00:00",
+  "current_state": "SEARCH_PAPERS",
+  "cycle": 9,
+  "last_updated": "2026-09-16T03:25:17.720203+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -659,6 +659,42 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-16T00:22:59.116406+00:00",
       "note": "REFLECT complete (see reflections.md cycle 14). Backlog empty and a concrete follow-up (repeated sampling on the segment-5 content-drop question) is already identified, so skipping a fresh SEARCH_PAPERS pass this time per playbook's allowed shortcut. Playbook amended: EXTRACT_PAPERS WebSearch fallback, READ_PAPERS grep-not-eyeball cross-reference note."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-16T03:22:55.442958+00:00",
+      "note": "Cycle 15: human (rm-2278) explicitly asked mid-session for (a) latency-reduction ideas beyond what's already diagnosed and (b) a status check on the real-time-benchmark-beyond-chrF investigation, plus 'lots of hypotheses' from a fresh literature pass respecting the API-only/no-local-LLM constraint. Ran 6 WebSearch + 3 WebFetch queries (ad-hoc SEARCH/EXTRACT/READ pass without formal state transitions, documented in papers.json's _websearch_note_cycle15 -- this is a local session with working WebFetch access, unlike prior cloud-sandbox cycles). Added 6 papers and 6 hypotheses: h-mt-queue-wait-decomposition, h-quality-latency-joint-table, h-gemini-live-translate-feasibility (all $0 retroactive/research, executed same session below), h-max-interim-duration-raise, h-semantic-completeness-gating, h-monotonic-chunkwise-prompt-enja (all need either live API budget or a code change, queued for human/next RUN_EXPERIMENTS pass)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-16T03:23:04.454368+00:00",
+      "note": "3 of 6 new hypotheses (h-mt-queue-wait-decomposition, h-quality-latency-joint-table, h-gemini-live-translate-feasibility) are $0 retroactive-analysis/research and auto_approved with uses_existing_clips=true (research-only for the Gemini Live check) -- executing all 3 in this same session. The other 3 (h-max-interim-duration-raise, h-semantic-completeness-gating, h-monotonic-chunkwise-prompt-enja) need either live Deepgram/Gemini API budget (keys present in .env but not exported/spent this session without the human's explicit go-ahead) or a production-path code change -- left queued/needs_human for the human or a future RUN_EXPERIMENTS pass."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-16T03:23:12.231879+00:00",
+      "note": "Analysis already written directly into each hypothesis's result_summary in hypotheses.json during RUN_EXPERIMENTS (matches cycle 14's precedent of doing RUN_EXPERIMENTS+ANALYZE_RESULTS together for retroactive-only hypotheses). Key results: LLM stream_duration is negligible (median 0.003s) -- queue_wait (median 1.5-2.3s at normal rpm, up to 240s at rpm=9) is where translation-side latency actually lives; quality_latency_joint.py shows only 6/94 experiments have both a chrF score and a fine-grained latency breakdown; Gemini Live translate-preview is audio-in/audio-out only, ruled out as a drop-in cascade replacement for this repo's text-caption use case."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-16T03:24:29.868937+00:00",
+      "note": "Wrote research_agent/reports/20260916_cycle15_report.md (Japanese), answering rm-2278's two direct questions (latency lever, real-time-benchmark-beyond-chrF status) plus the 6 new hypotheses."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-16T03:25:17.693397+00:00",
+      "note": "Reflection appended to reflections.md (cycle 15 entry): the mt_latency_decomposition finding that killed the draft-model/RLM-cascade idea before it was written up, the judgment call to leave h-max-interim-duration-raise for human approval rather than spending .env's live keys autonomously, and a PLAYBOOK.md addition about human-requested mid-cycle literature refreshes."
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-09-16T03:25:17.720105+00:00",
+      "note": "Cycle 15 complete. Backlog (3 queued/proposed) all need human-approved live budget or a code change, not more literature -- but per reflections.md, one more search pass is worth trying before committing a whole cycle to implementation."
     }
   ]
 }

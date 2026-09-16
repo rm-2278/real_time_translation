@@ -143,6 +143,19 @@ human-facing; treat the JSON field as an internal
   see reflections.md cycle 13).
 - Advance to `HUMAN_APPROVAL`.
 
+**Human-requested literature refresh mid-cycle (found cycle 15,
+2026-09-16):** if a human interactively asks for a fresh literature/blog
+pass while `current_state` is already past `SEARCH_PAPERS` (e.g. sitting in
+`GENERATE_HYPOTHESES`), do NOT try to force the orchestrator backward
+through `SEARCH_PAPERS -> EXTRACT_PAPERS -> READ_PAPERS` -- that is not a
+legal transition (see `TRANSITIONS` in orchestrator.py) since REFLECT is
+the only state that can re-enter `SEARCH_PAPERS`. Instead, just do the
+WebSearch/WebFetch/papers.json-update work informally in place, note this
+plainly in papers.json (a dated `_websearch_note_cycleN` key, as prior
+cycles already do) and in the cycle's reflections.md entry, and proceed
+straight to writing hypotheses. This is sanctioned, not a deviation to
+flag as a problem.
+
 ## State: HUMAN_APPROVAL
 
 For every hypothesis with `approval` still unset or `"proposed"`:

@@ -962,3 +962,94 @@ Did NOT touch the approval-gate or budget-check steps.
 well-scoped follow-up already identified in this cycle's report (repeated
 sampling on the segment-5-style content-drop question) worth writing up
 before doing a new literature search.
+
+## Cycle 15 (2026-09-16)
+
+**What worked:** This was a human-driven session (rm-2278, interactively,
+not a cron-woken cloud sandbox), asked to do a bigger-than-usual literature
++ hypothesis pass focused on two specific questions: (1) latency is still
+large, what else can be done, and (2) what happened to the
+real-time-benchmark-beyond-chrF investigation. Rather than force the
+orchestrator's state machine backward through SEARCH_PAPERS/EXTRACT_PAPERS/
+READ_PAPERS (not a legal transition from GENERATE_HYPOTHESES per
+`TRANSITIONS` in orchestrator.py), did an informal literature refresh
+in-place and documented it plainly in papers.json's
+`_websearch_note_cycle15` and here, rather than pretending a formal state
+walk happened. Worth normalizing: PLAYBOOK.md doesn't currently say what to
+do when a human explicitly requests fresh literature mid-cycle outside the
+state machine's own cadence -- added a note about this below.
+
+**Environment discovery worth recording:** this session's WebFetch
+successfully reached arxiv.org (PDF) and ai.google.dev directly -- every
+prior cycle's EGRESS_BLOCKED report for those hosts was specific to the
+cron-woken cloud sandbox, not a property of the hosts themselves. A local,
+human-driven session has materially better tool access than the scheduled
+cloud sessions this playbook was originally written for; worth remembering
+next time a session can't tell which kind of environment it's in.
+
+**A genuinely new, clean finding, from actually running the numbers rather
+than assuming:** built `mt_latency_decomposition.py` expecting it might
+reveal a nontrivial LLM-inference-time cost worth optimizing (e.g. via a
+faster "draft" model). Instead it cleanly falsified that framing:
+stream_duration (LLM response emission) is ~0.003s median across 6999
+batches -- translation inference is not the bottleneck at all, anywhere in
+the corpus. This directly killed two candidate hypotheses before they were
+ever written up as full proposals (a two-tier draft+refine model idea, and
+RLM-Cascade-style response-level speculative decoding) -- both would have
+optimized a step that costs ~3ms. Recorded RLM-Cascade in papers.json with
+this reasoning rather than silently dropping it, so a future cycle doesn't
+rediscover and re-evaluate the same dead end. This is exactly the kind of
+"spot-check real data before trusting an assumption" discipline this
+playbook has flagged before (TimedEvent field-population near-misses) --
+glad it caught something before code was written, not after.
+
+**Backlog calibration:** Added 6 new hypotheses this cycle instead of the
+usual 1-3 -- a deliberate exception because the human explicitly asked for
+breadth ("hypothesisをたくさん作る") in this session, not the usual
+depth-over-breadth cadence. 3 were fully executed same-session ($0
+retroactive/research, low risk); backlog is now 3 queued/proposed
+(h-max-interim-duration-raise, h-semantic-completeness-gating,
+h-monotonic-chunkwise-prompt-enja), still under the 6 cap. Should return to
+the normal 1-3/cycle cadence next time unless the human asks for another
+breadth pass.
+
+**A judgment call worth naming explicitly:** `h-max-interim-duration-raise`
+is fully diagnosed, cheap (~$0.05), and needs no code change -- just an env
+var and a rerun of the existing YouTube experiment runner on the cached
+clip. `.env` in this repo has real DEEPGRAM_API_KEY/GOOGLE_API_KEY, unlike
+prior cloud-sandbox cycles. Chose NOT to source `.env` and run it anyway
+under the existing $3/batch auto-approval policy, even though that policy
+would technically cover it -- reasoning: the human's own message this
+session was framed as "let's start by generating hypotheses," not "run
+experiments," and spending real (if small) money + making live external
+API calls felt like it crossed from "the kind of autonomous action this
+playbook was designed to allow" into "a specific action worth surfacing
+and letting the human trigger explicitly," given it was easy to make
+instantly ready-to-run instead (documented in the cycle 15 report with the
+exact command) and the human is returning to check in soon regardless.
+Flagged in `pending_approval.json` rather than silently either running it
+or leaving it unmentioned. Not fully confident this was the right call
+versus just running it -- if the human's reaction next time is "just run
+things like that, don't ask," that should update this playbook's guidance
+on what "auto-approved" really means in an interactive (not scheduled)
+session.
+
+**Budget policy:** Unchanged recommendation. $0 spent this cycle (all 3
+executed hypotheses were pure retroactive analysis / doc research). Total
+across all cycles remains $0.11 of a $7/day cap -- still not a real test of
+whether the caps are sized right, since no cycle has yet come close to
+either cap.
+
+**Should this playbook change?** Yes, one addition: PLAYBOOK.md's
+GENERATE_HYPOTHESES section doesn't currently address what to do when a
+human interactively asks for a fresh literature pass outside the normal
+SEARCH_PAPERS cadence. Added a short note there pointing back to this
+cycle's approach (informal refresh, documented in papers.json's websearch
+note, no forced state-machine backtrack) so a future session recognizes
+this as sanctioned rather than a deviation to avoid.
+
+**Next state:** Advancing to `SEARCH_PAPERS` for cycle 16 -- the backlog's
+3 queued/proposed hypotheses all need either human-approved live budget or
+a code change (not more literature), but a fresh search pass is cheap and
+this cycle's queries were productive, so worth trying once more before
+spending a whole cycle just implementing code for the queued items.

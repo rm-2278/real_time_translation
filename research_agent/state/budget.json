@@ -54,6 +54,21 @@
       "at": "2026-09-16T00:20:13.403059+00:00",
       "amount_usd": 0.01,
       "note": "h-compression-actions-prompt-instruction: replay of 23 existing ASR segments x 2 conditions (46 gemini-3-flash-preview translate calls) + 2 gemini-3.1-flash-lite fidelity-judge calls, zero new Deepgram spend (no live ASR needed, reused already-recorded segments since Deepgram listen-websocket confirmed blocked this session)"
+    },
+    {
+      "at": "2026-09-16T03:23:04.485132+00:00",
+      "amount_usd": 0.0,
+      "note": "h-mt-queue-wait-decomposition: implemented mt_latency_decomposition.py, ran over 88 existing experiment JSON files, zero new API spend"
+    },
+    {
+      "at": "2026-09-16T03:23:04.511176+00:00",
+      "amount_usd": 0.0,
+      "note": "h-quality-latency-joint-table: implemented quality_latency_joint.py, joined 4 existing sidecar CSVs, zero new API spend"
+    },
+    {
+      "at": "2026-09-16T03:23:04.535472+00:00",
+      "amount_usd": 0.0,
+      "note": "h-gemini-live-translate-feasibility: WebFetch feasibility check on ai.google.dev only, zero new Deepgram/LLM API spend"
     }
   ]
 }

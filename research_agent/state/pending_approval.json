@@ -1,0 +1,20 @@
+[
+  {
+    "hypothesis_id": "h-max-interim-duration-raise",
+    "reason": "Live Deepgram+Gemini experiment needed (DEEPGRAM_MAX_INTERIM_DURATION env var only, no code change) on the already-cached wjZofJX0v4M clip. Keys are present in .env but were not exported/spent this session without explicit human go-ahead. This is the single most evidence-backed, ready-to-run latency fix from all research to date (see h-asr-final-emission-latency, h-utterance-batch-timing) -- exact command is in the cycle 15 report.",
+    "estimated_cost_usd": 0.05,
+    "asked_at": "2026-09-16T00:00:00Z"
+  },
+  {
+    "hypothesis_id": "h-semantic-completeness-gating",
+    "reason": "Needs a production-path code change (new gating hook + cheap classifier call in deepgram_client.py/pipeline.py, gated behind a new Config flag) before it can be run. Well-grounded in 3 new 2026 papers found this cycle (fastturn2026, phoenix-vad2026, simulsense2026) plus this repo's own h-endpointing-pause-vs-sentence-boundary-audit finding (85-94% mid-sentence commit rate). Recommend implementing next session if approved.",
+    "estimated_cost_usd": 0.5,
+    "asked_at": "2026-09-16T00:00:00Z"
+  },
+  {
+    "hypothesis_id": "h-monotonic-chunkwise-prompt-enja",
+    "reason": "Needs a production-path prompt change (new translation-style variant in llm_translator.py, gated behind a new Config flag) before it can be run. Grounded in makinae2024-word-order-sync-metric's EN-JA-specific word-order-synchronization argument, found this cycle.",
+    "estimated_cost_usd": 0.3,
+    "asked_at": "2026-09-16T00:00:00Z"
+  }
+]
