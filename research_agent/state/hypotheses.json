@@ -434,6 +434,39 @@
       "status": "proposed",
       "experiment_ids": [],
       "result_summary": ""
+    },
+    {
+      "id": "h-asr-confidence-early-commit",
+      "title": "Gate early soft-finalize on Deepgram's own per-word confidence, not just the fixed timer",
+      "description": "h-max-interim-duration-raise (this session, live A/B) confirmed raising the fixed 2.5s soft-finalize timer to 6.0s cuts mid-utterance splits from 15/21 to 1/21 utterances and lowers max end-to-end latency ~29% -- but a fixed timer, longer or not, is still a blind proxy for 'has enough evidence arrived to commit'. x2streaming-asr2026 (found this session) frames streaming ASR as exactly this question (when to commit vs what to commit) and industry practice (found via a separate search) already gates partial-translation emission on ASR confidence exceeding ~0.7, retranslating only if the committed prefix later changes. This repo ALREADY logs a `confidence` field on every asr_interim event (deepgram_client.py's TranscriptionResult, confidence < 0.7 already flagged via the existing `is_low_confidence` property, currently only used to annotate displayed text with '[uncertain: ...]' in pipeline.py:393, not to gate commit timing) -- so this needs zero new API calls, just a new decision rule using data already flowing through the pipeline. Add an optional early-commit path: if a growing interim's confidence stays above a threshold (e.g. 0.85-0.9) for its own is_utterance_end-eligible span, allow a soft-finalize before the fixed max_interim_duration timer fires; if confidence drops, fall back to the existing timer/endpointing behavior unchanged.",
+      "grounded_in": [
+        "x2streaming-asr2026-wait-uncertain-emit-ready",
+        "causal-supervision2026-turn-aware-streaming-asr"
+      ],
+      "predicted_effect": "Should further reduce average commit latency beyond what h-max-interim-duration-raise alone achieves (committing confidently-correct speech sooner than a fixed 6s wait), without the cost or added round-trip of h-semantic-completeness-gating's extra LLM call, since it reuses data already collected. Risk: high ASR confidence does not equal semantically-complete (a confidently-transcribed word can still be mid-clause), so this may need to be combined with, not substituted for, a semantic check -- worth testing standalone first to isolate its own effect.",
+      "required_changes": "New confidence-based early-commit branch in deepgram_client.py's soft-finalize path (same area as h-localagreement-asr-commit's _maybe_commit_local_agreement precedent), reading the already-populated `confidence` field, gated behind a new Config flag (e.g. ASR_CONFIDENCE_EARLY_COMMIT_THRESHOLD, None = disabled). Per PLAYBOOK.md's GENERATE_HYPOTHESES note, verify exactly which event kind(s) carry a populated `confidence` at the point this hook would read it (asr_interim per the grep in this entry's grounding, not assumed for other kinds) before implementing.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.3,
+      "approval": "needs_human",
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": ""
+    },
+    {
+      "id": "h-openai-realtime-translate-feasibility",
+      "title": "Feasibility check: OpenAI's gpt-realtime-translate as a Deepgram+text-LLM cascade replacement",
+      "description": "Sibling check to h-gemini-live-translate-feasibility (tested last session, ruled out Gemini Live on a hard 'text output unavailable' blocker). OpenAI's gpt-realtime-translate (released 2026-05-07, found this session) is a comparable single-session audio-to-audio translation product, but its docs describe target-language transcript deltas streaming WHILE audio is still arriving (not gated behind a mandatory audio generation the way Gemini Live's docs state) -- worth its own $0 feasibility check rather than assuming the same blocker applies, especially since Japanese is confirmed in its 13-language target list (a harder requirement Gemini Live never got to, having failed on text output alone) and an independent benchmark reported a roughly constant ~3s lag (es->en/pt->en, not en->ja, so not directly comparable to this repo's own numbers without a real test).",
+      "grounded_in": [
+        "gpt-realtime-translate-2026-openai-docs"
+      ],
+      "predicted_effect": "Expected to find the same class of integration barrier as Gemini Live and Deepgram Flux (bigger architecture change than a per-cycle hypothesis can gate) even if the text-output question resolves favorably, since audio-only input still means replacing Deepgram entirely, not just the MT stage.",
+      "required_changes": "None yet -- pure research/documentation. If the text-output question resolves favorably: a new experiment-only pipeline variant piping raw audio directly to the Realtime API session instead of Deepgram, using the transcript-delta stream as the caption source.",
+      "uses_existing_clips": false,
+      "estimated_cost_usd": 0.0,
+      "approval": "auto_approved",
+      "status": "tested",
+      "experiment_ids": [],
+      "result_summary": "$0 feasibility check via WebSearch (developers.openai.com's realtime-translation guide page returned only partial content on direct WebFetch -- a JS-rendered docs page, not an egress block -- so this relied on search snippets and the OpenAI community forum, not primary-source page content, unlike last session's ai.google.dev check which fetched cleanly). CONCLUSION: more promising than Gemini Live on paper, but the key question (can audio generation be disabled) did NOT resolve cleanly, so treat this as inconclusive rather than a clear pass. Findings: (1) Japanese IS in the 13-language target list, clearing a bar Gemini Live never reached; (2) target-language transcript deltas stream WHILE audio is still arriving, suggesting text is closer to a first-class output than Gemini Live's phrasing implied; (3) BUT a separate search on disabling audio output found that OpenAI's general modalities:['text'] trick (which does disable audio for the plain gpt-realtime model) is documented specifically alongside a note that gpt-realtime-translate 'behaves as a dedicated interpreter' with audio input producing audio-plus-transcripts output, without confirming whether the text-only override still applies to this specialized translate mode -- genuinely unresolved from documentation alone, would need a direct API test to settle. RECOMMENDATION: same as h-gemini-live-translate-feasibility and h-deepgram-flux-eot-availability-check -- flag to the human as a deliberate architecture-exploration project (a real API trial, not more literature search, is the only way to resolve the remaining open question), not a per-cycle hypothesis. If pursued, this is a better first candidate than Gemini Live given it clears the Japanese-language bar and appears to treat text as more central to the product design."
     }
   ]
 }

@@ -74,6 +74,11 @@
       "at": "2026-09-16T03:50:33.727686+00:00",
       "amount_usd": 0.03,
       "note": "h-max-interim-duration-raise: 2 live video_segment.py runs (90s audio each, real Deepgram nova-3-general + Gemini gemini-3-flash-preview) authorized by rm-2278 this session -- v1 discarded due to a reading_speed_chars_per_sec confound, v2 used for the clean A/B result"
+    },
+    {
+      "at": "2026-09-16T04:56:21.356704+00:00",
+      "amount_usd": 0.0,
+      "note": "h-openai-realtime-translate-feasibility: WebSearch feasibility check only, zero new Deepgram/LLM API spend"
     }
   ]
 }

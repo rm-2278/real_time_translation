@@ -641,6 +641,64 @@
       "relevant_to": [
         "h-gemini-live-translate-feasibility"
       ]
+    },
+    {
+      "id": "gpt-realtime-translate-2026-openai-docs",
+      "title": "GPT-Realtime-Translate (OpenAI Realtime API)",
+      "authors": "OpenAI",
+      "year": 2026,
+      "venue": "developers.openai.com (official product documentation, released 2026-05-07)",
+      "url": "https://developers.openai.com/api/docs/guides/realtime-translation",
+      "source": "websearch",
+      "status": "read",
+      "summary": "OpenAI's dedicated streaming speech-to-speech translation model over a Realtime API session: audio in (70+ source languages), audio + target-language transcript deltas out (13 target languages including Japanese), $0.034/min input audio. Independent benchmark testing found it held a roughly constant ~3s lag on es->en/pt->en.",
+      "key_findings": [
+        "Unlike gemini-3.5-live-translate-preview (this repo's other Live-API candidate, found last session, hard-blocked by 'text-only output unavailable'), gpt-realtime-translate's transcript deltas stream WHILE audio is still arriving, alongside (not gated behind) the audio -- suggesting text output is a first-class part of the design here, not just an optional side channel. Not yet confirmed whether a text-only (no audio generation) mode exists; flagged as the open question for h-openai-realtime-translate-feasibility to resolve before any implementation.",
+        "Japanese IS in the 13-language target list (confirmed via a second, targeted search after the first found only an example using Spanish) -- a hard requirement this repo's Gemini Live check failed to even need, since that model was already ruled out on the text-output blocker alone.",
+        "Reported ~3s lag (independent benchmark, not OpenAI's own claim) would need to beat this repo's current ~6.2s avg end-to-end latency (post h-max-interim-duration-raise) to be worth the architecture change -- plausible on the surface, but measured on different language pairs (es/pt->en, not en->ja) and an unknown audio/text complexity, so not directly comparable without a real side-by-side test.",
+        "Like the Gemini Live finding, this would still mean replacing Deepgram ASR entirely (audio-only input), not just the translation stage -- a bigger architecture change than a per-cycle hypothesis can safely gate, per this repo's existing precedent for Deepgram Flux and Gemini Live."
+      ],
+      "relevant_to": [
+        "h-openai-realtime-translate-feasibility"
+      ]
+    },
+    {
+      "id": "x2streaming-asr2026-wait-uncertain-emit-ready",
+      "title": "X2Streaming-ASR: Wait When Uncertain, Emit When Ready for Streaming ASR",
+      "authors": "Lin, Fu, Wen, Liu, Qin, Gan, Wang, Wang",
+      "year": 2026,
+      "venue": "arXiv:2609.08672",
+      "url": "https://arxiv.org/abs/2609.08672",
+      "source": "websearch",
+      "status": "read",
+      "summary": "Streaming ASR framework that separates 'when to commit' from 'what to commit', training a policy (via probed trajectories + character-level group-relative RL reward) to decide per-position how much additional acoustic context to wait for, instead of a fixed chunk/delay/boundary heuristic.",
+      "key_findings": [
+        "Another trained-model approach (RL-tuned commit policy) not directly portable to this repo's API-only, no-local-training setup -- same limitation as fastturn2026/phoenix-vad2026/simulsense2026 found last session.",
+        "Corroborates, from the ASR side specifically (not the MT/semantic side those three papers addressed), that fixed timers/chunk sizes are a known-suboptimal proxy for the real question (has enough evidence arrived to commit reliably) -- directly relevant to this repo's own already-confirmed finding that a fixed deepgram_max_interim_duration timer, not real silence, drives most commits (h-asr-final-emission-latency, and this session's h-max-interim-duration-raise live A/B).",
+        "Practically actionable zero-shot approximation found via a separate search this session: industry practice already gates partial-translation emission on Deepgram's own per-word confidence score (e.g. commit once confidence > 0.7, retranslate only if the committed prefix later changes) -- this repo already logs a `confidence` field on every asr_interim event at zero marginal cost (no new API call, unlike the semantic-completeness-gating idea), making this the cheapest of the three 2026 'smarter commit trigger' ideas found across this cycle to actually implement -- see h-asr-confidence-early-commit."
+      ],
+      "relevant_to": [
+        "h-asr-confidence-early-commit"
+      ]
+    },
+    {
+      "id": "sasst2026-syntax-aware-chunking",
+      "title": "SASST: Leveraging Syntax-Aware Chunking and LLMs for Simultaneous Speech Translation",
+      "authors": "et al.",
+      "year": 2026,
+      "venue": "arXiv:2508.07781",
+      "url": "https://arxiv.org/abs/2508.07781",
+      "source": "websearch",
+      "status": "read",
+      "summary": "Constructs syntax-aware, chunk-aligned supervision so a model learns to predict <wait> tokens at semantically-incomplete boundaries rather than committing at arbitrary fixed-size chunks, targeting a better latency/quality trade-off for LLM-based SimulST.",
+      "key_findings": [
+        "A third independent 2026 line of work (with makinae2024's word-order-sync argument and this session's causal-supervision2026 finding) converging on the same theme from yet another angle: chunk/commit boundaries should respect linguistic structure, not just timing.",
+        "Requires supervised training data construction and model fine-tuning -- not directly portable, but reinforces that both h-monotonic-chunkwise-prompt-enja (word-order side) and h-semantic-completeness-gating / h-asr-confidence-early-commit (commit-timing side) are well-grounded, convergent directions rather than one paper's idiosyncratic claim."
+      ],
+      "relevant_to": [
+        "h-monotonic-chunkwise-prompt-enja",
+        "h-semantic-completeness-gating"
+      ]
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
@@ -652,5 +710,6 @@
   "_websearch_note_cycle14": "WebSearch pass on 2026-09-15 (cycle 14, SEARCH_PAPERS state) with 2 queries: (1) 'adaptive word-count threshold update policy simultaneous machine translation 2026 arxiv' -- following up on the still-open minimum-new-words-threshold refinement flagged for h-localagreement-asr-commit in cycle 13; did not surface a directly matching paper, but turned up incremental2026-human-like-strategies (arXiv:2601.11002), which proposes non-literal adaptive actions (Sentence_Cut, Drop, Partial_Summarization, Pronominalization) for real-time restructuring under latency pressure -- potentially relevant precedent for this repo's own reading-speed-budget-aware translation work (already implemented) rather than for the LocalAgreement threshold question specifically; (2) 'stability-latency tradeoff re-translation debounce interval LLM streaming translation IWSLT 2026' -- targeting the playbook's explicit 'new cascade-vs-end-to-end comparisons' search gap; mostly re-surfaced alignatt4llm-iwslt2026 and mllp-vrain-iwslt2026-simulst (already in corpus), but found two new candidates: causal-alignment2026-streaming-transcription (arXiv:2603.11578, causal speech-to-text alignment for streaming translation/transcription -- possible relevance to this repo's endpointing/ASR-latency hypotheses) and speechllm2026-streaming-s2tt (arXiv:2605.14766, direct end-to-end SpeechLLM streaming S2TT -- an end-to-end comparison point against this repo's cascade ASR->LLM-translation architecture, the specific gap the survey flagged). All 3 added as 'found' stubs (title/url/venue/year only per playbook's SEARCH_PAPERS scope) -- EXTRACT_PAPERS still owes each a from-scratch abstract pull; WebFetch to arxiv.org is expected to be EGRESS_BLOCKED in this sandbox per the cycle-2 note, so WebSearch-snippet fallback should be tried first this time to save a round-trip. None of the 3 are duplicates of anything already in this corpus (checked by id and arXiv number against the existing papers list).",
   "_extraction_note_cycle8": "cycle 8 (2026-09-16): WebFetch to arxiv.org/aclanthology.org/awesomepapers.io/pith.science/semanticscholar.org was EGRESS_BLOCKED in this sandbox (distinct from prior cycles where WebFetch worked -- see RUN_EXPERIMENTS notes about proxy allow/block being host-specific and session-specific). WebSearch itself still worked and returned usable abstract-level summaries for all 3 found papers, so extraction proceeded via WebSearch snippets instead of WebFetch. Flagging in reflections.md as a possible playbook update: EXTRACT_PAPERS should note WebSearch as a fallback path when WebFetch is blocked, not just for SEARCH_PAPERS.",
   "_read_cross_reference_note_cycle14": "cycle 14 (2026-09-16): cross-checked against experiments/results.csv and experiments/*.json (86 files). All three papers here describe end-to-end trained-model architectures (new WAIT-token decoding, jointly-trained emit-timing, action-augmented decoder-only LLM finetuning) that are NOT directly portable to this repo's architecture (fixed Deepgram ASR + prompted, non-finetuned Gemini/GPT translation call). None of the three propose a change testable by reconfiguring existing runner flags the way chunk-length/endpointing/keyterm sweeps were. The one concretely actionable idea is the incremental2026 paper's action space (SENTENCE_CUT/DROP/PARTIAL_SUMMARIZATION/PRONOMINALIZATION) reframed as *prompt instructions* rather than trained actions -- i.e. adding an instruction to llm_translator.py's SYSTEM_PROMPT_TEMPLATE telling the existing LLM to compress/drop/restructure long or disfluent ASR segments instead of translating them verbatim. This has NOT been tested in any prior experiment (all 86 experiment files vary ASR/endpointing/masking/model/prompt-anchoring, never output-compression instructions) and needs no new clip -- flagging as GENERATE_HYPOTHESES candidate next.",
-  "_websearch_note_cycle15": "2026-09-16, human-requested mid-GENERATE_HYPOTHESES literature refresh (not a formal SEARCH_PAPERS/EXTRACT_PAPERS state transition -- this session is a live local session, not a cron-woken cloud sandbox, and the human explicitly asked for a fresh papers/blogs pass focused on (a) latency-reduction techniques compatible with an API-only, no-local-LLM-weights architecture, and (b) real-time-specific benchmarks beyond chrF. Ran 6 WebSearch queries + 3 WebFetch calls (ai.google.dev succeeded; arxiv.org PDF fetch for RLM-Cascade succeeded this session too, unlike prior cycles' cloud-sandbox EGRESS_BLOCKED reports for arxiv.org -- this repo's own local network is unrestricted, the WebFetch block noted in prior cycles' reflections.md was specific to the cloud research-agent sandbox, not a property of these hosts in general.) Added 6 new paper entries (fastturn2026, phoenix-vad2026, simulsense2026, rlm-cascade2026, makinae2024-word-order-sync-metric, gemini-live-api-2026-translate-doc)."
+  "_websearch_note_cycle15": "2026-09-16, human-requested mid-GENERATE_HYPOTHESES literature refresh (not a formal SEARCH_PAPERS/EXTRACT_PAPERS state transition -- this session is a live local session, not a cron-woken cloud sandbox, and the human explicitly asked for a fresh papers/blogs pass focused on (a) latency-reduction techniques compatible with an API-only, no-local-LLM-weights architecture, and (b) real-time-specific benchmarks beyond chrF. Ran 6 WebSearch queries + 3 WebFetch calls (ai.google.dev succeeded; arxiv.org PDF fetch for RLM-Cascade succeeded this session too, unlike prior cycles' cloud-sandbox EGRESS_BLOCKED reports for arxiv.org -- this repo's own local network is unrestricted, the WebFetch block noted in prior cycles' reflections.md was specific to the cloud research-agent sandbox, not a property of these hosts in general.) Added 6 new paper entries (fastturn2026, phoenix-vad2026, simulsense2026, rlm-cascade2026, makinae2024-word-order-sync-metric, gemini-live-api-2026-translate-doc).",
+  "_websearch_note_cycle16": "2026-09-16 (same day, continuation), human asked to deepen research further and increase the hypothesis count. Ran 6 more WebSearch queries (2 failed transiently -- one to a local machine sleep event mid-call, one to a temporary safety-classifier timeout -- both retried successfully) plus 1 WebFetch (developers.openai.com's realtime-translation guide page, which returned only partial content -- a JS-rendered docs page, not a block -- so the language list was confirmed via a second targeted WebSearch instead). Added 3 more papers (gpt-realtime-translate, X2Streaming-ASR, SASST) and 2 more hypotheses (h-asr-confidence-early-commit, h-openai-realtime-translate-feasibility)."
 }

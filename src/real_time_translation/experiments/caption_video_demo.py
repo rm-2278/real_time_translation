@@ -150,6 +150,7 @@ def render(
     name: str,
     output_dir: Path,
     style: str = "outline",
+    background: str = "color",
 ) -> tuple[Path, Path]:
     data = _load_experiment(experiment_path)
     events = data["results"]["events"]
@@ -210,20 +211,47 @@ def render(
             _render_cue_png(cue, png_path, shrink_to_fit=shrink_to_fit, style=style)
             png_paths.append(png_path)
 
-        cmd = [
-            "ffmpeg",
-            "-y",
-            "-f",
-            "lavfi",
-            "-i",
-            f"color=c=0x14201d:s={CANVAS_W}x{CANVAS_H}:d={audio_duration}",
-        ]
+        if background == "video":
+            cmd = [
+                "ffmpeg",
+                "-y",
+                "-ss",
+                str(start_seconds),
+                "-t",
+                str(duration_seconds),
+                "-i",
+                str(source_path),
+            ]
+        else:
+            cmd = [
+                "ffmpeg",
+                "-y",
+                "-f",
+                "lavfi",
+                "-i",
+                f"color=c=0x14201d:s={CANVAS_W}x{CANVAS_H}:d={audio_duration}",
+            ]
         for p in png_paths:
             cmd += ["-i", str(p)]
         cmd += ["-i", str(audio_path)]
 
         filter_parts = []
-        last_label = "0:v"
+        if background == "video":
+            # Real footage rarely matches CANVAS_W x CANVAS_H exactly --
+            # fit it letterboxed, then freeze the last frame for however
+            # long the caption tail (video_length) runs past the source
+            # clip's own duration_seconds (see the video_length comment
+            # above: a translation can legitimately arrive after the
+            # clip's speech audio ends).
+            pad_tail = max(0.0, video_length - duration_seconds)
+            filter_parts.append(
+                f"[0:v]scale={CANVAS_W}:{CANVAS_H}:force_original_aspect_ratio=decrease,"
+                f"pad={CANVAS_W}:{CANVAS_H}:(ow-iw)/2:(oh-ih)/2:color=0x14201d,"
+                f"tpad=stop_mode=clone:stop_duration={pad_tail:.3f}[base]"
+            )
+            last_label = "base"
+        else:
+            last_label = "0:v"
         for i, cue in enumerate(cues):
             in_idx = i + 1
             out_label = f"v{i}"
@@ -273,10 +301,23 @@ def main(argv: list[str] | None = None) -> None:
     # outline (YouTube-caption look) beat the boxed plate in user review
     # 2026-09-15 -- kept as the default; boxed is still available via --style.
     parser.add_argument("--style", choices=["boxed", "outline"], default="outline")
+    parser.add_argument(
+        "--background",
+        choices=["color", "video"],
+        default="color",
+        help="'video' letterboxes the real source clip instead of a solid "
+        "color canvas (frozen on the last frame for any caption tail that "
+        "runs past the clip's own duration).",
+    )
     args = parser.parse_args(argv)
 
     video_path, srt_path = render(
-        args.experiment, args.mode, args.name, args.output_dir, style=args.style
+        args.experiment,
+        args.mode,
+        args.name,
+        args.output_dir,
+        style=args.style,
+        background=args.background,
     )
     print(f"Wrote: {video_path}")
     print(f"Wrote: {srt_path}")
