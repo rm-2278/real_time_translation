@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 8,
-  "last_updated": "2026-09-16T00:13:25.865945+00:00",
+  "last_updated": "2026-09-16T00:21:14.518484+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -635,6 +635,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-09-16T00:13:25.865917+00:00",
       "note": "check-budget(0.05 usd) -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued for h-compression-actions-prompt-instruction."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-16T00:20:36.500909+00:00",
+      "note": "compression_actions_replay.py produced paired baseline/treatment translations of the same 23 segments; both fidelity-judged. Config-diff + result_summary next."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-16T00:21:14.518455+00:00",
+      "note": "Config-diff clean (only extra_system_instructions differs). Result: mixed/not a clear win -- retention score higher for treatment (85 vs 75, n=1 noisy) but only 2.4% length reduction and one concrete content-drop (segment 5, truncated mid-clause) despite explicit anti-drop guardrail. hypothesis.status=tested."
     }
   ]
 }
