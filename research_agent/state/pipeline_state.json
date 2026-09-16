@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 8,
-  "last_updated": "2026-09-16T00:13:11.286283+00:00",
+  "last_updated": "2026-09-16T00:13:25.865945+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -629,6 +629,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-16T00:13:11.286254+00:00",
       "note": "Generated 1 new hypothesis (h-compression-actions-prompt-instruction, grounded in incremental2026-human-like-strategies) -- depth over breadth per playbook, since the other 2 papers read this cycle (Hikari, SpeechLLM) require model retraining infra not available here and yield no independently testable prompt/config-only change."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-16T00:13:25.865917+00:00",
+      "note": "check-budget(0.05 usd) -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued for h-compression-actions-prompt-instruction."
     }
   ]
 }

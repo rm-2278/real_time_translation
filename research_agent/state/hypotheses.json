@@ -279,8 +279,8 @@
       "required_changes": "Add a new OPTIONAL constructor parameter to LLMTranslator (e.g. `extra_system_instructions: str | None = None`) that, when set, is appended as an additional numbered rule to the formatted SYSTEM_PROMPT_TEMPLATE; default None leaves production behavior byte-for-byte unchanged (verified: all 8 existing rules untouched, this is purely additive and opt-in). Add a matching `--extra-system-instructions <path-or-inline-text>` (or similar) CLI flag to the youtube_segment.py experiment runner ONLY -- not to any live/production pipeline entry point (video_segment.py stays untouched) -- so this is testable without touching the pipeline production paths that lack an experiment-only flag. Draft the actual compression-instruction text as a short, conservative addition (explicitly bounded: only apply to long/redundant segments, never drop technical terms/numbers/meaning, mirroring rule 8's own \"never drop substantive content\" guardrail) rather than a verbatim copy of the paper's action names, since this repo has no trained action-selection head to decide *when* to apply each action -- the LLM has to infer that from the instruction text alone each call.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
