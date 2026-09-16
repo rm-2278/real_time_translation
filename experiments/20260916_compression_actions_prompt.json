@@ -1,0 +1,490 @@
+{
+  "date": "2026-09-16",
+  "experiment_name": "compression_actions_prompt_replay",
+  "domain": null,
+  "input": {
+    "type": "replay",
+    "source_experiment": "experiments/20260915_budget_translation_baseline.json",
+    "note": "Not a live pipeline run -- Deepgram listen-websocket confirmed blocked this session (see PLAYBOOK.md RUN_EXPERIMENTS notes). Replays the same already-recorded ASR segments through LLMTranslator directly, sequentially/single-threaded, extra_system_instructions is the only variable between the two conditions."
+  },
+  "models": {
+    "deepgram_model": "nova-3-general",
+    "deepgram_language": "en",
+    "llm_provider": "gemini",
+    "llm_model": "gemini-3-flash-preview",
+    "gemini_thinking_budget": 0
+  },
+  "config": {
+    "source_language": "en",
+    "target_language": "ja",
+    "context_window_size": 3,
+    "gemini_rpm_limit": 60,
+    "masking_holdback_words": 0,
+    "anchor_continuation_translation": false,
+    "localagreement_commit_enabled": false,
+    "reading_speed_budget_translation": false,
+    "reading_speed_chars_per_sec": 6.0,
+    "domain_packs": [],
+    "dictionary_size": 46,
+    "extra_system_instructions": {
+      "baseline_replay": null,
+      "compression_actions": "see COMPRESSION_INSTRUCTIONS in compression_actions_replay.py"
+    }
+  },
+  "results": {
+    "baseline_replay": {
+      "full_translation": "もしご自身でスタートアップを立ち上げたいのであれば、ぜひ知っておいていただきたいのがどのようにトレーニングし、デプロイするかをそれでは、まず最初に紹介させてくださいTransformerについて、すでに学習済みかと思いますので、まずはこちらから紹介させてください。コースを受講されているので、すでに何であるかはご存知かと思いますが、コースですので、皆さんはすでに何が何であるかをご存知かと思いますが、Transformerの基本的な考え方がどのようなものか、復習として再確認すると、Transformerでは、単に、その、通常、小さな3つのそれに基づいて、提供されるのはシーケンスを与え、トークナイザーがそのシーケンスを分割し、サブワード単位で、そして我々は持っていますこれらを変換するためのembedding tableがあり、音の埋め込みへと変換し、その埋め込みの後に、例えば、これについては、日本食のようなもので、私たちが、～したいと言うとき、つまり、依存関係をモデル化し、つまり、はい、多くのことに基づいて分かっていることですが、そして、レイヤーにおいて、我々は、静的なメモリ、つまりそれは、FFN layer。通常、FFN layerでは、FFNレイヤー。通常、FFNレイヤーでは、",
+      "segments": [
+        {
+          "index": 0,
+          "asr_start_time": 4.25,
+          "source_text": "you want to have a start up by yourself, I hope you could know",
+          "translation": "もしご自身でスタートアップを立ち上げたいのであれば、ぜひ知っておいていただきたいのが",
+          "ttft_seconds": 1.4914014339447021,
+          "total_seconds": 1.5297222137451172,
+          "error": null
+        },
+        {
+          "index": 1,
+          "asr_start_time": 9.16,
+          "source_text": "how to train and deploy",
+          "translation": "どのようにトレーニングし、デプロイするかを",
+          "ttft_seconds": 0.8189733028411865,
+          "total_seconds": 0.8906614780426025,
+          "error": null
+        },
+        {
+          "index": 2,
+          "asr_start_time": 17.85,
+          "source_text": "Okay. Here, let me first introduce",
+          "translation": "それでは、まず最初に紹介させてください",
+          "ttft_seconds": 0.634364128112793,
+          "total_seconds": 0.7138991355895996,
+          "error": null
+        },
+        {
+          "index": 3,
+          "asr_start_time": 22.82,
+          "source_text": "transformer because you already go through",
+          "translation": "Transformerについて、すでに学習済みかと思いますので、まずはこちらから紹介させてください。",
+          "ttft_seconds": 0.6234490871429443,
+          "total_seconds": 0.7987062931060791,
+          "error": null
+        },
+        {
+          "index": 4,
+          "asr_start_time": 27.61,
+          "source_text": "course. So I think you already know what's",
+          "translation": "コースを受講されているので、すでに何であるかはご存知かと思いますが、",
+          "ttft_seconds": 0.6201870441436768,
+          "total_seconds": 0.7390837669372559,
+          "error": null
+        },
+        {
+          "index": 5,
+          "asr_start_time": 27.61,
+          "source_text": "course. So I think you already know what's",
+          "translation": "コースですので、皆さんはすでに何が何であるかをご存知かと思いますが、",
+          "ttft_seconds": 0.7877223491668701,
+          "total_seconds": 0.9321935176849365,
+          "error": null
+        },
+        {
+          "index": 6,
+          "asr_start_time": 30.99,
+          "source_text": "what's the basic idea of transformer adjust as we visit",
+          "translation": "Transformerの基本的な考え方がどのようなものか、復習として再確認すると、",
+          "ttft_seconds": 0.783782958984375,
+          "total_seconds": 0.893043041229248,
+          "error": null
+        },
+        {
+          "index": 7,
+          "asr_start_time": 35.12,
+          "source_text": "In transformer, we just, like,",
+          "translation": "Transformerでは、単に、その、",
+          "ttft_seconds": 0.6658916473388672,
+          "total_seconds": 0.7685186862945557,
+          "error": null
+        },
+        {
+          "index": 8,
+          "asr_start_time": 37.93,
+          "source_text": "have normally, we just have a small three",
+          "translation": "通常、小さな3つの",
+          "ttft_seconds": 0.6533207893371582,
+          "total_seconds": 0.6698007583618164,
+          "error": null
+        },
+        {
+          "index": 9,
+          "asr_start_time": 41.85,
+          "source_text": "based on the we will give you",
+          "translation": "それに基づいて、提供されるのは",
+          "ttft_seconds": 0.6527385711669922,
+          "total_seconds": 0.6974358558654785,
+          "error": null
+        },
+        {
+          "index": 10,
+          "asr_start_time": 45.29,
+          "source_text": "a sequence, and we will have a token errors, split the sequence",
+          "translation": "シーケンスを与え、トークナイザーがそのシーケンスを分割し、",
+          "ttft_seconds": 0.6438641548156738,
+          "total_seconds": 0.7831711769104004,
+          "error": null
+        },
+        {
+          "index": 11,
+          "asr_start_time": 49.57,
+          "source_text": "subaward by subaward, and we will have",
+          "translation": "サブワード単位で、そして我々は持っています",
+          "ttft_seconds": 0.6415486335754395,
+          "total_seconds": 0.7263402938842773,
+          "error": null
+        },
+        {
+          "index": 12,
+          "asr_start_time": 54.36,
+          "source_text": "embedding table to convert this",
+          "translation": "これらを変換するためのembedding tableがあり、",
+          "ttft_seconds": 0.7028203010559082,
+          "total_seconds": 0.759671688079834,
+          "error": null
+        },
+        {
+          "index": 13,
+          "asr_start_time": 58.07,
+          "source_text": "to sound embeddings. And after the embed",
+          "translation": "音の埋め込みへと変換し、その埋め込みの後に、",
+          "ttft_seconds": 0.7723941802978516,
+          "total_seconds": 0.8471870422363281,
+          "error": null
+        },
+        {
+          "index": 14,
+          "asr_start_time": 70.64,
+          "source_text": "Like, for this one, it's like a Japanese food.",
+          "translation": "例えば、これについては、日本食のようなもので、",
+          "ttft_seconds": 0.6898548603057861,
+          "total_seconds": 0.7464547157287598,
+          "error": null
+        },
+        {
+          "index": 15,
+          "asr_start_time": 74.95,
+          "source_text": "When we say when we want to",
+          "translation": "私たちが、～したいと言うとき、つまり、",
+          "ttft_seconds": 0.7439351081848145,
+          "total_seconds": 0.8003637790679932,
+          "error": null
+        },
+        {
+          "index": 16,
+          "asr_start_time": 79.86,
+          "source_text": "we will we will model the dependence, like,",
+          "translation": "依存関係をモデル化し、つまり、",
+          "ttft_seconds": 0.6380655765533447,
+          "total_seconds": 0.7017257213592529,
+          "error": null
+        },
+        {
+          "index": 17,
+          "asr_start_time": 84.41,
+          "source_text": "Okay. I know we know based on a lot of",
+          "translation": "はい、多くのことに基づいて分かっていることですが、",
+          "ttft_seconds": 0.5344512462615967,
+          "total_seconds": 0.6321990489959717,
+          "error": null
+        },
+        {
+          "index": 18,
+          "asr_start_time": 92.35,
+          "source_text": "And,",
+          "translation": "そして、",
+          "ttft_seconds": 0.6079130172729492,
+          "total_seconds": 0.619243860244751,
+          "error": null
+        },
+        {
+          "index": 19,
+          "asr_start_time": 96.57,
+          "source_text": "layer. Is like, we will we",
+          "translation": "レイヤーにおいて、我々は、",
+          "ttft_seconds": 0.6161651611328125,
+          "total_seconds": 0.6491522789001465,
+          "error": null
+        },
+        {
+          "index": 20,
+          "asr_start_time": 101.54,
+          "source_text": "static memory. It's like it will",
+          "translation": "静的なメモリ、つまりそれは、",
+          "ttft_seconds": 0.5919740200042725,
+          "total_seconds": 0.6394109725952148,
+          "error": null
+        },
+        {
+          "index": 21,
+          "asr_start_time": 109.53,
+          "source_text": "FFN layer. Normally, FFN layer, you go",
+          "translation": "FFN layer。通常、FFN layerでは、",
+          "ttft_seconds": 0.6313016414642334,
+          "total_seconds": 0.7045981884002686,
+          "error": null
+        },
+        {
+          "index": 22,
+          "asr_start_time": 109.53,
+          "source_text": "FFN layer. Normally, FFN layer, you go",
+          "translation": "FFNレイヤー。通常、FFNレイヤーでは、",
+          "ttft_seconds": 0.5630860328674316,
+          "total_seconds": 0.6021592617034912,
+          "error": null
+        }
+      ]
+    },
+    "compression_actions": {
+      "full_translation": "もしご自身でスタートアップを立ち上げたいとお考えなら、ぜひ知っておいていただきたいのですがどのようにトレーニングし、デプロイするかをわかりました。それでは、まず紹介させてくださいすでに学習済みかと思いますが、まずは Transformer について紹介させてください。コースを受講されているので、すでに何であるかはご存知かと思いますが、ので、皆さんはすでに何がTransformerの基本概念がどのようなものか、復習がてら見ていくとTransformerでは、単に、その、通常、小さな3つのそれに基づいて、提供するのはシーケンスを与え、トークンに分割して、そのシーケンスを切り分けていくことでサブワード単位で、そしてそこにはこれらを変換するためのembedding tableがあり、音の埋め込みへと変換し、その埋め込みの後に、例えば、これについては、日本食のようなものです。私たちが、～したいと言うとき、つまり依存関係をモデル化します、例えば、はい、多くの情報に基づいていることは承知していますが、そして、層において、依存関係をモデル化し、私たちは静的メモリのようなもので、それはFFNレイヤー。通常、FFNレイヤーでは、FFNレイヤー。通常、FFNレイヤーでは、",
+      "segments": [
+        {
+          "index": 0,
+          "asr_start_time": 4.25,
+          "source_text": "you want to have a start up by yourself, I hope you could know",
+          "translation": "もしご自身でスタートアップを立ち上げたいとお考えなら、ぜひ知っておいていただきたいのですが",
+          "ttft_seconds": 1.0009357929229736,
+          "total_seconds": 1.0853893756866455,
+          "error": null
+        },
+        {
+          "index": 1,
+          "asr_start_time": 9.16,
+          "source_text": "how to train and deploy",
+          "translation": "どのようにトレーニングし、デプロイするかを",
+          "ttft_seconds": 0.5720994472503662,
+          "total_seconds": 0.6133623123168945,
+          "error": null
+        },
+        {
+          "index": 2,
+          "asr_start_time": 17.85,
+          "source_text": "Okay. Here, let me first introduce",
+          "translation": "わかりました。それでは、まず紹介させてください",
+          "ttft_seconds": 0.7191028594970703,
+          "total_seconds": 0.7850868701934814,
+          "error": null
+        },
+        {
+          "index": 3,
+          "asr_start_time": 22.82,
+          "source_text": "transformer because you already go through",
+          "translation": "すでに学習済みかと思いますが、まずは Transformer について紹介させてください。",
+          "ttft_seconds": 0.786536693572998,
+          "total_seconds": 0.92630934715271,
+          "error": null
+        },
+        {
+          "index": 4,
+          "asr_start_time": 27.61,
+          "source_text": "course. So I think you already know what's",
+          "translation": "コースを受講されているので、すでに何であるかはご存知かと思いますが、",
+          "ttft_seconds": 0.7463095188140869,
+          "total_seconds": 0.8909666538238525,
+          "error": null
+        },
+        {
+          "index": 5,
+          "asr_start_time": 27.61,
+          "source_text": "course. So I think you already know what's",
+          "translation": "ので、皆さんはすでに何が",
+          "ttft_seconds": 0.7559852600097656,
+          "total_seconds": 0.8449304103851318,
+          "error": null
+        },
+        {
+          "index": 6,
+          "asr_start_time": 30.99,
+          "source_text": "what's the basic idea of transformer adjust as we visit",
+          "translation": "Transformerの基本概念がどのようなものか、復習がてら見ていくと",
+          "ttft_seconds": 0.7591238021850586,
+          "total_seconds": 0.8768746852874756,
+          "error": null
+        },
+        {
+          "index": 7,
+          "asr_start_time": 35.12,
+          "source_text": "In transformer, we just, like,",
+          "translation": "Transformerでは、単に、その、",
+          "ttft_seconds": 0.8396172523498535,
+          "total_seconds": 0.9228377342224121,
+          "error": null
+        },
+        {
+          "index": 8,
+          "asr_start_time": 37.93,
+          "source_text": "have normally, we just have a small three",
+          "translation": "通常、小さな3つの",
+          "ttft_seconds": 0.8197293281555176,
+          "total_seconds": 0.8356223106384277,
+          "error": null
+        },
+        {
+          "index": 9,
+          "asr_start_time": 41.85,
+          "source_text": "based on the we will give you",
+          "translation": "それに基づいて、提供するのは",
+          "ttft_seconds": 0.7585732936859131,
+          "total_seconds": 0.8304705619812012,
+          "error": null
+        },
+        {
+          "index": 10,
+          "asr_start_time": 45.29,
+          "source_text": "a sequence, and we will have a token errors, split the sequence",
+          "translation": "シーケンスを与え、トークンに分割して、そのシーケンスを切り分けていくことで",
+          "ttft_seconds": 0.7759153842926025,
+          "total_seconds": 0.9028325080871582,
+          "error": null
+        },
+        {
+          "index": 11,
+          "asr_start_time": 49.57,
+          "source_text": "subaward by subaward, and we will have",
+          "translation": "サブワード単位で、そしてそこには",
+          "ttft_seconds": 0.8603613376617432,
+          "total_seconds": 0.9058752059936523,
+          "error": null
+        },
+        {
+          "index": 12,
+          "asr_start_time": 54.36,
+          "source_text": "embedding table to convert this",
+          "translation": "これらを変換するためのembedding tableがあり、",
+          "ttft_seconds": 0.8123726844787598,
+          "total_seconds": 0.8686821460723877,
+          "error": null
+        },
+        {
+          "index": 13,
+          "asr_start_time": 58.07,
+          "source_text": "to sound embeddings. And after the embed",
+          "translation": "音の埋め込みへと変換し、その埋め込みの後に、",
+          "ttft_seconds": 0.732111930847168,
+          "total_seconds": 0.8072950839996338,
+          "error": null
+        },
+        {
+          "index": 14,
+          "asr_start_time": 70.64,
+          "source_text": "Like, for this one, it's like a Japanese food.",
+          "translation": "例えば、これについては、日本食のようなものです。",
+          "ttft_seconds": 0.7003283500671387,
+          "total_seconds": 0.771324872970581,
+          "error": null
+        },
+        {
+          "index": 15,
+          "asr_start_time": 74.95,
+          "source_text": "When we say when we want to",
+          "translation": "私たちが、～したいと言うとき、つまり",
+          "ttft_seconds": 0.6542260646820068,
+          "total_seconds": 0.7320873737335205,
+          "error": null
+        },
+        {
+          "index": 16,
+          "asr_start_time": 79.86,
+          "source_text": "we will we will model the dependence, like,",
+          "translation": "依存関係をモデル化します、例えば、",
+          "ttft_seconds": 0.7110950946807861,
+          "total_seconds": 0.8106400966644287,
+          "error": null
+        },
+        {
+          "index": 17,
+          "asr_start_time": 84.41,
+          "source_text": "Okay. I know we know based on a lot of",
+          "translation": "はい、多くの情報に基づいていることは承知していますが、",
+          "ttft_seconds": 0.7564215660095215,
+          "total_seconds": 0.8265566825866699,
+          "error": null
+        },
+        {
+          "index": 18,
+          "asr_start_time": 92.35,
+          "source_text": "And,",
+          "translation": "そして、",
+          "ttft_seconds": 0.8647425174713135,
+          "total_seconds": 0.880551815032959,
+          "error": null
+        },
+        {
+          "index": 19,
+          "asr_start_time": 96.57,
+          "source_text": "layer. Is like, we will we",
+          "translation": "層において、依存関係をモデル化し、私たちは",
+          "ttft_seconds": 0.9408845901489258,
+          "total_seconds": 0.9444701671600342,
+          "error": null
+        },
+        {
+          "index": 20,
+          "asr_start_time": 101.54,
+          "source_text": "static memory. It's like it will",
+          "translation": "静的メモリのようなもので、それは",
+          "ttft_seconds": 0.724773645401001,
+          "total_seconds": 0.7974686622619629,
+          "error": null
+        },
+        {
+          "index": 21,
+          "asr_start_time": 109.53,
+          "source_text": "FFN layer. Normally, FFN layer, you go",
+          "translation": "FFNレイヤー。通常、FFNレイヤーでは、",
+          "ttft_seconds": 0.7234134674072266,
+          "total_seconds": 0.7690322399139404,
+          "error": null
+        },
+        {
+          "index": 22,
+          "asr_start_time": 109.53,
+          "source_text": "FFN layer. Normally, FFN layer, you go",
+          "translation": "FFNレイヤー。通常、FFNレイヤーでは、",
+          "ttft_seconds": 0.5970768928527832,
+          "total_seconds": 0.6531164646148682,
+          "error": null
+        }
+      ]
+    }
+  },
+  "metrics": {
+    "baseline_replay": {
+      "segments": 23,
+      "errors": 0,
+      "output_chars": 546,
+      "avg_ttft_seconds": 0.7004002280857252,
+      "retention_score": 75,
+      "dropped_or_distorted": [
+        "token errors",
+        "sound embeddings",
+        "three based on the"
+      ],
+      "judge_notes": "The translation accurately captures the core technical concepts, but misinterpreted 'token errors' as a process and incorrectly translated 'sound embeddings' (likely a transcription error in the source) literally, while maintaining the overall logical flow."
+    },
+    "compression_actions": {
+      "segments": 23,
+      "errors": 0,
+      "output_chars": 533,
+      "avg_ttft_seconds": 0.7657276858454165,
+      "retention_score": 85,
+      "dropped_or_distorted": [
+        "sound embeddings",
+        "small three"
+      ],
+      "judge_notes": "The translation accurately captures the sequence of technical concepts (tokenization, subwords, embedding table, FFN layer), but 'sound embeddings' appears to be a hallucinated or mistranslated term for 'subword embeddings', and 'small three' remains ambiguous."
+    },
+    "output_char_reduction_pct": 2.380952380952381
+  },
+  "notes": "h-compression-actions-prompt-instruction. Grounded in incremental2026-human-like-strategies. Compares against reading_speed_budget_translation's already-measured fidelity cost (commit c4fd798: retention 85 baseline / 60 budget=6.0 / 75 budget=3.0 on a different clip/run -- not directly comparable numbers, different code path, cited for context only).",
+  "created_at_utc": "2026-09-16T00:19:24.423288+00:00"
+}

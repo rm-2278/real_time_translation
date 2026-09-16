@@ -280,9 +280,12 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
-      "result_summary": ""
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/20260916_compression_actions_prompt.json"
+      ],
+      "result_summary": "",
+      "blocked_reason": "Deepgram listen-websocket confirmed blocked again this cycle (same proxy WS-upgrade-mangling issue documented since cycle 5: cert-verified attempt fails with 'CA cert does not include key usage extension', and with verification disabled -- diagnostic only -- Deepgram/proxy responds HTTP 400 'Connection header did not include \\'upgrade\\''), so the required_changes as originally scoped (a live youtube_segment.py run with a new --extra-system-instructions flag) could not run this cycle. ffmpeg WAS successfully installed this cycle (apt-get update && install -y --no-install-recommends ffmpeg, no lingering mirror issues this time) and both Deepgram REST (200) and Gemini REST (200) were reachable -- only the Deepgram streaming/websocket path is blocked. Adapted required_changes to a Gemini-only replay (compression_actions_replay.py) reusing the already-recorded ASR segments from experiments/20260915_budget_translation_baseline.json (a closely related, freshly landed experiment: Config.reading_speed_budget_translation, commits 33faed4/c4fd798) instead of a fresh live run -- zero new Deepgram spend, small new Gemini spend ($0.01, logged)."
     }
   ]
 }

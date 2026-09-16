@@ -72,6 +72,7 @@ Maintain the original tone and style.
         domain_packs: list[str] | None = None,
         domain_packs_dir: Path | str = DEFAULT_DOMAIN_PACKS_DIR,
         openai_temperature: float | None = 0.3,
+        extra_system_instructions: str | None = None,
     ) -> None:
         """Initialize LLM translator.
 
@@ -108,6 +109,14 @@ Maintain the original tone and style.
                 reject a non-default value -- confirmed `gpt-5.6-luna`
                 400s on anything but the default (1); `gpt-5.4-mini`/
                 `gpt-5.4-nano` accept 0.3 fine. Ignored for `provider="gemini"`.
+            extra_system_instructions: Optional additional text appended to
+                the system prompt, after the numbered rule list. `None`
+                (default) leaves `SYSTEM_PROMPT_TEMPLATE`'s own rules
+                byte-for-byte unchanged -- production behavior is
+                unaffected unless a caller explicitly opts in.
+                research_agent h-compression-actions-prompt-instruction
+                uses this to test paper-inspired compression instructions
+                without touching the 8 existing rules.
         """
         self._provider = provider
         self._api_key = api_key
@@ -121,6 +130,7 @@ Maintain the original tone and style.
         self._domain_packs_dir = domain_packs_dir
         self._openai_temperature = openai_temperature
         self._openai_temperature_unsupported = False
+        self._extra_system_instructions = extra_system_instructions
 
         self._context_buffer: list[str] = []
         self._slide_window: list[str] = []
@@ -251,11 +261,14 @@ Maintain the original tone and style.
             formatted = self._dictionary.format_for_prompt()
             dictionary_section = f"\n\n<dictionary>\n{formatted}\n</dictionary>"
 
-        self._system_prompt_cache = self.SYSTEM_PROMPT_TEMPLATE.format(
+        prompt = self.SYSTEM_PROMPT_TEMPLATE.format(
             source_language=self._source_language,
             target_language=self._target_language,
             dictionary_section=dictionary_section,
         )
+        if self._extra_system_instructions:
+            prompt = f"{prompt}\n\n{self._extra_system_instructions}"
+        self._system_prompt_cache = prompt
         return self._system_prompt_cache
 
     def _build_user_prompt(
