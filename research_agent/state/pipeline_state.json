@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 8,
-  "last_updated": "2026-09-16T00:10:56.845238+00:00",
+  "last_updated": "2026-09-16T00:12:02.423877+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -617,6 +617,12 @@
       "to": "READ_PAPERS",
       "at": "2026-09-16T00:10:56.845191+00:00",
       "note": "Extracted abstracts for the 3 found papers (incremental2026-human-like-strategies, causal-alignment2026-streaming-transcription, speechllm2026-streaming-s2tt) via WebSearch after WebFetch to arxiv.org/aclanthology.org/etc was EGRESS_BLOCKED in this sandbox."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-16T00:12:02.423842+00:00",
+      "note": "Read 3 papers, wrote summary+key_findings. Cross-referenced against experiments/results.csv (86 files): all 3 describe end-to-end trained-model architectures not directly portable, but incremental2026's action space (SENTENCE_CUT/DROP/PARTIAL_SUMMARIZATION/PRONOMINALIZATION) reframed as prompt instructions is untested and /bin/bash-testable."
     }
   ]
 }
