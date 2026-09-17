@@ -1,8 +1,1 @@
-[
-  {
-    "hypothesis_id": "h-semantic-completeness-gating",
-    "reason": "Needs a production-path code change (new gating hook + cheap classifier call in deepgram_client.py/pipeline.py, gated behind a new Config flag) before it can be run. Well-grounded in 3 new 2026 papers found this cycle (fastturn2026, phoenix-vad2026, simulsense2026) plus this repo's own h-endpointing-pause-vs-sentence-boundary-audit finding (85-94% mid-sentence commit rate). Recommend implementing next session if approved.",
-    "estimated_cost_usd": 0.5,
-    "asked_at": "2026-09-16T00:00:00Z"
-  }
-]
+[]
