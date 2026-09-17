@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 8,
-  "last_updated": "2026-09-16T12:19:45.637843+00:00",
+  "last_updated": "2026-09-17T00:12:07.545367+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -695,6 +695,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-16T12:19:45.637818+00:00",
       "note": "REFLECT complete (see reflections.md cycle 15). Confirmed the segment-5 truncation is real (40% reproduction rate) but reframed it: segment 5's source text duplicates its context tail, so this may be a correct (if unreliable) application of the instruction's own DROP-on-repetition rule rather than a guardrail violation as cycle 14 framed it. Next well-scoped step (testing the same instruction on a non-duplicated long/complex segment) doesn't need new literature, so skipping a fresh SEARCH_PAPERS pass again this cycle. No playbook changes needed this cycle."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-17T00:12:07.545342+00:00",
+      "note": "GENERATE_HYPOTHESES cycle 16: added 1 new hypothesis (h-compression-nonduplicate-longsegment), the direct follow-up flagged in cycle-15 reflections.md -- repeats the same repeated-sampling design on results.segments[15] of experiments/20260903_asr_keyterms_off.json (202 chars, long/multi-clause, verified NOT a duplicate of its own context segments 12-14 or of segment 16), to isolate whether the compression instruction drops genuinely new content or whether the segment-5 finding was specific to that source's duplicate-ASR-segment artifact. Backlog: 1 proposed, well under the 6 cap (depth over breadth, matching cycles 14/15 precedent)."
     }
   ]
 }
