@@ -515,6 +515,7 @@ class TranslationPipeline:
         prior_translation: str | None = None,
         target_chars: int | None = None,
         monotonic_style: bool = False,
+        append_new_text: str | None = None,
     ) -> str:
         """Stream a translation of `full_target_text`, optionally live.
 
@@ -540,23 +541,44 @@ class TranslationPipeline:
         viewers never see a later utterance's text race an earlier one's
         onto the screen.
 
+        `append_new_text` (h-soft-final-interval-x-append-continuation):
+        when set (with `prior_translation` also set), skip the normal
+        from-scratch retranslation entirely and instead ask the translator
+        for ONLY the new text to append after `prior_translation`, given
+        ONLY this batch's new source delta. The full accumulated
+        translation (`prior_translation` + the appended delta) is what
+        gets returned/emitted either way, so callers never need to know
+        which mode produced it.
+
         Returns the accumulated (stripped) translation text.
         """
         accumulated = ""
-        async for chunk in self._translator.translate_stream(
-            full_target_text,
-            context_lines=batch[0].context,
-            update_context=False,
-            prior_translation=prior_translation,
-            target_chars=target_chars,
-            monotonic_style=monotonic_style,
-        ):
+        append_mode = append_new_text is not None and prior_translation is not None
+        if append_mode:
+            stream = self._translator.translate_append(
+                append_new_text, prior_translation  # type: ignore[arg-type]
+            )
+        else:
+            stream = self._translator.translate_stream(
+                full_target_text,
+                context_lines=batch[0].context,
+                update_context=False,
+                prior_translation=prior_translation,
+                target_chars=target_chars,
+                monotonic_style=monotonic_style,
+            )
+        async for chunk in stream:
             accumulated += chunk
+            full_so_far = (
+                f"{prior_translation} {accumulated}".strip()
+                if append_mode
+                else accumulated
+            )
             if live and self._on_result and batch_id == self._next_emit_batch_id:
                 self._on_result(
                     TranslationResult(
                         original_text=" ".join(q.original.text for q in batch),
-                        translated_text=accumulated,
+                        translated_text=full_so_far,
                         is_final=True,
                         is_translation_complete=False,
                         confidence=min(q.original.confidence for q in batch),
@@ -566,6 +588,8 @@ class TranslationPipeline:
                         utterance_id=batch[-1].original.utterance_id,
                     )
                 )
+        if append_mode:
+            return f"{prior_translation} {accumulated}".strip()
         return accumulated.strip()
 
     async def _finish_batch(
@@ -697,8 +721,15 @@ class TranslationPipeline:
                     # most-recently-emitted translation, so the model has an
                     # explicit memory of what's already on screen instead of
                     # reconstructing it from <target> alone.
+                    # h-soft-final-interval-x-append-continuation (append
+                    # mode, below) also needs this same prior-translation
+                    # lookup, independent of whether the anchor flag itself
+                    # is set.
+                    append_mode = self._config.continuation_translation_mode == "append"
                     prior_translation = None
-                    if self._config.anchor_continuation_translation and is_continuation:
+                    if (
+                        self._config.anchor_continuation_translation or append_mode
+                    ) and is_continuation:
                         prior_translation = self._utterance_translated_text.get(
                             utterance_id
                         )
@@ -739,6 +770,21 @@ class TranslationPipeline:
                         and not is_last_of_utterance
                     )
 
+                    # h-soft-final-interval-x-append-continuation: for a
+                    # continuation batch only (never the true
+                    # is_utterance_end=True commit, which always gets one
+                    # full retranslation pass regardless of mode), append
+                    # only this batch's NEW source delta instead of
+                    # retranslating everything heard so far from scratch.
+                    append_new_text = (
+                        new_text
+                        if append_mode
+                        and is_continuation
+                        and not is_last_of_utterance
+                        and prior_translation is not None
+                        else None
+                    )
+
                     for attempt in range(2):
                         try:
                             translation = await asyncio.wait_for(
@@ -750,6 +796,7 @@ class TranslationPipeline:
                                     prior_translation=prior_translation,
                                     target_chars=target_chars,
                                     monotonic_style=monotonic_style,
+                                    append_new_text=append_new_text,
                                 ),
                                 timeout=timeout,
                             )

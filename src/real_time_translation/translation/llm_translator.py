@@ -561,6 +561,90 @@ Maintain the original tone and style.
             return True
         return None
 
+    _APPEND_CONTINUATION_SYSTEM_PROMPT = (
+        "You are continuing a live, in-progress Japanese translation of "
+        "English speech. You will be given <prior_translation> (already "
+        "shown to the viewer -- do NOT repeat, restate, or re-translate "
+        "it) and <new_source> (only the new English words spoken since "
+        "<prior_translation> was produced).\n\n"
+        "Output ONLY the Japanese text that should be appended "
+        "immediately after <prior_translation> to continue it naturally "
+        "and grammatically, as if the whole thing were one continuous "
+        "sentence being written incrementally. Do not add a leading "
+        "connector or particle that duplicates meaning already present "
+        "in <prior_translation>. Do not add terminal punctuation (e.g. "
+        "periods, '。', 'です', 'ます') unless <new_source> clearly "
+        "concludes a complete grammatical thought."
+    )
+
+    async def _stream_with_system(
+        self, prompt: str, system_instruction: str
+    ) -> AsyncIterator[str]:
+        """Minimal streaming call with a caller-supplied system prompt --
+        NOT the main translation system prompt/context cache. Used by
+        `translate_append` (h-soft-final-interval-x-append-continuation),
+        which needs genuinely different instructions than verbatim
+        utterance translation."""
+        if self._provider == "gemini":
+            from google.genai import types
+
+            client = self._get_gemini_client()
+            config = types.GenerateContentConfig(
+                temperature=0.2,
+                max_output_tokens=256,
+                system_instruction=system_instruction,
+            )
+            stream = await client.aio.models.generate_content_stream(
+                model=self._model_name,
+                contents=prompt,
+                config=config,
+            )
+            async for chunk in stream:
+                if chunk.text:
+                    yield chunk.text
+        else:
+            client = self._get_openai_client()
+            stream = await client.chat.completions.create(
+                model=self._model_name,
+                messages=[
+                    {"role": "system", "content": system_instruction},
+                    {"role": "user", "content": prompt},
+                ],
+                max_completion_tokens=256,
+                stream=True,
+            )
+            async for chunk in stream:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    yield chunk.choices[0].delta.content
+
+    async def translate_append(
+        self, new_source: str, prior_translation: str
+    ) -> AsyncIterator[str]:
+        """h-soft-final-interval-x-append-continuation (research_agent/
+        state/hypotheses.json): produce ONLY the new Japanese text to
+        append after `prior_translation`, given ONLY the new source delta
+        (`new_source`) -- not the whole accumulated utterance -- instead
+        of retranslating everything heard so far from scratch on every
+        continuation batch.
+
+        Yields text chunks (concatenate for the appended delta -- the
+        caller is responsible for prefixing `prior_translation` itself,
+        this method never repeats it). The caller is also responsible for
+        still doing one full retranslate at is_utterance_end=True, so any
+        accumulated incoherence from append steps gets a chance to be
+        smoothed once the utterance is known to be complete.
+        """
+        if not new_source.strip():
+            return
+        prompt = (
+            f"<prior_translation>\n{prior_translation}\n</prior_translation>\n"
+            f"<new_source>\n{new_source}\n</new_source>"
+        )
+        async for chunk in self._stream_with_system(
+            prompt, self._APPEND_CONTINUATION_SYSTEM_PROMPT
+        ):
+            yield chunk
+
     async def translate_stream(
         self,
         text: str,

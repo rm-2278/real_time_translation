@@ -533,6 +533,7 @@ async def run_experiment(
             "monotonic_interim_translation_enabled": (
                 config.monotonic_interim_translation_enabled
             ),
+            "continuation_translation_mode": config.continuation_translation_mode,
             "domain_packs": config.domain_packs,
             "dictionary_size": len(pipeline._translator.dictionary),
         },

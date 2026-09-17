@@ -218,6 +218,19 @@ class Config:
     # rewrite. False (default) preserves today's always-natural-phrasing
     # behavior.
     monotonic_interim_translation_enabled: bool = False
+    # Experimental (h-soft-final-interval-x-append-continuation,
+    # research_agent/state/hypotheses.json): "retranslate" (default)
+    # preserves today's behavior -- every continuation batch retranslates
+    # the ENTIRE accumulated source from scratch. "append" instead asks
+    # the translator (LLMTranslator.translate_append) for ONLY the new
+    # Japanese text to append after the utterance's own prior translation,
+    # given ONLY this batch's new source delta -- never the whole
+    # utterance. Only affects continuation batches (is_utterance_end=False,
+    # already in progress); the true final commit at is_utterance_end=True
+    # always gets one full retranslation pass regardless of this setting,
+    # so any accumulated incoherence from append steps gets one chance to
+    # be smoothed once the utterance is known to be complete.
+    continuation_translation_mode: str = "retranslate"
 
     # Dictionary
     dictionary_path: Path | None = None
@@ -408,6 +421,9 @@ class Config:
             ),
             monotonic_interim_translation_enabled=(
                 os.getenv("MONOTONIC_INTERIM_TRANSLATION_ENABLED", "0") == "1"
+            ),
+            continuation_translation_mode=os.getenv(
+                "CONTINUATION_TRANSLATION_MODE", "retranslate"
             ),
             dictionary_path=dictionary_path,
             dictionary_dynamic_threshold=int(
