@@ -278,6 +278,7 @@ Maintain the original tone and style.
         context_lines: list[str] | None = None,
         prior_translation: str | None = None,
         target_chars: int | None = None,
+        monotonic_style: bool = False,
     ) -> str:
         if context_lines is None:
             context_lines = self._context_buffer[-self._context_window_size :]
@@ -329,10 +330,32 @@ Maintain the original tone and style.
                 "working under time pressure, not a transcript.\n"
             )
 
+        # h-monotonic-chunkwise-prompt-enja (research_agent/state/
+        # hypotheses.json): for EN->JA specifically, real simultaneous
+        # interpreters preserve source word order at some cost to fluency
+        # because it reduces how much clause-final material they need to
+        # wait for before producing correct output. Applied only to
+        # not-yet-utterance-final batches (the caller is responsible for
+        # that gating) -- the eventual utterance-final rewrite still gets
+        # natural phrasing.
+        monotonic_block = ""
+        if monotonic_style:
+            monotonic_block = (
+                "This is an IN-PROGRESS utterance, not yet complete -- more "
+                "source may still arrive and change the natural phrasing of "
+                "the ending. Prefer a translation that follows the SOURCE "
+                "ENGLISH WORD ORDER as closely as Japanese grammar allows, "
+                "even at some cost to natural fluency, rather than "
+                "reordering clauses to anticipate how the sentence will "
+                "end. A fluent rewrite will replace this once the "
+                "utterance is complete.\n"
+            )
+
         return (
             f"{dictionary_block}"
             f"{prior_translation_block}"
             f"{budget_block}"
+            f"{monotonic_block}"
             f"<context>\n{context_block}\n</context>\n<target>\n{text}\n</target>"
         )
 
@@ -491,6 +514,7 @@ Maintain the original tone and style.
         update_context: bool = True,
         prior_translation: str | None = None,
         target_chars: int | None = None,
+        monotonic_style: bool = False,
     ) -> AsyncIterator[str]:
         """Translate text, yielding output chunks as they are generated.
 
@@ -508,6 +532,11 @@ Maintain the original tone and style.
             target_chars: Approximate output-length budget derived from the
                 source's own speech duration, for reading-speed-aware
                 translation. None to translate verbatim (today's default).
+            monotonic_style: h-monotonic-chunkwise-prompt-enja. When True,
+                instructs the model to prefer source-word-order-preserving
+                (EN->JA) phrasing over natural fluency for this batch. The
+                caller is responsible for only passing True for a
+                not-yet-utterance-final batch.
 
         Yields:
             Translation text chunks (concatenate for the full translation)
@@ -520,6 +549,7 @@ Maintain the original tone and style.
             context_lines=context_lines,
             prior_translation=prior_translation,
             target_chars=target_chars,
+            monotonic_style=monotonic_style,
         )
 
         full_text = ""

@@ -187,6 +187,17 @@ class Config:
     # wires the same instruction text into the live pipeline for a real
     # end-to-end A/B. False (default) preserves today's behavior.
     compression_actions_prompt_enabled: bool = False
+    # Experimental (h-monotonic-chunkwise-prompt-enja,
+    # research_agent/state/hypotheses.json): for EN->JA specifically
+    # (a distant word-order pair), instruct the translator to prefer
+    # source-word-order-preserving phrasing over natural fluency for any
+    # not-yet-utterance-final batch, on the theory (Makinae et al. 2024)
+    # that this reduces how much clause-final material the model needs to
+    # wait for before producing plausible output. The eventual
+    # utterance-final batch is unaffected and still gets a natural
+    # rewrite. False (default) preserves today's always-natural-phrasing
+    # behavior.
+    monotonic_interim_translation_enabled: bool = False
 
     # Dictionary
     dictionary_path: Path | None = None
@@ -365,6 +376,9 @@ class Config:
             ),
             compression_actions_prompt_enabled=(
                 os.getenv("COMPRESSION_ACTIONS_PROMPT_ENABLED", "0") == "1"
+            ),
+            monotonic_interim_translation_enabled=(
+                os.getenv("MONOTONIC_INTERIM_TRANSLATION_ENABLED", "0") == "1"
             ),
             dictionary_path=dictionary_path,
             dictionary_dynamic_threshold=int(

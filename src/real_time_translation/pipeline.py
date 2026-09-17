@@ -496,6 +496,7 @@ class TranslationPipeline:
         live: bool,
         prior_translation: str | None = None,
         target_chars: int | None = None,
+        monotonic_style: bool = False,
     ) -> str:
         """Stream a translation of `full_target_text`, optionally live.
 
@@ -530,6 +531,7 @@ class TranslationPipeline:
             update_context=False,
             prior_translation=prior_translation,
             target_chars=target_chars,
+            monotonic_style=monotonic_style,
         ):
             accumulated += chunk
             if live and self._on_result and batch_id == self._next_emit_batch_id:
@@ -710,6 +712,15 @@ class TranslationPipeline:
                     await self._translation_rate_limiter.acquire()
                     timeout = self._translation_timeout + 2.0 * (len(batch) - 1)
 
+                    # h-monotonic-chunkwise-prompt-enja: prefer source-word-
+                    # order-preserving phrasing for any not-yet-utterance-
+                    # final batch, since more source (and a natural rewrite
+                    # opportunity) is still coming.
+                    monotonic_style = (
+                        self._config.monotonic_interim_translation_enabled
+                        and not is_last_of_utterance
+                    )
+
                     for attempt in range(2):
                         try:
                             translation = await asyncio.wait_for(
@@ -720,6 +731,7 @@ class TranslationPipeline:
                                     live=not is_continuation,
                                     prior_translation=prior_translation,
                                     target_chars=target_chars,
+                                    monotonic_style=monotonic_style,
                                 ),
                                 timeout=timeout,
                             )
