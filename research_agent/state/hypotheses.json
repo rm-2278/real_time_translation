@@ -392,10 +392,12 @@
       "required_changes": "New prompt template variant in llm_translator.py's _get_system_prompt/_build_user_prompt, gated behind a new Config flag (e.g. MONOTONIC_INTERIM_TRANSLATION_ENABLED), applied only when the batch is not utterance-final. A/B against the current_best_demo baseline on the same clip/window.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.3,
-      "approval": "needs_human",
-      "status": "proposed",
-      "experiment_ids": [],
-      "result_summary": ""
+      "approval": "approved_by_human",
+      "status": "tested",
+      "experiment_ids": [
+        "experiments/20260917_h_monotonic_interim_test.json"
+      ],
+      "result_summary": "Implemented (Config.monotonic_interim_translation_enabled, threaded through translate_stream/_build_user_prompt and pipeline.py's _translation_worker, gated on `not is_last_of_utterance` -- see implementation commit). Ran 1 live A/B against the h_max_interim_6s_test_v2 baseline; config diff confirmed exactly 1 difference. RESULT: essentially a wash on aggregate metrics -- avg_end_to_end_latency_seconds 6.182s -> 6.301s (+1.9%), max_end_to_end_latency_seconds 6.589s -> 6.729s (+2.1%), avg_mt_latency_seconds 0.177s -> 0.187s (+5.6%), all small enough to plausibly be live-run noise. Coverage identical (full_asr_len 1507 chars both). Cross-batch NE on the single multi-batch span got slightly worse (3.0 -> 3.27, n=1). METHODOLOGICAL FINDING (the important part): this hypothesis's instruction only ever applies to a NOT-YET-utterance-final batch (`not is_last_of_utterance`), and this clip -- now that h-max-interim-duration-raise consolidated batching -- has only 1 multi-batch span out of 21 utterances, meaning the monotonic instruction was only actually injected into 2 translation calls total (both runs). Manually inspected those exact 2 calls: baseline '次に、そのAIアシスタントがどう返答するかを予測させます。さらに、' vs monotonic 'そして、その有能なAIアシスタントがどう答えるかを予測させます。さらに、' -- minor lexical differences, no visible word-order restructuring either way, consistent with the source content at that point already being fairly monotonic-friendly (simple SVO-adjacent clauses) rather than a case that would stress-test the hypothesis. CONCLUSION: NOT a meaningful test of the underlying idea -- this is now the THIRD hypothesis in a row (after h-masking-holdback-x-raised-timer and h-continuation-anchor-x-raised-timer) to hit the exact same structural ceiling: any technique that only acts on continuation batches has almost nothing to act on now that the timer raise collapsed most utterances to a single batch. RECOMMENDATION: do not conclude anything about the monotonic-phrasing idea itself from this run. A fair test needs either a clip with genuinely long/continuous utterances that still cross multiple 6s batches even at the raised timer (this clip's utterances are mostly short), or a different test design entirely (e.g. directly comparing monotonic vs natural phrasing on ALREADY-known-long source text, not gated by batch position)."
     },
     {
       "id": "h-soft-final-interval-x-append-continuation",
