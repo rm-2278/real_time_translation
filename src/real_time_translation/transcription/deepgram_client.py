@@ -57,6 +57,8 @@ class DeepgramTranscriber:
         max_interim_duration: float | None = 4.0,
         keyterms: list[str] | None = None,
         local_agreement_commit: bool = False,
+        confidence_early_commit_threshold: float | None = None,
+        confidence_early_commit_min_elapsed: float = 2.0,
     ) -> None:
         """Initialize Deepgram transcriber.
 
@@ -89,6 +91,17 @@ class DeepgramTranscriber:
                 (LocalAgreement-2), as soon as that agreement is observed,
                 instead of relying solely on `max_interim_duration`'s fixed
                 timer. False (default) preserves today's timer-only behavior.
+            confidence_early_commit_threshold: Experimental
+                (h-asr-confidence-early-commit,
+                research_agent/state/hypotheses.json). When set, the
+                periodic force-finalize check may soft-finalize BEFORE
+                `max_interim_duration` once the pending interim's own
+                Deepgram confidence is at or above this value (and at
+                least `confidence_early_commit_min_elapsed` seconds have
+                passed). None (default) disables early commit entirely.
+            confidence_early_commit_min_elapsed: Minimum seconds an
+                utterance must have been accumulating before a
+                high-confidence early commit is allowed to fire.
         """
         self._api_key = api_key
         self._language = language
@@ -104,6 +117,8 @@ class DeepgramTranscriber:
         self._max_interim_duration = max_interim_duration
         self._keyterms = keyterms
         self._local_agreement_commit = local_agreement_commit
+        self._confidence_early_commit_threshold = confidence_early_commit_threshold
+        self._confidence_early_commit_min_elapsed = confidence_early_commit_min_elapsed
         self._prev_interim_words: list[str] | None = None
 
         self._client: AsyncDeepgramClient | None = None
@@ -316,6 +331,13 @@ class DeepgramTranscriber:
         stall for the entire stretch. Checked on a short interval so the
         forced cut lands close to `max_interim_duration` regardless of when
         Deepgram's own messages happen to arrive.
+
+        Also the home of the optional confidence-early-commit check
+        (h-asr-confidence-early-commit): reusing this same 0.5s periodic
+        cadence (rather than checking on every interim message, the way
+        LocalAgreement-2 does) is deliberate -- it moves the existing timer
+        earlier for confidently-transcribed speech without introducing a
+        new high-frequency commit path.
         """
         try:
             while self._running:
@@ -325,7 +347,13 @@ class DeepgramTranscriber:
                 if self._utterance_since is None or self._pending_result is None:
                     continue
                 elapsed = time.monotonic() - self._utterance_since
-                if elapsed >= self._max_interim_duration:
+                confident_early = (
+                    self._confidence_early_commit_threshold is not None
+                    and elapsed >= self._confidence_early_commit_min_elapsed
+                    and self._pending_result.confidence
+                    >= self._confidence_early_commit_threshold
+                )
+                if elapsed >= self._max_interim_duration or confident_early:
                     self._soft_finalize_pending(is_utterance_end=False)
                     # Deepgram's own utterance is still open; only restart
                     # the timeout window, don't reset utterance tracking.

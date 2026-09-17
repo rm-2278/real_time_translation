@@ -225,6 +225,8 @@ class TranslationPipeline:
             max_interim_duration=config.deepgram_max_interim_duration,
             keyterms=keyterms,
             local_agreement_commit=config.localagreement_commit_enabled,
+            confidence_early_commit_threshold=config.asr_confidence_early_commit_threshold,
+            confidence_early_commit_min_elapsed=config.asr_confidence_early_commit_min_elapsed,
         )
 
         # Rate limiter shared across all translation workers, to stay under

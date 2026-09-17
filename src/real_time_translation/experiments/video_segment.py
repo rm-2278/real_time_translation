@@ -516,6 +516,12 @@ async def run_experiment(
             "masking_holdback_words": config.masking_holdback_words,
             "anchor_continuation_translation": config.anchor_continuation_translation,
             "localagreement_commit_enabled": config.localagreement_commit_enabled,
+            "asr_confidence_early_commit_threshold": (
+                config.asr_confidence_early_commit_threshold
+            ),
+            "asr_confidence_early_commit_min_elapsed": (
+                config.asr_confidence_early_commit_min_elapsed
+            ),
             "reading_speed_budget_translation": config.reading_speed_budget_translation,
             "reading_speed_chars_per_sec": config.reading_speed_chars_per_sec,
             "compression_actions_prompt_enabled": config.compression_actions_prompt_enabled,

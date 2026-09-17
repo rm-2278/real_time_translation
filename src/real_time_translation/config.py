@@ -134,6 +134,27 @@ class Config:
     # observed. False (default) preserves today's behavior (timer-only
     # commits, per DeepgramTranscriber's own consumed-word-count tracking).
     localagreement_commit_enabled: bool = False
+    # Experimental (h-asr-confidence-early-commit,
+    # research_agent/state/hypotheses.json): reuse the existing periodic
+    # force-finalize check (DeepgramTranscriber._force_finalize_loop) but
+    # also allow it to soft-finalize BEFORE `deepgram_max_interim_duration`
+    # once an in-progress utterance has run at least
+    # `asr_confidence_early_commit_min_elapsed` seconds AND Deepgram's own
+    # confidence for the current pending interim is at or above this
+    # threshold. None (default) disables early commit entirely, preserving
+    # today's timer-only behavior. Deliberately reuses the SAME 0.5s
+    # periodic-check cadence LocalAgreement-2 does NOT use (that hypothesis
+    # instead commits on every interim message and was found, twice, to
+    # fragment translation calls badly) -- this is meant to move the
+    # existing timer earlier for confidently-transcribed speech, not to
+    # introduce a new high-frequency commit path.
+    asr_confidence_early_commit_threshold: float | None = None
+    # Minimum seconds an utterance must have been accumulating before a
+    # high-confidence early commit is allowed to fire, even if confidence
+    # is already high on the very first interim (which is common and not a
+    # meaningful signal this early -- Deepgram's short interims can be
+    # confidently wrong about where a word will end up).
+    asr_confidence_early_commit_min_elapsed: float = 2.0
     # Experimental (caption-readability engineering track, 2026-09-15):
     # the 10-minute real-lecture stress test found that fixing translation
     # backlog (gemini_rpm_limit) closes most of the *latency* gap but
@@ -326,6 +347,15 @@ class Config:
             ),
             localagreement_commit_enabled=(
                 os.getenv("LOCALAGREEMENT_COMMIT_ENABLED", "0") == "1"
+            ),
+            asr_confidence_early_commit_threshold=(
+                float(v)
+                if (v := os.getenv("ASR_CONFIDENCE_EARLY_COMMIT_THRESHOLD"))
+                is not None
+                else None
+            ),
+            asr_confidence_early_commit_min_elapsed=float(
+                os.getenv("ASR_CONFIDENCE_EARLY_COMMIT_MIN_ELAPSED", "2.0")
             ),
             reading_speed_budget_translation=(
                 os.getenv("READING_SPEED_BUDGET_TRANSLATION", "0") == "1"
