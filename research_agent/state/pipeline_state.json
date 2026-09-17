@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "WRITE_REPORT",
+  "current_state": "REFLECT",
   "cycle": 8,
-  "last_updated": "2026-09-17T00:15:18.981217+00:00",
+  "last_updated": "2026-09-17T00:16:04.803323+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -719,6 +719,12 @@
       "to": "WRITE_REPORT",
       "at": "2026-09-17T00:15:18.981196+00:00",
       "note": "Config-diff clean (single variable: extra_system_instructions; identical fixed context, no confound). Result: zero clause drops in either condition (10/10 baseline, 10/10 compression_actions cover clause B), ~6% length reduction under compression_actions via safe SENTENCE_CUT/PARTIAL_SUMMARIZATION-style shortening, not DROP. Supports h-compression-repeated-sampling-segment5's reframing: segment 5's 40% truncation rate was specific to that segment's duplicate-ASR-context artifact, not a general risk on ordinary long/complex input. hypothesis.status=tested."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-17T00:16:04.803299+00:00",
+      "note": "Wrote 20260917_cycle16_report.md (Japanese)."
     }
   ]
 }
