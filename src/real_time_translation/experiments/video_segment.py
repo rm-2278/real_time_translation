@@ -534,6 +534,9 @@ async def run_experiment(
                 config.monotonic_interim_translation_enabled
             ),
             "continuation_translation_mode": config.continuation_translation_mode,
+            "backlog_adaptive_compression_enabled": (
+                config.backlog_adaptive_compression_enabled
+            ),
             "domain_packs": config.domain_packs,
             "dictionary_size": len(pipeline._translator.dictionary),
         },

@@ -231,6 +231,18 @@ class Config:
     # so any accumulated incoherence from append steps gets one chance to
     # be smoothed once the utterance is known to be complete.
     continuation_translation_mode: str = "retranslate"
+    # Experimental (h-backlog-adaptive-compression-budget,
+    # research_agent/state/hypotheses.json): only meaningful when
+    # reading_speed_budget_translation is also True. Scales that budget
+    # down (by up to 50%) as the shared translation queue's depth
+    # (len(TranslationPipeline._transcription_queue)) approaches
+    # translation_queue_size -- the theory being that compressing harder
+    # while behind spends fewer output characters per unit of wall-clock
+    # catch-up time, instead of emitting a rapid sequence of
+    # near-instantaneous, unreadable caption fragments once the backlog
+    # clears. False (default) preserves today's behavior (budget derived
+    # only from this utterance's own speech duration).
+    backlog_adaptive_compression_enabled: bool = False
 
     # Dictionary
     dictionary_path: Path | None = None
@@ -424,6 +436,9 @@ class Config:
             ),
             continuation_translation_mode=os.getenv(
                 "CONTINUATION_TRANSLATION_MODE", "retranslate"
+            ),
+            backlog_adaptive_compression_enabled=(
+                os.getenv("BACKLOG_ADAPTIVE_COMPRESSION_ENABLED", "0") == "1"
             ),
             dictionary_path=dictionary_path,
             dictionary_dynamic_threshold=int(

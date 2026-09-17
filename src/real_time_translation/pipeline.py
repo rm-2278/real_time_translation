@@ -143,6 +143,10 @@ class _FragmentQueue:
         """Look at the front item without removing it."""
         return self._items[0] if self._items else None
 
+    def __len__(self) -> int:
+        """Current backlog depth (h-backlog-adaptive-compression-budget)."""
+        return len(self._items)
+
     def pop_peeked(self) -> QueuedTranscription:
         """Remove the item just returned by `peek()`."""
         return self._items.popleft()
@@ -757,6 +761,27 @@ class TranslationPipeline:
                                 * self._config.reading_speed_chars_per_sec
                             ),
                         )
+                        # h-backlog-adaptive-compression-budget: this
+                        # utterance's own speech_duration says nothing
+                        # about whether the shared translation queue is
+                        # backed up right now -- two utterances with
+                        # identical speech_duration should NOT get
+                        # identical compression if one is translated while
+                        # the queue is empty and the other while it's
+                        # nearly full (the second is exactly the case that
+                        # produces a rapid, barely-readable sequence of
+                        # captions). Scale the budget down by up to 50% as
+                        # queue depth approaches translation_queue_size.
+                        if self._config.backlog_adaptive_compression_enabled:
+                            queue_depth = len(self._transcription_queue)
+                            backlog_ratio = min(
+                                1.0,
+                                queue_depth
+                                / max(1, self._config.translation_queue_size),
+                            )
+                            target_chars = max(
+                                8, round(target_chars * (1.0 - 0.5 * backlog_ratio))
+                            )
 
                     await self._translation_rate_limiter.acquire()
                     timeout = self._translation_timeout + 2.0 * (len(batch) - 1)
