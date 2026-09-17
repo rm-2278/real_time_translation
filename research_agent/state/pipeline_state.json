@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 8,
-  "last_updated": "2026-09-17T00:12:07.545367+00:00",
+  "last_updated": "2026-09-17T00:12:22.417900+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -701,6 +701,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-17T00:12:07.545342+00:00",
       "note": "GENERATE_HYPOTHESES cycle 16: added 1 new hypothesis (h-compression-nonduplicate-longsegment), the direct follow-up flagged in cycle-15 reflections.md -- repeats the same repeated-sampling design on results.segments[15] of experiments/20260903_asr_keyterms_off.json (202 chars, long/multi-clause, verified NOT a duplicate of its own context segments 12-14 or of segment 16), to isolate whether the compression instruction drops genuinely new content or whether the segment-5 finding was specific to that source's duplicate-ASR-segment artifact. Backlog: 1 proposed, well under the 6 cap (depth over breadth, matching cycles 14/15 precedent)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-17T00:12:22.417877+00:00",
+      "note": "check-budget(0.05 usd) -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued for h-compression-nonduplicate-longsegment."
     }
   ]
 }
