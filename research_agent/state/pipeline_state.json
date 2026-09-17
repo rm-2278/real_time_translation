@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 9,
-  "last_updated": "2026-09-17T00:16:39.728876+00:00",
+  "last_updated": "2026-09-17T12:11:58.214964+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -731,6 +731,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-09-17T00:16:39.728853+00:00",
       "note": "REFLECT complete (see reflections.md cycle 16). The h-compression-* thread (cycles 14-16) is now resolved: segment-15 non-duplicated replay found zero content drops in 10/10 repeats under compression_actions, confirming segment 5's 40% truncation rate (cycle 15) was specific to that segment's duplicate-ASR-context artifact rather than a general risk. Advancing to a fresh SEARCH_PAPERS pass for cycle 17 (literature base is 3 cycles stale, last real search was cycle 13) per cycle 15's own flagged condition."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-09-17T12:11:58.214921+00:00",
+      "note": "Cycle 17 SEARCH_PAPERS: WebSearch pass for post-cycle-13 literature (IWSLT2026 systems, flicker/stability policies, cascade-vs-e2e, LLM prompting, vendor ASR latency). 3 new candidates added as 'found' stubs: cuni2026-pocket-offline-simulst, simulstream2025-eval-toolkit, lacuna2026-beam-search-cascade-flicker (most relevant -- >20% flicker reduction from beam-search changes in a cascaded pipeline, directly on-topic for this repo's cascade architecture). Other search hits duplicated already-read papers or were older/superseded work, not re-added."
     }
   ]
 }
