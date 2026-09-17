@@ -1028,3 +1028,82 @@ segment, since this cycle's 40% figure is likely specific to the
 duplicate-ASR-segment case) is already well-scoped and doesn't need new
 literature. A fresh SEARCH_PAPERS pass is reasonable in a future cycle
 once this narrower thread is resolved.
+
+## Cycle 16 (2026-09-17, scheduled/automated run)
+
+**What worked:** Followed cycle 15's own explicit recommendation exactly
+(test the compression instruction on a verified non-duplicated, long/
+complex segment) rather than reaching for a fresh SEARCH_PAPERS pass --
+the whole GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS ->
+ANALYZE_RESULTS -> WRITE_REPORT -> REFLECT chain ran in one session for
+$0.01. Before finalizing the hypothesis, actually searched the existing
+86-file experiment corpus for a segment matching the "long, multi-clause,
+NOT a duplicate" spec (`experiments/20260903_asr_keyterms_off.json`'s
+segments[15], 202 chars) rather than reusing the same clip/segment
+family as before -- this is exactly the kind of concrete, falsifiable
+follow-up PLAYBOOK.md's GENERATE_HYPOTHESES section wants (a specific
+segment index, verified via direct inspection to not duplicate its
+context or successor, not just "some other long segment, TBD").
+
+**A clean result, worth naming plainly:** zero content drops in either
+condition across 10 repeats each (vs. cycle 15's 0/10 baseline, 4/10
+compression_actions on the duplicated segment 5). This is a genuine
+confirmation of cycle 15's own reframing, not just a restatement of it --
+before this cycle, "segment 5's drop is specific to its duplicate-ASR-
+context" was a plausible but untested explanation; after this cycle, the
+alternative explanation ("the compression instruction has a general,
+input-independent content-drop risk on any long/complex segment") is
+measurably less likely, since the same instruction produced zero drops
+here. Also chose a better-suited completeness heuristic this time
+(keyword presence for the second clause's concrete content -- 関数/画像/
+ラベル -- rather than segment 5's char-length threshold, which would have
+been meaningless for a 202-char source with different clause lengths)
+instead of copy-pasting the prior script's heuristic unexamined.
+
+**What didn't / limitations acknowledged:** This is still n=1 segment
+(10 repeats), not a corpus-wide sweep -- the result_summary and Japanese
+report both say plainly that this doesn't prove the instruction never
+drops content elsewhere, only that it meaningfully weakens the "general
+risk" reading of cycle 15's finding. Also: did not re-verify the Deepgram
+listen-websocket this cycle (not needed, since this hypothesis is a
+Gemini-only replay) -- consistent with cycle 15's same choice, but it
+means the live-ASR environment status is now unknown for two cycles running
+and should be re-checked whenever a hypothesis actually needs it again.
+
+**Backlog calibration:** Added exactly 1 new hypothesis (depth over
+breadth, same pattern as cycles 14-15), fully executed to `tested` in the
+same session. Backlog is 0 queued/proposed, well under the 6 cap. The
+`h-compression-*` thread (cycles 14, 15, 16) now feels genuinely closed
+for now: three cycles of investigation converged on a specific, well-
+evidenced account (modest, safe compression on ordinary input; an
+unreliable duplicate-ASR-segment-triggered DROP as the one real risk
+found) rather than an open question needing a fourth follow-up.
+
+**Budget policy:** Unchanged recommendation. $0.01 spent this cycle (20
+short single-segment Gemini translate calls + 6 judge spot-checks, zero
+Deepgram spend). Total spend across 16 cycles remains trivial relative to
+the $3/batch, $7/day caps -- still no data suggesting the caps themselves
+are miscalibrated, just consistently far under them because every
+executed hypothesis so far has been a cheap $0-$0.05 replay/retroactive
+design.
+
+**Should this playbook change?** No changes made this cycle. The existing
+GENERATE_HYPOTHESES guidance (grep experiments/results.csv and skim git
+log before asserting something is untested -- added cycle 14) generalizes
+fine to "grep experiment JSON segment text for a matching profile", no new
+gap surfaced.
+
+**Next state:** Advancing to `SEARCH_PAPERS` for cycle 17. Reasoning: the
+narrow `h-compression-*` thread that has occupied GENERATE_HYPOTHESES's
+last three cycles (14, 15, 16) is now resolved to a well-evidenced
+conclusion, and cycle 15's own REFLECT entry already flagged "a fresh
+SEARCH_PAPERS pass is reasonable... once this narrower thread is
+resolved" -- that condition is now met. The last real literature pass was
+cycle 13 (EXTRACT_PAPERS/READ_PAPERS carried into cycle 14), so the
+literature base is now three cycles stale. If the Deepgram WS-proxy issue
+has been resolved by the time cycle 17 runs (unverified for two cycles
+running now, since cycles 15-16 didn't need to check it), prioritize
+running `h-masking-holdback` or `h-localagreement-asr-commit` live
+immediately instead -- both have been fully implemented and ready since
+early cycles, and would be a substantially higher-value use of a working
+Deepgram connection than another literature pass.
