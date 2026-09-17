@@ -211,6 +211,20 @@ class TranslationPipeline:
             else None
         )
 
+        # Rate limiter shared across all translation workers AND the
+        # semantic-completeness-gating classifier below, to stay under the
+        # provider's RPM quota instead of firing requests that 429.
+        # Constructed here (earlier than before) so the transcriber can
+        # share it -- h-semantic-completeness-gating's first live test
+        # (2026-09-17) found check_completeness calls competing unthrottled
+        # for provider capacity against real translation calls, plausibly
+        # explaining that test's latency regression.
+        self._translation_rate_limiter = RateLimiter(rate=config.gemini_rpm_limit)
+
+        async def _gated_completeness_check(text: str) -> bool | None:
+            await self._translation_rate_limiter.acquire()
+            return await self._translator.check_completeness(text)
+
         # Initialize transcriber
         self._transcriber = DeepgramTranscriber(
             api_key=config.deepgram_api_key,
@@ -228,7 +242,7 @@ class TranslationPipeline:
             confidence_early_commit_threshold=config.asr_confidence_early_commit_threshold,
             confidence_early_commit_min_elapsed=config.asr_confidence_early_commit_min_elapsed,
             completeness_check=(
-                self._translator.check_completeness
+                _gated_completeness_check
                 if config.semantic_completeness_gating_enabled
                 else None
             ),
@@ -236,9 +250,6 @@ class TranslationPipeline:
             semantic_gating_check_interval=config.semantic_gating_check_interval,
         )
 
-        # Rate limiter shared across all translation workers, to stay under
-        # the provider's RPM quota instead of firing requests that 429.
-        self._translation_rate_limiter = RateLimiter(rate=config.gemini_rpm_limit)
         self._num_translation_workers = max(1, config.translation_workers)
         self._translation_timeout = config.translation_timeout
         self._translation_batch_max_items = max(1, config.translation_batch_max_items)
