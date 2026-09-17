@@ -506,6 +506,61 @@ Maintain the original tone and style.
             if chunk.choices and chunk.choices[0].delta.content:
                 yield chunk.choices[0].delta.content
 
+    _COMPLETENESS_PROMPT_TEMPLATE = (
+        "The following is a live, possibly-incomplete transcript fragment "
+        "of spoken English:\n\n"
+        '"{text}"\n\n'
+        "Does this fragment read as a grammatically and semantically "
+        "COMPLETE clause or sentence (even if short), or does it clearly "
+        "sound like it will continue (e.g. ends mid-phrase, on a "
+        "conjunction, or on an obviously incomplete clause)?\n"
+        "Answer with exactly one word: COMPLETE or INCOMPLETE."
+    )
+
+    async def check_completeness(self, text: str) -> bool | None:
+        """h-semantic-completeness-gating (research_agent/state/
+        hypotheses.json): ask whether `text` (a growing ASR hypothesis)
+        reads as a complete clause/sentence. A separate, minimal,
+        non-streaming call -- NOT the main translation prompt/system
+        instruction/context cache -- since this is a cheap yes/no
+        classification, not a translation.
+
+        Returns True/False for a confident answer, None on any error or an
+        ambiguous response. Callers must treat None as "skip this round,"
+        never as either answer -- this is a fail-open classifier for an
+        optional latency optimization, not a correctness-critical path.
+        """
+        if not text.strip():
+            return None
+        prompt = self._COMPLETENESS_PROMPT_TEMPLATE.format(text=text)
+        try:
+            if self._provider == "gemini":
+                from google.genai import types
+
+                client = self._get_gemini_client()
+                response = await client.aio.models.generate_content(
+                    model=self._model_name,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(max_output_tokens=8),
+                )
+                answer = (response.text or "").strip().upper()
+            else:
+                client = self._get_openai_client()
+                response = await client.chat.completions.create(
+                    model=self._model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    max_completion_tokens=8,
+                )
+                content = response.choices[0].message.content or ""
+                answer = content.strip().upper()
+        except Exception:  # noqa: BLE001
+            return None
+        if "INCOMPLETE" in answer:
+            return False
+        if "COMPLETE" in answer:
+            return True
+        return None
+
     async def translate_stream(
         self,
         text: str,

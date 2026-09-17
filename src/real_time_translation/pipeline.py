@@ -227,6 +227,13 @@ class TranslationPipeline:
             local_agreement_commit=config.localagreement_commit_enabled,
             confidence_early_commit_threshold=config.asr_confidence_early_commit_threshold,
             confidence_early_commit_min_elapsed=config.asr_confidence_early_commit_min_elapsed,
+            completeness_check=(
+                self._translator.check_completeness
+                if config.semantic_completeness_gating_enabled
+                else None
+            ),
+            semantic_gating_min_elapsed=config.semantic_gating_min_elapsed,
+            semantic_gating_check_interval=config.semantic_gating_check_interval,
         )
 
         # Rate limiter shared across all translation workers, to stay under

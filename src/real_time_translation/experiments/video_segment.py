@@ -522,6 +522,11 @@ async def run_experiment(
             "asr_confidence_early_commit_min_elapsed": (
                 config.asr_confidence_early_commit_min_elapsed
             ),
+            "semantic_completeness_gating_enabled": (
+                config.semantic_completeness_gating_enabled
+            ),
+            "semantic_gating_min_elapsed": config.semantic_gating_min_elapsed,
+            "semantic_gating_check_interval": config.semantic_gating_check_interval,
             "reading_speed_budget_translation": config.reading_speed_budget_translation,
             "reading_speed_chars_per_sec": config.reading_speed_chars_per_sec,
             "compression_actions_prompt_enabled": config.compression_actions_prompt_enabled,

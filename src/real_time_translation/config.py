@@ -155,6 +155,26 @@ class Config:
     # meaningful signal this early -- Deepgram's short interims can be
     # confidently wrong about where a word will end up).
     asr_confidence_early_commit_min_elapsed: float = 2.0
+    # Experimental (h-semantic-completeness-gating,
+    # research_agent/state/hypotheses.json): like
+    # asr_confidence_early_commit_threshold, but the "is this ready to
+    # commit" signal is a cheap separate LLM classifier call
+    # (LLMTranslator.check_completeness) asking whether the growing ASR
+    # hypothesis reads as a complete clause, instead of Deepgram's own
+    # confidence score. Grounded in fastturn2026/phoenix-vad2026/
+    # simulsense2026's shared critique that silence-duration endpointing
+    # commits well before a semantically complete thought (independently
+    # confirmed on this repo's own data by
+    # h-endpointing-pause-vs-sentence-boundary-audit: 85-94% mid-sentence
+    # commit rate at every endpointing threshold tested). False (default)
+    # preserves today's behavior (no classifier calls).
+    semantic_completeness_gating_enabled: bool = False
+    # Minimum seconds an utterance must have been accumulating before the
+    # first completeness check is made.
+    semantic_gating_min_elapsed: float = 1.5
+    # Minimum seconds between two completeness checks for the same
+    # utterance (bounds classifier-call frequency/cost).
+    semantic_gating_check_interval: float = 1.5
     # Experimental (caption-readability engineering track, 2026-09-15):
     # the 10-minute real-lecture stress test found that fixing translation
     # backlog (gemini_rpm_limit) closes most of the *latency* gap but
@@ -367,6 +387,15 @@ class Config:
             ),
             asr_confidence_early_commit_min_elapsed=float(
                 os.getenv("ASR_CONFIDENCE_EARLY_COMMIT_MIN_ELAPSED", "2.0")
+            ),
+            semantic_completeness_gating_enabled=(
+                os.getenv("SEMANTIC_COMPLETENESS_GATING_ENABLED", "0") == "1"
+            ),
+            semantic_gating_min_elapsed=float(
+                os.getenv("SEMANTIC_GATING_MIN_ELAPSED", "1.5")
+            ),
+            semantic_gating_check_interval=float(
+                os.getenv("SEMANTIC_GATING_CHECK_INTERVAL", "1.5")
             ),
             reading_speed_budget_translation=(
                 os.getenv("READING_SPEED_BUDGET_TRANSLATION", "0") == "1"

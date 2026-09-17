@@ -3,7 +3,7 @@
 import asyncio
 import contextlib
 import time
-from collections.abc import AsyncIterator, Callable
+from collections.abc import AsyncIterator, Awaitable, Callable
 from dataclasses import dataclass
 from typing import Any
 
@@ -59,6 +59,9 @@ class DeepgramTranscriber:
         local_agreement_commit: bool = False,
         confidence_early_commit_threshold: float | None = None,
         confidence_early_commit_min_elapsed: float = 2.0,
+        completeness_check: Callable[[str], Awaitable[bool | None]] | None = None,
+        semantic_gating_min_elapsed: float = 1.5,
+        semantic_gating_check_interval: float = 1.5,
     ) -> None:
         """Initialize Deepgram transcriber.
 
@@ -102,6 +105,24 @@ class DeepgramTranscriber:
             confidence_early_commit_min_elapsed: Minimum seconds an
                 utterance must have been accumulating before a
                 high-confidence early commit is allowed to fire.
+            completeness_check: Experimental
+                (h-semantic-completeness-gating, research_agent/state/
+                hypotheses.json). Optional async callback (typically
+                LLMTranslator.check_completeness) that, given the pending
+                interim's text, returns True (confidently a complete
+                clause -- safe to commit now), False (confidently
+                incomplete), or None (unknown/error -- do nothing this
+                round). When set, the periodic force-finalize check may
+                soft-finalize BEFORE `max_interim_duration` once this
+                returns True. None (default) disables semantic gating
+                entirely.
+            semantic_gating_min_elapsed: Minimum seconds an utterance must
+                have been accumulating before the first completeness check
+                is made.
+            semantic_gating_check_interval: Minimum seconds between two
+                completeness checks for the SAME utterance, so a
+                low-confidence/False result doesn't trigger a check on
+                every 0.5s poll tick.
         """
         self._api_key = api_key
         self._language = language
@@ -119,6 +140,10 @@ class DeepgramTranscriber:
         self._local_agreement_commit = local_agreement_commit
         self._confidence_early_commit_threshold = confidence_early_commit_threshold
         self._confidence_early_commit_min_elapsed = confidence_early_commit_min_elapsed
+        self._completeness_check = completeness_check
+        self._semantic_gating_min_elapsed = semantic_gating_min_elapsed
+        self._semantic_gating_check_interval = semantic_gating_check_interval
+        self._last_semantic_check_at: float | None = None
         self._prev_interim_words: list[str] | None = None
 
         self._client: AsyncDeepgramClient | None = None
@@ -333,11 +358,13 @@ class DeepgramTranscriber:
         Deepgram's own messages happen to arrive.
 
         Also the home of the optional confidence-early-commit check
-        (h-asr-confidence-early-commit): reusing this same 0.5s periodic
-        cadence (rather than checking on every interim message, the way
-        LocalAgreement-2 does) is deliberate -- it moves the existing timer
-        earlier for confidently-transcribed speech without introducing a
-        new high-frequency commit path.
+        (h-asr-confidence-early-commit) and semantic-completeness-gating
+        check (h-semantic-completeness-gating): reusing this same 0.5s
+        periodic cadence (rather than checking on every interim message,
+        the way LocalAgreement-2 does) is deliberate -- it moves the
+        existing timer earlier for confidently-transcribed/semantically-
+        complete speech without introducing a new high-frequency commit
+        path.
         """
         try:
             while self._running:
@@ -353,11 +380,45 @@ class DeepgramTranscriber:
                     and self._pending_result.confidence
                     >= self._confidence_early_commit_threshold
                 )
-                if elapsed >= self._max_interim_duration or confident_early:
+                semantic_early = False
+                if (
+                    not confident_early
+                    and self._completeness_check is not None
+                    and elapsed >= self._semantic_gating_min_elapsed
+                    and elapsed < self._max_interim_duration
+                    and (
+                        self._last_semantic_check_at is None
+                        or time.monotonic() - self._last_semantic_check_at
+                        >= self._semantic_gating_check_interval
+                    )
+                ):
+                    self._last_semantic_check_at = time.monotonic()
+                    pending_text = self._pending_result.text
+                    try:
+                        is_complete = await self._completeness_check(pending_text)
+                    except Exception:  # noqa: BLE001
+                        is_complete = None
+                    # The classifier call was awaited, so state may have
+                    # moved on (a new message, or UtteranceEnd, arrived
+                    # while we were waiting) -- re-check before acting on
+                    # a now possibly-stale decision.
+                    if (
+                        is_complete
+                        and self._utterance_since is not None
+                        and self._pending_result is not None
+                    ):
+                        semantic_early = True
+                should_finalize = (
+                    elapsed >= self._max_interim_duration
+                    or confident_early
+                    or semantic_early
+                )
+                if should_finalize:
                     self._soft_finalize_pending(is_utterance_end=False)
                     # Deepgram's own utterance is still open; only restart
                     # the timeout window, don't reset utterance tracking.
                     self._utterance_since = time.monotonic()
+                    self._last_semantic_check_at = None
         except asyncio.CancelledError:
             pass
         except Exception as exc:  # noqa: BLE001
@@ -374,6 +435,7 @@ class DeepgramTranscriber:
             self._consumed_end_time = start
             self._utterance_id += 1
             self._prev_interim_words = None
+            self._last_semantic_check_at = None
 
     def _reset_utterance_state(self) -> None:
         self._utterance_start_time = None
@@ -381,6 +443,7 @@ class DeepgramTranscriber:
         self._consumed_word_count = 0
         self._consumed_end_time = None
         self._pending_result = None
+        self._last_semantic_check_at = None
         self._prev_interim_words = None
 
     def _soft_finalize_pending(self, *, is_utterance_end: bool) -> None:
