@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 9,
-  "last_updated": "2026-09-17T12:11:58.214964+00:00",
+  "last_updated": "2026-09-18T00:11:28.856865+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -737,6 +737,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-09-17T12:11:58.214921+00:00",
       "note": "Cycle 17 SEARCH_PAPERS: WebSearch pass for post-cycle-13 literature (IWSLT2026 systems, flicker/stability policies, cascade-vs-e2e, LLM prompting, vendor ASR latency). 3 new candidates added as 'found' stubs: cuni2026-pocket-offline-simulst, simulstream2025-eval-toolkit, lacuna2026-beam-search-cascade-flicker (most relevant -- >20% flicker reduction from beam-search changes in a cascaded pipeline, directly on-topic for this repo's cascade architecture). Other search hits duplicated already-read papers or were older/superseded work, not re-added."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-09-18T00:11:28.856835+00:00",
+      "note": "Extracted 3 found papers (cuni2026-pocket-offline-simulst, simulstream2025-eval-toolkit, lacuna2026-beam-search-cascade-flicker) via WebSearch fallback (WebFetch EGRESS_BLOCKED for arxiv.org/lacuna.tiptreesystems.com). Corrected lacuna paper's venue/year metadata (actually Interspeech 2024, arXiv:2407.11010)."
     }
   ]
 }
