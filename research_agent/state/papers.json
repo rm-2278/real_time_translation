@@ -537,10 +537,16 @@
       "venue": "arXiv:2606.03948 (IWSLT 2026 shared task submission)",
       "url": "https://arxiv.org/pdf/2606.03948",
       "source": "websearch",
-      "status": "extracted",
-      "summary": null,
-      "key_findings": [],
-      "relevant_to": [],
+      "status": "read",
+      "summary": "Charles University's IWSLT 2026 submission adapts the offline direct speech-to-text translation model Canary into a simultaneous system by wrapping it with the AlignAtt read/write policy, rather than training a dedicated streaming model. At only 1B parameters and covering 25x25 language pairs, it reports beating similarly-sized baselines across both low- and high-latency operating points in computationally-unaware simulation.",
+      "key_findings": [
+        "A pure ASR/policy-layer trick (AlignAtt attention-based read/write decision) can turn an off-the-shelf offline speech translation model into a competitive streaming one without retraining -- relevant as a design pattern, though this repo's pipeline is cascade (Deepgram ASR + separate LLM translation), not a single direct-ST model, so the policy itself doesn't port directly.",
+        "Result is simulation-only (computationally-unaware), so latency numbers likely understate real wall-clock cost -- a caveat to flag if this paper is ever cited for latency claims.",
+        "1B-parameter footprint suggests these systems target on-device/low-resource deployment, a different constraint set than this repo's API-based Deepgram+Gemini/OpenAI architecture."
+      ],
+      "relevant_to": [
+        "h-localagreement-asr-commit"
+      ],
       "extraction_note": "WebFetch to arxiv.org EGRESS_BLOCKED this cycle; extracted via WebSearch abstract-snippet fallback per PLAYBOOK.md.",
       "abstract_extract": "Adds simultaneous-translation capability to the offline direct speech-to-text translation model Canary via the AlignAtt policy; submitted to IWSLT 2026 Simultaneous Speech Translation shared task (cs->en, en->de, en->it). Claims: (1) outperforms similarly-sized baselines in both low- and high-latency regimes in computationally-unaware simulation; (2) only 1B parameters; (3) multilingual, 25 source / 25 target languages."
     },
@@ -552,10 +558,16 @@
       "venue": "arXiv:2512.17648",
       "url": "https://arxiv.org/pdf/2512.17648",
       "source": "websearch",
-      "status": "extracted",
-      "summary": null,
-      "key_findings": [],
-      "relevant_to": [],
+      "status": "read",
+      "summary": "Introduces Simulstream, an open-source evaluation/demo toolkit for streaming speech-to-text translation, positioned as a successor to SimulEval. Its main claimed gap-filler is native support for both incremental decoding AND re-translation policies (SimulEval only handles incremental) plus native long-form audio support (SimulEval assumes short, pre-segmented clips) and an interactive web demo UI, alongside fine-grained quality/latency logging.",
+      "key_findings": [
+        "Confirms re-translation (not just incremental/local-agreement-style commit) is a first-class, actively-studied streaming decoding policy in the literature -- this repo already tests both families (h-localagreement-asr-commit for incremental-style commit, h-masking-holdback and h-continuation-context-anchor for re-translation-adjacent approaches).",
+        "Long-form (not just short pre-segmented clip) evaluation support being called out as a toolkit gap elsewhere validates this repo's own practice of testing on real, longer production-video clips (e.g. llm_course ep8 10-minute clip) rather than only short snippets.",
+        "This is an evaluation-tooling paper, not a modeling paper -- no algorithmic technique to adopt directly; its value here is methodological (confirms the metric/logging granularity this repo's flicker_metrics.py and results.csv already aim for is in line with current community practice), not a source of a new hypothesis by itself."
+      ],
+      "relevant_to": [
+        "h-flicker-metric"
+      ],
       "extraction_note": "WebFetch to arxiv.org EGRESS_BLOCKED this cycle; extracted via WebSearch abstract-snippet fallback per PLAYBOOK.md.",
       "abstract_extract": "Argues existing StreamST eval frameworks are fragmented: SimulEval (most widely used) only supports incremental decoding, assumes short pre-segmented audio, and has no native demo support. Simulstream is introduced as the first open-source framework supporting both incremental AND re-translation decoding on long-form (not just pre-segmented) speech, with fine-grained quality/latency logging and an interactive web demo UI."
     },
@@ -567,10 +579,18 @@
       "venue": "Interspeech 2024 (arXiv:2407.11010); the Lacuna URL found in SEARCH_PAPERS is a blog mirror of this peer-reviewed paper, not a distinct 2026 blog post",
       "url": "https://arxiv.org/abs/2407.11010",
       "source": "websearch",
-      "status": "extracted",
-      "summary": null,
-      "key_findings": [],
-      "relevant_to": [],
+      "status": "read",
+      "summary": "Rabatin, Seide & Chang (Interspeech 2024) adapt MT beam search to cascaded real-time speech translation, addressing incomplete-word intermediate ASR transcripts, minimal-latency intermediate/final translation emission, unequal-length beam hypotheses, and sentence-boundary handling. Against a naive repeatedly-retranslate-from-scratch baseline, their beam-search-aware approach reports +1 BLEU, up to 40% CPU time reduction, and a 20+% character flicker-rate reduction.",
+      "key_findings": [
+        "Directly targets the same problem this repo's h-flicker-metric/h-masking-holdback/h-cross-utterance-flicker hypotheses target (flicker/erasure in a cascaded ASR->MT streaming system), but attacks it at the MT decoding-search level (beam search state reuse across incremental ASR updates) rather than at the prompt/masking level this repo has tested so far -- a genuinely new angle, not yet covered by any existing hypothesis or experiment (grepped experiments/*.json and results.csv `notes`/`experiment_name` columns for 'beam'/'revision': no hits).",
+        "The technique assumes access to token-level beam-search decoding state inside the MT model, which this repo's LLM-API-based translation step (Gemini/OpenAI via prompting, no access to internal beam state) cannot directly replicate -- any hypothesis inspired by this paper would need to be reframed as an API-compatible approximation (e.g. structured re-prompting that reuses/anchors the previous translation's committed prefix) rather than a literal port.",
+        "20+% flicker reduction and 40% compute reduction are reported against a 'repeatedly retranslate from scratch' baseline specifically -- worth checking whether this repo's current default behavior is closer to that naive baseline or already closer to the paper's optimized approach before assuming the full 20% gap is available to capture."
+      ],
+      "relevant_to": [
+        "h-flicker-metric",
+        "h-masking-holdback",
+        "h-cross-utterance-flicker"
+      ],
       "extraction_note": "Corrected metadata: originally logged with venue='Lacuna (engineering blog, not peer-reviewed)' and year=2026 based on the blog mirror URL alone; WebSearch during EXTRACT_PAPERS surfaced the underlying arXiv/ISCA record showing it is actually Rabatin/Seide/Chang, Interspeech 2024, arXiv:2407.11010. WebFetch to both lacuna.tiptreesystems.com and arxiv.org was EGRESS_BLOCKED; extracted via WebSearch abstract-snippet fallback per PLAYBOOK.md.",
       "abstract_extract": "Adapts MT beam search to a cascaded real-time speech translation system, addressing 4 challenges: (1) real-time handling of intermediate/final ASR transcriptions with incomplete words, (2) emitting intermediate/final translations with minimal perceived latency, (3) beam hypotheses of unequal length and differing model state, (4) sentence-boundary handling. Reported results: +1 BLEU vs greedy search, up to 40% CPU time reduction, and 20+% character flicker-rate reduction vs a repeatedly-retranslate baseline heuristic."
     }
