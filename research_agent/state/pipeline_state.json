@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 9,
-  "last_updated": "2026-09-18T00:11:28.856865+00:00",
+  "last_updated": "2026-09-18T12:12:42.847111+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -743,6 +743,12 @@
       "to": "READ_PAPERS",
       "at": "2026-09-18T00:11:28.856835+00:00",
       "note": "Extracted 3 found papers (cuni2026-pocket-offline-simulst, simulstream2025-eval-toolkit, lacuna2026-beam-search-cascade-flicker) via WebSearch fallback (WebFetch EGRESS_BLOCKED for arxiv.org/lacuna.tiptreesystems.com). Corrected lacuna paper's venue/year metadata (actually Interspeech 2024, arXiv:2407.11010)."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-18T12:12:42.847087+00:00",
+      "note": "cycle 17: summarized+cross-referenced the 3 extracted papers (cuni2026-pocket-offline-simulst, simulstream2025-eval-toolkit, lacuna2026-beam-search-cascade-flicker) into papers.json, all 29 papers now status=read. lacuna2026's MT-beam-search-for-cascade-flicker angle is new and not covered by existing hypotheses/experiments (grepped for beam/revision keywords)."
     }
   ]
 }
