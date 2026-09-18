@@ -332,6 +332,29 @@ asyncio.run(main())
   # same zoom/rtms-sync way as any other `uv run`. Run `uv pip install
   # ruff` once (a normal per-package install, not a full sync) in the
   # activated venv, then use `python3 -m ruff check <paths>` directly.
+  # IMPORTANT (found 2026-09-18, a human-driven local session, not a
+  # cloud sandbox cycle): `Config.from_env()` calls `load_dotenv(
+  # override=True)` -- a deliberate choice (see its own comment: fixes a
+  # real past bug where a stale shell OPENAI_API_KEY shadowed a corrected
+  # .env value with no visible error). The side effect: shell-exporting a
+  # one-off override for THIS run (e.g. `DICTIONARY_PATH=... uv run ...`)
+  # is SILENTLY DISCARDED for any variable that also has a line in `.env`
+  # -- .env wins every time, no error, no warning. Cost a full 75-minute
+  # live run (experiments/20260918_llm2025_ep8_zenhan_full_lecture.json)
+  # re-run from scratch: DICTIONARY_PATH was shell-exported to a
+  # session-specific glossary but silently reverted to .env's own
+  # DICTIONARY_PATH=dictionary.csv value every time. Variables NOT present
+  # in `.env` (e.g. DEEPGRAM_MAX_INTERIM_DURATION, READING_SPEED_*,
+  # CONTINUATION_TRANSLATION_MODE) export/override fine, as does the
+  # `--endpointing` CLI flag (applied to `config` after `from_env()`
+  # returns, never touched by dotenv at all) -- this only bites variables
+  # that collide with an existing `.env` line. `video_segment.py`/
+  # `youtube_segment.py` expose no `--env-file` flag to point at an
+  # alternate file, so the only reliable one-off override for a
+  # `.env`-shadowed variable is to edit `.env` itself for the run, then
+  # revert it afterward -- check what a variable's shell-export actually
+  # took effect via the experiment JSON's own `config` block before
+  # trusting a long/expensive run, not just before it starts.
   If any of these fail (this can legitimately happen -- e.g. a cloud
   sandbox where secrets haven't been provisioned yet, a fresh
   environment without ffmpeg, or -- distinct from a missing/bad key --
