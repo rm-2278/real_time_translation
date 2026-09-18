@@ -144,81 +144,87 @@ def _ffprobe_duration(path: Path) -> float:
     return float(out.stdout.strip())
 
 
-def render(
-    experiment_path: Path,
-    mode: str,
-    name: str,
-    output_dir: Path,
-    style: str = "outline",
-    background: str = "color",
-) -> tuple[Path, Path]:
-    data = _load_experiment(experiment_path)
-    events = data["results"]["events"]
-    source_path = Path(data["input"]["path"])
-    start_seconds = float(data["input"]["start_seconds"])
-    duration_seconds = float(data["input"]["duration_seconds"])
+# ffmpeg's overlay-per-PNG-file approach opens one decoder per cue; past
+# roughly this many simultaneous inputs, ffmpeg starts failing with
+# "Error while opening decoder: Resource temporarily unavailable" (found
+# 2026-09-18 rendering a 75-minute/2691-cue lecture -- failed consistently
+# around input #372 even after raising `ulimit -n`, so it isn't purely a
+# file-descriptor limit; some other per-process resource, e.g. threads,
+# is the real ceiling). Long recordings get chunked into separate ffmpeg
+# passes of at most this many cues each, then concatenated -- see
+# `_render_chunk` / the chunking loop in `render()`.
+_MAX_CUES_PER_PASS = 200
+_CHUNK_SECONDS = 240.0
 
-    raw_cues = extract_utterance_cues(events)
-    cues = format_naive(raw_cues) if mode == "naive" else format_readable(raw_cues)
-    if not cues:
-        raise SystemExit(f"No translation cues extracted from {experiment_path}")
 
-    # A translation can genuinely arrive after the clip's own speech audio
-    # ends (real end-to-end latency -- see this repo's own latency
-    # findings), and `format_readable` can deliberately hold a card past
-    # where naive arrival would've cut it. Size the rendered video to fit
-    # every cue instead of silently dropping/truncating whatever runs past
-    # a fixed `duration_seconds` -- that previously made a fully-translated
-    # tail look untranslated just because it displayed a few seconds late.
-    video_length = max(duration_seconds, cues[-1].end + 0.5)
-
-    output_dir.mkdir(parents=True, exist_ok=True)
-    srt_path = output_dir / f"{name}.srt"
-    write_srt(cues, srt_path)
-
+def _render_chunk(
+    cues: list[Cue],
+    *,
+    chunk_video_length: float,
+    source_path: Path,
+    abs_start_seconds: float,
+    abs_source_seconds_available: float,
+    abs_source_end_seconds: float,
+    full_audio_path: Path,
+    audio_offset: float,
+    style: str,
+    shrink_to_fit: bool,
+    background: str,
+    out_path: Path,
+) -> None:
+    """Render one ffmpeg pass covering `chunk_video_length` seconds of
+    overlay timeline, with `cues` already shifted to be relative to this
+    chunk's own start (0 = this chunk's first frame)."""
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = Path(tmp)
 
-        audio_path = tmp_path / "audio.wav"
+        chunk_audio_path = tmp_path / "audio.wav"
         subprocess.run(
             [
                 "ffmpeg",
                 "-y",
                 "-ss",
-                str(start_seconds),
+                str(audio_offset),
                 "-t",
-                str(duration_seconds),
+                str(chunk_video_length),
                 "-i",
-                str(source_path),
-                "-vn",
-                "-ac",
-                "2",
-                "-ar",
-                "44100",
-                "-af",
-                f"apad=whole_dur={video_length}",
-                str(audio_path),
+                str(full_audio_path),
+                str(chunk_audio_path),
             ],
             check=True,
             capture_output=True,
         )
-        audio_duration = _ffprobe_duration(audio_path)
 
-        shrink_to_fit = mode != "naive"
         png_paths: list[Path] = []
         for i, cue in enumerate(cues):
             png_path = tmp_path / f"cue_{i:04d}.png"
             _render_cue_png(cue, png_path, shrink_to_fit=shrink_to_fit, style=style)
             png_paths.append(png_path)
 
-        if background == "video":
+        if background == "video" and abs_source_seconds_available > 0:
             cmd = [
                 "ffmpeg",
                 "-y",
                 "-ss",
-                str(start_seconds),
+                str(abs_start_seconds),
                 "-t",
-                str(duration_seconds),
+                str(abs_source_seconds_available),
+                "-i",
+                str(source_path),
+            ]
+        elif background == "video":
+            # This chunk is entirely past the source clip's own real
+            # duration (a translation-latency tail past the last frame of
+            # actual footage) -- grab one still frame to freeze instead of
+            # a zero-length extraction, which ffmpeg would reject.
+            freeze_at = max(0.0, min(abs_start_seconds, abs_source_end_seconds) - 0.1)
+            cmd = [
+                "ffmpeg",
+                "-y",
+                "-ss",
+                str(freeze_at),
+                "-t",
+                "0.1",
                 "-i",
                 str(source_path),
             ]
@@ -229,21 +235,20 @@ def render(
                 "-f",
                 "lavfi",
                 "-i",
-                f"color=c=0x14201d:s={CANVAS_W}x{CANVAS_H}:d={audio_duration}",
+                f"color=c=0x14201d:s={CANVAS_W}x{CANVAS_H}:d={chunk_video_length}",
             ]
         for p in png_paths:
             cmd += ["-i", str(p)]
-        cmd += ["-i", str(audio_path)]
+        cmd += ["-i", str(chunk_audio_path)]
 
         filter_parts = []
         if background == "video":
-            # Real footage rarely matches CANVAS_W x CANVAS_H exactly --
-            # fit it letterboxed, then freeze the last frame for however
-            # long the caption tail (video_length) runs past the source
-            # clip's own duration_seconds (see the video_length comment
-            # above: a translation can legitimately arrive after the
-            # clip's speech audio ends).
-            pad_tail = max(0.0, video_length - duration_seconds)
+            extracted = (
+                abs_source_seconds_available
+                if abs_source_seconds_available > 0
+                else 0.1
+            )
+            pad_tail = max(0.0, chunk_video_length - extracted)
             filter_parts.append(
                 f"[0:v]scale={CANVAS_W}:{CANVAS_H}:force_original_aspect_ratio=decrease,"
                 f"pad={CANVAS_W}:{CANVAS_H}:(ow-iw)/2:(oh-ih)/2:color=0x14201d,"
@@ -263,7 +268,6 @@ def render(
         filter_complex = ";".join(filter_parts)
         audio_idx = len(png_paths) + 1
 
-        video_out = output_dir / f"{name}.mp4"
         cmd += [
             "-filter_complex",
             filter_complex,
@@ -280,12 +284,174 @@ def render(
             "-shortest",
             "-movflags",
             "+faststart",
-            str(video_out),
+            str(out_path),
         ]
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
             sys.stderr.write(result.stderr[-4000:])
             raise SystemExit("ffmpeg render failed")
+
+
+def render(
+    experiment_path: Path,
+    mode: str,
+    name: str,
+    output_dir: Path,
+    style: str = "outline",
+    background: str = "color",
+) -> tuple[Path, Path]:
+    data = _load_experiment(experiment_path)
+    events = data["results"]["events"]
+    source_path = Path(data["input"]["path"])
+    start_seconds = float(data["input"]["start_seconds"])
+    raw_duration = data["input"]["duration_seconds"]
+    if raw_duration is not None:
+        duration_seconds = float(raw_duration)
+    else:
+        # "process rest of file" runs (no --duration passed) save
+        # duration_seconds=None -- fall back to how much audio was
+        # actually transcribed (the last event's own asr_end_time), which
+        # is more accurate than re-probing the source file's full length
+        # (the run may have stopped short of the file's actual end).
+        end_times = [
+            e["asr_end_time"] for e in events if e.get("asr_end_time") is not None
+        ]
+        if not end_times:
+            raise SystemExit(
+                f"{experiment_path}: duration_seconds is None and no event "
+                "has an asr_end_time to fall back on"
+            )
+        duration_seconds = max(end_times)
+
+    raw_cues = extract_utterance_cues(events)
+    cues = format_naive(raw_cues) if mode == "naive" else format_readable(raw_cues)
+    if not cues:
+        raise SystemExit(f"No translation cues extracted from {experiment_path}")
+
+    # A translation can genuinely arrive after the clip's own speech audio
+    # ends (real end-to-end latency -- see this repo's own latency
+    # findings), and `format_readable` can deliberately hold a card past
+    # where naive arrival would've cut it. Size the rendered video to fit
+    # every cue instead of silently dropping/truncating whatever runs past
+    # a fixed `duration_seconds` -- that previously made a fully-translated
+    # tail look untranslated just because it displayed a few seconds late.
+    video_length = max(duration_seconds, cues[-1].end + 0.5)
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    srt_path = output_dir / f"{name}.srt"
+    write_srt(cues, srt_path)
+    video_out = output_dir / f"{name}.mp4"
+    shrink_to_fit = mode != "naive"
+
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_path = Path(tmp)
+
+        full_audio_path = tmp_path / "full_audio.wav"
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-y",
+                "-ss",
+                str(start_seconds),
+                "-t",
+                str(duration_seconds),
+                "-i",
+                str(source_path),
+                "-vn",
+                "-ac",
+                "2",
+                "-ar",
+                "44100",
+                "-af",
+                f"apad=whole_dur={video_length}",
+                str(full_audio_path),
+            ],
+            check=True,
+            capture_output=True,
+        )
+
+        if len(cues) <= _MAX_CUES_PER_PASS:
+            _render_chunk(
+                cues,
+                chunk_video_length=video_length,
+                source_path=source_path,
+                abs_start_seconds=start_seconds,
+                abs_source_seconds_available=duration_seconds,
+                abs_source_end_seconds=start_seconds + duration_seconds,
+                full_audio_path=full_audio_path,
+                audio_offset=0.0,
+                style=style,
+                shrink_to_fit=shrink_to_fit,
+                background=background,
+                out_path=video_out,
+            )
+        else:
+            chunk_paths: list[Path] = []
+            chunk_start = 0.0
+            idx = 0
+            while chunk_start < video_length:
+                chunk_len = min(_CHUNK_SECONDS, video_length - chunk_start)
+                chunk_end = chunk_start + chunk_len
+                chunk_cues = [
+                    Cue(
+                        c.start - chunk_start,
+                        min(c.end, chunk_end) - chunk_start,
+                        c.text,
+                    )
+                    for c in cues
+                    if chunk_start <= c.start < chunk_end
+                ]
+                if chunk_cues:
+                    # abs_source_seconds_available: how much of THIS
+                    # chunk's window actually still has real source
+                    # footage/audio left (0 once we're past
+                    # duration_seconds, into pure caption-latency tail).
+                    abs_available = max(
+                        0.0, min(chunk_len, duration_seconds - chunk_start)
+                    )
+                    chunk_path = tmp_path / f"chunk_{idx:04d}.mp4"
+                    _render_chunk(
+                        chunk_cues,
+                        chunk_video_length=chunk_len,
+                        source_path=source_path,
+                        abs_start_seconds=start_seconds + chunk_start,
+                        abs_source_seconds_available=abs_available,
+                        abs_source_end_seconds=start_seconds + duration_seconds,
+                        full_audio_path=full_audio_path,
+                        audio_offset=chunk_start,
+                        style=style,
+                        shrink_to_fit=shrink_to_fit,
+                        background=background,
+                        out_path=chunk_path,
+                    )
+                    chunk_paths.append(chunk_path)
+                chunk_start += chunk_len
+                idx += 1
+
+            concat_list = tmp_path / "concat_list.txt"
+            concat_list.write_text(
+                "".join(f"file '{p.resolve()}'\n" for p in chunk_paths)
+            )
+            result = subprocess.run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-f",
+                    "concat",
+                    "-safe",
+                    "0",
+                    "-i",
+                    str(concat_list),
+                    "-c",
+                    "copy",
+                    str(video_out),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode != 0:
+                sys.stderr.write(result.stderr[-4000:])
+                raise SystemExit("ffmpeg concat of chunked render failed")
 
     return video_out, srt_path
 
