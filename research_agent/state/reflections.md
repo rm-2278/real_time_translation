@@ -1092,3 +1092,97 @@ racing on the same file (plain read-modify-write, no lock), which is fine
 for this repo's actual usage pattern (rare, and conflicts so far have been
 purely additive) but would silently lose data if two sessions both add
 different new hypotheses AND one is not careful to re-read before writing.
+
+## Extended interactive session, "implement and test everything" (2026-09-16 to 2026-09-18)
+
+**What happened:** rm-2278 said "implement and run real API experiments,
+keep going until everything is done" and then, mid-session, "discard
+prior conclusions and re-verify masking-holdback/LocalAgreement-2/
+continuation-anchor/compression-actions from scratch." This turned into
+the single largest block of live-API work this pipeline has done in one
+sitting: implemented and live-tested 5 new Config-gated features
+(h-asr-confidence-early-commit, h-monotonic-chunkwise-prompt-enja,
+h-semantic-completeness-gating, h-soft-final-interval-x-append-
+continuation, h-backlog-adaptive-compression-budget) plus re-verified 4
+older ones, ~15 live experiments total, ~$0.35 total spend (still nowhere
+near the $7/day cap).
+
+**The single most important finding, discovered repeatedly rather than
+predicted up front:** h-max-interim-duration-raise's timer fix (2.5s ->
+6.0s, validated earlier in this same extended session) turned out to have
+much broader consequences than its own hypothesis claimed. FOUR separate
+follow-on hypotheses -- masking-holdback, continuation-anchor, monotonic-
+prompt, and backlog-adaptive-compression -- each independently hit the
+same wall when retested at the new timer: their target condition (many
+small, frequent multi-batch continuations / a backed-up translation
+queue) had already been mostly eliminated as a side effect of the SAME
+fix, for the SAME underlying reason (fewer, larger batches = fewer total
+translation calls = less flicker AND less queueing pressure AND less
+backlog, all from one config change). This was not obvious in advance --
+each hypothesis was grounded in independent literature/reasoning -- and
+took actually running the numbers each time to notice, not something a
+single up-front analysis would have caught. Worth stating as a general
+lesson for GENERATE_HYPOTHESES: when one fix already changes a shared
+upstream quantity (here: call frequency), check whether a queued
+hypothesis's OWN premise still holds under the new baseline before
+spending budget re-testing it, not just whether the fix supersedes its
+specific mechanism.
+
+**The one clear win:** h-soft-final-interval-x-append-continuation
+(append mode for continuation batches) was the only hypothesis with a
+real, statistically well-powered, positive result (~25% cross-batch NE
+reduction at the OLD timer, where enough continuation batches existed to
+test on -- 15 multi-batch spans, not the n=1 every other continuation-
+targeted retest was stuck with). Its own mechanism has no queue-draining
+downside the way masking-holdback did, so it was recommended for
+production despite not being directly tested combined with the 6.0s
+timer (same n=1 problem there too) -- a judgment call to generalize from
+a differently-configured but otherwise clean, matched, well-powered
+result rather than block on an untestable-with-current-clips combination.
+
+**A real implementation bug caught by ANALYZE_RESULTS discipline:**
+h-semantic-completeness-gating's classifier calls (LLMTranslator.
+check_completeness) didn't go through the shared translation rate
+limiter -- found by noticing a latency outlier (max_e2e +40%) didn't fit
+the otherwise-clean mechanism evidence (a confirmed early commit with
+NE=0.0 on the one case it fired), fixed, and re-tested to confirm the fix
+worked (outlier dropped to +3.0%). This is the same "spot-check before
+trusting" discipline the playbook has flagged before, applied to a new
+failure mode (unthrottled side-channel API calls) rather than a data-
+schema assumption.
+
+**Verify-before-spend became a real habit this session, not just
+playbook advice:** every new mechanism (confidence-gating, semantic-
+gating, append-mode, backlog-scaling) was checked with a standalone
+async test or pure unit-level check -- bypassing the network, $0 -- before
+its first live run. This caught nothing dramatic this session, but is
+worth keeping as standard practice for any future hypothesis whose
+required_changes touches concurrency/async control flow (the confidence/
+semantic-gating hooks live inside a periodic loop with real race-
+condition surface around awaited classifier calls) -- cheaper to catch a
+wiring bug in a 10-line mock than in a live run that then needs
+re-diagnosing from noisy real data.
+
+**Budget policy:** Unchanged recommendation. ~$0.35 spent across this
+extended session (many small live runs, each logged individually),
+consistent with the $3/batch, $7/day caps never having been stress-tested
+by real usage yet.
+
+**Should this playbook change?** Not this cycle -- no new PLAYBOOK.md
+edit made during this extended interactive block (the SEARCH_PAPERS-vs-
+mid-cycle-refresh note from earlier this same day already covers the
+literature-search behavior; nothing new surfaced that the playbook
+doesn't already guide).
+
+**Next state:** Backlog is now empty (all 5 new + 4 re-verified
+hypotheses tested). Natural next steps flagged in the human-facing report
+rather than queued as new hypotheses yet: (1) merge append-continuation
+mode into the production/best-known config, (2) further tune semantic-
+completeness-gating's min_elapsed/check_interval, (3) find or construct a
+genuinely harder/denser/noisier test clip so the 4 timer-neutralized
+hypotheses (holdback, anchor, monotonic, backlog-compression) can get a
+fair combined-with-6.0s-timer test rather than being left as "probably
+fine to skip." Advancing to GENERATE_HYPOTHESES next time work resumes,
+grounding the search in this session's own finding (call-frequency is the
+shared upstream lever many things route through) rather than starting a
+fresh literature pass first.
