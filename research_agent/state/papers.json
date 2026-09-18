@@ -532,15 +532,17 @@
     {
       "id": "cuni2026-pocket-offline-simulst",
       "title": "A Pocket Offline Model for Simultaneous Speech Translation as CUNI Submission to IWSLT 2026",
-      "authors": "unread -- found via WebSearch 2026-09-17",
+      "authors": "Aziz Sharipov Ortega, Dominik Macháček (Charles University)",
       "year": 2026,
       "venue": "arXiv:2606.03948 (IWSLT 2026 shared task submission)",
       "url": "https://arxiv.org/pdf/2606.03948",
       "source": "websearch",
-      "status": "found",
+      "status": "extracted",
       "summary": null,
       "key_findings": [],
-      "relevant_to": []
+      "relevant_to": [],
+      "extraction_note": "WebFetch to arxiv.org EGRESS_BLOCKED this cycle; extracted via WebSearch abstract-snippet fallback per PLAYBOOK.md.",
+      "abstract_extract": "Adds simultaneous-translation capability to the offline direct speech-to-text translation model Canary via the AlignAtt policy; submitted to IWSLT 2026 Simultaneous Speech Translation shared task (cs->en, en->de, en->it). Claims: (1) outperforms similarly-sized baselines in both low- and high-latency regimes in computationally-unaware simulation; (2) only 1B parameters; (3) multilingual, 25 source / 25 target languages."
     },
     {
       "id": "simulstream2025-eval-toolkit",
@@ -550,23 +552,27 @@
       "venue": "arXiv:2512.17648",
       "url": "https://arxiv.org/pdf/2512.17648",
       "source": "websearch",
-      "status": "found",
+      "status": "extracted",
       "summary": null,
       "key_findings": [],
-      "relevant_to": []
+      "relevant_to": [],
+      "extraction_note": "WebFetch to arxiv.org EGRESS_BLOCKED this cycle; extracted via WebSearch abstract-snippet fallback per PLAYBOOK.md.",
+      "abstract_extract": "Argues existing StreamST eval frameworks are fragmented: SimulEval (most widely used) only supports incremental decoding, assumes short pre-segmented audio, and has no native demo support. Simulstream is introduced as the first open-source framework supporting both incremental AND re-translation decoding on long-form (not just pre-segmented) speech, with fine-grained quality/latency logging and an interactive web demo UI."
     },
     {
       "id": "lacuna2026-beam-search-cascade-flicker",
       "title": "Navigating the Minefield of MT Beam Search in Cascaded Streaming Speech Translation",
-      "authors": "unread -- found via WebSearch 2026-09-17",
-      "year": 2026,
-      "venue": "Lacuna (engineering blog, not peer-reviewed)",
-      "url": "https://lacuna.tiptreesystems.com/work/navigating-the-minefield-of-mt-beam-search-in-cascaded-streaming-speech/wrk_4c7d3e633d376e9ea88041dddb759d8f",
+      "authors": "Rastislav Rabatin, Frank Seide, Ernie Chang",
+      "year": 2024,
+      "venue": "Interspeech 2024 (arXiv:2407.11010); the Lacuna URL found in SEARCH_PAPERS is a blog mirror of this peer-reviewed paper, not a distinct 2026 blog post",
+      "url": "https://arxiv.org/abs/2407.11010",
       "source": "websearch",
-      "status": "found",
+      "status": "extracted",
       "summary": null,
       "key_findings": [],
-      "relevant_to": []
+      "relevant_to": [],
+      "extraction_note": "Corrected metadata: originally logged with venue='Lacuna (engineering blog, not peer-reviewed)' and year=2026 based on the blog mirror URL alone; WebSearch during EXTRACT_PAPERS surfaced the underlying arXiv/ISCA record showing it is actually Rabatin/Seide/Chang, Interspeech 2024, arXiv:2407.11010. WebFetch to both lacuna.tiptreesystems.com and arxiv.org was EGRESS_BLOCKED; extracted via WebSearch abstract-snippet fallback per PLAYBOOK.md.",
+      "abstract_extract": "Adapts MT beam search to a cascaded real-time speech translation system, addressing 4 challenges: (1) real-time handling of intermediate/final ASR transcriptions with incomplete words, (2) emitting intermediate/final translations with minimal perceived latency, (3) beam hypotheses of unequal length and differing model state, (4) sentence-boundary handling. Reported results: +1 BLEU vs greedy search, up to 40% CPU time reduction, and 20+% character flicker-rate reduction vs a repeatedly-retranslate baseline heuristic."
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
