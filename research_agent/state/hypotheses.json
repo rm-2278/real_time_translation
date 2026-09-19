@@ -356,8 +356,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.2,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/20260919_h_soft_anchor_generalization_guest_talk.json"
+      ],
       "result_summary": ""
     }
   ]
