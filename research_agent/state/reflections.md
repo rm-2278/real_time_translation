@@ -1199,3 +1199,99 @@ replay designs) -- if it has recovered by cycle 18, running
 h-masking-holdback or h-localagreement-asr-commit live should take
 priority over the replay follow-up above, since both have been fully
 implemented and ready since early cycles.
+
+---
+
+## Cycle 18 (2026-09-19)
+
+**What worked:** Picking up cycle 17's own concrete, well-motivated
+follow-up recommendation (re-run the soft-anchor-vs-baseline replay
+against a second, larger, structurally different clip to check
+generalization) was the right call again -- it required no new paper
+search, reused ~all of prefix_lock_replay.py's logic via a direct import
+(no code duplication of `_extract_spans`/`_run_condition`), and produced a
+clean, unambiguous answer: the core NE-reduction finding generalizes (and
+is even stronger, 83% vs 65% relative reduction, on 83 spans vs 15), while
+also surfacing a genuinely new, previously-unseen failure mode (anchor-
+induced hallucination on fragmentary source, span 69) that the first
+clip's cleaner source never exposed. This is exactly the kind of "depth
+over breadth" cycle PLAYBOOK.md asks for -- one hypothesis, fully executed
+including a real qualitative investigation of the worst case, rather than
+several shallow ones.
+
+**Also worth naming as a correction to cycle 17's own reflection:** that
+entry's closing note said "if [Deepgram] has recovered by cycle 18,
+running h-masking-holdback or h-localagreement-asr-commit live should
+take priority" -- but both of those hypotheses are already `status:
+tested` (h-masking-holdback via the human's own local-machine run on
+2026-09-13, h-localagreement-asr-commit earlier still), so even if
+Deepgram had recovered this cycle, re-running them wouldn't have been the
+right next step without first deciding *why* a re-test was warranted
+(e.g. a config/code change since the last test, not just "we finally
+have live access"). Flagging so a future cycle doesn't uncritically copy
+that specific recommendation forward again. Moot this cycle regardless --
+Deepgram listen-websocket is still blocked (see below).
+
+**A genuine process near-miss this session (not a data-quality one, a
+pipeline-bookkeeping one):** while the soft_anchor_generalization_replay.py
+run was still in progress in the background, I called `orchestrator.py
+advance RUN_EXPERIMENTS -> ANALYZE_RESULTS` speculatively/optimistically
+before the run had actually finished and before doing the RUN_EXPERIMENTS
+state's own required bookkeeping (hypothesis.status="testing",
+experiment_ids set, commit) -- directly against PLAYBOOK.md's own
+explicit instruction to do that bookkeeping immediately and not wait. This
+was caught before it was committed (a repo git-status hook flagged
+uncommitted changes, which prompted a review before pushing), so no bad
+state was ever pushed, but it was a real deviation: had the session been
+interrupted between the premature `advance` call and the fix, a future
+session would have resumed at `ANALYZE_RESULTS` with no experiment JSON on
+disk yet and no `testing`-status hypothesis pointing at it -- a confusing,
+hard-to-diagnose state. Lesson: **never call `orchestrator.py advance` out
+of a state until that state's own bookkeeping steps are actually done**,
+even when the next step (writing the transition note) is easy to draft
+ahead of time. Drafting the note early is fine; calling `advance` early
+is not, because unlike hypotheses.json edits (which are just data), an
+`advance` call is the one action this pipeline treats as commitment that
+the current state's work is complete.
+
+**Backlog calibration:** Added exactly 1 new hypothesis, fully executed to
+`tested` in the same session (same pattern as cycle 17). Backlog is 0
+queued/proposed, still well under the 6 cap. This makes two cycles in a
+row where a single well-chosen follow-up hypothesis, backed by a replay
+design, resolved cleanly within one session -- worth continuing as the
+default pattern while Deepgram access stays blocked, since it sidesteps
+both the live-run noise problem and the environment blocker entirely.
+
+**Budget policy:** Unchanged recommendation. $0.20 spent this cycle
+(~832 short Gemini translate calls + 166 judge spot-checks, zero Deepgram
+spend, estimated by scaling cycle 17's measured $0.05/253-call rate to
+this cycle's ~998 calls -- no way to get an exact figure without per-call
+token accounting, which this repo's LLMTranslator doesn't currently
+expose; a future hypothesis could add that if precise cost tracking ever
+matters more than it does at this trivial spend level). Total spend
+across 18 cycles remains trivial relative to the $3/batch, $7/day caps.
+
+**Should this playbook change?** No content change this time, but the
+premature-`advance` near-miss above is worth a future addition if it
+recurs -- for now, recording it here in reflections.md (as PLAYBOOK.md's
+REFLECT section itself suggests trying first) rather than editing the
+playbook, since one occurrence, caught before any bad state was
+committed, doesn't yet justify a permanent rule addition. If a future
+cycle repeats this same mistake, escalate it into PLAYBOOK.md's hard
+rules section next time.
+
+**Next state:** Advancing to `GENERATE_HYPOTHESES` directly again
+(skipping `SEARCH_PAPERS`), for cycle 19. Reasoning: this cycle's own
+result identifies a concrete next question -- should the anchor be gated
+off for very short/fragmentary source deltas to avoid the hallucination-
+under-disfluency failure mode found in span 69, without losing the NE win
+on cleaner speech? That's a well-motivated, cheap ($0, replay-only)
+hypothesis to design next, and doesn't need new literature. Deepgram
+listen-websocket remains blocked (same `HTTP 400: Connection header did
+not include 'upgrade'` proxy-mangling failure as cycles 5, 15, 16, and 17
+-- five occurrences now across eleven days) -- if a future session finds
+it has recovered, live re-verification of h-masking-holdback/
+h-localagreement-asr-commit is only worth prioritizing if there's a
+specific reason to doubt their existing `tested` results (e.g. a pipeline
+code change since they were last run), not simply because live access
+became available again.

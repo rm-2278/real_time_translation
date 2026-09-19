@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "REFLECT",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 9,
-  "last_updated": "2026-09-19T12:41:12.640022+00:00",
+  "last_updated": "2026-09-19T12:42:07.576346+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -815,6 +815,12 @@
       "to": "REFLECT",
       "at": "2026-09-19T12:41:12.639996+00:00",
       "note": "Wrote 20260919_cycle18_report.md (Japanese)."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-19T12:42:07.576321+00:00",
+      "note": "REFLECT complete (see reflections.md cycle 18). Skipping a fresh SEARCH_PAPERS pass: this cycle's own result identifies a concrete, cheap ($0, replay-only) follow-up -- gate the soft-anchor off for very short/fragmentary source deltas to avoid the hallucination-under-disfluency failure mode found in span 69, without losing the NE win on cleaner speech. Backlog is 0 queued/proposed, well under the 6 cap. Also corrected a stale recommendation carried over from cycle 17's own reflection (h-masking-holdback/h-localagreement-asr-commit are already tested, not live-verification candidates just because Deepgram access might recover) and flagged a process near-miss (premature orchestrator advance call before RUN_EXPERIMENTS bookkeeping was done, caught before commit)."
     }
   ]
 }
