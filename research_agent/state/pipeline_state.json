@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 9,
-  "last_updated": "2026-09-18T12:12:42.847111+00:00",
+  "last_updated": "2026-09-19T00:13:27.533425+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -749,6 +749,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-18T12:12:42.847087+00:00",
       "note": "cycle 17: summarized+cross-referenced the 3 extracted papers (cuni2026-pocket-offline-simulst, simulstream2025-eval-toolkit, lacuna2026-beam-search-cascade-flicker) into papers.json, all 29 papers now status=read. lacuna2026's MT-beam-search-for-cascade-flicker angle is new and not covered by existing hypotheses/experiments (grepped for beam/revision keywords)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-19T00:13:27.533398+00:00",
+      "note": "cycle 17 GENERATE_HYPOTHESES: added 1 new hypothesis, h-hard-prefix-lock-continuation, grounded in lacuna2026-beam-search-cascade-flicker (flagged last cycle as a new angle not covered by existing hypotheses). Backlog now 1 proposed (well under ~6 cap), depth over breadth honored. Designed as a cheap (/bin/bash.05 est) deterministic replay over already-recorded multi-batch source deltas, avoiding the live-Deepgram dependency and fixing h-continuation-context-anchor's noisy-single-run confound."
     }
   ]
 }
