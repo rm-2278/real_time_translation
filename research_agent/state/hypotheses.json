@@ -355,8 +355,8 @@
       "required_changes": "New script src/real_time_translation/experiments/soft_anchor_generalization_replay.py, adapted directly from prefix_lock_replay.py: same _extract_spans()/_translate_once()/_run_condition() logic, but (1) SOURCE_EXPERIMENT points at experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json instead, (2) CONDITIONS reduced to (\"baseline_replay\", \"soft_anchor_replay\") only (drop hard_lock, already conclusively tested and not recommended), (3) OUT_JSON -> experiments/20260919_h_soft_anchor_generalization_guest_talk.json. Reuse flicker_metrics.normalized_erasure() and translation_fidelity_judge.judge() exactly as-is. No pipeline.py/llm_translator.py changes needed (prior_translation/delta_only params already exist from h-hard-prefix-lock-continuation).",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.2,
-      "approval": "",
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }

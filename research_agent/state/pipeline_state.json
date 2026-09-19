@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 9,
-  "last_updated": "2026-09-19T12:21:57.721418+00:00",
+  "last_updated": "2026-09-19T12:22:14.690296+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -791,6 +791,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-19T12:21:57.721394+00:00",
       "note": "cycle 18 GENERATE_HYPOTHESES: added 1 new hypothesis, h-soft-anchor-generalization-guest-talk, following up on the concrete recommendation flagged at the end of cycle 17's reflection -- re-run the h-hard-prefix-lock-continuation replay methodology (baseline_replay vs soft_anchor_replay only, hard_lock excluded as already conclusively not-recommended) against experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json (83 usable multi-batch spans, verified via _extract_spans(), vs the original 15) to check whether the soft-anchor cross-batch NE improvement generalizes beyond one clip. Backlog now 1 proposed, well under the 6 cap, depth over breadth honored. Also verified this cycle: DEEPGRAM_API_KEY and GOOGLE_API_KEY both set and REST-reachable (200/200), ffmpeg installed cleanly via apt-get, but the Deepgram listen-websocket handshake is still blocked by the egress proxy (HTTP 400 'Connection header did not include upgrade', same failure mode as cycles 5/15/16/17) -- live ASR experiments remain infeasible this session, confirming the replay-based design is the right choice again this cycle."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-19T12:22:14.690271+00:00",
+      "note": "h-soft-anchor-generalization-guest-talk: check-budget(0.20) -> AUTO_APPROVE (remaining_daily=6.95), uses_existing_clips=true. approval=auto_approved, status=queued. At least one queued/approvable hypothesis exists, advancing to RUN_EXPERIMENTS."
     }
   ]
 }
