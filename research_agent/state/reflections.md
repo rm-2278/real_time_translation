@@ -1107,3 +1107,95 @@ running `h-masking-holdback` or `h-localagreement-asr-commit` live
 immediately instead -- both have been fully implemented and ready since
 early cycles, and would be a substantially higher-value use of a working
 Deepgram connection than another literature pass.
+
+---
+
+## Cycle 17 (2026-09-19)
+
+**What worked:** Picked up exactly where the prior session's READ_PAPERS
+left off (it had already flagged lacuna2026-beam-search-cascade-flicker as
+a new, uncovered angle) and turned that into one concrete, well-scoped
+hypothesis (h-hard-prefix-lock-continuation) that was fully executed
+GENERATE_HYPOTHESES -> WRITE_REPORT in one session, at ~$0.05. Reusing the
+compression_actions_replay.py-style deterministic-replay pattern (instead
+of requiring a live run) paid off twice: it let the new hard_lock idea be
+tested with proper repeats/statistics instead of one live sample, and --
+more valuably -- applying the same controlled methodology to
+h-continuation-context-anchor's existing soft-anchor mechanism (as a
+control condition in the same replay) produced the opposite conclusion
+from that hypothesis's original single noisy live run (NE dropped
+0.597->0.212 with repeats/no batching-variance confound, vs. the live
+run's inconclusive/negative 0.836->0.972). That's a genuinely useful
+correction to carry forward, not just a new result.
+
+**What didn't (or needed extra care):** Found a real, previously-
+undocumented data-quality issue mid-implementation: `TimedEvent.
+original_text` on `translation_complete` events is NOT reliably cumulative
+across a multi-batch span (76% of consecutive same-utterance batch pairs
+show a literal prefix relationship, 24% show none at all -- checked
+across all 47 experiment JSONs, not just the one file this hypothesis
+used). This is now a *fourth* concrete instance of the exact trap
+PLAYBOOK.md's GENERATE_HYPOTHESES section already warns about (after
+h-gemini-only-masking-replay's original_text-empty discovery,
+h-cross-utterance-flicker's missing utterance_id, and cycle 13's
+is_utterance_end-only-set-on-translation-events finding) -- except this
+one wasn't caught by that warning's own advice (checking construction
+sites in video_segment.py/youtube_segment.py's on_result()), because the
+actual root cause lives in pipeline.py's async utterance_id/
+_utterance_source_text bookkeeping, not in the event-construction sites
+themselves. I did not fully root-cause *why* it's inconsistent (plausibly
+a race between concurrent translation workers updating
+`_utterance_source_text` for the same utterance_id, but not confirmed) --
+flagging that as open for whoever next needs this field to mean one
+specific thing. Practical impact was contained by adaptively detecting
+the prefix relationship per-transition rather than assuming either form,
+which worked cleanly, but a future hypothesis relying on this field
+should re-verify rather than trust this cycle's workaround blindly if the
+underlying pipeline code changes.
+
+Also worth naming plainly: hard_lock's own headline result (NE=0) was
+predictable before running anything (freezing a literal prefix guarantees
+it structurally) and turned out to not be the interesting number -- the
+real information was in the fidelity-judge score and the qualitative
+failure case (a source clause split mid-phrase across the batch
+boundary). Good reminder to design NE-only comparisons for hypotheses
+where NE is genuinely uncertain, not ones where one condition's NE is
+knowable in advance from the mechanism -- fidelity/coherence should be the
+headline metric in that case, not a secondary check.
+
+**Backlog calibration:** Added exactly 1 new hypothesis (depth over
+breadth, consistent with cycles 14-17), fully executed to `tested` in the
+same session. Backlog is 0 queued/proposed, well under the 6 cap. Unlike
+the h-compression-* thread's three-cycle arc, this one resolved (with a
+genuinely useful side-finding) in a single cycle -- the replay-based
+design let both implementation and full statistical analysis happen
+without waiting on a human's separate live-machine run.
+
+**Budget policy:** Unchanged recommendation. $0.05 spent this cycle (~208
+short Gemini translate calls + 45 judge spot-checks, zero Deepgram
+spend). Total spend across 17 cycles remains trivial relative to the
+$3/batch, $7/day caps.
+
+**Should this playbook change?** Yes, small addition: appended this
+cycle's original_text cumulative-vs-delta finding to the GENERATE_
+HYPOTHESES section's existing "check actual construction sites" warning,
+as a fourth concrete example, so a future session grep-ing for
+`original_text` usage sees this specific caveat rather than rediscovering
+it from scratch (see the diff to this file in the same commit as this
+reflections.md entry).
+
+**Next state:** Advancing directly to `GENERATE_HYPOTHESES` (skipping a
+fresh `SEARCH_PAPERS` pass) for cycle 18. Reasoning: this cycle's own
+result_summary already identifies a concrete, well-motivated, cheap
+follow-up -- re-run the same soft-anchor-vs-baseline replay methodology
+against a different already-recorded multi-batch-rich experiment JSON
+(experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json, 83
+multi-batch spans, far more than this cycle's 15) to check whether the
+soft-anchor's NE improvement generalizes beyond one clip, or was partly a
+property of that specific clip's sentence structure. That's higher-value
+than another literature pass right now. Deepgram WS-proxy status remains
+unverified for three cycles running (15, 16, 17 all used Gemini-only
+replay designs) -- if it has recovered by cycle 18, running
+h-masking-holdback or h-localagreement-asr-commit live should take
+priority over the replay follow-up above, since both have been fully
+implemented and ready since early cycles.

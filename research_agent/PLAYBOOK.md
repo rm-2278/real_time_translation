@@ -136,11 +136,27 @@ human-facing; treat the JSON field as an internal
   `on_result()` for which `kind` values that field is really populated on
   before finalizing the hypothesis text -- do not assume a field is
   populated uniformly across event kinds just because the dataclass
-  defines it once. This has been the wrong assumption behind three
+  defines it once. This has been the wrong assumption behind four
   separate near-misses now (h-gemini-only-masking-replay's `original_text`-
-  empty discovery, h-cross-utterance-flicker's missing `utterance_id`, and
+  empty discovery, h-cross-utterance-flicker's missing `utterance_id`,
   cycle 13's `is_utterance_end`-only-set-on-translation-events discovery --
-  see reflections.md cycle 13).
+  see reflections.md cycle 13 -- and cycle 17's discovery that
+  `original_text` on `translation_complete` events is NOT reliably
+  cumulative across a multi-batch span even once populated: checked across
+  all 47 experiment JSONs, only 76% of consecutive same-utterance batch
+  transitions have the later batch's `original_text` prefixed by the
+  earlier batch's, the other 24% show no overlap at all. This one is
+  *not* caught by re-reading video_segment.py/youtube_segment.py's
+  `on_result()` construction sites alone (the field's presence there is
+  fine) -- the actual inconsistency traces back to async `utterance_id`/
+  `_utterance_source_text` bookkeeping in pipeline.py's
+  `_translation_worker`/`_emit_batch_result`, not fully root-caused as of
+  cycle 17. If a hypothesis needs a per-batch *cumulative* or *delta*
+  source text reconstruction from this field, verify empirically per
+  transition (e.g. does the later value start with the earlier one?)
+  rather than assuming either form uniformly -- see
+  prefix_lock_replay.py's `_extract_spans()` for a working example of the
+  adaptive-detection workaround. See reflections.md cycle 17).
 - Advance to `HUMAN_APPROVAL`.
 
 ## State: HUMAN_APPROVAL
