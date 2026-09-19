@@ -335,8 +335,8 @@
       "required_changes": "New script src/real_time_translation/experiments/prefix_lock_replay.py, following compression_actions_replay.py's replay pattern (load an existing experiment JSON, drive LLMTranslator directly, zero new Deepgram spend): (1) reuse flicker_metrics.py's group_translation_by_utterance() to find multi-batch utterance spans in experiments/20260915_h_continuation_anchor_test_rpmunlimited.json (or another already-recorded multi-batch-rich JSON -- check which has the most multi-batch spans first); (2) for each span, extract per-batch original_text (English source delta) from translation_complete events in order; (3) for each span, run 3 conditions x N repeats (e.g. N=5): (a) baseline -- retranslate each batch's full accumulated source from scratch, matching current default behavior; (b) soft-anchor -- reproduce h-continuation-context-anchor's existing prior_translation advisory prompt path (llm_translator.py already supports this); (c) NEW hard-lock -- call LLMTranslator only on the NEW source delta text (not the full accumulated source) with the previous batches' emitted Japanese text passed as fixed prior context, then concatenate the frozen prior Japanese text + newly translated delta as the batch's output (no model call re-produces the frozen part). Needs a new LLMTranslator entry point or prompt mode for delta-only translation, OR can be approximated by calling the existing translate path with only the delta as source text and the frozen prefix in the context block -- check llm_translator.py's existing signature before deciding which is less invasive. (4) Compute cross-batch NE (reusing normalized_erasure()) and run translation_fidelity_judge.py against each span's full source text for a sample of repeats per condition. (5) Write experiments/YYYYMMDD_h_hard_prefix_lock_replay.json + results.csv row per this repo's logging convention.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
