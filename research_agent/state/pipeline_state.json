@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 9,
-  "last_updated": "2026-09-19T12:22:14.690296+00:00",
+  "last_updated": "2026-09-19T12:40:03.741000+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -797,6 +797,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-09-19T12:22:14.690271+00:00",
       "note": "h-soft-anchor-generalization-guest-talk: check-budget(0.20) -> AUTO_APPROVE (remaining_daily=6.95), uses_existing_clips=true. approval=auto_approved, status=queued. At least one queued/approvable hypothesis exists, advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-19T12:39:59.149885+00:00",
+      "note": "h-soft-anchor-generalization-guest-talk: replay completed (experiments/20260919_h_soft_anchor_generalization_guest_talk.json). Confound check passed (models config identical to source JSON, single translator instance across conditions). Result: soft-anchor NE reduction generalizes and is even larger on this clip (83% vs 65% relative reduction), but fidelity cost is larger too (-3.9 vs -0.6 points) with a new hallucination-under-disfluent-source failure mode found and diagnosed (span 69). hypothesis.status=tested, result_summary written. Moving to WRITE_REPORT."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-19T12:40:03.740980+00:00",
+      "note": "h-soft-anchor-generalization-guest-talk analyzed and marked tested. Writing cycle 18 Japanese report."
     }
   ]
 }
