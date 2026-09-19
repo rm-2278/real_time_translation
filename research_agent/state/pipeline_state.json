@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 9,
-  "last_updated": "2026-09-19T00:13:27.533425+00:00",
+  "last_updated": "2026-09-19T00:13:54.695458+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -755,6 +755,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-19T00:13:27.533398+00:00",
       "note": "cycle 17 GENERATE_HYPOTHESES: added 1 new hypothesis, h-hard-prefix-lock-continuation, grounded in lacuna2026-beam-search-cascade-flicker (flagged last cycle as a new angle not covered by existing hypotheses). Backlog now 1 proposed (well under ~6 cap), depth over breadth honored. Designed as a cheap (/bin/bash.05 est) deterministic replay over already-recorded multi-batch source deltas, avoiding the live-Deepgram dependency and fixing h-continuation-context-anchor's noisy-single-run confound."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-19T00:13:54.695430+00:00",
+      "note": "h-hard-prefix-lock-continuation auto_approved (check-budget: AUTO_APPROVE, uses_existing_clips=true), status=queued. At least one queued/approvable hypothesis exists, advancing to RUN_EXPERIMENTS."
     }
   ]
 }
