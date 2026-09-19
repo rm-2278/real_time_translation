@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 9,
-  "last_updated": "2026-09-19T00:13:54.695458+00:00",
+  "last_updated": "2026-09-19T00:27:18.454942+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -761,6 +761,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-09-19T00:13:54.695430+00:00",
       "note": "h-hard-prefix-lock-continuation auto_approved (check-budget: AUTO_APPROVE, uses_existing_clips=true), status=queued. At least one queued/approvable hypothesis exists, advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-19T00:27:18.454915+00:00",
+      "note": "h-hard-prefix-lock-continuation: ran prefix_lock_replay.py (15 spans x 3 conditions x 2 repeats + 45 judge calls, all Gemini-only, zero new Deepgram spend). hypothesis.status=testing, experiment_ids set. Moving to ANALYZE_RESULTS for config-diff/confound check and result_summary write-up."
     }
   ]
 }
