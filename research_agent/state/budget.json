@@ -1,9 +1,9 @@
 {
   "date": "2026-09-19",
-  "spent_today_usd": 0.0,
+  "spent_today_usd": 0.05,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
-  "total_spent_usd": 0.13,
+  "total_spent_usd": 0.18,
   "cost_log": [
     {
       "at": "2026-09-08T07:28:31.381613+00:00",
@@ -64,6 +64,11 @@
       "at": "2026-09-17T00:14:11.227678+00:00",
       "amount_usd": 0.01,
       "note": "h-compression-nonduplicate-longsegment: 20 short single-segment translate calls (10 baseline_replay + 10 compression_actions) on segments[15] plus 6 judge spot-check calls"
+    },
+    {
+      "at": "2026-09-19T00:26:54.412166+00:00",
+      "amount_usd": 0.05,
+      "note": "h-hard-prefix-lock-continuation: prefix_lock_replay.py, 15 multi-batch spans x 3 conditions x 2 repeats (~208 translate calls, gemini-3-flash-preview) + 45 fidelity-judge spot-checks (gemini-3.1-flash-lite), zero new Deepgram spend (replay of already-recorded source deltas from experiments/20260915_h_continuation_anchor_test_rpmunlimited.json)"
     }
   ]
 }

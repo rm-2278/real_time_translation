@@ -278,6 +278,7 @@ Maintain the original tone and style.
         context_lines: list[str] | None = None,
         prior_translation: str | None = None,
         target_chars: int | None = None,
+        delta_only: bool = False,
     ) -> str:
         if context_lines is None:
             context_lines = self._context_buffer[-self._context_window_size :]
@@ -302,7 +303,29 @@ Maintain the original tone and style.
         # utterance, instead of leaving the model to reconstruct it from
         # <target> alone with no memory of its own prior wording.
         prior_translation_block = ""
-        if prior_translation:
+        if prior_translation and delta_only:
+            # h-hard-prefix-lock-continuation (research_agent/state/
+            # hypotheses.json): unlike the advisory prior_translation mode
+            # above, here <target> is ONLY the newly-heard continuation
+            # fragment, not the whole utterance -- the caller mechanically
+            # freezes <prior_translation> as a literal prefix and appends
+            # this call's raw output to it, so the model must not
+            # reproduce/reword <prior_translation> at all.
+            prior_translation_block = (
+                "<prior_translation>\n"
+                f"{prior_translation}\n"
+                "</prior_translation>\n"
+                "The above is your own translation of this same utterance so "
+                "far, already shown to the viewer and FIXED -- it will not be "
+                "changed. <target> below is ONLY the newly-heard continuation "
+                "of the source speech, NOT including the part already covered "
+                "by <prior_translation>. Translate ONLY <target> and output "
+                "ONLY that new translation, continuing naturally in register "
+                "and grammar from where <prior_translation> left off. Do NOT "
+                "repeat, reword, or re-output any part of <prior_translation> "
+                "itself.\n"
+            )
+        elif prior_translation:
             prior_translation_block = (
                 "<prior_translation>\n"
                 f"{prior_translation}\n"
@@ -491,6 +514,7 @@ Maintain the original tone and style.
         update_context: bool = True,
         prior_translation: str | None = None,
         target_chars: int | None = None,
+        delta_only: bool = False,
     ) -> AsyncIterator[str]:
         """Translate text, yielding output chunks as they are generated.
 
@@ -508,6 +532,13 @@ Maintain the original tone and style.
             target_chars: Approximate output-length budget derived from the
                 source's own speech duration, for reading-speed-aware
                 translation. None to translate verbatim (today's default).
+            delta_only: If True (requires prior_translation), `text` is only
+                the new continuation fragment (not the whole utterance so
+                far) and the model is instructed to translate only that
+                fragment, never reproducing `prior_translation` -- the caller
+                is expected to mechanically prepend `prior_translation` to
+                this call's output itself (h-hard-prefix-lock-continuation).
+                False (default) preserves today's behavior.
 
         Yields:
             Translation text chunks (concatenate for the full translation)
@@ -520,6 +551,7 @@ Maintain the original tone and style.
             context_lines=context_lines,
             prior_translation=prior_translation,
             target_chars=target_chars,
+            delta_only=delta_only,
         )
 
         full_text = ""

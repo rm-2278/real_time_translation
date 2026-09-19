@@ -336,8 +336,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/20260919_h_hard_prefix_lock_replay.json"
+      ],
       "result_summary": ""
     }
   ]
