@@ -200,6 +200,20 @@ python3 research_agent/orchestrator.py check-budget <estimated_cost_usd>
 
 ## State: RUN_EXPERIMENTS
 
+- **Never wrap a long-running experiment script in an inline shell
+  `timeout`** (found cycle 19, 2026-09-20): the Bash tool's own per-call
+  timeout already auto-backgrounds a slow command without killing it, so
+  adding your own `timeout <n> python3 ...` "just in case" only adds a
+  real SIGTERM risk with no benefit -- a first attempt at this hypothesis
+  used `timeout 590 python3 -m ... | tail -100` (backgrounded), which got
+  killed at 590s mid-run and lost the entire run's progress and its
+  output JSON (piped stdout is fully buffered, not line-buffered, so
+  nothing had been flushed yet -- just "Terminated"). Fix: run the
+  script directly with `run_in_background: true` on the Bash tool call
+  and no shell-level timeout, and use `python3 -u` (or
+  `PYTHONUNBUFFERED=1`) whenever the run is long enough that interim
+  progress matters, so a `tail`/redirect on the output doesn't silently
+  buffer everything until exit.
 - **First, verify the environment can actually run a live experiment**
   before picking anything that needs one:
   ```bash
@@ -397,6 +411,23 @@ asyncio.run(main())
   state the confound plainly in `result_summary` and treat the run as
   inconclusive for the variable under test, same as an environment
   blocker in `RUN_EXPERIMENTS`.
+- **Before treating a small aggregate `translation_fidelity_judge.judge()`
+  score difference as a real effect, establish a noise floor first**
+  (found cycle 19, 2026-09-20, h-soft-anchor-disfluency-gate): `judge()`
+  is normally called only once per condition per span (on `repeats[0]`),
+  a single noisy LLM judgment, even when `REPEATS>1` exists for the
+  (mostly-deterministic) NE metric. That session's aggregate fidelity
+  means differed by only 2-4 points between conditions, which looked like
+  a real (if modest) effect -- until checking spans/batches where a new
+  condition was, by construction, code-path-identical to an existing one
+  (e.g. a gating condition that happened to gate zero batches in that
+  span) showed judge-score swings of -30 to +45 points from resampling
+  alone, dwarfing the aggregate "effect". If your hypothesis's evidence
+  leans on `judge()` fidelity numbers, either compute this kind of
+  same-condition-twice (or zero-effect-subset) noise check before
+  drawing a conclusion, or extend the experiment to call `judge()` on
+  every repeat (not just `repeats[0]`) so per-span variance is measured
+  directly instead of assumed away.
 - Compare the new experiment's metrics (chrF, latency, and, once
   `h-flicker-metric` has landed, normalized erasure) against the relevant
   baseline row(s) in `experiments/results.csv`.

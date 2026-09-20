@@ -1295,3 +1295,131 @@ h-localagreement-asr-commit is only worth prioritizing if there's a
 specific reason to doubt their existing `tested` results (e.g. a pipeline
 code change since they were last run), not simply because live access
 became available again.
+
+## Cycle 19 (2026-09-20, scheduled/automated run)
+
+**What worked:** Same one-hypothesis-per-session pattern as cycles 17-18
+worked cleanly again: a single hypothesis (`h-soft-anchor-disfluency-
+gate`) was auto-approved, implemented, run, analyzed, and reported within
+one session, no environment blockers (replay-only, zero live ASR/ffmpeg
+dependency). The gate mechanism itself worked exactly as designed on the
+one concrete case it was built for (span 69's "AIME" hallucination:
+judge score 50 -> 100). Also: a real infra mistake this session (see
+below) was caught and fixed before it did any damage, which is itself a
+useful signal that the "check before trusting a background command"
+habit is paying off.
+
+**What didn't:** Two things worth flagging:
+
+1. **Background-command self-inflicted failure.** First attempt at
+   running the experiment used `timeout 590 python3 -m ... 2>&1 | tail
+   -100` as the backgrounded command. This was based on a
+   misunderstanding: the Bash tool's own per-call timeout just moves a
+   long command to the background without killing it (confirmed --
+   that's what happened at the 120s mark), but the *inline* `timeout
+   590` I added myself was a real SIGTERM after 590 wall-clock seconds,
+   and because python's stdout was piped (through `tail`) rather than a
+   tty, it was fully buffered and never flushed before the kill -- the
+   entire run's progress output was lost (just "Terminated"), and the
+   experiment JSON was never written. Fix: dropped the inline `timeout`
+   wrapper entirely and used `python3 -u` (unbuffered) with
+   `run_in_background: true` on the Bash tool call itself and no
+   artificial kill timer -- this completed cleanly in one pass. Lesson
+   for next time: never wrap a long-running experiment script in a
+   shell-level `timeout` "just in case" -- the harness's own
+   auto-backgrounding already handles the "this is taking a while"
+   case without killing anything, and pipe output through `python3 -u`
+   (or set `PYTHONUNBUFFERED=1`) whenever a background run's interim
+   progress matters, since `python ... | tail` fully buffers stdout by
+   default. Adding this to PLAYBOOK.md's RUN_EXPERIMENTS section since
+   this is a live-editable-file "self-improvement" case (not just a
+   one-off note) -- it will otherwise cost a full ~600s of wasted API
+   spend and wall-clock every time it recurs, and it's a completely
+   avoidable environment-interaction mistake, not a genuine science
+   result.
+
+2. **Hypothesis's own prediction was calibrated wrong, and the
+   experiment design has a real statistical-power gap.** Two distinct
+   findings here, both honestly worth recording as null/mixed rather
+   than being smoothed over: (a) `GATE_MIN_WORDS=5` gated 57% of
+   eligible batches on the guest-talk clip, not "most batches are not
+   short" as the hypothesis predicted -- word-count-5 is apparently a
+   very low bar to clear in real disfluent interview speech, so almost
+   any hesitation-heavy turn gets gated, sacrificing most of the NE win
+   for a fidelity benefit that (b) turned out to be statistically
+   indistinguishable from noise at this experiment's sample size, because
+   `judge()` is only called once per condition per span (on
+   `repeats[0]`) even though `REPEATS=2` already exists for the NE
+   metric. Checking spans where the gate had *zero* code-path effect
+   (no batch gated, so `gated_soft_anchor` is byte-for-byte the same
+   algorithm as `soft_anchor_replay`, just independently sampled) showed
+   swings of -30..+5 and -5..+45 points -- as large as or larger than
+   the actual "gated vs ungated" mean deltas (0.00 and +1.84). This is a
+   good concrete illustration of a general risk in these replay
+   hypotheses: NE is a mostly-deterministic structural metric so
+   averaging repeats works fine for it, but LLM-judge fidelity scores
+   are noisy single-draw judgments, and treating a 2-4 point aggregate
+   mean difference as meaningful without first establishing a noise
+   floor (e.g. via a same-condition-twice control, which this session
+   only discovered retroactively via the zero-gated-batch spans) risks
+   over-interpreting sampling variance as a real effect -- this is
+   distinct from, but in the same family as, the cycle-12
+   `h-masking-holdback` config-drift near-miss (looked like a real
+   effect, wasn't). Worth a permanent playbook note for any future
+   hypothesis that leans on `judge()`'s single-score-per-condition
+   fidelity numbers as its primary evidence.
+
+**Was the hypothesis backlog well-calibrated?** Yes in spirit -- this was
+exactly the kind of cheap, well-motivated, directly-targeted follow-up
+the playbook wants prioritized (depth over breadth, $0.30 est., replay-
+only). The one gap was in the *hypothesis's own predicted_effect* text,
+which assumed "most batches are not short" without checking that
+assumption against the actual guest-talk clip's delta_text word-count
+distribution first -- that check would have been cheap (a single grep/
+histogram over the already-recorded source JSON, no API calls) and would
+have caught the GATE_MIN_WORDS miscalibration before spending the $0.35,
+rather than after. Adding this as a concrete process improvement for
+GENERATE_HYPOTHESES: when a hypothesis's `required_changes` involves a
+numeric threshold applied to an already-recorded field (word counts,
+durations, etc.), compute the actual distribution of that field over the
+target source data during hypothesis design, not just after running the
+experiment.
+
+**Budget policy:** Unchanged recommendation. $0.35 spent this cycle
+(1458 Gemini translate calls + up to 294 judge spot-checks, zero Deepgram
+spend, replay-only, estimated by the same call-count-scaling method as
+cycles 18/17 -- still no exact per-call token accounting available).
+Total spend across 19 cycles remains trivial relative to the $3/batch,
+$7/day caps. Daily budget rolled over cleanly from 2026-09-19 to
+2026-09-20 via `check-budget`'s date check, as designed.
+
+**Should this playbook change?** Yes, two additions made this cycle (see
+PLAYBOOK.md diff in this commit):
+1. RUN_EXPERIMENTS: a note against wrapping long-running experiment
+   scripts in an inline shell `timeout`, and to use `python3 -u`/
+   `PYTHONUNBUFFERED=1` for any backgrounded script whose interim
+   progress needs to survive a Bash-tool auto-background. This is the
+   infra mistake from finding (1) above.
+2. ANALYZE_RESULTS: a note that `judge()`'s single-score-per-condition
+   fidelity numbers need an explicit noise-floor check (e.g. spans/
+   batches where a new gating/branching condition had zero code-path
+   effect vs. the condition it's compared against) before treating a
+   small aggregate mean difference as a real effect, not just sampling
+   variance. This is finding (2) above.
+
+**Next state:** Advancing to `GENERATE_HYPOTHESES` directly again,
+for cycle 20. Backlog is 0 queued/proposed, well under the 6 cap. Two
+concrete, cheap ($0 or near-$0) follow-up directions are already
+identified and don't need new literature: (a) re-test the disfluency
+gate with a lower `GATE_MIN_WORDS` (2-3) informed by an actual word-count
+histogram over the guest-talk clip's delta_text values (per the process
+improvement above, check the histogram before picking the threshold this
+time), and/or (b) extend `soft_anchor_disfluency_gate_replay.py` (or a
+new script) to call `judge()` on every repeat rather than just
+`repeats[0]`, giving a real per-span noise estimate that would make (a)'s
+results, and future fidelity-based hypotheses in general, trustworthy at
+face value instead of needing a manual post-hoc noise check. Either is
+well-motivated by this cycle's own findings. Deepgram listen-websocket
+status is unconfirmed this cycle (not checked, since not needed) --
+next session that needs live ASR should re-verify before assuming either
+way.
