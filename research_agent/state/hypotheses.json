@@ -375,8 +375,8 @@
       "required_changes": "New script src/real_time_translation/experiments/soft_anchor_disfluency_gate_replay.py, adapted from soft_anchor_generalization_replay.py / prefix_lock_replay.py: reuse _extract_spans() and _translate_once() unchanged. Add a new _run_condition-equivalent path for 'gated_soft_anchor' that mirrors the existing soft_anchor_replay loop in prefix_lock_replay.py's _run_condition() but checks len(batch.delta_text.split()) < GATE_MIN_WORDS (start with GATE_MIN_WORDS=5 as a first cut, chosen because span 69's flagged delta_text has 9 words but is still a cut-off fragment ending mid-clause -- note in result_summary if 5 turns out too high/low based on which spans actually get gated vs which ones still show the failure mode) for each batch i>0; if gated, call with prior_translation=None (same as baseline for that one batch) but still update prev_full_output from the OUTPUT so a later, longer batch in the same span can still anchor off it. Run against BOTH already-recorded source experiments already used by the two prior hypotheses in this line (experiments/20260915_h_continuation_anchor_test_rpmunlimited.json, 15 spans, and experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json, 83 spans) with CONDITIONS=(baseline_replay, soft_anchor_replay, gated_soft_anchor) -- hard_lock stays excluded, already settled. Reuse flicker_metrics.normalized_erasure() and translation_fidelity_judge.judge() as-is. Also record, per span, which batch indices were gated (delta word count below threshold) so the report can point at the specific gated spans/batches when checking whether the targeted failure mode actually improved there.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.3,
-      "approval": "",
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
