@@ -376,11 +376,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.3,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/20260920_h_soft_anchor_disfluency_gate_replay.json"
       ],
-      "result_summary": ""
+      "result_summary": "Config check: both source experiments used identical models (gemini-3-flash-preview, thinking_budget=0) -- no confound. Mixed/partial result. NE landed strictly between baseline and soft_anchor on both clips as predicted (original clip: baseline 0.613, gated 0.408, soft 0.233; guest-talk: baseline 0.622, gated 0.547, soft 0.123), but GATE_MIN_WORDS=5 gated a much larger share of eligible (i>0) batches than expected -- 40% (8/20) on the clean original clip and 57% (71/125) on the guest-talk clip, contradicting the predicted 'most batches are not short' assumption -- so on the guest-talk clip the gate retained only ~12% relative NE reduction vs soft_anchor's 80%, i.e. it fell back toward baseline's flicker for the majority of batches. The exact flagged failure case (span 69, the 'AIME' hallucination) WAS fixed as intended: judge score 50 (soft_anchor) -> 100 (gated), matching baseline. But the AGGREGATE fidelity numbers (guest-talk: baseline 92.71, gated 90.67, soft 88.41; original: baseline 98.67, soft 98.33, gated 96.67 -- gated even below both here) are not reliable: judge() is only called once per condition per span (on repeats[0]), and a noise-floor check on spans where the gate had literally zero code-path effect (no batch gated, so gated_soft_anchor==soft_anchor_replay by construction, differences are pure LLM sampling variance) shows swings of -30..+5 (original clip, n=7) and -5..+45 (guest-talk, n=13) -- comparable to or larger than the gated-spans mean effect (0.00 n=8 and +1.84 n=68 respectively). The aggregate fidelity signal cannot be distinguished from single-sample judge noise at this scale. Conclusion: the gating MECHANISM works for the specific hallucination pattern it targeted, but GATE_MIN_WORDS=5 is calibrated too high for disfluent interview speech (gates away most of the NE win) and the current judge-on-repeats[0]-only design cannot confirm a net fidelity benefit. Not abandoning -- recommend a follow-up with a lower threshold (2-3 words) and judge() called on every repeat (not just repeats[0]) to get a real noise estimate per span, focused on the specific spans that were actually gated rather than the whole-span aggregate."
     }
   ]
 }
