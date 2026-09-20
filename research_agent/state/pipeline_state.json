@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 9,
-  "last_updated": "2026-09-19T12:42:07.576346+00:00",
+  "last_updated": "2026-09-20T00:20:46.518669+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -821,6 +821,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-19T12:42:07.576321+00:00",
       "note": "REFLECT complete (see reflections.md cycle 18). Skipping a fresh SEARCH_PAPERS pass: this cycle's own result identifies a concrete, cheap ($0, replay-only) follow-up -- gate the soft-anchor off for very short/fragmentary source deltas to avoid the hallucination-under-disfluency failure mode found in span 69, without losing the NE win on cleaner speech. Backlog is 0 queued/proposed, well under the 6 cap. Also corrected a stale recommendation carried over from cycle 17's own reflection (h-masking-holdback/h-localagreement-asr-commit are already tested, not live-verification candidates just because Deepgram access might recover) and flagged a process near-miss (premature orchestrator advance call before RUN_EXPERIMENTS bookkeeping was done, caught before commit)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-20T00:20:46.518645+00:00",
+      "note": "cycle 19 GENERATE_HYPOTHESES: added 1 new hypothesis, h-soft-anchor-disfluency-gate, directly following up on the concrete recommendation flagged at the end of cycle 18's reflection/result_summary -- gate the soft-anchor advisory prompt off (fall back to from-scratch baseline translation) for batches whose new source delta_text is very short/word-count-below-threshold, to mitigate the hallucination-under-disfluency failure mode found in h-soft-anchor-generalization-guest-talk (span 69: anchor fabricated an unsupported acronym expansion to cohere with an ambiguous cut-off fragment) without losing the large, now-twice-replicated cross-batch NE reduction on cleaner speech. $0 replay-only (reuses the same two already-recorded source experiment JSONs as the two prior hypotheses in this line), uses_existing_clips=true. Backlog now 1 proposed, well under the 6 cap -- depth over breadth honored per PLAYBOOK."
     }
   ]
 }
