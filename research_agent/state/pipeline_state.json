@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 9,
-  "last_updated": "2026-09-20T12:19:37.573782+00:00",
+  "last_updated": "2026-09-20T13:00:30.439051+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -833,6 +833,30 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-09-20T12:19:37.573734+00:00",
       "note": "h-soft-anchor-disfluency-gate: check-budget(0.3) -> AUTO_APPROVE, uses_existing_clips=true -> auto_approved/queued. This is the only hypothesis needing approval this cycle; all others already tested/superseded."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-20T12:58:10.121193+00:00",
+      "note": "h-soft-anchor-disfluency-gate run complete, moving to analysis"
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-20T12:58:39.643313+00:00",
+      "note": "h-soft-anchor-disfluency-gate analysis complete, writing cycle 19 Japanese report"
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-20T12:59:28.828125+00:00",
+      "note": "cycle 19 report written, moving to self-reflection"
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-20T13:00:30.439011+00:00",
+      "note": "cycle 19 REFLECT complete (playbook edited: timeout/buffering + judge-noise-floor notes). Backlog is 0 queued/proposed. Advancing directly to GENERATE_HYPOTHESES for cycle 20 -- two concrete cheap follow-ups already identified (lower GATE_MIN_WORDS informed by an actual word-count histogram; judge() on every repeat for a real noise estimate), no new literature needed."
     }
   ]
 }
