@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 9,
-  "last_updated": "2026-09-21T00:20:31.528339+00:00",
+  "last_updated": "2026-09-21T12:19:58.615135+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -863,6 +863,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-21T00:20:31.528309+00:00",
       "note": "cycle 20 GENERATE_HYPOTHESES: added 1 new hypothesis, h-soft-anchor-gate-recalibrated-noisefloor, directly implementing both concrete follow-ups flagged at the end of cycle 19's reflection (lower GATE_MIN_WORDS informed by an actual word-count histogram computed now during design; judge() on every repeat for a real noise estimate). $0.35 est, uses_existing_clips=true, replay-only over the same two already-recorded source experiments. Backlog now 1 proposed, well under the 6 cap."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-21T12:19:58.615108+00:00",
+      "note": "cycle 20 HUMAN_APPROVAL: h-soft-anchor-gate-recalibrated-noisefloor checked with check-budget 0.35 -> AUTO_APPROVE, uses_existing_clips=true (replay-only over already-recorded experiment JSONs, no new API spend beyond judge()/translate() replay calls). Set approval=auto_approved, status=queued. Advancing to RUN_EXPERIMENTS."
     }
   ]
 }
