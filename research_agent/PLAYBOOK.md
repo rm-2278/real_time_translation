@@ -157,6 +157,25 @@ human-facing; treat the JSON field as an internal
   rather than assuming either form uniformly -- see
   prefix_lock_replay.py's `_extract_spans()` for a working example of the
   adaptive-detection workaround. See reflections.md cycle 17).
+- If a hypothesis's description makes a specific factual claim about how a
+  *numeric threshold's comparison operator* behaves on a *specific concrete
+  example* (e.g. "a delta_text of exactly N words will/won't be gated at
+  threshold N"), evaluate that exact comparison (`N < threshold`,
+  `N <= threshold`, etc.) against the exact operator used in the code being
+  modified before writing the claim -- do not just reason about it in prose
+  (found cycle 20, 2026-09-22, h-soft-anchor-gate-recalibrated-noisefloor:
+  the hypothesis's own description claimed `GATE_MIN_WORDS=2` "still
+  catches" guest-talk span 69, whose flagged delta_text is exactly 2 words,
+  but the actual gate condition is `len(delta_text.split()) < GATE_MIN_WORDS`
+  -- strict less-than -- so a 2-word delta is never gated when the threshold
+  is also 2. Boundary values (delta length == threshold) are exactly where
+  off-by-one/strict-vs-non-strict inequality mistakes hide, and this one was
+  only caught during ANALYZE_RESULTS by inspecting the output JSON's
+  `gated_batch_indices` field directly, not from the aggregate tables. This
+  is a fifth, distinct instance of the same underlying pattern as the four
+  above: verify an empirical claim against the actual code/data before
+  finalizing the hypothesis text, don't reason about it abstractly. See
+  reflections.md cycle 20).
 - Advance to `HUMAN_APPROVAL`.
 
 ## State: HUMAN_APPROVAL

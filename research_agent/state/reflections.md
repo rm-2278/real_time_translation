@@ -1423,3 +1423,84 @@ well-motivated by this cycle's own findings. Deepgram listen-websocket
 status is unconfirmed this cycle (not checked, since not needed) --
 next session that needs live ASR should re-verify before assuming either
 way.
+
+---
+
+## Cycle 20 reflection (2026-09-22)
+
+**What worked:** The process improvement adopted at the end of cycle 19
+(compute the actual field distribution before picking a numeric threshold)
+worked exactly as intended -- the word-count histogram computed during this
+hypothesis's design correctly predicted the new gate rates (10%/16% vs the
+predicted numbers), and the resulting NE improvement on the guest-talk clip
+was substantial and matched the prediction (gated NE 0.547 -> 0.307, much
+closer to soft_anchor's 0.123). The other cycle-19 process improvement
+(judge() on every repeat instead of just repeats[0]) also worked as intended
+and gave a real measured noise floor instead of a post-hoc inferred one --
+and that measured noise floor (stdev 17.72 on the guest-talk clip) turned
+out to be even larger than the post-hoc estimate suggested, confirming the
+concern was justified rather than overblown.
+
+**What didn't work / new near-miss:** A third kind of "assumption not
+verified against actual code/data" bug, distinct from the four
+already-catalogued in GENERATE_HYPOTHESES (event-field-population
+assumptions). This hypothesis's own description asserted, as a specific
+factual claim, that "GATE_MIN_WORDS=2 still catches the actual target
+failure case" (guest-talk span 69, delta_text "AIM to", 2 words) -- but the
+actual gating condition in soft_anchor_disfluency_gate_replay.py is
+`len(delta_text.split()) < GATE_MIN_WORDS` (strict less-than), so a
+2-word delta is NOT gated when the threshold is also 2. This was not a
+subtle bug: the comparison operator was sitting in the same file the
+hypothesis's `required_changes` field pointed at, and the claim could have
+been falsified in seconds by literally evaluating `2 < 2` -- but during
+GENERATE_HYPOTHESES the boundary case was reasoned about in prose ("2-word
+delta_text... GATE_MIN_WORDS=2 still catches it") rather than checked
+against the exact operator. It was only caught during ANALYZE_RESULTS by
+noticing `gated_batch_indices: []` on span 69 in the output JSON -- if that
+field hadn't been inspected directly (e.g. if analysis had trusted only the
+aggregate tables), this would have shipped as a false "the gate still
+catches the flagship case" conclusion into the report.
+
+**Is the hypothesis backlog well-calibrated?** Yes -- one hypothesis, fully
+run and analyzed in depth (including catching its own design flaw), matches
+the "depth over breadth" guidance. Backlog is 0 queued/proposed, well under
+the 6 cap, same as after cycle 19.
+
+**Budget policy:** Unchanged recommendation. $0.40 spent this cycle (1458
+translate calls, unchanged from cycle 19's batch/span structure, + 588
+judge calls, double cycle 19's 294 since every repeat is now scored).
+Total spend across 20 cycles remains trivial relative to the $3/batch,
+$7/day caps.
+
+**Should this playbook change?** Yes, one addition (see PLAYBOOK.md diff in
+this commit): GENERATE_HYPOTHESES already has a note (four prior near-misses)
+about verifying event-field assumptions against actual construction sites
+before finalizing a hypothesis. Adding a fifth, distinct near-miss to the
+same note: when a hypothesis's description makes a specific factual claim
+about how a *numeric threshold's comparison operator* behaves on a
+*specific concrete example* (e.g. "a delta_text of exactly N words will/
+won't be gated at threshold N"), evaluate that exact comparison
+(`N < threshold`, `N <= threshold`, etc.) against the exact operator used in
+the code being modified, not just reason about it in prose -- boundary
+values (delta length == threshold) are exactly where off-by-one/strict-vs-
+non-strict inequality mistakes hide, and are cheap to check mechanically
+before writing the claim into the hypothesis text.
+
+**Next state:** Advancing to `GENERATE_HYPOTHESES` directly again for
+cycle 21 (not writing the actual hypotheses in this same session -- that's
+this state's own bounded unit of work for next time). Backlog is 0
+queued/proposed. Two directions are visible for next session to choose
+between: (a) a narrow follow-up, GATE_MIN_WORDS=3, now that the boundary-
+condition bug is understood (a 2-word delta needs threshold >= 3 to be
+caught under the strict-less-than gate) -- cheap ($0, same replay
+infrastructure) but worth weighing against (b) the more fundamental
+question this cycle exposed: whether *any* fidelity claim built on
+REPEATS=2 judge() calls can reach statistical significance given how large
+the measured per-span noise floor turned out to be (stdev up to 17.7 on
+real interview-style speech) -- this might be better served by a fresh
+literature search on evaluation methodology for LLM-judged MT quality
+(e.g. how many repeats/judges are typically used to get a stable signal,
+or whether a cheaper deterministic proxy metric exists) rather than by
+another replay-only threshold sweep. Deepgram listen-websocket status is
+unconfirmed this cycle (not checked, since not needed) -- next session
+that needs live ASR should re-verify before assuming either way.
