@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 9,
-  "last_updated": "2026-09-21T12:19:58.615135+00:00",
+  "last_updated": "2026-09-22T00:51:07.783678+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -869,6 +869,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-09-21T12:19:58.615108+00:00",
       "note": "cycle 20 HUMAN_APPROVAL: h-soft-anchor-gate-recalibrated-noisefloor checked with check-budget 0.35 -> AUTO_APPROVE, uses_existing_clips=true (replay-only over already-recorded experiment JSONs, no new API spend beyond judge()/translate() replay calls). Set approval=auto_approved, status=queued. Advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-22T00:51:07.752836+00:00",
+      "note": "cycle 20 RUN_EXPERIMENTS complete: soft_anchor_gate_recalibrated_replay.py run against both source clips, cost logged ($0.40)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-22T00:51:07.783657+00:00",
+      "note": "cycle 20 ANALYZE_RESULTS complete for h-soft-anchor-gate-recalibrated-noisefloor. NE improved as predicted; fidelity benefit still unconfirmed (noise floor dwarfs effect); found and documented a gating-boundary design flaw (strict < means span 69's 2-word delta was never actually gated at MIN_WORDS=2). Writing cycle 20 Japanese report."
     }
   ]
 }
