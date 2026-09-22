@@ -33,6 +33,18 @@ Two noise estimates are computed and compared:
    since two repeats of the *same* condition on the *same* span are
    always a same-code-path resample), pooled via sqrt(mean(variance)).
 
+A third computation, `_decompose_zero_effect_variance`, was added during
+ANALYZE_RESULTS after discovering that (1)'s concatenated stdev is itself
+not a pure repeat-noise measurement: it explicitly separates between-span
+variance (spans differ in translation difficulty/quality) from
+within-span repeat noise on the same zero-effect subset (1) uses, to show
+*why* (1) and (2) disagree on the guest-talk clip (17.72 vs ~9.0) -- see
+`zero_effect_variance_decomposition` in the output. The within-group
+figure from this decomposition is the one that matters for a *paired*
+per-span comparison, since between-span quality differences cancel out
+when the same spans are compared across conditions; (2) above already
+approximates this correctly, (1) does not.
+
 Power / sample-size model (explicit simplifying assumption, stated here
 rather than silently assumed): this treats the per-span-per-condition
 repeat noise (sigma, measured above) as the *only* source of variance in
@@ -107,6 +119,52 @@ def _pooled_stdev_zero_effect(spans: list[dict]) -> tuple[float, int]:
     return math.sqrt(var), len(scores)
 
 
+def _decompose_zero_effect_variance(spans: list[dict]) -> dict:
+    """Found during ANALYZE_RESULTS (not anticipated at design time): the
+    zero-effect concatenated stdev (_pooled_stdev_zero_effect above, which
+    reproduces cycle 20's reported number) is NOT a pure per-repeat
+    resampling-noise estimate -- it mixes in between-span variance in
+    translation difficulty/quality, since it concatenates raw scores
+    across many different source spans before taking one stdev. Decompose
+    into between-group variance (variance of each span x condition's own
+    2-repeat mean, across groups) and mean within-group variance (the
+    actual same-span same-condition repeat noise) to isolate the latter,
+    which is the quantity that actually matters for a *paired* per-span
+    comparison (between-span quality differences cancel out when the same
+    spans are compared across conditions)."""
+    group_means: list[float] = []
+    within_vars: list[float] = []
+    for span in spans:
+        if span.get("gated_batch_indices"):
+            continue
+        stats = span.get("judge_score_stats", {})
+        for cond in ("soft_anchor_replay", "gated_soft_anchor"):
+            scores = stats.get(cond, {}).get("scores", [])
+            if len(scores) < 2:
+                continue
+            mean = sum(scores) / len(scores)
+            group_means.append(mean)
+            within_vars.append(sum((s - mean) ** 2 for s in scores) / (len(scores) - 1))
+    if len(group_means) < 2 or not within_vars:
+        return {
+            "num_groups": len(group_means),
+            "between_group_variance": None,
+            "within_group_noise_stdev": None,
+        }
+    grand_mean = sum(group_means) / len(group_means)
+    between_group_variance = sum((m - grand_mean) ** 2 for m in group_means) / len(
+        group_means
+    )
+    within_group_mean_variance = sum(within_vars) / len(within_vars)
+    return {
+        "num_groups": len(group_means),
+        "between_group_variance": between_group_variance,
+        "between_group_stdev": math.sqrt(between_group_variance),
+        "within_group_noise_variance": within_group_mean_variance,
+        "within_group_noise_stdev": math.sqrt(within_group_mean_variance),
+    }
+
+
 def _pooled_stdev_all(spans: list[dict]) -> tuple[float, int]:
     """Broader estimate: every span x condition's own within-repeat
     variance (each is a valid same-code-path 2-repeat resample regardless
@@ -153,6 +211,7 @@ def analyze(source_json: Path) -> dict:
         zero_effect_sigma, zero_effect_n = _pooled_stdev_zero_effect(spans)
         pooled_all_sigma, pooled_all_n = _pooled_stdev_all(spans)
         reported_sigma = v["noise_floor"]["stdev_across_same_code_path_resamples"]
+        variance_decomposition = _decompose_zero_effect_variance(spans)
 
         required_repeats_by_delta = {}
         for delta in TARGET_EFFECT_SIZES:
@@ -170,6 +229,7 @@ def analyze(source_json: Path) -> dict:
             "cycle20_reported_sigma": reported_sigma,
             "pooled_all_sigma": pooled_all_sigma,
             "pooled_all_n_span_conditions": pooled_all_n,
+            "zero_effect_variance_decomposition": variance_decomposition,
             "required_repeats_by_target_delta": required_repeats_by_delta,
         }
 
