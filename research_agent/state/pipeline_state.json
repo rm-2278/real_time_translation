@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 9,
-  "last_updated": "2026-09-22T00:53:04.019972+00:00",
+  "last_updated": "2026-09-22T12:23:54.075876+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -893,6 +893,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-22T00:53:04.019949+00:00",
       "note": "cycle 20 REFLECT complete (playbook edited: 5th near-miss re boundary-condition/comparison-operator verification, added to GENERATE_HYPOTHESES). Backlog is 0 queued/proposed. Advancing directly to GENERATE_HYPOTHESES for cycle 21 -- two directions identified: (a) narrow GATE_MIN_WORDS=3 follow-up now that the boundary bug is understood, or (b) a literature search on LLM-judge evaluation methodology given how large the measured per-span noise floor turned out to be (stdev up to 17.7). Actual hypothesis-writing deferred to next session's own bounded unit of work."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-22T12:23:54.075839+00:00",
+      "note": "cycle 21 GENERATE_HYPOTHESES done: 2 new hypotheses added (h-soft-anchor-gate-min-words-3 est $0.40, h-judge-noise-repeats-power-check est $0.00). Both proposed, need check-budget in HUMAN_APPROVAL."
     }
   ]
 }
