@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "REFLECT",
   "cycle": 9,
-  "last_updated": "2026-09-22T12:28:41.114836+00:00",
+  "last_updated": "2026-09-22T12:31:30.105734+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -911,6 +911,18 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-09-22T12:28:41.114799+00:00",
       "note": "cycle 21: h-judge-noise-repeats-power-check run (pure retroactive, $0), advancing to analyze"
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-22T12:30:37.067041+00:00",
+      "note": "cycle 21: h-judge-noise-repeats-power-check analyzed and tested (found+corrected an inflated noise-floor estimate from cycle 20). h-soft-anchor-gate-min-words-3 remains queued but not yet run this session (needs live Gemini calls; deferred, see note). Advancing to WRITE_REPORT."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-22T12:31:30.105697+00:00",
+      "note": "cycle 21: report written, advancing to REFLECT"
     }
   ]
 }
