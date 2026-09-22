@@ -415,8 +415,8 @@
       "required_changes": "New src/real_time_translation/experiments/soft_anchor_gate_min3_replay.py, copying soft_anchor_gate_recalibrated_replay.py's structure exactly (reuses prefix_lock_replay.py's _extract_spans()/_run_condition() and soft_anchor_disfluency_gate_replay.py's _run_gated_condition() unchanged) but with GATE_MIN_WORDS = 3 instead of 2, and OUT_JSON pointed at a new 20260922_h_soft_anchor_gate_min3_replay.json path. Keep REPEATS=2 and the per-repeat judge() call structure (judge() on every repeat, not just repeats[0]) from cycle 20's fix -- do not regress that part. Run against the same two existing source experiments (experiments/20260915_h_continuation_anchor_test_rpmunlimited.json, experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json). In ANALYZE_RESULTS, check span 69's gated_batch_indices directly to confirm the gate actually fired this time before drawing any fidelity conclusion, and diff this run's config block against cycle 20's noisefloor run's config block per PLAYBOOK.md's confound-check rule.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.4,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     },
@@ -433,8 +433,8 @@
       "required_changes": "New analysis script, e.g. src/real_time_translation/experiments/judge_noise_power_analysis.py: (1) load experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json, (2) extract the per-repeat judge score arrays from results.by_source[*].noise_floor (inspect the actual field structure first -- do not assume a shape, per PLAYBOOK.md's field-verification rule -- since this is the first hypothesis to consume this particular field), (3) compute stdev/variance per source (should reproduce cycle 20's reported 3.23/17.72), (4) run a standard power calculation (e.g. via statsmodels.stats.power if available, else a closed-form normal-approximation formula implemented inline -- check what's already installed before adding a new dependency) for a range of target effect sizes (2, 4, 10, 30 points) and REPEATS values (2, 3, 5, 10, 20), (5) convert each REPEATS value into an estimated $ cost for a gate-replay-scale experiment (~1458 translate calls + REPEATS x ~500 judge calls, scaled from cycle 20's actual $0.40/2046-call rate), (6) write a short markdown table of REPEATS vs power vs $ into the script's output JSON's notes/results section. No LLMTranslator/Deepgram calls at all -- pure statistics over already-saved JSON.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
