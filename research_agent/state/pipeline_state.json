@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 9,
-  "last_updated": "2026-09-22T12:23:54.075876+00:00",
+  "last_updated": "2026-09-22T12:24:12.912663+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -899,6 +899,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-22T12:23:54.075839+00:00",
       "note": "cycle 21 GENERATE_HYPOTHESES done: 2 new hypotheses added (h-soft-anchor-gate-min-words-3 est $0.40, h-judge-noise-repeats-power-check est $0.00). Both proposed, need check-budget in HUMAN_APPROVAL."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-22T12:24:12.912629+00:00",
+      "note": "cycle 21: both new hypotheses auto-approved and queued, advancing to RUN_EXPERIMENTS"
     }
   ]
 }
