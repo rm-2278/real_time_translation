@@ -1,0 +1,5 @@
+target_delta,required_R_raw,required_R_rounded,estimated_cost_usd,fits_per_batch_cap_3usd
+2.0,3.83,4,0.8,True
+4.0,0.96,2,0.4,True
+10.0,0.15,2,0.4,True
+30.0,0.02,2,0.4,True

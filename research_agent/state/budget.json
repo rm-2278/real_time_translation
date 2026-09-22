@@ -84,6 +84,11 @@
       "at": "2026-09-22T00:50:25.454415+00:00",
       "amount_usd": 0.4,
       "note": "h-soft-anchor-gate-recalibrated-noisefloor: soft_anchor_gate_recalibrated_replay.py, 1458 gemini-3-flash-preview translate calls (unchanged batch/span structure from cycle 19) + 588 gemini-3.1-flash-lite fidelity-judge calls (every repeat, not just repeats[0]) = 2046 total calls, zero new Deepgram spend (replay of already-recorded source deltas from both prior hypotheses' source experiments). Estimated by call-count scaling against cycle 17's measured $0.05/253-call rate."
+    },
+    {
+      "at": "2026-09-22T12:28:19.984705+00:00",
+      "amount_usd": 0.0,
+      "note": "h-judge-noise-repeats-power-check: judge_noise_power_analysis.py, pure retroactive statistics over experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json's already-recorded per-repeat judge scores, zero new Deepgram/LLM API spend"
     }
   ]
 }
