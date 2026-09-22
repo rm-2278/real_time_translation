@@ -1504,3 +1504,83 @@ or whether a cheaper deterministic proxy metric exists) rather than by
 another replay-only threshold sweep. Deepgram listen-websocket status is
 unconfirmed this cycle (not checked, since not needed) -- next session
 that needs live ASR should re-verify before assuming either way.
+
+---
+
+## Cycle 21 (2026-09-22)
+
+**What worked this cycle?** The "prefer $0 retroactive-analysis
+hypotheses first" rule paid off directly: rather than immediately running
+`h-soft-anchor-gate-min-words-3` (the live-LLM-calls hypothesis, queued
+alongside it), doing the $0 `h-judge-noise-repeats-power-check` first
+surfaced a real, actionable bug in cycle 20's own noise-floor measurement
+before spending any more API budget chasing GATE_MIN_WORDS variants under
+a noise estimate that was itself wrong. This is exactly the kind of
+result the budget policy's "$0 retroactive analysis is the cheapest and
+highest-priority kind of hypothesis" guidance was meant to produce, and
+it worked. The venv also rebuilt cleanly in one shot this session (no
+zoom/rtms testpypi block this time) -- not something to rely on, but a
+useful data point that the workaround documented in PLAYBOOK.md isn't
+needed every time.
+
+**What didn't?** `h-soft-anchor-gate-min-words-3` (the other new
+hypothesis from this cycle's GENERATE_HYPOTHESES) is still sitting
+`queued`, unexecuted -- I chose to spend this session's remaining budget
+on the $0 hypothesis and writing it up properly (including the variance
+decomposition, which turned into more analysis than a one-line retroactive
+check) rather than also running a live-API experiment in the same
+session. That's a reasonable trade given the playbook's "do one bounded
+unit of work, then advance" framing, but it does mean the backlog isn't
+fully drained and next session's first move is determined already (no
+real choice needed there, which is fine).
+
+**Was the hypothesis backlog well-calibrated?** Yes -- 2 new hypotheses
+this cycle (1 cheap narrow follow-up, 1 free retroactive analysis),
+backlog now sits at 1 queued (well under the 6 cap) since one was
+completed same-session. Not duplicating past work: both were explicit,
+concrete follow-ups flagged by name in cycle 20's own result_summary/
+reflections, not blind re-derivation.
+
+**Is the auto-approval budget policy still right?** Yes, no change
+needed to the caps themselves. One policy-adjacent recommendation *is*
+going to the human via this cycle's report (not silently applied): raise
+`REPEATS` from 2 to 4-5 for future fidelity-focused hypotheses in this
+line, now that the corrected noise floor shows that's affordable
+(~$0.80-$1.00 for a full two-clip run, comfortably under the $3/batch
+cap) and would meaningfully improve detection power. This is a
+recommendation about experiment *design* defaults, not about
+`budget.json`'s caps, so it doesn't need a budget.json edit -- just
+human sign-off before the next REPEATS>2 experiment.
+
+**Should this playbook change?** Yes -- added a new bullet to
+PLAYBOOK.md's ANALYZE_RESULTS section (adjacent to cycle 19's original
+noise-floor-check rule) about decomposing between-span vs within-span
+variance before trusting a noise floor computed by concatenating
+per-repeat scores across multiple spans. This is a distinct, specific
+failure mode from cycle 19's original rule (which was about *whether* to
+check a noise floor at all) -- this one is about *how* to compute that
+noise floor correctly once you've decided to check it, since the naive
+concatenation method silently mixes in an unrelated variance source
+(between-span quality differences) that inflates the estimate by ~2x in
+at least one observed case. Did not touch the approval-gate or
+budget-check steps.
+
+**Next state:** Advancing directly to `GENERATE_HYPOTHESES` again rather
+than `SEARCH_PAPERS` is tempting (existing paper base still supports the
+queued `h-soft-anchor-gate-min-words-3` and a possible REPEATS-related
+follow-up), but the backlog is genuinely thin (1 queued) and the existing
+paper base has never yet yielded a hypothesis specifically about LLM-judge
+evaluation methodology / repeats-needed-for-significance (checked
+`papers.json` this cycle: nothing closer than
+`polak2026-meta-evaluation-latency-metrics`, which is about *latency*
+metrics, not quality/fidelity judge noise) -- a real literature gap this
+cycle's `h-judge-noise-repeats-power-check` result makes newly relevant
+and well-motivated to search for. Recommend next session either (a) runs
+`h-soft-anchor-gate-min-words-3` first (it's already queued and cheap,
+finishes the backlog), then does a `SEARCH_PAPERS` pass specifically on
+LLM-judge/LLM-as-evaluator noise and repeats-needed-for-significance
+before the next `GENERATE_HYPOTHESES`, or (b) does the search first if
+there's a full session available, since it could inform a better-grounded
+version of any further REPEATS-tuning hypothesis. Deepgram Listen
+WebSocket status remains unconfirmed since cycle 19 -- next session
+needing live ASR should re-verify before assuming either way.

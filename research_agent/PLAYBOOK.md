@@ -447,6 +447,34 @@ asyncio.run(main())
   drawing a conclusion, or extend the experiment to call `judge()` on
   every repeat (not just `repeats[0]`) so per-span variance is measured
   directly instead of assumed away.
+- **When computing that noise floor by concatenating per-repeat scores
+  across multiple spans, decompose between-span and within-span variance
+  before trusting the pooled number** (found cycle 21, 2026-09-22,
+  h-judge-noise-repeats-power-check): cycle 19/20's noise-floor method
+  concatenates every zero-effect span's per-repeat scores into one list
+  and takes a single stdev. On the guest-talk clip this gave stdev 17.72
+  and was reported and acted on as "the" per-repeat noise -- but
+  decomposing the same 125 span-condition groups into between-group
+  variance (each group's own 2-repeat mean differs span to span because
+  spans differ in translation difficulty, variance 274.67) and mean
+  within-group variance (the actual same-span same-condition repeat
+  noise, variance 77.7, stdev 8.81) showed the concatenated number was
+  roughly 2x the true repeat-noise, because it mixed in each span's own
+  quality level. This matters concretely: every hypothesis in this line
+  compares the *same* spans across conditions (a paired design), so
+  between-span quality differences cancel out and only the within-span
+  component is the real nuisance parameter -- using the inflated
+  concatenated number over-estimates how much noise a conclusion needs to
+  clear, and had already fed a too-pessimistic conclusion into cycle 20's
+  reflections.md ("no REPEATS is enough") before this cycle's retroactive
+  check caught it. Practical fix: compute noise floor as `sqrt(mean of
+  per-span-per-condition variance))` (average the within-group variances,
+  do not pool raw scores across spans first) -- see
+  `judge_noise_power_analysis.py`'s `_decompose_zero_effect_variance()`
+  for a worked implementation. The magnitude of the gap between the two
+  methods depends on how much translation difficulty varies across the
+  spans in your sample (small on the low-variance original clip, ~2x on
+  the more varied guest-talk clip) -- check both, don't assume either one.
 - Compare the new experiment's metrics (chrF, latency, and, once
   `h-flicker-metric` has landed, normalized erasure) against the relevant
   baseline row(s) in `experiments/results.csv`.
