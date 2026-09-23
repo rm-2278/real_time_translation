@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 10,
-  "last_updated": "2026-09-23T00:21:25.046281+00:00",
+  "last_updated": "2026-09-23T12:22:31.160149+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -935,6 +935,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-09-23T00:21:25.046257+00:00",
       "note": "cycle 22: SEARCH_PAPERS complete, added 4 new found-status papers on LLM-as-judge evaluation noise/variance/repeats per cycle 21 reflections recommendation (narrow search, not a general SimulST sweep this time). See papers.json _websearch_note_cycle22 for full query log."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-09-23T12:22:31.160098+00:00",
+      "note": "cycle 22 EXTRACT_PAPERS: extracted 4 found LLM-judge-noise papers (arxiv2509-20293, arxiv2601-05420, arxiv2606-19544, arxiv2607-02235) via WebSearch fallback (WebFetch to arxiv.org EGRESS_BLOCKED for all 4). All tie to existing h-judge-noise-repeats-power-check line of work."
     }
   ]
 }
