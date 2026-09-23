@@ -597,12 +597,23 @@
     {
       "id": "arxiv2509-20293-judge-benchmark-design-failures",
       "title": "When Judgment Becomes Noise: How Design Failures in LLM Judge Benchmarks Silently Undermine Validity",
-      "authors": "unknown (found via WebSearch snippet only)",
+      "authors": "Benjamin Feuer, Chiung-Yi Tseng, Astitwa Sarthak Lathe, Oussama Elachqar, John P Dickerson",
       "year": 2025,
       "venue": "arXiv:2509.20293",
       "url": "https://arxiv.org/html/2509.20293v1",
       "source": "websearch",
-      "status": "found"
+      "status": "extracted",
+      "extraction_note": "WebFetch to arxiv.org (both /html/ and /pdf) was EGRESS_BLOCKED; extracted via WebSearch abstract/summary snippet fallback per PLAYBOOK.md.",
+      "abstract_extract": "Argues LLM-judged benchmarks have failure modes absent from ground-truth benchmarks: without tight objectives and verifiable construction, high-confidence benchmark rankings can be largely noise. Introduces two diagnostic tools: 'schematic adherence' (how much of a judge verdict is explained by the explicit evaluation schema/rubric) and 'psychometric validity' (aggregated internal-consistency + discriminant-validity signals quantifying irreducible uncertainty in a benchmarking run). Applied to Arena-Hard Auto, finds severe schema incoherence/factor collapse across popular judges: unexplained variance >90% for DeepSeek-R1-32B, and factor correlations >0.93 for most criteria (i.e. the rubric's supposedly-distinct scoring criteria are not actually distinguishing anything).",
+      "key_claims_numbers": [
+        "unexplained variance >90% for DeepSeek-R1-32B as a judge on Arena-Hard Auto",
+        "factor correlations >0.93 across most rubric criteria -> criteria are not discriminating, rubric is effectively collapsing to one dimension",
+        "proposes 'schematic adherence' and 'psychometric validity' as measurable diagnostics a judge setup should report, not just an aggregate score"
+      ],
+      "relevant_to": [
+        "h-judge-noise-repeats-power-check",
+        "translation_fidelity_judge.judge() methodology generally"
+      ]
     },
     {
       "id": "arxiv2601-05420-efficient-inference-noisy-judge",
@@ -612,27 +623,60 @@
       "venue": "arXiv:2601.05420",
       "url": "https://www.arxiv.org/pdf/2601.05420",
       "source": "websearch",
-      "status": "found"
+      "status": "extracted",
+      "extraction_note": "WebFetch to www.arxiv.org/pdf and arxiv.org was EGRESS_BLOCKED; extracted via WebSearch abstract fallback per PLAYBOOK.md.",
+      "abstract_extract": "Studies two families of methods for correcting bias/variance when using a noisy LLM judge to estimate mean parameters (e.g. average benchmark score, pairwise win rate) against a small gold-standard human-labeled subset: (i) direct measurement-error correction (Rogan-Gladen-style misclassification models) and (ii) surrogate-outcome/prediction-powered-inference (PPI) approaches that calibrate prediction residuals on the gold subset. Systematically compares their statistical efficiency for this estimation task.",
+      "key_claims_numbers": [
+        "Two concrete correction-method families for noisy-judge mean estimation: Rogan-Gladen-style misclassification correction vs. PPI-style residual calibration against a small human-labeled gold subset.",
+        "Framed explicitly around 'efficient inference' -- i.e. how many gold labels / judge calls are needed to get a statistically valid estimate, directly relevant to how many judge repeats or how large a human-labeled calibration subset our own judge-noise-floor work (cycle 19-21, h-judge-noise-repeats-power-check) would need to go from 'measuring the noise floor' to 'correcting for it'."
+      ],
+      "relevant_to": [
+        "h-judge-noise-repeats-power-check",
+        "judge_noise_power_analysis.py methodology"
+      ]
     },
     {
       "id": "arxiv2606-19544-systematic-large-scale-judge-eval",
-      "title": "A Systematic, Large-Scale Evaluation of LLM-as-a-Judge",
+      "title": "Reliability without Validity: A Systematic, Large-Scale Evaluation of LLM-as-a-Judge Models Across Agreement, Consistency, and Bias",
       "authors": "unknown (found via WebSearch snippet only)",
       "year": 2026,
       "venue": "arXiv:2606.19544",
       "url": "https://arxiv.org/html/2606.19544v1",
       "source": "websearch",
-      "status": "found"
+      "status": "extracted",
+      "extraction_note": "WebFetch to arxiv.org/html was EGRESS_BLOCKED; extracted via WebSearch abstract fallback per PLAYBOOK.md. Note: canonical title differs from the SEARCH_PAPERS-stage stub title ('A Systematic, Large-Scale Evaluation of LLM-as-a-Judge') -- corrected here.",
+      "abstract_extract": "Largest systematic evaluation of LLM-as-a-Judge to date: 21 judges from 9 providers across MT-Bench, JudgeBench, and RewardBench, evaluated under 3 protocols (agreement, consistency, bias audit) over 118 runs / ~541,000 individual judgments. Central argument: exact-match agreement (the metric judge validation conventionally relies on) does not correct for chance and systematically overstates discriminative ability -- 'reliability without validity'.",
+      "key_claims_numbers": [
+        "Kappa deflation (exact-match agreement vs. chance-corrected Cohen's kappa) is universal across judges: 33-41 percentage points on MT-Bench.",
+        "Judge rankings shift by up to 14 positions depending on which benchmark (MT-Bench/JudgeBench/RewardBench) is used to rank them -- a judge's relative quality is not benchmark-stable.",
+        "High test-retest reliability (>0.95) can coexist with severe position bias (>0.10) in the same production-deployed judge -- i.e. a judge can be very self-consistent while still being systematically biased, so consistency alone is not evidence of validity.",
+        "Verbosity bias measured as small (<0.011) across their judge cohort under a single pairwise rubric -- contradicts the common assumption that verbosity bias dominates judge error."
+      ],
+      "relevant_to": [
+        "h-judge-noise-repeats-power-check",
+        "translation_fidelity_judge.judge() methodology -- directly supports treating raw agreement/consistency numbers from a single judge call with skepticism, matches cycle 19-21's own empirical finding that same-condition judge scores swing widely on resampling"
+      ]
     },
     {
       "id": "arxiv2607-02235-judge-multilingual-low-resource",
       "title": "Challenges and Recommendations for LLMs-as-a-Judge in Multilingual Settings and Low-Resource Languages",
-      "authors": "unknown (found via WebSearch snippet only)",
+      "authors": "A. Seza Dogruoz, Xixian Liao, Verena Blaschke, Jakob Prange, Senyu Li, David Ifeoluwa Adelani",
       "year": 2026,
       "venue": "arXiv:2607.02235",
       "url": "https://arxiv.org/pdf/2607.02235",
       "source": "websearch",
-      "status": "found"
+      "status": "extracted",
+      "extraction_note": "WebFetch to arxiv.org/pdf was EGRESS_BLOCKED; extracted via WebSearch abstract/summary fallback per PLAYBOOK.md.",
+      "abstract_extract": "Survey of LLM-as-a-judge practice in multilingual and low-resource-language settings. Of 650 papers surveyed that mention LLM-as-a-judge, only 33 focus on low-resource or multilingual settings at all. Identifies core problems: LLMs have limited proficiency in low-resource languages as judges (not just as generators), evaluations in these settings often lack adequate human validation, judgments are inconsistent, there is a tendency to over-trust LLM judgments specifically in multilingual settings, and most studies rely on a single judge model rather than an ensemble/cross-check.",
+      "key_claims_numbers": [
+        "Only 33 of 650 surveyed papers mentioning LLM-as-a-judge actually cover low-resource/multilingual settings -- i.e. most judge-reliability findings in the literature (including the other 3 papers pulled this cycle) are implicitly English-centric and may not transfer to our En->Ja judge use case.",
+        "Flags single-judge-model reliance as a widespread problematic practice -- relevant since our translation_fidelity_judge.judge() also uses a single judge model/call per repeats[0] evaluation.",
+        "Notes lack of adequate human validation as a common gap in low-resource-language judge setups -- worth checking whether our own judge scores have ever been spot-checked against a human Japanese speaker's rating, since this repo's target language (Japanese) is not itself low-resource but the judge's Japanese-output-quality judging capability specifically has not been separately validated here."
+      ],
+      "relevant_to": [
+        "h-judge-noise-repeats-power-check",
+        "translation_fidelity_judge.judge() -- specifically its Japanese-language judging validity, distinct from the noise-floor variance question the other 3 papers address"
+      ]
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
