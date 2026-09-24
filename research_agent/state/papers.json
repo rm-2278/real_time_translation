@@ -893,6 +893,167 @@
         "Flags single-judge-model reliance as a widespread problematic practice; translation_fidelity_judge.judge() also uses a single judge call (on repeats[0], per cycle 19's finding) rather than an ensemble.",
         "Flags lack of human validation as a common gap in low-resource-language judge setups -- this repo's Japanese-language judge output has not been separately spot-checked against a human Japanese speaker's rating; this is a distinct gap from the noise-floor variance question the other 3 papers address, and is not currently covered by any tested or queued hypothesis."
       ]
+    },
+    {
+      "id": "simulseamless2024-fbk-iwslt",
+      "title": "SimulSeamless: FBK at IWSLT 2024 Simultaneous Speech Translation",
+      "authors": "Papi, Gaido, Negri, Bentivogli",
+      "year": 2024,
+      "venue": "IWSLT 2024 (arXiv:2406.14177)",
+      "url": "https://arxiv.org/abs/2406.14177",
+      "source": "human_report",
+      "status": "read",
+      "extraction_note": "Added 2026-09-24 (cycle 22, GENERATE_HYPOTHESES) from a human-pasted research report ('Real-Time English->Japanese Speech-to-Subtitle Translation with LLM APIs'). Claims/numbers are as quoted in that report and were NOT independently re-fetched this session.",
+      "summary": "Runs off-the-shelf SeamlessM4T-medium simultaneously via the AlignAtt policy with no task fine-tuning. Gave the best En->Ja quality and quality-latency trade-off of the IWSLT 2024 campaign, scored with SimulEval at character level for Japanese.",
+      "key_findings": [
+        "En->Ja MuST-C v2 tst-COMMON: BLEU 22.19 at AL 1.997s (LAAL 2.137, ATD 0.580); computation-aware AL 4.018s.",
+        "Comparators: NAIST 2023 BLEU 15.32 @ AL 1.974; HW-TSC 2023 (cascade) BLEU 17.89 @ AL 1.98.",
+        "AlignAtt En-Ja config: 400ms speech chunk, frame parameter f=1.",
+        "FBK flags train/test overlap that makes some 2023-vs-2024 En-Ja comparisons unreliable.",
+        "Gives an external computation-aware En->Ja latency operating point (~4s ca-AL) to compare this cascade against."
+      ],
+      "relevant_to": [
+        "h-computation-aware-laal-enja"
+      ]
+    },
+    {
+      "id": "ma2019-stacl-waitk",
+      "title": "STACL: Simultaneous Translation with Implicit Anticipation and Controllable Latency using Prefix-to-Prefix Framework",
+      "authors": "Ma et al.",
+      "year": 2019,
+      "venue": "ACL 2019",
+      "url": "https://aclanthology.org/P19-1289/",
+      "source": "human_report",
+      "status": "read",
+      "extraction_note": "Added 2026-09-24 (cycle 22, GENERATE_HYPOTHESES) from a human-pasted research report ('Real-Time English->Japanese Speech-to-Subtitle Translation with LLM APIs'). Claims/numbers are as quoted in that report and were NOT independently re-fetched this session.",
+      "summary": "Introduces the wait-k policy (read k source units, then emit one target unit per new source unit) and Average Lagging (AL). It frames SOV<->SVO word-order divergence as the central difficulty that needs implicit anticipation.",
+      "key_findings": [
+        "wait-k is the universal fixed-policy baseline. For speech, Ma et al. 2020 found a ~280ms step size best.",
+        "AL = average number of source units the system lags behind an ideal simultaneous translator.",
+        "Not adopted here: this repo uses an API LLM with batch commits, not a prefix-to-prefix decoder. Timer, LocalAgreement and semantic gating are already tested as the commit policy."
+      ],
+      "relevant_to": [
+        "h-computation-aware-laal-enja"
+      ]
+    },
+    {
+      "id": "machacek-bojar2020-subtitler",
+      "title": "Presenting Simultaneous Translation in Limited Space",
+      "authors": "Machacek, Bojar",
+      "year": 2020,
+      "venue": "ITAT 2020",
+      "url": "",
+      "source": "human_report",
+      "status": "read",
+      "extraction_note": "Added 2026-09-24 (cycle 22, GENERATE_HYPOTHESES) from a human-pasted research report ('Real-Time English->Japanese Speech-to-Subtitle Translation with LLM APIs'). Claims/numbers are as quoted in that report and were NOT independently re-fetched this session.",
+      "summary": "The 'Subtitler' presents re-translating simultaneous MT in a fixed 1-2 line window. It uses a flicker parameter and an adaptive reading speed of 10-25 CPS that depends on the buffer. Also introduces Continuous Rating as a human evaluation of live subtitles.",
+      "key_findings": [
+        "Default 2-line window: 90% of words are finalized within 3s and 99% within 7s.",
+        "Reading speed adapts to backlog (10-25 CPS). This is conceptually the same as this repo's schedule_adaptive/catchup_window, but its range sits far above the 4 CPS Netflix-JA target used here.",
+        "Continuous Rating: viewers press buttons to rate satisfaction moment by moment."
+      ],
+      "relevant_to": [
+        "h-continuous-rating-cps-calibration",
+        "h-interim-source-preview-overlay"
+      ]
+    },
+    {
+      "id": "machacek2023-mt-metrics-continuous-rating",
+      "title": "MT Metrics Correlate with Human Ratings of Simultaneous Speech Translation",
+      "authors": "Machacek, Bojar, et al.",
+      "year": 2023,
+      "venue": "IWSLT 2023",
+      "url": "",
+      "source": "human_report",
+      "status": "read",
+      "extraction_note": "Added 2026-09-24 (cycle 22, GENERATE_HYPOTHESES) from a human-pasted research report ('Real-Time English->Japanese Speech-to-Subtitle Translation with LLM APIs'). Claims/numbers are as quoted in that report and were NOT independently re-fetched this session.",
+      "summary": "At current quality levels, offline MT metrics (BLEU, chrF2, COMET) correlate with human Continuous Rating of simultaneous speech translation. They can serve as proxies, but must be paired with latency and stability metrics.",
+      "key_findings": [
+        "Offline metrics correlate with Continuous Rating, so chrF/xCOMET are defensible proxies here.",
+        "Viewers who know the source language prefer low latency over fewer re-translations. Relevant: the target audience of Japanese viewers of English lectures often understands some English.",
+        "No human Continuous Rating has ever been collected in this repo. The 2026-09-24 human review was free-form and holistic."
+      ],
+      "relevant_to": [
+        "h-continuous-rating-cps-calibration",
+        "h-interim-source-preview-overlay"
+      ]
+    },
+    {
+      "id": "meetdot2021-emnlp-demo",
+      "title": "MeetDot: Videoconferencing with Live Translation Captions",
+      "authors": "Arkhangorodsky et al.",
+      "year": 2021,
+      "venue": "EMNLP 2021 (demo)",
+      "url": "",
+      "source": "human_report",
+      "status": "read",
+      "extraction_note": "Added 2026-09-24 (cycle 22, GENERATE_HYPOTHESES) from a human-pasted research report ('Real-Time English->Japanese Speech-to-Subtitle Translation with LLM APIs'). Claims/numbers are as quoted in that report and were NOT independently re-fetched this session.",
+      "summary": "Open, modular ASR+MT cascade for video calls that re-translates on incremental ASR updates. It caches translations of finished utterances and only re-translates the growing one. Flicker is reduced with smooth scrolling, fading unstable text, biased decoding and preserved line breaks.",
+      "key_findings": [
+        "Only re-translates the current (growing) utterance; completed segments are cached.",
+        "Presentation-level flicker mitigation: unstable tail text is faded, not hidden.",
+        "Extrinsic evaluation via a cross-lingual word-guessing game."
+      ],
+      "relevant_to": [
+        "h-interim-source-preview-overlay"
+      ]
+    },
+    {
+      "id": "ja-subtitle-reading-speed-norms",
+      "title": "Japanese subtitle reading-speed norms: Netflix JA Timed Text Style Guide, Ooona JA Style Guide (2024), Sasaki (JAITS 2017)",
+      "authors": "Netflix; Ooona; Sasaki",
+      "year": 2024,
+      "venue": "industry style guides + JAITS 2017",
+      "url": "",
+      "source": "human_report",
+      "status": "read",
+      "extraction_note": "Added 2026-09-24 (cycle 22, GENERATE_HYPOTHESES) from a human-pasted research report ('Real-Time English->Japanese Speech-to-Subtitle Translation with LLM APIs'). Claims/numbers are as quoted in that report and were NOT independently re-fetched this session.",
+      "summary": "Commercial Japanese subtitle guides cap reading speed at 4 CPS, with 13 (Netflix) or 15 (Ooona, horizontal) full-width characters per line and at most 2 lines. Sasaki (2017) asks whether the 4-CPS norm is outdated.",
+      "key_findings": [
+        "Netflix JA: 4 CPS, 13 chars/line. Ooona JA (Mar 2024): 4.0 CPS, 15 cpl horizontal / 11 vertical, max 2 lines.",
+        "Sasaki 2017, 'Is the Four-Character-per-Second Word Limitation Outdated?', questions the norm.",
+        "This repo already implements the Netflix 4 CPS / 13 cpl target (readability_metrics.py, subtitle_formatter.format_readable, with kanji weighted 2x). The median cps_violation_rate across the 90 rows of caption_readability_from_experiment.csv is 1.0, and the 2026-09-15 sweep concluded that no setting achieves both low lag and Netflix-grade CPS on live lecture content. That makes the target itself, not only the scheduler, worth questioning."
+      ],
+      "relevant_to": [
+        "h-continuous-rating-cps-calibration"
+      ]
+    },
+    {
+      "id": "doi2024-enja-si-word-order",
+      "title": "Word Order in English-Japanese Simultaneous Interpretation",
+      "authors": "Doi et al. (NAIST)",
+      "year": 2024,
+      "venue": "2024",
+      "url": "",
+      "source": "human_report",
+      "status": "read",
+      "extraction_note": "Added 2026-09-24 (cycle 22, GENERATE_HYPOTHESES) from a human-pasted research report ('Real-Time English->Japanese Speech-to-Subtitle Translation with LLM APIs'). Claims/numbers are as quoted in that report and were NOT independently re-fetched this session.",
+      "summary": "Analyzes the chunk-wise, source-order-preserving (FIFO) strategy that human En->Ja interpreters use to handle the SVO->SOV divergence.",
+      "key_findings": [
+        "Supports monotonic, chunk-wise En->Ja output as a human-attested strategy.",
+        "Already covered: h-monotonic-chunkwise-prompt-enja tested a prompt-level version. No new hypothesis from this paper."
+      ],
+      "relevant_to": [
+        "h-monotonic-chunkwise-prompt-enja"
+      ]
+    },
+    {
+      "id": "vendor-benchmarks-2026-hamming-livelingo",
+      "title": "Secondary vendor benchmarks: Hamming.ai streaming-ASR benchmark (via AssemblyAI blog) and LiveLingo 2026 live-translation benchmark",
+      "authors": "vendor/secondary",
+      "year": 2026,
+      "venue": "vendor blogs",
+      "url": "",
+      "source": "human_report",
+      "status": "read",
+      "extraction_note": "Added 2026-09-24 (cycle 22, GENERATE_HYPOTHESES) from a human-pasted research report ('Real-Time English->Japanese Speech-to-Subtitle Translation with LLM APIs'). Claims/numbers are as quoted in that report and were NOT independently re-fetched this session.",
+      "summary": "Secondary, vendor-adjacent numbers. Streaming ASR: AssemblyAI Universal-3 Pro 307ms P50 / 8.14% WER vs Deepgram Nova-3 516ms P50 / 9.87% WER (P99 1,012ms vs 1,907ms) over 4M+ calls. LiveLingo: a DIY Whisper+GPT-4o-mini pipeline scored ~4.63/5 comprehension, with normalized erasure ~22 per 120s clip vs ~121 (Azure) and ~353 (Google Cloud).",
+      "key_findings": [
+        "The ASR latency gap (~200ms P50) is small next to this pipeline's ~6s commit-to-display lag. Switching ASR vendor is not the bottleneck; commit policy and MT queueing are.",
+        "Mentions NCNE (Normalized Click-N-Edit, Levenshtein-based) as a refinement of NE for visual instability. Not adopted: this repo's NE is already ~0 within a batch, and cross-batch NE is measured separately.",
+        "Treat all numbers as indicative, since the report itself flags them as vendor-commissioned."
+      ],
+      "relevant_to": []
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
@@ -908,5 +1069,6 @@
   "_websearch_note_cycle16": "2026-09-16 (same day, continuation), human asked to deepen research further and increase the hypothesis count. Ran 6 more WebSearch queries (2 failed transiently -- one to a local machine sleep event mid-call, one to a temporary safety-classifier timeout -- both retried successfully) plus 1 WebFetch (developers.openai.com's realtime-translation guide page, which returned only partial content -- a JS-rendered docs page, not a block -- so the language list was confirmed via a second targeted WebSearch instead). Added 3 more papers (gpt-realtime-translate, X2Streaming-ASR, SASST) and 2 more hypotheses (h-asr-confidence-early-commit, h-openai-realtime-translate-feasibility).",
   "_websearch_note_cycle17": "Cycle 17 SEARCH_PAPERS pass (2026-09-17): queries covered post-cycle-13 literature on simultaneous ST/streaming MT (IWSLT 2026 systems, flicker/stability policies, cascade-vs-e2e comparisons, LLM prompting for SimulMT, vendor ASR latency). Most results duplicated papers already 'read' in this file (AlignAtt4LLM, MLLP-VRAIN, DOA, coval vendor benchmark, etc.) or were older (pre-2026-09-08 survey) work already superseded by what's on file -- not re-added. 3 genuinely new candidates added as 'found' stubs: a CUNI IWSLT2026 pocket offline model report, a streaming-ST evaluation toolkit paper (Simulstream), and an engineering blog post reporting >20% flicker reduction from beam-search changes in a cascaded streaming pipeline -- the last one is topically the closest hit to this repo's cascade architecture and its still-open flicker concerns. All three need EXTRACT_PAPERS next.",
   "_websearch_note_cycle22": "Cycle 22 SEARCH_PAPERS pass (2026-09-23), deliberately narrow per cycle 21's reflections.md recommendation: instead of another general SimulST/streaming-MT sweep, searched specifically for LLM-as-judge evaluation noise / repeats-needed-for-significance literature, a gap cycle 21's h-judge-noise-repeats-power-check result flagged as newly relevant (nothing in this corpus closer than polak2026-meta-evaluation-latency-metrics, which is about latency metrics, not quality/fidelity judge noise). Two WebSearch queries run: (1) 'LLM-as-judge evaluation noise variance repeated samples significance machine translation 2026' -- productive, surfaced several directly relevant 2025/2026 arXiv papers on judge noise/variance/repeated-sampling, including one anecdote of 10 repeat judge passes on a single EN->DE translation ranging -29 to -109 (same qualitative phenomenon this repo's own judge-noise investigation found, independent external confirmation); (2) 'how many repeats needed LLM judge power analysis sample size translation quality evaluation' -- unproductive, no paper surfaced with formal power-analysis guidance for repeat counts, only blog posts and unrelated MT-quality papers, not added. 4 new candidates added as 'found' stubs from query (1): arxiv2509-20293-judge-benchmark-design-failures (design failures silently undermining LLM-judge benchmark validity -- closest direct hit), arxiv2601-05420-efficient-inference-noisy-judge (efficient inference under judge noise, may bear on repeats-vs-cost tradeoff), arxiv2606-19544-systematic-large-scale-judge-eval (large-scale systematic judge evaluation, may contain variance-component decomposition methodology directly comparable to this repo's own between/within-span decomposition from cycle 21), arxiv2607-02235-judge-multilingual-low-resource (LLM-judge specifically in multilingual/translation settings, closest to this repo's EN->JA domain). Titles/URLs/venue/year only per playbook's SEARCH_PAPERS scope (metadata from WebSearch result titles, not fetched full text) -- authors unknown for 3 of the 4 (WebSearch did not surface author names in the snippet), to be filled in during EXTRACT_PAPERS if full text is reachable. None are duplicates of anything already in this corpus (checked by id/arXiv number). Not yet cross-referenced against experiments/ per READ_PAPERS -- next state's job.",
-  "_read_cross_reference_note_cycle22": "Cross-referenced all 4 judge-noise papers (arxiv2509-20293, arxiv2601-05420, arxiv2606-19544, arxiv2607-02235) against experiments/results.csv, experiments/*.json filenames, and `git log --oneline -20 -- experiments/ src/` per PLAYBOOK.md's READ_PAPERS cross-reference step (grep for 'judge' found no experiment .py files, only results.csv rows already known from cycle 19-21). h-judge-noise-repeats-power-check (tested, cycle 21) already retroactively measured and corrected translation_fidelity_judge.judge()'s within-span repeat noise floor (8.81 guest-talk / 3.40 original clip) and concluded REPEATS=4-5 is affordable and sufficient for the effect sizes this repo's gate hypotheses have chased -- none of these 4 papers overlap with or duplicate that specific quantitative result. What they add, not yet covered by any tested/queued hypothesis: (1) arxiv2509-20293's 'schematic adherence' / rubric-collapse diagnostic, not yet applied to translation_fidelity_judge.judge()'s own rubric; (2) arxiv2606-19544's finding that raw agreement overstates judge validity and that self-consistency != validity, which motivates checking validity (not just noise) of this repo's judge; (3) arxiv2607-02235's specific flag that this repo's En->Ja judge has never been spot-checked against a human Japanese speaker's rating -- a distinct, currently-unaddressed gap from the noise-floor work. Candidate hypothesis directions for GENERATE_HYPOTHESES, not yet written up: a small human-vs-judge spot-check on already-collected experiment JSONs (zero new API/audio cost, addresses gap 3), and/or applying arxiv2509-20293's rubric-collapse diagnostic retroactively to already-stored judge outputs (gap 1, also likely $0)."
+  "_read_cross_reference_note_cycle22": "Cross-referenced all 4 judge-noise papers (arxiv2509-20293, arxiv2601-05420, arxiv2606-19544, arxiv2607-02235) against experiments/results.csv, experiments/*.json filenames, and `git log --oneline -20 -- experiments/ src/` per PLAYBOOK.md's READ_PAPERS cross-reference step (grep for 'judge' found no experiment .py files, only results.csv rows already known from cycle 19-21). h-judge-noise-repeats-power-check (tested, cycle 21) already retroactively measured and corrected translation_fidelity_judge.judge()'s within-span repeat noise floor (8.81 guest-talk / 3.40 original clip) and concluded REPEATS=4-5 is affordable and sufficient for the effect sizes this repo's gate hypotheses have chased -- none of these 4 papers overlap with or duplicate that specific quantitative result. What they add, not yet covered by any tested/queued hypothesis: (1) arxiv2509-20293's 'schematic adherence' / rubric-collapse diagnostic, not yet applied to translation_fidelity_judge.judge()'s own rubric; (2) arxiv2606-19544's finding that raw agreement overstates judge validity and that self-consistency != validity, which motivates checking validity (not just noise) of this repo's judge; (3) arxiv2607-02235's specific flag that this repo's En->Ja judge has never been spot-checked against a human Japanese speaker's rating -- a distinct, currently-unaddressed gap from the noise-floor work. Candidate hypothesis directions for GENERATE_HYPOTHESES, not yet written up: a small human-vs-judge spot-check on already-collected experiment JSONs (zero new API/audio cost, addresses gap 3), and/or applying arxiv2509-20293's rubric-collapse diagnostic retroactively to already-stored judge outputs (gap 1, also likely $0).",
+  "_human_report_note_cycle22": "2026-09-24: rm-2278 pasted a research report (En->Ja real-time subtitle translation with LLM APIs) and asked to record its findings and add hypotheses. Per PLAYBOOK's mid-cycle literature-refresh rule, entries were added in place while in GENERATE_HYPOTHESES (source='human_report'). Already in papers.json and not re-added: papi2025-howreal, arivazhagan2020-retranslation, machacek2023-whisperstreaming, arivazhagan2019-erasure, google-live-caption-stability-blog, koshkin2024, simulmask2024, zoom2025-self-speculative, kano2023-ATD, gpt-realtime-translate, coval2026 vendor benchmark. Report recommendations already tested here: re-translation+masking (h-masking-holdback*), LocalAgreement-2 (h-localagreement-*), rolling context/anchoring (h-continuation-context-anchor, soft-anchor), compression instructions (h-compression-*), endpointing/utterance_end tuning (chunk_latency_sweep*, h-endpointing-*), semantic/clause gating (h-semantic-completeness-gating), monotonic En-Ja (h-monotonic-chunkwise-prompt-enja), joint quality-latency table (h-quality-latency-joint-table), Netflix JA CPS (readability_metrics.py). New gaps: IWSLT-comparable computation-aware latency, human Continuous Rating, CPS target calibration, and presenting unstable/provisional text (MeetDot/Subtitler)."
 }
