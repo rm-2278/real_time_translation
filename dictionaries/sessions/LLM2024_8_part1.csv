@@ -1,13 +1,16 @@
-source_term,target_term,notes
-Matsuo-Iwasawa Lab,松尾・岩澤研究室,University of Tokyo research lab
+source_term,target_term,notes,aliases
+Matsuo-Iwasawa Lab,松尾・岩澤研究室,University of Tokyo research lab,Muscle Lab|Muscle Labs|Matsuo Lab|Matsuo Labs
 UTokyo,東京大学,University of Tokyo
-Jiaxian Guo,Jiaxian Guo,Speaker name
-Yanqi Zhou,Yanqi Zhou,Speaker name
+Jiaxian Guo,Jiaxian Guo,Speaker name,Josh Angou|Josh Anguo|Josh Ango|Jia Xian Guo
+Yanqi Zhou,Yanqi Zhou,Speaker name,Yanxi|Yan Qi|Yanqi
+DeepMind,DeepMind,Google DeepMind (Chinchilla scaling-law paper),Deepgram|Deep Mind
+Chinchilla,Chinchilla,DeepMind compute-optimal LLM / scaling law (2022),chinchila|chin chilla
+Agenda,アジェンダ,Outline of today's talk,today's agent
 招待講演,招待講演,Invited lecture/talk
 LLM,大規模言語モデル,Large Language Model
 LeakGAN,LeakGAN,Generative Adversarial Network model
 RL,強化学習,Reinforcement Learning
-Multi-Modal LLM,マルチモーダルLLM,
+Multi-Modal LLM,マルチモーダルLLM,,multi model LLM|multi model language model
 LLM Agents,LLMエージェント,
 3D Diffusion,3D拡散モデル,Generative AI technique
 Gemini,Gemini,Google's AI model
@@ -34,7 +37,7 @@ Non-embedding,非埋め込み,Excluding embedding layer parameters
 TriviaQA,TriviaQA,Reading comprehension benchmark
 Logical Inference Chains,論理推論チェーン,Reasoning process
 Common-sense Reasoning,常識推論,AI capability
-Suspicion-Agent,Suspicion-Agent,Specific AI agent name
+Suspicion-Agent,Suspicion-Agent,Specific AI agent name,suspension agent|suspicion agent
 Theory of Mind,心の理論,Cognitive science concept
 RL algorithms,強化学習アルゴリズム,Reinforcement Learning
 GPT-4,GPT-4,LLM model
@@ -103,8 +106,8 @@ MatFormer,MatFormer,Specific neural network architecture
 Elastic Inference,エラスティック推論,Dynamic scaling of inference resources
 Linear Attention,線形アテンション,Attention mechanism variant
 MoD,MoD,Mixture-of-Depths
-Groq,Groq,AI hardware company
-Cerebras,Cerebras,AI hardware company
+Groq,Groq,AI hardware company,GrowCo|Grok
+Cerebras,Cerebras,AI hardware company,Celebrace|Cerebrace|Celebras
 energy-bound,エネルギー制約,Hardware performance bottleneck
 test-time compute,テスト時計算量,Inference-stage processing
 Re-learning,再学習,Model training process

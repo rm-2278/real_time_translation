@@ -95,7 +95,7 @@ def format_naive(
     """No formatting at all: full text, shown from real arrival for a flat hold."""
     cues: list[Cue] = []
     for u in utterances:
-        text = re.sub(r"\s+", "", u.text)
+        text = _normalize_spaces(u.text)
         if text:
             cues.append(Cue(u.ready_at, u.ready_at + hold_seconds, text))
     return _clip_to_next_start(cues)
@@ -106,6 +106,7 @@ _BREAK_AFTER = "、。！？"
 # Never START a new line/chunk with one of these -- a stranded particle
 # reads worse than a slightly short previous line.
 _PARTICLES = "はがをにでともへやのからまでよりねよわ"
+_NO_LINE_START = "、。！？」』）"
 
 
 def _reading_weight(ch: str) -> float:
@@ -122,10 +123,77 @@ def _weighted_len(text: str) -> float:
     return sum(_reading_weight(c) for c in text)
 
 
+def _is_latin(ch: str) -> bool:
+    return ch.isascii() and (ch.isalnum() or ch in "-_'.")
+
+
+def _normalize_spaces(text: str) -> str:
+    """Drop whitespace, except one space between two Latin words.
+
+    Japanese needs no spaces, but stripping ALL whitespace glued Latin
+    terms together on screen ("Gemini SWE" -> "GeminiSWE", "Google
+    Research Australia" -> "GoogleResearchAustralia") -- one of the
+    2026-09-24 human review's "変なところでの改行" complaints.
+    """
+    text = re.sub(r"\s+", " ", text.strip())
+    return re.sub(
+        r" (?![A-Za-z0-9])|(?<![A-Za-z0-9.,!?:;]) ", "", text
+    )
+
+
+def _display_width(text: str) -> float:
+    """Full-width units: half-width (ASCII) characters count as 0.5.
+
+    Netflix's Japanese style guide counts its 13-per-line limit in
+    full-width characters, so an ASCII term takes half the room a
+    same-length kana/kanji run does.
+    """
+    return sum(0.5 if c.isascii() else 1.0 for c in text)
+
+
+def _max_prefix_for_width(text: str, max_width: float) -> int:
+    """Largest n such that text[:n] fits within max_width."""
+    width = 0.0
+    for i, c in enumerate(text):
+        width += 0.5 if c.isascii() else 1.0
+        if width > max_width:
+            return i
+    return len(text)
+
+
 def _adjust_break(text: str, break_at: int, min_first_len: int = 1) -> int:
     """Shift a candidate break point left if it would strand a particle."""
     while break_at > min_first_len and text[break_at] in _PARTICLES:
         break_at -= 1
+    return break_at
+
+
+def _find_break(text: str, max_width: float) -> int:
+    """Where to split `text` (known to exceed max_width) into two pieces.
+
+    Prefers just after punctuation; otherwise avoids stranding a particle
+    and never splits inside a Latin word ("Gemm|a") -- backs up to the
+    word's start instead, unless the word alone is wider than a line.
+    Punctuation that would start the next piece hangs on this one instead
+    (行頭禁則: a line never starts with "、" or "。").
+    """
+    limit = max(1, _max_prefix_for_width(text, max_width))
+    if text[limit] in _NO_LINE_START:
+        return limit + 1
+    window = text[: limit + 1]
+    for i in range(len(window) - 1, 0, -1):
+        if window[i - 1] in _BREAK_AFTER:
+            return i
+    break_at = _adjust_break(text, limit)
+    candidate = break_at
+    while (
+        candidate > 0
+        and _is_latin(text[candidate - 1])
+        and (_is_latin(text[candidate]) or text[candidate] == " ")
+    ):
+        candidate -= 1
+    if candidate > 0:
+        return candidate
     return break_at
 
 
@@ -140,21 +208,17 @@ def _wrap_lines(text: str, max_chars_per_line: int, max_lines: int = 2) -> list[
     left onto the final line -- a slightly long last line beats a line the
     renderer was never told about and silently drops.
     """
-    if len(text) <= max_chars_per_line:
+    if _display_width(text) <= max_chars_per_line:
         return [text]
     lines: list[str] = []
     remaining = text
-    while len(remaining) > max_chars_per_line and len(lines) < max_lines - 1:
-        window = remaining[: max_chars_per_line + 1]
-        break_at = None
-        for i in range(len(window) - 1, 0, -1):
-            if window[i - 1] in _BREAK_AFTER:
-                break_at = i
-                break
-        if break_at is None:
-            break_at = _adjust_break(remaining, max_chars_per_line)
-        lines.append(remaining[:break_at])
-        remaining = remaining[break_at:]
+    while (
+        _display_width(remaining) > max_chars_per_line
+        and len(lines) < max_lines - 1
+    ):
+        break_at = _find_break(remaining, max_chars_per_line)
+        lines.append(remaining[:break_at].rstrip())
+        remaining = remaining[break_at:].lstrip()
     if remaining:
         lines.append(remaining)
     return lines
@@ -188,21 +252,14 @@ def _merge_orphan_chunks(chunks: list[str]) -> list[str]:
 
 def _split_chunks(text: str, max_chars_per_card: int) -> list[str]:
     """Split long text into <= max_chars_per_card chunks, preferring punctuation."""
-    if len(text) <= max_chars_per_card:
+    if _display_width(text) <= max_chars_per_card:
         return [text]
     chunks: list[str] = []
     remaining = text
-    while len(remaining) > max_chars_per_card:
-        window = remaining[: max_chars_per_card + 1]
-        split_at = None
-        for i in range(len(window) - 1, 0, -1):
-            if window[i - 1] in _BREAK_AFTER:
-                split_at = i
-                break
-        if split_at is None:
-            split_at = _adjust_break(remaining, max_chars_per_card)
-        chunks.append(remaining[:split_at])
-        remaining = remaining[split_at:]
+    while _display_width(remaining) > max_chars_per_card:
+        split_at = _find_break(remaining, max_chars_per_card)
+        chunks.append(remaining[:split_at].rstrip())
+        remaining = remaining[split_at:].lstrip()
     if remaining:
         chunks.append(remaining)
     return _merge_orphan_chunks(chunks)
@@ -239,6 +296,33 @@ def _clip_to_next_start(cues: list[Cue]) -> list[Cue]:
     return out
 
 
+# A card this short ("そして", "私の", "はい。") is not worth its own
+# min_duration slot: under backlog it just flashes by and pushes every
+# later card further behind (the 2026-09-24 review's "ちょくちょく早い
+# ところがある"). Fold it into the next utterance when that one is ready
+# soon after anyway.
+_TINY_UTTERANCE_CHARS = 4
+_TINY_MERGE_WINDOW_SECONDS = 2.0
+
+
+def _merge_tiny_utterances(utterances: list[_RawUtterance]) -> list[_RawUtterance]:
+    out: list[_RawUtterance] = []
+    carry = ""
+    for i, u in enumerate(utterances):
+        text = f"{carry}{u.text}" if carry else u.text
+        carry = ""
+        nxt = utterances[i + 1] if i + 1 < len(utterances) else None
+        if (
+            nxt is not None
+            and len(_normalize_spaces(text)) <= _TINY_UTTERANCE_CHARS
+            and nxt.ready_at - u.ready_at <= _TINY_MERGE_WINDOW_SECONDS
+        ):
+            carry = text
+            continue
+        out.append(_RawUtterance(u.ready_at, text))
+    return out
+
+
 # Reading-speed and line-length defaults follow Netflix's published
 # Japanese Timed Text Style Guide: 4 CPS, max 13 full-width characters per
 # line, minimum display 5/6s, maximum display 7s. `reading_units_per_sec`
@@ -259,8 +343,8 @@ def _build_readable_items(
     """(ready_at, wrapped_text, duration) for every card, unscheduled."""
     max_chars_per_card = max_chars_per_line * max_lines
     items: list[tuple[float, str, float]] = []
-    for u in utterances:
-        text = re.sub(r"\s+", "", u.text)
+    for u in _merge_tiny_utterances(utterances):
+        text = _normalize_spaces(u.text)
         if not text:
             continue
         chunks = _split_chunks(text, max_chars_per_card)

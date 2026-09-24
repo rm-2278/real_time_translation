@@ -707,6 +707,171 @@
         "experiments/judge_noise_power_analysis.csv"
       ],
       "result_summary": "Ran judge_noise_power_analysis.py (pure retroactive stats, $0, no new API calls) over experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json. Confirmed the script reproduces cycle 20's reported noise-floor numbers exactly (stdev 3.226 original clip, 17.723 guest-talk clip) from the 'zero-effect-spans, pool both conditions' concatenation method. \n\nKEY FINDING (new, found during this analysis, verified by explicit variance decomposition): cycle 20's headline guest-talk noise-floor number (stdev 17.72) is NOT a pure per-repeat resampling-noise estimate -- it is inflated by between-span variance in translation difficulty/quality. Decomposing the same 125 zero-effect span-condition groups into between-group variance (variance of each group's 2-repeat mean across the different source spans, 274.67, i.e. stdev ~16.6) and mean within-group variance (the actual same-span same-condition 2-repeat noise, 77.7, i.e. stdev 8.81) shows the within-span repeat noise is roughly HALF what cycle 20 reported (8.81 vs 17.72), because concatenating raw scores across 63 different spans before taking one pooled stdev mixes in each span's own quality level along with genuine repeat noise. This matters because a *paired* per-span comparison (which is what every gate hypothesis in this line has actually been doing -- baseline_replay vs soft_anchor_replay vs gated_soft_anchor on the *same* source spans) naturally cancels out between-span quality differences; only the within-span repeat noise is the relevant nuisance parameter for that kind of comparison, so 8.81 (not 17.72) is the number that should have been used all along for guest-talk power/precision reasoning. The original clip's between-span variance is much smaller (4.44) relative to its within-span noise (11.54, stdev 3.40 -- close to cycle 20's 3.23), which is why cycle 20's naive pooled number happened to be a reasonable approximation there but not on the guest-talk clip. \n\nUsing the corrected within-span-only sigma in a paired one-sample z-test power calculation (alpha=0.05, power=0.80, N=num_spans per clip, solving required REPEATS*N = 2*(z_a/2+z_b)^2*sigma^2/delta^2 for REPEATS): for a target effect of 4 points (the size actually seen in cycle 20's gated-vs-soft_anchor comparison), the worst-case (guest-talk) clip needs only ~1.0 additional repeat beyond REPEATS=2, i.e. REPEATS=2 is already close to sufficient; for a harder 2-point effect, REPEATS=4 (est. $0.80, well under the $3/batch cap) is the worst-case requirement. This directly revises cycle 20's reflections.md conclusion that 'no threshold choice can be validated with REPEATS=2-3 judge calls' -- that pessimism was itself partly an artifact of using an inflated noise estimate; with the corrected sigma, REPEATS=4-5 (not 20+) should be enough to resolve effects of the size this line of hypotheses has actually been chasing, and is easily affordable under the current budget policy. \n\nCaveat stated explicitly (per this hypothesis's own design note): this power model still assumes the *true* per-span gating effect is uniform across spans (zero between-span heterogeneity in the effect itself, as opposed to the between-span heterogeneity in absolute quality level that this analysis explicitly corrects for) -- it is a lower bound on REPEATS needed, not a guarantee. Recommend (to the human, via the report): future gate-threshold hypotheses in this line should set REPEATS=4 or 5 instead of 2, and should compute noise floor via the corrected within-span-only method (as implemented in this script) rather than the zero-effect-concatenation method, to avoid re-deriving an inflated noise estimate."
+    },
+    {
+      "id": "h-review-asr-reemission-watermark",
+      "title": "Human review 'duplicate captions': drop already-emitted words by a persistent audio-time watermark on Deepgram word timings",
+      "description": "Human review of the full LLM2024_8_part1 captions (experiments/20260924_llm2024_8_part1_human_review.md) reported frequent duplicate captions. In 20260918_llm2025_ep8_zenhan_full_lecture_v2_dict.json 177/1209 (14.6%) final segments start before the end of an already-emitted segment (e.g. seg 59/60 'Gemma 3D, Gemma four stuffs. Okay.' then 'Gemma 3D, Gemma four stuffs.'). Root cause: deepgram_client.py dedups only by per-utterance word COUNT, reset on UtteranceEnd/is_final; an UtteranceEnd flush of the pending interim followed by Deepgram's late is_final for the same audio (or re-segmentation of a trailing word) re-emits the words as a new utterance.",
+      "grounded_in": [
+        "human-review-2026-09-24"
+      ],
+      "predicted_effect": "overlap_duplicate_rate (caption_issue_metrics.py) drops from ~0.14 to <0.03 on the same window, with no increase in empty/missing speech.",
+      "required_changes": "deepgram_client.py: TranscriptionResult.words (per-word timings), _take_unemitted() trimming leading words whose end <= _emitted_until (never reset per utterance, reset on connect). Falls back to count-only when word list and transcript don't align 1:1. Unit tests in tests/test_caption_review_fixes.py.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.4,
+      "approval": "approved_by_human",
+      "status": "tested",
+      "experiment_ids": [
+        "experiments/20260924_llm2024_8_part1_review_fixes_7m30_21m50.json",
+        "experiments/20260924_llm2024_8_part1_review_fixes_v2_7m30_21m50.json"
+      ],
+      "result_summary": "PARTIALLY CONFIRMED. Same window (450-1310s) live rerun v2: overlap_duplicate_rate 13.6% -> 3.8% (33/243 -> 9/234), no empty translations. Raw Deepgram message debug on the 07:30 audio then showed the residual cause: Deepgram sends UtteranceEnd BEFORE the is_final of the same segment, and the final's word timings are wider than the interim's (everyone. 8.25-8.57 -> 8.41-8.97), so neither end-time nor midpoint watermark catches it. v3 fix (restore consumed word count when the flushed segment start reappears) verified on that 20s of live audio + unit test, but the full-window v3 run was blocked twice by local network loss (DNS failure / Deepgram WS close) -- not yet measured. See experiments/20260924_llm2024_8_part1_human_review.md section 4.2."
+    },
+    {
+      "id": "h-review-misheard-term-aliases",
+      "title": "Human review 'JoshAnguo / Muscle Lab / Suspension-Agent': ASR-alias dictionary column + fuzzy retrieval + prompt rule-4 ASR-error exception",
+      "description": "Human review (experiments/20260924_llm2024_8_part1_human_review.md) reported misheard names left uncorrected. The 114-entry session dictionary is in dynamic mode (>80), which injects only entries whose source term literally appears in the ASR text, so 'Josh Angou' never retrieves 'Jiaxian Guo'; and prompt rule 4 ordered proper nouns kept EXACTLY as they appear, forbidding correction. Fuzzy similarity alone cannot separate short names (Josh Angou/Jiaxian Guo 0.53 vs unrelated Gemini/Gemma 0.55), so explicit aliases are primary; fuzzy (>=0.8, same first letter, multi-word >=10 letters) catches e.g. suspension agent/Suspicion-Agent (0.83).",
+      "grounded_in": [
+        "human-review-2026-09-24"
+      ],
+      "predicted_effect": "On a translation-only replay of the reported segments, correct-term rate rises substantially with no change on Gemini/Gemma control segments.",
+      "required_changes": "dictionary.py (4th CSV column aliases, _matches with fuzzy fallback, aliases shown in prompt), llm_translator.py rule 4 exception + rule 9 no-placeholder, dictionaries/sessions/LLM2024_8_part1.csv aliases + DeepMind/Chinchilla/Agenda rows, experiments/term_alias_replay.py.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.1,
+      "approval": "approved_by_human",
+      "status": "tested",
+      "experiment_ids": [
+        "experiments/20260924_term_alias_replay.json",
+        "experiments/20260924_llm2024_8_part1_review_fixes_v2_7m30_21m50.json"
+      ],
+      "result_summary": "CONFIRMED except AIME. Translation-only replay (ASR fixed, 10 target segs x 3): correct 30% -> 90%, wrong 70% -> 10%; 4 control segs (Gemini/Gemma) unchanged at 100%. Live v2 run: Josh Angou->Jiaxian Guo, Muscle Labs->松尾・岩澤研究室 (x3), today's agent->アジェンダ, Yanxi->Yanqi Zhou, Deepgram->DeepMind, suspension agent->Suspicion-Agent; speaker/lab/suspicion/yanqi misheard counts 1/3/1/1 -> 0/0/0/0. AIME agents stays AIME (0/3 replay, 1/1 live) -- the model keeps a genuine dictionary benchmark name; see h-review-short-acronym-keyterm-false-positive. Retrieval cost ~2ms/call after optimization (was 40-90ms naive)."
+    },
+    {
+      "id": "h-review-dangling-connective-carry",
+      "title": "Human review '…。そして、': carry trailing connectives/function words of a final ASR chunk into the next chunk's translation input",
+      "description": "Human review (experiments/20260924_llm2024_8_part1_human_review.md) suggested handing dangling '…そして、' fragments to the next prompt. 86/1209 (7.1%) baseline segment translations end in a bare connective or ellipsis (seg 47 'And'->'そして', 64 'introduce my'->'また、私の…を紹介します').",
+      "grounded_in": [
+        "human-review-2026-09-24"
+      ],
+      "predicted_effect": "dangling_end_rate and tiny_segment_rate both fall on the same window; no measurable latency increase since only function words are deferred.",
+      "required_changes": "pipeline.py _split_dangling_tail/_apply_dangling_carry (max 3 trailing words from a fixed connective/determiner/preposition set, stops at sentence punctuation, never swallows the closing chunk of an utterance with earlier chunks in flight), config DANGLING_CARRY_ENABLED (default on).",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.0,
+      "approval": "approved_by_human",
+      "status": "tested",
+      "experiment_ids": [
+        "experiments/20260924_llm2024_8_part1_review_fixes_v2_7m30_21m50.json"
+      ],
+      "result_summary": "CONFIRMED (n=1 run). dangling_end_rate 8.6% -> 3.0% (21 -> 7) and tiny_segment_rate 4.1% -> 3.0% on the same window. End-to-end latency mean 5.65 -> 5.89s, median 6.28 -> 6.39s (+0.24s mean, confounded with the dedup change; single run, noise not quantified)."
+    },
+    {
+      "id": "h-review-caption-linebreak-tiny-merge",
+      "title": "Human review '変なところでの改行' / 'ちょくちょく早い': Latin-aware caption wrapping + fold tiny cards into the next",
+      "description": "Human review (experiments/20260924_llm2024_8_part1_human_review.md). subtitle_formatter stripped ALL whitespace (GeminiSWE, GoogleResearchAustralia) and broke lines at a fixed char count inside Latin words (Gemm|a): 46 mid-word breaks, 25 glued Latin pairs in the full lecture. 25.1% of cards were shown <1s.",
+      "grounded_in": [
+        "human-review-2026-09-24"
+      ],
+      "predicted_effect": "Re-rendering the SAME baseline experiment JSON (no API cost): midword_breaks and glued_latin near 0, short_cue_rate and n_cues lower.",
+      "required_changes": "subtitle_formatter.py: _normalize_spaces, half-width display width for ASCII, _find_break (no Latin mid-word split, 行頭禁則 hanging punctuation), _merge_tiny_utterances (<=4 chars, next ready within 2s).",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.0,
+      "approval": "approved_by_human",
+      "status": "tested",
+      "experiment_ids": [
+        "experiments/20260918_llm2025_ep8_zenhan_full_lecture_v2_dict.json",
+        "experiments/20260924_llm2024_8_part1_review_fixes_v2_7m30_21m50.json"
+      ],
+      "result_summary": "CONFIRMED. SRT formatter re-render of the full lecture: midword breaks 46 -> 0, glued Latin pairs 25 -> 0, cards <1s 25.1% -> 22.6%. Human asked for the fix in REAL-TIME output, not just SRT: added captions/live_presenter.py (same wrapping/tiny-merge/adaptive reading-time scheduling, driven by wall clock) wired into gradio_demo -> overlay.html, and overlay CSS no longer allows word splits. Replaying v2's events at their real arrival times: old overlay shows 3.7% of captions <0.5s; presenter 0% <1s, mean display lag 1.71s, p95 4.55s. Presenter defaults 20 chars/line, 1.0s floor chosen by a sweep (13ch/0.83s gave 17.7% <1s)."
+    },
+    {
+      "id": "h-review-short-acronym-keyterm-false-positive",
+      "title": "Does the AIME keyterm make Deepgram hear 'AI agents' as 'AIME agents'?",
+      "description": "Human review (experiments/20260924_llm2024_8_part1_human_review.md) flagged 'AIMEエージェント' (should be AI). The lecture never mentions the AIME benchmark, yet 'AIME' shows up in ASR (1x in the 2026-09-18 run, ~8x in the older 2026-09-03 LLM2024_8_part1_captioned_with_dict.ass). AIME is keyterm #26 of the session dictionary. The translation-side fix (h-review-misheard-term-aliases) did NOT fix this case in replay (0/3): the model keeps a real dictionary benchmark name.",
+      "grounded_in": [
+        "human-review-2026-09-24"
+      ],
+      "predicted_effect": "ASR-only A/B on the 09:55-10:05 and 12:25-12:40 regions with vs without AIME (and other <=4-letter all-caps word-like acronyms) in keyterms: AIME insertions go to 0 without losing recall of the acronyms that are actually spoken (LLM, RL, SFT, RLHF).",
+      "required_changes": "ASR-only runner (experiments/refs/asr_only_run.py pattern) over the local video with two keyterm lists; if confirmed, a keyterm filter or a dictionary 'no_keyterm' marker.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.05,
+      "approval": null,
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": null
+    },
+    {
+      "id": "h-review-perceived-drops-short-cards",
+      "title": "Are the human-perceived 'translation skips / dropped clauses' sub-second cards and low-confidence ASR spans rather than API limits?",
+      "description": "Human review (experiments/20260924_llm2024_8_part1_human_review.md) asked whether skips were API limits. Baseline evidence: 0/1209 empty translations, no timeouts recorded, over-compression (<1 JA char per EN word) only 0.5% -- but 25.1% of cards display <1s and the Chinchilla passage (seg 221) had ASR confidence 0.47.",
+      "grounded_in": [
+        "human-review-2026-09-24"
+      ],
+      "predicted_effect": "Aligning the reviewer's timestamps of perceived skips with cue durations and ASR confidence explains most of them; the post-fix run has fewer sub-second cards and so fewer perceived skips.",
+      "required_changes": "Needs the reviewer's timestamps (or a second viewing of the post-fix render) -- $0 analysis over existing JSON otherwise.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.0,
+      "approval": null,
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": null
+    },
+    {
+      "id": "h-computation-aware-laal-enja",
+      "title": "Compute IWSLT-comparable, character-level, computation-aware LAAL/StreamLAAL for existing runs, and place this cascade next to SimulSeamless's En->Ja operating point",
+      "description": "quality_latency_joint.py deliberately skipped AL/LAAL/YAAL because 'token-level source-consumption formulas need per-token source-alignment data this pipeline's event log does not carry'. For SPEECH input, though, SimulEval's AL/LAAL (and StreamLAAL/LongYAAL) define each target unit's delay as the elapsed source-audio time when it was emitted. No token alignment is needed, only an emission timestamp on the source-audio clock. Verified 2026-09-24: all 94 experiment JSONs that carry results.events have a playback_offset field on their events, including translation_partial/translation_complete. So each emitted Japanese character has a computation-aware delay (it includes Deepgram, queueing and LLM wall time). Compute character-level LAAL/StreamLAAL per experiment: re-segment the emitted JA stream against reference segments, using experiments/refs/wjZofJX0v4M.ja.vtt (it has timings) for the wjZofJX0v4M clips, or per ASR utterance as a fallback. Add the columns to the joint table. The point is an external yardstick: IWSLT 2024 En->Ja SimulSeamless reports BLEU 22.19 @ AL 1.997s with computation-aware AL 4.018s. This repo's only latency numbers today are its own avg_end_to_end_latency, CLA and MT decomposition, none of which is comparable to the literature. Per PLAYBOOK, check before implementing whether a partial event's playback_offset is the time the batch was received or the time of the first token.",
+      "grounded_in": [
+        "simulseamless2024-fbk-iwslt",
+        "ma2019-stacl-waitk",
+        "papi2025-howreal",
+        "polak2026-meta-evaluation-latency-metrics",
+        "kano2023-average-token-delay"
+      ],
+      "predicted_effect": "No system change (measurement only). Expect computation-aware char-level LAAL of roughly 5-7s on the lecture runs (translation_complete wall_clock_lag median 6.17s on 20260918_llm2025_ep8_zenhan_full_lecture_v2_dict), i.e. ~1.5x SimulSeamless's 4.0s ca-AL. That would place the gap in commit/queue policy rather than ASR, consistent with h-mt-queue-wait-decomposition. Caveat: MuST-C is pre-segmented TED and IWSLT uses BLEU, so this is a positioning number, not a head-to-head comparison.",
+      "required_changes": "New script src/real_time_translation/experiments/simul_latency_metrics.py (console script), plus an extra join in quality_latency_joint.py. No pipeline changes. Follow ufal/asr_latency or SimulEval's LAAL definition exactly, and unit-test it against a hand-computed toy example.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.0,
+      "approval": null,
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": null
+    },
+    {
+      "id": "h-continuous-rating-cps-calibration",
+      "title": "Small human Continuous Rating session: does the Netflix 4-CPS (kanji x2) reading-time target actually match what a live viewer wants, vs a Subtitler-style 6-8 CPS?",
+      "description": "Two gaps meet here. (1) No human Continuous Rating (Machacek & Bojar 2020) has ever been collected. Machacek et al. 2023 show offline metrics correlate with it, but this repo's chrF/xCOMET/LLM-judge scores have never been checked against a human on Japanese output; arxiv2607-02235 flags exactly this human-validation gap. (2) The caption scheduler targets Netflix's offline-subtitling norm of 4 CPS with kanji weighted 2x. The median cps_violation_rate across caption_readability_from_experiment.csv is 1.0, and the 2026-09-15 sweep concluded that no setting gets both low lag and Netflix-grade CPS. Subtitler uses an adaptive 10-25 CPS, and Sasaki 2017 questions the 4-CPS norm, so the target may simply be wrong for live lecture captions. Protocol: re-render the SAME experiment JSON (20260918_llm2025_ep8_zenhan_full_lecture_v2_dict, a 5-10 min excerpt) at reading_units_per_sec=4 vs 8 (catchup_window unchanged), with no new API calls. rm-2278 watches both in randomized order and gives a 1-4 rating every ~5s (a simple keypress logger). Then correlate the per-window ratings with the per-window caption lag, CPS, and judge()/chrF over the same windows.",
+      "grounded_in": [
+        "machacek-bojar2020-subtitler",
+        "machacek2023-mt-metrics-continuous-rating",
+        "ja-subtitle-reading-speed-norms",
+        "arxiv2607-02235-judge-multilingual-low-resource"
+      ],
+      "predicted_effect": "reading_units_per_sec=8 is rated equal or better than 4, because lower queueing lag outweighs slightly faster text. Per-window rating correlates more with lag than with CPS. Judge/chrF correlate positively but weakly (n is small, one rater). Also gives the first human anchor for the LLM judge's Japanese scoring.",
+      "required_changes": "A tiny keypress-logging rating tool (a script, or a page that plays the mp4 and records timestamped 1-4 keys) plus re-render via caption_video_demo with reading_units_per_sec overridden. No pipeline or API changes. Needs roughly 20-30 min of human viewing time.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.0,
+      "approval": "needs_human",
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": null
+    },
+    {
+      "id": "h-interim-source-preview-overlay",
+      "title": "Show a faded provisional line (English interim ASR) while the Japanese translation is pending, to cut time-to-first-visible-text from ~6s to ~1s",
+      "description": "On 20260918_llm2025_ep8_zenhan_full_lecture_v2_dict (measured 2026-09-24), the first asr_interim event for an ASR start time arrives a median 1.17s (p90 2.11s) after that start time. The first translation text arrives a median 6.01s (p90 6.40s) after it. The two were computed separately, not as a joined per-utterance pair. So viewers see nothing new for ~5s while the speaker is already talking. MeetDot fades unstable text instead of hiding it, Subtitler shows unstable tails, and Machacek 2023 finds viewers who know the source language prefer lower latency over fewer revisions. Proposal: the overlay shows the in-progress English interim in a small, dimmed line below the committed Japanese card, replaced when that utterance's translation lands. This costs $0 in LLM calls (no provisional translation) and does not touch the Japanese caption's stability (translation NE unchanged). A provisional Japanese translation of the interim is a costlier follow-up, not part of this hypothesis. Step 1 ($0, retroactive): per utterance, compute the time-to-first-visible-text distribution with and without the preview, plus English-line flicker (word-level NE of asr_interim, already ~0.20 per flicker_metrics). Step 2: overlay.html change behind a flag, then a viewing check (can piggyback on h-continuous-rating-cps-calibration).",
+      "grounded_in": [
+        "meetdot2021-emnlp-demo",
+        "machacek-bojar2020-subtitler",
+        "machacek2023-mt-metrics-continuous-rating",
+        "google-live-caption-stability-blog"
+      ],
+      "predicted_effect": "Time-to-first-visible-text drops by ~4-5s median. The dimmed English line has asr NE ~0.2 (it visibly rewrites), which is acceptable only if it is visually secondary. Expect a net positive for English-literate viewers and neutral or slightly negative for others, which is why it sits behind a flag.",
+      "required_changes": "Retroactive analysis script ($0). Later, web/overlay.html and live_presenter.py: pass asr_interim text through as a separate 'preview' channel behind a config flag. Note overlay.html currently has uncommitted human edits, so coordinate before touching it.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.0,
+      "approval": null,
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": null
     }
   ]
 }

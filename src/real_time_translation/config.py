@@ -243,6 +243,14 @@ class Config:
     # clears. False (default) preserves today's behavior (budget derived
     # only from this utterance's own speech duration).
     backlog_adaptive_compression_enabled: bool = False
+    # 2026-09-24 human review of the full LLM2024_8_part1 captions
+    # ("…。そして、" fragments): a final ASR chunk that ends in a bare
+    # connective or function word ("... And", "introduce my") gets
+    # translated into a card ending "そして、" / "私の…". When True, those
+    # trailing words are carried over and prepended to the NEXT final
+    # chunk's translation input instead (see
+    # TranslationPipeline._split_dangling_tail).
+    dangling_carry_enabled: bool = True
 
     # Dictionary
     dictionary_path: Path | None = None
@@ -440,6 +448,7 @@ class Config:
             backlog_adaptive_compression_enabled=(
                 os.getenv("BACKLOG_ADAPTIVE_COMPRESSION_ENABLED", "0") == "1"
             ),
+            dangling_carry_enabled=_get_bool_env("DANGLING_CARRY_ENABLED", True),
             dictionary_path=dictionary_path,
             dictionary_dynamic_threshold=int(
                 os.getenv("DICTIONARY_DYNAMIC_THRESHOLD", "80")

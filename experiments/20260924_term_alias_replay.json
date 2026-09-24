@@ -1,0 +1,893 @@
+{
+  "date": "2026-09-24",
+  "experiment_name": "term_alias_replay",
+  "input": {
+    "source_run": "experiments/20260918_llm2025_ep8_zenhan_full_lecture_v2_dict.json",
+    "cases": [
+      10,
+      12,
+      44,
+      45,
+      56,
+      75,
+      97,
+      126,
+      215,
+      221,
+      246,
+      279,
+      566,
+      890
+    ]
+  },
+  "repeats": 3,
+  "models": {
+    "llm_provider": "gemini",
+    "llm_model": "gemini-3-flash-preview"
+  },
+  "summary": {
+    "baseline_target": {
+      "n": 30,
+      "correct_rate": 0.3,
+      "wrong_rate": 0.7
+    },
+    "baseline_control": {
+      "n": 12,
+      "correct_rate": 1.0,
+      "wrong_rate": 0.0
+    },
+    "treatment_target": {
+      "n": 30,
+      "correct_rate": 0.9,
+      "wrong_rate": 0.1
+    },
+    "treatment_control": {
+      "n": 12,
+      "correct_rate": 1.0,
+      "wrong_rate": 0.0
+    }
+  },
+  "rows": [
+    {
+      "segment": 10,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "Hello, everyone. Yeah. My name is Josh Angou.",
+      "translation": "皆さん、こんにちは。Josh Angouです。",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 10,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "Hello, everyone. Yeah. My name is Josh Angou.",
+      "translation": "皆さん、こんにちは。Josh Angouです。",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 10,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "Hello, everyone. Yeah. My name is Josh Angou.",
+      "translation": "皆さん、こんにちは。Josh Angouです。",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 10,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "Hello, everyone. Yeah. My name is Josh Angou.",
+      "translation": "皆さん、こんにちは。はい、私の名前は Jiaxian Guo です。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 10,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "Hello, everyone. Yeah. My name is Josh Angou.",
+      "translation": "皆さん、こんにちは。はい、私の名前は Jiaxian Guo です。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 10,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "Hello, everyone. Yeah. My name is Josh Angou.",
+      "translation": "皆さん、こんにちは。はい、私の名前は Jiaxian Guo です。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 12,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "Muscle Labs invitation. I'm very happy to discuss with",
+      "translation": "Muscle Labsからの招待に感謝します。皆さんと議論できることを非常に嬉しく思っており、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 12,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "Muscle Labs invitation. I'm very happy to discuss with",
+      "translation": "Muscle Labsからの招待に感謝します。皆さんと議論できることを大変嬉しく思っており、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 12,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "Muscle Labs invitation. I'm very happy to discuss with",
+      "translation": "Muscle Labsからの招待に感謝します。皆さんと議論できることを大変嬉しく思っており、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 12,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "Muscle Labs invitation. I'm very happy to discuss with",
+      "translation": "松尾・岩澤研究室にお招きいただき、皆さんと議論できることを大変嬉しく",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 12,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "Muscle Labs invitation. I'm very happy to discuss with",
+      "translation": "松尾・岩澤研究室にお招きいただき、皆さんと議論できることを大変嬉しく",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 12,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "Muscle Labs invitation. I'm very happy to discuss with",
+      "translation": "松尾・岩澤研究室にお招きいただき、皆さんと議論できることを大変嬉しく",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 44,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "My research say interests are less in AIME agents.",
+      "translation": "私の研究上の関心は、AIME (American Invitational Mathematics Examination) エージェントにはあまりなく、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 44,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "My research say interests are less in AIME agents.",
+      "translation": "私の研究上の関心は、AIME (American Invitational Mathematics Examination) エージェントにはあまりなく、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 44,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "My research say interests are less in AIME agents.",
+      "translation": "私の研究上の関心は、AIME (American Invitational Mathematics Examination) エージェントにはあまりなく、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 44,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "My research say interests are less in AIME agents.",
+      "translation": "私の研究上の関心は、AIMEエージェントにはあまりなく、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 44,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "My research say interests are less in AIME agents.",
+      "translation": "私の研究上の関心は、AIME エージェントにはあまりなく、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 44,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "My research say interests are less in AIME agents.",
+      "translation": "私の研究上の関心は、AIMEエージェントにはあまりなく、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 45,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "Maybe some of you also know my work like a suspicion agent.",
+      "translation": "おそらく皆さんの何人かは、私のSuspicion-Agentのような研究をご存知かもしれませんが、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 45,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "Maybe some of you also know my work like a suspicion agent.",
+      "translation": "おそらく皆さんの中には、Suspicion-Agentのような私の研究をご存知の方もいらっしゃるかもしれませんが、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 45,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "Maybe some of you also know my work like a suspicion agent.",
+      "translation": "おそらく皆さんの何人かは、Suspicion-Agentのような私の研究をご存知かもしれませんが、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 45,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "Maybe some of you also know my work like a suspicion agent.",
+      "translation": "おそらく皆さんのうち何人かは、Suspicion-Agentのような私の研究をご存知かもしれませんが、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 45,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "Maybe some of you also know my work like a suspicion agent.",
+      "translation": "おそらく皆さんの中にも、Suspicion-Agentのような私の研究をご存知の方がいらっしゃるかもしれませんが、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 45,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "Maybe some of you also know my work like a suspicion agent.",
+      "translation": "おそらく皆さんの中にも、Suspicion-Agentのような私の研究をご存知の方がいらっしゃるかもしれませんが、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 97,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "And here is the today's agent. Firstly,",
+      "translation": "そして、こちらが本日のアジェンダです。まず最初に、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 97,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "And here is the today's agent. Firstly,",
+      "translation": "そして、こちらが本日のアジェンダです。まず最初に、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 97,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "And here is the today's agent. Firstly,",
+      "translation": "そして、こちらが本日のアジェンダです。まず最初に、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 97,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "And here is the today's agent. Firstly,",
+      "translation": "そして、こちらが本日のアジェンダです。まず最初に、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 97,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "And here is the today's agent. Firstly,",
+      "translation": "こちらが本日のアジェンダです。まず最初に、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 97,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "And here is the today's agent. Firstly,",
+      "translation": "そして、こちらが本日のアジェンダです。まず最初に、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 126,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "you already go through all muscle labs course, so I think you already",
+      "translation": "すでに muscle labs の全コースを修了されているので、おそらく皆さんはすでに",
+      "correct": false,
+      "wrong": false
+    },
+    {
+      "segment": 126,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "you already go through all muscle labs course, so I think you already",
+      "translation": "すでに muscle labs の全コースを修了されているので、おそらく皆さんはすでに",
+      "correct": false,
+      "wrong": false
+    },
+    {
+      "segment": 126,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "you already go through all muscle labs course, so I think you already",
+      "translation": "すでに muscle labs の全コースを修了されているので、おそらく皆さんはすでに",
+      "correct": false,
+      "wrong": false
+    },
+    {
+      "segment": 126,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "you already go through all muscle labs course, so I think you already",
+      "translation": "皆さんはすでに松尾・岩澤研究室のコースをすべて修了されているので、おそらくすでに",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 126,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "you already go through all muscle labs course, so I think you already",
+      "translation": "皆さんはすでに松尾・岩澤研究室のコースをすべて修了されているので、おそらくすでにご存知かと",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 126,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "you already go through all muscle labs course, so I think you already",
+      "translation": "皆さんはすでに松尾・岩澤研究室のコースをすべて修了されていますので、おそらくすでに",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 215,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "And then I think Yanxi will introduce a scheme law further.",
+      "translation": "そして、Yanxiがscaling lawについてさらに詳しく説明してくれると思います。",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 215,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "And then I think Yanxi will introduce a scheme law further.",
+      "translation": "そして、Yanxiがscaling lawについてさらに詳しく説明してくれると思います。",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 215,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "And then I think Yanxi will introduce a scheme law further.",
+      "translation": "そして、Yanxiがscaling lawについてさらに詳しく説明してくれると思います。",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 215,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "And then I think Yanxi will introduce a scheme law further.",
+      "translation": "そして、Yanqi Zhouがスケーリング則についてさらに詳しく説明します。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 215,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "And then I think Yanxi will introduce a scheme law further.",
+      "translation": "そして、Yanqi Zhouがスケーリング則についてさらに詳しく説明します。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 215,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "And then I think Yanxi will introduce a scheme law further.",
+      "translation": "そして、Yanqi Zhouがスケーリング則についてさらに詳しく説明します。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 221,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "people from Deepgram, it it is a real set.",
+      "translation": "Deepgramの人たちが、これは本物のセットだと。",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 221,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "people from Deepgram, it it is a real set.",
+      "translation": "Deepgramの人たちが、これは実在するセットだと。",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 221,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "people from Deepgram, it it is a real set.",
+      "translation": "Deepgramの人たちが、これは実在するセットだと",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 221,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "people from Deepgram, it it is a real set.",
+      "translation": "DeepMindの人たちが、それは実際のセットで、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 221,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "people from Deepgram, it it is a real set.",
+      "translation": "DeepMindの人たちが、それは実際のセットで、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 221,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "people from Deepgram, it it is a real set.",
+      "translation": "DeepMindの人たちが、それは実際のセットで、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 246,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "in 2023, I did a suspension agent in muscle lab.",
+      "translation": "2023年に、Muscle LabでSuspicion-Agentを開発しました。",
+      "correct": true,
+      "wrong": true
+    },
+    {
+      "segment": 246,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "in 2023, I did a suspension agent in muscle lab.",
+      "translation": "2023年に、Muscle LabでSuspicion-Agentを開発しました。",
+      "correct": true,
+      "wrong": true
+    },
+    {
+      "segment": 246,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "in 2023, I did a suspension agent in muscle lab.",
+      "translation": "2023年に、Muscle LabでSuspicion-Agentを開発しました。",
+      "correct": true,
+      "wrong": true
+    },
+    {
+      "segment": 246,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "in 2023, I did a suspension agent in muscle lab.",
+      "translation": "2023年に、松尾・岩澤研究室でSuspicion-Agentを開発しました。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 246,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "in 2023, I did a suspension agent in muscle lab.",
+      "translation": "2023年に、松尾・岩澤研究室でSuspicion-Agentを開発しました。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 246,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "in 2023, I did a suspension agent in muscle lab.",
+      "translation": "2023年に、松尾・岩澤研究室でSuspicion-Agentを開発しました。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 890,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": false,
+      "asr": "for launching model serving, such as Google and Celebrace.",
+      "translation": "GoogleやCelebraceといった、モデルサービングを開始するための企業がいくつかあることは承知していますが、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 890,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": false,
+      "asr": "for launching model serving, such as Google and Celebrace.",
+      "translation": "GoogleやCelebraceといった、モデルサービングを開始するための企業がいくつかあることは承知していますが、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 890,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": false,
+      "asr": "for launching model serving, such as Google and Celebrace.",
+      "translation": "GoogleやCelebraceといった、モデルサービングを開始するための企業がいくつかあることは承知していますが、",
+      "correct": false,
+      "wrong": true
+    },
+    {
+      "segment": 890,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": false,
+      "asr": "for launching model serving, such as Google and Celebrace.",
+      "translation": "GoogleやCerebrasといった、モデルサービングを立ち上げている企業について",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 890,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": false,
+      "asr": "for launching model serving, such as Google and Celebrace.",
+      "translation": "GoogleやCerebrasといった、モデルサービングを開始している企業がいくつかあります。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 890,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": false,
+      "asr": "for launching model serving, such as Google and Celebrace.",
+      "translation": "GoogleやCerebrasといった、モデルサービングを開始している企業について",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 56,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": true,
+      "asr": "mainly contributed to Gemini and Gemma. And as",
+      "translation": "主に Gemini と Gemma に貢献し、そして、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 56,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": true,
+      "asr": "mainly contributed to Gemini and Gemma. And as",
+      "translation": "主に Gemini や Gemma に貢献し、そして、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 56,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": true,
+      "asr": "mainly contributed to Gemini and Gemma. And as",
+      "translation": "主に Gemini と Gemma に貢献し、そして、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 56,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": true,
+      "asr": "mainly contributed to Gemini and Gemma. And as",
+      "translation": "主に Gemini や Gemma に貢献し、そして、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 56,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": true,
+      "asr": "mainly contributed to Gemini and Gemma. And as",
+      "translation": "主に Gemini や Gemma に貢献し、そして──",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 56,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": true,
+      "asr": "mainly contributed to Gemini and Gemma. And as",
+      "translation": "主に Gemini や Gemma に貢献し、そして──",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 279,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": true,
+      "asr": "we could say the intelligence score doubled in Gemini.",
+      "translation": "Geminiにおいて知能スコアが倍増したと言えるでしょう。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 279,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": true,
+      "asr": "we could say the intelligence score doubled in Gemini.",
+      "translation": "Geminiにおいてインテリジェンス・スコアが倍増したと言えるでしょう。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 279,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": true,
+      "asr": "we could say the intelligence score doubled in Gemini.",
+      "translation": "Geminiにおいて知能スコアが倍増したと言えるでしょう。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 279,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": true,
+      "asr": "we could say the intelligence score doubled in Gemini.",
+      "translation": "Geminiにおいて知能スコアが倍増したと言えるでしょう。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 279,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": true,
+      "asr": "we could say the intelligence score doubled in Gemini.",
+      "translation": "Geminiにおいて知能スコアが倍増したと言えるでしょう。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 279,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": true,
+      "asr": "we could say the intelligence score doubled in Gemini.",
+      "translation": "Geminiにおいて知能スコアが倍増したと言えるでしょう。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 566,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": true,
+      "asr": "In Gemma 3n, we",
+      "translation": "Gemma 3nにおいて、我々は",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 566,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": true,
+      "asr": "In Gemma 3n, we",
+      "translation": "Gemma 3nにおいて、我々は",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 566,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": true,
+      "asr": "In Gemma 3n, we",
+      "translation": "Gemma 3nにおいて、我々は",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 566,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": true,
+      "asr": "In Gemma 3n, we",
+      "translation": "Gemma 3nにおいて、我々は",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 566,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": true,
+      "asr": "In Gemma 3n, we",
+      "translation": "Gemma 3nにおいて、我々は",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 566,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": true,
+      "asr": "In Gemma 3n, we",
+      "translation": "Gemma 3nにおいて、我々は",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 75,
+      "condition": "baseline",
+      "repeat": 0,
+      "control": true,
+      "asr": "And, also, we do multilingual in language models.",
+      "translation": "さらに、言語モデルにおいて多言語対応も行っています。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 75,
+      "condition": "baseline",
+      "repeat": 1,
+      "control": true,
+      "asr": "And, also, we do multilingual in language models.",
+      "translation": "そして、言語モデルにおいて多言語対応も行っています",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 75,
+      "condition": "baseline",
+      "repeat": 2,
+      "control": true,
+      "asr": "And, also, we do multilingual in language models.",
+      "translation": "そして、言語モデルにおいて多言語対応も行っています。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 75,
+      "condition": "treatment",
+      "repeat": 0,
+      "control": true,
+      "asr": "And, also, we do multilingual in language models.",
+      "translation": "そして、言語モデルにおいて多言語対応も行っています。",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 75,
+      "condition": "treatment",
+      "repeat": 1,
+      "control": true,
+      "asr": "And, also, we do multilingual in language models.",
+      "translation": "そして、言語モデルにおいて多言語対応も行っており、",
+      "correct": true,
+      "wrong": false
+    },
+    {
+      "segment": 75,
+      "condition": "treatment",
+      "repeat": 2,
+      "control": true,
+      "asr": "And, also, we do multilingual in language models.",
+      "translation": "そして、言語モデルにおいて多言語対応も行っており、",
+      "correct": true,
+      "wrong": false
+    }
+  ],
+  "elapsed_seconds": 116.8
+}

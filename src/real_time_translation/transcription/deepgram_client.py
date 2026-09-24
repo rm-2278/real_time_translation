@@ -28,6 +28,10 @@ class TranscriptionResult:
     # mid-utterance chunk emitted early (by `max_interim_duration`) purely
     # for latency -- more chunks for the same `utterance_id` are expected.
     is_utterance_end: bool = True
+    # Deepgram's per-word (text, start, end) audio timings for this result's
+    # full transcript, when available. Used to drop words whose audio was
+    # already emitted in an earlier final (see `_take_unemitted`).
+    words: tuple[tuple[str, float, float], ...] = ()
 
     @property
     def is_low_confidence(self) -> bool:
@@ -171,6 +175,24 @@ class DeepgramTranscriber:
         self._consumed_end_time: float | None = None
         self._utterance_since: float | None = None
         self._utterance_id = 0
+        # End (audio seconds) of the last word emitted as final, across ALL
+        # utterances. Unlike `_consumed_word_count` this is never reset per
+        # utterance: an `UtteranceEnd` flush of the pending interim followed
+        # by Deepgram's own late `is_final` for the same audio (or Deepgram
+        # re-segmenting a trailing word into the next segment) otherwise
+        # re-emits already-captioned words as a brand-new utterance -- 14.6%
+        # of final segments in experiments/20260918_llm2025_ep8_zenhan_full_
+        # lecture_v2_dict.json were such re-emissions.
+        self._emitted_until: float | None = None
+        # (segment start, consumed word count, consumed end) of the segment
+        # an `UtteranceEnd` just flushed. Deepgram regularly sends
+        # `UtteranceEnd` BEFORE the `is_final` for that same segment
+        # (observed on the 07:30 audio of LLM2024_8_part1: flush of the
+        # interim "Hello, everyone." at start 7.21, then is_final "Hello,
+        # everyone. Yeah. My name is ..." also at start 7.21). Restoring the
+        # count when that segment reappears keeps the flushed words from
+        # being emitted a second time.
+        self._flushed_segment: tuple[float, int, float | None] | None = None
 
     async def connect(self) -> None:
         """Establish WebSocket connection to Deepgram."""
@@ -229,6 +251,7 @@ class DeepgramTranscriber:
         self._keyterms = active_keyterms
         self._running = True
         self._last_audio_at = time.monotonic()
+        self._emitted_until = None
         self._listener_task = asyncio.create_task(self._listen())
         self._keepalive_task = asyncio.create_task(self._keepalive_loop())
         if self._max_interim_duration is not None:
@@ -433,6 +456,10 @@ class DeepgramTranscriber:
             self._utterance_since = time.monotonic()
             self._consumed_word_count = 0
             self._consumed_end_time = start
+            flushed = self._flushed_segment
+            if flushed is not None and abs(start - flushed[0]) <= 1e-6:
+                self._consumed_word_count = flushed[1]
+                self._consumed_end_time = flushed[2]
             self._utterance_id += 1
             self._prev_interim_words = None
             self._last_semantic_check_at = None
@@ -462,24 +489,70 @@ class DeepgramTranscriber:
         new_words = words[self._consumed_word_count :]
         if not new_words:
             return
-        new_text = " ".join(new_words)
         start = (
             self._consumed_end_time
             if self._consumed_end_time is not None
             else self._pending_result.start_time
         )
+        self._consumed_word_count = len(words)
+        self._consumed_end_time = self._pending_result.end_time
+        new_text, trimmed_start = self._take_unemitted(
+            words, len(words) - len(new_words), self._pending_result.words
+        )
+        if not new_text:
+            return
         chunk = TranscriptionResult(
             text=new_text,
             is_final=True,
             confidence=self._pending_result.confidence,
-            start_time=start,
+            start_time=trimmed_start if trimmed_start is not None else start,
             end_time=self._pending_result.end_time,
             utterance_id=self._utterance_id,
             is_utterance_end=is_utterance_end,
         )
-        self._consumed_word_count = len(words)
-        self._consumed_end_time = self._pending_result.end_time
         self._emit_result(chunk)
+
+    def _take_unemitted(
+        self,
+        words: list[str],
+        consumed: int,
+        timings: tuple[tuple[str, float, float], ...],
+    ) -> tuple[str, float | None]:
+        """`words[consumed:]` minus any leading words whose audio was already emitted.
+
+        Returns (text, start) where `start` is the first kept word's audio
+        start if any word was trimmed, else None (caller keeps its own
+        start). Advances `_emitted_until` past the kept words. Without word
+        timings, or when Deepgram's word list doesn't line up 1:1 with the
+        (smart-formatted) transcript, falls back to the plain count-based
+        slice -- never worse than the pre-watermark behavior.
+        """
+        new_words = words[consumed:]
+        if len(timings) != len(words):
+            return " ".join(new_words), None
+        new_timings = timings[consumed:]
+        # A word counts as already emitted when its midpoint falls inside
+        # emitted audio: Deepgram's timings for the same word shift a little
+        # between the interim that was emitted and the later final (and a
+        # revised word -- "discriminate" -> "discriminator" -- gets new
+        # timings), so comparing end times exactly left ~8% of segments
+        # still duplicated in experiments/20260924_llm2024_8_part1_review_
+        # fixes_7m30_21m50.json.
+        skip = 0
+        if self._emitted_until is not None:
+            while (
+                skip < len(new_timings)
+                and (new_timings[skip][1] + new_timings[skip][2]) / 2
+                <= self._emitted_until
+            ):
+                skip += 1
+        kept = new_words[skip:]
+        if kept:
+            self._emitted_until = max(
+                self._emitted_until or 0.0, new_timings[-1][2]
+            )
+        trimmed_start = new_timings[skip][1] if skip and kept else None
+        return " ".join(kept), trimmed_start
 
     def _maybe_commit_local_agreement(
         self, current_words: list[str], end_time: float
@@ -548,6 +621,12 @@ class DeepgramTranscriber:
                 # or a prior soft-finalization, then reset: Deepgram
                 # considers this utterance over.
                 self._soft_finalize_pending(is_utterance_end=True)
+                if self._utterance_start_time is not None:
+                    self._flushed_segment = (
+                        self._utterance_start_time,
+                        self._consumed_word_count,
+                        self._consumed_end_time,
+                    )
                 self._reset_utterance_state()
                 return
             if message_type != "Results":
@@ -564,21 +643,31 @@ class DeepgramTranscriber:
             start = float(result.start)
             end = float(result.start + result.duration)
             self._track_utterance_boundary(start)
+            timings = tuple(
+                (w.punctuated_word or w.word, float(w.start), float(w.end))
+                for w in getattr(alternative, "words", None) or ()
+            )
 
             if is_final:
                 words = transcript.split()
-                new_words = words[self._consumed_word_count :]
-                if new_words:
+                new_text, trimmed_start = "", None
+                if words[self._consumed_word_count :]:
+                    new_text, trimmed_start = self._take_unemitted(
+                        words, self._consumed_word_count, timings
+                    )
+                if new_text:
                     chunk_start = (
                         self._consumed_end_time
                         if self._consumed_end_time is not None
                         else start
                     )
                     final_result = TranscriptionResult(
-                        text=" ".join(new_words),
+                        text=new_text,
                         is_final=True,
                         confidence=float(alternative.confidence),
-                        start_time=chunk_start,
+                        start_time=trimmed_start
+                        if trimmed_start is not None
+                        else chunk_start,
                         end_time=end,
                         utterance_id=self._utterance_id,
                         is_utterance_end=True,
@@ -597,6 +686,7 @@ class DeepgramTranscriber:
                 end_time=end,
                 utterance_id=self._utterance_id,
                 is_utterance_end=False,
+                words=timings,
             )
             self._pending_result = transcript_result
             if self._emit_interim:

@@ -49,6 +49,43 @@ COMPRESSION_ACTIONS_INSTRUCTIONS = (
     "   just filler words and stutters."
 )
 
+# Words that, when they END a final ASR chunk, leave its translation hanging
+# ("... And" -> "そして、", "introduce my" -> "私の…"). See
+# `_split_dangling_tail`.
+_DANGLING_WORDS = frozenset(
+    {
+        # connectives / fillers
+        *("and", "so", "but", "or", "also", "then", "like", "because", "as"),
+        *("since", "although", "while", "if", "when", "where", "which", "that"),
+        *("um", "uh"),
+        # determiners / possessives
+        *("the", "a", "an", "my", "our", "your", "their", "his", "her", "its"),
+        *("this", "these", "those", "some"),
+        # prepositions
+        *("to", "of", "in", "on", "for", "with", "from", "by", "at", "about"),
+        "into",
+    }
+)
+_MAX_DANGLING_WORDS = 3
+
+
+def _split_dangling_tail(text: str) -> tuple[str, str]:
+    """Split `text` into (head, tail) where tail is trailing dangling words.
+
+    Stops at sentence-final punctuation: "... stuffs. Okay." has no tail,
+    "... language model and also" has tail "and also".
+    """
+    tokens = text.split()
+    i = len(tokens)
+    while i > 0 and len(tokens) - i < _MAX_DANGLING_WORDS:
+        word = tokens[i - 1]
+        if word[-1] in ".?!":
+            break
+        if word.strip(",;:").lower() not in _DANGLING_WORDS:
+            break
+        i -= 1
+    return " ".join(tokens[:i]), " ".join(tokens[i:])
+
 
 @dataclass
 class TranslationResult:
@@ -303,6 +340,11 @@ class TranslationPipeline:
         # `_utterance_*` dicts.
         self._utterance_speech_start: dict[int, float] = {}
         self._utterance_locks: dict[int, asyncio.Lock] = {}
+        # dangling_carry_enabled: trailing connective/function words held
+        # back from the previous final chunk, prepended to the next one.
+        self._dangling_carry = ""
+        # utterance_id with at least one queued, not-yet-ended chunk.
+        self._open_utterance_id: int | None = None
 
         self._running = False
         self._on_result: Callable[[TranslationResult], None] | None = None
@@ -449,6 +491,11 @@ class TranslationPipeline:
                         self._on_result(interim_result)
                     continue
 
+                if self._config.dangling_carry_enabled:
+                    text = self._apply_dangling_carry(result, text)
+                    if not text:
+                        continue
+
                 # Handle low confidence by masking for translation input
                 masked_text = (
                     f"[uncertain: {text}]" if result.is_low_confidence else text
@@ -462,6 +509,32 @@ class TranslationPipeline:
                 self._transcription_queue.put(queued)
         except asyncio.CancelledError:
             pass
+
+    def _apply_dangling_carry(self, result: TranscriptionResult, text: str) -> str:
+        """Prepend any carried-over words, then hold back this chunk's own tail.
+
+        Returns the text to translate now; "" means the whole chunk was
+        carried forward (e.g. a lone "And") and nothing should be queued.
+        The one exception: the final chunk of an utterance that already
+        has earlier chunks in flight is never fully swallowed, since the
+        worker needs its `is_utterance_end=True` to close the utterance.
+        """
+        if self._dangling_carry:
+            text = f"{self._dangling_carry} {text}"
+            self._dangling_carry = ""
+        head, tail = _split_dangling_tail(text)
+        closes_open_utterance = (
+            result.is_utterance_end
+            and self._open_utterance_id == result.utterance_id
+        )
+        if tail and (head or not closes_open_utterance):
+            self._dangling_carry = tail
+            text = head
+        if text:
+            self._open_utterance_id = (
+                None if result.is_utterance_end else result.utterance_id
+            )
+        return text
 
     async def _drain_batch(self) -> list[QueuedTranscription]:
         """Block for one queued transcription, then greedily grab more.

@@ -4,6 +4,8 @@ import csv
 import re
 from collections.abc import Iterable, Iterator
 from dataclasses import dataclass
+from difflib import SequenceMatcher
+from functools import lru_cache
 from pathlib import Path
 
 
@@ -14,6 +16,43 @@ class DictionaryEntry:
     source_term: str
     target_term: str
     notes: str = ""
+    # Known ASR mis-transcriptions of `source_term` (e.g. "Josh Angou" for
+    # "Jiaxian Guo"). Matched like the source term itself during retrieval
+    # and shown to the LLM so it can map the misheard form back.
+    aliases: tuple[str, ...] = ()
+
+
+def _letters(text: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", text.lower())
+
+
+# Fuzzy fallback only for long, multi-word terms: short names score too
+# close to unrelated ones to be safe (measured on the 2026-09-24 review:
+# "Josh Angou"/"Jiaxian Guo" 0.53 vs the unrelated "Gemini"/"Gemma" 0.55,
+# while "suspension agent"/"Suspicion-Agent" scores 0.83). Short or
+# single-word mishearings need an explicit `aliases` entry instead.
+_FUZZY_MIN_RATIO = 0.8
+_FUZZY_MIN_LETTERS = 10
+_FUZZY_MAX_WORDS = 6
+
+
+@lru_cache(maxsize=1024)
+def _fuzzy_target(source_term: str) -> tuple[str, int]:
+    """(letters-only form, word count) of a dictionary source term."""
+    return _letters(source_term), len(re.split(r"[\s-]+", source_term.strip()))
+
+
+@lru_cache(maxsize=256)
+def _letter_ngrams(text: str) -> dict[int, tuple[str, ...]]:
+    """Letters-only word n-grams of `text`, by n (computed once per text)."""
+    tokens = text.split()
+    return {
+        size: tuple(
+            _letters(" ".join(tokens[i : i + size]))
+            for i in range(len(tokens) - size + 1)
+        )
+        for size in range(1, _FUZZY_MAX_WORDS + 1)
+    }
 
 
 def term_pattern(term: str) -> re.Pattern[str]:
@@ -32,7 +71,8 @@ class TermDictionary:
     """Dictionary for domain-specific terminology.
 
     Manages terminology mappings loaded from CSV files.
-    CSV format: source_term,target_term,notes (optional)
+    CSV format: source_term,target_term,notes (optional),aliases (optional,
+    "|"-separated known ASR mis-transcriptions of source_term)
     """
 
     def __init__(self) -> None:
@@ -83,6 +123,11 @@ class TermDictionary:
         source_term = row[0].strip()
         target_term = row[1].strip()
         notes = row[2].strip() if len(row) > 2 else ""
+        aliases = (
+            tuple(a.strip() for a in row[3].split("|") if a.strip())
+            if len(row) > 3
+            else ()
+        )
 
         if not source_term or not target_term:
             return False
@@ -91,6 +136,7 @@ class TermDictionary:
             source_term=source_term,
             target_term=target_term,
             notes=notes,
+            aliases=aliases,
         )
         return True
 
@@ -187,7 +233,7 @@ class TermDictionary:
         matches = [
             entry
             for entry in self._entries.values()
-            if term_pattern(entry.source_term).search(text)
+            if self._matches(entry, text, fuzzy=True)
         ]
         if len(matches) < limit:
             matched_ids = {id(entry) for entry in matches}
@@ -197,12 +243,51 @@ class TermDictionary:
                 for entry in self._entries.values():
                     if id(entry) in matched_ids:
                         continue
-                    if term_pattern(entry.source_term).search(context_line):
+                    if self._matches(entry, context_line):
                         matches.append(entry)
                         matched_ids.add(id(entry))
                         if len(matches) >= limit:
                             break
         return matches[:limit]
+
+    @staticmethod
+    def _matches(entry: DictionaryEntry, text: str, *, fuzzy: bool = False) -> bool:
+        """Source term or a known alias appears, or (if `fuzzy`) a close match.
+
+        Fuzzy matching is only worth its cost on the utterance being
+        translated -- context lines already had their own turn -- and only
+        considers candidates sharing the term's first letter: a mishearing
+        usually keeps the onset (suspension/suspicion, Celebrace/Cerebras).
+        """
+        if term_pattern(entry.source_term).search(text):
+            return True
+        if any(term_pattern(alias).search(text) for alias in entry.aliases):
+            return True
+        if not fuzzy:
+            return False
+        target, n_words = _fuzzy_target(entry.source_term)
+        if n_words < 2 or len(target) < _FUZZY_MIN_LETTERS:
+            return False
+        ngrams = _letter_ngrams(text)
+        matcher: SequenceMatcher[str] | None = None
+        for size in (n_words - 1, n_words, n_words + 1):
+            for candidate in ngrams.get(size, ()):
+                if not candidate or candidate[0] != target[0]:
+                    continue
+                # ratio <= 2*min(len)/(sum of lens): cheap length prefilter.
+                if 2 * min(len(candidate), len(target)) < _FUZZY_MIN_RATIO * (
+                    len(candidate) + len(target)
+                ):
+                    continue
+                if matcher is None:
+                    matcher = SequenceMatcher(None, b=target)
+                matcher.set_seq1(candidate)
+                if (
+                    matcher.quick_ratio() >= _FUZZY_MIN_RATIO
+                    and matcher.ratio() >= _FUZZY_MIN_RATIO
+                ):
+                    return True
+        return False
 
     def format_for_prompt(
         self, entries: Iterable[DictionaryEntry] | None = None
@@ -225,6 +310,8 @@ class TermDictionary:
             line = f"- {entry.source_term} → {entry.target_term}"
             if entry.notes:
                 line += f" ({entry.notes})"
+            if entry.aliases:
+                line += f" [ASR may mishear as: {', '.join(entry.aliases)}]"
             lines.append(line)
 
         return "\n".join(lines)

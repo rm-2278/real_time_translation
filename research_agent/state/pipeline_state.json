@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "WRITE_REPORT",
   "cycle": 10,
-  "last_updated": "2026-09-24T00:48:49.712907+00:00",
+  "last_updated": "2026-09-24T09:30:12.732849+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -989,6 +989,30 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-24T00:48:49.712907+00:00",
       "note": "Git sync (merge of local interactive branch into cloud-agent branch). Local and cloud diverged at 2026-09-16: local interactive sessions ran their own 'cycle 15' (h-mt-queue-wait-decomposition ... h-backlog-adaptive-compression-budget, plus the raised-timer re-verifications) while the cloud agent ran cycles 15-22. The 6 local transitions above (2026-09-16T03:2x) are that local cycle; they sit chronologically before the cloud's cycle-15 entries, so the from/to chain has one discontinuity there. hypotheses.json/papers.json merged by id (no overlapping edits), budget.json cost_log unioned and totals recomputed. Current state kept from the cloud branch."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-24T09:30:12.583716+00:00",
+      "note": "Human-review (2026-09-24) hypotheses added interactively; 4 approved by the human's explicit request to improve, 2 proposed"
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-24T09:30:12.635943+00:00",
+      "note": "4 human-approved h-review-* hypotheses queued"
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-24T09:30:12.684849+00:00",
+      "note": "Ran term_alias_replay + live v1 (network-truncated) + v2; v3 blocked by network"
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-24T09:30:12.732625+00:00",
+      "note": "Results recorded in hypotheses.json and experiments/20260924_llm2024_8_part1_human_review.md; Japanese cycle report still to write"
     }
   ]
 }

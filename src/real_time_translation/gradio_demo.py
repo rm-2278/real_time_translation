@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import contextlib
 import subprocess
+import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
@@ -17,6 +18,7 @@ from fastapi import WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse
 
 from real_time_translation.audio.capture import QueueAudioCapture
+from real_time_translation.captions.live_presenter import LiveCaptionPresenter
 from real_time_translation.config import Config
 from real_time_translation.pipeline import TranslationPipeline, TranslationResult
 
@@ -44,6 +46,26 @@ async def _broadcast_to_overlay(payload: dict[str, Any]) -> None:
         _overlay_clients.discard(client)
 
 
+async def _present_captions(presenter: LiveCaptionPresenter) -> None:
+    """Release paced caption cards to the overlay (see LiveCaptionPresenter).
+
+    Replaces pushing every translation result straight to the screen, which
+    flashed backlog bursts by faster than anyone could read them.
+    """
+    while True:
+        now = time.monotonic()
+        card = presenter.poll(now)
+        if card is not None:
+            await _broadcast_to_overlay(
+                {
+                    "kind": "card",
+                    "translated_text": card.text,
+                    "duration_ms": round(card.duration * 1000),
+                }
+            )
+        await asyncio.sleep(min(max(presenter.next_wakeup(now), 0.02), 0.25))
+
+
 @dataclass
 class DemoSession:
     """Per-user demo session state."""
@@ -52,6 +74,7 @@ class DemoSession:
     capture: QueueAudioCapture
     results_queue: asyncio.Queue[TranslationResult]
     window_size: int
+    presenter_task: asyncio.Task[None] | None = None
     transcript_lines: list[str] = field(default_factory=list)
     translation_lines: list[str] = field(default_factory=list)
     interim_transcript: str = ""  # Current interim transcript
@@ -180,6 +203,8 @@ async def start_session(
         maxsize=200  # Larger queue for file processing
     )
 
+    presenter = LiveCaptionPresenter()
+
     def on_result(result: TranslationResult) -> None:
         timestamp = _timestamp()
         print(f"[{timestamp}] ASR: {result.original_text}")
@@ -190,20 +215,30 @@ async def start_session(
         with contextlib.suppress(asyncio.QueueFull):
             results_queue.put_nowait(result)
 
-        # Push straight to the overlay too -- decoupled from Gradio's own
-        # polling cadence, so the overlay reflects streaming updates as
-        # they actually arrive rather than on the next audio.stream() tick.
-        asyncio.create_task(
-            _broadcast_to_overlay(
-                {
+        # Overlay: the source line goes straight through; translations go
+        # through the presenter's reading-time pacing, except a still-
+        # streaming partial, which is shown live only while no card is
+        # queued or still within its reading time.
+        now = time.monotonic()
+        payload: dict[str, Any] = {
+            "kind": "source",
+            "original_text": result.original_text,
+        }
+        if result.is_final and result.translated_text:
+            if result.is_translation_complete:
+                presenter.push(
+                    result.translated_text,
+                    now,
+                    utterance_id=result.utterance_id,
+                    utterance_end=result.is_utterance_end,
+                )
+            elif presenter.is_idle(now):
+                payload = {
+                    "kind": "partial",
                     "original_text": result.original_text,
                     "translated_text": result.translated_text,
-                    "is_final": result.is_final,
-                    "is_translation_complete": result.is_translation_complete,
-                    "is_utterance_end": result.is_utterance_end,
                 }
-            )
-        )
+        asyncio.create_task(_broadcast_to_overlay(payload))
 
     pipeline.set_callback(on_result)
     try:
@@ -219,6 +254,7 @@ async def start_session(
             capture=capture,
             results_queue=results_queue,
             window_size=config.context_window_size,
+            presenter_task=asyncio.create_task(_present_captions(presenter)),
         ),
         _status("running"),
         "",
@@ -231,6 +267,8 @@ async def stop_session(state: DemoSession | None) -> tuple[DemoSession | None, s
         return None, _status("stopped")
 
     await state.pipeline.stop()
+    if state.presenter_task is not None:
+        state.presenter_task.cancel()
     return None, _status("stopped")
 
 

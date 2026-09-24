@@ -39,7 +39,12 @@
     opacity: 0;
     transition: opacity 0.25s ease;
     white-space: pre-wrap;
-    word-break: break-word;
+    /* Break between words/characters only: "word-break: break-word"
+       allowed splitting inside a Latin word ("Gemm|a"). line-break:
+       strict applies Japanese kinsoku (no line starting with 、。). */
+    word-break: normal;
+    overflow-wrap: break-word;
+    line-break: strict;
   }
   #source-line.visible { opacity: 1; }
 
@@ -58,7 +63,12 @@
     transform: translateY(6px);
     transition: opacity 0.2s ease, transform 0.2s ease;
     white-space: pre-wrap;
-    word-break: break-word;
+    /* Break between words/characters only: "word-break: break-word"
+       allowed splitting inside a Latin word ("Gemm|a"). line-break:
+       strict applies Japanese kinsoku (no line starting with 、。). */
+    word-break: normal;
+    overflow-wrap: break-word;
+    line-break: strict;
   }
   #translation-line.visible {
     opacity: 1;
@@ -111,9 +121,12 @@
   if (!showSource) sourceEl.style.display = "none";
 
   let hideTimer = null;
-  const HOLD_MS = 4000; // how long a finished line stays up before fading
+  const HOLD_MS = 4000; // how long a finished card stays up before fading
 
-  function renderTranslation(text, { finalized }) {
+  // Cards arrive already paced and line-wrapped by the server
+  // (captions/live_presenter.py): each one replaces the previous and
+  // stays up for its reading time plus HOLD_MS unless the next replaces it.
+  function renderTranslation(text, { holdMs }) {
     if (!text) {
       translationEl.classList.remove("visible");
       return;
@@ -121,13 +134,11 @@
     translationEl.textContent = text;
     translationEl.classList.add("visible");
 
-    if (finalized) {
-      clearTimeout(hideTimer);
+    clearTimeout(hideTimer);
+    if (holdMs !== null) {
       hideTimer = setTimeout(() => {
         translationEl.classList.remove("visible");
-      }, HOLD_MS);
-    } else {
-      clearTimeout(hideTimer);
+      }, holdMs);
     }
   }
 
@@ -164,20 +175,15 @@
         return;
       }
 
-      if (!msg.is_final) {
-        // Interim source-language transcript, no translation yet.
-        renderSource(msg.original_text);
-        return;
+      if (msg.original_text) renderSource(msg.original_text);
+      if (msg.kind === "card") {
+        renderTranslation(msg.translated_text, {
+          holdMs: (msg.duration_ms || 0) + HOLD_MS,
+        });
+      } else if (msg.kind === "partial") {
+        // Still-streaming translation, only sent while no card is queued.
+        renderTranslation(msg.translated_text, { holdMs: null });
       }
-
-      renderSource(msg.original_text);
-      // "finalized" (hold then fade) only once the utterance itself is
-      // over, not just once this particular streaming call is done --
-      // otherwise a soft-finalized mid-sentence chunk (more of the same
-      // utterance still coming) would start the fade-out countdown early.
-      renderTranslation(msg.translated_text, {
-        finalized: msg.is_translation_complete && msg.is_utterance_end !== false,
-      });
     };
   }
 
