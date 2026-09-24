@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 10,
-  "last_updated": "2026-09-24T00:48:49.712907+00:00",
+  "last_updated": "2026-09-24T12:24:42.698609+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -989,6 +989,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-24T00:48:49.712907+00:00",
       "note": "Git sync (merge of local interactive branch into cloud-agent branch). Local and cloud diverged at 2026-09-16: local interactive sessions ran their own 'cycle 15' (h-mt-queue-wait-decomposition ... h-backlog-adaptive-compression-budget, plus the raised-timer re-verifications) while the cloud agent ran cycles 15-22. The 6 local transitions above (2026-09-16T03:2x) are that local cycle; they sit chronologically before the cloud's cycle-15 entries, so the from/to chain has one discontinuity there. hypotheses.json/papers.json merged by id (no overlapping edits), budget.json cost_log unioned and totals recomputed. Current state kept from the cloud branch."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-24T12:24:42.698581+00:00",
+      "note": "cycle 22: added 2 new judge-methodology hypotheses (h-judge-verbosity-length-bias-retroactive $0, h-judge-cross-model-agreement-check ~$0.05), grounded in this cycle's 4 new judge-noise papers. Backlog: h-soft-anchor-gate-min-words-3 (queued) + 2 new proposed = 3, under the 6 cap."
     }
   ]
 }
