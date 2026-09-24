@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
-  "cycle": 9,
-  "last_updated": "2026-09-16T03:25:17.720203+00:00",
+  "current_state": "GENERATE_HYPOTHESES",
+  "cycle": 10,
+  "last_updated": "2026-09-24T00:48:49.712907+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -682,7 +682,7 @@
       "from": "ANALYZE_RESULTS",
       "to": "WRITE_REPORT",
       "at": "2026-09-16T03:24:29.868937+00:00",
-      "note": "Wrote research_agent/reports/20260916_cycle15_report.md (Japanese), answering rm-2278's two direct questions (latency lever, real-time-benchmark-beyond-chrF status) plus the 6 new hypotheses."
+      "note": "Wrote research_agent/reports/20260916_cycle15_interactive_report.md (renamed from 20260916_cycle15_report.md at the 2026-09-24 git sync; the cloud agent wrote its own report under the original name) (Japanese), answering rm-2278's two direct questions (latency lever, real-time-benchmark-beyond-chrF status) plus the 6 new hypotheses."
     },
     {
       "from": "WRITE_REPORT",
@@ -695,6 +695,300 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-09-16T03:25:17.720105+00:00",
       "note": "Cycle 15 complete. Backlog (3 queued/proposed) all need human-approved live budget or a code change, not more literature -- but per reflections.md, one more search pass is worth trying before committing a whole cycle to implementation."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-16T12:14:41.114767+00:00",
+      "note": "GENERATE_HYPOTHESES: added 1 new hypothesis (h-compression-repeated-sampling-segment5), the targeted follow-up flagged in cycle-14 reflections.md -- repeated N=10 sampling per condition (compression_actions vs baseline_replay) on the exact segment-5 source text that showed a single guardrail-violating content drop, to distinguish a reliable behavior from a one-off sampling fluke. Backlog: 1 proposed, well under the 6 cap (depth over breadth, matching cycle 14's own precedent)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-16T12:14:52.633915+00:00",
+      "note": "check-budget(0.05 usd) -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued for h-compression-repeated-sampling-segment5."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-16T12:18:00.585029+00:00",
+      "note": "compression_repeated_sampling.py produced 10 baseline + 10 compression_actions repeats of segments[5] under identical fixed context. Config-diff + result_summary next."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-16T12:18:40.042831+00:00",
+      "note": "Config-diff clean (single variable: extra_system_instructions; identical fixed context for all 20 calls). Result: original n=1 segment-5 truncation reproduces in 4/10 (40%) of compression_actions repeats vs 0/10 baseline -- confirmed real, not a fluke. But found segment 5's source text duplicates its own context tail (segment 4), so the truncation may be a correct (if unreliable, 40%-of-the-time) application of the instruction's own DROP-on-repetition rule rather than a guardrail violation as originally framed -- reframing, not exonerating (still not recommending production use: a 40%-of-the-time DROP is not a dependable behavior). hypothesis.status=tested."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-16T12:19:21.010408+00:00",
+      "note": "Wrote 20260916_cycle15_report.md (Japanese)."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-16T12:19:45.637818+00:00",
+      "note": "REFLECT complete (see reflections.md cycle 15). Confirmed the segment-5 truncation is real (40% reproduction rate) but reframed it: segment 5's source text duplicates its context tail, so this may be a correct (if unreliable) application of the instruction's own DROP-on-repetition rule rather than a guardrail violation as cycle 14 framed it. Next well-scoped step (testing the same instruction on a non-duplicated long/complex segment) doesn't need new literature, so skipping a fresh SEARCH_PAPERS pass again this cycle. No playbook changes needed this cycle."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-17T00:12:07.545342+00:00",
+      "note": "GENERATE_HYPOTHESES cycle 16: added 1 new hypothesis (h-compression-nonduplicate-longsegment), the direct follow-up flagged in cycle-15 reflections.md -- repeats the same repeated-sampling design on results.segments[15] of experiments/20260903_asr_keyterms_off.json (202 chars, long/multi-clause, verified NOT a duplicate of its own context segments 12-14 or of segment 16), to isolate whether the compression instruction drops genuinely new content or whether the segment-5 finding was specific to that source's duplicate-ASR-segment artifact. Backlog: 1 proposed, well under the 6 cap (depth over breadth, matching cycles 14/15 precedent)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-17T00:12:22.417877+00:00",
+      "note": "check-budget(0.05 usd) -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued for h-compression-nonduplicate-longsegment."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-17T00:15:18.949244+00:00",
+      "note": "compression_repeated_sampling_longsegment.py produced 10 baseline + 10 compression_actions repeats of segments[15] (verified non-duplicated) under identical fixed context. Config-diff + result_summary next."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-17T00:15:18.981196+00:00",
+      "note": "Config-diff clean (single variable: extra_system_instructions; identical fixed context, no confound). Result: zero clause drops in either condition (10/10 baseline, 10/10 compression_actions cover clause B), ~6% length reduction under compression_actions via safe SENTENCE_CUT/PARTIAL_SUMMARIZATION-style shortening, not DROP. Supports h-compression-repeated-sampling-segment5's reframing: segment 5's 40% truncation rate was specific to that segment's duplicate-ASR-context artifact, not a general risk on ordinary long/complex input. hypothesis.status=tested."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-17T00:16:04.803299+00:00",
+      "note": "Wrote 20260917_cycle16_report.md (Japanese)."
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-09-17T00:16:39.728853+00:00",
+      "note": "REFLECT complete (see reflections.md cycle 16). The h-compression-* thread (cycles 14-16) is now resolved: segment-15 non-duplicated replay found zero content drops in 10/10 repeats under compression_actions, confirming segment 5's 40% truncation rate (cycle 15) was specific to that segment's duplicate-ASR-context artifact rather than a general risk. Advancing to a fresh SEARCH_PAPERS pass for cycle 17 (literature base is 3 cycles stale, last real search was cycle 13) per cycle 15's own flagged condition."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-09-17T12:11:58.214921+00:00",
+      "note": "Cycle 17 SEARCH_PAPERS: WebSearch pass for post-cycle-13 literature (IWSLT2026 systems, flicker/stability policies, cascade-vs-e2e, LLM prompting, vendor ASR latency). 3 new candidates added as 'found' stubs: cuni2026-pocket-offline-simulst, simulstream2025-eval-toolkit, lacuna2026-beam-search-cascade-flicker (most relevant -- >20% flicker reduction from beam-search changes in a cascaded pipeline, directly on-topic for this repo's cascade architecture). Other search hits duplicated already-read papers or were older/superseded work, not re-added."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-09-18T00:11:28.856835+00:00",
+      "note": "Extracted 3 found papers (cuni2026-pocket-offline-simulst, simulstream2025-eval-toolkit, lacuna2026-beam-search-cascade-flicker) via WebSearch fallback (WebFetch EGRESS_BLOCKED for arxiv.org/lacuna.tiptreesystems.com). Corrected lacuna paper's venue/year metadata (actually Interspeech 2024, arXiv:2407.11010)."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-18T12:12:42.847087+00:00",
+      "note": "cycle 17: summarized+cross-referenced the 3 extracted papers (cuni2026-pocket-offline-simulst, simulstream2025-eval-toolkit, lacuna2026-beam-search-cascade-flicker) into papers.json, all 29 papers now status=read. lacuna2026's MT-beam-search-for-cascade-flicker angle is new and not covered by existing hypotheses/experiments (grepped for beam/revision keywords)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-19T00:13:27.533398+00:00",
+      "note": "cycle 17 GENERATE_HYPOTHESES: added 1 new hypothesis, h-hard-prefix-lock-continuation, grounded in lacuna2026-beam-search-cascade-flicker (flagged last cycle as a new angle not covered by existing hypotheses). Backlog now 1 proposed (well under ~6 cap), depth over breadth honored. Designed as a cheap (/bin/bash.05 est) deterministic replay over already-recorded multi-batch source deltas, avoiding the live-Deepgram dependency and fixing h-continuation-context-anchor's noisy-single-run confound."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-19T00:13:54.695430+00:00",
+      "note": "h-hard-prefix-lock-continuation auto_approved (check-budget: AUTO_APPROVE, uses_existing_clips=true), status=queued. At least one queued/approvable hypothesis exists, advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-19T00:27:18.454915+00:00",
+      "note": "h-hard-prefix-lock-continuation: ran prefix_lock_replay.py (15 spans x 3 conditions x 2 repeats + 45 judge calls, all Gemini-only, zero new Deepgram spend). hypothesis.status=testing, experiment_ids set. Moving to ANALYZE_RESULTS for config-diff/confound check and result_summary write-up."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-19T00:28:16.530469+00:00",
+      "note": "h-hard-prefix-lock-continuation analyzed and marked tested. Key finding: soft_anchor_replay (existing h-continuation-context-anchor mechanism) shows a real NE reduction under controlled repeated replay, superseding its own inconclusive live-run result; hard_lock (new) not recommended due to fidelity cost. Writing cycle 17 Japanese report."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-19T00:29:18.203339+00:00",
+      "note": "Wrote 20260919_cycle17_report.md (Japanese)."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-19T00:30:30.402237+00:00",
+      "note": "REFLECT complete (see reflections.md cycle 17). Skipping a fresh SEARCH_PAPERS pass: this cycle's own result already identifies a concrete, cheap follow-up (re-run the soft-anchor-vs-baseline replay methodology against experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json's 83 multi-batch spans to check generalization beyond one clip). Backlog is 0 queued/proposed, well under the 6 cap. Playbook updated with a 4th near-miss entry (original_text cumulative-vs-delta inconsistency)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-19T12:21:57.721394+00:00",
+      "note": "cycle 18 GENERATE_HYPOTHESES: added 1 new hypothesis, h-soft-anchor-generalization-guest-talk, following up on the concrete recommendation flagged at the end of cycle 17's reflection -- re-run the h-hard-prefix-lock-continuation replay methodology (baseline_replay vs soft_anchor_replay only, hard_lock excluded as already conclusively not-recommended) against experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json (83 usable multi-batch spans, verified via _extract_spans(), vs the original 15) to check whether the soft-anchor cross-batch NE improvement generalizes beyond one clip. Backlog now 1 proposed, well under the 6 cap, depth over breadth honored. Also verified this cycle: DEEPGRAM_API_KEY and GOOGLE_API_KEY both set and REST-reachable (200/200), ffmpeg installed cleanly via apt-get, but the Deepgram listen-websocket handshake is still blocked by the egress proxy (HTTP 400 'Connection header did not include upgrade', same failure mode as cycles 5/15/16/17) -- live ASR experiments remain infeasible this session, confirming the replay-based design is the right choice again this cycle."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-19T12:22:14.690271+00:00",
+      "note": "h-soft-anchor-generalization-guest-talk: check-budget(0.20) -> AUTO_APPROVE (remaining_daily=6.95), uses_existing_clips=true. approval=auto_approved, status=queued. At least one queued/approvable hypothesis exists, advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-19T12:39:59.149885+00:00",
+      "note": "h-soft-anchor-generalization-guest-talk: replay completed (experiments/20260919_h_soft_anchor_generalization_guest_talk.json). Confound check passed (models config identical to source JSON, single translator instance across conditions). Result: soft-anchor NE reduction generalizes and is even larger on this clip (83% vs 65% relative reduction), but fidelity cost is larger too (-3.9 vs -0.6 points) with a new hallucination-under-disfluent-source failure mode found and diagnosed (span 69). hypothesis.status=tested, result_summary written. Moving to WRITE_REPORT."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-19T12:40:03.740980+00:00",
+      "note": "h-soft-anchor-generalization-guest-talk analyzed and marked tested. Writing cycle 18 Japanese report."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-19T12:41:12.639996+00:00",
+      "note": "Wrote 20260919_cycle18_report.md (Japanese)."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-19T12:42:07.576321+00:00",
+      "note": "REFLECT complete (see reflections.md cycle 18). Skipping a fresh SEARCH_PAPERS pass: this cycle's own result identifies a concrete, cheap ($0, replay-only) follow-up -- gate the soft-anchor off for very short/fragmentary source deltas to avoid the hallucination-under-disfluency failure mode found in span 69, without losing the NE win on cleaner speech. Backlog is 0 queued/proposed, well under the 6 cap. Also corrected a stale recommendation carried over from cycle 17's own reflection (h-masking-holdback/h-localagreement-asr-commit are already tested, not live-verification candidates just because Deepgram access might recover) and flagged a process near-miss (premature orchestrator advance call before RUN_EXPERIMENTS bookkeeping was done, caught before commit)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-20T00:20:46.518645+00:00",
+      "note": "cycle 19 GENERATE_HYPOTHESES: added 1 new hypothesis, h-soft-anchor-disfluency-gate, directly following up on the concrete recommendation flagged at the end of cycle 18's reflection/result_summary -- gate the soft-anchor advisory prompt off (fall back to from-scratch baseline translation) for batches whose new source delta_text is very short/word-count-below-threshold, to mitigate the hallucination-under-disfluency failure mode found in h-soft-anchor-generalization-guest-talk (span 69: anchor fabricated an unsupported acronym expansion to cohere with an ambiguous cut-off fragment) without losing the large, now-twice-replicated cross-batch NE reduction on cleaner speech. $0 replay-only (reuses the same two already-recorded source experiment JSONs as the two prior hypotheses in this line), uses_existing_clips=true. Backlog now 1 proposed, well under the 6 cap -- depth over breadth honored per PLAYBOOK."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-20T12:19:37.573734+00:00",
+      "note": "h-soft-anchor-disfluency-gate: check-budget(0.3) -> AUTO_APPROVE, uses_existing_clips=true -> auto_approved/queued. This is the only hypothesis needing approval this cycle; all others already tested/superseded."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-20T12:58:10.121193+00:00",
+      "note": "h-soft-anchor-disfluency-gate run complete, moving to analysis"
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-20T12:58:39.643313+00:00",
+      "note": "h-soft-anchor-disfluency-gate analysis complete, writing cycle 19 Japanese report"
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-20T12:59:28.828125+00:00",
+      "note": "cycle 19 report written, moving to self-reflection"
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-20T13:00:30.439011+00:00",
+      "note": "cycle 19 REFLECT complete (playbook edited: timeout/buffering + judge-noise-floor notes). Backlog is 0 queued/proposed. Advancing directly to GENERATE_HYPOTHESES for cycle 20 -- two concrete cheap follow-ups already identified (lower GATE_MIN_WORDS informed by an actual word-count histogram; judge() on every repeat for a real noise estimate), no new literature needed."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-21T00:20:31.528309+00:00",
+      "note": "cycle 20 GENERATE_HYPOTHESES: added 1 new hypothesis, h-soft-anchor-gate-recalibrated-noisefloor, directly implementing both concrete follow-ups flagged at the end of cycle 19's reflection (lower GATE_MIN_WORDS informed by an actual word-count histogram computed now during design; judge() on every repeat for a real noise estimate). $0.35 est, uses_existing_clips=true, replay-only over the same two already-recorded source experiments. Backlog now 1 proposed, well under the 6 cap."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-21T12:19:58.615108+00:00",
+      "note": "cycle 20 HUMAN_APPROVAL: h-soft-anchor-gate-recalibrated-noisefloor checked with check-budget 0.35 -> AUTO_APPROVE, uses_existing_clips=true (replay-only over already-recorded experiment JSONs, no new API spend beyond judge()/translate() replay calls). Set approval=auto_approved, status=queued. Advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-22T00:51:07.752836+00:00",
+      "note": "cycle 20 RUN_EXPERIMENTS complete: soft_anchor_gate_recalibrated_replay.py run against both source clips, cost logged ($0.40)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-22T00:51:07.783657+00:00",
+      "note": "cycle 20 ANALYZE_RESULTS complete for h-soft-anchor-gate-recalibrated-noisefloor. NE improved as predicted; fidelity benefit still unconfirmed (noise floor dwarfs effect); found and documented a gating-boundary design flaw (strict < means span 69's 2-word delta was never actually gated at MIN_WORDS=2). Writing cycle 20 Japanese report."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-22T00:52:04.611669+00:00",
+      "note": "cycle 20 report written (research_agent/reports/20260922_cycle20_report.md), moving to self-reflection"
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-22T00:53:04.019949+00:00",
+      "note": "cycle 20 REFLECT complete (playbook edited: 5th near-miss re boundary-condition/comparison-operator verification, added to GENERATE_HYPOTHESES). Backlog is 0 queued/proposed. Advancing directly to GENERATE_HYPOTHESES for cycle 21 -- two directions identified: (a) narrow GATE_MIN_WORDS=3 follow-up now that the boundary bug is understood, or (b) a literature search on LLM-judge evaluation methodology given how large the measured per-span noise floor turned out to be (stdev up to 17.7). Actual hypothesis-writing deferred to next session's own bounded unit of work."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-22T12:23:54.075839+00:00",
+      "note": "cycle 21 GENERATE_HYPOTHESES done: 2 new hypotheses added (h-soft-anchor-gate-min-words-3 est $0.40, h-judge-noise-repeats-power-check est $0.00). Both proposed, need check-budget in HUMAN_APPROVAL."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-22T12:24:12.912629+00:00",
+      "note": "cycle 21: both new hypotheses auto-approved and queued, advancing to RUN_EXPERIMENTS"
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-22T12:28:41.114799+00:00",
+      "note": "cycle 21: h-judge-noise-repeats-power-check run (pure retroactive, $0), advancing to analyze"
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-22T12:30:37.067041+00:00",
+      "note": "cycle 21: h-judge-noise-repeats-power-check analyzed and tested (found+corrected an inflated noise-floor estimate from cycle 20). h-soft-anchor-gate-min-words-3 remains queued but not yet run this session (needs live Gemini calls; deferred, see note). Advancing to WRITE_REPORT."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-22T12:31:30.105697+00:00",
+      "note": "cycle 21: report written, advancing to REFLECT"
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-09-22T12:32:14.745414+00:00",
+      "note": "cycle 21 REFLECT complete: added PLAYBOOK.md rule on between/within-span variance decomposition for noise floors. Recommending SEARCH_PAPERS next cycle specifically on LLM-judge/LLM-as-evaluator noise and repeats-needed-for-significance (a real gap in papers.json), before the next GENERATE_HYPOTHESES. h-soft-anchor-gate-min-words-3 remains queued as a cheap fallback if search time is short."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-09-23T00:21:25.046257+00:00",
+      "note": "cycle 22: SEARCH_PAPERS complete, added 4 new found-status papers on LLM-as-judge evaluation noise/variance/repeats per cycle 21 reflections recommendation (narrow search, not a general SimulST sweep this time). See papers.json _websearch_note_cycle22 for full query log."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-09-23T12:22:31.160098+00:00",
+      "note": "cycle 22 EXTRACT_PAPERS: extracted 4 found LLM-judge-noise papers (arxiv2509-20293, arxiv2601-05420, arxiv2606-19544, arxiv2607-02235) via WebSearch fallback (WebFetch to arxiv.org EGRESS_BLOCKED for all 4). All tie to existing h-judge-noise-repeats-power-check line of work."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-24T00:21:55.786151+00:00",
+      "note": "Cycle 22 READ_PAPERS complete: summarized+read all 4 judge-noise papers (arxiv2509-20293, arxiv2601-05420, arxiv2606-19544, arxiv2607-02235), cross-referenced against experiments/ and git log -- no duplicate of h-judge-noise-repeats-power-check's already-tested noise-floor work found. Two candidate hypothesis directions noted for next state: human-vs-judge spot-check on existing JSONs ($0), and retroactive rubric-collapse diagnostic on stored judge outputs ($0)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-24T00:48:49.712907+00:00",
+      "note": "Git sync (merge of local interactive branch into cloud-agent branch). Local and cloud diverged at 2026-09-16: local interactive sessions ran their own 'cycle 15' (h-mt-queue-wait-decomposition ... h-backlog-adaptive-compression-budget, plus the raised-timer re-verifications) while the cloud agent ran cycles 15-22. The 6 local transitions above (2026-09-16T03:2x) are that local cycle; they sit chronologically before the cloud's cycle-15 entries, so the from/to chain has one discontinuity there. hypotheses.json/papers.json merged by id (no overlapping edits), budget.json cost_log unioned and totals recomputed. Current state kept from the cloud branch."
     }
   ]
 }

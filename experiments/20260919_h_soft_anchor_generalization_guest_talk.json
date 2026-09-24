@@ -1,0 +1,6288 @@
+{
+  "date": "2026-09-19",
+  "experiment_name": "h_soft_anchor_generalization_guest_talk",
+  "domain": null,
+  "input": {
+    "type": "replay",
+    "source_experiment": "experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+    "repeats_per_condition": 2,
+    "note": "Deterministic replay over already-recorded per-batch source deltas (same _extract_spans() adaptive cumulative-vs-delta handling as prefix_lock_replay.py) -- no live Deepgram, only Gemini translate calls. context_lines=[] and update_context=False for every call (spans tested in isolation, no cross-utterance context). hard_lock condition intentionally omitted -- already conclusively tested and not recommended in h-hard-prefix-lock-continuation."
+  },
+  "models": {
+    "deepgram_model": "nova-3-general",
+    "deepgram_language": "en",
+    "llm_provider": "gemini",
+    "llm_model": "gemini-3-flash-preview",
+    "gemini_thinking_budget": 0
+  },
+  "results": {
+    "spans": [
+      {
+        "span_index": 0,
+        "num_batches": 3,
+        "source_full": "And if you are an entrepreneur, you want to have a start up by yourself, I hope you could know the general ideas",
+        "batches": [
+          {
+            "key": [
+              0.0,
+              4.0
+            ],
+            "delta_text": "And if you are an entrepreneur,",
+            "cumulative_text": "And if you are an entrepreneur,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              4.25,
+              7.6
+            ],
+            "delta_text": "you want to have a start up by yourself, I hope you could know",
+            "cumulative_text": "And if you are an entrepreneur, you want to have a start up by yourself, I hope you could know",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              7.6,
+              9.16
+            ],
+            "delta_text": "the general ideas",
+            "cumulative_text": "And if you are an entrepreneur, you want to have a start up by yourself, I hope you could know the general ideas",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして、もしあなたが起業家であれば、",
+              "もしあなたが起業家で、自らスタートアップを立ち上げたいと考えているなら、ぜひ知っておいてほしいのが",
+              "もしあなたが起業家で、自らスタートアップを立ち上げたいと考えているのであれば、その一般的な概念を知っておいていただきたいですし、"
+            ],
+            [
+              "そして、もしあなたが起業家であれば、",
+              "もしあなたが起業家で、自らスタートアップを立ち上げたいと考えているなら、ぜひ知っておいてほしいのが",
+              "もしあなたが起業家で、自らスタートアップを立ち上げたいと考えているのであれば、その一般的な概念を知っておいていただきたいですし、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして、もしあなたが起業家であれば、",
+              "そして、もしあなたが起業家であれば、あるいは自身でスタートアップを立ち上げたいと考えているのであれば、ぜひ知っておいていただきたいのが、",
+              "そして、もしあなたが起業家であれば、あるいは自身でスタートアップを立ち上げたいと考えているのであれば、ぜひその一般的な考え方を知っておいていただきたいのが、"
+            ],
+            [
+              "そして、もしあなたが起業家であれば、",
+              "そして、もしあなたが起業家であれば、あるいは自身でスタートアップを立ち上げたいと考えているのであれば、ぜひ知っておいていただきたいのが、",
+              "そして、もしあなたが起業家であれば、あるいは自身でスタートアップを立ち上げたいと考えているのであれば、ぜひ知っておいていただきたいのが、その一般的な考え方についてです。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.53125,
+            0.53125
+          ],
+          "soft_anchor_replay": [
+            0.19230769230769232,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 95,
+            "dropped_or_distorted": [
+              "I hope you could know"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 1,
+        "num_batches": 2,
+        "source_full": "how to train and deploy your",
+        "batches": [
+          {
+            "key": [
+              9.16,
+              12.5000002
+            ],
+            "delta_text": "how to train and deploy",
+            "cumulative_text": "how to train and deploy",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              12.5000002,
+              13.5600006
+            ],
+            "delta_text": "your",
+            "cumulative_text": "how to train and deploy your",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "トレーニングとデプロイの方法について",
+              "どのようにトレーニングし、デプロイするか、あなたの"
+            ],
+            [
+              "どのようにトレーニングし、デプロイするか、",
+              "どのようにトレーニングし、デプロイするか、あなたの"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "トレーニングとデプロイの方法について",
+              "トレーニングとデプロイの方法について、皆さんの"
+            ],
+            [
+              "トレーニングとデプロイの方法について",
+              "トレーニングとデプロイの方法について、あなたの"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.72,
+            0.0
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 2,
+        "num_batches": 3,
+        "source_full": "products based on language model efficiently. Okay. Here, let me first introduce what's a",
+        "batches": [
+          {
+            "key": [
+              13.56,
+              17.2999988
+            ],
+            "delta_text": "products based on language model efficiently.",
+            "cumulative_text": "products based on language model efficiently.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              17.85,
+              21.899999
+            ],
+            "delta_text": "Okay. Here, let me first introduce",
+            "cumulative_text": "products based on language model efficiently. Okay. Here, let me first introduce",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              21.899999,
+              22.8199993
+            ],
+            "delta_text": "what's a",
+            "cumulative_text": "products based on language model efficiently. Okay. Here, let me first introduce what's a",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "言語モデルに基づいた製品を効率的に。",
+              "言語モデルに基づいた製品を効率的に。では、まず最初に紹介させてください、",
+              "言語モデルに基づいた製品を効率的に。では、まず最初に何が...かをご紹介しましょう。"
+            ],
+            [
+              "言語モデルに基づいた製品を効率的に。",
+              "言語モデルに基づいた製品を効率的に。では、まず最初に紹介させてください、",
+              "言語モデルに基づいた製品を効率的に。では、まず最初に何が...かをご紹介します。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "言語モデルに基づいた製品を効率的に。",
+              "言語モデルに基づいた製品を効率的に。では、ここでまず紹介させてください、",
+              "言語モデルに基づいた製品を効率的に。では、ここでまず紹介させてください、何が"
+            ],
+            [
+              "言語モデルに基づいた製品を効率的に。",
+              "言語モデルに基づいた製品を効率的に。それでは、まず最初に紹介させてください、",
+              "言語モデルに基づいた製品を効率的に。それでは、まず最初に紹介させてください、何が"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.23809523809523808,
+            0.25
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "a"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 3,
+        "num_batches": 2,
+        "source_full": "because you already go through through all muscle labs",
+        "batches": [
+          {
+            "key": [
+              22.82,
+              26.2999995
+            ],
+            "delta_text": "because you already go through",
+            "cumulative_text": "because you already go through",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              26.2999995,
+              27.610001
+            ],
+            "delta_text": "through all muscle labs",
+            "cumulative_text": "because you already go through through all muscle labs",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "というのも、すでに経験しているためで、",
+              "すでにすべての muscle labs を経験されているので、"
+            ],
+            [
+              "すでに通過しているため、",
+              "すでにすべての muscle labs を経験されているので、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "すでに通過しているため、",
+              "すでにすべてのmuscle labsを通過しているため、"
+            ],
+            [
+              "というのも、すでに経験されていることですが、",
+              "というのも、すでに経験されていることですが、すべてのMuscle Labを終えられたので、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.6129032258064516,
+            0.2903225806451613
+          ],
+          "soft_anchor_replay": [
+            0.32142857142857145,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 4,
+        "num_batches": 2,
+        "source_full": "course. So I think you already know what's what's the big",
+        "batches": [
+          {
+            "key": [
+              27.61,
+              31.200000199999998
+            ],
+            "delta_text": "course. So I think you already know what's",
+            "cumulative_text": "course. So I think you already know what's",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              31.200000199999998,
+              32.2
+            ],
+            "delta_text": "what's the big",
+            "cumulative_text": "course. So I think you already know what's what's the big",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "もちろん、ですので、皆さんはすでにご存知かと思いますが、何が",
+              "もちろん、皆さんはすでにご存知かと思いますが、何が大きな"
+            ],
+            [
+              "もちろん、ですので皆様はすでにご存知かと思いますが、",
+              "もちろん、皆様はすでにご存知かと思いますが、何が大きな"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "もちろん、ですので、皆様はすでにご存知かと思いますが、",
+              "もちろん、ですので、皆様はすでにご存知かと思いますが、何が大きな"
+            ],
+            [
+              "もちろん、ですので、皆さんはすでに何が...をご存知かと思いますが、",
+              "もちろん、ですので、皆さんはすでに何が大きな話題となっていて、何が...をご存知かと思いますが、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.8928571428571429,
+            0.7777777777777778
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.3125
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 5,
+        "num_batches": 2,
+        "source_full": "what's the basic idea of transformer adjust as we visit it.",
+        "batches": [
+          {
+            "key": [
+              30.99,
+              34.700001
+            ],
+            "delta_text": "what's the basic idea of transformer adjust as we visit",
+            "cumulative_text": "what's the basic idea of transformer adjust as we visit",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              34.700001,
+              35.119999
+            ],
+            "delta_text": "it.",
+            "cumulative_text": "what's the basic idea of transformer adjust as we visit it.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "Transformerの基本的な考え方は、私たちが順を追って見ていく中で、",
+              "Transformerの基本的な考え方について、改めて確認していくと、"
+            ],
+            [
+              "Transformerの基本的な考え方は、私たちが順を追って見ていく中で、",
+              "Transformerの基本的な考え方について、改めて確認しておくと、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "Transformerの基本的な考え方は、私たちが順を追って見ていく中で、",
+              "Transformerの基本的な考え方は、私たちが順を追って見ていく中で、調整していくことになります。"
+            ],
+            [
+              "Transformerの基本的な考え方は、私たちが順を追って見ていく中で、",
+              "Transformerの基本的な考え方は、私たちが順を追って見ていく中で、調整していくことになります。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5142857142857142,
+            0.5142857142857142
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 6,
+        "num_batches": 2,
+        "source_full": "have normally, we just have a small three components, like",
+        "batches": [
+          {
+            "key": [
+              37.93,
+              41.0999982
+            ],
+            "delta_text": "have normally, we just have a small three",
+            "cumulative_text": "have normally, we just have a small three",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              41.0999982,
+              41.8499982
+            ],
+            "delta_text": "components, like",
+            "cumulative_text": "have normally, we just have a small three components, like",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "通常は、小さな3つの",
+              "通常、私たちは3つの小さなコンポーネント、例えば、"
+            ],
+            [
+              "通常は、小さな3つの",
+              "通常は、3つの小さなコンポーネントがあるだけで、例えば"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "通常は、小さな3つの",
+              "通常は、小さな3つのコンポーネント、例えば"
+            ],
+            [
+              "通常は、小さな3つの",
+              "通常は、小さな3つのコンポーネント、例えば"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.32,
+            0.2222222222222222
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 7,
+        "num_batches": 2,
+        "source_full": "based on the we will give you oh,",
+        "batches": [
+          {
+            "key": [
+              41.85,
+              45.0000015
+            ],
+            "delta_text": "based on the we will give you",
+            "cumulative_text": "based on the we will give you",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              45.0000015,
+              45.2900024
+            ],
+            "delta_text": "oh,",
+            "cumulative_text": "based on the we will give you oh,",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "私たちが提供する内容に基づいて、",
+              "それらに基づいて、お渡しするのは、"
+            ],
+            [
+              "私たちが提供する内容に基づいて、",
+              "それに基づき、皆様に提供するのは、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "提供されるものに基づいて、",
+              "提供されるものに基づいて、私たちが提供する、"
+            ],
+            [
+              "提供されるものに基づいて、",
+              "提供されるものに基づいて、私たちが提供する、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.9411764705882353,
+            0.9411764705882353
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "we will give you"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 8,
+        "num_batches": 2,
+        "source_full": "a sequence, and we will have a token errors, split the sequence to",
+        "batches": [
+          {
+            "key": [
+              45.29,
+              48.999999
+            ],
+            "delta_text": "a sequence, and we will have a token errors, split the sequence",
+            "cumulative_text": "a sequence, and we will have a token errors, split the sequence",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              48.999999,
+              49.569998999999996
+            ],
+            "delta_text": "to",
+            "cumulative_text": "a sequence, and we will have a token errors, split the sequence to",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "シーケンスがあり、トークンエラーが発生するため、そのシーケンスを分割し",
+              "シーケンスがあり、トークンエラーが発生するため、シーケンスを分割して"
+            ],
+            [
+              "シーケンスがあり、トークンエラーが発生するため、シーケンスを分割し、",
+              "シーケンスがあり、トークンエラーが発生するため、シーケンスを分割して"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "シーケンスがあり、トークンエラーが発生するため、シーケンスを分割し、",
+              "シーケンスがあり、トークンエラーが発生するため、シーケンスを分割し、"
+            ],
+            [
+              "シーケンスがあり、トークンエラーが発生するため、シーケンスを分割し、",
+              "シーケンスがあり、トークンエラーが発生するため、シーケンスを分割し、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.3235294117647059,
+            0.029411764705882353
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 9,
+        "num_batches": 2,
+        "source_full": "subaward by subaward, and we will have and we will have a embedded",
+        "batches": [
+          {
+            "key": [
+              49.57,
+              52.5999988
+            ],
+            "delta_text": "subaward by subaward, and we will have",
+            "cumulative_text": "subaward by subaward, and we will have",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              52.5999988,
+              54.360001
+            ],
+            "delta_text": "and we will have a embedded",
+            "cumulative_text": "subaward by subaward, and we will have and we will have a embedded",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "補助金契約ごとに、そして我々は今後、",
+              "サブアワードごとに、そして埋め込み型の ──"
+            ],
+            [
+              "サブアワードごとに、そして我々は",
+              "サブアワードごとに、そして埋め込み型の ──"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "助成金（サブアワード）ごとに、そして我々は",
+              "助成金（サブアワード）ごとに、そして我々は、埋め込み型の"
+            ],
+            [
+              "サブアワードごとに、そして我々は",
+              "サブアワードごとに、そして我々は、埋め込み型の"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.8181818181818182,
+            0.13636363636363635
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 60,
+            "dropped_or_distorted": [
+              "we will have"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 10,
+        "num_batches": 2,
+        "source_full": "embedding table to convert this sub award",
+        "batches": [
+          {
+            "key": [
+              54.36,
+              57.400001
+            ],
+            "delta_text": "embedding table to convert this",
+            "cumulative_text": "embedding table to convert this",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              57.400001,
+              58.069998999999996
+            ],
+            "delta_text": "sub award",
+            "cumulative_text": "embedding table to convert this sub award",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "これを変換するためのembedding tableを",
+              "このサブワードを変換するためのembedding tableを"
+            ],
+            [
+              "これを変換するためのembedding tableを",
+              "このサブワードを変換するためのembedding tableを"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "これを変換するためのembedding tableを",
+              "これを変換するためのembedding tableを、このsub awardを変換するために"
+            ],
+            [
+              "これを変換するためのembedding table（埋め込みテーブル）を、",
+              "これを変換するためのembedding table（埋め込みテーブル）を、このsub awardを変換するために"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.8064516129032258,
+            0.8064516129032258
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 60,
+            "dropped_or_distorted": [
+              "sub award"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 11,
+        "num_batches": 2,
+        "source_full": "to sound embeddings. And after the embed we will do",
+        "batches": [
+          {
+            "key": [
+              58.07,
+              61.5000003
+            ],
+            "delta_text": "to sound embeddings. And after the embed",
+            "cumulative_text": "to sound embeddings. And after the embed",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              61.5000003,
+              63.040001000000004
+            ],
+            "delta_text": "we will do",
+            "cumulative_text": "to sound embeddings. And after the embed we will do",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "サウンド埋め込みへと。そして、その埋め込みの後に、",
+              "音の埋め込み（sound embeddings）へと変換し、その埋め込みの後に、行われるのは"
+            ],
+            [
+              "音の埋め込み（sound embeddings）へと。そして、埋め込みの後に",
+              "音の埋め込み（sound embeddings）へと変換し、その埋め込みの後に、行われるのは"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "サウンド埋め込みへと。そして、その埋め込みの後に、",
+              "サウンド埋め込みへと。そして、その埋め込みの後に、我々が行うのは"
+            ],
+            [
+              "サウンド埋め込みへと。そして、その埋め込みの後に、",
+              "サウンド埋め込みへと。そして、その埋め込みの後に、我々が行うのは"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5434782608695652,
+            0.2608695652173913
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 12,
+        "num_batches": 4,
+        "source_full": "self attention. What's the self attention meeting Say, for attention, we have model that dependency between different award. So Like, for this one, it's like a Japanese food. It's delicious.",
+        "batches": [
+          {
+            "key": [
+              63.04,
+              66.5999976
+            ],
+            "delta_text": "self attention. What's the self attention meeting",
+            "cumulative_text": "self attention. What's the self attention meeting",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              66.75,
+              70.800003
+            ],
+            "delta_text": "Say, for attention, we have model that dependency between different award. So",
+            "cumulative_text": "self attention. What's the self attention meeting Say, for attention, we have model that dependency between different award. So",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              70.64,
+              73.8000037
+            ],
+            "delta_text": "Like, for this one, it's like a Japanese food.",
+            "cumulative_text": "self attention. What's the self attention meeting Say, for attention, we have model that dependency between different award. So Like, for this one, it's like a Japanese food.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              73.8000037,
+              74.9499976
+            ],
+            "delta_text": "It's delicious.",
+            "cumulative_text": "self attention. What's the self attention meeting Say, for attention, we have model that dependency between different award. So Like, for this one, it's like a Japanese food. It's delicious.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、",
+              "セルフアテンション。セルフアテンションの意味するところですが、アテンションにおいては、異なる単語間の依存関係をモデル化しており、",
+              "セルフアテンションについてですが、アテンションとは、異なる単語間の依存関係をモデル化するもので、例えば「日本食」という言葉がある場合、",
+              "セルフアテンション、つまり自己注意機構についてですが、アテンションとは、異なる単語間の依存関係をモデル化するもので、例えば「これは日本食です。とても美味しいです」という文がある場合、"
+            ],
+            [
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、",
+              "セルフアテンション。セルフアテンションとは何を意味するのか。例えば、アテンションにおいては、異なる単語間の依存関係をモデル化しますが、",
+              "セルフアテンションについてですが、アテンションとは、異なる単語間の依存関係をモデル化するもので、例えば「日本食」という言葉がある場合、",
+              "セルフアテンションについてですが、アテンションとは、モデルが異なる単語間の依存関係を捉えるためのもので、例えば「これは日本食です。とても美味しいです」という文において、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、",
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、例えばアテンションにおいて、異なる単語間の依存関係をモデル化する手法がありますが、そうした",
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、例えばアテンションにおいて、異なる単語間の依存関係をモデル化する手法がありますが、そうした、例えばこの「Japanese food（日本料理）」という言葉のように、",
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、例えばアテンションにおいて、異なる単語間の依存関係をモデル化する手法がありますが、そうした、例えばこの「Japanese food（日本料理）」という言葉のように、「それは美味しい」といった文脈での関係性を、"
+            ],
+            [
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、",
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、例えばアテンションにおいて、異なる単語間の依存関係をモデル化する手法がありますが、",
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、例えばアテンションにおいて、異なる単語間の依存関係をモデル化する手法がありますが、例えばこれ、Japanese food（日本食）のような場合、",
+              "セルフアテンション。セルフアテンションとは何を意味しているのか、例えばアテンションにおいて、異なる単語間の依存関係をモデル化する手法がありますが、例えばこれ、Japanese food（日本食）のような場合、それは美味しい、といった具合に"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.3846153846153846,
+            1.2619047619047619
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 95,
+            "dropped_or_distorted": [
+              "award (likely a misrecognized 'word')"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 75,
+            "dropped_or_distorted": [
+              "It's delicious",
+              "different award (word)"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 13,
+        "num_batches": 2,
+        "source_full": "When we say when we want to generate the next token like a delicious,",
+        "batches": [
+          {
+            "key": [
+              74.95,
+              77.6000015
+            ],
+            "delta_text": "When we say when we want to",
+            "cumulative_text": "When we say when we want to",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              77.6000015,
+              79.7699997
+            ],
+            "delta_text": "generate the next token like a delicious,",
+            "cumulative_text": "When we say when we want to generate the next token like a delicious,",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "私たちが、～したいと言うとき、つまり",
+              "「delicious（美味しい）」のような次のトークンを生成したいとき、"
+            ],
+            [
+              "私たちが、～したいと言うとき、つまり",
+              "「delicious（美味しい）」のような次のトークンを生成したいとき、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "私たちが、～したいと言うとき、つまり、",
+              "私たちが、次のトークンを、例えば「美味しい」といった言葉として生成したいと言うとき、"
+            ],
+            [
+              "私たちが、～したいと言うとき、つまり",
+              "私たちが、次に来るトークンを「delicious（美味しい）」のように生成したいと言うとき、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5,
+            0.5
+          ],
+          "soft_anchor_replay": [
+            0.3333333333333333,
+            0.2826086956521739
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 14,
+        "num_batches": 2,
+        "source_full": "we will we will model the dependence, like Japanese and food.",
+        "batches": [
+          {
+            "key": [
+              79.77,
+              82.8000064
+            ],
+            "delta_text": "we will we will model the dependence, like",
+            "cumulative_text": "we will we will model the dependence, like",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              82.8000064,
+              84.410007
+            ],
+            "delta_text": "Japanese and food.",
+            "cumulative_text": "we will we will model the dependence, like Japanese and food.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "依存関係をモデル化していきます、例えば……",
+              "日本語と食べ物のように、その依存関係をモデル化し、"
+            ],
+            [
+              "依存関係をモデル化していきます、例えば……",
+              "日本語と食べ物のように、その依存関係をモデル化し、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "依存関係をモデル化します、例えば、",
+              "依存関係をモデル化します、例えば、日本語と食べ物のように。"
+            ],
+            [
+              "依存関係をモデル化していきます、例えば",
+              "依存関係をモデル化していきます、例えば日本語と食べ物のように。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.84,
+            0.84
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 15,
+        "num_batches": 2,
+        "source_full": "Okay. I know we know based on a lot of our",
+        "batches": [
+          {
+            "key": [
+              84.41,
+              87.59999479999999
+            ],
+            "delta_text": "Okay. I know we know based on a lot of",
+            "cumulative_text": "Okay. I know we know based on a lot of",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              87.59999479999999,
+              88.029995
+            ],
+            "delta_text": "our",
+            "cumulative_text": "Okay. I know we know based on a lot of our",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "はい、多くの調査結果に基づけば、私たちは承知していますが、",
+              "はい、我々の多くが知っている通り、あるいは..."
+            ],
+            [
+              "はい、多くの知見に基づけば、私たちは承知していますが、",
+              "はい、私たちの多くが知っている通り、私たちの..."
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "はい。多くのことに基づいて、私たちが知っているのは、",
+              "はい。多くのことに基づいて、私たちが知っているのは、私たちの"
+            ],
+            [
+              "はい。多くのことに基づいて私たちが知っているのは、",
+              "はい。多くのことに基づいて私たちが知っているのは、私たちの"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.0833333333333333,
+            0.96
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "a lot of our"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 16,
+        "num_batches": 2,
+        "source_full": "data set, it already know next token is they And,",
+        "batches": [
+          {
+            "key": [
+              88.03,
+              91.1999982
+            ],
+            "delta_text": "data set, it already know next token is they",
+            "cumulative_text": "data set, it already know next token is they",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              92.35,
+              93.400003
+            ],
+            "delta_text": "And,",
+            "cumulative_text": "data set, it already know next token is they And,",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "データセットにおいて、次のトークンが they であることを既に知っており、",
+              "データセットにおいて、次のトークンが they であることを既に知っており、そして、"
+            ],
+            [
+              "データセットにおいて、次のトークンが they であることを既に知っており、",
+              "データセットにおいて、次のトークンが「they」であることを既に知っており、そして、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "データセットにおいて、次のトークンが they であることを既に知っており、",
+              "データセットにおいて、次のトークンが they であることを既に知っており、そして、"
+            ],
+            [
+              "データセットにおいて、次のトークンが they であることを既に知っており、",
+              "データセットにおいて、次のトークンが they であることを既に知っており、そして、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.0,
+            0.47619047619047616
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 17,
+        "num_batches": 3,
+        "source_full": "And, also, after this, we will have a go through the layer. Is like, we will we will we normally regard it, like, a",
+        "batches": [
+          {
+            "key": [
+              92.35,
+              96.400003
+            ],
+            "delta_text": "And, also, after this, we will have a go through the",
+            "cumulative_text": "And, also, after this, we will have a go through the",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              96.57,
+              99.5999988
+            ],
+            "delta_text": "layer. Is like, we will we",
+            "cumulative_text": "And, also, after this, we will have a go through the layer. Is like, we will we",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              99.5999988,
+              101.54000099999999
+            ],
+            "delta_text": "will we normally regard it, like, a",
+            "cumulative_text": "And, also, after this, we will have a go through the layer. Is like, we will we will we normally regard it, like, a",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして、この後、詳しく見ていくのは、",
+              "そして、この後、レイヤーを確認していきます。つまり、私たちは",
+              "そして、この後、レイヤーを見ていきますが、通常これは、いわば、"
+            ],
+            [
+              "そして、この後、詳しく見ていくのは、",
+              "そして、この後、レイヤーを確認していきます。つまり、私たちは、私たちが",
+              "そして、この後、レイヤーを見ていきますが、これは通常、私たちが...のように見なしているもので、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして、この後、詳しく見ていくのは、",
+              "そして、この後、詳しく見ていくのは、レイヤーの中身についてです。つまり、私たちが、私たちが",
+              "そして、この後、詳しく見ていくのは、レイヤーの中身についてです。つまり、私たちが、私たちが通常、それを一つの"
+            ],
+            [
+              "そして、この後、詳しく見ていくのは、",
+              "そして、この後、詳しく見ていくのは、レイヤーの中身についてです。つまり、私たちが、私たちが",
+              "そして、この後、詳しく見ていくのは、レイヤーの中身についてです。つまり、私たちが、私たちが通常、それを一つの"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.8709677419354839,
+            0.6666666666666666
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "a [noun/object missing at the end of the sentence]"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 18,
+        "num_batches": 2,
+        "source_full": "static memory. It's like it will store many member much man",
+        "batches": [
+          {
+            "key": [
+              101.54,
+              104.59999760000001
+            ],
+            "delta_text": "static memory. It's like it will",
+            "cumulative_text": "static memory. It's like it will",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              104.59999760000001,
+              106.510001
+            ],
+            "delta_text": "store many member much man",
+            "cumulative_text": "static memory. It's like it will store many member much man",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "静的なメモリ。それはまるで、",
+              "静的メモリ、つまり、多くのメンバを保存するようなもので、多くの..."
+            ],
+            [
+              "静的なメモリであり、それはまるで、",
+              "静的メモリ。それは、多くのメンバを格納するようなもので、多くの..."
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "静的なメモリであり、それはまるで、",
+              "静的なメモリであり、それはまるで、多くの情報を蓄積するようなもので、"
+            ],
+            [
+              "静的なメモリ。それは、まるで何かが運ばれるような、あるいは何かが起こるような、",
+              "静的なメモリ。それは、まるで多くのメンバを、多くの、多くのものを格納するようなもので、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.35294117647058826,
+            0.4411764705882353
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.5813953488372093
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 60,
+            "dropped_or_distorted": [
+              "much man"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "much man"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 19,
+        "num_batches": 2,
+        "source_full": "memory, word of knowledge in this f f n",
+        "batches": [
+          {
+            "key": [
+              106.51,
+              109.6999948
+            ],
+            "delta_text": "memory, word of knowledge in this",
+            "cumulative_text": "memory, word of knowledge in this",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              109.6999948,
+              111.3299997
+            ],
+            "delta_text": "f f n",
+            "cumulative_text": "memory, word of knowledge in this f f n",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "メモリ、そしてこの中にある知識の集約は",
+              "メモリ、そしてこのFFNにおける知識の語が、"
+            ],
+            [
+              "メモリ、そしてこの中にある知識の体系は、",
+              "メモリ、そしてこのFFNにおける知識の蓄積が"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "メモリ、そしてこの中にある知識の集まりは、",
+              "メモリ、そしてこの中にある知識の集まりは、このFFNの中にある知識の集まりは、"
+            ],
+            [
+              "メモリ、そしてこの中にある知識の集まりは、",
+              "メモリ、そしてこのFFNの中にある知識の集まりは、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.45454545454545453,
+            0.5
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.48
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "word of knowledge"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 20,
+        "num_batches": 5,
+        "source_full": "layer. Normally, f f n layer, you know, just, like, a non linear transformation. It's like two layers. And MLP. Why is the upper projection in and then down projection from two to to to to",
+        "batches": [
+          {
+            "key": [
+              111.33,
+              114.4999982
+            ],
+            "delta_text": "layer. Normally, f f n layer, you know,",
+            "cumulative_text": "layer. Normally, f f n layer, you know,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              114.35,
+              118.400003
+            ],
+            "delta_text": "just, like, a non linear transformation. It's like two layers. And",
+            "cumulative_text": "layer. Normally, f f n layer, you know, just, like, a non linear transformation. It's like two layers. And",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              118.06,
+              121.400004
+            ],
+            "delta_text": "MLP. Why is the upper projection in",
+            "cumulative_text": "layer. Normally, f f n layer, you know, just, like, a non linear transformation. It's like two layers. And MLP. Why is the upper projection in",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              121.14,
+              125.5000006
+            ],
+            "delta_text": "and then down projection from two to",
+            "cumulative_text": "layer. Normally, f f n layer, you know, just, like, a non linear transformation. It's like two layers. And MLP. Why is the upper projection in and then down projection from two to",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              124.37,
+              126.1999942
+            ],
+            "delta_text": "to to to",
+            "cumulative_text": "layer. Normally, f f n layer, you know, just, like, a non linear transformation. It's like two layers. And MLP. Why is the upper projection in and then down projection from two to to to to",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "レイヤー。通常、FFNレイヤーというのは、",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2つの層で構成されており、そして",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2層のMLPのような構成ですが、なぜ上方へのプロジェクションが",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2層のMLPのような構成です。なぜ上方射影してから、2層から下方射影するのかというと、",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2層のMLPのような構成です。なぜアッププロジェクションを行い、その後ダウンプロジェクションを2から、ええと、"
+            ],
+            [
+              "レイヤー。通常、FFNレイヤーというのは、",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2つの層で構成されており、そして",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2層のMLPのような構成ですが、なぜ上方へのプロジェクションが",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2層のMLPのような構成です。なぜ上方射影してから、2層から下方射影するのかというと、",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2層のMLPのような構成です。なぜアッププロジェクションを行い、その後ダウンプロジェクションを2から、ええと、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "レイヤー。通常、FFNレイヤーは、",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2つのレイヤーで構成されており、",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2つのレイヤーで構成されており、MLPでもあります。なぜ上位射影が",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2つのレイヤーで構成されており、MLPでもあります。なぜ上位射影が行われ、そこから下位射影が2から",
+              "レイヤー。通常、FFNレイヤーは、単なる非線形変換のようなもので、2つのレイヤーで構成されており、MLPでもあります。なぜ上位射影が行われ、そこから下位射影が2から、2から、2から、2へと"
+            ],
+            [
+              "レイヤー。通常、FFNレイヤーというのは、",
+              "レイヤー。通常、FFNレイヤーというのは、単なる非線形変換のようなもので、2つのレイヤーで構成されており、",
+              "レイヤー。通常、FFNレイヤーというのは、単なる非線形変換のようなもので、2つのレイヤーで構成されており、MLPとも呼ばれます。なぜ、この上位射影が",
+              "レイヤー。通常、FFNレイヤーというのは、単なる非線形変換のようなもので、2つのレイヤーで構成されており、MLPとも呼ばれます。なぜ、この上位射影が行われ、そこから2へと下位射影されるのか、その理由は",
+              "レイヤー。通常、FFNレイヤーというのは、単なる非線形変換のようなもので、2つのレイヤーで構成されており、MLPとも呼ばれます。なぜ、この上位射影が行われ、そこから2へと下位射影されるのか、その理由は"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.7272727272727273,
+            0.7272727272727273
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "to to to to"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "up-projection",
+              "down-projection"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 21,
+        "num_batches": 4,
+        "source_full": "Size vector. And go by stacking lot of decoding decoder blocks in transformer, we have a output layer to decide which one which are next token.",
+        "batches": [
+          {
+            "key": [
+              128.8,
+              131.8
+            ],
+            "delta_text": "Size vector. And go by stacking",
+            "cumulative_text": "Size vector. And go by stacking",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              132.15,
+              135.8000092
+            ],
+            "delta_text": "lot of decoding decoder blocks in transformer, we",
+            "cumulative_text": "Size vector. And go by stacking lot of decoding decoder blocks in transformer, we",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              135.89,
+              139.1999976
+            ],
+            "delta_text": "have a output layer to decide which one",
+            "cumulative_text": "Size vector. And go by stacking lot of decoding decoder blocks in transformer, we have a output layer to decide which one",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              139.1999976,
+              140.770005
+            ],
+            "delta_text": "which are next token.",
+            "cumulative_text": "Size vector. And go by stacking lot of decoding decoder blocks in transformer, we have a output layer to decide which one which are next token.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "サイズベクトル、そして積み重ねることで",
+              "サイズベクトル。そして、Transformerのデコーダーブロックを多数積み重ねることで、我々は",
+              "サイズベクトル。そして、Transformerのデコーダーブロックを多数積み重ねることで、どれにするかを決定する出力レイヤーがあり、",
+              "サイズベクトルです。そして、Transformerのデコーダーブロックを多数積み重ねることで、次のトークンがどれになるかを決定する出力レイヤーへと至り、"
+            ],
+            [
+              "サイズベクトル、そして積み重ねることで",
+              "サイズベクトル。そして、Transformerのデコーダーブロックを多数積み重ねることで、我々は",
+              "サイズベクトル。そして、Transformerのデコーダーブロックを多数積み重ねることで、どれにするかを決定する出力レイヤーがあり、",
+              "サイズベクトルです。そして、Transformerのデコーダーブロックを多数積み重ねることで、次のトークンがどれになるかを決定する出力レイヤーへと至り、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "サイズベクトル、そして積み重ねることで",
+              "サイズベクトル、そしてTransformerのデコーダーブロックをいくつも積み重ねることで、我々は",
+              "サイズベクトル、そしてTransformerのデコーダーブロックをいくつも積み重ねることで、我々は、どれを選択するかを決定するための出力層を備え、",
+              "サイズベクトル、そしてTransformerのデコーダーブロックをいくつも積み重ねることで、我々は、どれが次のトークンであるかを決定するための出力層を備え、"
+            ],
+            [
+              "サイズベクトル、そして積み重ねることで",
+              "サイズベクトル、そしてTransformerのデコーダーブロックを多数積み重ねることで、我々は",
+              "サイズベクトル、そしてTransformerのデコーダーブロックを多数積み重ねることで、どの単語を選択するかを決定する出力層を備え",
+              "サイズベクトル、そしてTransformerのデコーダーブロックを多数積み重ねることで、次のトークンがどれであるかを決定する出力層を備え"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.9736842105263158,
+            0.9736842105263158
+          ],
+          "soft_anchor_replay": [
+            0.3717948717948718,
+            0.47058823529411764
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "Size vector"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "Size vector"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 22,
+        "num_batches": 2,
+        "source_full": "I will block either same so we could stack it again and again, make it",
+        "batches": [
+          {
+            "key": [
+              145.35,
+              148.3999878
+            ],
+            "delta_text": "I will block either same so we could stack it",
+            "cumulative_text": "I will block either same so we could stack it",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              148.3999878,
+              149.629999
+            ],
+            "delta_text": "again and again, make it",
+            "cumulative_text": "I will block either same so we could stack it again and again, make it",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "同じものをブロック化して、積み重ねられるようにします",
+              "同じようにブロック化することで、何度も積み重ねられるようにし、それを"
+            ],
+            [
+              "積み重ねることができるように、どちらかをブロックして",
+              "同じようにブロック化することで、何度も積み重ねられるようにし、それを"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "積み重ねることができるように、どちらかをブロックして",
+              "積み重ねることができるように、どちらかをブロックして、何度も何度も積み上げられるように、それを"
+            ],
+            [
+              "同じものをブロック化して、積み重ねられるようにします",
+              "同じものをブロック化して、何度も積み重ねられるようにし、それを"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.7058823529411765,
+            0.7647058823529411
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.41935483870967744
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 23,
+        "num_batches": 2,
+        "source_full": "transform very big. And make it very big, we could train the transformer on",
+        "batches": [
+          {
+            "key": [
+              149.63,
+              152.7999982
+            ],
+            "delta_text": "transform very big. And make it very big, we could",
+            "cumulative_text": "transform very big. And make it very big, we could",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              152.8,
+              155.35000300000002
+            ],
+            "delta_text": "train the transformer on",
+            "cumulative_text": "transform very big. And make it very big, we could train the transformer on",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "非常に大きく変換し、そしてそれを非常に大きくすることで、我々は",
+              "トランスフォーマーを非常に大きくし、そして巨大化させることで、そのトランスフォーマーを学習させることが可能になります、"
+            ],
+            [
+              "非常に大きく変換し、そしてそれを非常に大きくすることで、我々は",
+              "非常に大きく変換し、そしてそれを巨大なものにすることで、そのTransformerを学習させることができました、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "非常に大きく変革し、そしてそれを非常に大きくすることで、我々は",
+              "非常に大きく変革し、そしてそれを非常に大きくすることで、我々はTransformerを学習させることができました、"
+            ],
+            [
+              "非常に大きく変換し、そしてそれを非常に大きくすることで、我々は",
+              "非常に大きく変換し、そしてそれを非常に大きくすることで、我々はTransformerを訓練することができました、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5254237288135594,
+            0.26785714285714285
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 70,
+            "dropped_or_distorted": [
+              "transform",
+              "the transformer"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 24,
+        "num_batches": 3,
+        "source_full": "And after training on it, you it's we this is a process. We call it a pretraining. pretraining.",
+        "batches": [
+          {
+            "key": [
+              161.53,
+              165.3000043
+            ],
+            "delta_text": "And after training on it, you",
+            "cumulative_text": "And after training on it, you",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              164.91,
+              168.6000024
+            ],
+            "delta_text": "it's we this is a process. We call it a pretraining.",
+            "cumulative_text": "And after training on it, you it's we this is a process. We call it a pretraining.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              168.6000024,
+              168.7400018
+            ],
+            "delta_text": "pretraining.",
+            "cumulative_text": "And after training on it, you it's we this is a process. We call it a pretraining. pretraining.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして、そのデータで学習させた後、あなたは",
+              "そして、そのデータで学習させた後、これは一つのプロセスであり、私たちはこれを事前学習と呼んでいます。",
+              "そして、そのデータで学習させた後、これは一つのプロセスであり、我々はこれを事前学習、事前学習と呼んでいます。"
+            ],
+            [
+              "そして、それを用いて学習を行った後、あなたは",
+              "そして、そのデータで学習させた後、これは一つのプロセスであり、私たちはこれを事前学習と呼んでいます。",
+              "そして、そのデータで学習させた後、これは一つのプロセスであり、私たちはこれを事前学習、事前学習と呼んでいます。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして、そのデータで学習させた後、あなたは",
+              "そして、そのデータで学習させた後、これは一つのプロセスであり、私たちはこれを事前学習と呼んでいます。",
+              "そして、そのデータで学習させた後、これは一つのプロセスであり、私たちはこれを事前学習、事前学習と呼んでいます。"
+            ],
+            [
+              "そして、そのデータで学習させた後、あなたは",
+              "そして、そのデータで学習させた後、これは一つのプロセスであり、私たちはこれを事前学習と呼んでいます。",
+              "そして、そのデータで学習させた後、これは一つのプロセスであり、私たちはこれを事前学習、事前学習と呼んでいます。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.42592592592592593,
+            0.45454545454545453
+          ],
+          "soft_anchor_replay": [
+            0.21818181818181817,
+            0.21818181818181817
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 25,
+        "num_batches": 3,
+        "source_full": "And after training it, we will have a laundry model. It like, a GP suite. It already know it",
+        "batches": [
+          {
+            "key": [
+              168.74,
+              172.4999945
+            ],
+            "delta_text": "And after training it, we will have a laundry model. It",
+            "cumulative_text": "And after training it, we will have a laundry model. It",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              172.33,
+              176.30000120000003
+            ],
+            "delta_text": "like, a GP suite. It already know",
+            "cumulative_text": "And after training it, we will have a laundry model. It like, a GP suite. It already know",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              176.30000120000003,
+              176.91000200000002
+            ],
+            "delta_text": "it",
+            "cumulative_text": "And after training it, we will have a laundry model. It like, a GP suite. It already know it",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして、それを学習させた後、言語モデルが得られます。それは",
+              "そして、学習を終えると、言語モデルが出来上がります。これはGPTのようなもので、すでに知っているのは",
+              "そして、学習を終えると、言語モデルが出来上がります。それはGPTのようなもので、すでに知っており、"
+            ],
+            [
+              "そして、これを学習させた後、言語モデルが得られます。それ",
+              "そして、学習を終えると、言語モデルが出来上がります。これはGPTのようなもので、すでに知っているのは",
+              "そして、トレーニングを終えると、言語モデルが出来上がります。それはGPTのようなもので、すでに知っており、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして、それを学習させた後、言語モデルが得られます。それは",
+              "そして、それを学習させた後、言語モデルが得られます。それは、GPTのようなもので、すでに知って",
+              "そして、それを学習させた後、言語モデルが得られます。それは、GPTのようなもので、すでに知って"
+            ],
+            [
+              "そして、それを学習させた後、言語モデルが完成します。それは",
+              "そして、それを学習させた後、言語モデルが完成します。それは、GPTのようなもので、すでに知っています",
+              "そして、それを学習させた後、言語モデルが完成します。それは、GPTのようなもので、すでに知っています"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.0,
+            1.320754716981132
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "laundry model"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 75,
+            "dropped_or_distorted": [
+              "laundry model",
+              "GP suite"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 26,
+        "num_batches": 2,
+        "source_full": "stores a lot of our word knowledge into the language model.",
+        "batches": [
+          {
+            "key": [
+              176.91,
+              180.1000024
+            ],
+            "delta_text": "stores a lot of our word knowledge into",
+            "cumulative_text": "stores a lot of our word knowledge into",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              180.1000024,
+              180.9499933
+            ],
+            "delta_text": "the language model.",
+            "cumulative_text": "stores a lot of our word knowledge into the language model.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "私たちの単語知識の多くを蓄積しており、",
+              "私たちの知識の多くを言語モデルに蓄積し、"
+            ],
+            [
+              "私たちの単語に関する知識の多くを、そこに格納しており、",
+              "多くの知識を言語モデルに蓄積し、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "私たちの単語に関する知識の多くを、そこに格納しており、",
+              "私たちの単語に関する知識の多くを、言語モデルに格納しています。"
+            ],
+            [
+              "私たちの単語に関する知識の多くを、そこに格納し、",
+              "私たちの単語に関する知識の多くを、言語モデルに格納しています。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.75,
+            1.6875
+          ],
+          "soft_anchor_replay": [
+            0.3225806451612903,
+            0.22580645161290322
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "word knowledge"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 27,
+        "num_batches": 3,
+        "source_full": "So but the thing is, like, even if we it knows, g p three knows a lot how word knowledge.",
+        "batches": [
+          {
+            "key": [
+              180.95,
+              184.500003
+            ],
+            "delta_text": "So but the thing is, like, even if we",
+            "cumulative_text": "So but the thing is, like, even if we",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              184.15,
+              187.8000092
+            ],
+            "delta_text": "it knows, g p three knows a lot how",
+            "cumulative_text": "So but the thing is, like, even if we it knows, g p three knows a lot how",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              187.8000092,
+              188.880011
+            ],
+            "delta_text": "word knowledge.",
+            "cumulative_text": "So but the thing is, like, even if we it knows, g p three knows a lot how word knowledge.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "ですが、たとえ私たちが",
+              "しかし、問題は、たとえGPT-3が多くのことを知っていたとしても、どのようにして",
+              "しかし、実態としては、GPT-3は単語に関する知識、つまり知識を豊富に持っているとしても、"
+            ],
+            [
+              "ですが、たとえ私たちが",
+              "しかし、問題なのは、たとえ GPT-3 が多くのことを知っているとしても、どのようにして",
+              "しかし、実態としては、GPT-3は単語に関する知識、つまり知識を豊富に持っているとしても、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "しかし、たとえ私たちが",
+              "しかし、たとえ GPT-3 が多くのことを知っているとしても、どのようにして",
+              "しかし、たとえ GPT-3 が多くのことを知っているとしても、どのようにしてその知識を、"
+            ],
+            [
+              "しかし、たとえ私たちが",
+              "しかし、たとえGPT-3が多くのことを知っているとしても、どのように",
+              "しかし、たとえGPT-3が多くのことを知っているとしても、どのように知識を"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.0444444444444445,
+            1.1333333333333333
+          ],
+          "soft_anchor_replay": [
+            0.09090909090909091,
+            0.10810810810810811
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "So but the thing is",
+              "even if we it knows"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 60,
+            "dropped_or_distorted": [
+              "word knowledge",
+              "the main point about the limitation of that knowledge"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 28,
+        "num_batches": 2,
+        "source_full": "You don't know how to answer human's question. So not we just do",
+        "batches": [
+          {
+            "key": [
+              188.88,
+              191.899989
+            ],
+            "delta_text": "You don't know how to answer human's question. So not",
+            "cumulative_text": "You don't know how to answer human's question. So not",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              191.899989,
+              193.00998959999998
+            ],
+            "delta_text": "we just do",
+            "cumulative_text": "You don't know how to answer human's question. So not we just do",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "人間の質問にどう答えるべきか分からず、そのため、単に ──",
+              "人間からの質問にどう答えるべきか分からない、そこで単に"
+            ],
+            [
+              "人間からの質問にどう答えていいか分からず、そのため、単に",
+              "人間からの質問にどう答えるべきか分からない。ですから、単にそうするのではなく、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "人間の質問にどう答えるべきか分からないため、",
+              "人間の質問にどう答えるべきか分からないため、単に実行するのではなく、"
+            ],
+            [
+              "人間の質問にどう答えていいか分からないため、",
+              "人間の質問にどう答えていいか分からないため、単に実行するのではなく、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.0,
+            0.41025641025641024
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 75,
+            "dropped_or_distorted": [
+              "we just do"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 75,
+            "dropped_or_distorted": [
+              "we just do"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 29,
+        "num_batches": 2,
+        "source_full": "future to pro promoting to let the answer some questions.",
+        "batches": [
+          {
+            "key": [
+              193.01,
+              196.2000024
+            ],
+            "delta_text": "future to pro promoting to let the",
+            "cumulative_text": "future to pro promoting to let the",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              196.2000024,
+              197.9500024
+            ],
+            "delta_text": "answer some questions.",
+            "cumulative_text": "future to pro promoting to let the answer some questions.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "将来的に、促進するために、そして ――",
+              "それでは、いくつか質問にお答えしていこうと思いまして、"
+            ],
+            [
+              "将来的に、促進するために、そして ――",
+              "それでは、いくつか質問にお答えしていこうと思います。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "将来的に、促進するために、そして ――",
+              "将来的に、促進するために、そしていくつかの質問に答えるために ――"
+            ],
+            [
+              "将来的に、促進するために、そして ――",
+              "将来的に、促進するために、そしていくつかの質問に答えるために、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.7037037037037037,
+            0.7307692307692307
+          ],
+          "soft_anchor_replay": [
+            0.09090909090909091,
+            0.0967741935483871
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 60,
+            "dropped_or_distorted": [
+              "future to pro",
+              "promoting"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 30,
+        "num_batches": 2,
+        "source_full": "So to alleviate it, we we will do SFD.",
+        "batches": [
+          {
+            "key": [
+              197.95,
+              201.000003
+            ],
+            "delta_text": "So to alleviate it, we we will do",
+            "cumulative_text": "So to alleviate it, we we will do",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              201.000003,
+              201.8699982
+            ],
+            "delta_text": "SFD.",
+            "cumulative_text": "So to alleviate it, we we will do SFD.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "ですので、それを軽減するために、我々が行うのは",
+              "ですので、それを軽減するために、SFDを行います。"
+            ],
+            [
+              "ですので、それを軽減するために、我々が行うのは",
+              "ですので、それを軽減するために、SFDを行います。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "ですので、それを軽減するために、我々が行うのは",
+              "ですので、それを軽減するために、我々が行うのはSFDです。"
+            ],
+            [
+              "ですので、それを軽減するために、我々が行うのは",
+              "ですので、それを軽減するために、我々が行うのはSFDです。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.28,
+            0.28
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 31,
+        "num_batches": 4,
+        "source_full": "SFT is, like, give them a question, give them an answer, and we just fine tune the pretrained model in the SFT In the SFT in the this SFT data dataset, it will",
+        "batches": [
+          {
+            "key": [
+              201.87,
+              205.00000500000002
+            ],
+            "delta_text": "SFT is, like, give them a question, give them an answer,",
+            "cumulative_text": "SFT is, like, give them a question, give them an answer,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              204.89,
+              209.6999976
+            ],
+            "delta_text": "and we just fine tune the pretrained model in the SFT",
+            "cumulative_text": "SFT is, like, give them a question, give them an answer, and we just fine tune the pretrained model in the SFT",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              208.48,
+              211.8999982
+            ],
+            "delta_text": "In the SFT in the this SFT data",
+            "cumulative_text": "SFT is, like, give them a question, give them an answer, and we just fine tune the pretrained model in the SFT In the SFT in the this SFT data",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              211.8999982,
+              213.450001
+            ],
+            "delta_text": "dataset, it will",
+            "cumulative_text": "SFT is, like, give them a question, give them an answer, and we just fine tune the pretrained model in the SFT In the SFT in the this SFT data dataset, it will",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "SFTとは、質問を与え、それに対する回答を与えるという、",
+              "SFTとは、質問と回答を与えて、そのSFTの中で事前学習済みモデルを微調整するもので、",
+              "SFTとは、質問と回答を与えて、そのSFTデータを用いて事前学習済みモデルをファインチューニングすることであり、",
+              "SFTとは、質問と回答を与えて、事前学習済みモデルをそのSFTデータセットでファインチューニングすることであり、これによってモデルは"
+            ],
+            [
+              "SFTとは、質問を与え、それに対する回答を与えるという、",
+              "SFTとは、質問と回答を与え、そのSFTにおいて事前学習済みモデルをファインチューニングするもので、",
+              "SFTとは、質問と回答を与えて、そのSFTデータを用いて事前学習済みモデルをファインチューニングすることであり、",
+              "SFTとは、質問と回答を与え、事前学習済みモデルをこのSFTデータセットでファインチューニングするもので、これによってモデルは"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "SFTとは、質問を与え、それに対する回答を与えるという、",
+              "SFTとは、質問を与え、それに対する回答を与えるという、事前学習済みモデルをSFTでファインチューニングする手法で、",
+              "SFTとは、質問を与え、それに対する回答を与えるという、事前学習済みモデルをこのSFTデータでファインチューニングする手法で、",
+              "SFTとは、質問を与え、それに対する回答を与えるという、事前学習済みモデルをこのSFTデータセットでファインチューニングする手法で、これによってモデルは"
+            ],
+            [
+              "SFTとは、質問を与え、それに対する回答を与えるという、",
+              "SFTとは、質問を与え、それに対する回答を与えるという、事前学習済みモデルをSFTでファインチューニングする手法で、",
+              "SFTとは、質問を与え、それに対する回答を与えるという、事前学習済みモデルをSFTで、このSFTデータでファインチューニングする手法で、",
+              "SFTとは、質問を与え、それに対する回答を与えるという、事前学習済みモデルをSFTで、このSFTデータセットでファインチューニングする手法で、これによって"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.2424242424242424,
+            1.5555555555555556
+          ],
+          "soft_anchor_replay": [
+            0.4868421052631579,
+            0.42857142857142855
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 32,
+        "num_batches": 2,
+        "source_full": "learn how to how to answer to do instruction following and how to answer human questions.",
+        "batches": [
+          {
+            "key": [
+              213.45,
+              216.500003
+            ],
+            "delta_text": "learn how to how to answer",
+            "cumulative_text": "learn how to how to answer",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              216.56,
+              221.0800043
+            ],
+            "delta_text": "to do instruction following and how to answer human questions.",
+            "cumulative_text": "learn how to how to answer to do instruction following and how to answer human questions.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "答え方を学習し、",
+              "指示に従う方法や、人間の質問に答える方法を学習し、"
+            ],
+            [
+              "答え方を学ぶために",
+              "指示に従う方法や、人間の質問に答える方法を学習し、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "答え方を学ぶために",
+              "答え方を学ぶために、指示に従うことや、人間の質問にどう答えるかを学びます。"
+            ],
+            [
+              "答え方を学ぶために",
+              "答え方を学ぶために、指示に従うことや、人間の質問にどう答えるかを学習し、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.32,
+            0.36
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "learn how to (initial repetition ignored)"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 33,
+        "num_batches": 4,
+        "source_full": "However, in this stage in this stage, because it's just a language model, it just like learn the format. The human ready for him.",
+        "batches": [
+          {
+            "key": [
+              221.08,
+              224.10000430000002
+            ],
+            "delta_text": "However, in this stage in this stage,",
+            "cumulative_text": "However, in this stage in this stage,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              224.13,
+              227.899989
+            ],
+            "delta_text": "because it's just a language model, it",
+            "cumulative_text": "However, in this stage in this stage, because it's just a language model, it",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              227.96,
+              231.1999902
+            ],
+            "delta_text": "just like learn the format. The human",
+            "cumulative_text": "However, in this stage in this stage, because it's just a language model, it just like learn the format. The human",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              231.1999902,
+              232.2999963
+            ],
+            "delta_text": "ready for him.",
+            "cumulative_text": "However, in this stage in this stage, because it's just a language model, it just like learn the format. The human ready for him.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "しかし、この段階では、",
+              "しかし、この段階では、単なる言語モデルであるため、それは",
+              "しかし、この段階では、単なる言語モデルであるため、形式を学習するだけで、人間が",
+              "しかし、この段階では、単なる言語モデルに過ぎないため、人間が用意した形式を学習するだけで、"
+            ],
+            [
+              "しかし、この段階では、",
+              "しかし、この段階では、これは単なる言語モデルであるため、それは",
+              "しかし、この段階では、単なる言語モデルに過ぎないため、形式を学習するだけで、人間が",
+              "しかし、この段階では、単なる言語モデルに過ぎないため、人間が用意した形式を学習するだけで、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "しかし、この段階では、",
+              "しかし、この段階では、単なる言語モデルであるため、それは",
+              "しかし、この段階では、単なる言語モデルであるため、それは単に形式を学習しているに過ぎません。人間が",
+              "しかし、この段階では、単なる言語モデルであるため、それは単に形式を学習しているに過ぎません。人間が準備を整え、"
+            ],
+            [
+              "しかし、この段階では、",
+              "しかし、この段階では、単なる言語モデルであるため、それは",
+              "しかし、この段階では、単なる言語モデルであるため、それは単に形式を学習するだけであり、人間が",
+              "しかし、この段階では、単なる言語モデルであるため、それは単に形式を学習するだけであり、人間が用意した形式を学習します。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5111111111111111,
+            0.7555555555555555
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "The human ready for him"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 75,
+            "dropped_or_distorted": [
+              "The human ready for him"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 34,
+        "num_batches": 4,
+        "source_full": "And it's just just like you can just mimics the one t it's just like a student and just a mimi the what the teacher tell him to do. It's it",
+        "batches": [
+          {
+            "key": [
+              232.3,
+              235.699994
+            ],
+            "delta_text": "And it's just just like you can just mimics the",
+            "cumulative_text": "And it's just just like you can just mimics the",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              235.56,
+              239.3000055
+            ],
+            "delta_text": "one t it's just like a student and just a mimi",
+            "cumulative_text": "And it's just just like you can just mimics the one t it's just like a student and just a mimi",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              239.54,
+              242.6000128
+            ],
+            "delta_text": "the what the teacher tell him to do. It's",
+            "cumulative_text": "And it's just just like you can just mimics the one t it's just like a student and just a mimi the what the teacher tell him to do. It's",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              242.6000128,
+              242.86000729999998
+            ],
+            "delta_text": "it",
+            "cumulative_text": "And it's just just like you can just mimics the one t it's just like a student and just a mimi the what the teacher tell him to do. It's it",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "それはまるで、単に〜を模倣できるかのようなもので、",
+              "それはまるで、学生がただ真似をするように、1つのことを模倣しているだけであり、",
+              "それはまるで、生徒が先生に言われたことをそのまま真似るかのようで、単に ――",
+              "それはまるで、生徒が先生に言われたことをそのまま真似るかのようで、それはまさに"
+            ],
+            [
+              "そして、それはまるで、単に〜を模倣できるかのような",
+              "それはまるで、学生がただ真似をするかのように、1つのことを模倣しているだけであり、",
+              "それはまるで、生徒が先生に言われたことをそのまま真似るかのようで、単に ――",
+              "それはまるで、生徒が教師に言われたことをそのまま真似るかのようで、ただ単に ――"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "それは、まるで単に模倣しているかのようで、",
+              "それは、まるで単に模倣しているかのようで、まるで生徒がただ真似をしているだけのようであり、",
+              "それは、まるで単に模倣しているかのようで、まるで生徒がただ先生に言われたことを真似しているだけのようであり、それは",
+              "それは、まるで単に模倣しているかのようで、まるで生徒がただ先生に言われたことを真似しているだけのようであり、それは、それは"
+            ],
+            [
+              "そして、それはまるで、単に〜を模倣できるかのような",
+              "そして、それはまるで、単に学生が単に模倣しているかのような、あるいは単にまねをしているかのような",
+              "そして、それはまるで、単に学生が単に模倣しているかのような、あるいは単に先生に言われたことをそのまま真似しているかのような、それは",
+              "そして、それはまるで、単に学生が先生に言われたことをそのまま真似しているかのような、それは、それは"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.4102564102564104,
+            2.15
+          ],
+          "soft_anchor_replay": [
+            0.26229508196721313,
+            1.489795918367347
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 35,
+        "num_batches": 2,
+        "source_full": "cannot really understand the questions. So on this, we",
+        "batches": [
+          {
+            "key": [
+              242.86,
+              246.8000024
+            ],
+            "delta_text": "cannot really understand the questions. So",
+            "cumulative_text": "cannot really understand the questions. So",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              247.8,
+              248.8
+            ],
+            "delta_text": "on this, we",
+            "cumulative_text": "cannot really understand the questions. So on this, we",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "質問を正しく理解することができないため、",
+              "質問を十分に理解することができません。そこで、これについて私たちは"
+            ],
+            [
+              "質問を正しく理解することができないため、",
+              "質問を正しく理解することができません。そこで、これについて私たちは"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "質問を正しく理解することができないため、",
+              "質問を正しく理解することができないため、これに関して私たちは"
+            ],
+            [
+              "質問を正しく理解することができないため、",
+              "質問を正しく理解することができないため、これについて私たちは"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5151515151515151,
+            0.15151515151515152
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 36,
+        "num_batches": 2,
+        "source_full": "on this, we will do the third stage. It's like like IO fine tuning.",
+        "batches": [
+          {
+            "key": [
+              247.8,
+              251.499997
+            ],
+            "delta_text": "on this, we will do the third stage. It's like",
+            "cumulative_text": "on this, we will do the third stage. It's like",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              250.85,
+              253.4499908
+            ],
+            "delta_text": "like IO fine tuning.",
+            "cumulative_text": "on this, we will do the third stage. It's like like IO fine tuning.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "これに関して、第3段階を行います。それは、まるで",
+              "これに基づき、第3段階を行います。これはIOファインチューニングのようなもので、"
+            ],
+            [
+              "これについて、第3段階を行います。それは、まるで",
+              "これに対して、第3段階を行います。これはIOファインチューニングのようなもので、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "これについて、第3段階を行います。それは、まるで",
+              "これについて、第3段階を行います。それは、まるでIOファインチューニングのようなものです。"
+            ],
+            [
+              "これについて、第3段階を行います。それは、まるで",
+              "これについて、第3段階を行います。それは、まるで IO fine tuning のようなもので、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.525,
+            0.525
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 37,
+        "num_batches": 2,
+        "source_full": "You the with IO, we will have a reward.",
+        "batches": [
+          {
+            "key": [
+              253.45,
+              256.500003
+            ],
+            "delta_text": "You the with IO, we will have",
+            "cumulative_text": "You the with IO, we will have",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              256.500003,
+              257.31000059999997
+            ],
+            "delta_text": "a reward.",
+            "cumulative_text": "You the with IO, we will have a reward.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "IOによって、我々は",
+              "IOを用いることで、報酬が得られるようになり、"
+            ],
+            [
+              "IOによって、我々は",
+              "IOを用いることで、報酬が得られるようになり、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "IOによって、我々は",
+              "IOによって、我々は報酬を得ることになります"
+            ],
+            [
+              "IOを用いることで、我々は",
+              "IOを用いることで、我々は報酬を得ることになります。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.34782608695652173,
+            0.34782608695652173
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 38,
+        "num_batches": 2,
+        "source_full": "And then the language model will generate the sales answer. and as a",
+        "batches": [
+          {
+            "key": [
+              257.31,
+              260.5000024
+            ],
+            "delta_text": "And then the language model will generate the sales answer.",
+            "cumulative_text": "And then the language model will generate the sales answer.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              260.5000024,
+              261.440005
+            ],
+            "delta_text": "and as a",
+            "cumulative_text": "And then the language model will generate the sales answer. and as a",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして、言語モデルが販売の回答を生成します。",
+              "そして、言語モデルが営業の回答を生成し、さらに、"
+            ],
+            [
+              "そして、言語モデルが販売の回答を生成し、",
+              "そして、言語モデルが販売の回答を生成し、さらに、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして、言語モデルが販売の回答を生成します。",
+              "そして、言語モデルが販売の回答を生成します。そして、"
+            ],
+            [
+              "そして、言語モデルが販売の回答を生成し、",
+              "そして、言語モデルが販売の回答を生成し、そして、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5,
+            0.0
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 39,
+        "num_batches": 2,
+        "source_full": "and we will have reward. The reward is, like, maybe it's a human labeling. That's",
+        "batches": [
+          {
+            "key": [
+              261.44,
+              264.6000037
+            ],
+            "delta_text": "and we will have reward. The reward is, like,",
+            "cumulative_text": "and we will have reward. The reward is, like,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              264.6000037,
+              266.410001
+            ],
+            "delta_text": "maybe it's a human labeling. That's",
+            "cumulative_text": "and we will have reward. The reward is, like, maybe it's a human labeling. That's",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして報酬が得られます。その報酬とは、いわば、",
+              "そして報酬が得られます。その報酬とは、例えば人間によるラベル付けのようなもので、それは"
+            ],
+            [
+              "そして報酬が得られます。その報酬とは、いわば、",
+              "そして報酬が得られます。その報酬とは、例えば人間によるラベリングのようなもので、それは"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして報酬が得られます。その報酬とは、いわば、",
+              "そして報酬が得られます。その報酬とは、いわば、人間によるラベル付けのようなもので、それは"
+            ],
+            [
+              "そして報酬が得られます。その報酬とは、いわば",
+              "そして報酬が得られます。その報酬とは、いわば人間によるラベリングのようなもので、それは"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.09302325581395349,
+            0.09302325581395349
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 40,
+        "num_batches": 2,
+        "source_full": "IHF. And also maybe, recently, we will have a verify",
+        "batches": [
+          {
+            "key": [
+              266.41,
+              269.60000240000005
+            ],
+            "delta_text": "IHF. And also maybe, recently, we",
+            "cumulative_text": "IHF. And also maybe, recently, we",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              269.60000240000005,
+              270.959988
+            ],
+            "delta_text": "will have a verify",
+            "cumulative_text": "IHF. And also maybe, recently, we will have a verify",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "IHF、そしておそらく最近、私たちは",
+              "IHF、そしておそらく最近では、検証を伴うような"
+            ],
+            [
+              "IHF、そしておそらく最近、私たちは",
+              "IHF、そしておそらく最近では、検証を伴うような"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "IHF、そしておそらく最近、私たちは",
+              "IHF、そしておそらく最近、私たちは検証を"
+            ],
+            [
+              "IHF、そしておそらく最近、私たちは",
+              "IHF、そしておそらく最近、私たちは検証を"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.20833333333333334,
+            0.20833333333333334
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 80,
+            "dropped_or_distorted": [
+              "will have a verify"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 41,
+        "num_batches": 2,
+        "source_full": "report reward in mass and coding. To with this reward, it will",
+        "batches": [
+          {
+            "key": [
+              270.96,
+              274.0000085
+            ],
+            "delta_text": "report reward in mass and coding.",
+            "cumulative_text": "report reward in mass and coding.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              274.01,
+              277.390005
+            ],
+            "delta_text": "To with this reward, it will",
+            "cumulative_text": "report reward in mass and coding. To with this reward, it will",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "数学とコーディングにおける報酬を報告し、",
+              "数学とコーディングにおける報酬を報告し、この報酬によって、それは"
+            ],
+            [
+              "数学とコーディングにおける報酬を報告し、",
+              "数学やコーディングにおける報酬を報告します。この報酬を用いることで、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "数学とコーディングにおける報酬を報告し、",
+              "数学とコーディングにおける報酬を報告し、この報酬を用いて、それが"
+            ],
+            [
+              "数学とコーディングにおける報酬を報告し、",
+              "数学とコーディングにおける報酬を報告し、この報酬を用いて、それが"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.0,
+            0.5294117647058824
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "mass"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "mass"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 42,
+        "num_batches": 2,
+        "source_full": "get out of the laundry model to crack a sales answer.",
+        "batches": [
+          {
+            "key": [
+              277.39,
+              280.39997919999996
+            ],
+            "delta_text": "get out of the laundry model to crack a",
+            "cumulative_text": "get out of the laundry model to crack a",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              280.39997919999996,
+              281.429978
+            ],
+            "delta_text": "sales answer.",
+            "cumulative_text": "get out of the laundry model to crack a sales answer.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "言語モデルを抜け出し、新たな道を切り拓くために",
+              "言語モデルから抜け出し、正解を導き出すために"
+            ],
+            [
+              "言語モデルから抜け出し、突破するための",
+              "言語モデルから抜け出し、正解を導き出すために"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "言語モデルから抜け出し、突破するための",
+              "言語モデルから抜け出し、売上の答えを導き出すための"
+            ],
+            [
+              "言語モデルを抜け出して、あるものを解明するために",
+              "言語モデルを抜け出して、売上の答えを解明するために"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.8181818181818182,
+            0.3181818181818182
+          ],
+          "soft_anchor_replay": [
+            0.28,
+            0.48
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "laundry model",
+              "sales answer"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "laundry model"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 43,
+        "num_batches": 2,
+        "source_full": "It's like, okay. Well, you have a new question, and you can change your own",
+        "batches": [
+          {
+            "key": [
+              281.43,
+              284.6000134
+            ],
+            "delta_text": "It's like, okay. Well, you have a new question, and you can change",
+            "cumulative_text": "It's like, okay. Well, you have a new question, and you can change",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              284.6000134,
+              285.260017
+            ],
+            "delta_text": "your own",
+            "cumulative_text": "It's like, okay. Well, you have a new question, and you can change your own",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "なるほど、新しい質問があれば、変えることができ、",
+              "なるほど、新しい質問がある際に、自分自身の"
+            ],
+            [
+              "なるほど、新しい質問があり、それを変更することができ、",
+              "なるほど、新しい質問があり、自分自身の"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "なるほど、新しい質問があるとして、それを変えることができれば、",
+              "なるほど、新しい質問があるとして、自分自身の"
+            ],
+            [
+              "なるほど、新しい質問があるとして、それを変えることができれば、",
+              "なるほど、新しい質問があるとして、自分自身の"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5714285714285714,
+            0.6842105263157895
+          ],
+          "soft_anchor_replay": [
+            0.6363636363636364,
+            0.6363636363636364
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 60,
+            "dropped_or_distorted": [
+              "you can change your own"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "you can change"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 44,
+        "num_batches": 2,
+        "source_full": "concern, and I will tell you it's right or not or wrong. And then you will generate again.",
+        "batches": [
+          {
+            "key": [
+              285.26,
+              288.8999841
+            ],
+            "delta_text": "concern, and I will tell you it's right or not or wrong. And then you",
+            "cumulative_text": "concern, and I will tell you it's right or not or wrong. And then you",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              288.8999841,
+              290.230001
+            ],
+            "delta_text": "will generate again.",
+            "cumulative_text": "concern, and I will tell you it's right or not or wrong. And then you will generate again.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "懸念事項を挙げていただければ、それが正しいか、あるいは間違っているかをお伝えします。そして、あなたが",
+              "懸念点を伝え、それが正しいか間違っているかを教えます。そして、あなたが再度生成し、"
+            ],
+            [
+              "懸念事項を挙げていただければ、それが正しいか、あるいは間違っているかをお伝えします。そして、あなたが",
+              "懸念点を伝え、それが正しいか間違っているかを教えます。そして、あなたが再度生成し、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "懸念事項を挙げていただければ、それが正しいか、あるいは間違っているかをお伝えします。そして、あなたが",
+              "懸念事項を挙げていただければ、それが正しいか、あるいは間違っているかをお伝えします。そして、あなたが再度生成を行うことになります。"
+            ],
+            [
+              "懸念事項を挙げていただければ、それが正しいか、あるいは間違っているかをお伝えします。そして、あなたが",
+              "懸念事項を挙げていただければ、それが正しいか、あるいは間違っているかをお伝えします。そして、あなたが再度生成を行うことになります。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.170731707317073,
+            1.170731707317073
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 45,
+        "num_batches": 2,
+        "source_full": "That you know how to how to really understand this",
+        "batches": [
+          {
+            "key": [
+              290.23,
+              292.999989
+            ],
+            "delta_text": "That you know how to how to really",
+            "cumulative_text": "That you know how to how to really",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              292.999989,
+              293.879994
+            ],
+            "delta_text": "understand this",
+            "cumulative_text": "That you know how to how to really understand this",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "皆さんが、本当にその方法をどのようにお分かりになっているか、",
+              "これを真に理解する方法を、皆さんが知っているということが"
+            ],
+            [
+              "皆さんが、本当にどのようにして",
+              "これを真に理解する方法を、皆さんが知っているということ"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "どのようにして、本当に",
+              "どのようにして、本当にこれを理解すればよいのかを"
+            ],
+            [
+              "どのようにして、本当に",
+              "どのようにして、本当にこれを理解すればよいのかを、皆さんが知っているということ"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.0714285714285714,
+            0.5555555555555556
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 46,
+        "num_batches": 2,
+        "source_full": "So with this three stage, I I sorry to interrupt. Can can you please delete the pop up",
+        "batches": [
+          {
+            "key": [
+              297.44,
+              301.4999976
+            ],
+            "delta_text": "So with this three stage, I",
+            "cumulative_text": "So with this three stage, I",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              301.36,
+              305.58000100000004
+            ],
+            "delta_text": "I sorry to interrupt. Can can you please delete the pop up",
+            "cumulative_text": "So with this three stage, I I sorry to interrupt. Can can you please delete the pop up",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "この3つのステージによって、私は",
+              "この3段階の、あ、すみません、遮ってしまって。そのポップアップを消していただけますか？"
+            ],
+            [
+              "この3つのステージによって、私は",
+              "この3段階の、あ、すみません、遮ってしまって。そのポップアップを消していただけますか？"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "この3つのステージによって、私は",
+              "この3つのステージによって、私は……すみません、遮って申し訳ないのですが、ポップアップを消していただけますか？"
+            ],
+            [
+              "この3つのステージによって、私は",
+              "この3つのステージによって、私は……すみません、遮って申し訳ありませんが、そのポップアップを消していただけますか？"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.3023255813953488,
+            0.3023255813953488
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "three stage"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 47,
+        "num_batches": 3,
+        "source_full": "this process, the language model already know has how to it's like a multitask generator. It already knows how to do translation, how",
+        "batches": [
+          {
+            "key": [
+              323.72,
+              328.200011
+            ],
+            "delta_text": "this process, the language model already know has how to",
+            "cumulative_text": "this process, the language model already know has how to",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              327.97,
+              330.9999988
+            ],
+            "delta_text": "it's like a multitask generator. It already knows",
+            "cumulative_text": "this process, the language model already know has how to it's like a multitask generator. It already knows",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              330.9999988,
+              332.5499866
+            ],
+            "delta_text": "how to do translation, how",
+            "cumulative_text": "this process, the language model already know has how to it's like a multitask generator. It already knows how to do translation, how",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "このプロセスにおいて、言語モデルはすでにその方法を知っており、",
+              "このプロセスにおいて、言語モデルはすでに、マルチタスク生成器のような振る舞い方を理解しており、すでに知っているのは",
+              "このプロセスにおいて、言語モデルはすでにマルチタスク生成器のような役割を理解しており、翻訳の方法や、どのようになどをすでに把握して"
+            ],
+            [
+              "このプロセスにおいて、言語モデルはすでにその方法を理解しており、",
+              "このプロセスにおいて、言語モデルはすでに、マルチタスク生成器のような振る舞い方を理解しており、すでに知っているのは",
+              "このプロセスにおいて、言語モデルはすでにマルチタスク生成器のような役割を担う方法を知っています。すでに翻訳の方法や、どのようになどを理解しており、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "このプロセスにおいて、言語モデルはすでにその方法を理解しており、",
+              "このプロセスにおいて、言語モデルはすでにその方法を理解しており、マルチタスク生成器のようなものです。すでに理解しているのは、",
+              "このプロセスにおいて、言語モデルはすでにその方法を理解しており、マルチタスク生成器のようなものです。すでに理解しているのは、翻訳の方法や、どのよう"
+            ],
+            [
+              "このプロセスにおいて、言語モデルはすでにその方法を知っており、",
+              "このプロセスにおいて、言語モデルはすでにその方法を知っており、マルチタスク生成器のようなもので、すでに知っているのです、",
+              "このプロセスにおいて、言語モデルはすでにその方法を知っており、マルチタスク生成器のようなもので、すでに翻訳の方法や、どのよう"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.7384615384615385,
+            0.6712328767123288
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.14516129032258066
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "it's like a multitask generator"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "how to it's like a multitask generator"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 48,
+        "num_batches": 2,
+        "source_full": "to do coding, how to do semantic passing. together.",
+        "batches": [
+          {
+            "key": [
+              332.55,
+              335.6000183
+            ],
+            "delta_text": "to do coding, how to do semantic passing.",
+            "cumulative_text": "to do coding, how to do semantic passing.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              335.6000183,
+              337.280011
+            ],
+            "delta_text": "together.",
+            "cumulative_text": "to do coding, how to do semantic passing. together.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "コーディングを行う方法や、セマンティック・パースの実行方法について、",
+              "コーディングを行う方法や、セマンティック・パッシングをどのように行うか、これらを組み合わせて"
+            ],
+            [
+              "コーディングをどう行うか、セマンティック・パッシングをどう行うか、",
+              "コーディングをどう行うか、そしてセマンティック・パッシングをどう行うか、これらを組み合わせて、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "コーディングの方法や、セマンティック・パッシングの行い方について、",
+              "コーディングの方法や、セマンティック・パッシングの行い方について、これらを組み合わせて、"
+            ],
+            [
+              "コーディングをどう行うか、セマンティック・パッシングをどう行うか、",
+              "コーディングをどう行うか、セマンティック・パッシングをどう行うか、これらを組み合わせて、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.2608695652173913,
+            0.425531914893617
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 49,
+        "num_batches": 4,
+        "source_full": "And the the next question is, like, how to train this language model language model given your limited budgets? So this is the the scaling law, and, I will just briefly house the",
+        "batches": [
+          {
+            "key": [
+              337.28,
+              341.299989
+            ],
+            "delta_text": "And the the next question is, like, how to train this language model",
+            "cumulative_text": "And the the next question is, like, how to train this language model",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              340.54,
+              344.2999792
+            ],
+            "delta_text": "language model given your limited budgets?",
+            "cumulative_text": "And the the next question is, like, how to train this language model language model given your limited budgets?",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              344.31,
+              347.6000085
+            ],
+            "delta_text": "So this is the the scaling law, and, I will",
+            "cumulative_text": "And the the next question is, like, how to train this language model language model given your limited budgets? So this is the the scaling law, and, I will",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              347.6000085,
+              349.280001
+            ],
+            "delta_text": "just briefly house the",
+            "cumulative_text": "And the the next question is, like, how to train this language model language model given your limited budgets? So this is the the scaling law, and, I will just briefly house the",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして次の質問は、この言語モデルをどのように学習させるか、という点ですが、",
+              "そして次の質問は、限られた予算の中で、どのようにこの言語モデルを学習させるかという点ですが、",
+              "そして次の質問は、限られた予算の中で、どのようにこの言語モデルを学習させるかということで、これがスケーリング法則であり、私は",
+              "そして次の質問は、限られた予算の中でどのようにこの言語モデルを学習させるかという点です。これがスケーリング法則であり、簡単にその内容を説明しますと、"
+            ],
+            [
+              "そして、次の質問は、この言語モデルをどのように学習させるか、という点ですが、",
+              "そして次の質問は、限られた予算の中で、どのようにこの言語モデルを学習させるかという点ですが、",
+              "そして次の質問は、限られた予算の中で、どのようにこの言語モデルを学習させるかということで、これがスケーリング法則であり、私は",
+              "そして次の質問は、限られた予算の中でどのようにこの言語モデルを学習させるかということで、これがスケーリング法則であり、簡単にその内容を"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして次の質問は、この言語モデルをどのように学習させるか、という点ですが、",
+              "そして次の質問は、限られた予算の中で、この言語モデルをどのように学習させるか、という点ですが、",
+              "そして次の質問は、限られた予算の中で、この言語モデルをどのように学習させるか、という点ですが、これがスケーリング則であり、私は",
+              "そして次の質問は、限られた予算の中で、この言語モデルをどのように学習させるか、という点ですが、これがスケーリング則であり、ここで簡単にその"
+            ],
+            [
+              "そして次の質問は、この言語モデルをどのように学習させるか、という点ですが、",
+              "そして次の質問は、限られた予算の中で、この言語モデルをどのように学習させるか、という点ですが、",
+              "そして次の質問は、限られた予算の中で、この言語モデルをどのように学習させるか、という点ですが、これがスケーリング則であり、私は",
+              "そして次の質問は、限られた予算の中で、この言語モデルをどのように学習させるか、という点ですが、これがスケーリング則であり、ここで簡単にその"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.0405405405405406,
+            1.2537313432835822
+          ],
+          "soft_anchor_replay": [
+            0.43478260869565216,
+            0.43478260869565216
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "house the"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "house the"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 50,
+        "num_batches": 2,
+        "source_full": "law works here. And then I think think will introduce a scaling law file.",
+        "batches": [
+          {
+            "key": [
+              349.28,
+              352.299989
+            ],
+            "delta_text": "law works here. And then I think",
+            "cumulative_text": "law works here. And then I think",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              352.299989,
+              354.16000499999996
+            ],
+            "delta_text": "think will introduce a scaling law file.",
+            "cumulative_text": "law works here. And then I think think will introduce a scaling law file.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "法則がここで機能し、そして、おそらくは",
+              "法則がここで機能します。そして、スケーリング法則のファイルを導入することになると思い、"
+            ],
+            [
+              "法則がここで機能し、そして、思うに",
+              "法則がここで機能します。そして、スケーリング法則のファイルを導入することになると思い、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "法則がここで機能し、そして、思うに",
+              "法則がここで機能し、そして、思うにスケーリング法則のファイルを導入することになるでしょう"
+            ],
+            [
+              "法則がここで機能し、そして、思うに",
+              "法則がここで機能し、そして、思うに、スケーリング法則のファイルを導入することになるでしょう"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.23255813953488372,
+            0.18604651162790697
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "I think think"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 51,
+        "num_batches": 2,
+        "source_full": "The big idea is, like, given you many, many computes, how do you decide the data side size",
+        "batches": [
+          {
+            "key": [
+              354.16,
+              357.2999841
+            ],
+            "delta_text": "The big idea is, like, given you",
+            "cumulative_text": "The big idea is, like, given you",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              357.18,
+              361.959999
+            ],
+            "delta_text": "many, many computes, how do you decide the data side size",
+            "cumulative_text": "The big idea is, like, given you many, many computes, how do you decide the data side size",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "大きな考え方としては、例えば、与えられた",
+              "大きな考え方としては、膨大な計算資源が与えられた際に、データサイズをどのように決定するかという点にあり、"
+            ],
+            [
+              "大きな考え方としては、例えば、与えられた",
+              "大きな考え方としては、膨大な計算資源が与えられた際に、データサイズをどのように決定するかという点にあり、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "大きな考え方としては、例えば、与えられた",
+              "大きな考え方としては、例えば、膨大な計算資源が与えられた際に、データ側のサイズをどのように決定するか、という点にあります。"
+            ],
+            [
+              "大きな考え方としては、例えば、与えられた",
+              "大きな考え方としては、例えば、膨大な計算資源が与えられた際に、データ側のサイズをどのように決定するか、という点にあります。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.17307692307692307,
+            0.17307692307692307
+          ],
+          "soft_anchor_replay": [
+            0.08196721311475409,
+            0.08196721311475409
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 52,
+        "num_batches": 4,
+        "source_full": "and also compute model size? And you in 2020, I think paper deep demand, it it is a real set. If you will increase",
+        "batches": [
+          {
+            "key": [
+              361.96,
+              366.4000024
+            ],
+            "delta_text": "and also compute model size? And you",
+            "cumulative_text": "and also compute model size? And you",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              366.12,
+              370.000005
+            ],
+            "delta_text": "in 2020, I think paper",
+            "cumulative_text": "and also compute model size? And you in 2020, I think paper",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              370.1,
+              373.29998170000005
+            ],
+            "delta_text": "deep demand, it it is a real set. If you",
+            "cumulative_text": "and also compute model size? And you in 2020, I think paper deep demand, it it is a real set. If you",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              373.29998170000005,
+              374.46999500000004
+            ],
+            "delta_text": "will increase",
+            "cumulative_text": "and also compute model size? And you in 2020, I think paper deep demand, it it is a real set. If you will increase",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして計算量やモデルサイズについても、また、",
+              "さらに計算量やモデルサイズについても、2020年の論文だったと思いますが、",
+              "さらに計算リソースやモデルサイズについても、2020年の論文で、DeepSomaticは、これは実際のセットですが、もしあなたが",
+              "そして計算リソースやモデルサイズについても、2020年の論文で示されていたと思いますが、もしサイズを大きくすれば"
+            ],
+            [
+              "そして、計算量やモデルサイズについても、また、",
+              "さらに計算量やモデルサイズについても。そして2020年の、確か論文で",
+              "そして計算量やモデルサイズについても。2020年の論文、DeepSomaticだったと思いますが、これは実在するセットで、もしあなたが",
+              "さらに計算リソースやモデルサイズについても、2020年の論文で示されている通り、もし増やしていくとすれば、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして計算量やモデルサイズについても、また、",
+              "計算量やモデルサイズについても、また、あなたが2020年に、確か論文を",
+              "計算量やモデルサイズについても、また、あなたが2020年に、確か論文「Deep Demand」で、それは実際のデータセットだと",
+              "計算量やモデルサイズについても、また、あなたが2020年に、確か論文「Deep Demand」で、それは実際のデータセットだと述べていましたが、もし増やしていくと"
+            ],
+            [
+              "そして、計算量やモデルサイズについても、また、",
+              "そして、計算量やモデルサイズについても、また、あなたが2020年に出した、確か論文で",
+              "そして、計算量やモデルサイズについても。また、あなたが2020年に出した、確か「Deep Demand」という論文で、それは実際のデータセットで、もしあなたが",
+              "そして、計算量やモデルサイズについても。また、あなたが2020年に出した、確か「Deep Demand」という論文で、それは実際のデータセットで、もしあなたがモデルを大きくすれば"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            2.107142857142857,
+            2.339622641509434
+          ],
+          "soft_anchor_replay": [
+            0.2839506172839506,
+            0.25842696629213485
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 75,
+            "dropped_or_distorted": [
+              "deep demand",
+              "real set"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "and also compute model size"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 53,
+        "num_batches": 2,
+        "source_full": "10 times compute budget, and then your comp your model",
+        "batches": [
+          {
+            "key": [
+              374.47,
+              377.4999988
+            ],
+            "delta_text": "10 times compute budget, and then your",
+            "cumulative_text": "10 times compute budget, and then your",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              377.4999988,
+              379.35998400000005
+            ],
+            "delta_text": "comp your model",
+            "cumulative_text": "10 times compute budget, and then your comp your model",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "10倍の計算予算、そしてあなたの",
+              "10倍の計算予算、そしてモデルを"
+            ],
+            [
+              "10倍の計算予算、そしてあなたの",
+              "10倍の計算予算、そしてモデルを"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "10倍の計算予算、そしてあなたの",
+              "10倍の計算予算、そしてあなたのモデルが"
+            ],
+            [
+              "10倍の計算予算、そしてあなたの",
+              "10倍の計算予算、そしてあなたのモデルが"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.25,
+            0.25
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "your comp your model"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 54,
+        "num_batches": 2,
+        "source_full": "five five point three times. And then the data should just increase",
+        "batches": [
+          {
+            "key": [
+              384.09,
+              387.5000037
+            ],
+            "delta_text": "five five point three times. And then the data",
+            "cumulative_text": "five five point three times. And then the data",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              387.5000037,
+              389.060001
+            ],
+            "delta_text": "should just increase",
+            "cumulative_text": "five five point three times. And then the data should just increase",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "5.3倍、そしてデータは",
+              "5.3倍に。そして、データは単に増えていくべきで、"
+            ],
+            [
+              "5.3倍。そしてデータは",
+              "5.3倍に。そしてデータは単に増加していくはずで、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "5.3倍。そしてデータは",
+              "5.3倍。そしてデータは、単に増加していくべきで"
+            ],
+            [
+              "5.3倍。そしてデータは",
+              "5.3倍。そしてデータは、単に増加していくはずで"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.32,
+            0.32
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 55,
+        "num_batches": 2,
+        "source_full": "by 1.8 times. And then you could",
+        "batches": [
+          {
+            "key": [
+              389.06,
+              392.1000085
+            ],
+            "delta_text": "by 1.8 times. And then you",
+            "cumulative_text": "by 1.8 times. And then you",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              392.1000085,
+              392.5300012
+            ],
+            "delta_text": "could",
+            "cumulative_text": "by 1.8 times. And then you could",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "1.8倍に。そして、",
+              "1.8倍に。そして、そこからさらに"
+            ],
+            [
+              "1.8倍に。そして、さらに",
+              "1.8倍に。そして、そこからさらに"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "1.8倍に。そして、",
+              "1.8倍に。そして、そこからさらに"
+            ],
+            [
+              "1.8倍に。そして、",
+              "1.8倍に。そして、そこからさらに"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.0,
+            0.17647058823529413
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 56,
+        "num_batches": 2,
+        "source_full": "train your best model given given the limited computer budget.",
+        "batches": [
+          {
+            "key": [
+              392.53,
+              396.2000134
+            ],
+            "delta_text": "train your best model given given the limited computer",
+            "cumulative_text": "train your best model given given the limited computer",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              396.2000134,
+              396.750001
+            ],
+            "delta_text": "budget.",
+            "cumulative_text": "train your best model given given the limited computer budget.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "限られた計算資源の中で、最良のモデルをトレーニングする",
+              "限られた計算予算の中で、最善のモデルをトレーニングすること。"
+            ],
+            [
+              "限られた計算資源の中で、最良のモデルを訓練すること、",
+              "限られた計算予算の中で、最良のモデルをトレーニングすること。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "限られた計算資源の中で、最良のモデルを学習させること",
+              "限られた計算資源の中で、最良のモデルを学習させること"
+            ],
+            [
+              "限られた計算資源の中で、最良のモデルを訓練すること、",
+              "限られた計算資源の中で、最良のモデルを訓練すること、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.7,
+            0.6666666666666666
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 57,
+        "num_batches": 2,
+        "source_full": "That's how scaling law works. It's very important because we know currently,",
+        "batches": [
+          {
+            "key": [
+              396.75,
+              399.7999878
+            ],
+            "delta_text": "That's how scaling law works. It's very important",
+            "cumulative_text": "That's how scaling law works. It's very important",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              399.7999878,
+              401.23999
+            ],
+            "delta_text": "because we know currently,",
+            "cumulative_text": "That's how scaling law works. It's very important because we know currently,",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "それがスケーリング法則の仕組みであり、非常に重要なことなのです。",
+              "それがスケーリング法則の仕組みです。これが非常に重要なのは、現在わかっていることとして、"
+            ],
+            [
+              "それがスケーリング法則の仕組みであり、非常に重要なことです。",
+              "それがスケーリング法則の仕組みです。これが非常に重要なのは、現在わかっていることとして、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "それがスケーリング法則の仕組みであり、非常に重要なことなのです。",
+              "それがスケーリング法則の仕組みであり、非常に重要なことなのです。というのも、現在分かっているのは、"
+            ],
+            [
+              "それがスケーリング法則の仕組みであり、非常に重要なことなのです。",
+              "それがスケーリング法則の仕組みであり、非常に重要なことなのです。というのも、現在分かっているのは、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.36363636363636365,
+            0.3181818181818182
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 58,
+        "num_batches": 2,
+        "source_full": "the model is very, very large, and you want to do a whole",
+        "batches": [
+          {
+            "key": [
+              401.24,
+              404.2999976
+            ],
+            "delta_text": "the model is very, very large, and you want to",
+            "cumulative_text": "the model is very, very large, and you want to",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              404.2999976,
+              405.2800085
+            ],
+            "delta_text": "do a whole",
+            "cumulative_text": "the model is very, very large, and you want to do a whole",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "モデルが非常に、非常に巨大であり、そして",
+              "モデルが非常に、非常に大規模で、全体的な"
+            ],
+            [
+              "モデルが非常に、非常に巨大で、そして",
+              "モデルが非常に、非常に大規模で、全体を"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "モデルが非常に、非常に巨大であり、そして",
+              "モデルが非常に、非常に巨大であり、そして一連の"
+            ],
+            [
+              "モデルが非常に、非常に巨大であり、そして",
+              "モデルが非常に、非常に巨大であり、そして一連の"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.45,
+            0.3684210526315789
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 80,
+            "dropped_or_distorted": [
+              "do a whole"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 59,
+        "num_batches": 2,
+        "source_full": "flow per training, this will be very, very, very expensive.",
+        "batches": [
+          {
+            "key": [
+              405.28,
+              408.299989
+            ],
+            "delta_text": "flow per training, this will be very, very, very",
+            "cumulative_text": "flow per training, this will be very, very, very",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              408.299989,
+              409.049989
+            ],
+            "delta_text": "expensive.",
+            "cumulative_text": "flow per training, this will be very, very, very expensive.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "学習あたりの計算量は、非常に、非常に、非常に、",
+              "学習1回あたりの計算量（FLOPs）は、非常に、非常に高額なものになります。"
+            ],
+            [
+              "学習1回あたりの計算量は、非常に、非常に、非常に、",
+              "学習1回あたりの計算量（FLOPs）を考えると、これは非常に、非常に高価なものになります。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "学習1回あたりの計算量（FLOPs）については、これは非常に、非常に、非常に、",
+              "学習1回あたりの計算量（FLOPs）については、これは非常に、非常に、非常に高価なものになります。"
+            ],
+            [
+              "学習あたりの計算量は、非常に、非常に、非常に、",
+              "学習あたりの計算量は、非常に、非常に、非常に、高コストになります。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5526315789473685,
+            0.3111111111111111
+          ],
+          "soft_anchor_replay": [
+            0.02040816326530612,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "flow"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 60,
+        "num_batches": 2,
+        "source_full": "So given this budget, you want to to to train the",
+        "batches": [
+          {
+            "key": [
+              409.05,
+              412.3
+            ],
+            "delta_text": "So given this budget, you want to to to train",
+            "cumulative_text": "So given this budget, you want to to to train",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              412.3,
+              413.06001000000003
+            ],
+            "delta_text": "the",
+            "cumulative_text": "So given this budget, you want to to to train the",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "この予算が与えられた場合、トレーニングしたいのは",
+              "この予算が与えられた場合、トレーニングしたいのは、"
+            ],
+            [
+              "この予算が与えられた場合、トレーニングしたいのは、",
+              "この予算が与えられた場合、トレーニングしたいのは、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "この予算を前提として、トレーニングを行いたい場合、",
+              "この予算を前提として、トレーニングを行いたい場合、その対象となるのは"
+            ],
+            [
+              "この予算が与えられた場合、トレーニングしたいのは、",
+              "この予算が与えられた場合、トレーニングしたいのは、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.0,
+            0.0
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 75,
+            "dropped_or_distorted": [
+              "the end of the sentence is cut off in the source"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 61,
+        "num_batches": 2,
+        "source_full": "best model. This this getting low tells you how to do it.",
+        "batches": [
+          {
+            "key": [
+              413.06,
+              416.1000085
+            ],
+            "delta_text": "best model. This this getting low",
+            "cumulative_text": "best model. This this getting low",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              416.1000085,
+              418.0000024
+            ],
+            "delta_text": "tells you how to do it.",
+            "cumulative_text": "best model. This this getting low tells you how to do it.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "最高のモデル。これが低くなってきており、",
+              "最高のモデル。この値が低くなることで、その方法がわかります。"
+            ],
+            [
+              "最高のモデル。これが低くなってきており、",
+              "最高のモデルです。これが低くなることで、その方法がわかります。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "最高のモデル。これが低くなってきており、",
+              "最高のモデル。これが低くなってきていることは、その方法を示唆しており、"
+            ],
+            [
+              "最高のモデル。これが低くなってきており、",
+              "最高のモデル。これが低くなってきていることは、その方法を示唆しており、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.4,
+            0.45161290322580644
+          ],
+          "soft_anchor_replay": [
+            0.08571428571428572,
+            0.08571428571428572
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "getting low"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 62,
+        "num_batches": 2,
+        "source_full": "with this scaling law and pretraining as and RHFAR",
+        "batches": [
+          {
+            "key": [
+              421.38,
+              425.1000012
+            ],
+            "delta_text": "with this scaling law and pretraining as",
+            "cumulative_text": "with this scaling law and pretraining as",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              425.1000012,
+              426.230006
+            ],
+            "delta_text": "and RHFAR",
+            "cumulative_text": "with this scaling law and pretraining as and RHFAR",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "このスケーリング則と事前学習を、",
+              "このスケーリング則と事前学習、そしてRLHFによって"
+            ],
+            [
+              "このスケーリング則と事前学習を、",
+              "このスケーリング法則と事前学習、そしてRLHFによって"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "このスケーリング則と事前学習を、",
+              "このスケーリング則と事前学習を、そして RLHF を用いて"
+            ],
+            [
+              "このスケーリング則と事前学習を、",
+              "このスケーリング則と事前学習を、そして RLHF を"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.07692307692307693,
+            0.2962962962962963
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 80,
+            "dropped_or_distorted": [
+              "RHFAR"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "RHFAR"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 63,
+        "num_batches": 3,
+        "source_full": "RHF, we could say AIM ability mode. Make progress very, very quickly. We could say",
+        "batches": [
+          {
+            "key": [
+              426.23,
+              430.09999500000004
+            ],
+            "delta_text": "RHF, we could say AIM ability mode.",
+            "cumulative_text": "RHF, we could say AIM ability mode.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              430.42,
+              433.59999270000003
+            ],
+            "delta_text": "Make progress very, very quickly. We",
+            "cumulative_text": "RHF, we could say AIM ability mode. Make progress very, very quickly. We",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              433.59999270000003,
+              434.4299792
+            ],
+            "delta_text": "could say",
+            "cumulative_text": "RHF, we could say AIM ability mode. Make progress very, very quickly. We could say",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "RLHF、あるいはAIME能力モードと言えるかもしれません。",
+              "RLHF、そしてAIMEの能力モデルと言えるかもしれませんが、非常に、非常に素早く進歩を遂げており、我々は",
+              "RLHFや、AIMEの能力モデルと言えるものにおいて、非常に、非常に素早い進歩を遂げており、言わば"
+            ],
+            [
+              "RLHF、あるいはAIME能力モードと言えるかもしれません。",
+              "RLHF、そしてAIMEの能力モデルと言えるかもしれませんが、これらは非常に、非常に速いスピードで進歩しており、我々は",
+              "RLHF、そしてAIMEの能力モードと言えるかもしれませんが、非常に、非常に素早く進歩しており、言うなれば"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "RLHF、あるいはAIME能力モードと言えるかもしれません。",
+              "RLHF、あるいはAIME能力モードと言えるかもしれません。非常に、非常に素早く進歩を遂げており、我々は",
+              "RLHF、あるいはAIME能力モードと言えるかもしれません。非常に、非常に素早く進歩を遂げており、我々は"
+            ],
+            [
+              "RLHF、あるいはAIME能力モードと言えるかもしれません。",
+              "RLHF、あるいはAIME能力モードと言えるかもしれません。非常に、非常に素早く進歩を遂げており、我々は",
+              "RLHF、あるいはAIME能力モードと言えるかもしれません。非常に、非常に素早く進歩を遂げており、我々は"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.510204081632653,
+            1.2830188679245282
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "RHF vs RLHF"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "RHF (interpreted as RLHF)"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 64,
+        "num_batches": 2,
+        "source_full": "is like a master level question storm question and answer",
+        "batches": [
+          {
+            "key": [
+              437.08,
+              441.1000195
+            ],
+            "delta_text": "is like a master level question storm question",
+            "cumulative_text": "is like a master level question storm question",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              441.1000195,
+              441.5700208
+            ],
+            "delta_text": "and answer",
+            "cumulative_text": "is like a master level question storm question and answer",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "修士レベルの難問が次々と出されるようなもので、",
+              "修士レベルの難問が次々と出される質疑応答のようなもので、"
+            ],
+            [
+              "修士レベルの難問が次々と出されるようなもので、",
+              "修士レベルの難問が次々と出される質疑応答のようなもので、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "修士レベルの難問が次々と出されるようなもので、",
+              "修士レベルの難問が次々と出されるようなもので、一問一答形式の試験のようなものです。"
+            ],
+            [
+              "修士レベルの難問が次々と出されるようなもので、",
+              "修士レベルの難問が次々と出されるようなもので、一問一答形式の嵐のような状況です"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.25,
+            0.25
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 95,
+            "dropped_or_distorted": [
+              "storm"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "question storm"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 65,
+        "num_batches": 3,
+        "source_full": "problems is already kinda achieved, like, a Put put 90% accuracy. Okay.",
+        "batches": [
+          {
+            "key": [
+              441.57,
+              444.9999927
+            ],
+            "delta_text": "problems is already kinda achieved, like, a",
+            "cumulative_text": "problems is already kinda achieved, like, a",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              445.94,
+              449.3999915
+            ],
+            "delta_text": "Put put 90% accuracy.",
+            "cumulative_text": "problems is already kinda achieved, like, a Put put 90% accuracy.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              449.89,
+              450.9999854
+            ],
+            "delta_text": "Okay.",
+            "cumulative_text": "problems is already kinda achieved, like, a Put put 90% accuracy. Okay.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "問題はすでにある程度達成されており、例えば、",
+              "問題はすでにある程度達成されており、例えば、90%の精度を出しつつあります。",
+              "問題はすでにある程度解決されており、例えば、90%の精度を達成して、"
+            ],
+            [
+              "問題はすでにある程度達成されており、例えば、",
+              "問題はすでに、ある程度達成されており、例えば90%の精度を出すといったことが、",
+              "問題はすでに、ある程度達成されており、例えば90%の精度を出すといった具合に。はい。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "問題はすでにある程度解決されており、例えば、",
+              "問題はすでにある程度解決されており、例えば、90%の精度を達成したとすると、",
+              "問題はすでにある程度解決されており、例えば、90%の精度を達成したとすると、"
+            ],
+            [
+              "問題はすでにある程度達成されており、例えば、",
+              "問題はすでにある程度達成されており、例えば、90%の精度を達成したとすると、",
+              "問題はすでにある程度達成されており、例えば、90%の精度を達成したとすると、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.8235294117647058,
+            0.47619047619047616
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "is already kinda achieved"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 66,
+        "num_batches": 3,
+        "source_full": "Okay. So with this kind of strong AUM, in 2023, I did a suspicion agent in muscle lab.",
+        "batches": [
+          {
+            "key": [
+              449.89,
+              454.0999915
+            ],
+            "delta_text": "Okay. So with this kind of strong AUM,",
+            "cumulative_text": "Okay. So with this kind of strong AUM,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              454.29,
+              457.2999792
+            ],
+            "delta_text": "in 2023, I did a",
+            "cumulative_text": "Okay. So with this kind of strong AUM, in 2023, I did a",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              457.2999792,
+              459.170005
+            ],
+            "delta_text": "suspicion agent in muscle lab.",
+            "cumulative_text": "Okay. So with this kind of strong AUM, in 2023, I did a suspicion agent in muscle lab.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "はい、このような強力なAUMがあれば、",
+              "さて、このような強力なAUMを背景に、2023年に私は",
+              "はい。このような強力なAUMを背景に、2023年、私はmuscle labでサスピション・エージェントの研究を行いました。"
+            ],
+            [
+              "はい、このような強力なAUMがあれば、",
+              "さて、このような強力なAUMを背景に、2023年に私は",
+              "はい。このような強力なAUMを背景に、2023年、私はmuscle labでサスピション・エージェントの研究を行いました。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "はい、このような強力なAUMがあれば、",
+              "はい、このような強力なAUMがあれば、2023年に私は、",
+              "はい、このような強力なAUMがあれば、2023年に私は、Muscle Labでサスピション・エージェントの研究を行いました。"
+            ],
+            [
+              "はい、このような強力なAUMがあれば、",
+              "はい、このような強力なAUMがあれば、2023年に私は、",
+              "はい、このような強力なAUMがあれば、2023年に私は、Muscle Labでサスピション・エージェントを行いました。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.7540983606557377,
+            0.7540983606557377
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "did a suspicion agent"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "suspicion agent",
+              "muscle lab"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 67,
+        "num_batches": 7,
+        "source_full": "This is about could we do with just we we just have one strong AIM. We do don't do any further training. We can just prompt AIME to do some new new top new like, the task. In this paper, I just the AIM GPT four to do poker.",
+        "batches": [
+          {
+            "key": [
+              459.17,
+              462.59999270000003
+            ],
+            "delta_text": "This is about could we do with",
+            "cumulative_text": "This is about could we do with",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              462.31,
+              466.0000024
+            ],
+            "delta_text": "just we we just have one strong AIM. We do",
+            "cumulative_text": "This is about could we do with just we we just have one strong AIM. We do",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              465.84,
+              469.39999759999995
+            ],
+            "delta_text": "don't do any further training. We can just prompt",
+            "cumulative_text": "This is about could we do with just we we just have one strong AIM. We do don't do any further training. We can just prompt",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              469.22,
+              472.89999270000004
+            ],
+            "delta_text": "AIME to do some new new top new",
+            "cumulative_text": "This is about could we do with just we we just have one strong AIM. We do don't do any further training. We can just prompt AIME to do some new new top new",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              473.32,
+              476.4999927
+            ],
+            "delta_text": "like, the task. In this paper, I just",
+            "cumulative_text": "This is about could we do with just we we just have one strong AIM. We do don't do any further training. We can just prompt AIME to do some new new top new like, the task. In this paper, I just",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              477.18,
+              480.4000012
+            ],
+            "delta_text": "the AIM GPT four to do",
+            "cumulative_text": "This is about could we do with just we we just have one strong AIM. We do don't do any further training. We can just prompt AIME to do some new new top new like, the task. In this paper, I just the AIM GPT four to do",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              480.4000012,
+              480.9500195
+            ],
+            "delta_text": "poker.",
+            "cumulative_text": "This is about could we do with just we we just have one strong AIM. We do don't do any further training. We can just prompt AIME to do some new new top new like, the task. In this paper, I just the AIM GPT four to do poker.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "これは、何ができるかについてで、",
+              "これは、一つの強力なAIMEだけで対応できるか、という点についてですが、我々は",
+              "これは、1つの強力なAIMEがあれば十分ではないか、という話で、追加のトレーニングは一切行わず、ただプロンプトを出すだけで、",
+              "これは、1つの強力なAIMEさえあれば、追加のトレーニングを一切行わずに、単にプロンプトを与えるだけで、AIMEに新しいタスクをこなさせることができるのではないかという話で、",
+              "これは、1つの強力なAIMEさえあれば、それだけで何ができるかという話で、追加の学習は一切行いません。単にAIMEにプロンプトを与えて、新しいタスクを実行させるだけで、この論文では、私はただ",
+              "これは、一つの強力なAIMEだけで何ができるか、つまり追加のトレーニングを一切行わず、AIMEにプロンプトを出すだけで新しいタスクを実行できるかについてで、この論文では、GPT-4をAIMEとして使い、",
+              "これは、1つの強力なAIMEだけで何ができるか、つまり追加の学習を一切行わずに、プロンプトだけでAIMEに新しいタスクを実行させることができるかという話で、この論文では、GPT-4をAIMEとして使い、ポーカーをさせてみました。"
+            ],
+            [
+              "これは、何ができるかについて、あるいは",
+              "これは、一つの強力なAIMEだけで対応できるかという話で、我々は",
+              "これは、1つの強力なAIMEがあれば十分ではないか、という話で、追加のトレーニングは一切行わず、ただプロンプトを出すだけで、",
+              "これは、1つの強力なAIMEさえあれば、それ以上の追加学習を行わずに済むのではないか、という話で、AIMEにプロンプトを与えるだけで、何か新しい、新しいトピックや、新しい",
+              "これは、1つの強力なAIMEさえあれば、追加の学習を一切行わずに済むのではないか、という話で、AIMEにプロンプトを与えるだけで、新しいタスクを実行させることができます。この論文で、私は単に",
+              "これは、一つの強力なAIMEだけで何ができるか、つまり追加のトレーニングを一切行わず、AIMEにプロンプトを出すだけで新しいタスクを実行できるかについてで、この論文では、GPT-4をAIMEとして使用し、",
+              "これは、1つの強力なAIモデルだけで何ができるか、つまり、追加のトレーニングを一切行わず、単にそのモデルに新しいタスクを実行するようプロンプトを出すだけで済むのではないか、という話です。この論文では、GPT-4にポーカーをさせるという試みを行いました。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "これは、何ができるかについて、あるいは",
+              "これは、何ができるかについて、あるいは、1つの強力なAIMEだけで何ができるか、という話で、我々は",
+              "これは、何ができるかについて、あるいは、1つの強力なAIMEだけで何ができるか、という話で、我々は追加のトレーニングを一切行わず、ただプロンプトを出すだけで",
+              "これは、1つの強力なAIMEだけで何ができるか、という話で、我々は追加のトレーニングを一切行わず、ただプロンプトを出すだけで、AIMEに何か新しいタスクを、新しい",
+              "これは、1つの強力なAIMEだけで何ができるか、という話で、我々は追加のトレーニングを一切行わず、ただプロンプトを出すだけで、AIMEに何か新しいタスクを、新しいタスクを実行させることができます。この論文で、私は単に",
+              "これは、1つの強力なAIMEだけで何ができるか、という話で、我々は追加のトレーニングを一切行わず、ただプロンプトを出すだけで、AIMEに何か新しいタスクを、新しいタスクを実行させることができます。この論文で、私は単にAIME、GPT-4に実行させたのは、",
+              "これは、1つの強力なAIMEだけで何ができるか、という話で、我々は追加のトレーニングを一切行わず、ただプロンプトを出すだけで、AIMEに何か新しいタスクを実行させることができます。この論文で、私は単にAIME、GPT-4にポーカーを実行させたのです。"
+            ],
+            [
+              "これは、何ができるかについて、あるいは",
+              "これは、何ができるかについて、あるいは、1つの強力なAIMEだけで何ができるか、という話です。我々は",
+              "これは、1つの強力なAIMEだけで何ができるか、という話です。追加のトレーニングは一切行わず、ただプロンプトを出すだけで、",
+              "これは、1つの強力なAIMEだけで何ができるか、という話です。追加のトレーニングは一切行わず、ただプロンプトを出すだけで、AIMEに何か新しいタスクを、新しい",
+              "これは、1つの強力なAIMEだけで何ができるか、という話です。追加のトレーニングは一切行わず、ただプロンプトを出すだけで、AIMEに何か新しいタスクを、新しいタスクを実行させることができるのか。この論文で、私はただ",
+              "これは、1つの強力なAIMEだけで何ができるか、という話です。追加のトレーニングは一切行わず、ただプロンプトを出すだけで、AIMEに何か新しいタスクを、新しいタスクを実行させることができるのか。この論文で、私はただGPT-4に、あることをさせるために",
+              "これは、1つの強力なAIMEだけで何ができるか、という話です。追加のトレーニングは一切行わず、ただプロンプトを出すだけで、AIMEに何か新しいタスクを、新しいタスクを実行させることができるのか。この論文で、私はただGPT-4にポーカーをさせるために、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            3.0701754385964914,
+            2.738095238095238
+          ],
+          "soft_anchor_replay": [
+            0.992,
+            0.464
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "AIM"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 68,
+        "num_batches": 2,
+        "source_full": "It's a import factor information game. And in our",
+        "batches": [
+          {
+            "key": [
+              480.95,
+              483.8999817
+            ],
+            "delta_text": "It's a import factor information game.",
+            "cumulative_text": "It's a import factor information game.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              483.8999817,
+              485.07997439999997
+            ],
+            "delta_text": "And in our",
+            "cumulative_text": "It's a import factor information game. And in our",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "これは重要な要素となる情報ゲームであり、",
+              "これは重要な情報のゲームであり、私たちの"
+            ],
+            [
+              "これは重要な要素となる情報ゲームであり、",
+              "これは重要な情報ゲームであり、私たちの"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "これは重要な要素となる情報ゲームであり、",
+              "これは重要な要素となる情報ゲームであり、私たちの"
+            ],
+            [
+              "これは重要な要素となる情報ゲームであり、",
+              "これは重要な要素となる情報ゲームであり、私たちの"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.7,
+            0.7368421052631579
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "import factor"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 69,
+        "num_batches": 2,
+        "source_full": "our paper, we just like a like like a AIM to",
+        "batches": [
+          {
+            "key": [
+              485.08,
+              488.1000195
+            ],
+            "delta_text": "our paper, we just like a like like a",
+            "cumulative_text": "our paper, we just like a like like a",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              488.1000195,
+              490.0200024
+            ],
+            "delta_text": "AIM to",
+            "cumulative_text": "our paper, we just like a like like a AIM to",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "私たちの論文は、まるで、その、",
+              "私たちの論文では、目指しているのは、その、"
+            ],
+            [
+              "私たちの論文は、まるで、その、",
+              "私たちの論文では、目指しているのは、その、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "私たちの論文は、まるで、その、",
+              "私たちの論文は、まるで、その、AIMEを目標としているかのようで、"
+            ],
+            [
+              "私たちの論文は、まるで、その、",
+              "私たちの論文は、まるで、その、AIMEを目標としているかのようで、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.42857142857142855,
+            0.42857142857142855
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 0,
+            "dropped_or_distorted": [
+              "our paper",
+              "AIM"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 70,
+        "num_batches": 2,
+        "source_full": "do planning and also self evaluate if this",
+        "batches": [
+          {
+            "key": [
+              490.02,
+              493.79999879999997
+            ],
+            "delta_text": "do planning and also self evaluate",
+            "cumulative_text": "do planning and also self evaluate",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              493.79999879999997,
+              494.240001
+            ],
+            "delta_text": "if this",
+            "cumulative_text": "do planning and also self evaluate if this",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "プランニングを行い、また自己評価も行うことで",
+              "プランニングを行い、また、これが正解かどうかを自己評価し、"
+            ],
+            [
+              "プランニングを行い、また自己評価も行うことで",
+              "プランニングを行い、また、これが適切かどうかを自己評価し、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "プランニングを行い、また自己評価も行うことで",
+              "プランニングを行い、また自己評価も行うことで、これが"
+            ],
+            [
+              "プランニングを行い、また自己評価も行うことによって、",
+              "プランニングを行い、また自己評価も行うことによって、これが"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.3448275862068966,
+            0.3448275862068966
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "this"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "if this"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 71,
+        "num_batches": 2,
+        "source_full": "action is good or not. And we successfully find out",
+        "batches": [
+          {
+            "key": [
+              494.24,
+              497.2999976
+            ],
+            "delta_text": "action is good or not. And we successfully find",
+            "cumulative_text": "action is good or not. And we successfully find",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              497.2999976,
+              497.7699988
+            ],
+            "delta_text": "out",
+            "cumulative_text": "action is good or not. And we successfully find out",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "行動が良いか悪いか、そして我々はうまく見つけ出し",
+              "行動が良いか悪いか、そして我々はうまく見つけ出し、"
+            ],
+            [
+              "行動が良いか悪いか、そして我々はうまく見つけ出し、",
+              "行動が良いか悪いか、そして我々はうまく見つけ出し、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "行動が良いか悪いか、そして我々はうまく見つけ出し",
+              "行動が良いか悪いか、そして我々はうまく見つけ出し"
+            ],
+            [
+              "行動が良いか悪いか、そして我々はうまく見つけ出し",
+              "行動が良いか悪いか、そして我々はうまく見つけ出し"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.0,
+            0.0
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 72,
+        "num_batches": 3,
+        "source_full": "without any further training, the prompt based g t four g t four already could achieve comparable performance with",
+        "batches": [
+          {
+            "key": [
+              497.77,
+              502.29999899999996
+            ],
+            "delta_text": "without any further training, the prompt based g t four",
+            "cumulative_text": "without any further training, the prompt based g t four",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              501.54,
+              504.7999792
+            ],
+            "delta_text": "g t four already could achieve comparable performance",
+            "cumulative_text": "without any further training, the prompt based g t four g t four already could achieve comparable performance",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              504.7999792,
+              506.51000100000005
+            ],
+            "delta_text": "with",
+            "cumulative_text": "without any further training, the prompt based g t four g t four already could achieve comparable performance with",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "追加のトレーニングなしで、プロンプトベースの GPT-4 は",
+              "追加のトレーニングなしでも、プロンプトベースの GPT-4 は、すでに同等のパフォーマンスを達成できており、",
+              "追加のトレーニングなしでも、プロンプトベースの GPT-4 は、すでに同等のパフォーマンスを達成できており、"
+            ],
+            [
+              "追加のトレーニングなしで、プロンプトベースの GPT-4 は",
+              "追加のトレーニングなしでも、プロンプトベースの GPT-4 は、すでに同等のパフォーマンスを達成できており、",
+              "追加のトレーニングを一切行うことなく、プロンプトベースの GPT-4 は、すでに〜と同等の性能を達成できており、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "追加のトレーニングなしで、プロンプトベースの GPT-4 は",
+              "追加のトレーニングなしで、プロンプトベースの GPT-4 は、すでに同等のパフォーマンスを達成できており、",
+              "追加のトレーニングなしで、プロンプトベースの GPT-4 は、すでに同等のパフォーマンスを達成できており、"
+            ],
+            [
+              "追加のトレーニングなしで、プロンプトベースの GPT-4 は",
+              "追加のトレーニングなしで、プロンプトベースの GPT-4 は、すでに同等のパフォーマンスを達成できており、",
+              "追加のトレーニングなしで、プロンプトベースの GPT-4 は、すでに同等のパフォーマンスを達成できており、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.3333333333333333,
+            1.125
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 73,
+        "num_batches": 4,
+        "source_full": "I traditional IO trained methods. So it's good. It's good, but there are some there are some disadvantages. The first one is, like, it's very very expensive.",
+        "batches": [
+          {
+            "key": [
+              506.51,
+              510.7000024
+            ],
+            "delta_text": "I traditional IO trained methods.",
+            "cumulative_text": "I traditional IO trained methods.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              511.24,
+              515.2999976
+            ],
+            "delta_text": "So it's good. It's good, but there are some",
+            "cumulative_text": "I traditional IO trained methods. So it's good. It's good, but there are some",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              514.68,
+              518.4000317
+            ],
+            "delta_text": "there are some disadvantages. The first one is, like, it's very",
+            "cumulative_text": "I traditional IO trained methods. So it's good. It's good, but there are some there are some disadvantages. The first one is, like, it's very",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              518.4000317,
+              519.6200024
+            ],
+            "delta_text": "very expensive.",
+            "cumulative_text": "I traditional IO trained methods. So it's good. It's good, but there are some there are some disadvantages. The first one is, like, it's very very expensive.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "従来のIO学習手法では、",
+              "従来の強化学習による訓練手法ですね。それは良いのですが、いくつかあ",
+              "従来の強化学習による訓練手法は、優れたものではありますが、いくつか欠点もあります。まず一つ目は、非常に――",
+              "従来の強化学習による訓練手法は、優れてはいますが、いくつか欠点もあります。まず第一に、非常にコストがかかるという点です。"
+            ],
+            [
+              "従来のIO学習手法では、",
+              "従来の強化学習による学習手法ですね。それは良いのですが、いくつかあ",
+              "従来の強化学習による訓練手法は、優れたものではありますが、いくつか欠点もあります。まず一つ目は、非常に――",
+              "従来の強化学習による訓練手法は、優れてはいますが、いくつか欠点もあります。まず第一に、非常にコストがかかるという点です。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "従来の入出力（IO）に基づいた学習手法は、",
+              "従来の入出力（IO）に基づいた学習手法は、良いものではありますが、いくつかの",
+              "従来の入出力（IO）に基づいた学習手法は、良いものではありますが、いくつかのデメリットがあります。まず第一に、それは非常に",
+              "従来の入出力（IO）に基づいた学習手法は、良いものではありますが、いくつかのデメリットがあります。まず第一に、それは非常にコストがかかるということです。"
+            ],
+            [
+              "従来の入出力（IO）に基づいた学習手法では、",
+              "従来の入出力（IO）に基づいた学習手法では、それはそれで良いのですが、いくつか、",
+              "従来の入出力（IO）に基づいた学習手法では、それはそれで良いのですが、いくつか、いくつか欠点があります。まず第一に、それは非常に",
+              "非常にコストがかかるという点です。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.05,
+            1.1166666666666667
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            3.764705882352941
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "IO"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 74,
+        "num_batches": 2,
+        "source_full": "At in 2023, at that time, it's, like, one per game.",
+        "batches": [
+          {
+            "key": [
+              519.62,
+              522.700017
+            ],
+            "delta_text": "At in 2023, at that time, it's, like, one",
+            "cumulative_text": "At in 2023, at that time, it's, like, one",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              522.700017,
+              524.3499805
+            ],
+            "delta_text": "per game.",
+            "cumulative_text": "At in 2023, at that time, it's, like, one per game.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "2023年時点では、それは、1つの",
+              "2023年当時は、1試合につき1回といった感じでしたが、"
+            ],
+            [
+              "2023年時点では、それは、1つの",
+              "2023年当時は、1試合につき1つといった感じでしたが、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "2023年時点では、それは、いわば1つの",
+              "2023年時点では、それは、いわば1つのゲームにつき1回で、"
+            ],
+            [
+              "2023年の時点では、それは、いわば1つの",
+              "2023年の時点では、それは、いわば1つの試合につき1回でした。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.42857142857142855,
+            0.42857142857142855
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 75,
+        "num_batches": 2,
+        "source_full": "The second one is, like, the output speed that you very slow.",
+        "batches": [
+          {
+            "key": [
+              524.35,
+              527.4000488
+            ],
+            "delta_text": "The second one is, like, the output speed that you",
+            "cumulative_text": "The second one is, like, the output speed that you",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              527.4000488,
+              528.510034
+            ],
+            "delta_text": "very slow.",
+            "cumulative_text": "The second one is, like, the output speed that you very slow.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "二つ目は、出力速度、つまり皆さんが",
+              "二つ目は、出力速度が非常に遅いという点です。"
+            ],
+            [
+              "二つ目は、出力速度、つまり皆さんが",
+              "二つ目は、出力速度が非常に遅いという点です。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "二つ目は、出力速度、つまり皆さんが",
+              "二つ目は、出力速度、つまり皆さんが非常に遅いと感じるような速度のことで、"
+            ],
+            [
+              "二つ目は、出力速度、つまり皆さんが",
+              "二つ目は、出力速度、つまり皆さんが非常に遅いと感じるような速度のことで、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.36363636363636365,
+            0.36363636363636365
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "you very slow"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 76,
+        "num_batches": 2,
+        "source_full": "When normally, when we play poker, we need to",
+        "batches": [
+          {
+            "key": [
+              528.51,
+              531.7000024
+            ],
+            "delta_text": "When normally, when we play poker, we",
+            "cumulative_text": "When normally, when we play poker, we",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              531.7000024,
+              532.6899927
+            ],
+            "delta_text": "need to",
+            "cumulative_text": "When normally, when we play poker, we need to",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "通常、私たちがポーカーをプレイする際、私たちは",
+              "通常、ポーカーをプレイする際には、私たちは"
+            ],
+            [
+              "通常、私たちがポーカーをプレイする際、私たちは",
+              "通常、ポーカーをプレイする際には、私たちは"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "通常、私たちがポーカーをプレイする際、私たちは",
+              "通常、私たちがポーカーをプレイする際、私たちは"
+            ],
+            [
+              "通常、私たちがポーカーをプレイする際、私たちは",
+              "通常、私たちがポーカーをプレイする際、私たちは何らかの"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.9523809523809523,
+            0.9523809523809523
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 77,
+        "num_batches": 3,
+        "source_full": "The third one is, like, only at that time, only g d four could achieve good performance. Okay. So that's that's what happened in 2023.",
+        "batches": [
+          {
+            "key": [
+              537.1,
+              541.5000244
+            ],
+            "delta_text": "The third one is, like, only at that time, only g d four could",
+            "cumulative_text": "The third one is, like, only at that time, only g d four could",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              541.32,
+              545.0999683
+            ],
+            "delta_text": "achieve good performance. Okay.",
+            "cumulative_text": "The third one is, like, only at that time, only g d four could achieve good performance. Okay.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              545.12,
+              548.750005
+            ],
+            "delta_text": "So that's that's what happened in 2023.",
+            "cumulative_text": "The third one is, like, only at that time, only g d four could achieve good performance. Okay. So that's that's what happened in 2023.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "3つ目は、その時点ではGPT-4だけが",
+              "3つ目は、当時はGPT-4だけが優れたパフォーマンスを達成できていたということで、",
+              "3つ目は、当時は GPT-4 だけが優れたパフォーマンスを達成できていたということで、これが2023年に起きたことです。"
+            ],
+            [
+              "3つ目は、その時点ではGPT-4だけが",
+              "3つ目は、当時はGPT-4だけが優れたパフォーマンスを達成できていたということで、",
+              "3つ目は、当時は GPT-4 だけが優れたパフォーマンスを達成できていたということで、これが2023年に起きたことです。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "3つ目は、その時点ではGPT-4だけが",
+              "3つ目は、その時点ではGPT-4だけが、優れたパフォーマンスを達成できたということです。",
+              "3つ目は、その時点ではGPT-4だけが、優れたパフォーマンスを達成できたということです。これが2023年に起きたことです。"
+            ],
+            [
+              "3つ目は、その当時、GPT-4だけが",
+              "3つ目は、その当時、GPT-4だけが優れたパフォーマンスを達成できたということです。",
+              "3つ目は、その当時、GPT-4だけが優れたパフォーマンスを達成できたということです。これが2023年に起きたことです。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.7833333333333333,
+            0.7833333333333333
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 78,
+        "num_batches": 2,
+        "source_full": "I say what happened now, here is a figure. The x axis",
+        "batches": [
+          {
+            "key": [
+              548.75,
+              551.7999878
+            ],
+            "delta_text": "I say what happened now, here is a figure. The",
+            "cumulative_text": "I say what happened now, here is a figure. The",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              551.7999878,
+              552.880005
+            ],
+            "delta_text": "x axis",
+            "cumulative_text": "I say what happened now, here is a figure. The x axis",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "今何が起きたのかを説明しますと、こちらに図があります。この",
+              "今何が起きたかを説明しますと、こちらがその図です。x軸は"
+            ],
+            [
+              "今何が起きたかを説明しますと、こちらに図があります。この",
+              "今何が起きたかを説明しますと、こちらがその図です。x軸は"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "今何が起きたかを説明します。こちらがその図です。この",
+              "今何が起きたかを説明します。こちらがその図です。このx軸は"
+            ],
+            [
+              "今何が起きたのかを説明します、こちらの図をご覧ください。この",
+              "今何が起きたのかを説明します、こちらの図をご覧ください。このx軸は"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.8214285714285714,
+            0.35714285714285715
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 79,
+        "num_batches": 3,
+        "source_full": "is the output of speed. The y axis is is artificial intelligence index. It's average average",
+        "batches": [
+          {
+            "key": [
+              552.88,
+              556.299983
+            ],
+            "delta_text": "is the output of speed. The y axis is",
+            "cumulative_text": "is the output of speed. The y axis is",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              556.02,
+              559.900005
+            ],
+            "delta_text": "is artificial intelligence index. It's average",
+            "cumulative_text": "is the output of speed. The y axis is is artificial intelligence index. It's average",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              559.900005,
+              559.6999926999999
+            ],
+            "delta_text": "average",
+            "cumulative_text": "is the output of speed. The y axis is is artificial intelligence index. It's average average",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "速度の出力であり、y軸は",
+              "速度の出力であり、y軸はAIインデックス、つまり平均的な",
+              "出力は速度で、y軸はAIインデックス、つまり平均的な、平均の"
+            ],
+            [
+              "速度の出力であり、y軸は",
+              "速度の出力であり、y軸はAIインデックス、つまり平均的な",
+              "出力は速度であり、y軸はAIインデックス、つまり平均的な、平均の"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "速度の出力であり、y軸は",
+              "速度の出力であり、y軸はAIインデックス、つまり平均的な",
+              "速度の出力であり、y軸はAIインデックス、つまり平均的な"
+            ],
+            [
+              "速度の出力であり、y軸は",
+              "速度の出力であり、y軸はAI指数、つまり平均的な",
+              "速度の出力であり、y軸はAI指数、つまり平均的な"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.9333333333333333,
+            0.875
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 80,
+        "num_batches": 3,
+        "source_full": "performance of many different benchmarks. And we could say from 2024 May, four May to",
+        "batches": [
+          {
+            "key": [
+              559.7,
+              563.0999634000001
+            ],
+            "delta_text": "performance of many different benchmarks.",
+            "cumulative_text": "performance of many different benchmarks.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              562.72,
+              566.7000415
+            ],
+            "delta_text": "And we could say from 2024 May,",
+            "cumulative_text": "performance of many different benchmarks. And we could say from 2024 May,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              566.7000415,
+              567.2400195
+            ],
+            "delta_text": "four May to",
+            "cumulative_text": "performance of many different benchmarks. And we could say from 2024 May, four May to",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "多くの異なるベンチマークのパフォーマンスを、",
+              "多くの異なるベンチマークのパフォーマンスについてですが、2024年5月以降、",
+              "多くの異なるベンチマークのパフォーマンスについて。そして、2024年の5月から、5月4日から、"
+            ],
+            [
+              "多くの異なるベンチマークのパフォーマンスを、",
+              "多くの異なるベンチマークのパフォーマンスについてですが、2024年5月以降、",
+              "多くの異なるベンチマークのパフォーマンスについてですが、2024年の5月から、5月4日から"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "多くの異なるベンチマークにおけるパフォーマンスを",
+              "多くの異なるベンチマークにおけるパフォーマンスを、そして2024年5月からは、と言えるかもしれません",
+              "多くの異なるベンチマークにおけるパフォーマンスを、そして2024年5月、5月4日からと言えるかもしれません"
+            ],
+            [
+              "多くの異なるベンチマークのパフォーマンスを、",
+              "多くの異なるベンチマークのパフォーマンスを。そして、2024年5月からと言えるのは、",
+              "多くの異なるベンチマークのパフォーマンスを。そして、2024年5月から、5月4日から"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.3404255319148936,
+            0.15555555555555556
+          ],
+          "soft_anchor_replay": [
+            0.2830188679245283,
+            0.19047619047619047
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 81,
+        "num_batches": 3,
+        "source_full": "we could say the intelligence score doubled in Gemini, but But output speed tripled. And, also,",
+        "batches": [
+          {
+            "key": [
+              570.06,
+              574.7000145999999
+            ],
+            "delta_text": "we could say the intelligence score doubled in Gemini, but",
+            "cumulative_text": "we could say the intelligence score doubled in Gemini, but",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              574.46,
+              578.4000024000001
+            ],
+            "delta_text": "But output speed tripled.",
+            "cumulative_text": "we could say the intelligence score doubled in Gemini, but But output speed tripled.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              578.17,
+              579.5000170999999
+            ],
+            "delta_text": "And, also,",
+            "cumulative_text": "we could say the intelligence score doubled in Gemini, but But output speed tripled. And, also,",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "Geminiにおいて知能スコアが倍増したと言えるかもしれませんが、",
+              "Geminiにおいて知能スコアが2倍になったと言える一方で、出力速度は3倍になり、",
+              "Geminiにおいて知能スコアが倍増したと言えますが、出力速度は3倍になりました。そして、さらに、"
+            ],
+            [
+              "Geminiにおいて知能スコアが倍増したと言えるかもしれませんが、",
+              "Geminiにおいて知能スコアが2倍になったと言える一方で、出力速度は3倍になり、",
+              "Geminiにおいて知能スコアが2倍になったと言える一方で、出力速度は3倍になりました。そして、さらに、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "Geminiにおいて知能スコアが倍増したと言えるかもしれませんが、",
+              "Geminiにおいて知能スコアが倍増したと言えるかもしれませんが、出力速度は3倍になりました。",
+              "Geminiにおいて知能スコアが倍増したと言えるかもしれませんが、出力速度は3倍になりました。そして、さらに、"
+            ],
+            [
+              "Geminiにおいて知能スコアが倍増したと言えるかもしれませんが、",
+              "Geminiにおいて知能スコアが倍増したと言えるかもしれませんが、出力速度は3倍になりました。",
+              "Geminiにおいて知能スコアが倍増したと言えるかもしれませんが、出力速度は3倍になりました。そして、さらに、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.8571428571428571,
+            0.34615384615384615
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 82,
+        "num_batches": 5,
+        "source_full": "x excess is a price for minion tokens is a price The y axis is performance in AIME arena. We could say Jim, like, also have many breakthroughs. Gemini is always",
+        "batches": [
+          {
+            "key": [
+              583.14,
+              587.1999976
+            ],
+            "delta_text": "x excess is a price for minion tokens is a price",
+            "cumulative_text": "x excess is a price for minion tokens is a price",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              587.33,
+              590.499983
+            ],
+            "delta_text": "The y axis is performance",
+            "cumulative_text": "x excess is a price for minion tokens is a price The y axis is performance",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              590.499983,
+              593.2999707
+            ],
+            "delta_text": "in AIME arena. We could say",
+            "cumulative_text": "x excess is a price for minion tokens is a price The y axis is performance in AIME arena. We could say",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              593.2999707,
+              595.499983
+            ],
+            "delta_text": "Jim, like,",
+            "cumulative_text": "x excess is a price for minion tokens is a price The y axis is performance in AIME arena. We could say Jim, like,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              595.32,
+              599.2999805000001
+            ],
+            "delta_text": "also have many breakthroughs. Gemini is always",
+            "cumulative_text": "x excess is a price for minion tokens is a price The y axis is performance in AIME arena. We could say Jim, like, also have many breakthroughs. Gemini is always",
+            "is_utterance_end": false
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "x軸は100万トークンあたりの価格で、価格は",
+              "x軸は100万トークンあたりの価格で、y軸はパフォーマンスを",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスです。こう言えるでしょう、",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおける性能です。例えば、次のように言えるでしょう。",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおける性能です。Geminiも多くのブレイクスルーを実現しており、Geminiは常に"
+            ],
+            [
+              "x軸は100万トークンあたりの価格で、価格は",
+              "x軸は100万トークンあたりの価格で、y軸はパフォーマンスを",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスです。こう言えるでしょう、",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおける性能です。つまり、",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスです。Geminiも多くのブレイクスルーを実現しており、Geminiは常に"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "x軸は100万トークンあたりの価格で、価格は",
+              "x軸は100万トークンあたりの価格で、y軸はパフォーマンスを指しており、",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスを指しており、次のように言えるでしょう、",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスを指しており、次のように言えるでしょう、ジム、つまり、",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスを指しており、次のように言えるでしょう、ジム、つまり、多くのブレイクスルーも起きています。Geminiは常に"
+            ],
+            [
+              "x軸は100万トークンあたりの価格で、価格は",
+              "x軸は100万トークンあたりの価格で、y軸はパフォーマンスとなっており、",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスとなっており、次のように言えるでしょう、",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスとなっており、次のように言えるでしょう、Jim、つまり、",
+              "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスとなっており、次のように言えるでしょう、Jim、つまり、多くのブレイクスルーも起きています。Geminiは常に"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.64,
+            0.5
+          ],
+          "soft_anchor_replay": [
+            0.17525773195876287,
+            0.17346938775510204
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 75,
+            "dropped_or_distorted": [
+              "x excess is a price",
+              "Jim"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 75,
+            "dropped_or_distorted": [
+              "excess",
+              "minion tokens"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "aggregate": {
+    "baseline_replay": {
+      "num_spans_with_defined_ne": 83,
+      "mean_ne_across_spans": 0.630301604310958,
+      "mean_fidelity_score": 92.95180722891567
+    },
+    "soft_anchor_replay": {
+      "num_spans_with_defined_ne": 83,
+      "mean_ne_across_spans": 0.10718552965992442,
+      "mean_fidelity_score": 89.03614457831326
+    }
+  },
+  "notes": "h-soft-anchor-generalization-guest-talk. Follow-up to h-hard-prefix-lock-continuation, checking whether that hypothesis's soft_anchor_replay NE reduction (0.597->0.212 mean across 15 spans in experiments/20260919_h_hard_prefix_lock_replay.json) generalizes to a second, larger (83-span), structurally different (guest interview vs monologue) source clip.",
+  "created_at_utc": "2026-09-19T12:38:18.099184+00:00"
+}

@@ -1,0 +1,258 @@
+{
+  "date": "2026-09-17",
+  "experiment_name": "compression_repeated_sampling_longsegment",
+  "domain": "ml_transformers",
+  "input": {
+    "type": "replay_repeated_single_segment",
+    "source_experiment": "experiments/20260903_asr_keyterms_off.json",
+    "target_segment_index": 15,
+    "target_segment_text": "which describes any model where you're using data to somehow to somehow determine how a model behaves. What I mean by that is let's say you want a function that takes in an image and it produces a label",
+    "context_segment_indices": [
+      12,
+      13,
+      14
+    ],
+    "context_lines": [
+      "Generally considered the heart of the transformer. After that, I wanna I wanna talk more about these multilayer perceptron blocks, how training works,",
+      "and a number of other details that will have been skipped up to that point. For broader context, these videos are additions to a mini series about deep learning.",
+      "And it's okay if you haven't watched the previous ones, I think you can do it out of order. But before diving into transformer specifically, I do think it's worth making sure that"
+    ],
+    "successor_segment_index": 16,
+    "successor_segment_text": "recognition. We almost take this for granted these days, but the idea with machine learning is that rather than trying to",
+    "target_segment_duplicates_context_or_successor": false,
+    "note": "Follow-up to h-compression-repeated-sampling-segment5's reframing (that hypothesis's target segment duplicated its own context, so its 40% truncation rate may reflect a correct rule-9d DROP-on-repetition, not a guardrail violation). This script targets a different, verified non-duplicated long/complex segment to isolate whether genuinely new content still gets dropped."
+  },
+  "models": {
+    "deepgram_model": "nova-3-general",
+    "deepgram_language": "en",
+    "llm_provider": "gemini",
+    "llm_model": "gemini-3-flash-preview",
+    "gemini_thinking_budget": 0
+  },
+  "config": {
+    "extra_system_instructions": {
+      "baseline_replay": null,
+      "compression_actions": "see COMPRESSION_INSTRUCTIONS in compression_actions_replay.py"
+    },
+    "n_repeats": 10,
+    "n_judge_samples": 3
+  },
+  "results": {
+    "baseline_replay": {
+      "samples": [
+        {
+          "repeat_index": 0,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 94,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 1,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力するような関数が欲しいとしましょう。",
+          "output_chars": 86,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 2,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 94,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 3,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 94,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 4,
+          "translation": "データを使ってモデルの挙動を何らかの形で決定する、あらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 92,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 5,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 94,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 6,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 94,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 7,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 94,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 8,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 94,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 9,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 94,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        }
+      ]
+    },
+    "compression_actions": {
+      "samples": [
+        {
+          "repeat_index": 0,
+          "translation": "モデルがどのように振る舞うかを、データを用いて何らかの形で決定するあらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 89,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 1,
+          "translation": "これは、データを用いてモデルの振る舞いを何らかの形で決定するあらゆるモデルを指します。具体的にどういうことかと言うと、例えば、画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 97,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 2,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力するような関数が欲しいとしましょう。",
+          "output_chars": 86,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 3,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力するような関数が欲しいとしましょう。",
+          "output_chars": 86,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 4,
+          "translation": "これは、データを用いてモデルの挙動を何らかの形で決定するあらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力するような関数が欲しいとしましょう。",
+          "output_chars": 87,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 5,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力するような関数が欲しいとしましょう。",
+          "output_chars": 86,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 6,
+          "translation": "これは、データを使用してモデルの挙動を何らかの形で決定するあらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 85,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 7,
+          "translation": "これは、データを用いてモデルの振る舞いを何らかの形で決定するあらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力する関数が欲しいとしましょう。",
+          "output_chars": 86,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 8,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力するような関数が欲しいとしましょう。",
+          "output_chars": 86,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        },
+        {
+          "repeat_index": 9,
+          "translation": "データを使ってモデルの振る舞いを何らかの形で決定する、あらゆるモデルを指します。具体的には、例えば画像を入力として受け取り、ラベルを出力するような関数が欲しいとしましょう。",
+          "output_chars": 86,
+          "covers_clause_b_heuristic": true,
+          "error": null
+        }
+      ]
+    }
+  },
+  "judge_results": {
+    "baseline_replay": [
+      {
+        "score": 100,
+        "dropped_or_distorted": [],
+        "notes": "The translation accurately captures all substantive information including the definition of the model and the specific example provided."
+      },
+      {
+        "score": 100,
+        "dropped_or_distorted": [],
+        "notes": "The translation accurately captures all substantive content, including the definition of the model and the specific example provided."
+      },
+      {
+        "score": 100,
+        "dropped_or_distorted": [],
+        "notes": "The translation accurately captures all technical concepts, logical relationships, and the illustrative example provided in the source."
+      }
+    ],
+    "compression_actions": [
+      {
+        "score": 100,
+        "dropped_or_distorted": [],
+        "notes": "The translation accurately captures all technical concepts and the logical structure of the English source."
+      },
+      {
+        "score": 100,
+        "dropped_or_distorted": [],
+        "notes": "The translation accurately captures all substantive content, including the definition of the model's behavior and the functional input-output example."
+      },
+      {
+        "score": 100,
+        "dropped_or_distorted": [],
+        "notes": "All substantive concepts and the logical relationship between the data, model behavior, and input/output function were accurately preserved."
+      }
+    ]
+  },
+  "metrics": {
+    "baseline_replay": {
+      "n_repeats": 10,
+      "n_errors": 0,
+      "n_covers_clause_b_heuristic": 10,
+      "clause_b_drop_rate_heuristic": 0.0,
+      "output_chars_min": 86,
+      "output_chars_max": 94,
+      "output_chars_mean": 93.0,
+      "judge_scores_sampled": [
+        100,
+        100,
+        100
+      ]
+    },
+    "compression_actions": {
+      "n_repeats": 10,
+      "n_errors": 0,
+      "n_covers_clause_b_heuristic": 10,
+      "clause_b_drop_rate_heuristic": 0.0,
+      "output_chars_min": 85,
+      "output_chars_max": 97,
+      "output_chars_mean": 87.4,
+      "judge_scores_sampled": [
+        100,
+        100,
+        100
+      ]
+    }
+  },
+  "notes": "h-compression-nonduplicate-longsegment. Grounded in incremental2026-human-like-strategies. Direct follow-up to h-compression-repeated-sampling-segment5's reframing (experiments/20260916_compression_repeated_sampling_segment5.json).",
+  "created_at_utc": "2026-09-17T00:14:03.187712+00:00"
+}

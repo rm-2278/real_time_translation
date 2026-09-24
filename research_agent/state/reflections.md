@@ -1186,3 +1186,623 @@ fine to skip." Advancing to GENERATE_HYPOTHESES next time work resumes,
 grounding the search in this session's own finding (call-frequency is the
 shared upstream lever many things route through) rather than starting a
 fresh literature pass first.
+
+**What worked:** Followed cycle 14's own explicit recommendation exactly
+(repeated sampling on the segment-5 content drop) rather than reaching for
+a fresh SEARCH_PAPERS pass -- the whole GENERATE_HYPOTHESES ->
+HUMAN_APPROVAL -> RUN_EXPERIMENTS -> ANALYZE_RESULTS -> WRITE_REPORT ->
+REFLECT chain ran in one session for $0.01. Designing the repeated-sampling
+script forced a level of care the original n=1 replay didn't need: had to
+explicitly pin `context_lines` + `update_context=False` per call so 10
+repeats of the same segment wouldn't leak into each other's context via
+the translator's internal `_context_buffer` (which stores source text, not
+translations -- checked `llm_translator.py` directly rather than assuming).
+That design choice is itself worth remembering for any future
+single-segment repeated-sampling hypothesis.
+
+**A genuine finding, and a correction of last cycle's own framing:** the
+40% truncation rate is real (reproduced 4/10 times, byte-identical to the
+original n=1 output), so cycle 14's finding was not a fluke -- but while
+building the replay I noticed `results.segments[4]` and `[5]` in the
+source experiment JSON have IDENTICAL source text (a duplicate ASR
+artifact), and segment 4 sits inside segment 5's own context window. That
+means the "guardrail violation" framing from cycle 14's report is probably
+wrong: dropping content already said verbatim in the immediately preceding
+context is what the instruction's own DROP rule explicitly permits. I
+corrected this in this cycle's hypothesis result_summary and report rather
+than repeating the earlier framing uncritically. This is the same pattern
+PLAYBOOK.md's GENERATE_HYPOTHESES section already warns about (checking
+real field population before trusting an assumption) but applied to a
+paper-inspired prompt instruction's behavior rather than a `TimedEvent`
+field -- worth generalizing that lesson: when a paper-inspired instruction
+seems to misbehave, check whether the *input* driving it is what it looks
+like before concluding the *instruction* is unsafe.
+
+**A real methodological limitation, reported honestly rather than
+smoothed over:** the fidelity-judge spot-check (3/10 samples per
+condition) was not a useful signal in this design -- judging a single
+segment fragment in isolation (rather than the full multi-segment
+transcript, as cycle 14's run did) meant the judge couldn't tell a
+continuation clause was expected, and it scored the two most-truncated
+outputs in the sample as 100/100. The char-length heuristic was the
+reliable signal here instead. Noted explicitly in the hypothesis
+result_summary and the Japanese report rather than quietly dropping the
+judge numbers or over-stating what they showed.
+
+**Backlog calibration:** Added exactly 1 new hypothesis (depth over
+breadth, same as cycle 14), fully executed to `tested` in the same
+session. Backlog is 0 queued/proposed, well under the 6 cap.
+
+**Budget policy:** Unchanged recommendation. $0.01 spent this cycle
+(20 short single-segment Gemini translate calls + 6 judge spot-checks,
+zero Deepgram spend).
+
+**Should this playbook change?** No changes made this cycle -- the
+existing RUN_EXPERIMENTS environment-check guidance and the
+`context_lines`/`update_context` mechanics were already discoverable by
+reading `llm_translator.py` directly; nothing here reflects a gap in the
+playbook itself, just ordinary implementation care.
+
+**Next state:** Advancing to `GENERATE_HYPOTHESES` directly again (not a
+fresh `SEARCH_PAPERS` pass) -- the natural next step (testing the same
+compression instruction on a non-duplicated, genuinely long/complex
+segment, since this cycle's 40% figure is likely specific to the
+duplicate-ASR-segment case) is already well-scoped and doesn't need new
+literature. A fresh SEARCH_PAPERS pass is reasonable in a future cycle
+once this narrower thread is resolved.
+
+## Cycle 16 (2026-09-17, scheduled/automated run)
+
+**What worked:** Followed cycle 15's own explicit recommendation exactly
+(test the compression instruction on a verified non-duplicated, long/
+complex segment) rather than reaching for a fresh SEARCH_PAPERS pass --
+the whole GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS ->
+ANALYZE_RESULTS -> WRITE_REPORT -> REFLECT chain ran in one session for
+$0.01. Before finalizing the hypothesis, actually searched the existing
+86-file experiment corpus for a segment matching the "long, multi-clause,
+NOT a duplicate" spec (`experiments/20260903_asr_keyterms_off.json`'s
+segments[15], 202 chars) rather than reusing the same clip/segment
+family as before -- this is exactly the kind of concrete, falsifiable
+follow-up PLAYBOOK.md's GENERATE_HYPOTHESES section wants (a specific
+segment index, verified via direct inspection to not duplicate its
+context or successor, not just "some other long segment, TBD").
+
+**A clean result, worth naming plainly:** zero content drops in either
+condition across 10 repeats each (vs. cycle 15's 0/10 baseline, 4/10
+compression_actions on the duplicated segment 5). This is a genuine
+confirmation of cycle 15's own reframing, not just a restatement of it --
+before this cycle, "segment 5's drop is specific to its duplicate-ASR-
+context" was a plausible but untested explanation; after this cycle, the
+alternative explanation ("the compression instruction has a general,
+input-independent content-drop risk on any long/complex segment") is
+measurably less likely, since the same instruction produced zero drops
+here. Also chose a better-suited completeness heuristic this time
+(keyword presence for the second clause's concrete content -- 関数/画像/
+ラベル -- rather than segment 5's char-length threshold, which would have
+been meaningless for a 202-char source with different clause lengths)
+instead of copy-pasting the prior script's heuristic unexamined.
+
+**What didn't / limitations acknowledged:** This is still n=1 segment
+(10 repeats), not a corpus-wide sweep -- the result_summary and Japanese
+report both say plainly that this doesn't prove the instruction never
+drops content elsewhere, only that it meaningfully weakens the "general
+risk" reading of cycle 15's finding. Also: did not re-verify the Deepgram
+listen-websocket this cycle (not needed, since this hypothesis is a
+Gemini-only replay) -- consistent with cycle 15's same choice, but it
+means the live-ASR environment status is now unknown for two cycles running
+and should be re-checked whenever a hypothesis actually needs it again.
+
+**Backlog calibration:** Added exactly 1 new hypothesis (depth over
+breadth, same pattern as cycles 14-15), fully executed to `tested` in the
+same session. Backlog is 0 queued/proposed, well under the 6 cap. The
+`h-compression-*` thread (cycles 14, 15, 16) now feels genuinely closed
+for now: three cycles of investigation converged on a specific, well-
+evidenced account (modest, safe compression on ordinary input; an
+unreliable duplicate-ASR-segment-triggered DROP as the one real risk
+found) rather than an open question needing a fourth follow-up.
+
+**Budget policy:** Unchanged recommendation. $0.01 spent this cycle (20
+short single-segment Gemini translate calls + 6 judge spot-checks, zero
+Deepgram spend). Total spend across 16 cycles remains trivial relative to
+the $3/batch, $7/day caps -- still no data suggesting the caps themselves
+are miscalibrated, just consistently far under them because every
+executed hypothesis so far has been a cheap $0-$0.05 replay/retroactive
+design.
+
+**Should this playbook change?** No changes made this cycle. The existing
+GENERATE_HYPOTHESES guidance (grep experiments/results.csv and skim git
+log before asserting something is untested -- added cycle 14) generalizes
+fine to "grep experiment JSON segment text for a matching profile", no new
+gap surfaced.
+
+**Next state:** Advancing to `SEARCH_PAPERS` for cycle 17. Reasoning: the
+narrow `h-compression-*` thread that has occupied GENERATE_HYPOTHESES's
+last three cycles (14, 15, 16) is now resolved to a well-evidenced
+conclusion, and cycle 15's own REFLECT entry already flagged "a fresh
+SEARCH_PAPERS pass is reasonable... once this narrower thread is
+resolved" -- that condition is now met. The last real literature pass was
+cycle 13 (EXTRACT_PAPERS/READ_PAPERS carried into cycle 14), so the
+literature base is now three cycles stale. If the Deepgram WS-proxy issue
+has been resolved by the time cycle 17 runs (unverified for two cycles
+running now, since cycles 15-16 didn't need to check it), prioritize
+running `h-masking-holdback` or `h-localagreement-asr-commit` live
+immediately instead -- both have been fully implemented and ready since
+early cycles, and would be a substantially higher-value use of a working
+Deepgram connection than another literature pass.
+
+---
+
+## Cycle 17 (2026-09-19)
+
+**What worked:** Picked up exactly where the prior session's READ_PAPERS
+left off (it had already flagged lacuna2026-beam-search-cascade-flicker as
+a new, uncovered angle) and turned that into one concrete, well-scoped
+hypothesis (h-hard-prefix-lock-continuation) that was fully executed
+GENERATE_HYPOTHESES -> WRITE_REPORT in one session, at ~$0.05. Reusing the
+compression_actions_replay.py-style deterministic-replay pattern (instead
+of requiring a live run) paid off twice: it let the new hard_lock idea be
+tested with proper repeats/statistics instead of one live sample, and --
+more valuably -- applying the same controlled methodology to
+h-continuation-context-anchor's existing soft-anchor mechanism (as a
+control condition in the same replay) produced the opposite conclusion
+from that hypothesis's original single noisy live run (NE dropped
+0.597->0.212 with repeats/no batching-variance confound, vs. the live
+run's inconclusive/negative 0.836->0.972). That's a genuinely useful
+correction to carry forward, not just a new result.
+
+**What didn't (or needed extra care):** Found a real, previously-
+undocumented data-quality issue mid-implementation: `TimedEvent.
+original_text` on `translation_complete` events is NOT reliably cumulative
+across a multi-batch span (76% of consecutive same-utterance batch pairs
+show a literal prefix relationship, 24% show none at all -- checked
+across all 47 experiment JSONs, not just the one file this hypothesis
+used). This is now a *fourth* concrete instance of the exact trap
+PLAYBOOK.md's GENERATE_HYPOTHESES section already warns about (after
+h-gemini-only-masking-replay's original_text-empty discovery,
+h-cross-utterance-flicker's missing utterance_id, and cycle 13's
+is_utterance_end-only-set-on-translation-events finding) -- except this
+one wasn't caught by that warning's own advice (checking construction
+sites in video_segment.py/youtube_segment.py's on_result()), because the
+actual root cause lives in pipeline.py's async utterance_id/
+_utterance_source_text bookkeeping, not in the event-construction sites
+themselves. I did not fully root-cause *why* it's inconsistent (plausibly
+a race between concurrent translation workers updating
+`_utterance_source_text` for the same utterance_id, but not confirmed) --
+flagging that as open for whoever next needs this field to mean one
+specific thing. Practical impact was contained by adaptively detecting
+the prefix relationship per-transition rather than assuming either form,
+which worked cleanly, but a future hypothesis relying on this field
+should re-verify rather than trust this cycle's workaround blindly if the
+underlying pipeline code changes.
+
+Also worth naming plainly: hard_lock's own headline result (NE=0) was
+predictable before running anything (freezing a literal prefix guarantees
+it structurally) and turned out to not be the interesting number -- the
+real information was in the fidelity-judge score and the qualitative
+failure case (a source clause split mid-phrase across the batch
+boundary). Good reminder to design NE-only comparisons for hypotheses
+where NE is genuinely uncertain, not ones where one condition's NE is
+knowable in advance from the mechanism -- fidelity/coherence should be the
+headline metric in that case, not a secondary check.
+
+**Backlog calibration:** Added exactly 1 new hypothesis (depth over
+breadth, consistent with cycles 14-17), fully executed to `tested` in the
+same session. Backlog is 0 queued/proposed, well under the 6 cap. Unlike
+the h-compression-* thread's three-cycle arc, this one resolved (with a
+genuinely useful side-finding) in a single cycle -- the replay-based
+design let both implementation and full statistical analysis happen
+without waiting on a human's separate live-machine run.
+
+**Budget policy:** Unchanged recommendation. $0.05 spent this cycle (~208
+short Gemini translate calls + 45 judge spot-checks, zero Deepgram
+spend). Total spend across 17 cycles remains trivial relative to the
+$3/batch, $7/day caps.
+
+**Should this playbook change?** Yes, small addition: appended this
+cycle's original_text cumulative-vs-delta finding to the GENERATE_
+HYPOTHESES section's existing "check actual construction sites" warning,
+as a fourth concrete example, so a future session grep-ing for
+`original_text` usage sees this specific caveat rather than rediscovering
+it from scratch (see the diff to this file in the same commit as this
+reflections.md entry).
+
+**Next state:** Advancing directly to `GENERATE_HYPOTHESES` (skipping a
+fresh `SEARCH_PAPERS` pass) for cycle 18. Reasoning: this cycle's own
+result_summary already identifies a concrete, well-motivated, cheap
+follow-up -- re-run the same soft-anchor-vs-baseline replay methodology
+against a different already-recorded multi-batch-rich experiment JSON
+(experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json, 83
+multi-batch spans, far more than this cycle's 15) to check whether the
+soft-anchor's NE improvement generalizes beyond one clip, or was partly a
+property of that specific clip's sentence structure. That's higher-value
+than another literature pass right now. Deepgram WS-proxy status remains
+unverified for three cycles running (15, 16, 17 all used Gemini-only
+replay designs) -- if it has recovered by cycle 18, running
+h-masking-holdback or h-localagreement-asr-commit live should take
+priority over the replay follow-up above, since both have been fully
+implemented and ready since early cycles.
+
+---
+
+## Cycle 18 (2026-09-19)
+
+**What worked:** Picking up cycle 17's own concrete, well-motivated
+follow-up recommendation (re-run the soft-anchor-vs-baseline replay
+against a second, larger, structurally different clip to check
+generalization) was the right call again -- it required no new paper
+search, reused ~all of prefix_lock_replay.py's logic via a direct import
+(no code duplication of `_extract_spans`/`_run_condition`), and produced a
+clean, unambiguous answer: the core NE-reduction finding generalizes (and
+is even stronger, 83% vs 65% relative reduction, on 83 spans vs 15), while
+also surfacing a genuinely new, previously-unseen failure mode (anchor-
+induced hallucination on fragmentary source, span 69) that the first
+clip's cleaner source never exposed. This is exactly the kind of "depth
+over breadth" cycle PLAYBOOK.md asks for -- one hypothesis, fully executed
+including a real qualitative investigation of the worst case, rather than
+several shallow ones.
+
+**Also worth naming as a correction to cycle 17's own reflection:** that
+entry's closing note said "if [Deepgram] has recovered by cycle 18,
+running h-masking-holdback or h-localagreement-asr-commit live should
+take priority" -- but both of those hypotheses are already `status:
+tested` (h-masking-holdback via the human's own local-machine run on
+2026-09-13, h-localagreement-asr-commit earlier still), so even if
+Deepgram had recovered this cycle, re-running them wouldn't have been the
+right next step without first deciding *why* a re-test was warranted
+(e.g. a config/code change since the last test, not just "we finally
+have live access"). Flagging so a future cycle doesn't uncritically copy
+that specific recommendation forward again. Moot this cycle regardless --
+Deepgram listen-websocket is still blocked (see below).
+
+**A genuine process near-miss this session (not a data-quality one, a
+pipeline-bookkeeping one):** while the soft_anchor_generalization_replay.py
+run was still in progress in the background, I called `orchestrator.py
+advance RUN_EXPERIMENTS -> ANALYZE_RESULTS` speculatively/optimistically
+before the run had actually finished and before doing the RUN_EXPERIMENTS
+state's own required bookkeeping (hypothesis.status="testing",
+experiment_ids set, commit) -- directly against PLAYBOOK.md's own
+explicit instruction to do that bookkeeping immediately and not wait. This
+was caught before it was committed (a repo git-status hook flagged
+uncommitted changes, which prompted a review before pushing), so no bad
+state was ever pushed, but it was a real deviation: had the session been
+interrupted between the premature `advance` call and the fix, a future
+session would have resumed at `ANALYZE_RESULTS` with no experiment JSON on
+disk yet and no `testing`-status hypothesis pointing at it -- a confusing,
+hard-to-diagnose state. Lesson: **never call `orchestrator.py advance` out
+of a state until that state's own bookkeeping steps are actually done**,
+even when the next step (writing the transition note) is easy to draft
+ahead of time. Drafting the note early is fine; calling `advance` early
+is not, because unlike hypotheses.json edits (which are just data), an
+`advance` call is the one action this pipeline treats as commitment that
+the current state's work is complete.
+
+**Backlog calibration:** Added exactly 1 new hypothesis, fully executed to
+`tested` in the same session (same pattern as cycle 17). Backlog is 0
+queued/proposed, still well under the 6 cap. This makes two cycles in a
+row where a single well-chosen follow-up hypothesis, backed by a replay
+design, resolved cleanly within one session -- worth continuing as the
+default pattern while Deepgram access stays blocked, since it sidesteps
+both the live-run noise problem and the environment blocker entirely.
+
+**Budget policy:** Unchanged recommendation. $0.20 spent this cycle
+(~832 short Gemini translate calls + 166 judge spot-checks, zero Deepgram
+spend, estimated by scaling cycle 17's measured $0.05/253-call rate to
+this cycle's ~998 calls -- no way to get an exact figure without per-call
+token accounting, which this repo's LLMTranslator doesn't currently
+expose; a future hypothesis could add that if precise cost tracking ever
+matters more than it does at this trivial spend level). Total spend
+across 18 cycles remains trivial relative to the $3/batch, $7/day caps.
+
+**Should this playbook change?** No content change this time, but the
+premature-`advance` near-miss above is worth a future addition if it
+recurs -- for now, recording it here in reflections.md (as PLAYBOOK.md's
+REFLECT section itself suggests trying first) rather than editing the
+playbook, since one occurrence, caught before any bad state was
+committed, doesn't yet justify a permanent rule addition. If a future
+cycle repeats this same mistake, escalate it into PLAYBOOK.md's hard
+rules section next time.
+
+**Next state:** Advancing to `GENERATE_HYPOTHESES` directly again
+(skipping `SEARCH_PAPERS`), for cycle 19. Reasoning: this cycle's own
+result identifies a concrete next question -- should the anchor be gated
+off for very short/fragmentary source deltas to avoid the hallucination-
+under-disfluency failure mode found in span 69, without losing the NE win
+on cleaner speech? That's a well-motivated, cheap ($0, replay-only)
+hypothesis to design next, and doesn't need new literature. Deepgram
+listen-websocket remains blocked (same `HTTP 400: Connection header did
+not include 'upgrade'` proxy-mangling failure as cycles 5, 15, 16, and 17
+-- five occurrences now across eleven days) -- if a future session finds
+it has recovered, live re-verification of h-masking-holdback/
+h-localagreement-asr-commit is only worth prioritizing if there's a
+specific reason to doubt their existing `tested` results (e.g. a pipeline
+code change since they were last run), not simply because live access
+became available again.
+
+## Cycle 19 (2026-09-20, scheduled/automated run)
+
+**What worked:** Same one-hypothesis-per-session pattern as cycles 17-18
+worked cleanly again: a single hypothesis (`h-soft-anchor-disfluency-
+gate`) was auto-approved, implemented, run, analyzed, and reported within
+one session, no environment blockers (replay-only, zero live ASR/ffmpeg
+dependency). The gate mechanism itself worked exactly as designed on the
+one concrete case it was built for (span 69's "AIME" hallucination:
+judge score 50 -> 100). Also: a real infra mistake this session (see
+below) was caught and fixed before it did any damage, which is itself a
+useful signal that the "check before trusting a background command"
+habit is paying off.
+
+**What didn't:** Two things worth flagging:
+
+1. **Background-command self-inflicted failure.** First attempt at
+   running the experiment used `timeout 590 python3 -m ... 2>&1 | tail
+   -100` as the backgrounded command. This was based on a
+   misunderstanding: the Bash tool's own per-call timeout just moves a
+   long command to the background without killing it (confirmed --
+   that's what happened at the 120s mark), but the *inline* `timeout
+   590` I added myself was a real SIGTERM after 590 wall-clock seconds,
+   and because python's stdout was piped (through `tail`) rather than a
+   tty, it was fully buffered and never flushed before the kill -- the
+   entire run's progress output was lost (just "Terminated"), and the
+   experiment JSON was never written. Fix: dropped the inline `timeout`
+   wrapper entirely and used `python3 -u` (unbuffered) with
+   `run_in_background: true` on the Bash tool call itself and no
+   artificial kill timer -- this completed cleanly in one pass. Lesson
+   for next time: never wrap a long-running experiment script in a
+   shell-level `timeout` "just in case" -- the harness's own
+   auto-backgrounding already handles the "this is taking a while"
+   case without killing anything, and pipe output through `python3 -u`
+   (or set `PYTHONUNBUFFERED=1`) whenever a background run's interim
+   progress matters, since `python ... | tail` fully buffers stdout by
+   default. Adding this to PLAYBOOK.md's RUN_EXPERIMENTS section since
+   this is a live-editable-file "self-improvement" case (not just a
+   one-off note) -- it will otherwise cost a full ~600s of wasted API
+   spend and wall-clock every time it recurs, and it's a completely
+   avoidable environment-interaction mistake, not a genuine science
+   result.
+
+2. **Hypothesis's own prediction was calibrated wrong, and the
+   experiment design has a real statistical-power gap.** Two distinct
+   findings here, both honestly worth recording as null/mixed rather
+   than being smoothed over: (a) `GATE_MIN_WORDS=5` gated 57% of
+   eligible batches on the guest-talk clip, not "most batches are not
+   short" as the hypothesis predicted -- word-count-5 is apparently a
+   very low bar to clear in real disfluent interview speech, so almost
+   any hesitation-heavy turn gets gated, sacrificing most of the NE win
+   for a fidelity benefit that (b) turned out to be statistically
+   indistinguishable from noise at this experiment's sample size, because
+   `judge()` is only called once per condition per span (on
+   `repeats[0]`) even though `REPEATS=2` already exists for the NE
+   metric. Checking spans where the gate had *zero* code-path effect
+   (no batch gated, so `gated_soft_anchor` is byte-for-byte the same
+   algorithm as `soft_anchor_replay`, just independently sampled) showed
+   swings of -30..+5 and -5..+45 points -- as large as or larger than
+   the actual "gated vs ungated" mean deltas (0.00 and +1.84). This is a
+   good concrete illustration of a general risk in these replay
+   hypotheses: NE is a mostly-deterministic structural metric so
+   averaging repeats works fine for it, but LLM-judge fidelity scores
+   are noisy single-draw judgments, and treating a 2-4 point aggregate
+   mean difference as meaningful without first establishing a noise
+   floor (e.g. via a same-condition-twice control, which this session
+   only discovered retroactively via the zero-gated-batch spans) risks
+   over-interpreting sampling variance as a real effect -- this is
+   distinct from, but in the same family as, the cycle-12
+   `h-masking-holdback` config-drift near-miss (looked like a real
+   effect, wasn't). Worth a permanent playbook note for any future
+   hypothesis that leans on `judge()`'s single-score-per-condition
+   fidelity numbers as its primary evidence.
+
+**Was the hypothesis backlog well-calibrated?** Yes in spirit -- this was
+exactly the kind of cheap, well-motivated, directly-targeted follow-up
+the playbook wants prioritized (depth over breadth, $0.30 est., replay-
+only). The one gap was in the *hypothesis's own predicted_effect* text,
+which assumed "most batches are not short" without checking that
+assumption against the actual guest-talk clip's delta_text word-count
+distribution first -- that check would have been cheap (a single grep/
+histogram over the already-recorded source JSON, no API calls) and would
+have caught the GATE_MIN_WORDS miscalibration before spending the $0.35,
+rather than after. Adding this as a concrete process improvement for
+GENERATE_HYPOTHESES: when a hypothesis's `required_changes` involves a
+numeric threshold applied to an already-recorded field (word counts,
+durations, etc.), compute the actual distribution of that field over the
+target source data during hypothesis design, not just after running the
+experiment.
+
+**Budget policy:** Unchanged recommendation. $0.35 spent this cycle
+(1458 Gemini translate calls + up to 294 judge spot-checks, zero Deepgram
+spend, replay-only, estimated by the same call-count-scaling method as
+cycles 18/17 -- still no exact per-call token accounting available).
+Total spend across 19 cycles remains trivial relative to the $3/batch,
+$7/day caps. Daily budget rolled over cleanly from 2026-09-19 to
+2026-09-20 via `check-budget`'s date check, as designed.
+
+**Should this playbook change?** Yes, two additions made this cycle (see
+PLAYBOOK.md diff in this commit):
+1. RUN_EXPERIMENTS: a note against wrapping long-running experiment
+   scripts in an inline shell `timeout`, and to use `python3 -u`/
+   `PYTHONUNBUFFERED=1` for any backgrounded script whose interim
+   progress needs to survive a Bash-tool auto-background. This is the
+   infra mistake from finding (1) above.
+2. ANALYZE_RESULTS: a note that `judge()`'s single-score-per-condition
+   fidelity numbers need an explicit noise-floor check (e.g. spans/
+   batches where a new gating/branching condition had zero code-path
+   effect vs. the condition it's compared against) before treating a
+   small aggregate mean difference as a real effect, not just sampling
+   variance. This is finding (2) above.
+
+**Next state:** Advancing to `GENERATE_HYPOTHESES` directly again,
+for cycle 20. Backlog is 0 queued/proposed, well under the 6 cap. Two
+concrete, cheap ($0 or near-$0) follow-up directions are already
+identified and don't need new literature: (a) re-test the disfluency
+gate with a lower `GATE_MIN_WORDS` (2-3) informed by an actual word-count
+histogram over the guest-talk clip's delta_text values (per the process
+improvement above, check the histogram before picking the threshold this
+time), and/or (b) extend `soft_anchor_disfluency_gate_replay.py` (or a
+new script) to call `judge()` on every repeat rather than just
+`repeats[0]`, giving a real per-span noise estimate that would make (a)'s
+results, and future fidelity-based hypotheses in general, trustworthy at
+face value instead of needing a manual post-hoc noise check. Either is
+well-motivated by this cycle's own findings. Deepgram listen-websocket
+status is unconfirmed this cycle (not checked, since not needed) --
+next session that needs live ASR should re-verify before assuming either
+way.
+
+---
+
+## Cycle 20 reflection (2026-09-22)
+
+**What worked:** The process improvement adopted at the end of cycle 19
+(compute the actual field distribution before picking a numeric threshold)
+worked exactly as intended -- the word-count histogram computed during this
+hypothesis's design correctly predicted the new gate rates (10%/16% vs the
+predicted numbers), and the resulting NE improvement on the guest-talk clip
+was substantial and matched the prediction (gated NE 0.547 -> 0.307, much
+closer to soft_anchor's 0.123). The other cycle-19 process improvement
+(judge() on every repeat instead of just repeats[0]) also worked as intended
+and gave a real measured noise floor instead of a post-hoc inferred one --
+and that measured noise floor (stdev 17.72 on the guest-talk clip) turned
+out to be even larger than the post-hoc estimate suggested, confirming the
+concern was justified rather than overblown.
+
+**What didn't work / new near-miss:** A third kind of "assumption not
+verified against actual code/data" bug, distinct from the four
+already-catalogued in GENERATE_HYPOTHESES (event-field-population
+assumptions). This hypothesis's own description asserted, as a specific
+factual claim, that "GATE_MIN_WORDS=2 still catches the actual target
+failure case" (guest-talk span 69, delta_text "AIM to", 2 words) -- but the
+actual gating condition in soft_anchor_disfluency_gate_replay.py is
+`len(delta_text.split()) < GATE_MIN_WORDS` (strict less-than), so a
+2-word delta is NOT gated when the threshold is also 2. This was not a
+subtle bug: the comparison operator was sitting in the same file the
+hypothesis's `required_changes` field pointed at, and the claim could have
+been falsified in seconds by literally evaluating `2 < 2` -- but during
+GENERATE_HYPOTHESES the boundary case was reasoned about in prose ("2-word
+delta_text... GATE_MIN_WORDS=2 still catches it") rather than checked
+against the exact operator. It was only caught during ANALYZE_RESULTS by
+noticing `gated_batch_indices: []` on span 69 in the output JSON -- if that
+field hadn't been inspected directly (e.g. if analysis had trusted only the
+aggregate tables), this would have shipped as a false "the gate still
+catches the flagship case" conclusion into the report.
+
+**Is the hypothesis backlog well-calibrated?** Yes -- one hypothesis, fully
+run and analyzed in depth (including catching its own design flaw), matches
+the "depth over breadth" guidance. Backlog is 0 queued/proposed, well under
+the 6 cap, same as after cycle 19.
+
+**Budget policy:** Unchanged recommendation. $0.40 spent this cycle (1458
+translate calls, unchanged from cycle 19's batch/span structure, + 588
+judge calls, double cycle 19's 294 since every repeat is now scored).
+Total spend across 20 cycles remains trivial relative to the $3/batch,
+$7/day caps.
+
+**Should this playbook change?** Yes, one addition (see PLAYBOOK.md diff in
+this commit): GENERATE_HYPOTHESES already has a note (four prior near-misses)
+about verifying event-field assumptions against actual construction sites
+before finalizing a hypothesis. Adding a fifth, distinct near-miss to the
+same note: when a hypothesis's description makes a specific factual claim
+about how a *numeric threshold's comparison operator* behaves on a
+*specific concrete example* (e.g. "a delta_text of exactly N words will/
+won't be gated at threshold N"), evaluate that exact comparison
+(`N < threshold`, `N <= threshold`, etc.) against the exact operator used in
+the code being modified, not just reason about it in prose -- boundary
+values (delta length == threshold) are exactly where off-by-one/strict-vs-
+non-strict inequality mistakes hide, and are cheap to check mechanically
+before writing the claim into the hypothesis text.
+
+**Next state:** Advancing to `GENERATE_HYPOTHESES` directly again for
+cycle 21 (not writing the actual hypotheses in this same session -- that's
+this state's own bounded unit of work for next time). Backlog is 0
+queued/proposed. Two directions are visible for next session to choose
+between: (a) a narrow follow-up, GATE_MIN_WORDS=3, now that the boundary-
+condition bug is understood (a 2-word delta needs threshold >= 3 to be
+caught under the strict-less-than gate) -- cheap ($0, same replay
+infrastructure) but worth weighing against (b) the more fundamental
+question this cycle exposed: whether *any* fidelity claim built on
+REPEATS=2 judge() calls can reach statistical significance given how large
+the measured per-span noise floor turned out to be (stdev up to 17.7 on
+real interview-style speech) -- this might be better served by a fresh
+literature search on evaluation methodology for LLM-judged MT quality
+(e.g. how many repeats/judges are typically used to get a stable signal,
+or whether a cheaper deterministic proxy metric exists) rather than by
+another replay-only threshold sweep. Deepgram listen-websocket status is
+unconfirmed this cycle (not checked, since not needed) -- next session
+that needs live ASR should re-verify before assuming either way.
+
+---
+
+## Cycle 21 (2026-09-22)
+
+**What worked this cycle?** The "prefer $0 retroactive-analysis
+hypotheses first" rule paid off directly: rather than immediately running
+`h-soft-anchor-gate-min-words-3` (the live-LLM-calls hypothesis, queued
+alongside it), doing the $0 `h-judge-noise-repeats-power-check` first
+surfaced a real, actionable bug in cycle 20's own noise-floor measurement
+before spending any more API budget chasing GATE_MIN_WORDS variants under
+a noise estimate that was itself wrong. This is exactly the kind of
+result the budget policy's "$0 retroactive analysis is the cheapest and
+highest-priority kind of hypothesis" guidance was meant to produce, and
+it worked. The venv also rebuilt cleanly in one shot this session (no
+zoom/rtms testpypi block this time) -- not something to rely on, but a
+useful data point that the workaround documented in PLAYBOOK.md isn't
+needed every time.
+
+**What didn't?** `h-soft-anchor-gate-min-words-3` (the other new
+hypothesis from this cycle's GENERATE_HYPOTHESES) is still sitting
+`queued`, unexecuted -- I chose to spend this session's remaining budget
+on the $0 hypothesis and writing it up properly (including the variance
+decomposition, which turned into more analysis than a one-line retroactive
+check) rather than also running a live-API experiment in the same
+session. That's a reasonable trade given the playbook's "do one bounded
+unit of work, then advance" framing, but it does mean the backlog isn't
+fully drained and next session's first move is determined already (no
+real choice needed there, which is fine).
+
+**Was the hypothesis backlog well-calibrated?** Yes -- 2 new hypotheses
+this cycle (1 cheap narrow follow-up, 1 free retroactive analysis),
+backlog now sits at 1 queued (well under the 6 cap) since one was
+completed same-session. Not duplicating past work: both were explicit,
+concrete follow-ups flagged by name in cycle 20's own result_summary/
+reflections, not blind re-derivation.
+
+**Is the auto-approval budget policy still right?** Yes, no change
+needed to the caps themselves. One policy-adjacent recommendation *is*
+going to the human via this cycle's report (not silently applied): raise
+`REPEATS` from 2 to 4-5 for future fidelity-focused hypotheses in this
+line, now that the corrected noise floor shows that's affordable
+(~$0.80-$1.00 for a full two-clip run, comfortably under the $3/batch
+cap) and would meaningfully improve detection power. This is a
+recommendation about experiment *design* defaults, not about
+`budget.json`'s caps, so it doesn't need a budget.json edit -- just
+human sign-off before the next REPEATS>2 experiment.
+
+**Should this playbook change?** Yes -- added a new bullet to
+PLAYBOOK.md's ANALYZE_RESULTS section (adjacent to cycle 19's original
+noise-floor-check rule) about decomposing between-span vs within-span
+variance before trusting a noise floor computed by concatenating
+per-repeat scores across multiple spans. This is a distinct, specific
+failure mode from cycle 19's original rule (which was about *whether* to
+check a noise floor at all) -- this one is about *how* to compute that
+noise floor correctly once you've decided to check it, since the naive
+concatenation method silently mixes in an unrelated variance source
+(between-span quality differences) that inflates the estimate by ~2x in
+at least one observed case. Did not touch the approval-gate or
+budget-check steps.
+
+**Next state:** Advancing directly to `GENERATE_HYPOTHESES` again rather
+than `SEARCH_PAPERS` is tempting (existing paper base still supports the
+queued `h-soft-anchor-gate-min-words-3` and a possible REPEATS-related
+follow-up), but the backlog is genuinely thin (1 queued) and the existing
+paper base has never yet yielded a hypothesis specifically about LLM-judge
+evaluation methodology / repeats-needed-for-significance (checked
+`papers.json` this cycle: nothing closer than
+`polak2026-meta-evaluation-latency-metrics`, which is about *latency*
+metrics, not quality/fidelity judge noise) -- a real literature gap this
+cycle's `h-judge-noise-repeats-power-check` result makes newly relevant
+and well-motivated to search for. Recommend next session either (a) runs
+`h-soft-anchor-gate-min-words-3` first (it's already queued and cheap,
+finishes the backlog), then does a `SEARCH_PAPERS` pass specifically on
+LLM-judge/LLM-as-evaluator noise and repeats-needed-for-significance
+before the next `GENERATE_HYPOTHESES`, or (b) does the search first if
+there's a full session available, since it could inform a better-grounded
+version of any further REPEATS-tuning hypothesis. Deepgram Listen
+WebSocket status remains unconfirmed since cycle 19 -- next session
+needing live ASR should re-verify before assuming either way.

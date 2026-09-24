@@ -136,11 +136,46 @@ human-facing; treat the JSON field as an internal
   `on_result()` for which `kind` values that field is really populated on
   before finalizing the hypothesis text -- do not assume a field is
   populated uniformly across event kinds just because the dataclass
-  defines it once. This has been the wrong assumption behind three
+  defines it once. This has been the wrong assumption behind four
   separate near-misses now (h-gemini-only-masking-replay's `original_text`-
-  empty discovery, h-cross-utterance-flicker's missing `utterance_id`, and
+  empty discovery, h-cross-utterance-flicker's missing `utterance_id`,
   cycle 13's `is_utterance_end`-only-set-on-translation-events discovery --
-  see reflections.md cycle 13).
+  see reflections.md cycle 13 -- and cycle 17's discovery that
+  `original_text` on `translation_complete` events is NOT reliably
+  cumulative across a multi-batch span even once populated: checked across
+  all 47 experiment JSONs, only 76% of consecutive same-utterance batch
+  transitions have the later batch's `original_text` prefixed by the
+  earlier batch's, the other 24% show no overlap at all. This one is
+  *not* caught by re-reading video_segment.py/youtube_segment.py's
+  `on_result()` construction sites alone (the field's presence there is
+  fine) -- the actual inconsistency traces back to async `utterance_id`/
+  `_utterance_source_text` bookkeeping in pipeline.py's
+  `_translation_worker`/`_emit_batch_result`, not fully root-caused as of
+  cycle 17. If a hypothesis needs a per-batch *cumulative* or *delta*
+  source text reconstruction from this field, verify empirically per
+  transition (e.g. does the later value start with the earlier one?)
+  rather than assuming either form uniformly -- see
+  prefix_lock_replay.py's `_extract_spans()` for a working example of the
+  adaptive-detection workaround. See reflections.md cycle 17).
+- If a hypothesis's description makes a specific factual claim about how a
+  *numeric threshold's comparison operator* behaves on a *specific concrete
+  example* (e.g. "a delta_text of exactly N words will/won't be gated at
+  threshold N"), evaluate that exact comparison (`N < threshold`,
+  `N <= threshold`, etc.) against the exact operator used in the code being
+  modified before writing the claim -- do not just reason about it in prose
+  (found cycle 20, 2026-09-22, h-soft-anchor-gate-recalibrated-noisefloor:
+  the hypothesis's own description claimed `GATE_MIN_WORDS=2` "still
+  catches" guest-talk span 69, whose flagged delta_text is exactly 2 words,
+  but the actual gate condition is `len(delta_text.split()) < GATE_MIN_WORDS`
+  -- strict less-than -- so a 2-word delta is never gated when the threshold
+  is also 2. Boundary values (delta length == threshold) are exactly where
+  off-by-one/strict-vs-non-strict inequality mistakes hide, and this one was
+  only caught during ANALYZE_RESULTS by inspecting the output JSON's
+  `gated_batch_indices` field directly, not from the aggregate tables. This
+  is a fifth, distinct instance of the same underlying pattern as the four
+  above: verify an empirical claim against the actual code/data before
+  finalizing the hypothesis text, don't reason about it abstractly. See
+  reflections.md cycle 20).
 - Advance to `HUMAN_APPROVAL`.
 
 **Human-requested literature refresh mid-cycle (found cycle 15,
@@ -197,6 +232,20 @@ python3 research_agent/orchestrator.py check-budget <estimated_cost_usd>
 
 ## State: RUN_EXPERIMENTS
 
+- **Never wrap a long-running experiment script in an inline shell
+  `timeout`** (found cycle 19, 2026-09-20): the Bash tool's own per-call
+  timeout already auto-backgrounds a slow command without killing it, so
+  adding your own `timeout <n> python3 ...` "just in case" only adds a
+  real SIGTERM risk with no benefit -- a first attempt at this hypothesis
+  used `timeout 590 python3 -m ... | tail -100` (backgrounded), which got
+  killed at 590s mid-run and lost the entire run's progress and its
+  output JSON (piped stdout is fully buffered, not line-buffered, so
+  nothing had been flushed yet -- just "Terminated"). Fix: run the
+  script directly with `run_in_background: true` on the Bash tool call
+  and no shell-level timeout, and use `python3 -u` (or
+  `PYTHONUNBUFFERED=1`) whenever the run is long enough that interim
+  progress matters, so a `tail`/redirect on the output doesn't silently
+  buffer everything until exit.
 - **First, verify the environment can actually run a live experiment**
   before picking anything that needs one:
   ```bash
@@ -417,6 +466,51 @@ asyncio.run(main())
   state the confound plainly in `result_summary` and treat the run as
   inconclusive for the variable under test, same as an environment
   blocker in `RUN_EXPERIMENTS`.
+- **Before treating a small aggregate `translation_fidelity_judge.judge()`
+  score difference as a real effect, establish a noise floor first**
+  (found cycle 19, 2026-09-20, h-soft-anchor-disfluency-gate): `judge()`
+  is normally called only once per condition per span (on `repeats[0]`),
+  a single noisy LLM judgment, even when `REPEATS>1` exists for the
+  (mostly-deterministic) NE metric. That session's aggregate fidelity
+  means differed by only 2-4 points between conditions, which looked like
+  a real (if modest) effect -- until checking spans/batches where a new
+  condition was, by construction, code-path-identical to an existing one
+  (e.g. a gating condition that happened to gate zero batches in that
+  span) showed judge-score swings of -30 to +45 points from resampling
+  alone, dwarfing the aggregate "effect". If your hypothesis's evidence
+  leans on `judge()` fidelity numbers, either compute this kind of
+  same-condition-twice (or zero-effect-subset) noise check before
+  drawing a conclusion, or extend the experiment to call `judge()` on
+  every repeat (not just `repeats[0]`) so per-span variance is measured
+  directly instead of assumed away.
+- **When computing that noise floor by concatenating per-repeat scores
+  across multiple spans, decompose between-span and within-span variance
+  before trusting the pooled number** (found cycle 21, 2026-09-22,
+  h-judge-noise-repeats-power-check): cycle 19/20's noise-floor method
+  concatenates every zero-effect span's per-repeat scores into one list
+  and takes a single stdev. On the guest-talk clip this gave stdev 17.72
+  and was reported and acted on as "the" per-repeat noise -- but
+  decomposing the same 125 span-condition groups into between-group
+  variance (each group's own 2-repeat mean differs span to span because
+  spans differ in translation difficulty, variance 274.67) and mean
+  within-group variance (the actual same-span same-condition repeat
+  noise, variance 77.7, stdev 8.81) showed the concatenated number was
+  roughly 2x the true repeat-noise, because it mixed in each span's own
+  quality level. This matters concretely: every hypothesis in this line
+  compares the *same* spans across conditions (a paired design), so
+  between-span quality differences cancel out and only the within-span
+  component is the real nuisance parameter -- using the inflated
+  concatenated number over-estimates how much noise a conclusion needs to
+  clear, and had already fed a too-pessimistic conclusion into cycle 20's
+  reflections.md ("no REPEATS is enough") before this cycle's retroactive
+  check caught it. Practical fix: compute noise floor as `sqrt(mean of
+  per-span-per-condition variance))` (average the within-group variances,
+  do not pool raw scores across spans first) -- see
+  `judge_noise_power_analysis.py`'s `_decompose_zero_effect_variance()`
+  for a worked implementation. The magnitude of the gap between the two
+  methods depends on how much translation difficulty varies across the
+  spans in your sample (small on the low-variance original clip, ~2x on
+  the more varied guest-talk clip) -- check both, don't assume either one.
 - Compare the new experiment's metrics (chrF, latency, and, once
   `h-flicker-metric` has landed, normalized erasure) against the relevant
   baseline row(s) in `experiments/results.csv`.

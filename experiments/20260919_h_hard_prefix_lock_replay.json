@@ -1,0 +1,1415 @@
+{
+  "date": "2026-09-19",
+  "experiment_name": "h_hard_prefix_lock_replay",
+  "domain": null,
+  "input": {
+    "type": "replay",
+    "source_experiment": "experiments/20260915_h_continuation_anchor_test_rpmunlimited.json",
+    "repeats_per_condition": 2,
+    "note": "Deterministic replay over already-recorded per-batch source deltas (adaptively re-derived from original_text, see module docstring for the cumulative-vs-delta inconsistency found this session) -- no live Deepgram, only Gemini translate calls. context_lines=[] and update_context=False for every call (spans tested in isolation, no cross-utterance context)."
+  },
+  "models": {
+    "deepgram_model": "nova-3-general",
+    "deepgram_language": "en",
+    "llm_provider": "gemini",
+    "llm_model": "gemini-3-flash-preview",
+    "gemini_thinking_budget": 0
+  },
+  "results": {
+    "spans": [
+      {
+        "span_index": 0,
+        "num_batches": 3,
+        "source_full": "And our primary job is going to be to understand how to read the underlying matrices. I'm glossing over I'm glossing over some details",
+        "batches": [
+          {
+            "key": [
+              0.0,
+              3.0
+            ],
+            "delta_text": "And our primary job is going to be to understand",
+            "cumulative_text": "And our primary job is going to be to understand",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              3.26,
+              7.6999996
+            ],
+            "delta_text": "how to read the underlying matrices. I'm glossing over",
+            "cumulative_text": "And our primary job is going to be to understand how to read the underlying matrices. I'm glossing over",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              6.31,
+              8.3000002
+            ],
+            "delta_text": "I'm glossing over some details",
+            "cumulative_text": "And our primary job is going to be to understand how to read the underlying matrices. I'm glossing over I'm glossing over some details",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして、私たちの主な任務は、理解することであり、",
+              "私たちの主な仕事は、その根底にある行列をどのように読み解くかを理解することになります。ここでは詳しく触れませんが、",
+              "私たちの主な仕事は、基礎となる行列の読み方を理解することになります。いくつかの詳細は省略しますが、"
+            ],
+            [
+              "そして、私たちの主な任務は、理解することにあります",
+              "私たちの主な仕事は、その根底にある行列をどのように読み解くかを理解することになります。ここでは詳しく触れませんが、",
+              "そして、私たちの主な仕事は、その根底にある行列をどのように読み解くかを理解することになります。いくつかの詳細は省略しますが、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして、私たちの主な任務は、理解することにあります、",
+              "そして、私たちの主な任務は、理解することにあります、その根底にある行列をどのように読み解くべきかを。ここでは詳しく触れませんが、",
+              "そして、私たちの主な任務は、理解することにあります、その根底にある行列をどのように読み解くべきかを。ここでは詳しく触れませんが、いくつかの詳細については省略して説明すると、"
+            ],
+            [
+              "そして、私たちの主な任務は、理解することにあります",
+              "そして、私たちの主な任務は、理解することにあります、その根底にある行列をどのように読み解くかを。ここでは詳しく触れませんが、",
+              "そして、私たちの主な任務は、理解することにあります、その根底にある行列をどのように読み解くかを。ここでは詳しく触れませんが、いくつかの詳細については省略して説明すると、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "そして、私たちの主な任務は、理解することであり、",
+              "そして、私たちの主な任務は、理解することであり、基盤となる行列をどのように読み解くかということです。ここでは詳しく触れませんが、",
+              "そして、私たちの主な任務は、理解することであり、基盤となる行列をどのように読み解くかということです。ここでは詳しく触れませんが、いくつかの詳細は省略しますが、"
+            ],
+            [
+              "そして、私たちの主な任務は、理解することであり、",
+              "そして、私たちの主な任務は、理解することであり、基盤となる行列をどのように読み解くかということであり、今はざっと説明して りますが、",
+              "そして、私たちの主な任務は、理解することであり、基盤となる行列をどのように読み解くかということであり、今はざっと説明して りますが、いくつかの詳細は省いていますが、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.4489795918367347,
+            1.3225806451612903
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "I'm glossing over some details"
+            ]
+          },
+          "hard_lock": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 1,
+        "num_batches": 2,
+        "source_full": "this is after all a high level preview. After that, the process essentially repeats. You go back",
+        "batches": [
+          {
+            "key": [
+              11.28,
+              14.399999999999999
+            ],
+            "delta_text": "this is after all a high level preview. After that, the process",
+            "cumulative_text": "this is after all a high level preview. After that, the process",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              14.399999999999999,
+              16.190001
+            ],
+            "delta_text": "essentially repeats. You go back",
+            "cumulative_text": "this is after all a high level preview. After that, the process essentially repeats. You go back",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "これはあくまでハイレベルなプレビューであり、その後のプロセスは",
+              "これはあくまでハイレベルなプレビューであり、その後は基本的にプロセスが繰り返されます。再び戻って、"
+            ],
+            [
+              "これはあくまでハイレベルなプレビューであり、その後のプロセスは",
+              "これはあくまでハイレベルなプレビューであり、その後は基本的にプロセスが繰り返されます。再び戻って、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "これはあくまでハイレベルなプレビューであり、その後、プロセスは",
+              "これはあくまでハイレベルなプレビューであり、その後、プロセスは基本的に繰り返されます。そして再び戻り、"
+            ],
+            [
+              "これはあくまでハイレベルなプレビューであり、その後のプロセスは",
+              "これはあくまでハイレベルなプレビューであり、その後のプロセスは、基本的にはその繰り返しとなります。再び戻って、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "これはあくまでハイレベルなプレビューであり、その後のプロセスは",
+              "これはあくまでハイレベルなプレビューであり、その後のプロセスは基本的には繰り返されます。そして戻って"
+            ],
+            [
+              "これはあくまでハイレベルなプレビューであり、その後のプロセスは",
+              "これはあくまでハイレベルなプレビューであり、その後のプロセスは基本的には繰り返されます。そしてまた戻って"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.12244897959183673,
+            0.12244897959183673
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 2,
+        "num_batches": 2,
+        "source_full": "forth between attention blocks and multilayer perceptron perceptron blocks.",
+        "batches": [
+          {
+            "key": [
+              16.19,
+              19.2000002
+            ],
+            "delta_text": "forth between attention blocks and multilayer perceptron",
+            "cumulative_text": "forth between attention blocks and multilayer perceptron",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              19.2000002,
+              20.0099997
+            ],
+            "delta_text": "perceptron blocks.",
+            "cumulative_text": "forth between attention blocks and multilayer perceptron perceptron blocks.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "アテンションブロックと多層パーセプトロンの間を往復し、",
+              "アテンションブロックと多層パーセプトロンブロックの間を往復し、"
+            ],
+            [
+              "アテンションブロックと多層パーセプトロンの間を往復し、",
+              "アテンションブロックと多層パーセプトロンブロックの間を往復し、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "アテンションブロックと多層パーセプトロンの間を往復し、",
+              "アテンションブロックと多層パーセプトロンブロックの間を往復し、"
+            ],
+            [
+              "アテンションブロックと多層パーセプトロンの間を往復し、",
+              "アテンションブロックと多層パーセプトロンブロックの間を往復し、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "アテンションブロックと多層パーセプトロンの間を往復し、",
+              "アテンションブロックと多層パーセプトロンの間を往復し、パーセプトロンブロックを通過します。"
+            ],
+            [
+              "アテンションブロックと多層パーセプトロンの間を往復し、",
+              "アテンションブロックと多層パーセプトロンの間を往復し、パーセプトロン・ブロックを通過します。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.22580645161290322,
+            0.22580645161290322
+          ],
+          "soft_anchor_replay": [
+            0.22580645161290322,
+            0.22580645161290322
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "multilayer"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 3,
+        "num_batches": 2,
+        "source_full": "Until at the very end, the hope is that all of the essential meaning of the passage",
+        "batches": [
+          {
+            "key": [
+              20.01,
+              23.2000005
+            ],
+            "delta_text": "Until at the very end, the hope is that all of the",
+            "cumulative_text": "Until at the very end, the hope is that all of the",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              23.2000005,
+              24.889999000000003
+            ],
+            "delta_text": "essential meaning of the passage",
+            "cumulative_text": "Until at the very end, the hope is that all of the essential meaning of the passage",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして最終的には、これらすべてのモデルが、あるいはすべての要素が、",
+              "最終的には、その一節の重要な意味のすべてが、"
+            ],
+            [
+              "そして最終的には、すべてのモデルが、あるいはすべての要素が、という期待を持っており、",
+              "最終的には、その一節の重要な意味のすべてが、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして最終的には、これらすべてのモデルが、あるいはすべての要素が、",
+              "そして最終的には、その一節の持つ本質的な意味のすべてが、"
+            ],
+            [
+              "そして最終的には、これらすべてのモデルが、あるいはすべての要素が、",
+              "そして最終的には、その一節の持つ本質的な意味のすべてが、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "そして最終的には、これらすべてのものが、という期待を持っており、",
+              "そして最終的には、これらすべてのものが、という期待を持っており、その一節の本質的な意味が、"
+            ],
+            [
+              "そして最終的には、すべてのモデルが、あるいはすべての要素が、という期待を持っており、",
+              "そして最終的には、すべてのモデルが、あるいはすべての要素が、という期待を持っており、その一節の本質的な意味が、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.5,
+            1.9090909090909092
+          ],
+          "soft_anchor_replay": [
+            0.8571428571428571,
+            0.8571428571428571
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 50,
+            "dropped_or_distorted": [
+              "Until",
+              "the hope is that all of the essential meaning of the passage"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 4,
+        "num_batches": 2,
+        "source_full": "has somehow been baked into the very last vector in the sequence.",
+        "batches": [
+          {
+            "key": [
+              24.89,
+              27.9000002
+            ],
+            "delta_text": "has somehow been baked into the very last vector in",
+            "cumulative_text": "has somehow been baked into the very last vector in",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              27.9000002,
+              28.72
+            ],
+            "delta_text": "the sequence.",
+            "cumulative_text": "has somehow been baked into the very last vector in the sequence.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "どういうわけか、最後尾のベクトルに組み込まれており、",
+              "どういうわけか、シーケンスの最後尾のベクトルに組み込まれています。"
+            ],
+            [
+              "何らかの形で、最後尾のベクトルに組み込まれており、",
+              "どういうわけか、シーケンスの最後尾のベクトルに組み込まれています。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "何らかの形で、最後尾のベクトルに組み込まれており、",
+              "何らかの形で、シーケンスの最後尾のベクトルに組み込まれており、"
+            ],
+            [
+              "何らかの形で、最後尾のベクトルに組み込まれており、",
+              "何らかの形で、シーケンスの最後尾のベクトルに組み込まれており、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "何らかの形で、最後尾のベクトルに組み込まれており、",
+              "何らかの形で、最後尾のベクトルに組み込まれており、そのシーケンスの、"
+            ],
+            [
+              "何らかの形で、最後尾のベクトルに組み込まれており、",
+              "何らかの形で、最後尾のベクトルに組み込まれており、そのシーケンスの、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5454545454545454,
+            0.7575757575757576
+          ],
+          "soft_anchor_replay": [
+            0.5806451612903226,
+            0.5806451612903226
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 5,
+        "num_batches": 2,
+        "source_full": "We then perform a certain operation on that last vector, that produces a probability distribution",
+        "batches": [
+          {
+            "key": [
+              28.72,
+              31.799999999999997
+            ],
+            "delta_text": "We then perform a certain operation on that last vector, that produces a probability distribution",
+            "cumulative_text": "We then perform a certain operation on that last vector, that produces a probability distribution",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              31.799999999999997,
+              33.6899993
+            ],
+            "delta_text": "",
+            "cumulative_text": "We then perform a certain operation on that last vector, that produces a probability distribution",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして、その最後のベクトルに対して特定の操作を行い、確率分布を生成し",
+              "そして、その最後のベクトルに対して特定の操作を行い、確率分布を生成し、"
+            ],
+            [
+              "そして、その最後のベクトルに対して特定の操作を行い、確率分布を生成し、",
+              "そして、その最後のベクトルに対して特定の操作を行い、確率分布を生成し、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "その最後のベクトルに対して特定の操作を行い、確率分布を生成し、",
+              "その最後のベクトルに対して特定の操作を行い、確率分布を生成し、"
+            ],
+            [
+              "そして、その最後のベクトルに対して特定の操作を行い、確率分布を生成し、",
+              "そして、その最後のベクトルに対して特定の操作を行い、確率分布を生成し、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "その最後のベクトルに対して特定の操作を行い、確率分布を生成し、",
+              "その最後のベクトルに対して特定の操作を行い、確率分布を生成し、"
+            ],
+            [
+              "そして、その最後のベクトルに対して特定の操作を行い、確率分布を生成し、",
+              "そして、その最後のベクトルに対して特定の操作を行い、確率分布を生成し、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.0,
+            0.0
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 6,
+        "num_batches": 2,
+        "source_full": "over all possible tokens, all possible little chunks of text that might come next.",
+        "batches": [
+          {
+            "key": [
+              33.69,
+              37.3000006
+            ],
+            "delta_text": "over all possible tokens, all possible little chunks of text",
+            "cumulative_text": "over all possible tokens, all possible little chunks of text",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              37.3000006,
+              38.660000999999994
+            ],
+            "delta_text": "that might come next.",
+            "cumulative_text": "over all possible tokens, all possible little chunks of text that might come next.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "あらゆる可能なトークン、あらゆる可能なテキストの断片にわたって、",
+              "次に続く可能性のある、あらゆるトークン、あらゆるテキストの断片にわたって、"
+            ],
+            [
+              "あらゆる可能なトークン、テキストのあらゆる断片にわたって",
+              "次に続く可能性のある、あらゆるトークン、あらゆるテキストの断片にわたって、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "あらゆる可能なトークン、あらゆる可能なテキストの断片にわたって、",
+              "あらゆる可能なトークン、あらゆる可能なテキストの断片にわたって、次に続く可能性のあるものを"
+            ],
+            [
+              "あらゆる可能なトークン、あらゆる可能なテキストの断片にわたって、",
+              "あらゆる可能なトークン、あらゆる可能なテキストの断片にわたって、次に来る可能性のあるものを"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "あらゆる可能なトークン、あらゆる可能なテキストの断片にわたって、",
+              "あらゆる可能なトークン、あらゆる可能なテキストの断片にわたって、次に続く可能性のあるもの。"
+            ],
+            [
+              "あらゆる可能なトークン、テキストのあらゆる断片にわたって",
+              "あらゆる可能なトークン、テキストのあらゆる断片にわたって次に続く可能性のある、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.8648648648648649,
+            0.7567567567567568
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 7,
+        "num_batches": 2,
+        "source_full": "And like I said, once you have a tool that predicts what comes next given a snippet of text,",
+        "batches": [
+          {
+            "key": [
+              38.66,
+              41.700001
+            ],
+            "delta_text": "And like I said, once you have a tool that predicts what",
+            "cumulative_text": "And like I said, once you have a tool that predicts what",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              41.700001,
+              43.509998499999995
+            ],
+            "delta_text": "comes next given a snippet of text,",
+            "cumulative_text": "And like I said, once you have a tool that predicts what comes next given a snippet of text,",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして申し上げた通り、何を予測するかというツールを一度手に入れれば、",
+              "そして申し上げた通り、テキストの断片から次に来るものを予測するツールを一度手に入れれば、"
+            ],
+            [
+              "そして申し上げた通り、何を予測するかというツールを一度手に入れれば、",
+              "先ほど申し上げた通り、あるテキストの断片から次に来るものを予測するツールを一度手に入れれば、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "申し上げた通り、何を予測するかというツールを一度手に入れれば、",
+              "申し上げた通り、テキストの断片から次に何が来るかを予測するツールを一度手に入れれば、"
+            ],
+            [
+              "申し上げた通り、何を予測するかというツールを一度手に入れれば、",
+              "申し上げた通り、テキストの断片から次に何が来るかを予測するツールを一度手に入れれば、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "そして申し上げた通り、何を予測するかというツールを一度手に入れれば、",
+              "そして申し上げた通り、何を予測するかというツールを一度手に入れれば、テキストの断片が与えられた際に、次に何が来るかを予測するツールを一度手に入れれば、"
+            ],
+            [
+              "申し上げた通り、何を予測するかというツールを一度手に入れれば、",
+              "申し上げた通り、何を予測するかというツールを一度手に入れれば、テキストの断片が与えられた際に次に何が来るかを、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5227272727272727,
+            0.7391304347826086
+          ],
+          "soft_anchor_replay": [
+            0.5476190476190477,
+            0.5476190476190477
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "何を予測するかというツールを一度手に入れれば"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 8,
+        "num_batches": 2,
+        "source_full": "you can feed it a little bit of seed text and have it repeatedly play",
+        "batches": [
+          {
+            "key": [
+              43.51,
+              46.700002399999995
+            ],
+            "delta_text": "you can feed it a little bit of seed text and have it repeatedly",
+            "cumulative_text": "you can feed it a little bit of seed text and have it repeatedly",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              46.700002399999995,
+              47.1300027
+            ],
+            "delta_text": "play",
+            "cumulative_text": "you can feed it a little bit of seed text and have it repeatedly play",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "少量のシードテキストを入力することで、繰り返しをさせて、",
+              "少量のシードテキストを入力することで、繰り返し再生させることができ、"
+            ],
+            [
+              "少量のシードテキストを入力することで、繰り返しを……",
+              "少量のシードテキストを入力することで、繰り返し再生させることができ、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "少量のシードテキストを入力することで、繰り返し利用したり、",
+              "少量のシードテキストを入力することで、繰り返し再生させたり、"
+            ],
+            [
+              "少量のシードテキストを入力することで、繰り返し利用したり、",
+              "少量のシードテキストを入力することで、繰り返し再生させたり、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "少量のシードテキストを入力することで、繰り返し生成をさせたり、",
+              "少量のシードテキストを入力することで、繰り返し生成をさせたり、再生させたり、"
+            ],
+            [
+              "少量のシードテキストを入力することで、繰り返し利用したり、",
+              "少量のシードテキストを入力することで、繰り返し利用したり、再生したり、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.14705882352941177,
+            0.08823529411764706
+          ],
+          "soft_anchor_replay": [
+            0.2,
+            0.2
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "play"
+            ]
+          },
+          "hard_lock": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "play"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 9,
+        "num_batches": 3,
+        "source_full": "this game of predicting what comes next, sampling from the distribution, a pinch and then repeating over and over. Some of you in the know may remember how long",
+        "batches": [
+          {
+            "key": [
+              47.13,
+              51.0999974
+            ],
+            "delta_text": "this game of predicting what comes next, sampling from the distribution, a pinch",
+            "cumulative_text": "this game of predicting what comes next, sampling from the distribution, a pinch",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              51.62,
+              54.8000003
+            ],
+            "delta_text": "and then repeating over and over. Some of you in the know may",
+            "cumulative_text": "this game of predicting what comes next, sampling from the distribution, a pinch and then repeating over and over. Some of you in the know may",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              54.8000003,
+              55.9000026
+            ],
+            "delta_text": "remember how long",
+            "cumulative_text": "this game of predicting what comes next, sampling from the distribution, a pinch and then repeating over and over. Some of you in the know may remember how long",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの",
+              "次に来るものを予測し、分布からサンプリングし、それを何度も繰り返すというこのゲーム。ご存知の方もいるかもしれませんが、",
+              "次に来るものを予測し、分布からサンプリングし、それを何度も繰り返すというこのプロセスですが、ご存知の方もいらっしゃるかもしれませんが、かつてどれほど長い間"
+            ],
+            [
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの",
+              "次に来るものを予測し、分布からサンプリングし、それを何度も繰り返すというこのプロセス。ご存知の方もいらっしゃるかもしれませんが、",
+              "次に来るものを予測し、分布からサンプリングし、それを何度も繰り返すというこのプロセスですが、ご存知の方もいらっしゃるかもしれませんが、かつてはどれほど長い間"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの",
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの工夫を加えて何度も繰り返す。事情に詳しい方なら、もしかすると",
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの工夫を加えて何度も繰り返す。事情に詳しい方なら、もしかすると、どれほど長い間"
+            ],
+            [
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの",
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの工夫、それを何度も繰り返す。事情に詳しい方なら、",
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの工夫、それを何度も繰り返す。事情に詳しい方なら、どれほど長い時間が"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの",
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみのそれを何度も繰り返すというこのゲームですが、ご存知の方もいらっしゃるかもしれませんが、",
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみのそれを何度も繰り返すというこのゲームですが、ご存知の方もいらっしゃるかもしれませんが、どれほど長くかかるか覚えていますか、"
+            ],
+            [
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみの",
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみのRLHFを加えて、それを何度も繰り返すという。ご存知の方もいるかもしれませんが、",
+              "次に来るものを予測し、分布からサンプリングするというこのゲーム、そしてひとつまみのRLHFを加えて、それを何度も繰り返すという。ご存知の方もいるかもしれませんが、どれほど長くかかったか覚えていますか、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.5324675324675324,
+            0.5384615384615384
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "a pinch"
+            ]
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "a pinch"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 10,
+        "num_batches": 2,
+        "source_full": "before chat GPT came into the scene, this is what early demos of GPT three looked like.",
+        "batches": [
+          {
+            "key": [
+              55.9,
+              58.9
+            ],
+            "delta_text": "before chat GPT came into the scene, this is what early",
+            "cumulative_text": "before chat GPT came into the scene, this is what early",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              58.9,
+              60.869997399999995
+            ],
+            "delta_text": "demos of GPT three looked like.",
+            "cumulative_text": "before chat GPT came into the scene, this is what early demos of GPT three looked like.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "ChatGPTが登場する前、これが初期の",
+              "ChatGPTが登場する前、GPT-3の初期のデモはこのようなものでした。"
+            ],
+            [
+              "ChatGPTが登場する前、これが初期の",
+              "ChatGPTが登場する前、GPT-3の初期のデモはこのようなものでした。"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "ChatGPTが登場する前、これが初期の",
+              "ChatGPTが登場する前、これが初期のGPT-3のデモがどのようなものだったかです。"
+            ],
+            [
+              "ChatGPTが登場する前、これが初期の",
+              "ChatGPTが登場する前、これが初期のGPT-3のデモがどのようなものだったかです。"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "ChatGPTが登場する前、これが初期の",
+              "ChatGPTが登場する前、これが初期のGPT-3のデモがどのようなものだったかです。"
+            ],
+            [
+              "ChatGPTが登場する前、これが初期の",
+              "ChatGPTが登場する前、これが初期のGPT-3のデモがどのようなものだったかです。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.16216216216216217,
+            0.16216216216216217
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 11,
+        "num_batches": 2,
+        "source_full": "You would have it auto complete stories and essays based on an initial snippet.",
+        "batches": [
+          {
+            "key": [
+              60.87,
+              63.9000026
+            ],
+            "delta_text": "You would have it auto complete stories and essays based on an",
+            "cumulative_text": "You would have it auto complete stories and essays based on an",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              63.9000026,
+              65.0899974
+            ],
+            "delta_text": "initial snippet.",
+            "cumulative_text": "You would have it auto complete stories and essays based on an initial snippet.",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "物語やエッセイを自動補完させることになります、これに基づいた",
+              "最初の断片的な文章に基づいて、物語やエッセイを自動補完させたり、"
+            ],
+            [
+              "物語やエッセイを自動補完させることができました、これに基づいた",
+              "最初の断片的な文章に基づいて、物語やエッセイを自動補完させたり、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "物語やエッセイを自動補完させることになります、これに基づいた",
+              "物語やエッセイを、最初の断片的な情報に基づいて自動補完させることになります。"
+            ],
+            [
+              "物語やエッセイを自動補完させることができます、これに基づいた",
+              "物語やエッセイを、最初の断片的な文章に基づいた自動補完によって作成させることができます。"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "物語やエッセイを自動補完させることができました、これに基づいた",
+              "物語やエッセイを自動補完させることができました、これに基づいた最初のスニペットに。"
+            ],
+            [
+              "物語やエッセイを自動補完させることができました、これに基づいた",
+              "物語やエッセイを自動補完させることができました、これに基づいた最初のスニペットに。"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.9375,
+            0.96875
+          ],
+          "soft_anchor_replay": [
+            0.5789473684210527,
+            0.5
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "You would have it",
+              "based on an initial snippet"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 12,
+        "num_batches": 2,
+        "source_full": "To make a tool like this into a chatbot, the easiest starting point is to have",
+        "batches": [
+          {
+            "key": [
+              65.09,
+              68.20000060000001
+            ],
+            "delta_text": "To make a tool like this into a chatbot,",
+            "cumulative_text": "To make a tool like this into a chatbot,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              68.20000060000001,
+              69.850002
+            ],
+            "delta_text": "the easiest starting point is to have",
+            "cumulative_text": "To make a tool like this into a chatbot, the easiest starting point is to have",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "このようなツールをチャットボットにするには、",
+              "このようなツールをチャットボットにするための、最も簡単な出発点は、"
+            ],
+            [
+              "このようなツールをチャットボットにするには、",
+              "このようなツールをチャットボットにするための、最も簡単な出発点は、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "このようなツールをチャットボットにするには、",
+              "このようなツールをチャットボットにするには、最も簡単な出発点は、"
+            ],
+            [
+              "このようなツールをチャットボットにするには、",
+              "このようなツールをチャットボットにするには、最も簡単な出発点は、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "このようなツールをチャットボットにするには、",
+              "このようなツールをチャットボットにするには、最も簡単な出発点は、"
+            ],
+            [
+              "このようなツールをチャットボットにするには、",
+              "このようなツールをチャットボットにするには、最も簡単な出発点は、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.09090909090909091,
+            0.09090909090909091
+          ],
+          "soft_anchor_replay": [
+            0.0,
+            0.0
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 100,
+            "dropped_or_distorted": []
+          }
+        }
+      },
+      {
+        "span_index": 13,
+        "num_batches": 4,
+        "source_full": "little bit of text that establishes the setting of a user interacting with a helpful AI assistant, what you would call the system prompt, and then you would use the user's initial question or prompt as the first bit of dialogue",
+        "batches": [
+          {
+            "key": [
+              69.85,
+              72.900003
+            ],
+            "delta_text": "little bit of text that establishes the setting of a user",
+            "cumulative_text": "little bit of text that establishes the setting of a user",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              72.87,
+              76.89999900000001
+            ],
+            "delta_text": "interacting with a helpful AI assistant, what you would call the system prompt,",
+            "cumulative_text": "little bit of text that establishes the setting of a user interacting with a helpful AI assistant, what you would call the system prompt,",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              76.91,
+              80.3999979
+            ],
+            "delta_text": "and then you would use the user's initial question or prompt as",
+            "cumulative_text": "little bit of text that establishes the setting of a user interacting with a helpful AI assistant, what you would call the system prompt, and then you would use the user's initial question or prompt as",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              80.3999979,
+              81.87999359999999
+            ],
+            "delta_text": "the first bit of dialogue",
+            "cumulative_text": "little bit of text that establishes the setting of a user interacting with a helpful AI assistant, what you would call the system prompt, and then you would use the user's initial question or prompt as the first bit of dialogue",
+            "is_utterance_end": true
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "ユーザーの設定を確立するための、短いテキストが",
+              "ユーザーが役立つAIアシスタントとやり取りする設定を構築するための、いわゆるシステムプロンプトと呼ばれる少量のテキストが、",
+              "ユーザーが役立つAIアシスタントとやり取りする設定を構築する少量のテキスト、いわゆるシステムプロンプトがあり、そしてユーザーの最初の質問やプロンプトを",
+              "ユーザーが役立つAIアシスタントとやり取りする設定を構築するための、いわゆるシステムプロンプトにあたる少量のテキストがあり、その後にユーザーの最初の質問やプロンプトを最初の対話として使用し、"
+            ],
+            [
+              "ユーザーの設定を確立するための、短いテキストが",
+              "ユーザーが役に立つAIアシスタントとやり取りする設定を構築するための、いわゆるシステムプロンプトと呼ばれる少量のテキストが、",
+              "ユーザーが役立つAIアシスタントと対話しているという設定を確立するための、いわゆるシステムプロンプトと呼ばれる少量のテキストがあり、そしてユーザーの最初の質問やプロンプトを、",
+              "ユーザーが親切なAIアシスタントとやり取りをするという設定を構築するための、いわゆるシステムプロンプトにあたる少量のテキストがあり、その後にユーザーの最初の質問やプロンプトを最初の対話として使用し、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "ユーザーの設定を確立するための、短いテキストが",
+              "ユーザーの設定を確立するための、短いテキストがあり、これは役立つAIアシスタントと対話する際の設定、いわゆるシステムプロンプトと呼ばれるもので、",
+              "ユーザーの設定を確立するための、短いテキストがあり、これは役立つAIアシスタントと対話する際の設定、いわゆるシステムプロンプトと呼ばれるもので、そしてユーザーの最初の質問やプロンプトを、次のように使用します。",
+              "ユーザーの設定を確立するための、短いテキストがあり、これは役立つAIアシスタントと対話する際の設定、いわゆるシステムプロンプトと呼ばれるもので、そしてユーザーの最初の質問やプロンプトを、対話の最初の断片として使用します。"
+            ],
+            [
+              "ユーザーの設定を確立するための、短いテキストが",
+              "ユーザーの設定を確立するための、短いテキストがあり、これはヘルプフルなAIアシスタントと対話する際の設定、いわゆるシステムプロンプトと呼ばれるものですが、",
+              "ユーザーの設定を確立するための、短いテキストがあり、これはヘルプフルなAIアシスタントと対話する際の設定、いわゆるシステムプロンプトと呼ばれるものですが、そしてユーザーの最初の質問やプロンプトを、",
+              "ユーザーの設定を確立するための、短いテキストがあり、これはヘルプフルなAIアシスタントと対話する際の設定、いわゆるシステムプロンプトと呼ばれるものですが、そしてユーザーの最初の質問やプロンプトを、最初の対話として使用します。"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "ユーザーの設定を確立するための、短いテキストが",
+              "ユーザーの設定を確立するための、短いテキストが役立つAIアシスタントとやり取りする、いわゆるシステムプロンプトで、",
+              "ユーザーの設定を確立するための、短いテキストが役立つAIアシスタントとやり取りする、いわゆるシステムプロンプトで、そして、ユーザーの最初の質問やプロンプトを、",
+              "ユーザーの設定を確立するための、短いテキストが役立つAIアシスタントとやり取りする、いわゆるシステムプロンプトで、そして、ユーザーの最初の質問やプロンプトを、対話の最初の断片として受け取り、"
+            ],
+            [
+              "ユーザーの設定を確立するための、短いテキストが",
+              "ユーザーの設定を確立するための、短いテキストが役立つAIアシスタントと対話しているという、いわゆるシステムプロンプトで、",
+              "ユーザーの設定を確立するための、短いテキストが役立つAIアシスタントと対話しているという、いわゆるシステムプロンプトで、次に、ユーザーの最初の質問やプロンプトを、",
+              "ユーザーの設定を確立するための、短いテキストが役立つAIアシスタントと対話しているという、いわゆるシステムプロンプトで、次に、ユーザーの最初の質問やプロンプトを、対話の最初の断片として受け取り、"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            1.0,
+            1.5858585858585859
+          ],
+          "soft_anchor_replay": [
+            0.1,
+            0.0
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 90,
+            "dropped_or_distorted": [
+              "little bit of text that establishes the setting"
+            ]
+          }
+        }
+      },
+      {
+        "span_index": 14,
+        "num_batches": 3,
+        "source_full": "and then you have it start predicting what such a helpful AI assistant say in response. There is more to say about an added step of training",
+        "batches": [
+          {
+            "key": [
+              81.88,
+              85.40000429999999
+            ],
+            "delta_text": "and then you have it start predicting what such a helpful AI assistant",
+            "cumulative_text": "and then you have it start predicting what such a helpful AI assistant",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              85.40000429999999,
+              87.69999969999999
+            ],
+            "delta_text": "say in response.",
+            "cumulative_text": "and then you have it start predicting what such a helpful AI assistant say in response.",
+            "is_utterance_end": false
+          },
+          {
+            "key": [
+              87.69999969999999,
+              89.9000027
+            ],
+            "delta_text": "There is more to say about an added step of training",
+            "cumulative_text": "and then you have it start predicting what such a helpful AI assistant say in response. There is more to say about an added step of training",
+            "is_utterance_end": false
+          }
+        ],
+        "condition_repeats": {
+          "baseline_replay": [
+            [
+              "そして、そのような役立つAIアシスタントがどのような予測を行うかを、モデルに開始させ、",
+              "そして、そのような役立つAIアシスタントが応答として何を言うかを予測させ始めます。",
+              "そして、そのような役立つAIアシスタントが応答として何を言うかを予測させ始めます。さらに、追加の学習ステップについても話すべきことがあり、"
+            ],
+            [
+              "そして、そのような役立つAIアシスタントが何を言うかを予測させ始めると、",
+              "そして、そのような役立つAIアシスタントが応答として何を言うかを予測させ始めます。",
+              "そして、そのような役立つAIアシスタントが応答として何を言うかを予測させ始めます。さらに、追加の学習ステップについてお話しすることがありますが、"
+            ]
+          ],
+          "soft_anchor_replay": [
+            [
+              "そして、そのような役立つAIアシスタントが何を言うかを予測させ始め、",
+              "そして、そのような役立つAIアシスタントが応答として何を言うかを予測させ始めます。",
+              "そして、そのような役立つAIアシスタントが応答として何を言うかを予測させ始めます。さらに、追加のトレーニングステップについてお話しすべきことがあり、"
+            ],
+            [
+              "そして、そのような役立つAIアシスタントが何を言うかを予測させ始め、",
+              "そして、そのような役立つAIアシスタントが応答として何を言うかを予測させ始めます。",
+              "そして、そのような役立つAIアシスタントが応答として何を言うかを予測させ始めます。さらに、追加の学習ステップについてお話しすべきことがあり、"
+            ]
+          ],
+          "hard_lock": [
+            [
+              "そして、そのような役立つAIアシスタントがどのような予測を行うかを、モデルに開始させ、",
+              "そして、そのような役立つAIアシスタントがどのような予測を行うかを、モデルに開始させ、応答として何を言うべきかを予測させます。",
+              "そして、そのような役立つAIアシスタントがどのような予測を行うかを、モデルに開始させ、応答として何を言うべきかを予測させます。追加の学習ステップについて、さらに述べるべきことがあります"
+            ],
+            [
+              "そして、そのような役立つAIアシスタントがどのような予測を行うかを、モデルに開始させ、",
+              "そして、そのような役立つAIアシスタントがどのような予測を行うかを、モデルに開始させ、応答として何を言うべきかを予測させます。",
+              "そして、そのような役立つAIアシスタントがどのような予測を行うかを、モデルに開始させ、応答として何を言うべきかを予測させます。追加の学習ステップについて、さらに述べるべきことがあります"
+            ]
+          ]
+        },
+        "condition_ne": {
+          "baseline_replay": [
+            0.3188405797101449,
+            0.20833333333333334
+          ],
+          "soft_anchor_replay": [
+            0.17567567567567569,
+            0.18571428571428572
+          ],
+          "hard_lock": [
+            0.0,
+            0.0
+          ]
+        },
+        "judge_scores": {
+          "baseline_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "soft_anchor_replay": {
+            "score": 100,
+            "dropped_or_distorted": []
+          },
+          "hard_lock": {
+            "score": 85,
+            "dropped_or_distorted": [
+              "predicting what such a helpful AI assistant say"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "aggregate": {
+    "baseline_replay": {
+      "num_spans_with_defined_ne": 15,
+      "mean_ne_across_spans": 0.5965106611426972,
+      "mean_fidelity_score": 99.33333333333333
+    },
+    "soft_anchor_replay": {
+      "num_spans_with_defined_ne": 15,
+      "mean_ne_across_spans": 0.21209214550470917,
+      "mean_fidelity_score": 98.66666666666667
+    },
+    "hard_lock": {
+      "num_spans_with_defined_ne": 15,
+      "mean_ne_across_spans": 0.0,
+      "mean_fidelity_score": 90.66666666666667
+    }
+  },
+  "notes": "h-hard-prefix-lock-continuation. Grounded in lacuna2026-beam-search-cascade-flicker. Compares against h-continuation-context-anchor's live single-run soft-anchor result (translation_ne_char_cross_batch_mean 0.836->0.972, inconclusive/noisy) with a repeated, deterministic replay of all three conditions (baseline_replay, soft_anchor_replay, hard_lock) on the same source spans.",
+  "created_at_utc": "2026-09-19T00:26:12.194904+00:00"
+}
