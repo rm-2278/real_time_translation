@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 10,
-  "last_updated": "2026-09-23T12:22:31.160149+00:00",
+  "last_updated": "2026-09-24T00:21:55.786260+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -941,6 +941,12 @@
       "to": "READ_PAPERS",
       "at": "2026-09-23T12:22:31.160098+00:00",
       "note": "cycle 22 EXTRACT_PAPERS: extracted 4 found LLM-judge-noise papers (arxiv2509-20293, arxiv2601-05420, arxiv2606-19544, arxiv2607-02235) via WebSearch fallback (WebFetch to arxiv.org EGRESS_BLOCKED for all 4). All tie to existing h-judge-noise-repeats-power-check line of work."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-24T00:21:55.786151+00:00",
+      "note": "Cycle 22 READ_PAPERS complete: summarized+read all 4 judge-noise papers (arxiv2509-20293, arxiv2601-05420, arxiv2606-19544, arxiv2607-02235), cross-referenced against experiments/ and git log -- no duplicate of h-judge-noise-repeats-power-check's already-tested noise-floor work found. Two candidate hypothesis directions noted for next state: human-vs-judge spot-check on existing JSONs ($0), and retroactive rubric-collapse diagnostic on stored judge outputs ($0)."
     }
   ]
 }
