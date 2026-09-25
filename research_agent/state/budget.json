@@ -1,9 +1,9 @@
 {
   "date": "2026-09-25",
-  "spent_today_usd": 0.0,
+  "spent_today_usd": 0.4,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
-  "total_spent_usd": 2.62,
+  "total_spent_usd": 3.02,
   "cost_log": [
     {
       "at": "2026-09-08T07:28:31.381613+00:00",
@@ -174,6 +174,11 @@
       "at": "2026-09-22T12:28:19.984705+00:00",
       "amount_usd": 0.0,
       "note": "h-judge-noise-repeats-power-check: judge_noise_power_analysis.py, pure retroactive statistics over experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json's already-recorded per-repeat judge scores, zero new Deepgram/LLM API spend"
+    },
+    {
+      "at": "2026-09-25T00:57:59.244213+00:00",
+      "amount_usd": 0.4,
+      "note": "h-soft-anchor-gate-min-words-3: soft_anchor_gate_min3_replay.py, identical call structure to cycle 20's noisefloor replay (1458 gemini-3-flash-preview translate calls + 588 gemini-3.1-flash-lite fidelity-judge calls, every repeat judged = 2046 total calls), zero new Deepgram spend (replay of already-recorded source deltas from experiments/20260915_h_continuation_anchor_test_rpmunlimited.json and experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json). Estimated by call-count identity with cycle 20's measured rate (only GATE_MIN_WORDS differs, which does not change call counts)."
     }
   ]
 }

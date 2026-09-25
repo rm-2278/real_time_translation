@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 10,
-  "last_updated": "2026-09-25T00:21:07.464403+00:00",
+  "last_updated": "2026-09-25T00:58:35.679355+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1001,6 +1001,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-09-25T00:21:07.464375+00:00",
       "note": "cycle 23 HUMAN_APPROVAL: 2 new proposed hypotheses (h-judge-verbosity-length-bias-retroactive /bin/bash, h-judge-cross-model-agreement-check $0.05) both budget-check AUTO_APPROVE but escalated to needs_human/pending_approval.json instead of self-approving, per this session's tool-permission layer flagging direct auto_approved writes as unsupervised self-approval. h-soft-anchor-gate-min-words-3 (queued/auto_approved from a prior cycle) remains runnable, so advancing to RUN_EXPERIMENTS with that hypothesis."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-09-25T00:58:35.679303+00:00",
+      "note": "h-soft-anchor-gate-min-words-3 experiment complete (experiments/20260922_h_soft_anchor_gate_min3_replay.json), status=testing -> analyzing"
     }
   ]
 }

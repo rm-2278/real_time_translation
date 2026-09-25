@@ -683,9 +683,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.4,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
-      "result_summary": ""
+      "status": "tested",
+      "experiment_ids": [
+        "experiments/20260922_h_soft_anchor_gate_min3_replay.json"
+      ],
+      "result_summary": "Config diff against cycle 20's noisefloor-replay JSON confirmed gate_min_words is the ONLY difference (deepgram_model/llm_provider/llm_model/gemini_thinking_budget/repeats_per_condition all identical) -- no confound. The arithmetic fix is CONFIRMED directly in this run's own output: guest-talk span 69 batch 1 ('AIM to', 2 words) has span_69_batch1_gated=True this time (2 < 3 is True), vs. cycle 20's gated_batch_indices=[] for that span (2 < 2 was False). Gating rates landed within the predicted band: 25% (5/20) on the original clip and 34% (42/125) on guest-talk, between threshold=2's 10%/16% and threshold=5's 40%/57%. Fidelity: gated_soft_anchor vs soft_anchor_replay mean diff on gated spans is +2.0 (original clip, n=40 noise-floor scores, noise_floor_stdev=4.32) and +3.51 (guest-talk, n=163, noise_floor_stdev=14.54) -- both diffs are well inside their own noise floor, so INCONCLUSIVE for fidelity, consistent with cycle 20's and h-judge-noise-repeats-power-check's finding that REPEATS=2 judge() calls cannot resolve fidelity effects of this size in this codebase, independent of which GATE_MIN_WORDS value is used (now a third consistent data point). UNEXPECTED, non-null finding on flicker (NE): on the original clip, gated_soft_anchor's mean_ne (0.224) is close to soft_anchor_replay's (0.214) as expected (gating rarely fires there, 5/20 batches). But on the guest-talk clip, where gating fires much more (42/125), gated_soft_anchor's mean_ne (0.377) is markedly WORSE (more flicker) than soft_anchor_replay's (0.089) -- the opposite of the intended direction; both remain much better than the ungated baseline_replay's 0.626. This was not predicted and is not explained by this run alone -- flag for next cycle rather than dismiss: possible causes to check are whether normalized_erasure counts the gate's own prefix-lock/hold-back behavior as erasure on subsequent batches, or whether this is concentrated in the 42 gated batches specifically vs. spread across all 125. Not abandoning the hypothesis -- the implementation and gating-rate result are sound and match the historical record; recommend a focused follow-up hypothesis next cycle decomposing NE specifically on gated vs. non-gated batches within the guest-talk clip before drawing any conclusion about whether GATE_MIN_WORDS=3 is a net improvement over no gating."
     },
     {
       "id": "h-judge-noise-repeats-power-check",
