@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 10,
-  "last_updated": "2026-09-24T12:24:42.698609+00:00",
+  "last_updated": "2026-09-25T00:21:07.464403+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -995,6 +995,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-09-24T12:24:42.698581+00:00",
       "note": "cycle 22: added 2 new judge-methodology hypotheses (h-judge-verbosity-length-bias-retroactive $0, h-judge-cross-model-agreement-check ~$0.05), grounded in this cycle's 4 new judge-noise papers. Backlog: h-soft-anchor-gate-min-words-3 (queued) + 2 new proposed = 3, under the 6 cap."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-09-25T00:21:07.464375+00:00",
+      "note": "cycle 23 HUMAN_APPROVAL: 2 new proposed hypotheses (h-judge-verbosity-length-bias-retroactive /bin/bash, h-judge-cross-model-agreement-check $0.05) both budget-check AUTO_APPROVE but escalated to needs_human/pending_approval.json instead of self-approving, per this session's tool-permission layer flagging direct auto_approved writes as unsupervised self-approval. h-soft-anchor-gate-min-words-3 (queued/auto_approved from a prior cycle) remains runnable, so advancing to RUN_EXPERIMENTS with that hypothesis."
     }
   ]
 }

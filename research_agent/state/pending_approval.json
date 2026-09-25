@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "hypothesis_id": "h-judge-verbosity-length-bias-retroactive",
+    "reason": "check-budget returned AUTO_APPROVE ($0.00, uses_existing_clips=true, purely retroactive analysis over already-recorded experiment JSONs, no new API calls) but this session's tool-permission layer denied writing an 'auto_approved'/'queued' state directly, flagging it as unsupervised self-approval by the agent that proposed the hypothesis. Escalating to explicit human sign-off instead of overriding that block.",
+    "estimated_cost_usd": 0.0,
+    "asked_at": "2026-09-25T00:00:00Z"
+  },
+  {
+    "hypothesis_id": "h-judge-cross-model-agreement-check",
+    "reason": "check-budget returned AUTO_APPROVE ($0.05, uses_existing_clips=true, re-judges already-saved text pairs with a second model) but this session's tool-permission layer denied writing an 'auto_approved'/'queued' state directly, flagging it as unsupervised self-approval by the agent that proposed the hypothesis. Also requires OPENAI_API_KEY, unverified in this environment yet. Escalating to explicit human sign-off instead of overriding that block.",
+    "estimated_cost_usd": 0.05,
+    "asked_at": "2026-09-25T00:00:00Z"
+  }
+]

@@ -721,7 +721,7 @@
       "required_changes": "New retroactive analysis script src/real_time_translation/experiments/judge_verbosity_bias_check.py, no live API calls: (1) load both experiment JSONs above, (2) for each span, for each condition, for each repeat, take the LAST element of that repeat's condition_repeats[cond] list (the final cumulative Japanese translation for that repeat) and its character length (len() on the string is a fine proxy for Japanese; do not word-split), (3) pair with the matching judge score -- judge_scores_per_repeat[cond][i]['score'] for the per-repeat file (paired by matching repeat index i), judge_scores[cond]['score'] paired with condition_repeats[cond][0][-1]'s length for the single-judge file (repeats[0] only, consistent with how that score was actually produced), (4) run sub-check (1) (within same span+condition, per-repeat only, noisefloor-replay file only since it's the only one with >1 judge score per condition) and sub-check (2) (across conditions within the same span, both files, after per-span mean-centering both variables) separately, (5) report Pearson r (and Spearman, since score is somewhat ordinal/coarse) for each sub-check plus the raw n, and flag explicitly if n is too small (<20) for the correlation to be meaningful rather than reporting a number without a caveat. Write output to experiments/judge_verbosity_bias_check.json + a results.csv row per PLAYBOOK.md/CLAUDE.md logging convention, though note in the row that no new Deepgram/LLM spend occurred (retroactive-only).",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": "",
+      "approval": "needs_human",
       "status": "proposed",
       "experiment_ids": [],
       "result_summary": ""
@@ -739,7 +739,7 @@
       "required_changes": "Extend src/real_time_translation/experiments/translation_fidelity_judge.py with a second entry point (e.g. judge_openai(source, translation) mirroring judge()'s prompt/parsing but using an OpenAI client + config.openai_model, guarded so it only runs if OPENAI_API_KEY is set -- check this at RUN_EXPERIMENTS time per the playbook's environment-check step, since this hypothesis needs OPENAI_API_KEY specifically, not just DEEPGRAM_API_KEY/GOOGLE_API_KEY) or a small new script that imports the existing _JUDGE_PROMPT and swaps the client. Do not modify the existing judge() function or its call sites. Re-judge roughly 20-30 (source, translation) pairs sampled from the spans in the two files above (enough for a meaningful agreement estimate without excessive spend) with BOTH gemini-3.1-flash-lite (already-cached scores, reuse from the JSON, no re-call needed) and the new gpt-4o-mini path (new calls, this hypothesis's only real cost). Log actual cost via `orchestrator.py log-cost` immediately after the run per PLAYBOOK.md's RUN_EXPERIMENTS rule, and treat OPENAI_API_KEY absence/unreachability as an environment blocker (record blocked_reason in result_summary), not a crash, exactly as the playbook already specifies for DEEPGRAM_API_KEY/GOOGLE_API_KEY.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
-      "approval": "",
+      "approval": "needs_human",
       "status": "proposed",
       "experiment_ids": [],
       "result_summary": ""
