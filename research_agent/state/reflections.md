@@ -1806,3 +1806,122 @@ there's a full session available, since it could inform a better-grounded
 version of any further REPEATS-tuning hypothesis. Deepgram Listen
 WebSocket status remains unconfirmed since cycle 19 -- next session
 needing live ASR should re-verify before assuming either way.
+
+---
+
+## Cycle 22 (2026-09-25, resumed a session that started at HUMAN_APPROVAL)
+
+**Cycle-numbering correction (meta):** I mislabeled the first few commits
+in this session's session as "cycle 23" in commit messages and one
+`orchestrator.py advance --note`. That was wrong per PLAYBOOK.md's own
+rule (found cycle 9/10): the narrated cycle count only increments on a
+`REFLECT` transition, and REFLECT had not yet run for this arc (last
+REFLECT was cycle 21, which advanced to `SEARCH_PAPERS` starting cycle
+22). Everything this session did -- the two new judge-methodology
+hypotheses' HUMAN_APPROVAL, the h-soft-anchor-gate-min-words-3 experiment,
+ANALYZE_RESULTS, and this WRITE_REPORT -- is cycle 22. I caught this
+before WRITE_REPORT and used the correct `cycle22` filename and note text
+from that point on, and documented the earlier mislabeling in the report
+itself rather than silently ignoring it. This is now a sixth-ish instance
+of the same general pattern the playbook already warns about elsewhere
+(verify a specific factual/numeric claim against the actual mechanism
+rather than assuming) -- here applied to session bookkeeping rather than
+experiment data. Not editing the playbook for this one; the existing
+Step-0 note about the two "cycle" counters is already clear, I just didn't
+re-read it carefully enough before my first commit this session. Lesson
+for future sessions: re-read PLAYBOOK.md's Step-0 cycle-counter note
+*immediately before writing the first commit message*, not just once at
+the start of the session.
+
+**A new, session-specific constraint discovered:** this session's own
+tool-permission layer denied a direct `hypotheses.json` write that set
+`approval: auto_approved` / `status: queued` for a hypothesis this same
+agent had proposed, flagging it "Self-Approval" -- even though
+`orchestrator.py check-budget` deterministically returned `AUTO_APPROVE`
+for both affected hypotheses ($0.00 and $0.05, both
+`uses_existing_clips=true`, squarely inside PLAYBOOK.md's stated
+auto-approval policy). This is NOT a bug in the playbook's policy itself
+-- the budget/auto-approve design is unchanged and still the right
+default -- but it means at least one execution environment for this
+pipeline enforces a stricter human-in-the-loop gate than PLAYBOOK.md
+currently describes. I did not try to route around the block (e.g. by
+retrying with different framing, or a different tool) since the intent
+behind it (no unsupervised self-approval by the same agent that generated
+the proposal) is reasonable and arguably a good practice even under the
+existing policy. Instead I escalated both hypotheses to
+`approval: needs_human` + a `pending_approval.json` entry, i.e. I used the
+playbook's *other* already-documented HUMAN_APPROVAL branch rather than
+inventing a new one. Practical effect: the backlog now has 2 items
+genuinely blocked on rm-2278's sign-off (flagged plainly in this cycle's
+Japanese report) instead of self-approved, and a previously-approved
+hypothesis (h-soft-anchor-gate-min-words-3, approved in a prior cycle
+before this constraint was encountered) is what actually got run this
+session.
+
+**Should PLAYBOOK.md change for this?** Considered it, decided not to
+edit the HUMAN_APPROVAL section's core auto-approve logic -- I have only
+observed this permission denial in one session/environment so far, don't
+know if it's universal to every execution environment this pipeline runs
+in, and the playbook explicitly says not to remove the approval-gate
+steps without an explicit human instruction (this is the opposite
+direction -- an extra gate showed up, not one being removed -- but the
+same caution about not assuming and self-editing safety-relevant logic
+applies). Flagging this in reflections.md and the Japanese report instead
+so a human (or a future session that hits the same denial) has the
+context, and leaving it to rm-2278 to decide whether PLAYBOOK.md's
+auto-approve section should be updated to describe this constraint
+explicitly (e.g. "if a direct auto-approval write is denied by the
+execution environment's own permission layer, treat it as an automatic
+ESCALATE_TO_HUMAN regardless of what check-budget says" -- which is
+already effectively what I did, just not yet written down as a rule).
+
+**What worked this cycle:** Running the already-approved, already-queued
+h-soft-anchor-gate-min-words-3 hypothesis instead of blocking on the two
+newly-escalated ones kept the cycle productive despite the unexpected
+approval friction. The result itself was clean and informative: the
+gate's strict-< off-by-one from cycle 20 is now confirmed fixed (span 69
+batch 1 actually gates), the fidelity comparison is honestly reported as
+inconclusive against a measured noise floor (not overclaimed), and a
+genuinely unexpected finding (NE/flicker got *worse* under gating on the
+guest-talk clip, opposite of the intended direction) was surfaced and
+flagged rather than glossed over or explained away without evidence.
+
+**What didn't work / friction:** The self-approval permission denial cost
+a bit of back-and-forth (one failed write attempt) before finding the
+compliant path, and it means the hypothesis backlog is now less "clean"
+than a normal cycle -- 2 of the queue's items are stuck pending human
+input through no fault of their own content. This is a one-time cost
+now that the pattern is documented here.
+
+**Was the hypothesis backlog well-calibrated?** The 2 hypotheses
+generated the prior session (before this one resumed at HUMAN_APPROVAL)
+were reasonable, low-cost, well-grounded follow-ups to this cycle's own
+literature pass -- no change needed there. After this session:
+h-soft-anchor-gate-min-words-3 is `tested`, leaving 0 `queued` and 2
+`needs_human` in the backlog. Next session should check
+`pending_approval.json` first (WAITING_APPROVAL logic) before generating
+new hypotheses, per PLAYBOOK.md.
+
+**Is the auto-approval budget policy still right?** The budget caps
+(`budget.json`) don't need a change. But see the self-approval note above
+-- there may be a real gap between what PLAYBOOK.md describes as
+"AUTO_APPROVE" and what at least one execution environment will actually
+let this agent do unsupervised. Recommending rm-2278 read this cycle's
+Japanese report's pending-approval section and decide on the 2 blocked
+hypotheses, and consider whether PLAYBOOK.md's HUMAN_APPROVAL section
+should be updated to describe this as expected behavior in some
+environments rather than a one-off surprise.
+
+**Next state:** Advancing to `SEARCH_PAPERS` (new cycle 23) rather than
+straight to `GENERATE_HYPOTHESES` -- the backlog is now empty of
+`queued` items (both remaining are `needs_human`), and there's a concrete,
+literature-motivated open question from this cycle's own result (the
+unexpected guest-talk NE regression under gating) that a fresh search
+specifically on ASR-hold-back / gating-and-flicker-interaction literature
+could usefully inform before writing a follow-up hypothesis, rather than
+generating one purely from this session's own single data point. Also:
+if `pending_approval.json`'s 2 entries get a human signal before the next
+session runs, that session should process `WAITING_APPROVAL` logic first
+(per PLAYBOOK.md) even though `current_state` will say `SEARCH_PAPERS` --
+check `pending_approval.json` regardless of `current_state` at the start
+of every session, not only when `current_state == WAITING_APPROVAL`.

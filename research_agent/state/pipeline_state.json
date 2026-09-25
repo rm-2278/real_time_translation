@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "WRITE_REPORT",
-  "cycle": 10,
-  "last_updated": "2026-09-25T00:58:54.406682+00:00",
+  "current_state": "SEARCH_PAPERS",
+  "cycle": 11,
+  "last_updated": "2026-09-25T01:01:17.052876+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1013,6 +1013,18 @@
       "to": "WRITE_REPORT",
       "at": "2026-09-25T00:58:54.406647+00:00",
       "note": "cycle 23 ANALYZE_RESULTS -> WRITE_REPORT"
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-09-25T01:00:31.653287+00:00",
+      "note": "cycle 22 WRITE_REPORT -> REFLECT"
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-09-25T01:01:17.052849+00:00",
+      "note": "cycle 22 REFLECT -> SEARCH_PAPERS (cycle 23). Self-approval permission constraint documented in reflections.md/report; 2 hypotheses pending human approval in pending_approval.json; h-soft-anchor-gate-min-words-3 tested (gate fix confirmed, fidelity inconclusive, unexpected NE regression on guest-talk clip flagged for follow-up)."
     }
   ]
 }
