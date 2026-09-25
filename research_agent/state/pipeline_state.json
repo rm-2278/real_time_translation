@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 10,
-  "last_updated": "2026-09-25T00:58:35.679355+00:00",
+  "last_updated": "2026-09-25T00:58:54.406682+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1007,6 +1007,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-09-25T00:58:35.679303+00:00",
       "note": "h-soft-anchor-gate-min-words-3 experiment complete (experiments/20260922_h_soft_anchor_gate_min3_replay.json), status=testing -> analyzing"
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-09-25T00:58:54.406647+00:00",
+      "note": "cycle 23 ANALYZE_RESULTS -> WRITE_REPORT"
     }
   ]
 }
