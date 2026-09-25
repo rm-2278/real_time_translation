@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 11,
-  "last_updated": "2026-09-25T01:01:17.052876+00:00",
+  "last_updated": "2026-09-25T12:21:38.254797+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1025,6 +1025,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-09-25T01:01:17.052849+00:00",
       "note": "cycle 22 REFLECT -> SEARCH_PAPERS (cycle 23). Self-approval permission constraint documented in reflections.md/report; 2 hypotheses pending human approval in pending_approval.json; h-soft-anchor-gate-min-words-3 tested (gate fix confirmed, fidelity inconclusive, unexpected NE regression on guest-talk clip flagged for follow-up)."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-09-25T12:21:38.254734+00:00",
+      "note": "cycle 23 SEARCH_PAPERS -> EXTRACT_PAPERS: targeted search for gating/flicker-interaction literature per cycle 22 reflections; found 1 new post-survey candidate (persistent-delivery2026-revision-optimization, arXiv 2609.26427), rest were duplicates or too tangential. pending_approval.json still has 2 entries awaiting human sign-off (h-judge-verbosity-length-bias-retroactive, h-judge-cross-model-agreement-check) -- no human signal seen this session, left untouched per WAITING_APPROVAL logic."
     }
   ]
 }
