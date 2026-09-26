@@ -898,10 +898,22 @@
       "id": "persistent-delivery2026-revision-optimization",
       "title": "Persistent Delivery Optimization for Streaming Speech-to-Text Translation with Revisions",
       "url": "https://arxiv.org/html/2609.26427v1",
-      "venue": "arXiv preprint",
+      "venue": "arXiv preprint (submitted ICASSP 2027)",
       "year": 2026,
-      "status": "found",
-      "source": "websearch_cycle23"
+      "authors": "Zixiang Wan, Delin Chen, Wei Shi, Haihua Xu, Youxi Xie, Yuexian Zou",
+      "status": "extracted",
+      "source": "websearch_cycle23",
+      "extraction_method": "websearch_fallback (WebFetch EGRESS_BLOCKED for arxiv.org this session, consistent with prior cycles -- see _extraction_note_cycle2; used WebSearch with exact-title and method-focused queries instead per PLAYBOOK.md EXTRACT_PAPERS fallback)",
+      "extracted_claims": [
+        "Problem framing: revision-capable streaming S2TT can correct earlier drafts, but a process reward based on currently-visible text can credit content that is later withdrawn/revised away -- i.e. naive intermediate rewards are exploitable by emitting-then-retracting.",
+        "Method (PDO): a trajectory-level training objective that only assigns intermediate reward to content that survives later revisions (reference coverage of retained content, accumulated across the trajectory), while scoring final quality separately from that survival-gated intermediate reward.",
+        "System: instantiated as a history-conditioned end-to-end streaming S2TT model with NO intermediate source transcript (not a cascade like this repo's Deepgram->LLM pipeline) -- it translates a growing source speech stream directly into a revisable target-language display, choosing wait/append/revise on the full visible translation as speech arrives.",
+        "Training data: 7.49h of task-specific FLEURS adaptation on top of a 'History-SFT' initialization checkpoint.",
+        "Results vs. external streaming baselines (5 language directions): best BLEU on 4/5 directions, higher COMET than every baseline on all 5/5 directions.",
+        "Results vs. its own History-SFT initialization (ablation, same base model): -10.8% mean finalization-aware latency, -11.3% P90 finalization-aware latency, -15.8% normalized erasure, plus improved macro BLEU, while emitting at the first permitted 2-second update interval.",
+        "Code/weights: github.com/ggiggit/PDO_S2TT, huggingface.co/hf-wzx1205/PDO_S2TT (not fetched/verified this cycle)."
+      ],
+      "relevance_note": "Cross-domain fit for this repo's open question (cycle 23 ANALYZE_RESULTS: h-soft-anchor-gate-min-words-3 found stricter ASR-side gating REGRESSED normalized erasure on the guest-talk clip, opposite the intended direction). PDO's core idea -- reward/credit only content that survives to the final revision, rather than crediting whatever is currently visible -- is a training-time technique for an end-to-end model, not directly portable to this repo's prompt-engineered cascade (Deepgram interim/final -> Gemini/OpenAI translation, no model fine-tuning in this project). The transferable idea for a hypothesis is evaluative/diagnostic, not a training method: PDO's 'does this emitted span survive to the final revision' framing could inspire a retroactive analysis of this repo's own NE/erasure data -- e.g. checking whether the guest-talk NE regression from h-soft-anchor-gate-min-words-3 is concentrated in spans where gated content was emitted late and then itself revised (a survival-rate style breakdown), rather than being a uniform effect. This needs verifying against the actual experiment JSON fields before being written up as a hypothesis (per PLAYBOOK.md's GENERATE_HYPOTHESES field-verification rule)."
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
