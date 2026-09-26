@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 11,
-  "last_updated": "2026-09-26T00:20:18.969232+00:00",
+  "last_updated": "2026-09-26T12:23:22.093731+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1043,6 +1043,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-09-26T00:20:18.969206+00:00",
       "note": "cycle 23 READ_PAPERS -> GENERATE_HYPOTHESES: wrote summary/key_findings for persistent-delivery2026-revision-optimization (status read). Cross-referenced experiments/results.csv, experiments/*.json filenames, and git log -- confirms h-soft-anchor-gate-* line is the only related prior work, no duplication risk for a survival-style erasure-breakdown hypothesis."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-09-26T12:23:22.093700+00:00",
+      "note": "cycle 23 GENERATE_HYPOTHESES -> HUMAN_APPROVAL: added 1 new hypothesis (h-soft-anchor-gate-min3-erasure-decomposition, $0 retroactive, decomposes guest-talk NE regression per-transition). Backlog: 3 proposed/needs_human (h-judge-verbosity-length-bias-retroactive, h-judge-cross-model-agreement-check carried over from cycle 22, still awaiting human sign-off per pending_approval.json; new one not yet processed)."
     }
   ]
 }
