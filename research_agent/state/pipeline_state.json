@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 11,
-  "last_updated": "2026-09-25T12:21:38.254797+00:00",
+  "last_updated": "2026-09-26T00:19:42.379614+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1031,6 +1031,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-09-25T12:21:38.254734+00:00",
       "note": "cycle 23 SEARCH_PAPERS -> EXTRACT_PAPERS: targeted search for gating/flicker-interaction literature per cycle 22 reflections; found 1 new post-survey candidate (persistent-delivery2026-revision-optimization, arXiv 2609.26427), rest were duplicates or too tangential. pending_approval.json still has 2 entries awaiting human sign-off (h-judge-verbosity-length-bias-retroactive, h-judge-cross-model-agreement-check) -- no human signal seen this session, left untouched per WAITING_APPROVAL logic."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-09-26T00:19:42.379586+00:00",
+      "note": "cycle 23 EXTRACT_PAPERS -> READ_PAPERS: extracted persistent-delivery2026-revision-optimization (arXiv 2609.26427) via WebSearch fallback (WebFetch EGRESS_BLOCKED for arxiv.org). Concrete claims (PDO training objective, FLEURS-adaptation BLEU/COMET results, -10.8%/-11.3% mean/P90 finalization-aware latency and -15.8% NE vs History-SFT baseline) and a cross-domain relevance note (re: h-soft-anchor-gate-min-words-3's unexpected guest-talk NE regression) added to papers.json. No other 'found' papers pending."
     }
   ]
 }
