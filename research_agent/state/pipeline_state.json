@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 11,
-  "last_updated": "2026-09-26T00:19:42.379614+00:00",
+  "last_updated": "2026-09-26T00:20:18.969232+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1037,6 +1037,12 @@
       "to": "READ_PAPERS",
       "at": "2026-09-26T00:19:42.379586+00:00",
       "note": "cycle 23 EXTRACT_PAPERS -> READ_PAPERS: extracted persistent-delivery2026-revision-optimization (arXiv 2609.26427) via WebSearch fallback (WebFetch EGRESS_BLOCKED for arxiv.org). Concrete claims (PDO training objective, FLEURS-adaptation BLEU/COMET results, -10.8%/-11.3% mean/P90 finalization-aware latency and -15.8% NE vs History-SFT baseline) and a cross-domain relevance note (re: h-soft-anchor-gate-min-words-3's unexpected guest-talk NE regression) added to papers.json. No other 'found' papers pending."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-09-26T00:20:18.969206+00:00",
+      "note": "cycle 23 READ_PAPERS -> GENERATE_HYPOTHESES: wrote summary/key_findings for persistent-delivery2026-revision-optimization (status read). Cross-referenced experiments/results.csv, experiments/*.json filenames, and git log -- confirms h-soft-anchor-gate-* line is the only related prior work, no duplication risk for a survival-style erasure-breakdown hypothesis."
     }
   ]
 }
