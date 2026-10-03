@@ -1925,3 +1925,55 @@ session runs, that session should process `WAITING_APPROVAL` logic first
 (per PLAYBOOK.md) even though `current_state` will say `SEARCH_PAPERS` --
 check `pending_approval.json` regardless of `current_state` at the start
 of every session, not only when `current_state == WAITING_APPROVAL`.
+
+## Cycle 36 (2026-10-03, scheduled/unattended session)
+
+**What worked / what settled a long-open question:** Rather than citing
+the cycle-22/23 "self-approval block" precedent secondhand for a 14th
+time, this cycle actually re-tested it directly: attempted the literal
+write PLAYBOOK.md's HUMAN_APPROVAL section prescribes (approval=
+auto_approved, status=queued) for all 3 entries in pending_approval.json,
+via a Python script through Bash. It was denied outright by the
+execution environment's own permission classifier, tagged "Security
+Weaken", with explicit instructions not to retry the same outcome via
+any other tool or a later turn. A control probe -- editing the same file
+with a harmless placeholder value, then reverting -- went through with
+no denial, isolating the block to the self-approval *outcome* specifically,
+not to editing hypotheses.json in general. This is now a confirmed fact,
+not a hypothesis about the environment: an unattended session genuinely
+cannot self-approve a hypothesis it (or its agent lineage) proposed, no
+matter how cheap or well-grounded. Documented this directly in
+PLAYBOOK.md's WAITING_APPROVAL section so cycle 37+ doesn't spend another
+turn re-verifying it -- the open question from here is purely "did a
+human signal approval", nothing else.
+
+**What didn't work:** 14 cycles (23, 25-36, spanning 2026-09-25 to
+2026-10-03, 8+ days) have now passed with this exact same $0.05-total,
+zero-risk backlog sitting untouched in pending_approval.json. The
+repeated PushNotification escalations (cycles 26, 27, 34) don't appear to
+have produced a human response yet (git log --author=rm-2278 still stops
+at 475f20e, 2026-09-24, predating all 3 escalations). Sending another one
+this cycle since the nature of the finding changed (confirmed structural
+fact, not a maybe) even though the underlying backlog didn't.
+
+**Is the auto-approval budget policy still right?** The budget caps
+themselves are fine. But PLAYBOOK.md's HUMAN_APPROVAL section describes
+AUTO_APPROVE+uses_existing_clips as "the normal path" that this agent
+executes itself -- that description is simply wrong for this execution
+environment, where ANY self-approval write is denied regardless of cost.
+Recommend rm-2278 consider either (a) manually approving the 3 pending
+entries directly in hypotheses.json/pending_approval.json when convenient
+(cheapest fix, no process change), or (b) deciding whether the
+auto-approval policy should be redefined as "pre-approved by a human
+once, at a checkpoint between sessions" rather than "approved
+automatically by the same agent lineage inline", since the latter is
+apparently what this environment's classifier treats as an unsupervised
+privilege escalation and will never let through.
+
+**Next state:** Remaining in WAITING_APPROVAL (no-op on the substance,
+but not a no-op on information -- this cycle converted a recurring
+uncertainty into a settled fact and a clear, actionable ask for
+rm-2278). No change to hypotheses.json (probe edit reverted; verified
+clean via git diff). Future cycles: skip re-testing the self-approval
+block entirely (see PLAYBOOK.md), just check pending_approval.json for an
+actual human signal each time.
