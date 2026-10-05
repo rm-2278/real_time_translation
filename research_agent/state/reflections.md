@@ -2059,3 +2059,52 @@ section already says exactly what to do here and held up cleanly again.
 checking `pending_approval.json` for an actual human signal each time;
 do not re-test the self-approval block; only send another
 PushNotification if the situation materially changes.
+
+## Cycle 39 (2026-10-05, scheduled/automated run)
+
+**What worked / what didn't:** Pure no-op, consistent with cycles 23,
+25-38. Re-checked `pending_approval.json` (same 3 entries --
+`h-judge-verbosity-length-bias-retroactive`,
+`h-judge-cross-model-agreement-check`,
+`h-soft-anchor-gate-min3-erasure-decomposition` -- unchanged since
+2026-09-25/27, no human-signal field added) and `hypotheses.json` (38
+entries, same statuses as cycle 38: 35 already `tested`, the same 3
+still `proposed`/`needs_human`) -- nothing runnable. `git log
+--author=rm-2278` still stops at `475f20e` (2026-09-24), so still zero
+human repo activity in the 11 days since, across all 17 no-op cycles
+(23, 25-39). Did not re-attempt the self-approval write -- cycle 36
+already confirmed this is a real, intentional environment gate and
+PLAYBOOK.md's WAITING_APPROVAL section says so plainly; re-testing it
+again would just burn a cycle re-deriving an already-settled fact. This
+cycle also double-checked the environment anyway even though nothing is
+queued to run in it: `DEEPGRAM_API_KEY`/`GOOGLE_API_KEY` both present
+in this session's env (not independently verified reachable, since no
+hypothesis needs them this cycle); moot either way. Rolled
+`budget.json`'s date to 2026-10-05 (`spent_today_usd` reset to 0,
+`total_spent_usd` unchanged at 3.02), consistent with the daily-rollover
+pattern used every other cycle. No spend this cycle, nothing to log via
+`log-cost`.
+
+**Notification decision:** Did NOT send a fresh PushNotification this
+cycle. Cycle 36 (2026-10-03) already escalated the confirmed structural
+fact that the self-approval block is real and intentional, and cycles
+37-38 re-confirmed nothing had changed. This cycle again finds the
+identical 3 entries with no new information, and only 2 days have
+passed since cycle 36's alert -- well short of the "another week+ of
+continued silence" threshold those cycles set for re-escalating. Per
+that standing threshold, no notification this cycle.
+
+**Backlog/budget:** Unchanged. No spend this cycle, nothing to log.
+
+**Should the playbook change?** No. PLAYBOOK.md's WAITING_APPROVAL
+section already says exactly what to do here and held up cleanly again
+-- 17 consecutive cycles now following the same documented path with no
+friction.
+
+**Next state:** Staying in `WAITING_APPROVAL`. Future cycles: keep
+checking `pending_approval.json` for an actual human signal each time;
+do not re-test the self-approval block; only send another
+PushNotification if the situation materially changes (a human responds,
+a new hypothesis needs escalation, or the stall crosses cycle 36's
+week+ re-escalation threshold, i.e. roughly 2026-10-10 onward if still
+silent).
