@@ -2208,3 +2208,56 @@ checking `pending_approval.json` for an actual human signal each time;
 do not re-test the self-approval block; send the pre-committed
 re-escalation PushNotification once the stall crosses roughly
 2026-10-10 if rm-2278 is still silent by then.
+
+## Cycle 42 (2026-10-06, scheduled/automated run)
+
+**What worked / what didn't:** Pure no-op, consistent with cycles 23,
+25-41 (20th consecutive no-op `WAITING_APPROVAL` cycle since
+2026-09-27). Re-checked `pending_approval.json` -- identical 3 entries
+(`h-judge-verbosity-length-bias-retroactive` $0.00,
+`h-judge-cross-model-agreement-check` $0.05,
+`h-soft-anchor-gate-min3-erasure-decomposition` $0.00), unchanged since
+2026-09-25/27, still no human-signal field. Re-checked `hypotheses.json`:
+same 35 `tested` / 1 `superseded` / 3 `proposed`+`needs_human` split as
+cycle 41 -- nothing new added, nothing else auto-approvable-but-unrun.
+`git log --author=rm-2278` still stops at `475f20e` (2026-09-24) -- 12
+days of zero human repo activity now. Environment check (moot, nothing
+queued either way): `DEEPGRAM_API_KEY`, `GOOGLE_API_KEY` set, `ffmpeg`
+present. `budget.json`'s date was already `2026-10-06` from cycle 41's
+roll a few hours earlier (this cycle ran ~12h later, same UTC day) --
+no roll needed. Did not re-attempt the self-approval write (settled per
+cycle 36, no new information to justify re-testing it).
+
+**Notification decision:** Did NOT send a fresh PushNotification this
+cycle, for the same reason as cycles 37-41: cycle 36 already escalated
+the confirmed structural fact (self-approval write blocked, 3 cheap
+hypotheses stuck on a human yes/no), and today (2026-10-06) is still 4
+days short of the pre-committed re-escalation threshold (~2026-10-10).
+Independently re-examined whether that threshold still makes sense
+before deferring to it rather than just rubber-stamping a prior cycle's
+call: the three pending items are trivial in cost ($0.00/$0.00/$0.05)
+and the only thing actually blocked on them, so there is no safety
+reason to escalate early, and nothing has changed since cycle 41 (a few
+hours ago) that would make a repeat notification informative rather
+than noise. Kept the threshold as-is.
+
+**Backlog/budget:** Unchanged. No spend this cycle, nothing to log via
+`log-cost`.
+
+**Should the playbook change?** No. `PLAYBOOK.md`'s `WAITING_APPROVAL`
+section continues to describe exactly this situation correctly -- 20
+consecutive cycles now with zero friction against the documented path.
+One thing worth flagging to the human in the report rather than as a
+playbook change: each of these no-op cycles still costs a full
+scheduled session just to re-confirm nothing changed, for 12 days
+running. The playbook's own re-escalation threshold already accounts
+for this by widening the gap between notifications, which seems like
+the right tradeoff (avoid alert fatigue) rather than e.g. silently
+reducing the schedule's own firing frequency, which this session has no
+authority to change anyway.
+
+**Next state:** Staying in `WAITING_APPROVAL`. Future cycles: keep
+checking `pending_approval.json` for an actual human signal each time;
+do not re-test the self-approval block; send the pre-committed
+re-escalation PushNotification once the stall crosses roughly
+2026-10-10 if rm-2278 is still silent by then.
