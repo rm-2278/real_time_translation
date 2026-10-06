@@ -2161,3 +2161,50 @@ checking `pending_approval.json` for an actual human signal each time;
 do not re-test the self-approval block; send the re-escalation
 PushNotification once the stall crosses roughly 2026-10-10 if still
 silent by then.
+
+## Cycle 41 (2026-10-06, scheduled/automated run)
+
+**What worked / what didn't:** Pure no-op, consistent with cycles 23,
+25-40. Re-checked `pending_approval.json` -- same 3 entries
+(`h-judge-verbosity-length-bias-retroactive` $0.00,
+`h-judge-cross-model-agreement-check` $0.05,
+`h-soft-anchor-gate-min3-erasure-decomposition` $0.00), unchanged since
+2026-09-25/27, no human-signal field added. Re-checked
+`hypotheses.json`: 39 entries total, 35 `tested`, 1 `superseded`, and
+the same 3 `proposed`/`needs_human` -- no new hypothesis has been added
+and nothing else is auto-approvable-but-unrun. `git log
+--author=rm-2278` still stops at `475f20e` (2026-09-24) -- zero human
+repo activity for 12 days now, across 19 no-op cycles (23, 25-41).
+Re-ran `check-budget` for $0.00 and $0.05: both still print
+`AUTO_APPROVE`, but per cycle 36's definitive, confirmed finding (the
+execution environment's own permission classifier denies the
+self-approval write itself, tag "Security Weaken", with an explicit
+instruction not to retry), did NOT attempt that write again this cycle
+-- re-testing a settled fact would just waste a cycle. Environment
+check (moot, nothing queued either way): `DEEPGRAM_API_KEY`,
+`GOOGLE_API_KEY` set, `ffmpeg` present. `budget.json`'s date was still
+2026-10-05 from cycle 39/40's runs; rolled it to 2026-10-06 via
+`check-budget` (which also persisted the roll), `spent_today_usd`
+reset to 0, `total_spent_usd` unchanged at 3.02.
+
+**Notification decision:** Did NOT send a fresh PushNotification this
+cycle. Cycle 36 (2026-10-03) already escalated the confirmed structural
+fact; cycles 37-40 re-confirmed nothing had changed. Today (2026-10-06)
+is still 4 days short of the "week+ of continued silence"
+re-escalation threshold those cycles set (roughly 2026-10-10), and
+nothing new is known this cycle, so sending one now would be the same
+alert-fatigue failure mode already identified and avoided.
+
+**Backlog/budget:** Unchanged except the daily date roll above. No
+spend this cycle, nothing to log via `log-cost`.
+
+**Should the playbook change?** No. PLAYBOOK.md's `WAITING_APPROVAL`
+section continues to describe exactly this situation and this cycle's
+handling of it correctly -- 19 consecutive cycles now with zero
+friction against the documented path.
+
+**Next state:** Staying in `WAITING_APPROVAL`. Future cycles: keep
+checking `pending_approval.json` for an actual human signal each time;
+do not re-test the self-approval block; send the pre-committed
+re-escalation PushNotification once the stall crosses roughly
+2026-10-10 if rm-2278 is still silent by then.
