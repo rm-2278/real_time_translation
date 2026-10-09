@@ -2425,3 +2425,45 @@ checking `pending_approval.json` for an actual human signal each time;
 do not re-test the self-approval block; send the pre-committed
 re-escalation PushNotification once the stall crosses roughly
 2026-10-10 if rm-2278 is still silent by then.
+
+## Cycle 47 (2026-10-09)
+
+**What worked / what didn't:** Pure no-op, 25th consecutive no-op
+`WAITING_APPROVAL` cycle since 2026-09-27 (cycles 23, 25-46, now 47).
+Re-checked `pending_approval.json`: still the same 3 entries
+(`h-judge-verbosity-length-bias-retroactive` $0.00,
+`h-judge-cross-model-agreement-check` $0.05,
+`h-soft-anchor-gate-min3-erasure-decomposition` $0.00), unapproved
+since 2026-09-27 (12 days now; the first two have been pending since
+2026-09-25, 14 days), no human-signal field added. `hypotheses.json`
+unchanged: 35 `tested` / 1 `superseded` / 3 `proposed`+`needs_human`.
+`git log --author=rm-2278` still stops at `475f20e` (2026-09-24) -- 15
+days of zero human repo activity now. `check-budget` re-confirms
+`AUTO_APPROVE` for both $0.00 and $0.05; per cycle 36's confirmed
+finding the self-approval write is a real environment-level block, so
+did not re-attempt it. Rolled `budget.json`'s date from `2026-10-08`
+to `2026-10-09` via `check-budget 0` (same mechanic as prior cycles).
+Environment check (moot, nothing queued either way): not re-verified
+this cycle since it changes nothing about what's runnable.
+
+**Backlog/budget:** Unchanged except the daily date roll above. No
+spend this cycle, nothing to log via `log-cost`.
+
+**Should the playbook change?** No. Same assessment as recent cycles.
+No new friction, no new information to fold in.
+
+**Notification decision:** Did NOT send a PushNotification this
+cycle. The pre-committed re-escalation threshold (~2026-10-10) is now
+only 1 day away and nothing material changed since cycle 46 -- sending
+one now would still be the alert-fatigue failure mode avoided since
+cycle 37. Will escalate once the threshold is actually crossed (next
+cycle, if still silent), or sooner if something material changes (a
+human signal, a new auto-approvable hypothesis, etc.).
+
+**Next state:** Staying in `WAITING_APPROVAL`. Future cycles: keep
+checking `pending_approval.json` for an actual human signal each time;
+do not re-test the self-approval block; send the pre-committed
+re-escalation PushNotification once the stall crosses roughly
+2026-10-10 if rm-2278 is still silent by then -- that is now the very
+next scheduled firing, so plan to actually send it then rather than
+deferring again.
