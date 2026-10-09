@@ -2467,3 +2467,44 @@ re-escalation PushNotification once the stall crosses roughly
 2026-10-10 if rm-2278 is still silent by then -- that is now the very
 next scheduled firing, so plan to actually send it then rather than
 deferring again.
+
+## Cycle 48 (2026-10-09, same day as cycle 47)
+
+**What worked / didn't:** Same no-op mechanics as recent cycles --
+`pending_approval.json`'s 3 entries (`h-judge-verbosity-length-bias-
+retroactive` $0.00, `h-judge-cross-model-agreement-check` $0.05,
+`h-soft-anchor-gate-min3-erasure-decomposition` $0.00) are still
+unapproved (15/15/13 days respectively). `hypotheses.json` unchanged
+(35 tested / 1 superseded / 3 proposed+needs_human). `git log
+--author=rm-2278` still stops at `475f20e` (2026-09-24) -- 16 days of
+zero human repo activity now. `check-budget` re-confirms
+`AUTO_APPROVE` for both amounts; per cycle 36's confirmed finding the
+self-approval write is a real environment-level block, so did not
+re-attempt it. `budget.json`'s date was already `2026-10-09` from
+earlier today's cycle, nothing to roll.
+
+**Backlog/budget:** Unchanged. No spend this cycle, nothing to log
+via `log-cost`.
+
+**Should the playbook change?** No. Same assessment as recent
+cycles.
+
+**Notification decision:** Sent a PushNotification this cycle. Cycle
+47 explicitly pre-committed to escalating "the very next scheduled
+firing" rather than deferring again once the ~2026-10-10 threshold
+was essentially reached, and this cycle is that firing (same day,
+16 days of total silence, 3 safe $0-$0.05 hypotheses still stuck on
+the self-approval block). Deferring yet again would repeat the
+cycle-37-to-47 pattern of perpetually promising to escalate "next
+time" -- acted on the commitment instead. Framed the notification as
+informational (nothing is broken, just needs one human action:
+approve or reject the 3 pending_approval.json entries) to avoid
+reading as an error report.
+
+**Next state:** Staying in `WAITING_APPROVAL`. Future cycles: resume
+quiet no-op checks (no new PushNotification) unless the situation
+materially changes -- a human signal (approval/rejection in
+`pending_approval.json` or any other sign-off), a new auto-approvable
+hypothesis appearing, or a much longer additional stall (e.g.
+another ~2 weeks of total silence) that would warrant a second
+escalation. Do not re-test the self-approval block.
