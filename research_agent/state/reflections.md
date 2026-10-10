@@ -2508,3 +2508,44 @@ materially changes -- a human signal (approval/rejection in
 hypothesis appearing, or a much longer additional stall (e.g.
 another ~2 weeks of total silence) that would warrant a second
 escalation. Do not re-test the self-approval block.
+
+## Cycle 49 (2026-10-10)
+
+**What worked / didn't:** Same no-op mechanics as recent cycles.
+`pending_approval.json`'s 3 entries (`h-judge-verbosity-length-bias-
+retroactive` $0.00, `h-judge-cross-model-agreement-check` $0.05,
+`h-soft-anchor-gate-min3-erasure-decomposition` $0.00) are still
+unapproved (16/16/14 days respectively since `asked_at`). `hypotheses.json`
+unchanged (35 `tested` / 1 `superseded` / 3 `proposed`+`needs_human`).
+`git log --author=rm-2278` still stops at `475f20e` (2026-09-24) -- 17
+days of zero human repo activity now. `check-budget` re-confirms
+`AUTO_APPROVE` for both $0.00 and $0.05; per cycle 36's confirmed
+finding the self-approval write is a real environment-level block, so
+did not re-attempt it. `budget.json`'s date had already rolled to
+`2026-10-10` by the time this cycle ran `check-budget` (first call of
+the day), nothing extra to roll.
+
+**Backlog/budget:** Unchanged. No spend this cycle, nothing to log
+via `log-cost`.
+
+**Should the playbook change?** No. Same assessment as recent cycles --
+no new friction, no new information to fold in.
+
+**Notification decision:** Did NOT send a PushNotification this
+cycle. Cycle 48 escalated just yesterday (2026-10-09); nothing
+material has changed since then (no human signal, no new
+auto-approvable hypothesis), and cycle 48's own plan was to resume
+quiet no-ops until either a human signal arrives or roughly another
+~2 weeks of total silence passes -- neither condition is met after
+only one day. Sending another notification now would be exactly the
+alert-fatigue failure mode the cycle 37-47 reflections already
+identified and cycle 48 explicitly tried to avoid by escalating once,
+clearly, rather than repeatedly.
+
+**Next state:** Staying in `WAITING_APPROVAL`. Future cycles: keep
+checking `pending_approval.json` for an actual human signal each
+time; do not re-test the self-approval block; consider a second
+escalation only once total silence since `asked_at` approaches
+roughly 2026-10-25 (another ~2 weeks past cycle 48's escalation) if
+rm-2278 is still silent by then, or immediately if anything material
+changes sooner.
