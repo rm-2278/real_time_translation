@@ -724,9 +724,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "approved_by_human",
-      "status": "queued",
-      "experiment_ids": [],
-      "result_summary": ""
+      "status": "tested",
+      "experiment_ids": [
+        "experiments/judge_verbosity_bias_check.json"
+      ],
+      "result_summary": "Implemented judge_verbosity_bias_check.py, pure retroactive analysis, zero new Deepgram/LLM API calls. Sub-check 1 (within same span+condition, across repeats, noisefloor-replay file only, n=587, meaningful sample size): Pearson r=0.041, Spearman r=-0.076 -- near-zero, confirming the prediction that the judge's score is NOT meaningfully driven by incidental output-length variation when content is held ~constant. Sub-check 2 (across conditions within the same span, both files, per-span mean-centered, n=585 pooled across 98 span groups): Pearson r=0.011, Spearman r=-0.098 -- also near-zero, even though conditions deliberately differ in length by design; reported separately per the hypothesis's own caveat and not treated as further evidence either way about judge bias specifically. One judge() call in the source data had a JSONDecodeError (score=None, guest-talk span 17, gated_soft_anchor) -- excluded from both sub-checks rather than crashing or being silently coerced. Conclusion: translation_fidelity_judge.judge()'s rubric replicates arxiv2606-19544's small-bias finding on this repo's own data -- no verbosity-bias correction is needed for past or future fidelity comparisons in this backlog. No config-drift confound applies (no new experiment run, only reanalysis of already-logged per-repeat data)."
     },
     {
       "id": "h-judge-cross-model-agreement-check",

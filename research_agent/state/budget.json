@@ -184,6 +184,11 @@
       "at": "2026-10-10T08:52:23.685495+00:00",
       "amount_usd": 0.0,
       "note": "h-soft-anchor-gate-min3-erasure-decomposition: soft_anchor_gate_erasure_decomposition.py, retroactive analysis over experiments/20260922_h_soft_anchor_gate_min3_replay.json's already-recorded condition_repeats text (guest-talk source, 42 gated spans), zero new Deepgram/LLM API spend"
+    },
+    {
+      "at": "2026-10-10T12:25:13.665701+00:00",
+      "amount_usd": 0.0,
+      "note": "h-judge-verbosity-length-bias-retroactive: judge_verbosity_bias_check.py, pure retroactive analysis over 2 existing experiment JSONs, zero new Deepgram/LLM API spend"
     }
   ]
 }
