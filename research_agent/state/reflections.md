@@ -2549,3 +2549,75 @@ escalation only once total silence since `asked_at` approaches
 roughly 2026-10-25 (another ~2 weeks past cycle 48's escalation) if
 rm-2278 is still silent by then, or immediately if anything material
 changes sooner.
+
+
+## Cycle 50 (2026-10-10)
+
+**What worked / didn't:** The 16-day `WAITING_APPROVAL` stall ended --
+rm-2278 approved all 3 pending hypotheses via a separate Claude Code
+session earlier the same day (2026-10-10), moving the pipeline
+`WAITING_APPROVAL -> RUN_EXPERIMENTS` before this scheduled cycle even
+started. This confirms the cycle-36 model was right: the self-approval
+block is real and only an actual human action clears it, not a
+different wording or a longer wait. Picked the cheapest/most-scoped of
+the 3 newly-queued hypotheses (`h-soft-anchor-gate-min3-erasure-
+decomposition`, $0.00, pure retroactive analysis) and ran it end to
+end (implement -> run -> log-cost -> results.csv -> hypotheses.json ->
+Japanese report) in one session. Went smoothly: the required_changes
+text in the hypothesis itself was detailed enough (exact field names,
+exact labeling rule, exact erasure formula reusing
+`flicker_metrics._longest_common_prefix_len`) that implementation was
+mostly transcription, not design -- a good sign that GENERATE_HYPOTHESES
+cycles that front-load this much precision pay off at RUN_EXPERIMENTS
+time. One minor own mistake caught before committing: my first draft
+of the script had a dead first-pass block (an abandoned `by_condition_
+label`/`_condition_of` approach) left in from switching strategies
+mid-write -- cleaned up via Edit before running `ruff check`, which
+passed clean on the first real attempt. No new paper search this
+cycle (reused the existing literature base this hypothesis was already
+grounded in from cycle 23's reflection).
+
+**Result quality:** The finding is clean and decisive, not a close
+call needing a noise-floor caveat like several past judge-score
+analyses in this backlog -- excess erasure on gated transitions
+(+0.549) vs. non-gated transitions in the same spans (+0.040) is a
+13.6x gap, not a few-point difference that repeat-noise could explain
+away. This resolves the open question cycle 23 left hanging and should
+let future cycles treat `h-soft-anchor-gate-*` gating's basic safety
+property (contained cost, no broad destabilization) as settled rather
+than reopening it, modulo the one flagged outlier (span 34).
+
+**Backlog/budget calibration:** Still well-calibrated -- backlog is at
+2 `queued` (both newly re-approved, not yet run) + 0 `proposed` after
+this cycle, comfortably under the ~6 cap, and both remaining queued
+items are cheap ($0.00 and $0.05). No reason to generate new
+hypotheses or search for new papers yet; next cycle should just run
+one of the other 2 queued items (prefer `h-judge-verbosity-length-
+bias-retroactive` at $0.00 per the cost-ordering rule) before
+considering a fresh SEARCH_PAPERS pass.
+
+**Should the playbook change?** No changes needed this cycle -- no new
+friction encountered. The one near-miss (dead code left in from a
+strategy switch) is a personal-process note, not a playbook gap; ruff
++ reading the diff before committing already caught it, which is the
+existing process working as intended.
+
+**Notification decision:** Did NOT send a PushNotification. The
+run completed cleanly within the environment's existing capabilities
+(no new API keys needed, pure retroactive analysis) and produced a
+routine, non-urgent research result -- exactly the kind of outcome the
+standing guidance says to fold into the Japanese report rather than
+page the human about. The approval unblock itself was the human's own
+action in a session they were present for, so there's nothing there
+for them to be newly informed of either.
+
+**Next state:** Advancing `WRITE_REPORT -> REFLECT -> GENERATE_HYPOTHESES`
+(skipping a fresh `SEARCH_PAPERS` pass this cycle -- 2 already-generated,
+already-approved, cheap hypotheses remain queued and un-run, so a new
+literature search is unlikely to add much before those are cleared).
+Future cycles: run `h-judge-verbosity-length-bias-retroactive` ($0.00)
+next, then `h-judge-cross-model-agreement-check` ($0.05, needs
+OPENAI_API_KEY -- check reachability per RUN_EXPERIMENTS's environment-
+check step, treat absence as an environment blocker per the playbook,
+not a crash). Consider a small follow-up on span 34 (the erasure
+outlier from this cycle) once the queue is otherwise clear.
