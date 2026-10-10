@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 11,
-  "last_updated": "2026-10-10T12:20:55.631637+00:00",
+  "last_updated": "2026-10-10T12:26:06.945523+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1229,6 +1229,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-10T12:20:55.631594+00:00",
       "note": "cycle 51: no hypotheses with approval unset/proposed to process (pending_approval.json is empty; both queued hypotheses -- h-judge-verbosity-length-bias-retroactive $0.00, h-judge-cross-model-agreement-check $0.05 -- already approved_by_human from a prior human action). Advancing straight to RUN_EXPERIMENTS; will run the cheaper queued item first per cost-ordering rule."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-10T12:26:06.945465+00:00",
+      "note": "cycle 51: h-judge-verbosity-length-bias-retroactive run (0$); both sub-checks near-zero correlation (sub-check1 r=0.041/-0.076 n=587, sub-check2 r=0.011/-0.098 n=585), replicates arxiv2606-19544's small-bias finding"
     }
   ]
 }
