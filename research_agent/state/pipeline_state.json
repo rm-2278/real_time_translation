@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "WAITING_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 11,
-  "last_updated": "2026-10-10T00:19:53.283212+00:00",
+  "last_updated": "2026-10-10T08:48:45.415014+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1187,6 +1187,12 @@
       "to": "WAITING_APPROVAL",
       "at": "2026-10-10T00:19:53.283177+00:00",
       "note": "Cycle 49 (2026-10-10 scheduled run): checked pending_approval.json for human signal on the 3 pending entries (h-judge-verbosity-length-bias-retroactive /bin/bash.00 since 2026-09-25, h-judge-cross-model-agreement-check $0.05 since 2026-09-25, h-soft-anchor-gate-min3-erasure-decomposition $0.00 since 2026-09-27) -- still unapproved, no human signal (git log --author=rm-2278 still stops at 475f20e, 2026-09-24). hypotheses.json unchanged (35 tested/1 superseded/3 proposed+needs_human), nothing newly auto-approvable. Per cycle 36's confirmed self-approval block, did not re-attempt the auto_approved/queued write. Quiet no-op per cycle 48's own plan (escalated only 1 day ago; next escalation threshold is ~2 more weeks of silence, not yet reached). No PushNotification sent."
+    },
+    {
+      "from": "WAITING_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-10T08:48:45.414851+00:00",
+      "note": "Human rm-2278 approved 3 pending hypotheses via Claude Code session 2026-10-10"
     }
   ]
 }
