@@ -760,9 +760,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "approved_by_human",
-      "status": "queued",
-      "experiment_ids": [],
-      "result_summary": ""
+      "status": "tested",
+      "experiment_ids": [
+        "experiments/soft_anchor_gate_erasure_decomposition.json"
+      ],
+      "result_summary": "Decomposed the 42 guest-talk gated spans into per-transition erasure, labeling each transition gated_transition ((t+1) in gated_batch_indices) vs nongated_transition_in_gated_span, reusing flicker_metrics._longest_common_prefix_len directly. Result: gated_soft_anchor excess normalized erasure over soft_anchor_replay is 0.549 on gated transitions themselves (n=84, mean 0.615 vs 0.067) but only 0.040 on non-gated transitions within the SAME gated spans (n=50, mean 0.077 vs 0.036) -- about 13.6x smaller. This confirms prediction (1) contained re-reveal, not (2) destabilization: the gate's cost is mostly local to the transition it directly holds back, and does not meaningfully propagate into later translation within the same span. One outlier (span 34, 4 nongated transitions, excess 0.358) is well above the rest of the distribution and worth a closer look in a future cycle, but does not change the aggregate conclusion. This resolves the open question h-soft-anchor-gate-min-words-3's result_summary left unanswered: the aggregate guest-talk NE regression (0.377 vs 0.089) is explained by a small number of expensive gated transitions, not a broad quality problem with the gating approach."
     }
   ]
 }

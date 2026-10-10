@@ -179,6 +179,11 @@
       "at": "2026-09-25T00:57:59.244213+00:00",
       "amount_usd": 0.4,
       "note": "h-soft-anchor-gate-min-words-3: soft_anchor_gate_min3_replay.py, identical call structure to cycle 20's noisefloor replay (1458 gemini-3-flash-preview translate calls + 588 gemini-3.1-flash-lite fidelity-judge calls, every repeat judged = 2046 total calls), zero new Deepgram spend (replay of already-recorded source deltas from experiments/20260915_h_continuation_anchor_test_rpmunlimited.json and experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json). Estimated by call-count identity with cycle 20's measured rate (only GATE_MIN_WORDS differs, which does not change call counts)."
+    },
+    {
+      "at": "2026-10-10T08:52:23.685495+00:00",
+      "amount_usd": 0.0,
+      "note": "h-soft-anchor-gate-min3-erasure-decomposition: soft_anchor_gate_erasure_decomposition.py, retroactive analysis over experiments/20260922_h_soft_anchor_gate_min3_replay.json's already-recorded condition_repeats text (guest-talk source, 42 gated spans), zero new Deepgram/LLM API spend"
     }
   ]
 }

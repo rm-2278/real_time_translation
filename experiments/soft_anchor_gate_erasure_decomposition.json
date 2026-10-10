@@ -1,0 +1,190 @@
+{
+  "date": "2026-10-10",
+  "experiment_name": "h_soft_anchor_gate_erasure_decomposition",
+  "domain": null,
+  "input": {
+    "type": "retroactive_analysis",
+    "source_json": "experiments/20260922_h_soft_anchor_gate_min3_replay.json",
+    "source_key": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+    "num_gated_spans": 42,
+    "note": "Follow-up to h-soft-anchor-gate-min-words-3's own result_summary, which flagged the guest-talk aggregate NE regression (gated_soft_anchor 0.377 vs soft_anchor_replay 0.089) as unexplained and recommended this exact decomposition. Zero new Deepgram/LLM API calls -- reuses condition_repeats text already recorded in the source JSON."
+  },
+  "results": {
+    "by_label_and_condition": {
+      "gated_soft_anchor": {
+        "gated_transition": {
+          "n": 84,
+          "mean_erasure_chars": 24.833333333333332,
+          "mean_erasure_normalized": 0.6154667492192983
+        },
+        "nongated_transition_in_gated_span": {
+          "n": 50,
+          "mean_erasure_chars": 4.8,
+          "mean_erasure_normalized": 0.07659749965605395
+        }
+      },
+      "soft_anchor_replay": {
+        "gated_transition": {
+          "n": 84,
+          "mean_erasure_chars": 2.5357142857142856,
+          "mean_erasure_normalized": 0.0665716319695374
+        },
+        "nongated_transition_in_gated_span": {
+          "n": 50,
+          "mean_erasure_chars": 3.44,
+          "mean_erasure_normalized": 0.03619553918452088
+        }
+      }
+    },
+    "per_span_excess_on_nongated_transitions": [
+      {
+        "span_index": 34,
+        "num_nongated_transitions_in_span": 4,
+        "gated_soft_anchor_mean_erasure_normalized": 0.4011824324324324,
+        "soft_anchor_replay_mean_erasure_normalized": 0.04285714285714286,
+        "excess_erasure_normalized": 0.35832528957528953
+      },
+      {
+        "span_index": 82,
+        "num_nongated_transitions_in_span": 6,
+        "gated_soft_anchor_mean_erasure_normalized": 0.11904761904761905,
+        "soft_anchor_replay_mean_erasure_normalized": 0.05812118661897748,
+        "excess_erasure_normalized": 0.060926432428641576
+      },
+      {
+        "span_index": 25,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.05102040816326531,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.05102040816326531
+      },
+      {
+        "span_index": 52,
+        "num_nongated_transitions_in_span": 4,
+        "gated_soft_anchor_mean_erasure_normalized": 0.09352300242130751,
+        "soft_anchor_replay_mean_erasure_normalized": 0.07371794871794872,
+        "excess_erasure_normalized": 0.01980505370335879
+      },
+      {
+        "span_index": 67,
+        "num_nongated_transitions_in_span": 10,
+        "gated_soft_anchor_mean_erasure_normalized": 0.07001287001287002,
+        "soft_anchor_replay_mean_erasure_normalized": 0.06471807628524047,
+        "excess_erasure_normalized": 0.005294793727629546
+      },
+      {
+        "span_index": 27,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.09322493224932249,
+        "soft_anchor_replay_mean_erasure_normalized": 0.09090909090909091,
+        "excess_erasure_normalized": 0.002315841340231578
+      },
+      {
+        "span_index": 2,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.0,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.0
+      },
+      {
+        "span_index": 12,
+        "num_nongated_transitions_in_span": 4,
+        "gated_soft_anchor_mean_erasure_normalized": 0.0,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.0
+      },
+      {
+        "span_index": 63,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.0,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.0
+      },
+      {
+        "span_index": 65,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.0,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.0
+      },
+      {
+        "span_index": 72,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.0,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.0
+      },
+      {
+        "span_index": 73,
+        "num_nongated_transitions_in_span": 4,
+        "gated_soft_anchor_mean_erasure_normalized": 0.0,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.0
+      },
+      {
+        "span_index": 79,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.0,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.0
+      },
+      {
+        "span_index": 81,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.0,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.0
+      },
+      {
+        "span_index": 24,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.07407407407407407,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0828752642706131,
+        "excess_erasure_normalized": -0.008801190196539035
+      }
+    ],
+    "top_outlier_spans": [
+      {
+        "span_index": 34,
+        "num_nongated_transitions_in_span": 4,
+        "gated_soft_anchor_mean_erasure_normalized": 0.4011824324324324,
+        "soft_anchor_replay_mean_erasure_normalized": 0.04285714285714286,
+        "excess_erasure_normalized": 0.35832528957528953
+      },
+      {
+        "span_index": 82,
+        "num_nongated_transitions_in_span": 6,
+        "gated_soft_anchor_mean_erasure_normalized": 0.11904761904761905,
+        "soft_anchor_replay_mean_erasure_normalized": 0.05812118661897748,
+        "excess_erasure_normalized": 0.060926432428641576
+      },
+      {
+        "span_index": 25,
+        "num_nongated_transitions_in_span": 2,
+        "gated_soft_anchor_mean_erasure_normalized": 0.05102040816326531,
+        "soft_anchor_replay_mean_erasure_normalized": 0.0,
+        "excess_erasure_normalized": 0.05102040816326531
+      },
+      {
+        "span_index": 52,
+        "num_nongated_transitions_in_span": 4,
+        "gated_soft_anchor_mean_erasure_normalized": 0.09352300242130751,
+        "soft_anchor_replay_mean_erasure_normalized": 0.07371794871794872,
+        "excess_erasure_normalized": 0.01980505370335879
+      },
+      {
+        "span_index": 67,
+        "num_nongated_transitions_in_span": 10,
+        "gated_soft_anchor_mean_erasure_normalized": 0.07001287001287002,
+        "soft_anchor_replay_mean_erasure_normalized": 0.06471807628524047,
+        "excess_erasure_normalized": 0.005294793727629546
+      }
+    ]
+  },
+  "conclusion": {
+    "gated_transition_excess_erasure_normalized": 0.5488951172497609,
+    "nongated_transition_excess_erasure_normalized": 0.04040196047153307
+  },
+  "notes": "h-soft-anchor-gate-min3-erasure-decomposition. See 'conclusion' for the two headline numbers: excess normalized erasure (gated_soft_anchor minus soft_anchor_replay) on gated transitions themselves vs. on non-gated transitions within the same gated spans. A small/near-zero nongated excess supports 'contained re-reveal' (prediction 1 in the hypothesis); a comparably large nongated excess supports 'destabilization' (prediction 2).",
+  "created_at_utc": "2026-10-10T08:52:09.167751+00:00"
+}
