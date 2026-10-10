@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 11,
-  "last_updated": "2026-10-10T12:26:06.945523+00:00",
+  "last_updated": "2026-10-10T12:27:49.171536+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1235,6 +1235,24 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-10T12:26:06.945465+00:00",
       "note": "cycle 51: h-judge-verbosity-length-bias-retroactive run (0$); both sub-checks near-zero correlation (sub-check1 r=0.041/-0.076 n=587, sub-check2 r=0.011/-0.098 n=585), replicates arxiv2606-19544's small-bias finding"
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-10T12:26:29.341577+00:00",
+      "note": "cycle 51: ANALYZE_RESULTS complete -- no config-drift confound (no new experiment run), no noise-floor caveat needed (correlation check, not a condition-difference claim). Writing Japanese cycle report."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-10-10T12:27:13.933174+00:00",
+      "note": "cycle 51: Japanese report written"
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-10T12:27:49.171499+00:00",
+      "note": "cycle 51: REFLECT entry written, advancing to GENERATE_HYPOTHESES (skip SEARCH_PAPERS -- 1 cheap approved hypothesis h-judge-cross-model-agreement-check still queued, clear it first)"
     }
   ]
 }

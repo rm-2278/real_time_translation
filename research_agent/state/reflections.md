@@ -2621,3 +2621,83 @@ OPENAI_API_KEY -- check reachability per RUN_EXPERIMENTS's environment-
 check step, treat absence as an environment blocker per the playbook,
 not a crash). Consider a small follow-up on span 34 (the erasure
 outlier from this cycle) once the queue is otherwise clear.
+
+## Cycle 51 (2026-10-10, scheduled run)
+
+**What worked:** Clean, uneventful cycle. GENERATE_HYPOTHESES was a true
+no-op this time -- correctly deferred to cycle 50's own reflection, which
+had already flagged that the backlog (2 queued, approved_by_human,
+un-run hypotheses) should be cleared before generating anything new or
+running a fresh literature search. Advancing GENERATE_HYPOTHESES ->
+HUMAN_APPROVAL -> RUN_EXPERIMENTS in one session, with no new writes to
+hypotheses.json needed at the HUMAN_APPROVAL step (pending_approval.json
+was empty, nothing had approval unset/"proposed"), was the correct
+reading of the playbook rather than a shortcut -- worth noting
+explicitly since a future session skimming current_state=GENERATE_
+HYPOTHESES might otherwise feel obligated to force 1-3 new hypotheses
+into existence regardless of backlog state. This environment also had
+DEEPGRAM_API_KEY/GOOGLE_API_KEY/OPENAI_API_KEY all set and ffmpeg
+available (first time in a while all three keys were present
+simultaneously), but the chosen hypothesis was $0.00/retroactive-only so
+this was not exercised -- worth remembering for h-judge-cross-model-
+agreement-check next cycle, which actually needs OPENAI_API_KEY
+reachability (not just presence) checked at RUN_EXPERIMENTS time.
+
+**What didn't quite work:** One own mistake caught before committing
+anything broken: the first draft of judge_verbosity_bias_check.py
+crashed on a real data wrinkle not anticipated in the hypothesis
+text -- one judge() call in the *source* experiment JSON (guest-talk
+span 17, gated_soft_anchor, in the noisefloor-replay file) had failed
+with a JSONDecodeError and recorded `score: None`. The hypothesis's
+required_changes assumed every repeat has a numeric score. Fixed by
+excluding score=None entries from both sub-checks rather than crashing
+or coercing to 0 -- this is exactly the kind of "verify the real
+data shape, don't assume uniformity" lesson the playbook's
+GENERATE_HYPOTHESES section already flags for *field presence* (the
+TimedEvent/`is_utterance_end`/`original_text` near-misses), extended
+here to a new case: a field's value can be a documented-but-rare
+failure sentinel (None/error dict) even when the field itself is always
+present. Separately, a careless first attempt at the results.csv row
+used a Python tuple literal with a trailing comma for the `notes`
+field, which csv.DictWriter happily serialized as a broken `("...",)`
+string -- caught immediately by re-parsing the file with csv.reader
+and checking field counts before moving on, but worth flagging as a
+checklist item (verify an appended results.csv row round-trips through
+csv.reader with the right column count) rather than trusting that a
+DictWriter call "must have" produced a valid row.
+
+**Backlog/budget calibration:** Still well-calibrated. Backlog is now
+down to 1 queued item (`h-judge-cross-model-agreement-check`, $0.05,
+approved_by_human) + 0 proposed, comfortably under the ~6 cap. No new
+hypotheses or papers needed yet -- next cycle should run that last
+queued item (checking OPENAI_API_KEY reachability specifically, not
+just DEEPGRAM/GOOGLE as this cycle did), then the backlog will be fully
+cleared and a fresh SEARCH_PAPERS pass becomes the right next move
+instead of GENERATE_HYPOTHESES.
+
+**Should the playbook change?** No changes needed this cycle. The two
+near-misses above (a None-valued score field, a tuple-literal CSV bug)
+are both implementation-detail lessons for *this* hypothesis's script,
+not playbook gaps -- the playbook's existing "verify the real data
+before trusting a hypothesis's claims" principle already covers the
+first, and `uv run ruff check .`-then-read-the-diff already covers
+code-quality issues generally; the CSV round-trip check is a small
+personal-process addition, not something that needs a playbook rule.
+
+**Notification decision:** Did NOT send a PushNotification. The run
+completed cleanly within the environment's existing capabilities
+(API keys were available this cycle but not needed for a $0 retroactive
+hypothesis), produced a clean non-urgent null-ish result (no verbosity
+bias found, which is itself useful but not actionable/urgent), and hit
+no blockers worth paging the human about. Per standing guidance this
+belongs in the Japanese report, not a notification.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` (skipping a
+fresh `SEARCH_PAPERS` pass again this cycle -- one cheap, already-
+approved hypothesis, `h-judge-cross-model-agreement-check`, is still
+queued and should be cleared first). Future cycles: run
+`h-judge-cross-model-agreement-check` ($0.05) next, checking
+OPENAI_API_KEY reachability (REST + whatever endpoint the new
+judge_openai() path actually calls) before spending; once that clears,
+the backlog is empty and a fresh literature search is the right next
+GENERATE_HYPOTHESES precursor.
