@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 11,
-  "last_updated": "2026-10-10T08:48:45.415014+00:00",
+  "last_updated": "2026-10-10T08:53:45.747743+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1193,6 +1193,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-10T08:48:45.414851+00:00",
       "note": "Human rm-2278 approved 3 pending hypotheses via Claude Code session 2026-10-10"
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-10T08:53:37.225230+00:00",
+      "note": "Ran h-soft-anchor-gate-min3-erasure-decomposition (retroactive, $0, implemented soft_anchor_gate_erasure_decomposition.py). status=testing->committed e79d8bc."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-10T08:53:45.747707+00:00",
+      "note": "ANALYZE_RESULTS complete for h-soft-anchor-gate-min3-erasure-decomposition: result_summary + status=tested written to hypotheses.json, results.csv row appended. No config-diff risk (pure retroactive math over the single existing source JSON, no new live run/config). Proceeding to write cycle 50 Japanese report."
     }
   ]
 }
