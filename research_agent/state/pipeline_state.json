@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 11,
-  "last_updated": "2026-10-10T08:55:47.699346+00:00",
+  "last_updated": "2026-10-10T12:20:55.631637+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1217,6 +1217,18 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-10T08:55:47.699318+00:00",
       "note": "Cycle 50 REFLECT complete (see reflections.md). Skipping SEARCH_PAPERS this cycle: 2 cheap already-approved hypotheses (h-judge-verbosity-length-bias-retroactive $0.00, h-judge-cross-model-agreement-check $0.05) remain queued and un-run, backlog well under the ~6 cap, no new literature pass likely to add much before those clear. Next session: GENERATE_HYPOTHESES step should likely add 0 new hypotheses (depth over breadth) and advance straight to HUMAN_APPROVAL/RUN_EXPERIMENTS to pick up the 2 already-queued items, prioritizing the $0.00 one first per cost-ordering."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-10T12:20:50.029295+00:00",
+      "note": "cycle 51: no new hypotheses added (backlog already at 2 queued, approved_by_human, un-run items per cycle-50 reflection's explicit recommendation to clear those before a fresh GENERATE_HYPOTHESES/SEARCH_PAPERS pass); backlog well under the ~6 cap"
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-10T12:20:55.631594+00:00",
+      "note": "cycle 51: no hypotheses with approval unset/proposed to process (pending_approval.json is empty; both queued hypotheses -- h-judge-verbosity-length-bias-retroactive $0.00, h-judge-cross-model-agreement-check $0.05 -- already approved_by_human from a prior human action). Advancing straight to RUN_EXPERIMENTS; will run the cheaper queued item first per cost-ordering rule."
     }
   ]
 }
