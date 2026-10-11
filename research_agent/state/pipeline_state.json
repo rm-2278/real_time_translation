@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 12,
-  "last_updated": "2026-10-11T12:25:23.240107+00:00",
+  "last_updated": "2026-10-11T12:26:38.808192+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1307,6 +1307,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-11T12:25:23.240075+00:00",
       "note": "READ_PAPERS cross-reference done; found a reformulated schematic-adherence hypothesis, writing it up now"
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-11T12:26:38.808158+00:00",
+      "note": "1 new hypothesis written (h-judge-rubric-decomposition-schematic-adherence); checking budget"
     }
   ]
 }
