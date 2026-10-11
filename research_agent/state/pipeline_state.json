@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 11,
-  "last_updated": "2026-10-11T00:20:59.148572+00:00",
+  "last_updated": "2026-10-11T00:21:11.506449+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1259,6 +1259,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-11T00:20:59.148540+00:00",
       "note": "cycle 52: GENERATE_HYPOTHESES - no new hypotheses needed. Backlog is 1 queued (h-judge-cross-model-agreement-check, $0.05, approved_by_human), well under the ~6 cap, per cycle-51 REFLECT plan to clear this item before a fresh SEARCH_PAPERS pass. Depth-over-breadth: proceeding to HUMAN_APPROVAL to process the existing queued item."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-11T00:21:11.506413+00:00",
+      "note": "cycle 52: HUMAN_APPROVAL - no hypotheses with approval unset/proposed. h-judge-cross-model-agreement-check already approved_by_human/queued; check-budget(0.05)=AUTO_APPROVE confirms it fits both caps. Proceeding to RUN_EXPERIMENTS."
     }
   ]
 }
