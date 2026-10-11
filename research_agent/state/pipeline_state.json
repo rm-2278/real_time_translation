@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 12,
-  "last_updated": "2026-10-11T12:20:52.360275+00:00",
+  "last_updated": "2026-10-11T12:25:23.240107+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1301,6 +1301,12 @@
       "to": "READ_PAPERS",
       "at": "2026-10-11T12:20:52.360231+00:00",
       "note": "Nothing new extracted this cycle; pass-through, all existing papers already status=read"
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-11T12:25:23.240075+00:00",
+      "note": "READ_PAPERS cross-reference done; found a reformulated schematic-adherence hypothesis, writing it up now"
     }
   ]
 }
