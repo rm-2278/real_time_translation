@@ -2701,3 +2701,68 @@ OPENAI_API_KEY reachability (REST + whatever endpoint the new
 judge_openai() path actually calls) before spending; once that clears,
 the backlog is empty and a fresh literature search is the right next
 GENERATE_HYPOTHESES precursor.
+
+## Cycle 52 (2026-10-11, scheduled run)
+
+**What worked:** GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS
+chained cleanly again this cycle, same pattern as cycle 51 (no new
+hypotheses needed, nothing unset/"proposed" to approve). The
+environment check this time correctly went past the usual DEEPGRAM/
+GOOGLE-only check and specifically tested OPENAI_API_KEY *reachability*
+(not just presence) before touching h-judge-cross-model-agreement-check,
+per cycle 51's own explicit instruction to do so. That extra check paid
+off immediately: the key is set, but `api.openai.com` is rejected at the
+sandbox egress proxy (CONNECT 403, "connect_rejected", org policy) --
+the exact "set key != reachable host" failure mode this playbook has
+long documented for api.deepgram.com, just never before observed for
+OpenAI. Handled it the same way the playbook prescribes for that case:
+no code written, no experiment run, no cost logged, `blocked_reason`
+recorded on the hypothesis, status left at `queued`/`approved_by_human`
+(not advanced to `tested`), and RUN_EXPERIMENTS -> ANALYZE_RESULTS ->
+WRITE_REPORT proceeded with nothing to analyze/fabricate, exactly as
+cycles 2/3/7/etc. did for the Deepgram-blocked case. Mentioned the gap
+plainly in the Japanese report rather than guessing at a fix.
+
+**What didn't quite work:** Nothing broke this cycle, but the backlog is
+now in an awkward steady state: 1 hypothesis, fully approved, zero other
+options, blocked on something only a human (or a later session with a
+different egress policy) can unblock. Continuing to advance GENERATE_
+HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS every cycle while this
+stays blocked would just repeat this same no-op chain indefinitely and
+waste a cycle each time re-confirming the same proxy rejection. Better to
+break out of that loop now by moving to a fresh SEARCH_PAPERS pass next
+cycle instead of re-trying GENERATE_HYPOTHESES immediately -- there is
+no other queued work to clear first anymore (effectively, since the one
+remaining item needs an external fix), so "clear the backlog before
+searching" no longer applies the way it did for cycles 50/51.
+
+**Backlog/budget calibration:** Still well-calibrated in shape (1 blocked
+item, 0 proposed, comfortably under the ~6 cap), but stale in content --
+it cannot move forward on its own. No budget policy change needed ($0
+spent this cycle, nothing to log).
+
+**Should the playbook change?** One small addition worth making: the
+RUN_EXPERIMENTS environment-check section already lists Deepgram REST
+vs. websocket as two independently-blockable surfaces on one host, but
+had no prior example of a *different* host (OpenAI) being blocked while
+Deepgram/Gemini remain reachable. Added a short note inline in this
+file's history rather than editing PLAYBOOK.md itself, since the
+existing "keys being set isn't the same as being reachable" principle
+already generalizes to this case without needing new prose -- a future
+session hitting a blocked host it hasn't seen before should already know
+to curl it directly rather than assume. No structural change needed.
+
+**Notification decision:** Did NOT send a PushNotification. The blocker
+is real but low-stakes (a single $0.05, non-urgent, already-approved
+hypothesis stalled on an infra allowlist gap that doesn't block anything
+else in the pipeline) and is clearly written up in the Japanese report
+for the human to see whenever convenient. Per standing guidance this
+belongs in the report, not a page.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new cycle) rather
+than back to `GENERATE_HYPOTHESES` -- the one remaining queued
+hypothesis is blocked on an external fix, not on more research, so
+sitting in GENERATE_HYPOTHESES/HUMAN_APPROVAL again next cycle would
+just re-derive the same blocked state. A fresh literature pass gives the
+pipeline something productive to do while h-judge-cross-model-agreement-
+check waits for api.openai.com to be unblocked.
