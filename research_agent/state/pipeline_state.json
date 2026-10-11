@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 12,
-  "last_updated": "2026-10-11T12:26:58.356538+00:00",
+  "last_updated": "2026-10-11T12:32:03.869641+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1319,6 +1319,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-11T12:26:58.356498+00:00",
       "note": "1 hypothesis queued (h-judge-rubric-decomposition-schematic-adherence), auto_approved"
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-11T12:32:03.869594+00:00",
+      "note": "60/60 decomposed-judge calls completed, logged $0.02; analyzing"
     }
   ]
 }
