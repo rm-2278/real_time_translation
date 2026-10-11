@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 12,
-  "last_updated": "2026-10-11T12:20:36.089647+00:00",
+  "last_updated": "2026-10-11T12:20:52.360275+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1295,6 +1295,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-10-11T12:20:36.089577+00:00",
       "note": "No new 'found' papers this cycle (SEARCH_PAPERS found nothing post-survey); nothing to extract, pass-through to READ_PAPERS"
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-10-11T12:20:52.360231+00:00",
+      "note": "Nothing new extracted this cycle; pass-through, all existing papers already status=read"
     }
   ]
 }
