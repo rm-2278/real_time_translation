@@ -783,11 +783,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/judge_schematic_adherence_replay.json"
       ],
-      "result_summary": ""
+      "result_summary": "Ran successfully (60/60 new gemini-3.1-flash-lite decomposed-judge calls, no parse failures, $0.02 logged) but INCONCLUSIVE for the intended schematic-adherence/factor-collapse question, due to a severe ceiling effect in the sampled data, not a flaw in the method itself. Scores: causal_logical_relationships=100 for all 60/60 points (zero variance); numbers_and_statistics and named_entities_and_technical_terms >=80 for 59/60 points each; overall_completeness >=80 for all 60; holistic 'score' >=85 for all 60 (47/60 exactly 100). schematic_adherence_r_squared came back null because the pooled OLS design matrix was singular (the zero-variance causal_logical_relationships column cannot be fit against); 3 of 6 pairwise sub-criteria correlations are also null for the same reason, and the 3 non-null ones (numbers_and_statistics vs overall_completeness, named_entities vs overall_completeness, both r=0.230) are computed from effectively ~10-13 non-ceiling points, too few to trust. Root cause, verified against the actual sampled text (not just reasoned about in the abstract, per PLAYBOOK.md's verification rule): this replay judges the FINAL cumulative per-condition translation text (last entry of condition_repeats[cond][0], same convention judge_verbosity_bias_check.py uses), and by the end of a span, baseline_replay/soft_anchor_replay/gated_soft_anchor have almost always converged to near-complete content regardless of whether gating fired mid-span -- gating in this backlog changes WHEN content is displayed (flicker/erasure/latency), not whether it eventually survives to the final text. That is actually a consistent, reassuring cross-check of this whole soft-anchor/gating line's own framing (h-soft-anchor-*, h-soft-anchor-gate-erasure-decomposition, etc. have always measured flicker/NE, never claimed an information-retention cost) -- it is just the wrong sample for testing THIS particular diagnostic. Does not resolve whether translation_fidelity_judge.judge()'s rubric is schematically coherent; that question remains open. A future replay should sample from spans/sources with documented fidelity cost/variation instead (e.g. h-compression-actions-prompt-instruction's or h-semantic-completeness-gating's experiment JSONs, which have recorded actual dropped-content cases) or judge partial/early-batch text rather than final cumulative text, so the sample actually spans the 0-100 range this diagnostic needs."
     }
   ]
 }
