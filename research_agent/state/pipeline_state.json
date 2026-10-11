@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 12,
-  "last_updated": "2026-10-11T00:23:18.804953+00:00",
+  "last_updated": "2026-10-11T12:20:36.089647+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1289,6 +1289,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-10-11T00:23:18.804916+00:00",
       "note": "cycle 52 REFLECT complete. The one remaining queued hypothesis (h-judge-cross-model-agreement-check) is blocked on an external fix (api.openai.com egress), not on more research -- advancing to SEARCH_PAPERS for cycle 53 instead of re-deriving the same blocked state via GENERATE_HYPOTHESES."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-10-11T12:20:36.089577+00:00",
+      "note": "No new 'found' papers this cycle (SEARCH_PAPERS found nothing post-survey); nothing to extract, pass-through to READ_PAPERS"
     }
   ]
 }
