@@ -746,7 +746,8 @@
       "approval": "approved_by_human",
       "status": "queued",
       "experiment_ids": [],
-      "result_summary": ""
+      "result_summary": "",
+      "blocked_reason": "Cycle 52 (2026-10-11): environment check found DEEPGRAM_API_KEY/GOOGLE_API_KEY/OPENAI_API_KEY all set and ffmpeg available, but this hypothesis specifically needs OPENAI_API_KEY *reachability* (its gpt-4o-mini judge_openai() path), not just DEEPGRAM/GOOGLE as prior cycles checked. `curl -H \"Authorization: Bearer $OPENAI_API_KEY\" https://api.openai.com/v1/models` failed with the sandbox's egress proxy returning CONNECT tunnel failed / HTTP 403 ('connect_rejected', organization policy) -- the same class of host-specific egress block this playbook already documents for api.deepgram.com in earlier cycles (a set/valid key does not imply a reachable host), just on a different host and with no prior precedent for OPENAI specifically. generativelanguage.googleapis.com and api.deepgram.com were not re-tested this cycle since this hypothesis's required_changes (judge_openai() in translation_fidelity_judge.py) touches neither. No code written yet (holding off until the host is reachable, to avoid an untested implementation sitting around). Nothing fabricated; no spend. Remains queued/approved_by_human for whenever api.openai.com is allowlisted."
     },
     {
       "id": "h-soft-anchor-gate-min3-erasure-decomposition",
