@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 12,
-  "last_updated": "2026-10-11T12:26:38.808192+00:00",
+  "last_updated": "2026-10-11T12:26:58.356538+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1313,6 +1313,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-11T12:26:38.808158+00:00",
       "note": "1 new hypothesis written (h-judge-rubric-decomposition-schematic-adherence); checking budget"
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-11T12:26:58.356498+00:00",
+      "note": "1 hypothesis queued (h-judge-rubric-decomposition-schematic-adherence), auto_approved"
     }
   ]
 }
