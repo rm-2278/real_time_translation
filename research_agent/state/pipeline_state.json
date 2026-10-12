@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 12,
-  "last_updated": "2026-10-12T12:22:08.466199+00:00",
+  "last_updated": "2026-10-12T12:27:09.397205+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1355,6 +1355,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-12T12:22:08.466166+00:00",
       "note": "Both queued hypotheses (h-judge-cross-model-agreement-check: approved_by_human; h-judge-schematic-adherence-knowncost-resample: auto_approved, uses_existing_clips=true) are approvable"
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-12T12:27:09.397172+00:00",
+      "note": "h-judge-schematic-adherence-knowncost-resample experiment run (20 new judge calls), proceeding to analysis"
     }
   ]
 }
