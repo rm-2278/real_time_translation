@@ -2834,3 +2834,92 @@ than `SEARCH_PAPERS` again -- this cycle's literature pass just ran and found
 nothing new, and there's a concrete, well-understood follow-up hypothesis
 (the corrected-sample version of the schematic-adherence replay) ready to
 write up without needing fresh search first.
+
+## Cycle 54 (2026-10-12, scheduled/cron session)
+
+**What worked:** The HUMAN_APPROVAL -> RUN_EXPERIMENTS -> ANALYZE_RESULTS ->
+WRITE_REPORT -> REFLECT sequence ran cleanly end to end in one sitting, with
+a commit after every state transition per the hard rule. Picking the
+cheaper of the two queued hypotheses ($0.02 vs $0.05) first, per PLAYBOOK's
+"prefer cheapest" guidance, was the right call -- no reason to burn more
+budget than needed this cycle. Verifying the environment (keys set, ffmpeg
+present, Gemini REST reachable) before running anything, and explicitly
+noting that no live-pipeline config diff applies here (pure re-judge of
+already-recorded text, no ASR/LLM pipeline config involved), both followed
+PLAYBOOK's ANALYZE_RESULTS checklist even though neither check turned up
+anything this time.
+
+**What didn't:** Cycle 53's own hypothesis design for this follow-up was
+good (it explicitly pre-verified, from data already on disk, that the
+chosen sample DOES contain real 0-100-range variance in the underlying
+translations) but still produced the same degenerate all-100 judge output,
+for a reason neither cycle 53's nor this cycle's hypothesis text
+anticipated: the SOURCE TEXT ITSELF, not just the translations, needs to be
+context-bearing for this diagnostic to work. `experiments/20260916_
+compression_repeated_sampling_segment5.json`'s `input.target_segment_text`
+is a single isolated ASR fragment with no `context_lines` passed to the
+judge -- so even samples with a genuine, verified clause-drop (confirmed
+directly against `covers_both_clauses_heuristic`/`output_chars`, not
+assumed) still scored 100, because the judge treated the drop as
+unrecoverable fragment ambiguity rather than a scoreable omission. This is
+a *second*, structurally different way to get a ceiling effect on this same
+diagnostic (cycle 53: translations converge by final text; cycle 54: source
+itself lacks context) -- two misses in a row on the same underlying
+question is worth being blunt about: the schematic-adherence diagnostic has
+now failed to produce a usable signal twice, and the common thread both
+times is "did I check that BOTH the source text's framing AND the
+translations have enough real variance/context for the judge to score
+meaningfully" -- cycle 53 checked the translations' convergence risk but
+not this; this cycle checked the translations' truncation variance but not
+the source's context-completeness.
+
+**Should this become a sixth GENERATE_HYPOTHESES caveat?** Leaning yes now
+(two independent misses on the same diagnostic, different root causes, both
+avoidable by a mechanical check before running anything) but holding off
+one more cycle: a cleaner single caveat would be "verify not just that
+translations vary, but that BOTH source and translation carry complete-
+enough context for a judge call to meaningfully attribute an omission" --
+I'd rather fold this in once (alongside a concrete fix recommendation) when
+actually writing the corrected third attempt, rather than add boilerplate
+now and have to revise the wording again if the third attempt reveals yet
+another angle. Noting it here so it isn't lost either way.
+
+Also noteworthy (not a method flaw, a genuine finding): the SAME source
+JSON's own prior single-call `judge()` spot-check scored one of these exact
+truncated translations 50/100 for the identical dropped-clause reason,
+under what looks like the same context-free framing. That the decomposed
+call and the single-call spot-check disagree on identical inputs reads as
+another instance of cycle 19-21's established judge-resampling noise, not
+new information about the rubric -- but it's a useful cross-check that this
+backlog's "judge scores are noisy at the single-call level" finding keeps
+replicating incidentally, even in experiments not designed to test it.
+
+**Backlog/budget calibration:** Backlog is small: 1 blocked-on-cost item
+deprioritized this cycle (h-judge-cross-model-agreement-check, $0.05,
+approved_by_human, still queued -- not blocked by egress this time, just
+not picked because it was pricier) and 1 now-tested item (inconclusive,
+same as last cycle) from this cycle. $0.01 spent, nowhere near either cap.
+No budget policy change proposed.
+
+**Should the playbook change?** Not this cycle (see caveat discussion
+above -- deferring the actual edit until the third attempt either succeeds
+or fails in a way that sharpens the wording). Left PLAYBOOK.md unchanged.
+
+**Notification decision:** Did NOT send a PushNotification. Nothing urgent
+or actionable needs the human's attention right now: no environment
+blocker, no budget concern, no approval pending beyond the already-reported
+h-judge-cross-model-agreement-check (unchanged since last cycle), and this
+cycle's result is a second low-stakes inconclusive finding with a clear,
+documented, non-urgent follow-up already written into the report and this
+reflection.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` directly rather
+than `SEARCH_PAPERS` -- this cycle didn't do a literature pass (there was a
+clear, already-queued follow-up to execute instead, same as cycle 53's own
+precedent), and a third attempt at the schematic-adherence diagnostic (this
+time with context-bearing source+translation, per the caveat above) is a
+concrete, well-understood hypothesis to write up without needing fresh
+search first. A literature refresh is still overdue (last real
+SEARCH_PAPERS pass was cycle 53, which itself followed a long gap back to
+cycle 23) and should probably happen next cycle instead of being deferred
+again.
