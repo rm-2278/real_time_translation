@@ -802,9 +802,11 @@
       "required_changes": "New small script src/real_time_translation/experiments/judge_schematic_adherence_replay_knowncost.py that imports judge_decomposed, _pairwise_correlations, _ols_r_squared, SUB_CRITERIA from judge_schematic_adherence_replay.py (do not duplicate the prompt or stats code) and adds its own point-extraction function reading experiments/20260916_compression_repeated_sampling_segment5.json's input.target_segment_text as the fixed source and results[cond]['samples'][i]['translation'] (both conditions, all 10 repeats each = 20 points total, not just the original run's 3-sample spot-check) as the translation for each point. Call judge_decomposed(source, translation) for all 20 points (20 new gemini-3.1-flash-lite calls, same per-call cost as cycle 53's run), write experiments/judge_schematic_adherence_replay_knowncost.json + a results.csv row per CLAUDE.md/PLAYBOOK.md logging convention, and run `uv run ruff check .` on the new file before committing. Log actual cost via `orchestrator.py log-cost` immediately after the run.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.02,
-      "status": "queued",
+      "status": "testing",
       "approval": "auto_approved",
-      "experiment_ids": [],
+      "experiment_ids": [
+        "experiments/judge_schematic_adherence_replay_knowncost.json"
+      ],
       "result_summary": ""
     }
   ]
