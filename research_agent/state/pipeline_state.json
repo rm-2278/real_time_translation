@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 12,
-  "last_updated": "2026-10-11T12:34:25.606203+00:00",
+  "last_updated": "2026-10-12T00:21:59.077165+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1343,6 +1343,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-11T12:34:25.606169+00:00",
       "note": "New cycle (narrated cycle 54): literature pass just ran (cycle 53) and found nothing new; a concrete follow-up hypothesis (corrected-sample schematic-adherence replay) is ready to write up without needing fresh search first"
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-12T00:21:59.077132+00:00",
+      "note": "Cycle 54 GENERATE_HYPOTHESES: added h-judge-schematic-adherence-knowncost-resample ($0.02 est, uses_existing_clips=true), a direct fix to cycle 53's inconclusive schematic-adherence replay -- this time sampling experiments/20260916_compression_repeated_sampling_segment5.json, which has a documented truncation_rate_heuristic (0.0 vs 0.4) and a spot-checked judge score spread (50 vs 100), i.e. verified real variance before any new call, per cycle 53's own reflections.md recommendation. Backlog now 2 queued/proposed (h-judge-cross-model-agreement-check still blocked on api.openai.com egress; new hypothesis not yet approval-checked), well under the 6 cap. Moving to HUMAN_APPROVAL to check its budget."
     }
   ]
 }
