@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "REFLECT",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 12,
-  "last_updated": "2026-10-12T12:28:19.238943+00:00",
+  "last_updated": "2026-10-12T12:28:55.099680+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1373,6 +1373,12 @@
       "to": "REFLECT",
       "at": "2026-10-12T12:28:19.238913+00:00",
       "note": "cycle 54: h-judge-schematic-adherence-knowncost-resample tested, inconclusive again (context-free fragment ceiling, not final-text convergence); report written"
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-12T12:28:55.099647+00:00",
+      "note": "Skipping SEARCH_PAPERS this cycle (no fresh search needed, clear follow-up queued); REFLECT -> GENERATE_HYPOTHESES per PLAYBOOK's sanctioned shortcut"
     }
   ]
 }
