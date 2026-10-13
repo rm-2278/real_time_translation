@@ -45,15 +45,13 @@ from pathlib import Path
 from real_time_translation.experiments.flicker_metrics import (
     _longest_common_prefix_len,
 )
+from real_time_translation.experiments.stats import mean
 
 SOURCE_JSON = Path("experiments/20260922_h_soft_anchor_gate_min3_replay.json")
 GUEST_TALK_SOURCE = "20260915_llm_course_ep8_guest_talk_10min_rpm60.json"
 OUT_JSON = Path("experiments/soft_anchor_gate_erasure_decomposition.json")
 CONDITIONS = ("gated_soft_anchor", "soft_anchor_replay")
 
-
-def _mean(values: list[float]) -> float | None:
-    return sum(values) / len(values) if values else None
 
 
 @dataclass(frozen=True)
@@ -131,8 +129,8 @@ def analyze() -> dict:
             norm = [tr.erasure_normalized for tr in group]
             summary[condition][label] = {
                 "n": len(group),
-                "mean_erasure_chars": _mean(raw),
-                "mean_erasure_normalized": _mean(norm),
+                "mean_erasure_chars": mean(raw),
+                "mean_erasure_normalized": mean(norm),
             }
 
     # Per-span detail: excess erasure of gated_soft_anchor over
@@ -158,13 +156,13 @@ def analyze() -> dict:
         ]
         if not gated_vals or not replay_vals:
             continue
-        excess = _mean(gated_vals) - _mean(replay_vals)
+        excess = mean(gated_vals) - mean(replay_vals)
         per_span_excess.append(
             {
                 "span_index": idx,
                 "num_nongated_transitions_in_span": len(gated_vals),
-                "gated_soft_anchor_mean_erasure_normalized": _mean(gated_vals),
-                "soft_anchor_replay_mean_erasure_normalized": _mean(replay_vals),
+                "gated_soft_anchor_mean_erasure_normalized": mean(gated_vals),
+                "soft_anchor_replay_mean_erasure_normalized": mean(replay_vals),
                 "excess_erasure_normalized": excess,
             }
         )

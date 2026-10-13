@@ -14,7 +14,8 @@ from real_time_translation.captions.subtitle_formatter import (
     _split_chunks,
     _wrap_lines,
 )
-from real_time_translation.pipeline import TranslationPipeline, _split_dangling_tail
+from real_time_translation.pipeline import TranslationPipeline
+from real_time_translation.transcription.dangling import split_dangling_tail
 from real_time_translation.transcription.deepgram_client import (
     DeepgramTranscriber,
     TranscriptionResult,
@@ -108,20 +109,20 @@ def test_non_overlapping_finals_unchanged():
 # --- dangling connectives ("…。そして、") ------------------------------------
 
 
-def test_split_dangling_tail():
-    assert _split_dangling_tail("the language model and also") == (
+def testsplit_dangling_tail():
+    assert split_dangling_tail("the language model and also") == (
         "the language model",
         "and also",
     )
-    assert _split_dangling_tail("I would like to introduce my") == (
+    assert split_dangling_tail("I would like to introduce my") == (
         "I would like to introduce",
         "my",
     )
-    assert _split_dangling_tail("Gemma four stuffs. Okay.") == (
+    assert split_dangling_tail("Gemma four stuffs. Okay.") == (
         "Gemma four stuffs. Okay.",
         "",
     )
-    assert _split_dangling_tail("And") == ("", "And")
+    assert split_dangling_tail("And") == ("", "And")
 
 
 def _final(text, utterance_id, *, end=True):

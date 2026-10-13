@@ -1,9 +1,9 @@
-"""Post-hoc caption formatting and rendering tools.
+"""Turning translated text into readable captions.
 
-Distinct from the live pipeline's real-time subtitle stream: these tools take
-a finished experiment JSON (real ASR + translation events, already recorded)
-and turn it into a clean, readable subtitle track for offline review/demo
-purposes -- e.g. burning captions onto a rendered video to evaluate
-readability choices (line length, reading speed, avoiding mid-sentence
-fragments) side by side.
+- `subtitle_formatter`: offline formatting of a finished experiment JSON into
+  timed cards (wrapping, merging, reading-speed scheduling).
+- `live_presenter`: the same rules applied in real time for the live overlay.
+
+Measuring caption quality (readability, latency) is not here; those are
+analyzers and live in `experiments/`.
 """

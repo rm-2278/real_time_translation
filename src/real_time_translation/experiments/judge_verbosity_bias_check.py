@@ -47,8 +47,10 @@ from __future__ import annotations
 import argparse
 import csv
 import json
-import math
 from pathlib import Path
+
+from real_time_translation.experiments.results_io import last_cumulative_text
+from real_time_translation.experiments.stats import pearson_r
 
 NOISEFLOOR_JSON = Path(
     "experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json"
@@ -59,19 +61,6 @@ OUT_CSV = Path("experiments/judge_verbosity_bias_check.csv")
 
 MIN_N_FOR_MEANINGFUL_CORRELATION = 20
 
-
-def _pearson_r(xs: list[float], ys: list[float]) -> float | None:
-    n = len(xs)
-    if n < 2:
-        return None
-    mean_x = sum(xs) / n
-    mean_y = sum(ys) / n
-    cov = sum((x - mean_x) * (y - mean_y) for x, y in zip(xs, ys, strict=True))
-    var_x = sum((x - mean_x) ** 2 for x in xs)
-    var_y = sum((y - mean_y) ** 2 for y in ys)
-    if var_x == 0 or var_y == 0:
-        return None
-    return cov / math.sqrt(var_x * var_y)
 
 
 def _ranks(values: list[float]) -> list[float]:
@@ -94,21 +83,18 @@ def _ranks(values: list[float]) -> list[float]:
 def _spearman_r(xs: list[float], ys: list[float]) -> float | None:
     if len(xs) < 2:
         return None
-    return _pearson_r(_ranks(xs), _ranks(ys))
+    return pearson_r(_ranks(xs), _ranks(ys))
 
 
 def _correlation_report(xs: list[float], ys: list[float]) -> dict:
     n = len(xs)
     return {
         "n": n,
-        "pearson_r": _pearson_r(xs, ys),
+        "pearson_r": pearson_r(xs, ys),
         "spearman_r": _spearman_r(xs, ys),
         "meaningful_sample_size": n >= MIN_N_FOR_MEANINGFUL_CORRELATION,
     }
 
-
-def _last_cumulative_text(repeat: list[str]) -> str:
-    return repeat[-1] if repeat else ""
 
 
 def subcheck_within_span_condition_repeats(noisefloor_data: dict) -> dict:
@@ -136,7 +122,7 @@ def subcheck_within_span_condition_repeats(noisefloor_data: dict) -> dict:
                         # judge's own output) -- not a verbosity data
                         # point, exclude rather than crash.
                         continue
-                    text = _last_cumulative_text(repeat)
+                    text = last_cumulative_text(repeat)
                     lengths.append(float(len(text)))
                     scores.append(float(score))
     report = _correlation_report(lengths, scores)
@@ -182,7 +168,7 @@ def _per_span_condition_points(
                     # A failed judge() call (JSONDecodeError on the
                     # judge's own output) -- exclude rather than crash.
                     continue
-                text = _last_cumulative_text(repeats[0])
+                text = last_cumulative_text(repeats[0])
                 length = float(len(text))
                 point = (source_name, span["span_index"], cond, length, float(score))
                 points.append(point)

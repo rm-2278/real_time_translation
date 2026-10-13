@@ -23,7 +23,7 @@ import glob
 import json
 from pathlib import Path
 
-from real_time_translation.captions.readability_metrics import (
+from real_time_translation.experiments.readability_metrics import (
     ReadabilityReport,
     analyze_readability,
 )

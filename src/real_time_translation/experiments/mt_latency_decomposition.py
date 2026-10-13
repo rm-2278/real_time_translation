@@ -40,6 +40,8 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
+from real_time_translation.experiments.stats import mean, median
+
 
 @dataclass(frozen=True)
 class BatchLatency:
@@ -102,9 +104,6 @@ def batch_latencies(events: list[dict]) -> list[BatchLatency]:
     return results
 
 
-def _mean(values: list[float]) -> float | None:
-    return sum(values) / len(values) if values else None
-
 
 @dataclass(frozen=True)
 class DecompositionReport:
@@ -118,16 +117,6 @@ class DecompositionReport:
     stream_duration_median_s: float | None
 
 
-def _median(values: list[float]) -> float | None:
-    if not values:
-        return None
-    ordered = sorted(values)
-    n = len(ordered)
-    mid = n // 2
-    if n % 2:
-        return ordered[mid]
-    return (ordered[mid - 1] + ordered[mid]) / 2
-
 
 def analyze_experiment(path: Path) -> DecompositionReport:
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -140,10 +129,10 @@ def analyze_experiment(path: Path) -> DecompositionReport:
         experiment_name=data.get("experiment_name", path.stem),
         num_batches=len(batches),
         num_batches_with_queue_wait=len(queue_waits),
-        queue_wait_mean_s=_mean(queue_waits),
-        queue_wait_median_s=_median(queue_waits),
-        stream_duration_mean_s=_mean(streams),
-        stream_duration_median_s=_median(streams),
+        queue_wait_mean_s=mean(queue_waits),
+        queue_wait_median_s=median(queue_waits),
+        stream_duration_mean_s=mean(streams),
+        stream_duration_median_s=median(streams),
     )
 
 
@@ -215,13 +204,13 @@ def main() -> None:
     if all_queue_waits:
         print(
             f"queue_wait_s across {len(all_queue_waits)} batch(es): "
-            f"mean={_mean(all_queue_waits):.3f} median={_median(all_queue_waits):.3f} "
+            f"mean={mean(all_queue_waits):.3f} median={median(all_queue_waits):.3f} "
             f"min={min(all_queue_waits):.3f} max={max(all_queue_waits):.3f}"
         )
     if all_streams:
         print(
             f"stream_duration_s across {len(all_streams)} batch(es): "
-            f"mean={_mean(all_streams):.3f} median={_median(all_streams):.3f} "
+            f"mean={mean(all_streams):.3f} median={median(all_streams):.3f} "
             f"min={min(all_streams):.3f} max={max(all_streams):.3f}"
         )
 

@@ -38,20 +38,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-
-def _mean(values: list[float]) -> float | None:
-    return sum(values) / len(values) if values else None
-
-
-def _median(values: list[float]) -> float | None:
-    if not values:
-        return None
-    ordered = sorted(values)
-    n = len(ordered)
-    mid = n // 2
-    if n % 2:
-        return ordered[mid]
-    return (ordered[mid - 1] + ordered[mid]) / 2
+from real_time_translation.experiments.stats import mean, median
 
 
 @dataclass(frozen=True)
@@ -133,10 +120,10 @@ def analyze_experiment(path: Path) -> ExperimentMixReport:
         num_soft_finalized=len(soft),
         num_ambiguous=len(ambiguous),
         pct_soft_finalized=(len(soft) / classified * 100.0) if classified else None,
-        genuine_final_duration_mean=_mean([b.duration for b in genuine]),
-        genuine_final_duration_median=_median([b.duration for b in genuine]),
-        soft_finalized_duration_mean=_mean([b.duration for b in soft]),
-        soft_finalized_duration_median=_median([b.duration for b in soft]),
+        genuine_final_duration_mean=mean([b.duration for b in genuine]),
+        genuine_final_duration_median=median([b.duration for b in genuine]),
+        soft_finalized_duration_mean=mean([b.duration for b in soft]),
+        soft_finalized_duration_median=median([b.duration for b in soft]),
     )
 
 
@@ -229,7 +216,7 @@ def main() -> None:
                 f"genuine_dur_mean={r.genuine_final_duration_mean}  "
                 f"soft_dur_mean={r.soft_finalized_duration_mean}"
             )
-        overall_soft_pct = _mean(
+        overall_soft_pct = mean(
             [r.pct_soft_finalized for r in sweep if r.pct_soft_finalized is not None]
         )
         if overall_soft_pct is not None:

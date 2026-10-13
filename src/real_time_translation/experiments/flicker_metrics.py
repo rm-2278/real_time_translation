@@ -53,6 +53,8 @@ from dataclasses import dataclass
 from itertools import pairwise
 from pathlib import Path
 
+from real_time_translation.experiments.stats import mean, median
+
 
 def _longest_common_prefix_len(a: str, b: str) -> int:
     n = min(len(a), len(b))
@@ -240,20 +242,6 @@ def group_translation_by_utterance(events: list[dict]) -> list[UtteranceGroupSta
     return groups
 
 
-def _mean(values: list[float]) -> float | None:
-    return sum(values) / len(values) if values else None
-
-
-def _median(values: list[float]) -> float | None:
-    if not values:
-        return None
-    ordered = sorted(values)
-    n = len(ordered)
-    mid = n // 2
-    if n % 2:
-        return ordered[mid]
-    return (ordered[mid - 1] + ordered[mid]) / 2
-
 
 def first_batch_durations(path: Path) -> list[float]:
     """Raw per-span first-batch wall-clock durations (seconds) for every
@@ -298,13 +286,13 @@ def analyze_experiment(path: Path) -> FlickerReport:
         json_path=str(path),
         experiment_name=data.get("experiment_name", path.stem),
         num_asr_utterance_groups=len(asr_groups),
-        asr_ne_word_mean=_mean(asr_ne),
+        asr_ne_word_mean=mean(asr_ne),
         num_translation_utterance_groups=len(tr_groups),
-        translation_ne_char_mean=_mean(tr_ne),
+        translation_ne_char_mean=mean(tr_ne),
         num_translation_utterance_spans=len(tr_spans),
-        translation_ne_char_cross_batch_mean=_mean(tr_span_ne),
+        translation_ne_char_cross_batch_mean=mean(tr_span_ne),
         num_multi_batch_spans=len(first_batch_durations),
-        first_batch_duration_mean=_mean(first_batch_durations),
+        first_batch_duration_mean=mean(first_batch_durations),
     )
 
 
@@ -379,17 +367,17 @@ def main() -> None:
     print(f"analyzed {len(reports)} experiment(s) -> {args.out_csv}")
     scored = [r for r in reports if r.translation_ne_char_mean is not None]
     if scored:
-        overall = _mean([r.translation_ne_char_mean for r in scored])  # type: ignore[list-item]
+        overall = mean([r.translation_ne_char_mean for r in scored])  # type: ignore[list-item]
         print(f"translation_ne_char_mean across corpus: {overall:.4f}")
     scored_asr = [r for r in reports if r.asr_ne_word_mean is not None]
     if scored_asr:
-        overall_asr = _mean([r.asr_ne_word_mean for r in scored_asr])  # type: ignore[list-item]
+        overall_asr = mean([r.asr_ne_word_mean for r in scored_asr])  # type: ignore[list-item]
         print(f"asr_ne_word_mean across corpus: {overall_asr:.4f}")
     scored_cross = [
         r for r in reports if r.translation_ne_char_cross_batch_mean is not None
     ]
     if scored_cross:
-        overall_cross = _mean(
+        overall_cross = mean(
             [r.translation_ne_char_cross_batch_mean for r in scored_cross]  # type: ignore[list-item]
         )
         print(
@@ -398,8 +386,8 @@ def main() -> None:
     if all_first_batch_durations:
         print(
             f"first_batch_duration (s) across {len(all_first_batch_durations)} "
-            f"multi-batch span(s): mean={_mean(all_first_batch_durations):.3f} "
-            f"median={_median(all_first_batch_durations):.3f} "
+            f"multi-batch span(s): mean={mean(all_first_batch_durations):.3f} "
+            f"median={median(all_first_batch_durations):.3f} "
             f"min={min(all_first_batch_durations):.3f} "
             f"max={max(all_first_batch_durations):.3f}"
         )

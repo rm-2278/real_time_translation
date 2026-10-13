@@ -249,7 +249,7 @@ class Config:
     # translated into a card ending "そして、" / "私の…". When True, those
     # trailing words are carried over and prepended to the NEXT final
     # chunk's translation input instead (see
-    # TranslationPipeline._split_dangling_tail).
+    # transcription.dangling.split_dangling_tail).
     dangling_carry_enabled: bool = True
 
     # Dictionary

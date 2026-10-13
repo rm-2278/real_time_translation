@@ -20,7 +20,7 @@ import json
 import statistics
 from pathlib import Path
 
-from real_time_translation.captions.readability_metrics import analyze_readability
+from real_time_translation.experiments.readability_metrics import analyze_readability
 from real_time_translation.captions.subtitle_formatter import (
     _build_readable_items,
     extract_utterance_cues,
