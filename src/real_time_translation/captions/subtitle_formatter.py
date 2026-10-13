@@ -323,6 +323,27 @@ def _merge_tiny_utterances(utterances: list[_RawUtterance]) -> list[_RawUtteranc
     return out
 
 
+# Two utterances whose translations land together (an upstream stall that
+# releases several at once) otherwise become two back-to-back cards of
+# ~1s each: the viewer sees a delayed card, then a flash. When both fit on
+# one card, show them as one.
+_SIMULTANEOUS_SECONDS = 0.15
+
+
+def _merge_simultaneous_utterances(
+    utterances: list[_RawUtterance], max_chars: int
+) -> list[_RawUtterance]:
+    out: list[_RawUtterance] = []
+    for u in utterances:
+        if out and u.ready_at - out[-1].ready_at <= _SIMULTANEOUS_SECONDS:
+            joined = f"{out[-1].text} {u.text}"
+            if len(_normalize_spaces(joined)) <= max_chars:
+                out[-1] = _RawUtterance(u.ready_at, joined)
+                continue
+        out.append(u)
+    return out
+
+
 # Reading-speed and line-length defaults follow Netflix's published
 # Japanese Timed Text Style Guide: 4 CPS, max 13 full-width characters per
 # line, minimum display 5/6s, maximum display 7s. `reading_units_per_sec`
@@ -343,7 +364,9 @@ def _build_readable_items(
     """(ready_at, wrapped_text, duration) for every card, unscheduled."""
     max_chars_per_card = max_chars_per_line * max_lines
     items: list[tuple[float, str, float]] = []
-    for u in _merge_tiny_utterances(utterances):
+    for u in _merge_simultaneous_utterances(
+        _merge_tiny_utterances(utterances), max_chars_per_card
+    ):
         text = _normalize_spaces(u.text)
         if not text:
             continue
@@ -396,47 +419,98 @@ def schedule_with_lag(
     return out
 
 
+# Hard ceiling on how fast a card may flash by, in weighted reading units
+# per second (see `_reading_weight`). 4.0 is the comfortable target; under
+# backlog a card is allowed to degrade toward this ceiling, never past it.
+# The 2026-10-13 review saw 26-char cards shown for 0.83s (~30 units/s):
+# the old floor was a flat `min_duration` regardless of how much text the
+# card held.
+BURST_UNITS_PER_SEC = 7.0
+
+
+def _card_floor(text: str, min_duration: float) -> float:
+    weight = _weighted_len(text.replace("\n", ""))
+    return max(min_duration, weight / BURST_UNITS_PER_SEC)
+
+
 def schedule_adaptive(
     items: list[tuple[float, str, float]],
     *,
     min_duration: float,
     catchup_window: float,
 ) -> list[tuple[Cue, float]]:
-    """Hold-and-queue, but compress toward min_duration as backlog builds.
+    """Hold-and-queue, but compress toward a per-card floor as backlog builds.
 
     `schedule_with_lag` guarantees every card its full ideal reading
     duration always, which turns into unbounded queueing lag under
     backlog (see its docstring for the measured numbers). Capping
     max_duration "fixes" the lag but breaks the reading-time guarantee for
-    most cards, not just the backlogged ones -- it punishes a calm,
-    well-paced stretch exactly as hard as a bursty one.
+    most cards, not just the backlogged ones.
 
     This keeps the full guarantee when the schedule is caught up, and lets
-    it degrade smoothly, in proportion to how far behind it actually is:
-    a card still always gets at least `min_duration` (the hard floor both
-    Netflix's and BBC's own guides use -- readability never fully
-    collapses), but as this card's own lag approaches `catchup_window`
-    seconds, its ideal duration is linearly compressed toward that floor.
-    A backlog can then never grow past roughly `catchup_window`, and it
-    actively drains during any quieter stretch, instead of ratcheting up
-    for the rest of the clip the way a flat guarantee does.
+    it degrade smoothly, in proportion to how far behind it actually is.
+    Two things keep the degradation smooth instead of a cliff (both from
+    the 2026-10-13 review: one 7s card, then its three siblings flashed
+    for 0.83s each):
+
+    - The floor is per card, `weight / BURST_UNITS_PER_SEC`, not a flat
+      `min_duration`: a 26-char card can never flash faster than ~7 units/s.
+    - Backlog counts cards *already waiting behind* this one (ready before
+      it would finish), not only the lag it has already accrued. A card
+      that is about to hold up three siblings shortens itself instead of
+      taking its full ideal time and starving them.
     """
     out: list[tuple[Cue, float]] = []
     cursor = 0.0
-    for ready_at, text, ideal_duration in items:
+    for i, (ready_at, text, ideal_duration) in enumerate(items):
         start = max(ready_at, cursor)
         lag = start - ready_at
+        floor = _card_floor(text, min_duration)
+        ideal = max(ideal_duration, floor)
+        waiting = 0.0
+        for r2, t2, _d2 in items[i + 1 :]:
+            if r2 > start + ideal:
+                break
+            waiting += _card_floor(t2, min_duration)
         factor = 1.0
         if catchup_window > 0:
-            factor = max(0.0, 1.0 - lag / catchup_window)
-        duration = min_duration + factor * (ideal_duration - min_duration)
-        duration = max(duration, min_duration)
+            factor = max(0.0, 1.0 - (lag + waiting) / catchup_window)
+        duration = max(floor + factor * (ideal - floor), floor)
         end = start + duration
         out.append((Cue(start, end, text), lag))
         cursor = end
     return out
 
 
+# Two utterances whose translations land together (an upstream stall that
+# releases several at once) otherwise become two back-to-back cards of
+# ~1s each: the viewer sees a delayed card, then a flash. When both fit on
+# one card, show them as one.
+_SIMULTANEOUS_SECONDS = 0.15
+
+
+def _merge_simultaneous_utterances(
+    utterances: list[_RawUtterance], max_chars: int
+) -> list[_RawUtterance]:
+    out: list[_RawUtterance] = []
+    for u in utterances:
+        if out and u.ready_at - out[-1].ready_at <= _SIMULTANEOUS_SECONDS:
+            joined = f"{out[-1].text} {u.text}"
+            if len(_normalize_spaces(joined)) <= max_chars:
+                out[-1] = _RawUtterance(u.ready_at, joined)
+                continue
+        out.append(u)
+    return out
+
+
+# Reading-speed and line-length defaults follow Netflix's published
+# Japanese Timed Text Style Guide: 4 CPS, max 13 full-width characters per
+# line, minimum display 5/6s, maximum display 7s. `reading_units_per_sec`
+# is calibrated to that 4 CPS figure for pure-kana text (weight 1.0/char);
+# kanji is weighted 2x (see `_reading_weight`), so a pure-kanji line reads
+# at an effective 2 raw-characters/second, which is the intent of the
+# style guide's own "kanji needs more room than kana" rationale, made
+# explicit and computed rather than left to a human subtitler's judgment.
 # Reading-speed and line-length defaults follow Netflix's published
 # Japanese Timed Text Style Guide: 4 CPS, max 13 full-width characters per
 # line, minimum display 5/6s, maximum display 7s. `reading_units_per_sec`

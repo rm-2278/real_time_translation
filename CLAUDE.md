@@ -41,6 +41,18 @@ Outputs:
 uv run real-time-translation-exp-youtube --reference-ja reference_ja.txt
 ```
 
+## Caption Reading-Speed Gate
+
+字幕の表示を変えた／字幕付き動画を作ったら、必ず次を実行する：
+
+```bash
+uv run python -m real_time_translation.experiments.caption_issue_metrics <experiment.json> --fail-on-anomaly
+```
+
+`caption_anomalies` が空でなければ（8 units/s 超のカードがある、3秒以内に4枚以上
+出る）異常。数字を報告するだけで終わらせず、`captions/subtitle_formatter.py` を
+直して再計測し、前後の値を示すこと。
+
 ## Notes
 
 - `ffmpeg` がホストに必要です。

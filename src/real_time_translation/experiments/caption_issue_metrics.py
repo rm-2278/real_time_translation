@@ -38,6 +38,7 @@ from pathlib import Path
 from real_time_translation.captions.live_presenter import LiveCaptionPresenter
 from real_time_translation.captions.subtitle_formatter import (
     _build_readable_items,
+    _weighted_len,
     extract_utterance_cues,
     schedule_adaptive,
 )
@@ -58,6 +59,10 @@ _DANGLING_RE = re.compile(
     r"まるで|そこで|…|\.\.\.)[、,]?$"
 )
 _TINY_CHARS = 4
+# A card read faster than this (weighted units/s; comfortable is 4) is an
+# anomaly to fix, not just a number to report. See CLAUDE.md.
+ANOMALY_UNITS_PER_SEC = 8.0
+MAX_CARDS_IN_3S = 3
 _OVERLAP_EPS = 0.25
 _LATIN_PAIR_RE = re.compile(r"[A-Za-z0-9] +[A-Za-z0-9]")
 
@@ -133,8 +138,23 @@ def caption_metrics(events: list[dict]) -> dict:
         len(_LATIN_PAIR_RE.findall(cue.text.replace("\n", " ")))
         for cue, _lag in scheduled
     )
+    # Reading-speed anomalies (2026-10-13 review: a card for 0.83s, ~30
+    # units/s, after one held 7s). Units are the formatter's own reading
+    # weights per second, so this matches what the scheduler budgets.
+    speeds = [
+        _weighted_len(cue.text.replace("\n", "")) / max(cue.end - cue.start, 1e-6)
+        for cue, _lag in scheduled
+    ]
+    starts = [cue.start for cue, _lag in scheduled]
+    burst = 0
+    for i, t0 in enumerate(starts):
+        burst = max(burst, sum(1 for t in starts[i:] if t < t0 + 3.0))
     return {
         "n_cues": n,
+        "peak_units_per_sec": round(max(speeds), 2) if speeds else 0.0,
+        "over_burst_cards": sum(1 for v in speeds if v > ANOMALY_UNITS_PER_SEC),
+        "max_cards_in_3s": burst,
+        "max_lag_seconds": round(max(lags), 3) if lags else 0.0,
         "short_cue_rate": round(short / n, 4) if n else 0.0,
         "mean_lag_seconds": round(sum(lags) / n, 3) if n else 0.0,
         "midword_breaks": midword,
@@ -209,6 +229,21 @@ def live_overlay_metrics(events: list[dict], step: float = 0.05) -> dict:
     }
 
 
+def caption_anomalies(captions: dict) -> list[str]:
+    out = []
+    if captions["over_burst_cards"]:
+        out.append(
+            f"{captions['over_burst_cards']} card(s) read faster than "
+            f"{ANOMALY_UNITS_PER_SEC} units/s (peak {captions['peak_units_per_sec']})"
+        )
+    if captions["max_cards_in_3s"] > MAX_CARDS_IN_3S:
+        out.append(
+            f"{captions['max_cards_in_3s']} cards start within 3s "
+            f"(limit {MAX_CARDS_IN_3S})"
+        )
+    return out
+
+
 def score(
     data: dict,
     *,
@@ -229,6 +264,7 @@ def score(
         "segments": segment_metrics(segments),
         "terms": term_metrics(segments, checks or DEFAULT_TERM_CHECKS),
         "captions": caption_metrics(events),
+        "caption_anomalies": caption_anomalies(caption_metrics(events)),
         "live_overlay": live_overlay_metrics(events),
     }
 
@@ -239,6 +275,11 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--start", type=float, default=None)
     parser.add_argument("--end", type=float, default=None)
     parser.add_argument("--out", type=Path, default=None)
+    parser.add_argument(
+        "--fail-on-anomaly",
+        action="store_true",
+        help="exit 1 if any caption reading-speed anomaly is found",
+    )
     args = parser.parse_args(argv)
 
     summaries = []
@@ -253,6 +294,8 @@ def main(argv: list[str] | None = None) -> None:
             json.dumps(summaries, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
+    if args.fail_on_anomaly and any(x["caption_anomalies"] for x in summaries):
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
