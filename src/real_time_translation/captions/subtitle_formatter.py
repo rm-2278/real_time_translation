@@ -119,7 +119,7 @@ def _reading_weight(ch: str) -> float:
     return 0.7
 
 
-def _weighted_len(text: str) -> float:
+def weighted_len(text: str) -> float:
     return sum(_reading_weight(c) for c in text)
 
 
@@ -371,7 +371,7 @@ def _build_readable_items(
         if not text:
             continue
         chunks = _split_chunks(text, max_chars_per_card)
-        weights = [_weighted_len(c) for c in chunks]
+        weights = [weighted_len(c) for c in chunks]
         total_weight = sum(weights) or 1.0
         total_budget = max(
             min_duration * len(chunks), total_weight / reading_units_per_sec
@@ -429,7 +429,7 @@ BURST_UNITS_PER_SEC = 7.0
 
 
 def _card_floor(text: str, min_duration: float) -> float:
-    weight = _weighted_len(text.replace("\n", ""))
+    weight = weighted_len(text.replace("\n", ""))
     return max(min_duration, weight / BURST_UNITS_PER_SEC)
 
 

@@ -5,8 +5,8 @@ from __future__ import annotations
 from real_time_translation.captions.subtitle_formatter import (
     BURST_UNITS_PER_SEC,
     _RawUtterance,
-    _weighted_len,
     format_readable,
+    weighted_len,
 )
 from real_time_translation.experiments.caption_issue_metrics import (
     caption_anomalies,
@@ -14,7 +14,7 @@ from real_time_translation.experiments.caption_issue_metrics import (
 
 
 def _speed(cue) -> float:
-    return _weighted_len(cue.text.replace("\n", "")) / (cue.end - cue.start)
+    return weighted_len(cue.text.replace("\n", "")) / (cue.end - cue.start)
 
 
 def test_simultaneous_short_utterances_become_one_card() -> None:

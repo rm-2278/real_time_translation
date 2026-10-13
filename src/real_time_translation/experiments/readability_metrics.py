@@ -20,7 +20,7 @@ import statistics
 from dataclasses import dataclass
 from pathlib import Path
 
-from real_time_translation.captions.subtitle_formatter import Cue, _weighted_len
+from real_time_translation.captions.subtitle_formatter import Cue, weighted_len
 
 DEFAULT_MAX_CPS = 4.0
 DEFAULT_MAX_CHARS_PER_LINE = 13
@@ -97,7 +97,7 @@ def analyze_readability(
 
     for cue in cues:
         duration = max(cue.end - cue.start, 1e-6)
-        weighted = _weighted_len(cue.text.replace("\n", ""))
+        weighted = weighted_len(cue.text.replace("\n", ""))
         cps = weighted / duration
         cps_values.append(cps)
 

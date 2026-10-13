@@ -31,8 +31,8 @@ from dataclasses import dataclass
 from real_time_translation.captions.subtitle_formatter import (
     _normalize_spaces,
     _split_chunks,
-    _weighted_len,
     _wrap_lines,
+    weighted_len,
 )
 
 
@@ -127,7 +127,7 @@ class LiveCaptionPresenter:
 
     def _enqueue(self, text: str, ready_at: float) -> None:
         chunks = _split_chunks(text, self._max_chars_per_line * self._max_lines)
-        weights = [_weighted_len(c) for c in chunks]
+        weights = [weighted_len(c) for c in chunks]
         total_weight = sum(weights) or 1.0
         total_budget = max(
             self._min_duration * len(chunks),

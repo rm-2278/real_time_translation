@@ -38,9 +38,9 @@ from pathlib import Path
 from real_time_translation.captions.live_presenter import LiveCaptionPresenter
 from real_time_translation.captions.subtitle_formatter import (
     _build_readable_items,
-    _weighted_len,
     extract_utterance_cues,
     schedule_adaptive,
+    weighted_len,
 )
 
 # Known-wrong surface forms from the 2026-09-24 human review, each checked
@@ -142,7 +142,7 @@ def caption_metrics(events: list[dict]) -> dict:
     # units/s, after one held 7s). Units are the formatter's own reading
     # weights per second, so this matches what the scheduler budgets.
     speeds = [
-        _weighted_len(cue.text.replace("\n", "")) / max(cue.end - cue.start, 1e-6)
+        weighted_len(cue.text.replace("\n", "")) / max(cue.end - cue.start, 1e-6)
         for cue, _lag in scheduled
     ]
     starts = [cue.start for cue, _lag in scheduled]
