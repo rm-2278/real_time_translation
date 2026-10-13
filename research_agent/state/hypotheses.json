@@ -823,8 +823,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.02,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/judge_schematic_adherence_replay_context_windows.json"
+      ],
       "result_summary": ""
     }
   ]

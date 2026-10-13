@@ -1,0 +1,378 @@
+{
+  "sampled_n": 40,
+  "complete_n": 40,
+  "pairwise_subcriteria_correlations": {
+    "numbers_and_statistics__vs__named_entities_and_technical_terms": -0.05427560990863207,
+    "numbers_and_statistics__vs__causal_logical_relationships": -0.08887549669395256,
+    "numbers_and_statistics__vs__overall_completeness": 0.0697719040761463,
+    "named_entities_and_technical_terms__vs__causal_logical_relationships": 0.5140875475453897,
+    "named_entities_and_technical_terms__vs__overall_completeness": 0.6244681037449027,
+    "causal_logical_relationships__vs__overall_completeness": 0.9463651844505087
+  },
+  "schematic_adherence_r_squared": 0.9958811338943768,
+  "rows": [
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 0,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 1,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 95,
+      "score": 95
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 2,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 90
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 3,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 80,
+      "overall_completeness": 85,
+      "score": 85
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 4,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 90
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 5,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 6,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 7,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 80,
+      "overall_completeness": 85,
+      "score": 85
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 8,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 80,
+      "causal_logical_relationships": 60,
+      "overall_completeness": 70,
+      "score": 65
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 9,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 95,
+      "score": 95
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 10,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 80,
+      "causal_logical_relationships": 70,
+      "overall_completeness": 85,
+      "score": 80
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 11,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 95,
+      "score": 95
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 12,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 13,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 14,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 15,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 16,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 17,
+      "numbers_and_statistics": 0,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 80,
+      "score": 75
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 18,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "baseline_replay",
+      "window_start_index": 19,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 0,
+      "overall_completeness": 50,
+      "score": 40
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 0,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 1,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 2,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 95,
+      "score": 90
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 3,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 90,
+      "overall_completeness": 95,
+      "score": 90
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 4,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 90
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 5,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 6,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 7,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 60,
+      "overall_completeness": 70,
+      "score": 65
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 8,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 80,
+      "causal_logical_relationships": 40,
+      "overall_completeness": 60,
+      "score": 55
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 9,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 90,
+      "overall_completeness": 95,
+      "score": 92
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 10,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 80,
+      "causal_logical_relationships": 60,
+      "overall_completeness": 70,
+      "score": 65
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 11,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 12,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 13,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 14,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 95,
+      "score": 95
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 15,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 95,
+      "score": 95
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 16,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 90
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 17,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 50,
+      "causal_logical_relationships": 20,
+      "overall_completeness": 30,
+      "score": 25
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 18,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 20,
+      "overall_completeness": 50,
+      "score": 40
+    },
+    {
+      "condition": "compression_actions",
+      "window_start_index": 19,
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 20,
+      "overall_completeness": 50,
+      "score": 40
+    }
+  ],
+  "source": "experiments/20260916_compression_actions_prompt.json",
+  "window_size": 4,
+  "notes": "Third attempt at the schematic-adherence diagnostic, following cycle 53's ceiling-effect result (experiments/judge_schematic_adherence_replay.json) and cycle 54's isolated-fragment ceiling-effect result (experiments/judge_schematic_adherence_replay_knowncost.json). 40 new gemini-3.1-flash-lite calls (4-segment sliding windows, both conditions), zero new Deepgram spend -- replay of already-recorded segments from experiments/20260916_compression_actions_prompt.json, which has a documented NON-ceiling fidelity difference between conditions (retention_score 75 baseline_replay / 85 compression_actions, distinct dropped_or_distorted lists), unlike either prior attempt."
+}
