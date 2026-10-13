@@ -823,11 +823,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.02,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/judge_schematic_adherence_replay_context_windows.json"
       ],
-      "result_summary": ""
+      "result_summary": "CONCLUSIVE, unlike cycles 53 and 54: sampling 4-segment sliding windows (joining source_text/translation across the window, 20 windows per condition = 40 points) from experiments/20260916_compression_actions_prompt.json finally produced real, non-degenerate variance. Per-window scores range the full 0-100 scale in named_entities_and_technical_terms, causal_logical_relationships and overall_completeness (numbers_and_statistics stays near-100 throughout -- this source clip simply has almost no numeric content to drop). Low-scoring windows (window_start 7-10 and 17-19 in both conditions) are not judge noise: verified directly against the source JSON's segments that these windows cover genuinely disfluent/garbled ASR source text ('we just have a small three', 'token errors', 'FFN layer. Normally, FFN layer' repeated twice in a row at segments 21/22), matching the same spans this experiment's own prior holistic judge() call already flagged via dropped_or_distorted ('token errors', 'small three', 'three based on the'). Diagnostics: (1) pairwise sub-criteria correlations are NOT all >0.9 -- numbers_and_statistics vs the other 3 criteria is near-zero or slightly negative (-0.09 to 0.07, it has almost no variance to correlate with), named_entities vs causal_logical/overall_completeness is moderate (0.51/0.62), and only causal_logical_relationships vs overall_completeness is high (0.95) -- plausible, since a dropped causal link usually also reduces overall completeness in the same window. (2) schematic_adherence_r_squared=0.996, a real, non-null, very high value: the holistic 'score' field is almost entirely explained by the 4 named sub-criteria within the same call, i.e. this repo's rubric is schematically coherent on this sample, not collapsed. Net finding: the decomposed-rubric diagnostic from arxiv2509-20293 is usable on this repo's judge, but only when given (a) multi-clause real context on both source and translation sides and (b) a sample that actually contains quality-varying content (disfluent/garbled source regions, not a clip that is uniformly easy or uniformly hard) -- confirms the two root causes diagnosed in cycles 53 and 54 respectively were both real and are now both avoided. This result is specific to this one clip's disfluency pattern; it does not establish whether holistic score vs sub-criteria correlation structure generalizes to other clips/domains."
     }
   ]
 }
