@@ -2923,3 +2923,61 @@ search first. A literature refresh is still overdue (last real
 SEARCH_PAPERS pass was cycle 53, which itself followed a long gap back to
 cycle 23) and should probably happen next cycle instead of being deferred
 again.
+
+## Cycle 55 (2026-10-13, scheduled/cron run)
+
+**What worked:** The third attempt at the schematic-adherence diagnostic
+finally produced a usable, non-degenerate result -- following cycle 54's
+own explicit recommendation (sample multi-segment spans with real context,
+from an experiment with an already-documented non-ceiling fidelity
+difference) worked exactly as hoped on the first try this time. Choosing
+experiments/20260916_compression_actions_prompt.json (23 sequential
+segments/condition, already known to have retention_score 75 vs 85 with
+named dropped_or_distorted content) and a 4-segment sliding window (joining
+source_text/translation across the window) gave 40 points with real 0-100
+spread in 3 of 4 sub-criteria, non-degenerate pairwise correlations, and a
+real (non-null) schematic_adherence_r_squared=0.996. Verified the low-
+scoring windows against the source JSON's own segments before writing the
+result up (not just trusting the aggregate numbers) -- they correspond to
+genuinely disfluent/garbled ASR source text (repeated "FFN layer. Normally,
+FFN layer" at segments 21/22, "a small three", "token errors"), the same
+spans the experiment's own prior holistic judge() had already flagged.
+This is now a 3-for-3 case of a GENERATE_HYPOTHESES-time correction (cycle
+54's report) translating directly into a working design next cycle,
+without needing a human in the loop to catch it.
+
+**What didn't work / near-misses:** None this cycle for this hypothesis --
+it worked on the first design. One mild note: numbers_and_statistics had
+almost no variance across all 40 points (this clip has essentially no
+numeric content to drop), so it contributed little to the correlation/R^2
+picture; a future replay of this kind on a numerically-dense clip could
+test whether that sub-criterion behaves differently.
+
+**Backlog/budget calibration:** Backlog is now down to 1 (h-judge-cross-
+model-agreement-check, $0.05, approved_by_human, still not run -- deprio-
+ritized again this cycle in favor of the cheaper, actively-progressing
+schematic-adherence line). This is thinner than the ~6 cap allows; with
+the schematic-adherence investigation now concluded (3 cycles, a real
+answer reached), the backlog needs refilling next cycle. $0.02 spent this
+cycle, nowhere near either cap. No budget policy change proposed.
+
+**Should the playbook change?** Not this cycle. The existing GENERATE_
+HYPOTHESES caveat list and the depth-over-breadth guidance both did their
+job here; no new caveat is needed since this cycle's design worked rather
+than revealing a new failure mode. Left PLAYBOOK.md unchanged.
+
+**Notification decision:** Did NOT send a PushNotification. The result is
+positive and informative but not urgent -- no environment blocker, no
+budget concern, and the one pending-but-deprioritized hypothesis
+(h-judge-cross-model-agreement-check) is unchanged and already reported
+in prior cycles' reports. A cleanly concluded 3-cycle investigation thread
+is good news to read in the next report, not something that needs to
+interrupt the human now.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` rather than
+`GENERATE_HYPOTHESES` -- the schematic-adherence investigation is now
+genuinely concluded (not just paused), the backlog is thin (1 item,
+deprioritized), and literature hasn't been refreshed since cycle 53 (2
+cycles stale, per cycle 54's own carryover note). A fresh search pass is
+more likely to add value than generating another hypothesis from an
+already fully-mined literature base.
