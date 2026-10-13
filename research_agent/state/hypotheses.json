@@ -822,8 +822,8 @@
       "required_changes": "New small script src/real_time_translation/experiments/judge_schematic_adherence_replay_context_windows.py that imports judge_decomposed, _pairwise_correlations, _ols_r_squared, SUB_CRITERIA from judge_schematic_adherence_replay.py (do not duplicate the prompt or stats code, same reuse pattern as cycle 54's knowncost-resample script) and adds its own point-extraction function reading experiments/20260916_compression_actions_prompt.json's results[cond]['segments'] list (23 segments per condition, ordered by 'index'), building sliding windows of 4 consecutive segments (i=0..19), joining each window's 'source_text' values with a space for source_full and 'translation' values with a space for translation_full, for both conditions (baseline_replay, compression_actions) = 40 points total. Calls judge_decomposed(source_full, translation_full) once per point (40 new Gemini calls, gemini-3.1-flash-lite, zero new Deepgram spend), writes rows + pairwise_subcriteria_correlations + schematic_adherence_r_squared to experiments/judge_schematic_adherence_replay_context_windows.json and a flat CSV, same output shape as judge_schematic_adherence_replay.py. Must log-cost after running (uv run ruff check . before commit).",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.02,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
