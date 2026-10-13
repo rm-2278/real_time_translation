@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 13,
-  "last_updated": "2026-10-13T00:29:10.244078+00:00",
+  "last_updated": "2026-10-13T12:21:01.600438+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1415,6 +1415,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-10-13T00:29:10.244045+00:00",
       "note": "Cycle 55 REFLECT complete. Appended reflection entry to reflections.md: third schematic-adherence attempt succeeded on the first design this cycle (real sub-criteria variance, non-degenerate correlations, r_squared=0.996), closing out a 3-cycle investigation thread. No playbook changes needed. Advancing to SEARCH_PAPERS for cycle 56 (narrated count) -- literature is 2 cycles stale (last real pass was cycle 53) and the backlog is thin (1 deprioritized item) now that this investigation line has concluded; a fresh literature pass is the next bounded unit of work, left for the next session/invocation per this session's scope."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-10-13T12:21:01.600347+00:00",
+      "note": "Cycle 56 SEARCH_PAPERS complete: ran 3 WebSearch queries, found 3 new post-survey papers not already in corpus (SimulS2ST-Omni arXiv 2607.19810; RuVerBench arXiv 2606.29920; RubricEval arXiv 2603.25133), added as 'found' stubs in papers.json. The latter two are directly relevant to refilling the thin hypothesis backlog along the active judge-reliability/rubric-decomposition investigation thread. Details in papers.json _websearch_note_cycle56. Advancing to EXTRACT_PAPERS."
     }
   ]
 }
