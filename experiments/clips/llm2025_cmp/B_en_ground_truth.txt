@@ -1,0 +1,55 @@
+<transcript>
+[00:00] In language prefill and training,
+[00:03] in prefill it's like uh, you input your prompts.
+[00:07] You already give your, all of your prompts, and [uncertain: langu-, we will s-,]
+[00:11] we will do prefill, we will use all prompts as a input to language model,
+[00:15] and calculate the KV cache for it.
+[00:18] And also during the training, also, all tokens are already given.
+[00:22] We will use, just process all tokens together.
+[00:26] So when we do this, uh, the matrix computation will be
+[00:30] batch size times sequence length.
+[00:34] Sequence length will be maybe 32k in training, prefill
+[00:38] it maybe depends on your [uncertain: prompt's length].
+[00:42] And anyway it's larger than one. And then, so the matrix will be batch size
+[00:46] times uh, sequence length, and also times your uh,
+[00:50] model, model dimension.
+[00:53] So we know, we could know it's, it'll be, this, this, this
+[00:57] matrix would be very, very large. So it will makes like,
+[01:01] it makes like uh, processing units too hard to process
+[01:05] all of these matrix computations. So it will blocked by computes.
+[01:09] Uh, however, when we do decoding,
+[01:13] when we do decoding, because we will generate the token one by one,
+[01:17] so matrix operations will be batch size times
+[01:21] sequence length, and the sequence length is only one.
+[01:25] And times the model dimension. [uncertain: It's-- and then] because the
+[01:29] mm, sequence length is one, so the computes is very, very cheap.
+[01:33] So at this time, at this time, the block is not computes,
+[01:37] is memory bandwidth. The most time,
+[01:41] the most time during the serving would be like moving weights
+[01:45] from your memory to processing units.
+[01:49] So in this stage, we will call it memory bound.
+[01:53] Uh...
+[01:57] Okay, so currently we know what we care about
+[02:01] language model efficiency, that's like uh, latency and throughput.
+[02:05] And we know for different language model [uncertain: ser-,] uh, serving stage,
+[02:09] we will blocked by what. Like in prefill and training, we will blocked by computes.
+[02:13] And in decoding time, we will generate token one by one,
+[02:17] so we will blocked by memory bound.
+[02:21] By memory bandwidth.
+[02:25] So next, next I will introduce how we improve language model efficiency
+[02:29] from model perspective.
+[02:33] Uh, and the first one is just like very simple, is like uh, model distillation.
+[02:37] It's like we know that a larger model, we will have a very
+[02:41] [uncertain: bet-,] we will have better quality than smaller model.
+[02:45] But we cannot really serve large model.
+[02:49] So in this time, we could maybe do model distillation.
+[02:53] We will use larger model to label the training data...
+</transcript>
+
+<uncertain_spots>
+- [00:07] "langu-, we will s-," -- speaker stumbles and cuts off words, exact sounds are unclear
+- [00:38] "prompt's length" -- could be "prompts length" or "prompt length", plural/possessive is mumbled
+- [01:25] "It's-- and then" -- speaker stutters and changes thought mid-sentence, exact words are mumbled
+- [02:05] "ser-," -- false start for "serving", cut off quickly
+- [02:41] "bet-," -- false start for "better", cut off quickly
+</uncertain_spots>

@@ -1,0 +1,4844 @@
+{
+  "date": "2026-10-13",
+  "experiment_name": "gpt_live1_cmp_B",
+  "domain": null,
+  "input": {
+    "type": "local_video",
+    "path": "video/LLM2025応用編_第8回前半_260128.mp4",
+    "start_seconds": 1800.0,
+    "duration_seconds": 180.0
+  },
+  "models": {
+    "llm_provider": "openai-live",
+    "llm_model": "gpt-live-1"
+  },
+  "config": {
+    "instructions": "You are a simultaneous interpreter for a university lecture. The speaker talks in English. Interpret everything you hear into natural Japanese, sentence by sentence, as soon as each sentence is clear. Output only the Japanese interpretation. Never answer, comment, greet, or ask anything. Keep technical terms (e.g. Transformer, LLM) in their usual katakana or English form.",
+    "speed": 1.0,
+    "gap": 1.5
+  },
+  "results": {
+    "segment_count": 27,
+    "segments": [],
+    "raw_transcript_deltas": [
+      {
+        "t": 1.6132791249838192,
+        "type": "session.input_transcript.delta",
+        "delta": " In"
+      },
+      {
+        "t": 2.0105365839845035,
+        "type": "session.input_transcript.delta",
+        "delta": " language"
+      },
+      {
+        "t": 2.8512774590053596,
+        "type": "session.input_transcript.delta",
+        "delta": " pre-fill"
+      },
+      {
+        "t": 3.2177587499900255,
+        "type": "session.input_transcript.delta",
+        "delta": " and"
+      },
+      {
+        "t": 3.811748624983011,
+        "type": "session.input_transcript.delta",
+        "delta": " training"
+      },
+      {
+        "t": 4.6065847919962835,
+        "type": "session.input_transcript.delta",
+        "delta": ", in"
+      },
+      {
+        "t": 5.259628125000745,
+        "type": "session.input_transcript.delta",
+        "delta": " pre-fill"
+      },
+      {
+        "t": 5.399519792001229,
+        "type": "session.input_transcript.delta",
+        "delta": ", it's"
+      },
+      {
+        "t": 5.797595416981494,
+        "type": "session.input_transcript.delta",
+        "delta": " like"
+      },
+      {
+        "t": 6.607302083983086,
+        "type": "session.input_transcript.delta",
+        "delta": " you"
+      },
+      {
+        "t": 7.0349619170010556,
+        "type": "session.input_transcript.delta",
+        "delta": " input"
+      },
+      {
+        "t": 7.202628250000998,
+        "type": "session.input_transcript.delta",
+        "delta": " your"
+      },
+      {
+        "t": 8.112651375005953,
+        "type": "session.input_transcript.delta",
+        "delta": " prompts"
+      },
+      {
+        "t": 8.419852208986413,
+        "type": "session.input_transcript.delta",
+        "delta": ". You"
+      },
+      {
+        "t": 8.602429708989803,
+        "type": "session.output_transcript.delta",
+        "delta": "言語"
+      },
+      {
+        "t": 8.777260125003522,
+        "type": "session.input_transcript.delta",
+        "delta": " already"
+      },
+      {
+        "t": 8.780757250002353,
+        "type": "session.output_transcript.delta",
+        "delta": "の事"
+      },
+      {
+        "t": 8.930685375002213,
+        "type": "session.input_transcript.delta",
+        "delta": " gave"
+      },
+      {
+        "t": 8.935472708981251,
+        "type": "session.output_transcript.delta",
+        "delta": "前"
+      },
+      {
+        "t": 9.113901667005848,
+        "type": "session.input_transcript.delta",
+        "delta": " your"
+      },
+      {
+        "t": 9.116841624985682,
+        "type": "session.output_transcript.delta",
+        "delta": "入力"
+      },
+      {
+        "t": 9.510767792002298,
+        "type": "session.input_transcript.delta",
+        "delta": " all of"
+      },
+      {
+        "t": 9.51279558398528,
+        "type": "session.output_transcript.delta",
+        "delta": "や"
+      },
+      {
+        "t": 9.749543541984167,
+        "type": "session.output_transcript.delta",
+        "delta": "ト"
+      },
+      {
+        "t": 9.919869167002616,
+        "type": "session.input_transcript.delta",
+        "delta": " your"
+      },
+      {
+        "t": 9.922499167005299,
+        "type": "session.output_transcript.delta",
+        "delta": "レー"
+      },
+      {
+        "t": 10.139469999994617,
+        "type": "session.output_transcript.delta",
+        "delta": "ニング"
+      },
+      {
+        "t": 10.39323141699424,
+        "type": "session.input_transcript.delta",
+        "delta": " prompts"
+      },
+      {
+        "t": 10.399214792007115,
+        "type": "session.output_transcript.delta",
+        "delta": "では"
+      },
+      {
+        "t": 10.815510999993421,
+        "type": "session.input_transcript.delta",
+        "delta": ", and"
+      },
+      {
+        "t": 10.821782708982937,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 11.029330374993151,
+        "type": "session.output_transcript.delta",
+        "delta": "事"
+      },
+      {
+        "t": 11.249450667004567,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 11.251639291993342,
+        "type": "session.output_transcript.delta",
+        "delta": "前"
+      },
+      {
+        "t": 11.417437625001185,
+        "type": "session.output_transcript.delta",
+        "delta": "入力"
+      },
+      {
+        "t": 11.58386712500942,
+        "type": "session.output_transcript.delta",
+        "delta": "の場合"
+      },
+      {
+        "t": 12.21852791699348,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 12.369567749992711,
+        "type": "session.input_transcript.delta",
+        "delta": " do"
+      },
+      {
+        "t": 12.37313812499633,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 12.626144209003542,
+        "type": "session.input_transcript.delta",
+        "delta": " pre"
+      },
+      {
+        "t": 12.629342959000496,
+        "type": "session.output_transcript.delta",
+        "delta": "あなた"
+      },
+      {
+        "t": 12.771724291989813,
+        "type": "session.input_transcript.delta",
+        "delta": "-fill"
+      },
+      {
+        "t": 12.773919291998027,
+        "type": "session.output_transcript.delta",
+        "delta": "が"
+      },
+      {
+        "t": 12.908104417001596,
+        "type": "session.input_transcript.delta",
+        "delta": ". We"
+      },
+      {
+        "t": 12.912869166990276,
+        "type": "session.output_transcript.delta",
+        "delta": "す"
+      },
+      {
+        "t": 13.119079083990073,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 13.122951917001046,
+        "type": "session.output_transcript.delta",
+        "delta": "でに"
+      },
+      {
+        "t": 13.325536166987149,
+        "type": "session.input_transcript.delta",
+        "delta": " use"
+      },
+      {
+        "t": 13.32781558399438,
+        "type": "session.output_transcript.delta",
+        "delta": "す"
+      },
+      {
+        "t": 13.527492249995703,
+        "type": "session.input_transcript.delta",
+        "delta": " all"
+      },
+      {
+        "t": 13.527519708994078,
+        "type": "session.output_transcript.delta",
+        "delta": "べて"
+      },
+      {
+        "t": 13.724121375009418,
+        "type": "session.output_transcript.delta",
+        "delta": "の"
+      },
+      {
+        "t": 13.91960133399698,
+        "type": "session.output_transcript.delta",
+        "delta": "プロ"
+      },
+      {
+        "t": 14.11387441700208,
+        "type": "session.output_transcript.delta",
+        "delta": "ンプ"
+      },
+      {
+        "t": 14.321607083984418,
+        "type": "session.output_transcript.delta",
+        "delta": "トを"
+      },
+      {
+        "t": 14.53327920899028,
+        "type": "session.output_transcript.delta",
+        "delta": "入力"
+      },
+      {
+        "t": 14.699702624988277,
+        "type": "session.output_transcript.delta",
+        "delta": "して"
+      },
+      {
+        "t": 15.100889749999624,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 15.3218077920028,
+        "type": "session.input_transcript.delta",
+        "delta": " prompts as"
+      },
+      {
+        "t": 15.522980209003435,
+        "type": "session.output_transcript.delta",
+        "delta": "私"
+      },
+      {
+        "t": 15.73000787498313,
+        "type": "session.input_transcript.delta",
+        "delta": " input"
+      },
+      {
+        "t": 15.735919541999465,
+        "type": "session.output_transcript.delta",
+        "delta": "た"
+      },
+      {
+        "t": 15.935418542008847,
+        "type": "session.input_transcript.delta",
+        "delta": " to"
+      },
+      {
+        "t": 15.93545170899597,
+        "type": "session.output_transcript.delta",
+        "delta": "ちは"
+      },
+      {
+        "t": 16.127738417009823,
+        "type": "session.output_transcript.delta",
+        "delta": "その"
+      },
+      {
+        "t": 16.320415124995634,
+        "type": "session.input_transcript.delta",
+        "delta": " language"
+      },
+      {
+        "t": 16.32696429200587,
+        "type": "session.output_transcript.delta",
+        "delta": "プロ"
+      },
+      {
+        "t": 16.541427708987612,
+        "type": "session.output_transcript.delta",
+        "delta": "ンプ"
+      },
+      {
+        "t": 16.714696042006835,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 16.716743291995954,
+        "type": "session.output_transcript.delta",
+        "delta": "ト"
+      },
+      {
+        "t": 16.947127208986785,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 17.119638083997415,
+        "type": "session.input_transcript.delta",
+        "delta": " and"
+      },
+      {
+        "t": 17.11966133399983,
+        "type": "session.output_transcript.delta",
+        "delta": "事前"
+      },
+      {
+        "t": 17.573423333989922,
+        "type": "session.output_transcript.delta",
+        "delta": "入力"
+      },
+      {
+        "t": 17.750518209009897,
+        "type": "session.input_transcript.delta",
+        "delta": " calculate the"
+      },
+      {
+        "t": 17.75327083398588,
+        "type": "session.output_transcript.delta",
+        "delta": "として"
+      },
+      {
+        "t": 17.921144041989464,
+        "type": "session.input_transcript.delta",
+        "delta": " KV"
+      },
+      {
+        "t": 18.142767042008927,
+        "type": "session.output_transcript.delta",
+        "delta": "使"
+      },
+      {
+        "t": 18.333114334003767,
+        "type": "session.input_transcript.delta",
+        "delta": " cache"
+      },
+      {
+        "t": 18.333140667004045,
+        "type": "session.output_transcript.delta",
+        "delta": "います"
+      },
+      {
+        "t": 18.574506500008283,
+        "type": "session.input_transcript.delta",
+        "delta": " for"
+      },
+      {
+        "t": 18.77488587499829,
+        "type": "session.output_transcript.delta",
+        "delta": "。その"
+      },
+      {
+        "t": 18.875683624995872,
+        "type": "session.input_transcript.delta",
+        "delta": " it"
+      },
+      {
+        "t": 19.184818624984473,
+        "type": "session.output_transcript.delta",
+        "delta": "す"
+      },
+      {
+        "t": 19.314189208991593,
+        "type": "session.input_transcript.delta",
+        "delta": " And"
+      },
+      {
+        "t": 19.34602941700723,
+        "type": "session.output_transcript.delta",
+        "delta": "べ"
+      },
+      {
+        "t": 19.527292374987155,
+        "type": "session.input_transcript.delta",
+        "delta": " also"
+      },
+      {
+        "t": 19.527318417007336,
+        "type": "session.output_transcript.delta",
+        "delta": "て"
+      },
+      {
+        "t": 19.76310441698297,
+        "type": "session.output_transcript.delta",
+        "delta": "のプロ"
+      },
+      {
+        "t": 19.883876834006514,
+        "type": "session.input_transcript.delta",
+        "delta": " during"
+      },
+      {
+        "t": 19.8839019589941,
+        "type": "session.output_transcript.delta",
+        "delta": "ンプ"
+      },
+      {
+        "t": 20.03825849998975,
+        "type": "session.input_transcript.delta",
+        "delta": " the"
+      },
+      {
+        "t": 20.062396791996434,
+        "type": "session.output_transcript.delta",
+        "delta": "ト"
+      },
+      {
+        "t": 20.214745749981375,
+        "type": "session.output_transcript.delta",
+        "delta": "を言"
+      },
+      {
+        "t": 20.362742333993083,
+        "type": "session.output_transcript.delta",
+        "delta": "語"
+      },
+      {
+        "t": 20.56255245898501,
+        "type": "session.input_transcript.delta",
+        "delta": " training"
+      },
+      {
+        "t": 20.564465083996765,
+        "type": "session.output_transcript.delta",
+        "delta": "モデル"
+      },
+      {
+        "t": 20.719937916990602,
+        "type": "session.output_transcript.delta",
+        "delta": "への"
+      },
+      {
+        "t": 20.979397499992047,
+        "type": "session.input_transcript.delta",
+        "delta": ", also"
+      },
+      {
+        "t": 21.18239612499019,
+        "type": "session.output_transcript.delta",
+        "delta": "入力"
+      },
+      {
+        "t": 21.330831750005018,
+        "type": "session.input_transcript.delta",
+        "delta": " all"
+      },
+      {
+        "t": 21.330861666996498,
+        "type": "session.output_transcript.delta",
+        "delta": "として"
+      },
+      {
+        "t": 21.73863041700679,
+        "type": "session.output_transcript.delta",
+        "delta": "渡"
+      },
+      {
+        "t": 21.936358917009784,
+        "type": "session.input_transcript.delta",
+        "delta": " tokens"
+      },
+      {
+        "t": 21.936400834005326,
+        "type": "session.output_transcript.delta",
+        "delta": "し"
+      },
+      {
+        "t": 22.150366749992827,
+        "type": "session.input_transcript.delta",
+        "delta": " are"
+      },
+      {
+        "t": 22.15312137498404,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 22.5123284169822,
+        "type": "session.input_transcript.delta",
+        "delta": " already"
+      },
+      {
+        "t": 22.512342333997367,
+        "type": "session.output_transcript.delta",
+        "delta": "KV"
+      },
+      {
+        "t": 22.96209070898476,
+        "type": "session.input_transcript.delta",
+        "delta": " given"
+      },
+      {
+        "t": 22.962109291984234,
+        "type": "session.output_transcript.delta",
+        "delta": "キャ"
+      },
+      {
+        "t": 23.127777624991722,
+        "type": "session.input_transcript.delta",
+        "delta": ". We"
+      },
+      {
+        "t": 23.13037670898484,
+        "type": "session.output_transcript.delta",
+        "delta": "ッシュ"
+      },
+      {
+        "t": 23.3264758749865,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 23.348977791989455,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 23.53844787500566,
+        "type": "session.input_transcript.delta",
+        "delta": " use"
+      },
+      {
+        "t": 23.54460774999461,
+        "type": "session.output_transcript.delta",
+        "delta": "計"
+      },
+      {
+        "t": 23.737484416982625,
+        "type": "session.input_transcript.delta",
+        "delta": " just"
+      },
+      {
+        "t": 23.740850500005763,
+        "type": "session.output_transcript.delta",
+        "delta": "算"
+      },
+      {
+        "t": 23.91677099998924,
+        "type": "session.output_transcript.delta",
+        "delta": "します"
+      },
+      {
+        "t": 24.315119292004965,
+        "type": "session.output_transcript.delta",
+        "delta": "。また"
+      },
+      {
+        "t": 24.916806583991274,
+        "type": "session.input_transcript.delta",
+        "delta": " process all"
+      },
+      {
+        "t": 25.576790374994744,
+        "type": "session.input_transcript.delta",
+        "delta": " tokens"
+      },
+      {
+        "t": 25.590017874987097,
+        "type": "session.output_transcript.delta",
+        "delta": "ト"
+      },
+      {
+        "t": 25.81283495898242,
+        "type": "session.output_transcript.delta",
+        "delta": "レ"
+      },
+      {
+        "t": 26.00156729199807,
+        "type": "session.input_transcript.delta",
+        "delta": " together"
+      },
+      {
+        "t": 26.003683749993797,
+        "type": "session.output_transcript.delta",
+        "delta": "ーニ"
+      },
+      {
+        "t": 26.189722124981927,
+        "type": "session.output_transcript.delta",
+        "delta": "ング"
+      },
+      {
+        "t": 26.38316900000791,
+        "type": "session.output_transcript.delta",
+        "delta": "中"
+      },
+      {
+        "t": 26.52961520900135,
+        "type": "session.output_transcript.delta",
+        "delta": "も"
+      },
+      {
+        "t": 26.648803874995792,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 26.82757954200497,
+        "type": "session.output_transcript.delta",
+        "delta": "す"
+      },
+      {
+        "t": 26.974875209009042,
+        "type": "session.output_transcript.delta",
+        "delta": "で"
+      },
+      {
+        "t": 27.14772000000812,
+        "type": "session.output_transcript.delta",
+        "delta": "にす"
+      },
+      {
+        "t": 27.3308894590009,
+        "type": "session.input_transcript.delta",
+        "delta": " So"
+      },
+      {
+        "t": 27.389072333986405,
+        "type": "session.output_transcript.delta",
+        "delta": "べ"
+      },
+      {
+        "t": 27.57326654199278,
+        "type": "session.output_transcript.delta",
+        "delta": "ての"
+      },
+      {
+        "t": 27.816165583994007,
+        "type": "session.output_transcript.delta",
+        "delta": "トーク"
+      },
+      {
+        "t": 28.029190792003646,
+        "type": "session.input_transcript.delta",
+        "delta": " when we"
+      },
+      {
+        "t": 28.031375916994875,
+        "type": "session.output_transcript.delta",
+        "delta": "ン"
+      },
+      {
+        "t": 28.216905042005237,
+        "type": "session.input_transcript.delta",
+        "delta": " do"
+      },
+      {
+        "t": 28.218956833996344,
+        "type": "session.output_transcript.delta",
+        "delta": "が与"
+      },
+      {
+        "t": 28.428956958989147,
+        "type": "session.output_transcript.delta",
+        "delta": "え"
+      },
+      {
+        "t": 28.630724124988774,
+        "type": "session.input_transcript.delta",
+        "delta": " this"
+      },
+      {
+        "t": 28.632893000001786,
+        "type": "session.output_transcript.delta",
+        "delta": "られて"
+      },
+      {
+        "t": 28.82412808400113,
+        "type": "session.output_transcript.delta",
+        "delta": "いる"
+      },
+      {
+        "t": 28.957339541986585,
+        "type": "session.output_transcript.delta",
+        "delta": "ので"
+      },
+      {
+        "t": 29.32215783398715,
+        "type": "session.output_transcript.delta",
+        "delta": "、それ"
+      },
+      {
+        "t": 29.731838334002532,
+        "type": "session.output_transcript.delta",
+        "delta": "ら"
+      },
+      {
+        "t": 29.929235791991232,
+        "type": "session.input_transcript.delta",
+        "delta": " the"
+      },
+      {
+        "t": 29.978740749997087,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 30.12866616700194,
+        "type": "session.output_transcript.delta",
+        "delta": "まとめ"
+      },
+      {
+        "t": 30.517109999986133,
+        "type": "session.output_transcript.delta",
+        "delta": "て処"
+      },
+      {
+        "t": 30.765536916995188,
+        "type": "session.input_transcript.delta",
+        "delta": " matrix"
+      },
+      {
+        "t": 30.765560416999506,
+        "type": "session.output_transcript.delta",
+        "delta": "理"
+      },
+      {
+        "t": 30.98970462498255,
+        "type": "session.output_transcript.delta",
+        "delta": "します"
+      },
+      {
+        "t": 31.332198624993907,
+        "type": "session.input_transcript.delta",
+        "delta": " computation"
+      },
+      {
+        "t": 31.33451091698953,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 31.514434874989092,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 32.00419270899147,
+        "type": "session.input_transcript.delta",
+        "delta": " be"
+      },
+      {
+        "t": 32.01230170900817,
+        "type": "session.output_transcript.delta",
+        "delta": "こう"
+      },
+      {
+        "t": 32.13762237498304,
+        "type": "session.input_transcript.delta",
+        "delta": " batch"
+      },
+      {
+        "t": 32.770936999993864,
+        "type": "session.output_transcript.delta",
+        "delta": "する"
+      },
+      {
+        "t": 32.96398820899776,
+        "type": "session.output_transcript.delta",
+        "delta": "ことで"
+      },
+      {
+        "t": 33.07991154200863,
+        "type": "session.input_transcript.delta",
+        "delta": " size"
+      },
+      {
+        "t": 33.37116312500439,
+        "type": "session.output_transcript.delta",
+        "delta": "行"
+      },
+      {
+        "t": 33.508452834008494,
+        "type": "session.input_transcript.delta",
+        "delta": " times"
+      },
+      {
+        "t": 33.50847691699164,
+        "type": "session.output_transcript.delta",
+        "delta": "列"
+      },
+      {
+        "t": 33.63834037500783,
+        "type": "session.output_transcript.delta",
+        "delta": "の"
+      },
+      {
+        "t": 33.83827987499535,
+        "type": "session.output_transcript.delta",
+        "delta": "計"
+      },
+      {
+        "t": 34.04098162500304,
+        "type": "session.output_transcript.delta",
+        "delta": "算"
+      },
+      {
+        "t": 34.22284841700457,
+        "type": "session.input_transcript.delta",
+        "delta": " sequence"
+      },
+      {
+        "t": 34.22596033400623,
+        "type": "session.output_transcript.delta",
+        "delta": "は"
+      },
+      {
+        "t": 34.63976200000616,
+        "type": "session.output_transcript.delta",
+        "delta": "バ"
+      },
+      {
+        "t": 34.827220417006174,
+        "type": "session.input_transcript.delta",
+        "delta": " length"
+      },
+      {
+        "t": 34.82926108399988,
+        "type": "session.output_transcript.delta",
+        "delta": "ッチ"
+      },
+      {
+        "t": 35.0113994590065,
+        "type": "session.input_transcript.delta",
+        "delta": ". Sequence"
+      },
+      {
+        "t": 35.01448487499147,
+        "type": "session.output_transcript.delta",
+        "delta": "サイズ"
+      },
+      {
+        "t": 35.43529620900517,
+        "type": "session.input_transcript.delta",
+        "delta": " length"
+      },
+      {
+        "t": 35.43803749998915,
+        "type": "session.output_transcript.delta",
+        "delta": "か"
+      },
+      {
+        "t": 35.6354030839866,
+        "type": "session.output_transcript.delta",
+        "delta": "ける"
+      },
+      {
+        "t": 35.839705499995034,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 35.84186049998971,
+        "type": "session.output_transcript.delta",
+        "delta": "シ"
+      },
+      {
+        "t": 36.02624249999644,
+        "type": "session.output_transcript.delta",
+        "delta": "ー"
+      },
+      {
+        "t": 36.375894708995475,
+        "type": "session.input_transcript.delta",
+        "delta": " be"
+      },
+      {
+        "t": 36.37592112499988,
+        "type": "session.output_transcript.delta",
+        "delta": "ケンス"
+      },
+      {
+        "t": 36.4290238340036,
+        "type": "session.output_transcript.delta",
+        "delta": "長"
+      },
+      {
+        "t": 36.61891525000101,
+        "type": "session.input_transcript.delta",
+        "delta": " maybe"
+      },
+      {
+        "t": 36.621893750008894,
+        "type": "session.output_transcript.delta",
+        "delta": "になります"
+      },
+      {
+        "t": 37.208086541999364,
+        "type": "session.input_transcript.delta",
+        "delta": " 32K"
+      },
+      {
+        "t": 37.212676291994285,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 37.429969166987576,
+        "type": "session.input_transcript.delta",
+        "delta": " in"
+      },
+      {
+        "t": 37.61889537499519,
+        "type": "session.output_transcript.delta",
+        "delta": "シ"
+      },
+      {
+        "t": 37.808853958995314,
+        "type": "session.input_transcript.delta",
+        "delta": " training"
+      },
+      {
+        "t": 38.22739091698895,
+        "type": "session.output_transcript.delta",
+        "delta": "ー"
+      },
+      {
+        "t": 38.428412749985,
+        "type": "session.output_transcript.delta",
+        "delta": "ケ"
+      },
+      {
+        "t": 38.63133391700103,
+        "type": "session.input_transcript.delta",
+        "delta": ", pre-fill"
+      },
+      {
+        "t": 38.63136125000892,
+        "type": "session.output_transcript.delta",
+        "delta": "ンス"
+      },
+      {
+        "t": 38.83800462499494,
+        "type": "session.output_transcript.delta",
+        "delta": "長は"
+      },
+      {
+        "t": 39.02940120900166,
+        "type": "session.input_transcript.delta",
+        "delta": " it"
+      },
+      {
+        "t": 39.02942274999805,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 39.43055049999384,
+        "type": "session.output_transcript.delta",
+        "delta": "ト"
+      },
+      {
+        "t": 39.63069987500785,
+        "type": "session.input_transcript.delta",
+        "delta": " maybe"
+      },
+      {
+        "t": 39.63072495898814,
+        "type": "session.output_transcript.delta",
+        "delta": "レー"
+      },
+      {
+        "t": 39.83992599998601,
+        "type": "session.output_transcript.delta",
+        "delta": "ニング"
+      },
+      {
+        "t": 40.04588616700494,
+        "type": "session.input_transcript.delta",
+        "delta": " depends"
+      },
+      {
+        "t": 40.05065166699933,
+        "type": "session.output_transcript.delta",
+        "delta": "では"
+      },
+      {
+        "t": 40.22005937498761,
+        "type": "session.input_transcript.delta",
+        "delta": " on"
+      },
+      {
+        "t": 40.22007554199081,
+        "type": "session.output_transcript.delta",
+        "delta": "32K"
+      },
+      {
+        "t": 40.447275124985026,
+        "type": "session.input_transcript.delta",
+        "delta": " your"
+      },
+      {
+        "t": 40.8469848340028,
+        "type": "session.input_transcript.delta",
+        "delta": " prompts"
+      },
+      {
+        "t": 41.02091679198202,
+        "type": "session.output_transcript.delta",
+        "delta": "程度"
+      },
+      {
+        "t": 41.44711933398503,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 41.60749620900606,
+        "type": "session.input_transcript.delta",
+        "delta": " length"
+      },
+      {
+        "t": 41.610724208992906,
+        "type": "session.output_transcript.delta",
+        "delta": "事"
+      },
+      {
+        "t": 42.00955362498644,
+        "type": "session.input_transcript.delta",
+        "delta": ". And"
+      },
+      {
+        "t": 42.01176508399658,
+        "type": "session.output_transcript.delta",
+        "delta": "前入力"
+      },
+      {
+        "t": 42.6761703339871,
+        "type": "session.input_transcript.delta",
+        "delta": " anyway, it's"
+      },
+      {
+        "t": 42.6761979169969,
+        "type": "session.output_transcript.delta",
+        "delta": "では"
+      },
+      {
+        "t": 43.06091254198691,
+        "type": "session.input_transcript.delta",
+        "delta": " larger than"
+      },
+      {
+        "t": 43.063691624993226,
+        "type": "session.output_transcript.delta",
+        "delta": "プロ"
+      },
+      {
+        "t": 43.23129062500084,
+        "type": "session.output_transcript.delta",
+        "delta": "ンプ"
+      },
+      {
+        "t": 43.44676166700083,
+        "type": "session.output_transcript.delta",
+        "delta": "ト"
+      },
+      {
+        "t": 43.66994654200971,
+        "type": "session.output_transcript.delta",
+        "delta": "の長"
+      },
+      {
+        "t": 43.85422158398433,
+        "type": "session.output_transcript.delta",
+        "delta": "さ"
+      },
+      {
+        "t": 44.037339834001614,
+        "type": "session.input_transcript.delta",
+        "delta": " one. And"
+      },
+      {
+        "t": 44.13825329198153,
+        "type": "session.output_transcript.delta",
+        "delta": "によ"
+      },
+      {
+        "t": 44.26747841699398,
+        "type": "session.output_transcript.delta",
+        "delta": "って"
+      },
+      {
+        "t": 44.4395273749833,
+        "type": "session.input_transcript.delta",
+        "delta": " then"
+      },
+      {
+        "t": 44.43955608399119,
+        "type": "session.output_transcript.delta",
+        "delta": "異"
+      },
+      {
+        "t": 44.65617295898846,
+        "type": "session.output_transcript.delta",
+        "delta": "な"
+      },
+      {
+        "t": 44.872975959006,
+        "type": "session.input_transcript.delta",
+        "delta": ", so"
+      },
+      {
+        "t": 44.875704042002326,
+        "type": "session.output_transcript.delta",
+        "delta": "ります"
+      },
+      {
+        "t": 45.079754500009585,
+        "type": "session.input_transcript.delta",
+        "delta": " the"
+      },
+      {
+        "t": 45.24730412499048,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 45.459678166982485,
+        "type": "session.input_transcript.delta",
+        "delta": " matrix"
+      },
+      {
+        "t": 45.60663395898882,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 45.83479912500479,
+        "type": "session.input_transcript.delta",
+        "delta": " be"
+      },
+      {
+        "t": 46.049157166999066,
+        "type": "session.input_transcript.delta",
+        "delta": " batch"
+      },
+      {
+        "t": 46.05165612499695,
+        "type": "session.output_transcript.delta",
+        "delta": "いず"
+      },
+      {
+        "t": 46.25514774999465,
+        "type": "session.output_transcript.delta",
+        "delta": "れに"
+      },
+      {
+        "t": 46.431129792006686,
+        "type": "session.output_transcript.delta",
+        "delta": "しても"
+      },
+      {
+        "t": 46.635065999988,
+        "type": "session.input_transcript.delta",
+        "delta": " size"
+      },
+      {
+        "t": 46.6389074169856,
+        "type": "session.output_transcript.delta",
+        "delta": "1"
+      },
+      {
+        "t": 46.822014792007394,
+        "type": "session.output_transcript.delta",
+        "delta": "より"
+      },
+      {
+        "t": 47.047970374987926,
+        "type": "session.output_transcript.delta",
+        "delta": "大"
+      },
+      {
+        "t": 47.24296241698903,
+        "type": "session.input_transcript.delta",
+        "delta": " times"
+      },
+      {
+        "t": 47.242984624987,
+        "type": "session.output_transcript.delta",
+        "delta": "き"
+      },
+      {
+        "t": 47.433310874999734,
+        "type": "session.output_transcript.delta",
+        "delta": "い値"
+      },
+      {
+        "t": 47.62488862499595,
+        "type": "session.output_transcript.delta",
+        "delta": "です"
+      },
+      {
+        "t": 48.03052687499439,
+        "type": "session.output_transcript.delta",
+        "delta": "。その"
+      },
+      {
+        "t": 48.25847733399132,
+        "type": "session.input_transcript.delta",
+        "delta": " sequence"
+      },
+      {
+        "t": 48.457699791993946,
+        "type": "session.output_transcript.delta",
+        "delta": "ため"
+      },
+      {
+        "t": 48.663295042002574,
+        "type": "session.input_transcript.delta",
+        "delta": " length"
+      },
+      {
+        "t": 48.831446583993966,
+        "type": "session.input_transcript.delta",
+        "delta": " and"
+      },
+      {
+        "t": 48.83460066700354,
+        "type": "session.output_transcript.delta",
+        "delta": "行"
+      },
+      {
+        "t": 49.04367170899059,
+        "type": "session.output_transcript.delta",
+        "delta": "列"
+      },
+      {
+        "t": 49.24937524998677,
+        "type": "session.input_transcript.delta",
+        "delta": " also"
+      },
+      {
+        "t": 49.25153154198779,
+        "type": "session.output_transcript.delta",
+        "delta": "は"
+      },
+      {
+        "t": 49.43348070900538,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 49.68235154199647,
+        "type": "session.input_transcript.delta",
+        "delta": " times"
+      },
+      {
+        "t": 49.68587099999422,
+        "type": "session.output_transcript.delta",
+        "delta": "バ"
+      },
+      {
+        "t": 49.80821391698555,
+        "type": "session.output_transcript.delta",
+        "delta": "ッチ"
+      },
+      {
+        "t": 49.92986866700812,
+        "type": "session.input_transcript.delta",
+        "delta": " your"
+      },
+      {
+        "t": 49.93218220898416,
+        "type": "session.output_transcript.delta",
+        "delta": "サイズ"
+      },
+      {
+        "t": 50.35336958398693,
+        "type": "session.output_transcript.delta",
+        "delta": "かけ"
+      },
+      {
+        "t": 50.5470975000062,
+        "type": "session.output_transcript.delta",
+        "delta": "る"
+      },
+      {
+        "t": 50.75676287498209,
+        "type": "session.output_transcript.delta",
+        "delta": "シー"
+      },
+      {
+        "t": 50.97924458398484,
+        "type": "session.output_transcript.delta",
+        "delta": "ケ"
+      },
+      {
+        "t": 51.150078999984544,
+        "type": "session.output_transcript.delta",
+        "delta": "ンス"
+      },
+      {
+        "t": 51.32919979200233,
+        "type": "session.output_transcript.delta",
+        "delta": "長"
+      },
+      {
+        "t": 51.52513283400913,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 51.71297533399775,
+        "type": "session.output_transcript.delta",
+        "delta": "さらに"
+      },
+      {
+        "t": 51.90615691698622,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 52.301743749994785,
+        "type": "session.output_transcript.delta",
+        "delta": "モデル"
+      },
+      {
+        "t": 52.7271830420068,
+        "type": "session.input_transcript.delta",
+        "delta": " dimension"
+      },
+      {
+        "t": 52.72720762499375,
+        "type": "session.output_transcript.delta",
+        "delta": "の次"
+      },
+      {
+        "t": 52.95159995899303,
+        "type": "session.output_transcript.delta",
+        "delta": "元"
+      },
+      {
+        "t": 53.186652667005546,
+        "type": "session.output_transcript.delta",
+        "delta": "数"
+      },
+      {
+        "t": 53.37359999999171,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 53.593814874999225,
+        "type": "session.output_transcript.delta",
+        "delta": "か"
+      },
+      {
+        "t": 53.80400804200326,
+        "type": "session.output_transcript.delta",
+        "delta": "け"
+      },
+      {
+        "t": 53.914710749988444,
+        "type": "session.input_transcript.delta",
+        "delta": " So"
+      },
+      {
+        "t": 53.97481670900015,
+        "type": "session.output_transcript.delta",
+        "delta": "合わせ"
+      },
+      {
+        "t": 54.145369999983814,
+        "type": "session.output_transcript.delta",
+        "delta": "た"
+      },
+      {
+        "t": 54.333596499986015,
+        "type": "session.output_transcript.delta",
+        "delta": "もの"
+      },
+      {
+        "t": 54.534231333993375,
+        "type": "session.output_transcript.delta",
+        "delta": "になります"
+      },
+      {
+        "t": 54.72293920899392,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 55.13014274998568,
+        "type": "session.input_transcript.delta",
+        "delta": " could"
+      },
+      {
+        "t": 55.135235416993964,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 55.14607512499788,
+        "type": "session.input_transcript.delta",
+        "delta": " know"
+      },
+      {
+        "t": 55.32862179199583,
+        "type": "session.input_transcript.delta",
+        "delta": " it"
+      },
+      {
+        "t": 55.64620124999783,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 56.005799959006254,
+        "type": "session.input_transcript.delta",
+        "delta": " be"
+      },
+      {
+        "t": 56.40889645900461,
+        "type": "session.input_transcript.delta",
+        "delta": "... this"
+      },
+      {
+        "t": 57.65184020900051,
+        "type": "session.input_transcript.delta",
+        "delta": " "
+      },
+      {
+        "t": 58.05096187500749,
+        "type": "session.input_transcript.delta",
+        "delta": "matrix"
+      },
+      {
+        "t": 58.25217008398613,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 58.45033016699017,
+        "type": "session.input_transcript.delta",
+        "delta": " be"
+      },
+      {
+        "t": 58.77748320900719,
+        "type": "session.input_transcript.delta",
+        "delta": " very"
+      },
+      {
+        "t": 58.953480458993,
+        "type": "session.input_transcript.delta",
+        "delta": ", very"
+      },
+      {
+        "t": 58.95741766699939,
+        "type": "session.output_transcript.delta",
+        "delta": "つまり"
+      },
+      {
+        "t": 59.10370495900861,
+        "type": "session.output_transcript.delta",
+        "delta": "、この"
+      },
+      {
+        "t": 59.43844662499032,
+        "type": "session.input_transcript.delta",
+        "delta": " large"
+      },
+      {
+        "t": 59.6296883339819,
+        "type": "session.output_transcript.delta",
+        "delta": "行"
+      },
+      {
+        "t": 59.828685749991564,
+        "type": "session.output_transcript.delta",
+        "delta": "列"
+      },
+      {
+        "t": 60.017770542006474,
+        "type": "session.output_transcript.delta",
+        "delta": "はと"
+      },
+      {
+        "t": 60.239889499993296,
+        "type": "session.input_transcript.delta",
+        "delta": " So"
+      },
+      {
+        "t": 60.446948458993575,
+        "type": "session.output_transcript.delta",
+        "delta": "ても"
+      },
+      {
+        "t": 60.634304999985034,
+        "type": "session.input_transcript.delta",
+        "delta": " it"
+      },
+      {
+        "t": 60.63432533398736,
+        "type": "session.output_transcript.delta",
+        "delta": "大"
+      },
+      {
+        "t": 60.85441741699469,
+        "type": "session.output_transcript.delta",
+        "delta": "き"
+      },
+      {
+        "t": 61.05760537498281,
+        "type": "session.output_transcript.delta",
+        "delta": "くなる"
+      },
+      {
+        "t": 61.2169061669847,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 61.22295062500052,
+        "type": "session.output_transcript.delta",
+        "delta": "こと"
+      },
+      {
+        "t": 61.4404127089947,
+        "type": "session.output_transcript.delta",
+        "delta": "が"
+      },
+      {
+        "t": 61.64100350000081,
+        "type": "session.input_transcript.delta",
+        "delta": " make"
+      },
+      {
+        "t": 61.641025458986405,
+        "type": "session.output_transcript.delta",
+        "delta": "わか"
+      },
+      {
+        "t": 61.82752487499965,
+        "type": "session.output_transcript.delta",
+        "delta": "ります"
+      },
+      {
+        "t": 62.23448008400737,
+        "type": "session.input_transcript.delta",
+        "delta": " like"
+      },
+      {
+        "t": 62.23541258400655,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 63.401628583989805,
+        "type": "session.input_transcript.delta",
+        "delta": "... it will"
+      },
+      {
+        "t": 63.59318395899027,
+        "type": "session.input_transcript.delta",
+        "delta": " make"
+      },
+      {
+        "t": 64.11283229198307,
+        "type": "session.input_transcript.delta",
+        "delta": " like"
+      },
+      {
+        "t": 64.75033170898678,
+        "type": "session.input_transcript.delta",
+        "delta": " processing"
+      },
+      {
+        "t": 64.9290884170041,
+        "type": "session.input_transcript.delta",
+        "delta": " units"
+      },
+      {
+        "t": 65.90698895900277,
+        "type": "session.input_transcript.delta",
+        "delta": " hard to"
+      },
+      {
+        "t": 66.50932916699094,
+        "type": "session.input_transcript.delta",
+        "delta": " process"
+      },
+      {
+        "t": 67.12020491700969,
+        "type": "session.input_transcript.delta",
+        "delta": " all"
+      },
+      {
+        "t": 67.73234620899893,
+        "type": "session.input_transcript.delta",
+        "delta": " this"
+      },
+      {
+        "t": 68.1144294590049,
+        "type": "session.input_transcript.delta",
+        "delta": " matrix"
+      },
+      {
+        "t": 69.22398370900191,
+        "type": "session.input_transcript.delta",
+        "delta": " computation. So"
+      },
+      {
+        "t": 69.22628841700498,
+        "type": "session.output_transcript.delta",
+        "delta": "そのため"
+      },
+      {
+        "t": 69.48342883400619,
+        "type": "session.input_transcript.delta",
+        "delta": " it"
+      },
+      {
+        "t": 69.48779654200189,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 69.64366324999719,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 69.64912208399619,
+        "type": "session.output_transcript.delta",
+        "delta": "処"
+      },
+      {
+        "t": 69.82603875000495,
+        "type": "session.output_transcript.delta",
+        "delta": "理ユ"
+      },
+      {
+        "t": 70.03071120899403,
+        "type": "session.input_transcript.delta",
+        "delta": " blocked"
+      },
+      {
+        "t": 70.03677883400815,
+        "type": "session.output_transcript.delta",
+        "delta": "ニット"
+      },
+      {
+        "t": 70.2282527500065,
+        "type": "session.output_transcript.delta",
+        "delta": "が"
+      },
+      {
+        "t": 70.41247312500491,
+        "type": "session.input_transcript.delta",
+        "delta": " by"
+      },
+      {
+        "t": 70.41249625000637,
+        "type": "session.output_transcript.delta",
+        "delta": "この"
+      },
+      {
+        "t": 71.02805587500916,
+        "type": "session.output_transcript.delta",
+        "delta": "すべ"
+      },
+      {
+        "t": 71.22941154200817,
+        "type": "session.output_transcript.delta",
+        "delta": "て"
+      },
+      {
+        "t": 71.42207433399744,
+        "type": "session.output_transcript.delta",
+        "delta": "の行"
+      },
+      {
+        "t": 71.66140374998213,
+        "type": "session.output_transcript.delta",
+        "delta": "列"
+      },
+      {
+        "t": 71.8444467090012,
+        "type": "session.output_transcript.delta",
+        "delta": "計"
+      },
+      {
+        "t": 72.03014970899676,
+        "type": "session.output_transcript.delta",
+        "delta": "算"
+      },
+      {
+        "t": 72.22825887499494,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 72.43250908399932,
+        "type": "session.output_transcript.delta",
+        "delta": "処"
+      },
+      {
+        "t": 72.6704222499975,
+        "type": "session.input_transcript.delta",
+        "delta": " computes. However"
+      },
+      {
+        "t": 72.71569474998978,
+        "type": "session.output_transcript.delta",
+        "delta": "理"
+      },
+      {
+        "t": 72.83694049998303,
+        "type": "session.output_transcript.delta",
+        "delta": "する"
+      },
+      {
+        "t": 73.02820766699733,
+        "type": "session.input_transcript.delta",
+        "delta": ", when"
+      },
+      {
+        "t": 73.03381374999299,
+        "type": "session.output_transcript.delta",
+        "delta": "のが"
+      },
+      {
+        "t": 73.29323466698406,
+        "type": "session.input_transcript.delta",
+        "delta": " we do"
+      },
+      {
+        "t": 73.29580108399387,
+        "type": "session.output_transcript.delta",
+        "delta": "難"
+      },
+      {
+        "t": 73.49469233400305,
+        "type": "session.output_transcript.delta",
+        "delta": "しく"
+      },
+      {
+        "t": 73.62923525000224,
+        "type": "session.output_transcript.delta",
+        "delta": "な"
+      },
+      {
+        "t": 73.83844729198609,
+        "type": "session.output_transcript.delta",
+        "delta": "り"
+      },
+      {
+        "t": 74.05901141700451,
+        "type": "session.input_transcript.delta",
+        "delta": " decoding"
+      },
+      {
+        "t": 74.06221245898632,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 74.48471408398473,
+        "type": "session.output_transcript.delta",
+        "delta": "計"
+      },
+      {
+        "t": 74.72065487498185,
+        "type": "session.output_transcript.delta",
+        "delta": "算"
+      },
+      {
+        "t": 74.86665408400586,
+        "type": "session.output_transcript.delta",
+        "delta": "能力"
+      },
+      {
+        "t": 74.99038354199729,
+        "type": "session.input_transcript.delta",
+        "delta": " When"
+      },
+      {
+        "t": 75.12754991700058,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 75.12996441699215,
+        "type": "session.output_transcript.delta",
+        "delta": "が"
+      },
+      {
+        "t": 75.3445880000072,
+        "type": "session.input_transcript.delta",
+        "delta": " do"
+      },
+      {
+        "t": 75.34461254198686,
+        "type": "session.output_transcript.delta",
+        "delta": "ボト"
+      },
+      {
+        "t": 75.53582550000283,
+        "type": "session.output_transcript.delta",
+        "delta": "ルネ"
+      },
+      {
+        "t": 75.7446740840096,
+        "type": "session.output_transcript.delta",
+        "delta": "ック"
+      },
+      {
+        "t": 75.97287233400857,
+        "type": "session.output_transcript.delta",
+        "delta": "になります"
+      },
+      {
+        "t": 76.43487033399288,
+        "type": "session.input_transcript.delta",
+        "delta": " decoding, because"
+      },
+      {
+        "t": 76.62921512499452,
+        "type": "session.output_transcript.delta",
+        "delta": "。しかし"
+      },
+      {
+        "t": 76.70691350000561,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 77.34348704200238,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 77.53508604198578,
+        "type": "session.input_transcript.delta",
+        "delta": " generate the"
+      },
+      {
+        "t": 77.54254845899413,
+        "type": "session.output_transcript.delta",
+        "delta": "デ"
+      },
+      {
+        "t": 77.73653204200673,
+        "type": "session.output_transcript.delta",
+        "delta": "コ"
+      },
+      {
+        "t": 77.93016737498692,
+        "type": "session.output_transcript.delta",
+        "delta": "ーデ"
+      },
+      {
+        "t": 78.19925454200711,
+        "type": "session.input_transcript.delta",
+        "delta": " token"
+      },
+      {
+        "t": 78.20157733399537,
+        "type": "session.output_transcript.delta",
+        "delta": "ィング"
+      },
+      {
+        "t": 78.321935999993,
+        "type": "session.output_transcript.delta",
+        "delta": "を行"
+      },
+      {
+        "t": 78.52274700000999,
+        "type": "session.input_transcript.delta",
+        "delta": " one by"
+      },
+      {
+        "t": 78.71759666700382,
+        "type": "session.output_transcript.delta",
+        "delta": "う場合"
+      },
+      {
+        "t": 79.13918816699879,
+        "type": "session.output_transcript.delta",
+        "delta": "は"
+      },
+      {
+        "t": 79.32902204198763,
+        "type": "session.input_transcript.delta",
+        "delta": " one. So"
+      },
+      {
+        "t": 79.3337398339936,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 79.53930420899997,
+        "type": "session.output_transcript.delta",
+        "delta": "ト"
+      },
+      {
+        "t": 79.72615529200993,
+        "type": "session.output_transcript.delta",
+        "delta": "ーク"
+      },
+      {
+        "t": 79.93664283398539,
+        "type": "session.input_transcript.delta",
+        "delta": " matrix"
+      },
+      {
+        "t": 79.94041966699297,
+        "type": "session.output_transcript.delta",
+        "delta": "ンを"
+      },
+      {
+        "t": 80.19907666699146,
+        "type": "session.output_transcript.delta",
+        "delta": "一"
+      },
+      {
+        "t": 80.35061041699373,
+        "type": "session.output_transcript.delta",
+        "delta": "つ"
+      },
+      {
+        "t": 80.54393749998417,
+        "type": "session.output_transcript.delta",
+        "delta": "ず"
+      },
+      {
+        "t": 80.7252422090096,
+        "type": "session.output_transcript.delta",
+        "delta": "つ生成"
+      },
+      {
+        "t": 80.92964091699105,
+        "type": "session.input_transcript.delta",
+        "delta": " operations"
+      },
+      {
+        "t": 81.14378916699206,
+        "type": "session.input_transcript.delta",
+        "delta": " will be"
+      },
+      {
+        "t": 81.14694599999348,
+        "type": "session.output_transcript.delta",
+        "delta": "する"
+      },
+      {
+        "t": 81.3883010839927,
+        "type": "session.output_transcript.delta",
+        "delta": "ので"
+      },
+      {
+        "t": 81.58012862500618,
+        "type": "session.input_transcript.delta",
+        "delta": " batch"
+      },
+      {
+        "t": 81.77977562500746,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 81.90134095898247,
+        "type": "session.output_transcript.delta",
+        "delta": "行"
+      },
+      {
+        "t": 82.33441466698423,
+        "type": "session.input_transcript.delta",
+        "delta": " size"
+      },
+      {
+        "t": 82.34065783399274,
+        "type": "session.output_transcript.delta",
+        "delta": "列"
+      },
+      {
+        "t": 82.53665095899487,
+        "type": "session.output_transcript.delta",
+        "delta": "演"
+      },
+      {
+        "t": 82.73166604200378,
+        "type": "session.output_transcript.delta",
+        "delta": "算"
+      },
+      {
+        "t": 82.93267366700456,
+        "type": "session.output_transcript.delta",
+        "delta": "は"
+      },
+      {
+        "t": 83.14157691699802,
+        "type": "session.output_transcript.delta",
+        "delta": "バ"
+      },
+      {
+        "t": 83.32747370898142,
+        "type": "session.output_transcript.delta",
+        "delta": "ッチ"
+      },
+      {
+        "t": 83.72836658399319,
+        "type": "session.output_transcript.delta",
+        "delta": "サイズ"
+      },
+      {
+        "t": 83.93176137498813,
+        "type": "session.input_transcript.delta",
+        "delta": " times"
+      },
+      {
+        "t": 84.00605900000664,
+        "type": "session.output_transcript.delta",
+        "delta": "か"
+      },
+      {
+        "t": 84.12823362500058,
+        "type": "session.output_transcript.delta",
+        "delta": "ける"
+      },
+      {
+        "t": 84.31571687498945,
+        "type": "session.input_transcript.delta",
+        "delta": " sequence"
+      },
+      {
+        "t": 84.31814374998794,
+        "type": "session.output_transcript.delta",
+        "delta": "..."
+      },
+      {
+        "t": 84.70200491699507,
+        "type": "session.input_transcript.delta",
+        "delta": " length"
+      },
+      {
+        "t": 85.15208500000881,
+        "type": "session.input_transcript.delta",
+        "delta": ". And"
+      },
+      {
+        "t": 85.23035233400878,
+        "type": "session.output_transcript.delta",
+        "delta": "とな"
+      },
+      {
+        "t": 85.36135262498283,
+        "type": "session.input_transcript.delta",
+        "delta": " sequence"
+      },
+      {
+        "t": 85.3808963339834,
+        "type": "session.output_transcript.delta",
+        "delta": "ります"
+      },
+      {
+        "t": 85.52995237498544,
+        "type": "session.input_transcript.delta",
+        "delta": " length"
+      },
+      {
+        "t": 85.73149883400765,
+        "type": "session.input_transcript.delta",
+        "delta": " is"
+      },
+      {
+        "t": 85.73152437500539,
+        "type": "session.output_transcript.delta",
+        "delta": "。そして"
+      },
+      {
+        "t": 85.9017260420078,
+        "type": "session.input_transcript.delta",
+        "delta": " only"
+      },
+      {
+        "t": 86.78666754200822,
+        "type": "session.output_transcript.delta",
+        "delta": "シ"
+      },
+      {
+        "t": 86.9409283749992,
+        "type": "session.input_transcript.delta",
+        "delta": " one, and"
+      },
+      {
+        "t": 87.0466602089873,
+        "type": "session.output_transcript.delta",
+        "delta": "ー"
+      },
+      {
+        "t": 87.1506205839978,
+        "type": "session.output_transcript.delta",
+        "delta": "ケ"
+      },
+      {
+        "t": 87.32059941699845,
+        "type": "session.output_transcript.delta",
+        "delta": "ンス"
+      },
+      {
+        "t": 87.52245854199282,
+        "type": "session.input_transcript.delta",
+        "delta": " times"
+      },
+      {
+        "t": 87.52767270899494,
+        "type": "session.output_transcript.delta",
+        "delta": "長は"
+      },
+      {
+        "t": 87.73981833399739,
+        "type": "session.output_transcript.delta",
+        "delta": "1"
+      },
+      {
+        "t": 87.94198408399825,
+        "type": "session.output_transcript.delta",
+        "delta": "つ"
+      },
+      {
+        "t": 88.15573708398733,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 88.15855979200569,
+        "type": "session.output_transcript.delta",
+        "delta": "だけ"
+      },
+      {
+        "t": 88.38206016700133,
+        "type": "session.output_transcript.delta",
+        "delta": "で"
+      },
+      {
+        "t": 88.50385375000769,
+        "type": "session.output_transcript.delta",
+        "delta": "、それ"
+      },
+      {
+        "t": 88.74001916698762,
+        "type": "session.input_transcript.delta",
+        "delta": " dimension"
+      },
+      {
+        "t": 88.93522849999135,
+        "type": "session.output_transcript.delta",
+        "delta": "に"
+      },
+      {
+        "t": 89.11129349999828,
+        "type": "session.output_transcript.delta",
+        "delta": "モデル"
+      },
+      {
+        "t": 89.52961095899809,
+        "type": "session.input_transcript.delta",
+        "delta": " And"
+      },
+      {
+        "t": 89.53233683400322,
+        "type": "session.output_transcript.delta",
+        "delta": "の"
+      },
+      {
+        "t": 89.7179264590086,
+        "type": "session.input_transcript.delta",
+        "delta": " then"
+      },
+      {
+        "t": 89.72523562499555,
+        "type": "session.output_transcript.delta",
+        "delta": "次"
+      },
+      {
+        "t": 89.9294463749975,
+        "type": "session.output_transcript.delta",
+        "delta": "元数"
+      },
+      {
+        "t": 90.13574374999735,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 90.34176949999528,
+        "type": "session.output_transcript.delta",
+        "delta": "か"
+      },
+      {
+        "t": 90.52734579198295,
+        "type": "session.output_transcript.delta",
+        "delta": "けます"
+      },
+      {
+        "t": 91.17497991700657,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 91.28179375000764,
+        "type": "session.input_transcript.delta",
+        "delta": " because"
+      },
+      {
+        "t": 91.85681983400718,
+        "type": "session.input_transcript.delta",
+        "delta": " sequence length"
+      },
+      {
+        "t": 92.01298458399833,
+        "type": "session.input_transcript.delta",
+        "delta": " is"
+      },
+      {
+        "t": 92.64690766698914,
+        "type": "session.input_transcript.delta",
+        "delta": " one, so"
+      },
+      {
+        "t": 92.818050959002,
+        "type": "session.input_transcript.delta",
+        "delta": " the"
+      },
+      {
+        "t": 93.47599549998995,
+        "type": "session.input_transcript.delta",
+        "delta": " compute"
+      },
+      {
+        "t": 93.69295699999202,
+        "type": "session.input_transcript.delta",
+        "delta": " is"
+      },
+      {
+        "t": 93.91109599999618,
+        "type": "session.input_transcript.delta",
+        "delta": " very, very"
+      },
+      {
+        "t": 94.52224962500622,
+        "type": "session.input_transcript.delta",
+        "delta": ", very"
+      },
+      {
+        "t": 95.03996075000032,
+        "type": "session.output_transcript.delta",
+        "delta": "シ"
+      },
+      {
+        "t": 95.22945174999768,
+        "type": "session.output_transcript.delta",
+        "delta": "ーケ"
+      },
+      {
+        "t": 95.45987545899698,
+        "type": "session.output_transcript.delta",
+        "delta": "ンス"
+      },
+      {
+        "t": 95.64679929200793,
+        "type": "session.output_transcript.delta",
+        "delta": "長"
+      },
+      {
+        "t": 95.8516722919885,
+        "type": "session.output_transcript.delta",
+        "delta": "が1"
+      },
+      {
+        "t": 96.02929224999389,
+        "type": "session.input_transcript.delta",
+        "delta": " cheap. So"
+      },
+      {
+        "t": 96.08164724998642,
+        "type": "session.output_transcript.delta",
+        "delta": "なので"
+      },
+      {
+        "t": 96.26121174998116,
+        "type": "session.input_transcript.delta",
+        "delta": " at"
+      },
+      {
+        "t": 96.42976162498235,
+        "type": "session.output_transcript.delta",
+        "delta": "計"
+      },
+      {
+        "t": 96.63726741698338,
+        "type": "session.input_transcript.delta",
+        "delta": " this"
+      },
+      {
+        "t": 96.84545337499003,
+        "type": "session.output_transcript.delta",
+        "delta": "算"
+      },
+      {
+        "t": 97.05824045900954,
+        "type": "session.output_transcript.delta",
+        "delta": "量"
+      },
+      {
+        "t": 97.26267516700318,
+        "type": "session.output_transcript.delta",
+        "delta": "がと"
+      },
+      {
+        "t": 97.43838766700355,
+        "type": "session.input_transcript.delta",
+        "delta": " time"
+      },
+      {
+        "t": 97.44204799999716,
+        "type": "session.output_transcript.delta",
+        "delta": "ても"
+      },
+      {
+        "t": 97.6503177919949,
+        "type": "session.output_transcript.delta",
+        "delta": "少"
+      },
+      {
+        "t": 97.83194641699083,
+        "type": "session.output_transcript.delta",
+        "delta": "なく"
+      },
+      {
+        "t": 98.06179924999014,
+        "type": "session.output_transcript.delta",
+        "delta": "な"
+      },
+      {
+        "t": 98.20578354198369,
+        "type": "session.input_transcript.delta",
+        "delta": ", at"
+      },
+      {
+        "t": 98.2092213339929,
+        "type": "session.output_transcript.delta",
+        "delta": "ります"
+      },
+      {
+        "t": 98.60224512498826,
+        "type": "session.input_transcript.delta",
+        "delta": " this"
+      },
+      {
+        "t": 98.60525249998318,
+        "type": "session.output_transcript.delta",
+        "delta": "。この"
+      },
+      {
+        "t": 99.4297017089848,
+        "type": "session.input_transcript.delta",
+        "delta": " time, the"
+      },
+      {
+        "t": 99.6268493339885,
+        "type": "session.output_transcript.delta",
+        "delta": "時"
+      },
+      {
+        "t": 99.91589387500426,
+        "type": "session.input_transcript.delta",
+        "delta": " block"
+      },
+      {
+        "t": 99.91592075000517,
+        "type": "session.output_transcript.delta",
+        "delta": "点"
+      },
+      {
+        "t": 100.0345999999845,
+        "type": "session.output_transcript.delta",
+        "delta": "では"
+      },
+      {
+        "t": 100.21196837499156,
+        "type": "session.input_transcript.delta",
+        "delta": " is"
+      },
+      {
+        "t": 100.21429112498299,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 100.63697120899451,
+        "type": "session.input_transcript.delta",
+        "delta": " not"
+      },
+      {
+        "t": 100.63899483400746,
+        "type": "session.output_transcript.delta",
+        "delta": "ボ"
+      },
+      {
+        "t": 100.85701829200843,
+        "type": "session.output_transcript.delta",
+        "delta": "トル"
+      },
+      {
+        "t": 101.32882258400787,
+        "type": "session.output_transcript.delta",
+        "delta": "ネ"
+      },
+      {
+        "t": 101.3401532919961,
+        "type": "session.output_transcript.delta",
+        "delta": "ック"
+      },
+      {
+        "t": 101.5023673340038,
+        "type": "session.output_transcript.delta",
+        "delta": "は計"
+      },
+      {
+        "t": 101.64504954198492,
+        "type": "session.input_transcript.delta",
+        "delta": " compute, is"
+      },
+      {
+        "t": 101.88079362499411,
+        "type": "session.output_transcript.delta",
+        "delta": "算"
+      },
+      {
+        "t": 102.0667252499843,
+        "type": "session.input_transcript.delta",
+        "delta": " memory"
+      },
+      {
+        "t": 102.07598183400114,
+        "type": "session.output_transcript.delta",
+        "delta": "では"
+      },
+      {
+        "t": 102.32639804200153,
+        "type": "session.output_transcript.delta",
+        "delta": "なく"
+      },
+      {
+        "t": 102.4031642919872,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 102.5356899589824,
+        "type": "session.input_transcript.delta",
+        "delta": " bandwidth"
+      },
+      {
+        "t": 102.74223050000728,
+        "type": "session.output_transcript.delta",
+        "delta": "メ"
+      },
+      {
+        "t": 102.95037366700126,
+        "type": "session.input_transcript.delta",
+        "delta": " The"
+      },
+      {
+        "t": 102.96073287498439,
+        "type": "session.output_transcript.delta",
+        "delta": "モ"
+      },
+      {
+        "t": 103.12901291699382,
+        "type": "session.output_transcript.delta",
+        "delta": "リ帯"
+      },
+      {
+        "t": 103.32488387500052,
+        "type": "session.output_transcript.delta",
+        "delta": "域"
+      },
+      {
+        "t": 103.51699329199619,
+        "type": "session.input_transcript.delta",
+        "delta": " most"
+      },
+      {
+        "t": 103.51968745898921,
+        "type": "session.output_transcript.delta",
+        "delta": "になります"
+      },
+      {
+        "t": 104.12035016700975,
+        "type": "session.input_transcript.delta",
+        "delta": " time"
+      },
+      {
+        "t": 104.1225539589941,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 104.30533529198146,
+        "type": "session.output_transcript.delta",
+        "delta": "ほ"
+      },
+      {
+        "t": 105.1340151669865,
+        "type": "session.input_transcript.delta",
+        "delta": " the"
+      },
+      {
+        "t": 105.3409298339975,
+        "type": "session.input_transcript.delta",
+        "delta": " most"
+      },
+      {
+        "t": 105.34504237500369,
+        "type": "session.output_transcript.delta",
+        "delta": "とん"
+      },
+      {
+        "t": 105.52512495900737,
+        "type": "session.output_transcript.delta",
+        "delta": "どの"
+      },
+      {
+        "t": 105.73872970900265,
+        "type": "session.output_transcript.delta",
+        "delta": "時間"
+      },
+      {
+        "t": 105.92574358399725,
+        "type": "session.input_transcript.delta",
+        "delta": " time"
+      },
+      {
+        "t": 105.92894795900793,
+        "type": "session.output_transcript.delta",
+        "delta": "は"
+      },
+      {
+        "t": 106.1033895839937,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 106.30639379200875,
+        "type": "session.input_transcript.delta",
+        "delta": " during the"
+      },
+      {
+        "t": 106.94724804200814,
+        "type": "session.input_transcript.delta",
+        "delta": " serving"
+      },
+      {
+        "t": 107.18002066700137,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 107.1879979170044,
+        "type": "session.output_transcript.delta",
+        "delta": "推"
+      },
+      {
+        "t": 107.34022262500366,
+        "type": "session.input_transcript.delta",
+        "delta": " be"
+      },
+      {
+        "t": 107.34250983400852,
+        "type": "session.output_transcript.delta",
+        "delta": "論"
+      },
+      {
+        "t": 107.54896770900814,
+        "type": "session.output_transcript.delta",
+        "delta": "時"
+      },
+      {
+        "t": 107.73170687499805,
+        "type": "session.input_transcript.delta",
+        "delta": " like"
+      },
+      {
+        "t": 107.73388300000806,
+        "type": "session.output_transcript.delta",
+        "delta": "には"
+      },
+      {
+        "t": 108.2450359170034,
+        "type": "session.input_transcript.delta",
+        "delta": " moving"
+      },
+      {
+        "t": 108.73067012499087,
+        "type": "session.input_transcript.delta",
+        "delta": " weight"
+      },
+      {
+        "t": 108.96240762498928,
+        "type": "session.output_transcript.delta",
+        "delta": "ウェ"
+      },
+      {
+        "t": 109.17186375000165,
+        "type": "session.output_transcript.delta",
+        "delta": "イト"
+      },
+      {
+        "t": 109.33610449999105,
+        "type": "session.input_transcript.delta",
+        "delta": " from"
+      },
+      {
+        "t": 109.33612912500394,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 110.82785041700117,
+        "type": "session.input_transcript.delta",
+        "delta": " your memory"
+      },
+      {
+        "t": 111.23416729198652,
+        "type": "session.input_transcript.delta",
+        "delta": " to"
+      },
+      {
+        "t": 111.81151295898599,
+        "type": "session.input_transcript.delta",
+        "delta": " processing"
+      },
+      {
+        "t": 112.95194633398205,
+        "type": "session.input_transcript.delta",
+        "delta": " units. In"
+      },
+      {
+        "t": 112.95425983399036,
+        "type": "session.output_transcript.delta",
+        "delta": "メモ"
+      },
+      {
+        "t": 113.36870099999942,
+        "type": "session.input_transcript.delta",
+        "delta": " this"
+      },
+      {
+        "t": 113.37068529200042,
+        "type": "session.output_transcript.delta",
+        "delta": "リ"
+      },
+      {
+        "t": 113.4952315420087,
+        "type": "session.output_transcript.delta",
+        "delta": "から"
+      },
+      {
+        "t": 113.62562375000562,
+        "type": "session.output_transcript.delta",
+        "delta": "処"
+      },
+      {
+        "t": 113.76249649998499,
+        "type": "session.input_transcript.delta",
+        "delta": " stage, we"
+      },
+      {
+        "t": 113.7647248749854,
+        "type": "session.output_transcript.delta",
+        "delta": "理"
+      },
+      {
+        "t": 113.94627349998336,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 113.97495858400362,
+        "type": "session.output_transcript.delta",
+        "delta": "ユニ"
+      },
+      {
+        "t": 114.12769208400277,
+        "type": "session.input_transcript.delta",
+        "delta": " call"
+      },
+      {
+        "t": 114.13060108400532,
+        "type": "session.output_transcript.delta",
+        "delta": "ット"
+      },
+      {
+        "t": 114.3345287090051,
+        "type": "session.input_transcript.delta",
+        "delta": " it"
+      },
+      {
+        "t": 114.34051229199395,
+        "type": "session.output_transcript.delta",
+        "delta": "へと"
+      },
+      {
+        "t": 114.51899158398737,
+        "type": "session.output_transcript.delta",
+        "delta": "移"
+      },
+      {
+        "t": 114.93905908399029,
+        "type": "session.output_transcript.delta",
+        "delta": "動"
+      },
+      {
+        "t": 114.96959695901023,
+        "type": "session.input_transcript.delta",
+        "delta": " memory"
+      },
+      {
+        "t": 114.97631237498717,
+        "type": "session.output_transcript.delta",
+        "delta": "さ"
+      },
+      {
+        "t": 115.11540470900945,
+        "type": "session.output_transcript.delta",
+        "delta": "せる"
+      },
+      {
+        "t": 115.24050654200255,
+        "type": "session.input_transcript.delta",
+        "delta": " bound"
+      },
+      {
+        "t": 115.24053104198538,
+        "type": "session.output_transcript.delta",
+        "delta": "こと"
+      },
+      {
+        "t": 115.44598583399784,
+        "type": "session.output_transcript.delta",
+        "delta": "になります"
+      },
+      {
+        "t": 115.81462241700501,
+        "type": "session.output_transcript.delta",
+        "delta": "。この"
+      },
+      {
+        "t": 116.84736254200106,
+        "type": "session.output_transcript.delta",
+        "delta": "段"
+      },
+      {
+        "t": 117.00692408400937,
+        "type": "session.output_transcript.delta",
+        "delta": "階"
+      },
+      {
+        "t": 117.41249716700986,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 117.82500562499627,
+        "type": "session.output_transcript.delta",
+        "delta": "メ"
+      },
+      {
+        "t": 118.03331791699748,
+        "type": "session.output_transcript.delta",
+        "delta": "モリ"
+      },
+      {
+        "t": 118.25582616700558,
+        "type": "session.input_transcript.delta",
+        "delta": " Um"
+      },
+      {
+        "t": 118.32260858398513,
+        "type": "session.output_transcript.delta",
+        "delta": "バ"
+      },
+      {
+        "t": 118.42765554200741,
+        "type": "session.output_transcript.delta",
+        "delta": "ウンド"
+      },
+      {
+        "t": 118.6464342919935,
+        "type": "session.output_transcript.delta",
+        "delta": "と呼"
+      },
+      {
+        "t": 118.87968516699038,
+        "type": "session.output_transcript.delta",
+        "delta": "び"
+      },
+      {
+        "t": 119.0692411249911,
+        "type": "session.output_transcript.delta",
+        "delta": "ます"
+      },
+      {
+        "t": 119.21765183398384,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 120.76457295898581,
+        "type": "session.input_transcript.delta",
+        "delta": " Okay"
+      },
+      {
+        "t": 121.31196979200467,
+        "type": "session.input_transcript.delta",
+        "delta": ", so"
+      },
+      {
+        "t": 121.95324599999003,
+        "type": "session.input_transcript.delta",
+        "delta": " currently"
+      },
+      {
+        "t": 122.1158454589895,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 122.54514112498146,
+        "type": "session.input_transcript.delta",
+        "delta": " know"
+      },
+      {
+        "t": 123.15565437500481,
+        "type": "session.input_transcript.delta",
+        "delta": " what"
+      },
+      {
+        "t": 123.31128404199262,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 123.83059670898365,
+        "type": "session.output_transcript.delta",
+        "delta": "さて"
+      },
+      {
+        "t": 124.01102887498564,
+        "type": "session.input_transcript.delta",
+        "delta": " care"
+      },
+      {
+        "t": 124.01522766699782,
+        "type": "session.output_transcript.delta",
+        "delta": "、では"
+      },
+      {
+        "t": 124.21841974998824,
+        "type": "session.input_transcript.delta",
+        "delta": " about"
+      },
+      {
+        "t": 124.44379779198789,
+        "type": "session.output_transcript.delta",
+        "delta": "現"
+      },
+      {
+        "t": 124.82187537499703,
+        "type": "session.input_transcript.delta",
+        "delta": " language"
+      },
+      {
+        "t": 124.84508537498186,
+        "type": "session.output_transcript.delta",
+        "delta": "時"
+      },
+      {
+        "t": 125.1165700420097,
+        "type": "session.output_transcript.delta",
+        "delta": "点"
+      },
+      {
+        "t": 125.29085216700332,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 125.3448989999888,
+        "type": "session.output_transcript.delta",
+        "delta": "で"
+      },
+      {
+        "t": 125.39083237500745,
+        "type": "session.output_transcript.delta",
+        "delta": "言"
+      },
+      {
+        "t": 125.81262275000336,
+        "type": "session.input_transcript.delta",
+        "delta": " efficiency. That's"
+      },
+      {
+        "t": 126.07442129199626,
+        "type": "session.input_transcript.delta",
+        "delta": " like"
+      },
+      {
+        "t": 126.70848870900227,
+        "type": "session.output_transcript.delta",
+        "delta": "語モデル"
+      },
+      {
+        "t": 127.0430908749986,
+        "type": "session.input_transcript.delta",
+        "delta": " "
+      },
+      {
+        "t": 127.11441204199218,
+        "type": "session.output_transcript.delta",
+        "delta": "の効"
+      },
+      {
+        "t": 127.330971458985,
+        "type": "session.output_transcript.delta",
+        "delta": "率"
+      },
+      {
+        "t": 127.52957529199193,
+        "type": "session.input_transcript.delta",
+        "delta": "latency"
+      },
+      {
+        "t": 127.53213608398801,
+        "type": "session.output_transcript.delta",
+        "delta": "に"
+      },
+      {
+        "t": 127.7023859169858,
+        "type": "session.input_transcript.delta",
+        "delta": " and"
+      },
+      {
+        "t": 127.70928387498134,
+        "type": "session.output_transcript.delta",
+        "delta": "関"
+      },
+      {
+        "t": 128.1261070839828,
+        "type": "session.output_transcript.delta",
+        "delta": "して"
+      },
+      {
+        "t": 128.32266645898926,
+        "type": "session.output_transcript.delta",
+        "delta": "私"
+      },
+      {
+        "t": 128.5156366250012,
+        "type": "session.input_transcript.delta",
+        "delta": " throughput"
+      },
+      {
+        "t": 128.5156622089853,
+        "type": "session.output_transcript.delta",
+        "delta": "た"
+      },
+      {
+        "t": 128.7300573340035,
+        "type": "session.output_transcript.delta",
+        "delta": "ちが"
+      },
+      {
+        "t": 128.9274059169984,
+        "type": "session.input_transcript.delta",
+        "delta": " And we"
+      },
+      {
+        "t": 128.9299731249921,
+        "type": "session.output_transcript.delta",
+        "delta": "重"
+      },
+      {
+        "t": 129.13391241698992,
+        "type": "session.output_transcript.delta",
+        "delta": "視"
+      },
+      {
+        "t": 129.33131395900273,
+        "type": "session.input_transcript.delta",
+        "delta": " know"
+      },
+      {
+        "t": 129.33413124998333,
+        "type": "session.output_transcript.delta",
+        "delta": "している"
+      },
+      {
+        "t": 129.5221140839858,
+        "type": "session.input_transcript.delta",
+        "delta": " for"
+      },
+      {
+        "t": 129.5252679999976,
+        "type": "session.output_transcript.delta",
+        "delta": "の"
+      },
+      {
+        "t": 129.71519766698475,
+        "type": "session.output_transcript.delta",
+        "delta": "は"
+      },
+      {
+        "t": 129.91329420899274,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 130.11604583400185,
+        "type": "session.input_transcript.delta",
+        "delta": " different"
+      },
+      {
+        "t": 130.12389341698145,
+        "type": "session.output_transcript.delta",
+        "delta": "レ"
+      },
+      {
+        "t": 130.3249665419862,
+        "type": "session.output_transcript.delta",
+        "delta": "イ"
+      },
+      {
+        "t": 130.54017891699914,
+        "type": "session.input_transcript.delta",
+        "delta": " language"
+      },
+      {
+        "t": 130.54296724998858,
+        "type": "session.output_transcript.delta",
+        "delta": "テン"
+      },
+      {
+        "t": 130.72803237498738,
+        "type": "session.output_transcript.delta",
+        "delta": "シー"
+      },
+      {
+        "t": 130.91347524998127,
+        "type": "session.output_transcript.delta",
+        "delta": "と"
+      },
+      {
+        "t": 131.12008824999793,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 131.12456183400354,
+        "type": "session.output_transcript.delta",
+        "delta": "ス"
+      },
+      {
+        "t": 131.33005454199156,
+        "type": "session.output_transcript.delta",
+        "delta": "ル"
+      },
+      {
+        "t": 131.5140256669838,
+        "type": "session.output_transcript.delta",
+        "delta": "ープ"
+      },
+      {
+        "t": 131.7159620419843,
+        "type": "session.output_transcript.delta",
+        "delta": "ット"
+      },
+      {
+        "t": 131.91676220900263,
+        "type": "session.output_transcript.delta",
+        "delta": "です"
+      },
+      {
+        "t": 132.30924083400168,
+        "type": "session.output_transcript.delta",
+        "delta": "。そして"
+      },
+      {
+        "t": 132.49413558398373,
+        "type": "session.input_transcript.delta",
+        "delta": ", so"
+      },
+      {
+        "t": 133.15746395898168,
+        "type": "session.input_transcript.delta",
+        "delta": " stage"
+      },
+      {
+        "t": 133.7385730840033,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 133.7407726669917,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 133.93924700000207,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 133.94239700000617,
+        "type": "session.output_transcript.delta",
+        "delta": "異"
+      },
+      {
+        "t": 134.14004804199794,
+        "type": "session.output_transcript.delta",
+        "delta": "なる"
+      },
+      {
+        "t": 134.32022095899447,
+        "type": "session.input_transcript.delta",
+        "delta": " blocked"
+      },
+      {
+        "t": 134.320234874991,
+        "type": "session.output_transcript.delta",
+        "delta": "言"
+      },
+      {
+        "t": 134.51920291699935,
+        "type": "session.input_transcript.delta",
+        "delta": " by"
+      },
+      {
+        "t": 134.52340224999352,
+        "type": "session.output_transcript.delta",
+        "delta": "語"
+      },
+      {
+        "t": 134.72444429199095,
+        "type": "session.output_transcript.delta",
+        "delta": "モデル"
+      },
+      {
+        "t": 134.92334337500506,
+        "type": "session.input_transcript.delta",
+        "delta": " what"
+      },
+      {
+        "t": 134.92566554198856,
+        "type": "session.output_transcript.delta",
+        "delta": "ご"
+      },
+      {
+        "t": 135.1290049169911,
+        "type": "session.output_transcript.delta",
+        "delta": "と"
+      },
+      {
+        "t": 135.32075124999392,
+        "type": "session.input_transcript.delta",
+        "delta": "? Like"
+      },
+      {
+        "t": 135.32414283399703,
+        "type": "session.output_transcript.delta",
+        "delta": "に"
+      },
+      {
+        "t": 135.57789145899005,
+        "type": "session.input_transcript.delta",
+        "delta": " in"
+      },
+      {
+        "t": 135.581035124982,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 135.7626019169984,
+        "type": "session.output_transcript.delta",
+        "delta": "ど"
+      },
+      {
+        "t": 135.97262508398853,
+        "type": "session.output_transcript.delta",
+        "delta": "の段"
+      },
+      {
+        "t": 136.12352850000025,
+        "type": "session.input_transcript.delta",
+        "delta": " pre-fill and"
+      },
+      {
+        "t": 136.12458287499612,
+        "type": "session.output_transcript.delta",
+        "delta": "階"
+      },
+      {
+        "t": 136.324204250006,
+        "type": "session.output_transcript.delta",
+        "delta": "で"
+      },
+      {
+        "t": 136.52524095898843,
+        "type": "session.output_transcript.delta",
+        "delta": "何"
+      },
+      {
+        "t": 136.6975572090014,
+        "type": "session.input_transcript.delta",
+        "delta": " training"
+      },
+      {
+        "t": 136.70460933400318,
+        "type": "session.output_transcript.delta",
+        "delta": "によ"
+      },
+      {
+        "t": 136.9224677089951,
+        "type": "session.input_transcript.delta",
+        "delta": ", we are"
+      },
+      {
+        "t": 137.11386662500445,
+        "type": "session.output_transcript.delta",
+        "delta": "って"
+      },
+      {
+        "t": 137.3192524589831,
+        "type": "session.input_transcript.delta",
+        "delta": " blocked"
+      },
+      {
+        "t": 137.32699112500995,
+        "type": "session.output_transcript.delta",
+        "delta": "ボ"
+      },
+      {
+        "t": 137.50921841699164,
+        "type": "session.output_transcript.delta",
+        "delta": "トル"
+      },
+      {
+        "t": 137.7283513339935,
+        "type": "session.input_transcript.delta",
+        "delta": " by"
+      },
+      {
+        "t": 137.728377499996,
+        "type": "session.output_transcript.delta",
+        "delta": "ネック"
+      },
+      {
+        "t": 137.91897679198883,
+        "type": "session.output_transcript.delta",
+        "delta": "が"
+      },
+      {
+        "t": 138.12025204199017,
+        "type": "session.output_transcript.delta",
+        "delta": "生"
+      },
+      {
+        "t": 138.32339541698457,
+        "type": "session.output_transcript.delta",
+        "delta": "じる"
+      },
+      {
+        "t": 138.511366583989,
+        "type": "session.output_transcript.delta",
+        "delta": "ので"
+      },
+      {
+        "t": 138.7196402089903,
+        "type": "session.output_transcript.delta",
+        "delta": "しょう"
+      },
+      {
+        "t": 138.91308199998457,
+        "type": "session.input_transcript.delta",
+        "delta": " computes. And"
+      },
+      {
+        "t": 138.99035220898804,
+        "type": "session.output_transcript.delta",
+        "delta": "か"
+      },
+      {
+        "t": 139.12321575000533,
+        "type": "session.output_transcript.delta",
+        "delta": "?"
+      },
+      {
+        "t": 139.4996635419957,
+        "type": "session.input_transcript.delta",
+        "delta": " in"
+      },
+      {
+        "t": 139.50216287499643,
+        "type": "session.output_transcript.delta",
+        "delta": "事"
+      },
+      {
+        "t": 140.11925849999534,
+        "type": "session.output_transcript.delta",
+        "delta": "前"
+      },
+      {
+        "t": 140.3149215419835,
+        "type": "session.output_transcript.delta",
+        "delta": "入力"
+      },
+      {
+        "t": 140.5204180419969,
+        "type": "session.input_transcript.delta",
+        "delta": " decoding"
+      },
+      {
+        "t": 140.71727195900166,
+        "type": "session.output_transcript.delta",
+        "delta": "や"
+      },
+      {
+        "t": 140.90425195900025,
+        "type": "session.output_transcript.delta",
+        "delta": "ト"
+      },
+      {
+        "t": 141.11545354200643,
+        "type": "session.output_transcript.delta",
+        "delta": "レ"
+      },
+      {
+        "t": 141.32816383399768,
+        "type": "session.input_transcript.delta",
+        "delta": " time, we"
+      },
+      {
+        "t": 141.3306744589936,
+        "type": "session.output_transcript.delta",
+        "delta": "ーニ"
+      },
+      {
+        "t": 141.52773375000106,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 141.527762334008,
+        "type": "session.output_transcript.delta",
+        "delta": "ング"
+      },
+      {
+        "t": 141.70395633400767,
+        "type": "session.input_transcript.delta",
+        "delta": " generate"
+      },
+      {
+        "t": 141.70673341699876,
+        "type": "session.output_transcript.delta",
+        "delta": "では"
+      },
+      {
+        "t": 141.94594437500928,
+        "type": "session.input_transcript.delta",
+        "delta": " token"
+      },
+      {
+        "t": 142.16789145898656,
+        "type": "session.input_transcript.delta",
+        "delta": " one"
+      },
+      {
+        "t": 142.1762531249842,
+        "type": "session.output_transcript.delta",
+        "delta": "計"
+      },
+      {
+        "t": 142.3278997919988,
+        "type": "session.input_transcript.delta",
+        "delta": " by"
+      },
+      {
+        "t": 142.54243429200142,
+        "type": "session.output_transcript.delta",
+        "delta": "算によ"
+      },
+      {
+        "t": 142.69633366700145,
+        "type": "session.output_transcript.delta",
+        "delta": "って"
+      },
+      {
+        "t": 142.96793233399512,
+        "type": "session.input_transcript.delta",
+        "delta": " one, so"
+      },
+      {
+        "t": 143.17947016700055,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 143.18352933399728,
+        "type": "session.output_transcript.delta",
+        "delta": "制"
+      },
+      {
+        "t": 143.28616099999635,
+        "type": "session.input_transcript.delta",
+        "delta": " are"
+      },
+      {
+        "t": 143.29532750000362,
+        "type": "session.output_transcript.delta",
+        "delta": "限"
+      },
+      {
+        "t": 143.41298079199623,
+        "type": "session.output_transcript.delta",
+        "delta": "され"
+      },
+      {
+        "t": 143.64609604200814,
+        "type": "session.input_transcript.delta",
+        "delta": " blocked"
+      },
+      {
+        "t": 143.64789808398928,
+        "type": "session.output_transcript.delta",
+        "delta": "ます"
+      },
+      {
+        "t": 143.8265128750063,
+        "type": "session.output_transcript.delta",
+        "delta": "。一"
+      },
+      {
+        "t": 144.00162158400053,
+        "type": "session.input_transcript.delta",
+        "delta": " by"
+      },
+      {
+        "t": 144.61777395900572,
+        "type": "session.input_transcript.delta",
+        "delta": " memory"
+      },
+      {
+        "t": 144.84806987500633,
+        "type": "session.output_transcript.delta",
+        "delta": "方"
+      },
+      {
+        "t": 145.04395570899942,
+        "type": "session.input_transcript.delta",
+        "delta": " bound"
+      },
+      {
+        "t": 145.04607024998404,
+        "type": "session.output_transcript.delta",
+        "delta": "で"
+      },
+      {
+        "t": 145.2181934999826,
+        "type": "session.output_transcript.delta",
+        "delta": "、デ"
+      },
+      {
+        "t": 145.62818004199653,
+        "type": "session.output_transcript.delta",
+        "delta": "コ"
+      },
+      {
+        "t": 145.82726166700013,
+        "type": "session.output_transcript.delta",
+        "delta": "ーディ"
+      },
+      {
+        "t": 146.04005008400418,
+        "type": "session.output_transcript.delta",
+        "delta": "ング"
+      },
+      {
+        "t": 146.22009908399195,
+        "type": "session.output_transcript.delta",
+        "delta": "時には"
+      },
+      {
+        "t": 146.42776249998133,
+        "type": "session.input_transcript.delta",
+        "delta": " By"
+      },
+      {
+        "t": 146.646842999995,
+        "type": "session.output_transcript.delta",
+        "delta": "ト"
+      },
+      {
+        "t": 146.82662616699236,
+        "type": "session.input_transcript.delta",
+        "delta": " memory"
+      },
+      {
+        "t": 146.82665549998637,
+        "type": "session.output_transcript.delta",
+        "delta": "ーク"
+      },
+      {
+        "t": 147.02885245898506,
+        "type": "session.output_transcript.delta",
+        "delta": "ン"
+      },
+      {
+        "t": 147.2425935420033,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 147.44737429200904,
+        "type": "session.output_transcript.delta",
+        "delta": "一つ"
+      },
+      {
+        "t": 147.61713441699976,
+        "type": "session.output_transcript.delta",
+        "delta": "ず"
+      },
+      {
+        "t": 147.84004470900982,
+        "type": "session.output_transcript.delta",
+        "delta": "つ生成"
+      },
+      {
+        "t": 148.3420180839894,
+        "type": "session.input_transcript.delta",
+        "delta": " boundness."
+      },
+      {
+        "t": 148.3858442500059,
+        "type": "session.output_transcript.delta",
+        "delta": "する"
+      },
+      {
+        "t": 148.4556875420094,
+        "type": "session.input_transcript.delta",
+        "delta": " So"
+      },
+      {
+        "t": 148.50766070900136,
+        "type": "session.output_transcript.delta",
+        "delta": "ため"
+      },
+      {
+        "t": 148.79847391700605,
+        "type": "session.input_transcript.delta",
+        "delta": " next"
+      },
+      {
+        "t": 148.82846487499774,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 149.30759620899335,
+        "type": "session.output_transcript.delta",
+        "delta": "メ"
+      },
+      {
+        "t": 149.48986758399406,
+        "type": "session.input_transcript.delta",
+        "delta": " next"
+      },
+      {
+        "t": 149.49241404200438,
+        "type": "session.output_transcript.delta",
+        "delta": "モ"
+      },
+      {
+        "t": 149.68019158398965,
+        "type": "session.output_transcript.delta",
+        "delta": "リバ"
+      },
+      {
+        "t": 149.85982033400796,
+        "type": "session.input_transcript.delta",
+        "delta": " I will"
+      },
+      {
+        "t": 149.862028500007,
+        "type": "session.output_transcript.delta",
+        "delta": "ウンド"
+      },
+      {
+        "t": 150.03266695898492,
+        "type": "session.output_transcript.delta",
+        "delta": "によ"
+      },
+      {
+        "t": 150.22326433399576,
+        "type": "session.output_transcript.delta",
+        "delta": "って"
+      },
+      {
+        "t": 150.4121455840068,
+        "type": "session.output_transcript.delta",
+        "delta": "制"
+      },
+      {
+        "t": 150.64262541700737,
+        "type": "session.input_transcript.delta",
+        "delta": " introduce"
+      },
+      {
+        "t": 150.8102544590074,
+        "type": "session.output_transcript.delta",
+        "delta": "限され"
+      },
+      {
+        "t": 151.23522633398534,
+        "type": "session.input_transcript.delta",
+        "delta": " how"
+      },
+      {
+        "t": 151.23524187499424,
+        "type": "session.output_transcript.delta",
+        "delta": "ます"
+      },
+      {
+        "t": 151.40704120899318,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 151.41004070898634,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 152.00742708399775,
+        "type": "session.input_transcript.delta",
+        "delta": " improve"
+      },
+      {
+        "t": 152.0104052920069,
+        "type": "session.output_transcript.delta",
+        "delta": "つまり"
+      },
+      {
+        "t": 152.22055220900802,
+        "type": "session.input_transcript.delta",
+        "delta": " language"
+      },
+      {
+        "t": 152.63348320900695,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 152.81851345900213,
+        "type": "session.output_transcript.delta",
+        "delta": "メ"
+      },
+      {
+        "t": 153.065048791992,
+        "type": "session.output_transcript.delta",
+        "delta": "モ"
+      },
+      {
+        "t": 153.30573362499126,
+        "type": "session.output_transcript.delta",
+        "delta": "リバ"
+      },
+      {
+        "t": 153.5068016249861,
+        "type": "session.input_transcript.delta",
+        "delta": " efficiency"
+      },
+      {
+        "t": 153.50682795900502,
+        "type": "session.output_transcript.delta",
+        "delta": "ウ"
+      },
+      {
+        "t": 153.68569474999094,
+        "type": "session.input_transcript.delta",
+        "delta": " from"
+      },
+      {
+        "t": 153.68798474999494,
+        "type": "session.output_transcript.delta",
+        "delta": "ンドの"
+      },
+      {
+        "t": 153.86820679198718,
+        "type": "session.output_transcript.delta",
+        "delta": "状態"
+      },
+      {
+        "t": 154.05858762498247,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 154.23728087500785,
+        "type": "session.output_transcript.delta",
+        "delta": "です"
+      },
+      {
+        "t": 154.42155720898882,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 154.7807136249903,
+        "type": "session.input_transcript.delta",
+        "delta": " perspective"
+      },
+      {
+        "t": 154.88717937498586,
+        "type": "session.output_transcript.delta",
+        "delta": "次"
+      },
+      {
+        "t": 155.56574558399734,
+        "type": "session.output_transcript.delta",
+        "delta": "に"
+      },
+      {
+        "t": 155.7649862919934,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 155.8973361249955,
+        "type": "session.output_transcript.delta",
+        "delta": "モデル"
+      },
+      {
+        "t": 156.3197712090041,
+        "type": "session.output_transcript.delta",
+        "delta": "の"
+      },
+      {
+        "t": 156.55119887500769,
+        "type": "session.output_transcript.delta",
+        "delta": "観"
+      },
+      {
+        "t": 156.74294408399146,
+        "type": "session.output_transcript.delta",
+        "delta": "点"
+      },
+      {
+        "t": 156.92613924999023,
+        "type": "session.output_transcript.delta",
+        "delta": "から"
+      },
+      {
+        "t": 157.18585291699856,
+        "type": "session.input_transcript.delta",
+        "delta": " And"
+      },
+      {
+        "t": 157.2805505419965,
+        "type": "session.output_transcript.delta",
+        "delta": "言"
+      },
+      {
+        "t": 157.37970737498836,
+        "type": "session.input_transcript.delta",
+        "delta": " the"
+      },
+      {
+        "t": 157.419604041992,
+        "type": "session.output_transcript.delta",
+        "delta": "語"
+      },
+      {
+        "t": 157.52698399999645,
+        "type": "session.output_transcript.delta",
+        "delta": "モデル"
+      },
+      {
+        "t": 157.73119654200855,
+        "type": "session.input_transcript.delta",
+        "delta": " first"
+      },
+      {
+        "t": 157.92520729199168,
+        "type": "session.input_transcript.delta",
+        "delta": " one"
+      },
+      {
+        "t": 157.92523504199926,
+        "type": "session.output_transcript.delta",
+        "delta": "の"
+      },
+      {
+        "t": 158.1461955840059,
+        "type": "session.input_transcript.delta",
+        "delta": " is"
+      },
+      {
+        "t": 158.1500266249932,
+        "type": "session.output_transcript.delta",
+        "delta": "効"
+      },
+      {
+        "t": 158.3178064590029,
+        "type": "session.output_transcript.delta",
+        "delta": "率"
+      },
+      {
+        "t": 158.55871645899606,
+        "type": "session.input_transcript.delta",
+        "delta": " just"
+      },
+      {
+        "t": 158.55874216699158,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 158.75479695899412,
+        "type": "session.input_transcript.delta",
+        "delta": " a"
+      },
+      {
+        "t": 158.75689029198838,
+        "type": "session.output_transcript.delta",
+        "delta": "どの"
+      },
+      {
+        "t": 158.93065670900978,
+        "type": "session.input_transcript.delta",
+        "delta": " very"
+      },
+      {
+        "t": 158.93391404199065,
+        "type": "session.output_transcript.delta",
+        "delta": "よう"
+      },
+      {
+        "t": 159.11598708399106,
+        "type": "session.output_transcript.delta",
+        "delta": "に改善"
+      },
+      {
+        "t": 159.330251959007,
+        "type": "session.input_transcript.delta",
+        "delta": " simple"
+      },
+      {
+        "t": 159.54280266698333,
+        "type": "session.input_transcript.delta",
+        "delta": ", is"
+      },
+      {
+        "t": 159.54281616699882,
+        "type": "session.output_transcript.delta",
+        "delta": "する"
+      },
+      {
+        "t": 159.7307771249907,
+        "type": "session.output_transcript.delta",
+        "delta": "か"
+      },
+      {
+        "t": 159.93288700000267,
+        "type": "session.input_transcript.delta",
+        "delta": " like"
+      },
+      {
+        "t": 159.9328998340061,
+        "type": "session.output_transcript.delta",
+        "delta": "について"
+      },
+      {
+        "t": 160.52069029200356,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 160.52443600000697,
+        "type": "session.output_transcript.delta",
+        "delta": "ご"
+      },
+      {
+        "t": 160.90775720900274,
+        "type": "session.output_transcript.delta",
+        "delta": "紹介"
+      },
+      {
+        "t": 161.30532620899612,
+        "type": "session.output_transcript.delta",
+        "delta": "します"
+      },
+      {
+        "t": 161.71635395899648,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 161.92148066699156,
+        "type": "session.input_transcript.delta",
+        "delta": " distillation."
+      },
+      {
+        "t": 162.15592274998198,
+        "type": "session.input_transcript.delta",
+        "delta": " It's"
+      },
+      {
+        "t": 162.30793716700282,
+        "type": "session.input_transcript.delta",
+        "delta": " like"
+      },
+      {
+        "t": 162.31887925000046,
+        "type": "session.output_transcript.delta",
+        "delta": "まず"
+      },
+      {
+        "t": 162.7480833340087,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 162.9487212499953,
+        "type": "session.output_transcript.delta",
+        "delta": "最"
+      },
+      {
+        "t": 163.1437379590061,
+        "type": "session.input_transcript.delta",
+        "delta": " know"
+      },
+      {
+        "t": 163.15047395898728,
+        "type": "session.output_transcript.delta",
+        "delta": "初は"
+      },
+      {
+        "t": 163.33901170900208,
+        "type": "session.input_transcript.delta",
+        "delta": " that"
+      },
+      {
+        "t": 163.3421431669849,
+        "type": "session.output_transcript.delta",
+        "delta": "と"
+      },
+      {
+        "t": 163.56037399999332,
+        "type": "session.output_transcript.delta",
+        "delta": "ても"
+      },
+      {
+        "t": 163.71514616700006,
+        "type": "session.output_transcript.delta",
+        "delta": "シ"
+      },
+      {
+        "t": 163.94820729200728,
+        "type": "session.output_transcript.delta",
+        "delta": "ンプ"
+      },
+      {
+        "t": 164.17218170900014,
+        "type": "session.input_transcript.delta",
+        "delta": " large"
+      },
+      {
+        "t": 164.1749384169816,
+        "type": "session.output_transcript.delta",
+        "delta": "ルな"
+      },
+      {
+        "t": 164.60753179198946,
+        "type": "session.output_transcript.delta",
+        "delta": "方法"
+      },
+      {
+        "t": 164.62510224999278,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 164.72463387498283,
+        "type": "session.output_transcript.delta",
+        "delta": "で"
+      },
+      {
+        "t": 164.92002116699587,
+        "type": "session.output_transcript.delta",
+        "delta": "、"
+      },
+      {
+        "t": 165.09995354199782,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 165.1026152090053,
+        "type": "session.output_transcript.delta",
+        "delta": "モデル"
+      },
+      {
+        "t": 165.3293929999927,
+        "type": "session.input_transcript.delta",
+        "delta": " will"
+      },
+      {
+        "t": 165.52296616698732,
+        "type": "session.output_transcript.delta",
+        "delta": "蒸"
+      },
+      {
+        "t": 165.74146104199463,
+        "type": "session.output_transcript.delta",
+        "delta": "留"
+      },
+      {
+        "t": 165.9170245419955,
+        "type": "session.output_transcript.delta",
+        "delta": "です"
+      },
+      {
+        "t": 166.13542404200416,
+        "type": "session.input_transcript.delta",
+        "delta": " have"
+      },
+      {
+        "t": 166.3522156669933,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 166.51703095898847,
+        "type": "session.output_transcript.delta",
+        "delta": "大"
+      },
+      {
+        "t": 167.38008737500058,
+        "type": "session.output_transcript.delta",
+        "delta": "き"
+      },
+      {
+        "t": 167.53798783398815,
+        "type": "session.output_transcript.delta",
+        "delta": "なモデル"
+      },
+      {
+        "t": 167.93175154199707,
+        "type": "session.output_transcript.delta",
+        "delta": "の方"
+      },
+      {
+        "t": 168.14380970899947,
+        "type": "session.input_transcript.delta",
+        "delta": " better"
+      },
+      {
+        "t": 168.2054200420098,
+        "type": "session.output_transcript.delta",
+        "delta": "が"
+      },
+      {
+        "t": 168.67248604199267,
+        "type": "session.input_transcript.delta",
+        "delta": " quality"
+      },
+      {
+        "t": 168.835437583999,
+        "type": "session.input_transcript.delta",
+        "delta": " than"
+      },
+      {
+        "t": 169.24284354198608,
+        "type": "session.input_transcript.delta",
+        "delta": " smaller"
+      },
+      {
+        "t": 169.894709708984,
+        "type": "session.input_transcript.delta",
+        "delta": " model, but"
+      },
+      {
+        "t": 170.08253216699813,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 170.38427375000902,
+        "type": "session.input_transcript.delta",
+        "delta": " cannot"
+      },
+      {
+        "t": 171.08557116700104,
+        "type": "session.output_transcript.delta",
+        "delta": "小さ"
+      },
+      {
+        "t": 171.22440020900103,
+        "type": "session.input_transcript.delta",
+        "delta": " really"
+      },
+      {
+        "t": 171.224429666996,
+        "type": "session.output_transcript.delta",
+        "delta": "な"
+      },
+      {
+        "t": 171.4325213340053,
+        "type": "session.output_transcript.delta",
+        "delta": "モデル"
+      },
+      {
+        "t": 171.6474256250076,
+        "type": "session.output_transcript.delta",
+        "delta": "より"
+      },
+      {
+        "t": 171.8455031249905,
+        "type": "session.output_transcript.delta",
+        "delta": "も"
+      },
+      {
+        "t": 172.0265070000023,
+        "type": "session.input_transcript.delta",
+        "delta": " serve"
+      },
+      {
+        "t": 172.02913566699135,
+        "type": "session.output_transcript.delta",
+        "delta": "品質"
+      },
+      {
+        "t": 172.42709229199681,
+        "type": "session.input_transcript.delta",
+        "delta": " large"
+      },
+      {
+        "t": 172.42921524998383,
+        "type": "session.output_transcript.delta",
+        "delta": "が"
+      },
+      {
+        "t": 172.62636287498754,
+        "type": "session.output_transcript.delta",
+        "delta": "良"
+      },
+      {
+        "t": 172.82908945900272,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 172.83102099999087,
+        "type": "session.output_transcript.delta",
+        "delta": "いこと"
+      },
+      {
+        "t": 173.03038474998903,
+        "type": "session.output_transcript.delta",
+        "delta": "は"
+      },
+      {
+        "t": 173.23215450000134,
+        "type": "session.output_transcript.delta",
+        "delta": "分"
+      },
+      {
+        "t": 173.42161145899445,
+        "type": "session.output_transcript.delta",
+        "delta": "かっています"
+      },
+      {
+        "t": 173.85331574999145,
+        "type": "session.input_transcript.delta",
+        "delta": " So"
+      },
+      {
+        "t": 173.96475608399487,
+        "type": "session.output_transcript.delta",
+        "delta": "が"
+      },
+      {
+        "t": 174.0752347089874,
+        "type": "session.input_transcript.delta",
+        "delta": " in"
+      },
+      {
+        "t": 174.08016741700703,
+        "type": "session.output_transcript.delta",
+        "delta": "、大"
+      },
+      {
+        "t": 174.42185962499934,
+        "type": "session.input_transcript.delta",
+        "delta": " this"
+      },
+      {
+        "t": 174.8297746249882,
+        "type": "session.input_transcript.delta",
+        "delta": " time"
+      },
+      {
+        "t": 174.83158945900504,
+        "type": "session.output_transcript.delta",
+        "delta": "き"
+      },
+      {
+        "t": 175.02777020900976,
+        "type": "session.input_transcript.delta",
+        "delta": " we"
+      },
+      {
+        "t": 175.0277986669971,
+        "type": "session.output_transcript.delta",
+        "delta": "なモデル"
+      },
+      {
+        "t": 175.23884804200497,
+        "type": "session.input_transcript.delta",
+        "delta": " could"
+      },
+      {
+        "t": 175.44639195900527,
+        "type": "session.output_transcript.delta",
+        "delta": "を"
+      },
+      {
+        "t": 175.641327291989,
+        "type": "session.input_transcript.delta",
+        "delta": " maybe"
+      },
+      {
+        "t": 175.64328604200273,
+        "type": "session.output_transcript.delta",
+        "delta": "実"
+      },
+      {
+        "t": 175.83673545898637,
+        "type": "session.input_transcript.delta",
+        "delta": " do"
+      },
+      {
+        "t": 175.83866512498935,
+        "type": "session.output_transcript.delta",
+        "delta": "際"
+      },
+      {
+        "t": 176.039059333998,
+        "type": "session.output_transcript.delta",
+        "delta": "に運"
+      },
+      {
+        "t": 176.24184087500907,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 176.2445708340092,
+        "type": "session.output_transcript.delta",
+        "delta": "用"
+      },
+      {
+        "t": 176.42511258399463,
+        "type": "session.output_transcript.delta",
+        "delta": "する"
+      },
+      {
+        "t": 176.86280904200976,
+        "type": "session.output_transcript.delta",
+        "delta": "こと"
+      },
+      {
+        "t": 177.01298045899603,
+        "type": "session.output_transcript.delta",
+        "delta": "はでき"
+      },
+      {
+        "t": 177.24011529199197,
+        "type": "session.input_transcript.delta",
+        "delta": " distillation."
+      },
+      {
+        "t": 177.46694954199484,
+        "type": "session.input_transcript.delta",
+        "delta": " We will"
+      },
+      {
+        "t": 177.47212020898587,
+        "type": "session.output_transcript.delta",
+        "delta": "ません"
+      },
+      {
+        "t": 177.8121256250015,
+        "type": "session.input_transcript.delta",
+        "delta": " use"
+      },
+      {
+        "t": 177.81381620900356,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 178.23359145899303,
+        "type": "session.input_transcript.delta",
+        "delta": " larger"
+      },
+      {
+        "t": 178.4139715420024,
+        "type": "session.output_transcript.delta",
+        "delta": "そこで"
+      },
+      {
+        "t": 178.61789912500535,
+        "type": "session.input_transcript.delta",
+        "delta": " model"
+      },
+      {
+        "t": 179.2170964590041,
+        "type": "session.input_transcript.delta",
+        "delta": " to"
+      },
+      {
+        "t": 179.22012474999065,
+        "type": "session.output_transcript.delta",
+        "delta": "、この"
+      },
+      {
+        "t": 179.84133599998313,
+        "type": "session.input_transcript.delta",
+        "delta": " label"
+      },
+      {
+        "t": 179.84327070898144,
+        "type": "session.output_transcript.delta",
+        "delta": "時"
+      },
+      {
+        "t": 180.03738154200255,
+        "type": "session.output_transcript.delta",
+        "delta": "に"
+      },
+      {
+        "t": 180.2784704589867,
+        "type": "session.output_transcript.delta",
+        "delta": "モデル"
+      },
+      {
+        "t": 180.4644763339893,
+        "type": "session.input_transcript.delta",
+        "delta": " the"
+      },
+      {
+        "t": 180.67639641699498,
+        "type": "session.output_transcript.delta",
+        "delta": "蒸"
+      },
+      {
+        "t": 180.87441741698422,
+        "type": "session.input_transcript.delta",
+        "delta": " training"
+      },
+      {
+        "t": 180.88843008398544,
+        "type": "session.output_transcript.delta",
+        "delta": "留"
+      },
+      {
+        "t": 181.06243512500077,
+        "type": "session.input_transcript.delta",
+        "delta": " data"
+      },
+      {
+        "t": 181.06448029199964,
+        "type": "session.output_transcript.delta",
+        "delta": "を行"
+      },
+      {
+        "t": 181.46496570899035,
+        "type": "session.output_transcript.delta",
+        "delta": "うこと"
+      },
+      {
+        "t": 181.85954345899518,
+        "type": "session.output_transcript.delta",
+        "delta": "ができます"
+      },
+      {
+        "t": 182.5371158749913,
+        "type": "session.output_transcript.delta",
+        "delta": "。"
+      },
+      {
+        "t": 182.69355699999142,
+        "type": "session.output_transcript.delta",
+        "delta": "より"
+      },
+      {
+        "t": 183.2707735419972,
+        "type": "session.output_transcript.delta",
+        "delta": "大"
+      },
+      {
+        "t": 183.46217845898354,
+        "type": "session.output_transcript.delta",
+        "delta": "き"
+      }
+    ],
+    "events": [
+      {
+        "kind": "translation_complete",
+        "playback_offset": 18.77488587499829,
+        "wall_clock_lag": 0.0,
+        "text": "言語の事前入力やトレーニングでは、事前入力の場合、あなたがすでにすべてのプロンプトを入力して、私たちはそのプロンプトを事前入力として使います。",
+        "is_final": true,
+        "asr_start_time": 0.0,
+        "asr_end_time": 18.77488587499829,
+        "confidence": 0.0,
+        "original_text": " In language pre-fill and training, in pre-fill, it's like you input your prompts. You already gave your all of your prompts, and we will do pre-fill. We will use all prompts as input to language model and calculate the KV cache for",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 24.315119292004965,
+        "wall_clock_lag": 0.0,
+        "text": "そのすべてのプロンプトを言語モデルへの入力として渡し、KVキャッシュを計算します。",
+        "is_final": true,
+        "asr_start_time": 18.77488587499829,
+        "asr_end_time": 24.315119292004965,
+        "confidence": 0.0,
+        "original_text": " it And also during the training, also all tokens are already given. We will use just",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 31.33451091698953,
+        "wall_clock_lag": 0.0,
+        "text": "またトレーニング中も、すでにすべてのトークンが与えられているので、それらをまとめて処理します。",
+        "is_final": true,
+        "asr_start_time": 24.315119292004965,
+        "asr_end_time": 31.33451091698953,
+        "confidence": 0.0,
+        "original_text": " process all tokens together So when we do this the matrix computation",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 37.212676291994285,
+        "wall_clock_lag": 0.0,
+        "text": "こうすることで行列の計算はバッチサイズかけるシーケンス長になります。",
+        "is_final": true,
+        "asr_start_time": 31.33451091698953,
+        "asr_end_time": 37.212676291994285,
+        "confidence": 0.0,
+        "original_text": " will be batch size times sequence length. Sequence length will be maybe 32K",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 45.24730412499048,
+        "wall_clock_lag": 0.0,
+        "text": "シーケンス長は、トレーニングでは32K程度、事前入力ではプロンプトの長さによって異なります。",
+        "is_final": true,
+        "asr_start_time": 37.212676291994285,
+        "asr_end_time": 45.24730412499048,
+        "confidence": 0.0,
+        "original_text": " in training, pre-fill it maybe depends on your prompts length. And anyway, it's larger than one. And then, so the",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 48.03052687499439,
+        "wall_clock_lag": 0.0,
+        "text": "いずれにしても1より大きい値です。",
+        "is_final": true,
+        "asr_start_time": 45.24730412499048,
+        "asr_end_time": 48.03052687499439,
+        "confidence": 0.0,
+        "original_text": " matrix will be batch size times",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 55.135235416993964,
+        "wall_clock_lag": 0.0,
+        "text": "そのため行列は、バッチサイズかけるシーケンス長、さらにモデルの次元数をかけ合わせたものになります。",
+        "is_final": true,
+        "asr_start_time": 48.03052687499439,
+        "asr_end_time": 55.135235416993964,
+        "confidence": 0.0,
+        "original_text": " sequence length and also times your model dimension So we could",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 62.23541258400655,
+        "wall_clock_lag": 0.0,
+        "text": "つまり、この行列はとても大きくなることがわかります。",
+        "is_final": true,
+        "asr_start_time": 55.135235416993964,
+        "asr_end_time": 62.23541258400655,
+        "confidence": 0.0,
+        "original_text": " know it will be... this matrix will be very, very large So it will make like",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 76.62921512499452,
+        "wall_clock_lag": 0.0,
+        "text": "そのため、処理ユニットがこのすべての行列計算を処理するのが難しくなり、計算能力がボトルネックになります。",
+        "is_final": true,
+        "asr_start_time": 62.23541258400655,
+        "asr_end_time": 76.62921512499452,
+        "confidence": 0.0,
+        "original_text": "... it will make like processing units hard to process all this matrix computation. So it will blocked by computes. However, when we do decoding When we do decoding, because",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 85.73152437500539,
+        "wall_clock_lag": 0.0,
+        "text": "しかし、デコーディングを行う場合は、トークンを一つずつ生成するので、行列演算はバッチサイズかける...となります。",
+        "is_final": true,
+        "asr_start_time": 76.62921512499452,
+        "asr_end_time": 85.73152437500539,
+        "confidence": 0.0,
+        "original_text": " we generate the token one by one. So matrix operations will be batch size times sequence length. And sequence length is",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 91.17497991700657,
+        "wall_clock_lag": 0.0,
+        "text": "そしてシーケンス長は1つだけで、それにモデルの次元数をかけます。",
+        "is_final": true,
+        "asr_start_time": 85.73152437500539,
+        "asr_end_time": 91.17497991700657,
+        "confidence": 0.0,
+        "original_text": " only one, and times model dimension And then",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 98.60525249998318,
+        "wall_clock_lag": 0.0,
+        "text": "シーケンス長が1なので計算量がとても少なくなります。",
+        "is_final": true,
+        "asr_start_time": 91.17497991700657,
+        "asr_end_time": 98.60525249998318,
+        "confidence": 0.0,
+        "original_text": " because sequence length is one, so the compute is very, very, very cheap. So at this time, at this",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 104.1225539589941,
+        "wall_clock_lag": 0.0,
+        "text": "この時点では、ボトルネックは計算ではなく、メモリ帯域になります。",
+        "is_final": true,
+        "asr_start_time": 98.60525249998318,
+        "asr_end_time": 104.1225539589941,
+        "confidence": 0.0,
+        "original_text": " time, the block is not compute, is memory bandwidth The most time",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 109.33612912500394,
+        "wall_clock_lag": 0.0,
+        "text": "ほとんどの時間は、推論時にはウェイトを",
+        "is_final": true,
+        "asr_start_time": 104.1225539589941,
+        "asr_end_time": 109.33612912500394,
+        "confidence": 0.0,
+        "original_text": " the most time during the serving will be like moving weight from your memory to processing units. In",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 115.81462241700501,
+        "wall_clock_lag": 0.0,
+        "text": "メモリから処理ユニットへと移動させることになります。",
+        "is_final": true,
+        "asr_start_time": 109.33612912500394,
+        "asr_end_time": 115.81462241700501,
+        "confidence": 0.0,
+        "original_text": " this stage, we will call it memory bound",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 119.21765183398384,
+        "wall_clock_lag": 0.0,
+        "text": "この段階をメモリバウンドと呼びます。",
+        "is_final": true,
+        "asr_start_time": 115.81462241700501,
+        "asr_end_time": 119.21765183398384,
+        "confidence": 0.0,
+        "original_text": " Um",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 132.30924083400168,
+        "wall_clock_lag": 0.0,
+        "text": "さて、では現時点で言語モデルの効率に関して私たちが重視しているのは、レイテンシーとスループットです。",
+        "is_final": true,
+        "asr_start_time": 119.21765183398384,
+        "asr_end_time": 132.30924083400168,
+        "confidence": 0.0,
+        "original_text": " Okay, so currently we know what we care about language model efficiency. That's like latency and throughput And we know for different language model",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 139.12321575000533,
+        "wall_clock_lag": 0.0,
+        "text": "そして、異なる言語モデルごとに、どの段階で何によってボトルネックが生じるのでしょうか?",
+        "is_final": true,
+        "asr_start_time": 132.30924083400168,
+        "asr_end_time": 139.12321575000533,
+        "confidence": 0.0,
+        "original_text": ", so stage we will blocked by what? Like in pre-fill and training, we are blocked by computes. And",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 143.8265128750063,
+        "wall_clock_lag": 0.0,
+        "text": "事前入力やトレーニングでは計算によって制限されます。",
+        "is_final": true,
+        "asr_start_time": 139.12321575000533,
+        "asr_end_time": 143.8265128750063,
+        "confidence": 0.0,
+        "original_text": " in decoding time, we will generate token one by one, so we are blocked",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 151.41004070898634,
+        "wall_clock_lag": 0.0,
+        "text": "一方で、デコーディング時にはトークンを一つずつ生成するため、メモリバウンドによって制限されます。",
+        "is_final": true,
+        "asr_start_time": 143.8265128750063,
+        "asr_end_time": 151.41004070898634,
+        "confidence": 0.0,
+        "original_text": " by memory bound By memory boundness. So next next I will introduce how we",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 154.42155720898882,
+        "wall_clock_lag": 0.0,
+        "text": "つまりメモリバウンドの状態です。",
+        "is_final": true,
+        "asr_start_time": 151.41004070898634,
+        "asr_end_time": 154.42155720898882,
+        "confidence": 0.0,
+        "original_text": " improve language model efficiency from model",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 161.71635395899648,
+        "wall_clock_lag": 0.0,
+        "text": "次に、モデルの観点から言語モデルの効率をどのように改善するかについてご紹介します。",
+        "is_final": true,
+        "asr_start_time": 154.42155720898882,
+        "asr_end_time": 161.71635395899648,
+        "confidence": 0.0,
+        "original_text": " perspective And the first one is just a very simple, is like model",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 166.3522156669933,
+        "wall_clock_lag": 0.0,
+        "text": "まず最初はとてもシンプルな方法で、モデル蒸留です。",
+        "is_final": true,
+        "asr_start_time": 161.71635395899648,
+        "asr_end_time": 166.3522156669933,
+        "confidence": 0.0,
+        "original_text": " distillation. It's like we know that large model we will have",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 168.2054200420098,
+        "wall_clock_lag": 0.0,
+        "text": "大きなモデルの方が",
+        "is_final": true,
+        "asr_start_time": 166.3522156669933,
+        "asr_end_time": 168.2054200420098,
+        "confidence": 0.0,
+        "original_text": " better quality than smaller model, but we cannot",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 177.81381620900356,
+        "wall_clock_lag": 0.0,
+        "text": "小さなモデルよりも品質が良いことは分かっていますが、大きなモデルを実際に運用することはできません。",
+        "is_final": true,
+        "asr_start_time": 168.2054200420098,
+        "asr_end_time": 177.81381620900356,
+        "confidence": 0.0,
+        "original_text": " really serve large model So in this time we could maybe do model distillation. We will use",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 182.5371158749913,
+        "wall_clock_lag": 0.0,
+        "text": "そこで、この時にモデル蒸留を行うことができます。",
+        "is_final": true,
+        "asr_start_time": 177.81381620900356,
+        "asr_end_time": 182.5371158749913,
+        "confidence": 0.0,
+        "original_text": " larger model to label the training data",
+        "is_utterance_end": true
+      },
+      {
+        "kind": "translation_complete",
+        "playback_offset": 183.46217845898354,
+        "wall_clock_lag": 0.0,
+        "text": "より大き",
+        "is_final": true,
+        "asr_start_time": 182.5371158749913,
+        "asr_end_time": 183.46217845898354,
+        "confidence": 0.0,
+        "original_text": "",
+        "is_utterance_end": true
+      }
+    ],
+    "full_translation": "言語の事前入力やトレーニングでは、事前入力の場合、あなたがすでにすべてのプロンプトを入力して、私たちはそのプロンプトを事前入力として使います。そのすべてのプロンプトを言語モデルへの入力として渡し、KVキャッシュを計算します。またトレーニング中も、すでにすべてのトークンが与えられているので、それらをまとめて処理します。こうすることで行列の計算はバッチサイズかけるシーケンス長になります。シーケンス長は、トレーニングでは32K程度、事前入力ではプロンプトの長さによって異なります。いずれにしても1より大きい値です。そのため行列は、バッチサイズかけるシーケンス長、さらにモデルの次元数をかけ合わせたものになります。つまり、この行列はとても大きくなることがわかります。そのため、処理ユニットがこのすべての行列計算を処理するのが難しくなり、計算能力がボトルネックになります。しかし、デコーディングを行う場合は、トークンを一つずつ生成するので、行列演算はバッチサイズかける...となります。そしてシーケンス長は1つだけで、それにモデルの次元数をかけます。シーケンス長が1なので計算量がとても少なくなります。この時点では、ボトルネックは計算ではなく、メモリ帯域になります。ほとんどの時間は、推論時にはウェイトをメモリから処理ユニットへと移動させることになります。この段階をメモリバウンドと呼びます。さて、では現時点で言語モデルの効率に関して私たちが重視しているのは、レイテンシーとスループットです。そして、異なる言語モデルごとに、どの段階で何によってボトルネックが生じるのでしょうか?事前入力やトレーニングでは計算によって制限されます。一方で、デコーディング時にはトークンを一つずつ生成するため、メモリバウンドによって制限されます。つまりメモリバウンドの状態です。次に、モデルの観点から言語モデルの効率をどのように改善するかについてご紹介します。まず最初はとてもシンプルな方法で、モデル蒸留です。大きなモデルの方が小さなモデルよりも品質が良いことは分かっていますが、大きなモデルを実際に運用することはできません。そこで、この時にモデル蒸留を行うことができます。より大き",
+    "raw_event_counts": {
+      "session.output_audio.delta": 1808,
+      "session.input_transcript.delta": 348,
+      "session.output_transcript.delta": 548,
+      "session.usage.updated": 13,
+      "session.closed": 1
+    },
+    "usage": {}
+  },
+  "metrics": {},
+  "notes": "rigorous comparison run B (raw deltas saved)",
+  "created_at_utc": "2026-10-13T16:56:21.520144+00:00"
+}

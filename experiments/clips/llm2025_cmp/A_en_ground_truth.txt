@@ -1,0 +1,55 @@
+<transcript>
+[00:00] say, uh, interests are less in LLM agents.
+[00:03] Maybe some of you also know my work like Suspicion-Agent,
+[00:08] to use a language model to play pokers.
+[00:11] And also I did some research on 3D diffusions,
+[00:16] such as like how could we convert one 2D image to a 3D,
+[00:22] 3D assets.
+[00:24] That would be helpful for, for anime and also games.
+[00:29] And in 2024, I went to, I went to Google
+[00:34] to do something language model architecture design work.
+[00:38] Mainly contribute to Gemini and Gemma.
+[00:41] And as Kojima-san introduced, I already
+[00:45] like contributed some model changes in Gemini 1.5
+[00:49] and Gemma 2, Gemma 3 stuffs.
+[00:53] Okay, that's my introduction.
+[00:55] And also I would like to introduce my, uh,
+[01:00] my, uh, research institution, Google Research Australia.
+[01:05] Google Research Australia, uh, we built this research hub in 2024.
+[01:11] And we have three teams.
+[01:13] Like Hearing Aid, we will improve the hearing aid ability
+[01:18] in Google's Pixel Buds, so that older generation could hear
+[01:23] by wearing our Google's Pixel Buds.
+[01:26] Just, just like, uh, Apple's.
+[01:30] And also we do multilingual in language models.
+[01:34] Because, uh, and we do some, some, we, we will enhance the
+[01:38] Southeast Asian language in Gemini.
+[01:41] And also we have one another team like Efficiency in LLM.
+[01:46] That's what I'm, that's, that's the team what I'm in.
+[01:50] Um, you know, why it's very important?
+[01:53] It's because like, you know, Google has many products.
+[01:56] Gemini, and Search, and YouTube, and Calendars, and Chrome, and Workspace.
+[02:04] And if we deploy language model in all of these, these products,
+[02:08] it will be very, very expensive.
+[02:10] We will use up all of our TPUs.
+[02:13] So how to enhance the efficiency in these products
+[02:17] is very, very important for us.
+[02:19] And we are doing pretty well.
+[02:21] We just have a, we just start our research hub for one year.
+[02:25] We already have many things landed in Google.
+[02:29] Like AI Overviews, the next, next generation searching system.
+[02:34] And also Gemini, our most, most important project in Google.
+[02:40] And also, as you know, it's the most advanced AI around the world.
+[02:46] And here is the today's agenda.
+[02:49] Firstly, I will introduce what's a language model.
+[02:52] And also how's the language model inference like.
+[02:57] I will introduce some metrics.
+</transcript>
+
+<uncertain_spots>
+- [00:00] "say, uh, interests are less in LLM agents." -- The first word is cut off, sounds like "say" or "my". "less in" could be "mostly in" but sounds more like "less in".
+- [00:07] "Suspicion-Agent" -- The speaker's pronunciation is unclear, sounds like "suspicion agent" or "suspicious agent".
+- [00:48] "Gemini 1.5" -- The speaker says "Gemini three" but the slide context and typical versioning suggests he might mean 1.5, though he clearly says "three". I transcribed what he said, but it's ambiguous.
+- [00:49] "Gemma 2, Gemma 3" -- He says "Gemma three, Gemma four" but again, versioning might be different. Transcribed as spoken.
+- [02:30] "AI Overviews" -- He says "AI mode" or "AI overviews", it's a bit mumbled. Given the context of "next generation searching system", "AI Overviews" is the likely Google product name, though it sounds like "AI mode".
+</uncertain_spots>

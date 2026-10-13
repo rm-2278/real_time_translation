@@ -1,0 +1,212 @@
+<title>GPT-Live vs Pipeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f7f5; --surface:#fcfcfb; --ink:#14140f; --ink2:#4d4c47; --muted:#76756e; --rule:#e2e1db;
+  --s1:#2a78d6; --s2:#eb6834; --good:#1a7f4b; --warn:#9a6700;
+  --font:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#121211; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --muted:#97968c; --rule:#2e2d2a;
+  --s1:#3987e5; --s2:#d95926; --good:#4cc38a; --warn:#d9a441; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121211; --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --muted:#97968c; --rule:#2e2d2a;
+  --s1:#3987e5; --s2:#d95926; --good:#4cc38a; --warn:#d9a441; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--font);padding-inline:16px;padding-block:32px}
+main{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.15;margin:0;font-weight:600;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:20px;margin:0 0 4px;font-weight:600;text-wrap:balance}
+p{margin:0;max-width:68ch}
+.sub{color:var(--ink2);margin-top:10px}
+.meta{font:12px var(--mono);color:var(--muted);margin-top:14px}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:14px 16px;min-width:0}
+.tile .k{font:12px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.tile .v{display:flex;gap:14px;align-items:baseline;margin-top:6px;flex-wrap:wrap}
+.tile .v b{font:600 28px var(--font);font-variant-numeric:tabular-nums}
+.tile .c1{color:var(--ink)} 
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.tile .note{font-size:13px;color:var(--ink2);margin-top:6px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin:12px 0 4px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:16px;min-width:0}
+svg{display:block;width:100%;height:auto;overflow:visible}
+svg text{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+svg .lab{fill:var(--ink)}
+.grid{stroke:var(--rule);stroke-width:1}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--rule);font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+th{font:500 12px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+td.ci{color:var(--muted);font:12px var(--mono)}
+td.win{font-weight:600}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+ul{margin:8px 0 0;padding-left:20px;max-width:70ch;display:flex;flex-direction:column;gap:6px}
+li{color:var(--ink2)} li b{color:var(--ink)}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font:12px var(--mono);padding:6px 8px;border-radius:4px;opacity:0;transition:opacity .08s;z-index:5;max-width:240px}
+.bar:hover,.bin:hover{opacity:.8}
+.sec>p{color:var(--ink2);margin-bottom:12px}
+</style>
+<main>
+<header>
+  <h1>GPT-Live-1 reads well but trails the pipeline by about five seconds</h1>
+  <p class="sub">Same three 3-minute windows of the LLM2025 lecture (前半, English to Japanese), scored against one reference translation. <b>gpt-live-1</b> is a voice interpreter with a prompt only. <b>Pipeline</b> is Deepgram plus Gemini with the course dictionary.</p>
+  <div class="meta" id="meta"></div>
+</header>
+
+<section class="verdict" id="tiles"></section>
+
+<section class="sec">
+  <h2>Translation quality (chrF++ against the reference)</h2>
+  <p>Higher is better. gpt-live-1 scores higher on all three clips. The second run on clip A shows how much a single clip moves between runs.</p>
+  <div class="legend"><span><i class="sw" style="background:var(--s1)"></i>Pipeline</span><span><i class="sw" style="background:var(--s2)"></i>gpt-live-1</span></div>
+  <div class="card"><svg id="chrf" viewBox="0 0 760 280" role="img" aria-label="chrF++ by clip"></svg></div>
+</section>
+
+<section class="sec">
+  <h2>Delay from speech to caption</h2>
+  <p>Seconds between the speaker finishing a sentence and its Japanese being ready. Each bar counts sentences. Dashed line is the median.</p>
+  <div class="legend"><span><i class="sw" style="background:var(--s1)"></i>Pipeline</span><span><i class="sw" style="background:var(--s2)"></i>gpt-live-1</span></div>
+  <div class="card"><svg id="lat" viewBox="0 0 760 330" role="img" aria-label="latency histogram"></svg></div>
+</section>
+
+<section class="sec">
+  <h2>Caption readability and connectivity</h2>
+  <p>Cards come from the same formatter for both systems. Intervals are 95% bootstrap ranges. The bold value in each row is the better one where lower or higher is clearly better.</p>
+  <div class="card tbl"><table id="tbl"></table></div>
+</section>
+
+<section class="sec">
+  <h2>Reading speed per card</h2>
+  <p>Share of cards in each reading-speed band, in units per second. Both systems stay under the 7 units/s cap, but gpt-live-1 sits closer to it.</p>
+  <div class="legend"><span><i class="sw" style="background:var(--s1)"></i>Pipeline</span><span><i class="sw" style="background:var(--s2)"></i>gpt-live-1</span></div>
+  <div class="card"><svg id="ups" viewBox="0 0 760 240" role="img" aria-label="reading speed distribution"></svg></div>
+</section>
+
+<section class="sec">
+  <h2>How much to trust this</h2>
+  <ul>
+    <li><b>The latency method is checked.</b> For the pipeline the matching method gives <span id="vAnch"></span> s on average, and its own timestamps give <span id="vTrue"></span> s. The same method is applied to gpt-live-1, so the gap between the two is reliable even though each absolute number carries a little error.</li>
+    <li><b>The reference is not human-checked.</b> English came from a careful Gemini transcription of the clip. The Japanese was written by Claude from that transcript. Neither system under test wrote it, but a bilingual reviewer should confirm it before these scores go in a paper.</li>
+    <li><b>Three clips, one lecture, one speaker style.</b> Quality is a 3-of-3 win, but the gap on clip A (about 2 points) is smaller than the 3.6-point spread between two gpt-live-1 runs of the same clip.</li>
+    <li><b>gpt-live-1 had no dictionary or context.</b> The pipeline did. A prompt with the glossary may close part of the quality gap, and a faster interpreter setting may shorten the delay. Neither is tested here.</li>
+    <li><b>The anomaly gate passed everywhere.</b> No card exceeded 8 units/s and no window had four or more cards within 3 seconds, for either system.</li>
+  </ul>
+</section>
+</main>
+<div id="tip"></div>
+<script>
+const D = {"windows_s": 180.0, "pipeline": {"n_runs": 3, "n_cards": 166, "chrf_mean": 32.89, "chrf_by_run": {"A:p": 32.5, "B:p": 29.24, "C:p": 36.93}, "chrf_char_by_run": {"A:p": 41.81, "B:p": 34.11, "C:p": 43.08}, "len_ratio_mean": 1.09, "latency_anchor_mean": 1.98, "latency_anchor_median": 1.81, "latency_anchor_p90": 7.94, "latency_anchor_ci": [1.195, 2.804], "chars_per_card": 19.53, "chars_per_card_ci": [18.293, 20.789], "display_s_mean": 3.21, "display_s_ci": [3.028, 3.394], "units_per_s_mean": 6.09, "units_per_s_ci": [5.912, 6.264], "units_per_s_p95": 7.0, "units_per_s_max": 7.0, "gap_s_mean": 0.06, "gaps_gt_1s": 6, "gaps_gt_2s": 0, "gaps_total": 163, "cards_lt_1s": 7, "cards_lt_1s_rate": 0.042, "sentence_complete_card_rate": 0.175, "screen_coverage": 0.987, "latency_true_mean": 1.99, "latency_true_median": 1.8, "latency_true_p90": 3.15, "latency_true_ci": [1.887, 2.103]}, "gpt_live_1": {"n_runs": 3, "n_cards": 145, "chrf_mean": 39.34, "chrf_by_run": {"A:a1": 34.42, "B:b": 41.92, "C:c": 41.67}, "chrf_char_by_run": {"A:a1": 45.89, "B:b": 48.9, "C:c": 48.61}, "len_ratio_mean": 1.083, "latency_anchor_mean": 7.21, "latency_anchor_median": 7.7, "latency_anchor_p90": 12.31, "latency_anchor_ci": [6.291, 8.137], "chars_per_card": 21.63, "chars_per_card_ci": [20.047, 23.133], "display_s_mean": 3.18, "display_s_ci": [2.973, 3.411], "units_per_s_mean": 6.6, "units_per_s_ci": [6.421, 6.754], "units_per_s_p95": 7.0, "units_per_s_max": 7.0, "gap_s_mean": 0.39, "gaps_gt_1s": 9, "gaps_gt_2s": 8, "gaps_total": 142, "cards_lt_1s": 21, "cards_lt_1s_rate": 0.145, "sentence_complete_card_rate": 0.428, "screen_coverage": 0.854}, "gpt_live_1_all_runs": {"n_runs": 4, "n_cards": 195, "chrf_mean": 39.01, "chrf_by_run": {"A:a1": 34.42, "A:a2": 38.02, "B:b": 41.92, "C:c": 41.67}, "chrf_char_by_run": {"A:a1": 45.89, "A:a2": 47.42, "B:b": 48.9, "C:c": 48.61}, "len_ratio_mean": 1.07, "latency_anchor_mean": 7.14, "latency_anchor_median": 7.6, "latency_anchor_p90": 13.03, "latency_anchor_ci": [6.111, 8.201], "chars_per_card": 21.52, "chars_per_card_ci": [20.082, 22.879], "display_s_mean": 3.15, "display_s_ci": [2.968, 3.335], "units_per_s_mean": 6.64, "units_per_s_ci": [6.497, 6.761], "units_per_s_p95": 7.0, "units_per_s_max": 7.0, "gap_s_mean": 0.38, "gaps_gt_1s": 11, "gaps_gt_2s": 10, "gaps_total": 191, "cards_lt_1s": 28, "cards_lt_1s_rate": 0.144, "sentence_complete_card_rate": 0.426, "screen_coverage": 0.853}, "diffs_gpt_minus_pipeline": {"latency_anchor_mean_diff_ci": [3.98, 6.503], "chars_per_card_diff_ci": [0.085, 4.046], "display_s_diff_ci": [-0.316, 0.241], "units_per_s_diff_ci": [0.28, 0.772], "gap_s_diff_ci": [0.068, 0.673]}, "lat_hist": {"pipeline_true": [1.34, 2.18, 1.24, 0.98, 2.07, 1.4, 1.44, 3.16, 1.38, 1.28, 2.01, 2.77, 2.21, 1.27, 1.61, 1.42, 3.54, 1.83, 3.37, 1.48, 3.52, 1.45, 2.77, 2.43, 1.43, 2.35, 1.1, 1.11, 1.51, 1.13, 1.36, 2.12, 1.72, 1.36, 3.39, 1.94, 1.4, 2.69, 3.17, 2.91, 2.82, 2.22, 2.23, 2.61, 1.73, 2.12, 3.15, 2.79, 3.32, 2.05, 1.14, 3.5, 1.15, 2.24, 2.12, 2.99, 1.35, 2.48, 2.15, 2.92, 1.31, 1.88, 2.11, 1.3, 1.29, 1.98, 2.35, 2.15, 1.53, 2.02, 1.2, 1.26, 1.63, 1.53, 1.39, 2.38, 2.33, 2.99, 2.17, 1.69, 3.73, 2.24, 1.62, 1.6, 1.66, 1.06, 2.66, 1.26, 1.21, 1.85, 1.49, 2.42, 1.17, 2.28, 2.05, 1.76, 1.47, 3.18, 1.44, 1.01, 1.39, 1.54, 3.49, 2.95, 3.49, 1.5, 1.4, 3.23, 1.61, 3.02, 2.94, 1.35, 1.3, 1.22, 1.3, 3.18, 2.41, 1.93, 1.39, 1.09, 2.88, 1.31, 2.44, 2.59, 2.45, 1.43, 2.86, 1.37, 3.12, 1.73, 3.46, 2.11, 1.43, 1.94, 3.09, 1.94, 2.18, 1.51, 1.41, 1.6, 1.11, 1.45, 1.44, 3.17, 1.47, 1.36, 2.08, 1.43, 1.24, 1.76, 1.37, 2.7, 2.07, 1.45, 2.41, 1.51, 1.3, 2.86, 2.67, 1.37, 1.35, 1.09], "pipeline_anchor": [1.3, -6.09, -3.83, -3.01, -9.44, -5.38, -3.06, 1.81, -0.53, -6.01, -2.85, 1.53, 0.51, 2.22, 7.53, 11.66, 12.58, -4.73, -1.99, -1.99, 1.19, 1.19, 4.36, -1.81, -5.69, -1.79, -3.27, -15.09, -9.84, -5.98, -4.34, -6.7, -2.44, 1.44, 2.25, 5.11, 1.9, 4.41, 4.75, -1.42, 2.03, -1.61, 2.27, 0.0, 2.57, 6.93, 1.21, 4.75, -3.49, -0.45, 0.36, 1.13, 2.01, 3.89, 5.08, 0.48, -6.54, -2.8, 0.92, 5.04, 6.41, 1.7, -0.13, -1.52, -0.48, 3.2, -0.3, -3.87, -2.09, -5.18, -1.03, -3.89, 0.38, 5.21, 6.14, 10.28, 14.54, 18.73, -1.36, 2.55, 7.61, 6.9, 7.35, 7.32, 4.76, 6.21, 9.24, 11.16, 4.34, 6.32, 2.66, 7.78, 8.15, 3.1, 7.21, 6.08, 7.25, -0.14, 2.46, 3.03, 7.12, 3.16, 8.13, 7.94, 11.5, 5.38, 9.95, 4.95, 7.85, -0.16, 2.96, -2.54, -1.02, 0.75, 2.09, 7.23, 4.48, 2.06, 2.99, -7.18, -2.97, -2.97, 0.63, 4.31, 1.59, 0.31, 0.63, 1.81, -4.61, -1.5, 3.24, 6.27, -1.84, 3.27, -0.17, 3.32, 0.95, 5.07, 5.66, -5.45, -4.3, 0.71, 1.7, 5.69, 8.96, -2.69, -2.01, 2.03, -4.08, 2.83, 4.9, 9.83, 13.65, 14.82, 19.8, 2.37, -4.69, -0.76, 2.79, 4.78, -1.08, 0.69], "gpt_anchor": [7.83, 9.01, 7.99, -0.69, -0.06, 1.21, 1.84, -3.1, 2.65, 4.57, 5.05, 1.57, 3.12, 7.5, 7.6, 12.31, 6.58, 7.8, 7.7, 12.27, 0.7, 6.24, 2.86, 0.82, 1.48, 1.71, 1.17, 4.29, 8.42, 4.1, 6.11, 9.99, 10.47, 5.87, 12.35, 11.17, 9.91, 11.18, 12.37, 7.54, 10.55, 9.11, 10.71, 6.45, 16.05, 10.84, 3.46, 8.54, 13.03, 8.78, 9.01, 9.38, 9.95, 12.8, 10.87, 11.11, 9.21, 7.43, 5.38, 4.89, 10.46, 11.17, 11.17, 0.04, 15.45, 6.96, 12.43, 9.16, 6.94, 4.16, 7.04, 8.95, 3.54]}, "cards": {"pipeline": {"L": [24.8, 19.7, 24.5, 23.5, 3.0, 23.8, 20.7, 13.4, 10.1, 8.7, 10.5, 20.7, 26.7, 21.4, 14.7, 23.7, 20.9, 17.5, 8.0, 30.4, 17.4, 11.0, 34.199999999999996, 9.7, 25.5, 9.4, 19.7, 28.5, 33.2, 17.2, 29.4, 17.0, 19.6, 18.9, 33.4, 19.7, 17.7, 17.9, 16.5, 18.9, 25.7, 25.4, 28.8, 30.0, 15.7, 20.4, 20.9, 17.4, 17.2, 12.2, 16.4, 16.1, 19.4, 16.7, 10.8, 14.0, 17.7, 19.4, 25.7, 22.7, 24.4, 24.7, 18.7, 4.7, 19.4, 19.4, 25.5, 15.7, 18.4, 16.7, 12.1, 25.0, 4.7, 21.4, 10.0, 20.7, 3.7, 21.0, 30.7, 15.7, 27.1, 19.7, 19.4, 21.7, 3.0, 31.1, 12.4, 12.7, 21.7, 22.4, 17.7, 31.7, 5.0, 32.4, 14.0, 27.7, 25.5, 32.9, 12.7, 25.7, 24.7, 17.4, 17.7, 7.0, 24.7, 32.8, 10.7, 19.7, 18.0, 24.7, 15.7, 29.4, 32.0, 3.7, 15.0, 21.7, 24.0, 6.7, 34.1, 20.7, 21.7, 27.4, 25.7, 13.7, 35.0, 25.7, 24.7, 28.1, 34.1, 20.9, 14.8, 12.7, 29.7, 17.7, 24.7, 17.7, 28.7, 16.7, 26.7, 8.4, 34.7, 24.1, 13.7, 13.7, 13.7, 4.7, 6.0, 22.5, 23.4, 23.4, 21.5, 4.7, 23.5, 12.0, 21.7, 29.4, 3.0, 12.4, 30.4, 18.0, 7.0, 11.4, 13.7, 19.7, 26.7, 9.0], "D": [3.5428571428571427, 2.814285714285713, 3.5, 3.3571428571428577, 0.8333333333333321, 3.3999999999999986, 2.9571428571428555, 1.9142857142857146, 2.1635081468005595, 1.77126434638528, 3.163831949234009, 3.0601147959183663, 3.8142857142857167, 3.990159397307707, 2.764842903772177, 4.128164052963257, 2.9857142857142875, 2.5, 1.142857142857146, 4.342857142857142, 2.4857142857142804, 1.5714285714285694, 4.885714285714286, 1.3857142857142861, 3.642857142857139, 1.3428571428571416, 2.8142857142857167, 4.071428571428569, 4.742857142857147, 2.872849171502253, 5.299999999999997, 2.8475331783294706, 2.799999999999997, 2.700000000000003, 4.771428571428572, 2.8142857142857167, 2.578848883144701, 3.2910510883386337, 3.214300465245003, 3.618084192276001, 3.927117346938786, 4.39325976449615, 4.114285714285728, 4.428026364774098, 2.65078288973595, 3.5334630012512207, 3.8334438775510193, 2.809797051098883, 3.4970408163265176, 2.7813550748630576, 3.0896428571428487, 2.3000000000000114, 3.888308048248291, 4.345592021942139, 2.6999999999999886, 3.7421281337738037, 3.7127130031585693, 4.117631912231445, 3.671428571428571, 3.2428571428571438, 3.6985725811549592, 3.856224489795917, 2.671428571428571, 1.1102418076262204, 4.417450904846191, 3.8058559894561768, 4.322206974029541, 2.819591836734695, 2.6285714285714263, 3.261274820249909, 1.7285714285714278, 3.5714285714285694, 0.8333333333333357, 3.057142857142857, 1.4285714285714306, 2.9571428571428555, 1.7177154972439723, 4.260395050048828, 5.534132653061221, 2.24334628027313, 4.732130102040813, 4.24056787121053, 2.8060714285714283, 3.0999999999999943, 0.8333333333333286, 4.44285714285715, 1.7714285714285722, 1.8142857142857167, 3.0999999999999943, 3.200000000000003, 2.528571428571425, 4.528571428571425, 0.8333333333333286, 4.628571428571433, 2.6757044047401166, 4.222130102040808, 4.295991855738123, 4.699999999999989, 1.9198081790062815, 3.671428571428578, 3.528571428571439, 2.4857142857142946, 2.528571428571439, 1.0, 3.528571428571439, 4.685714285714283, 1.5285714285714391, 3.5601372471207355, 4.550832525522196, 4.942386865615845, 2.898733139038086, 7.0, 4.571428571428571, 0.8333333333333339, 2.1428571428571423, 3.1000000000000014, 3.428571428571427, 0.9571428571428555, 5.178064102875133, 3.0773678176902877, 3.1498214285714283, 3.914285714285711, 3.671428571428571, 2.0469483402797195, 5.164285714285711, 3.671428571428571, 3.528571428571432, 4.0142857142857125, 4.871428571428574, 2.9857142857142804, 2.114285714285714, 2.5251738071441707, 5.257091836734688, 2.528571428571425, 4.490763552358999, 2.736532424201954, 5.2703571428571365, 2.4234266172136643, 5.8167857142857144, 3.286770441872733, 5.241683673469382, 3.442857142857136, 2.706798469387749, 3.4533682710297313, 3.1191964285714278, 1.8609115941183916, 1.5, 4.062151908874512, 3.342857142857156, 3.342857142857156, 3.7621864941351078, 2.051074258679023, 4.795918367346928, 2.1963976402672074, 3.8249480724334717, 4.199999999999989, 0.8333333333333428, 1.7714285714285722, 4.342857142857156, 2.5714285714285836, 1.0, 1.6285714285714334, 2.3030978349945883, 2.8142857142857167, 5.755484693877548, 1.287326917512786], "U": [7.000000000000001, 7.000000000000003, 7.0, 6.999999999999999, 3.600000000000005, 7.0000000000000036, 7.0000000000000036, 6.999999999999999, 4.668343872398211, 4.911745679155449, 3.3187603414088227, 6.764452113891288, 6.999999999999996, 5.363194265983281, 5.316757773088752, 5.741050911721348, 6.999999999999996, 7.0, 6.999999999999981, 7.000000000000002, 7.000000000000014, 7.000000000000009, 6.999999999999998, 6.999999999999997, 7.000000000000008, 7.000000000000006, 6.999999999999994, 7.0000000000000036, 6.999999999999994, 5.9870877213529035, 5.5471698113207575, 5.97007969191537, 7.000000000000008, 6.999999999999992, 6.999999999999998, 6.999999999999994, 6.863527411662934, 5.43899183559504, 5.133309775613128, 5.223759038097651, 6.5442404006677615, 5.78158391754307, 6.999999999999977, 6.77502741145727, 5.922778534896876, 5.773373031718808, 5.452016689847011, 6.192618072965461, 4.918444165621097, 4.386351138788232, 5.308056872037929, 6.999999999999966, 4.989316628022779, 3.842974654702263, 4.000000000000017, 3.7411866989924514, 4.767403239879254, 4.711445902284807, 7.000000000000001, 6.999999999999998, 6.597139697710237, 6.405228758169937, 7.000000000000001, 4.233312029609973, 4.391673029963301, 5.097407798336607, 5.8997637441287685, 5.568181818181816, 7.000000000000005, 5.120696942283536, 7.000000000000003, 7.0000000000000036, 5.639999999999985, 7.0, 6.99999999999999, 7.0000000000000036, 2.154023763502483, 4.929120364028054, 5.547391420590218, 6.9984737256383385, 5.726807888970056, 4.645604220544254, 6.913580246913581, 7.000000000000012, 3.6000000000000205, 6.9999999999999885, 6.999999999999997, 6.99999999999999, 7.000000000000012, 6.999999999999994, 7.00000000000001, 7.000000000000005, 6.000000000000034, 6.999999999999992, 5.2322670528173605, 6.560669456066959, 5.935765442837106, 7.000000000000017, 6.615244241002083, 6.999999999999988, 6.999999999999979, 6.999999999999974, 6.999999999999971, 7.0, 6.999999999999979, 7.000000000000003, 6.999999999999951, 5.533494534777386, 3.9553202406486156, 4.99758531082173, 5.416159145029086, 4.2, 7.0, 4.439999999999997, 7.000000000000002, 6.9999999999999964, 7.0000000000000036, 7.000000000000012, 6.585472740877404, 6.726527742639599, 6.889279437609842, 7.000000000000005, 7.000000000000001, 6.692889962297665, 6.777316735822964, 7.000000000000001, 6.999999999999993, 7.0000000000000036, 6.999999999999997, 7.0000000000000115, 7.000000000000002, 5.029356776974883, 5.6495113500713385, 7.00000000000001, 5.500178246308489, 6.46803956841907, 5.445551263807014, 6.89106898528697, 4.590163934426229, 2.555700237834029, 6.620010317607102, 7.000000000000014, 5.061329890251786, 3.9671413312414865, 4.392156862745099, 2.525643891335219, 4.0, 5.538936136495695, 6.9999999999999725, 6.9999999999999725, 5.71476189006485, 2.291482124604789, 4.900000000000011, 5.463491573656997, 5.673279633883823, 7.000000000000019, 3.5999999999999592, 6.999999999999997, 6.999999999999979, 6.999999999999967, 7.0, 6.99999999999998, 5.948509781840071, 6.999999999999994, 4.639053254437872, 6.99123111430676]}, "gpt": {"L": [26.1, 29.0, 9.7, 26.7, 31.2, 31.1, 10.5, 31.2, 29.4, 19.7, 16.099999999999998, 32.2, 19.7, 33.2, 19.7, 29.0, 19.7, 27.9, 34.0, 26.9, 31.4, 31.9, 27.1, 20.7, 17.0, 30.7, 25.6, 35.0, 14.7, 25.8, 3.7, 34.0, 4.7, 26.4, 33.4, 14.9, 2.7, 26.2, 14.9, 9.7, 29.3, 19.7, 14.7, 33.7, 36.4, 23.7, 29.7, 31.7, 15.1, 11.7, 22.7, 15.7, 30.0, 8.7, 23.5, 29.7, 18.4, 26.4, 28.7, 28.4, 4.7, 35.0, 24.4, 20.4, 18.7, 25.8, 16.4, 18.7, 30.4, 24.4, 12.7, 23.7, 29.7, 20.7, 2.7, 37.0, 20.4, 18.4, 30.7, 33.7, 5.7, 29.7, 19.7, 17.7, 3.7, 33.0, 14.7, 30.4, 11.0, 30.7, 27.7, 27.4, 5.0, 18.9, 3.7, 28.0, 7.7, 3.7, 27.0, 3.7, 5.4, 31.7, 28.4, 15.4, 33.7, 21.4, 22.7, 33.0, 3.7, 27.1, 16.7, 21.7, 24.7, 3.7, 32.7, 34.4, 27.9, 36.7, 2.7, 28.0, 15.7, 6.4, 33.0, 5.7, 11.7, 23.7, 1.0, 21.1, 24.5, 21.1, 22.4, 26.2, 3.7, 29.2, 4.7, 23.7, 26.7, 25.7, 27.8, 19.7, 18.7, 30.1, 30.0, 3.7, 18.7], "D": [3.7285714285714278, 4.142857142857146, 1.3857142857142861, 3.8142857142857167, 4.4571428571428555, 4.442857142857143, 1.5, 4.4571428571428555, 4.200000000000003, 2.8142857142857167, 2.299999999999997, 4.599999999999994, 2.8142857142857167, 5.411938775510208, 2.8142857142857167, 4.142857142857139, 2.8142857142857167, 3.9857142857142804, 4.857142857142861, 3.8428571428571416, 4.48571428571428, 4.557142857142864, 3.8714285714285666, 2.9571428571428555, 2.4285714285714164, 4.385714285714272, 3.657142857142844, 5.0, 2.0999999999999943, 3.6857142857142833, 0.8333333333333428, 4.857142857142861, 0.8333333333333428, 3.7714285714285722, 4.771428571428572, 2.1285714285714334, 0.8333333333333428, 3.742857142857133, 2.1285714285714334, 1.385714285714272, 4.185714285714283, 2.8142857142857167, 2.0999999999999943, 4.814285714285717, 5.199999999999999, 3.385714285714286, 4.242857142857144, 4.528571428571432, 2.1571428571428584, 1.6714285714285708, 3.24285714285714, 2.24285714285714, 4.285714285714285, 1.2428571428571402, 3.357142857142854, 4.24285714285714, 2.6285714285714263, 3.7714285714285722, 4.099999999999994, 4.05714285714285, 0.8333333333333286, 5.0, 3.4857142857142804, 2.914285714285711, 2.671428571428578, 3.6857142857142833, 2.3428571428571416, 2.671428571428578, 4.342857142857142, 3.4857142857142804, 1.8142857142857167, 5.937788244391456, 4.961683673469395, 4.3107818809994285, 0.8333333333333428, 5.285714285714278, 2.914285714285711, 2.6285714285714334, 4.385714285714272, 4.814285714285717, 0.8333333333333428, 4.242857142857133, 2.8142857142857167, 2.528571428571439, 0.8333333333333428, 4.714285714285722, 2.0999999999999943, 4.342857142857156, 2.233146803573277, 4.385714285714272, 3.9571428571428555, 3.914285714285711, 0.8333333333333428, 2.6999999999999993, 0.8333333333333321, 4.0, 1.1000000000000014, 0.8333333333333321, 3.8571428571428577, 0.8333333333333321, 0.8333333333333321, 4.5285714285714285, 4.057142857142857, 2.200000000000003, 5.224733772830035, 3.057142857142857, 3.24285714285714, 4.714285714285708, 0.8333333333333286, 3.8714285714285666, 2.385714285714286, 3.0999999999999943, 3.528571428571425, 0.8333333333333286, 4.671428571428578, 4.914285714285711, 3.9857142857142804, 5.242857142857147, 0.8333333333333286, 4.0, 2.2428571428571473, 0.914285714285711, 4.714285714285708, 0.8333333333333286, 1.671428571428578, 3.385714285714286, 0.8333333333333286, 3.3470305139445315, 4.146874999999994, 3.0142857142857054, 3.1999999999999886, 3.742857142857133, 0.8333333333333428, 4.171428571428578, 0.8333333333333428, 3.385714285714272, 4.049272959183668, 3.671428571428578, 3.971428571428561, 2.8142857142857167, 2.671428571428578, 4.300000000000011, 4.285714285714278, 0.8333333333333428, 2.671428571428578], "U": [7.000000000000002, 6.999999999999995, 6.999999999999997, 6.999999999999996, 7.000000000000003, 7.0, 7.0, 7.000000000000003, 6.999999999999995, 6.999999999999994, 7.000000000000008, 7.000000000000009, 6.999999999999994, 6.134585289514863, 6.999999999999994, 7.000000000000007, 6.999999999999994, 7.000000000000009, 6.999999999999994, 7.000000000000002, 7.000000000000008, 6.999999999999989, 7.000000000000009, 7.0000000000000036, 7.0000000000000355, 7.000000000000022, 7.000000000000025, 7.0, 7.000000000000019, 7.000000000000004, 4.43999999999995, 6.999999999999994, 5.639999999999936, 6.999999999999998, 6.999999999999998, 6.999999999999984, 3.2399999999999634, 7.000000000000018, 6.999999999999984, 7.000000000000069, 7.000000000000004, 6.999999999999994, 7.000000000000019, 6.999999999999997, 7.000000000000001, 6.999999999999999, 6.999999999999998, 6.999999999999995, 6.999999999999996, 7.000000000000002, 7.000000000000005, 7.000000000000008, 7.000000000000002, 7.000000000000014, 7.000000000000006, 7.000000000000004, 7.000000000000005, 6.999999999999998, 7.00000000000001, 7.000000000000012, 5.6400000000000325, 7.0, 7.00000000000001, 7.000000000000007, 6.999999999999983, 7.000000000000004, 7.000000000000003, 6.999999999999983, 7.000000000000002, 7.00000000000001, 6.99999999999999, 3.9913851798918327, 5.9858713200135645, 4.80191310333726, 3.2399999999999634, 7.000000000000011, 7.000000000000007, 6.999999999999987, 7.000000000000022, 6.999999999999997, 6.839999999999923, 7.000000000000016, 6.999999999999994, 6.999999999999971, 4.43999999999995, 6.999999999999988, 7.000000000000019, 6.999999999999979, 4.925784539735053, 7.000000000000022, 7.000000000000003, 7.000000000000005, 5.999999999999932, 7.000000000000001, 4.440000000000007, 7.0, 6.999999999999991, 4.440000000000007, 6.999999999999999, 4.440000000000007, 6.480000000000009, 7.0, 7.0, 6.999999999999991, 6.450089414172394, 7.0, 7.000000000000005, 7.000000000000009, 4.440000000000025, 7.000000000000009, 6.999999999999998, 7.000000000000012, 7.000000000000007, 4.440000000000025, 6.999999999999991, 7.000000000000004, 7.000000000000009, 6.999999999999995, 3.2400000000000184, 7.0, 6.999999999999986, 7.000000000000025, 7.000000000000009, 6.840000000000039, 6.9999999999999725, 6.999999999999999, 1.2000000000000068, 6.3040954996054985, 5.908063300678229, 7.000000000000021, 7.000000000000025, 7.000000000000018, 4.43999999999995, 6.999999999999989, 5.639999999999936, 7.000000000000028, 6.593776282590421, 6.999999999999988, 7.000000000000019, 6.999999999999994, 6.999999999999983, 6.999999999999982, 7.000000000000013, 4.43999999999995, 6.999999999999983]}}};
+const P = D.pipeline, G = D.gpt_live_1, X = D.diffs_gpt_minus_pipeline, ALL = D.gpt_live_1_all_runs;
+const $ = s => document.querySelector(s);
+const NS = 'http://www.w3.org/2000/svg';
+const f1 = n => n.toFixed(1), f2 = n => n.toFixed(2);
+const ci = a => a ? `${f2(a[0])} to ${f2(a[1])}` : '';
+function el(tag, attrs, parent, text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e}
+const tip = $('#tip');
+function tipOn(node, html){
+  node.addEventListener('mousemove',e=>{tip.innerHTML=html;tip.style.opacity=1;tip.style.left=Math.min(e.clientX+12,innerWidth-250)+'px';tip.style.top=(e.clientY+12)+'px'});
+  node.addEventListener('mouseleave',()=>tip.style.opacity=0);
+}
+
+$('#meta').textContent = `${D.windows_s*3/60} min of audio · 3 windows (10:00, 30:00, 50:00) · gpt-live-1: ${ALL.n_runs} runs · pipeline: gemini-3-flash-preview + nova-3`;
+$('#vAnch').textContent = f2(P.latency_anchor_mean);
+$('#vTrue').textContent = f2(P.latency_true_mean);
+
+// Verdict tiles
+const tiles = [
+ {k:'chrF++ vs reference', a:f1(P.chrf_mean), b:f1(G.chrf_mean), n:'gpt-live-1 higher on 3 of 3 clips'},
+ {k:'Delay to caption (mean)', a:f1(P.latency_anchor_mean)+' s', b:f1(G.latency_anchor_mean)+' s', n:`gpt-live-1 is ${f1(X.latency_anchor_mean_diff_ci[0])} to ${f1(X.latency_anchor_mean_diff_ci[1])} s slower (95%)`},
+ {k:'Reading speed (units/s)', a:f1(P.units_per_s_mean), b:f1(G.units_per_s_mean), n:'both under the 7.0 cap; gpt-live-1 is denser'},
+ {k:'Captions on screen', a:Math.round(P.screen_coverage*100)+'%', b:Math.round(G.screen_coverage*100)+'%', n:`gaps over 2 s: ${P.gaps_gt_2s} vs ${G.gaps_gt_2s}`},
+];
+$('#tiles').innerHTML = tiles.map(t=>`<div class="tile"><div class="k">${t.k}</div><div class="v"><span><i class="dot" style="background:var(--s1)"></i><b>${t.a}</b></span><span><i class="dot" style="background:var(--s2)"></i><b>${t.b}</b></span></div><div class="note">${t.n}</div></div>`).join('');
+
+// Chart 1: chrF by clip
+(function(){
+  const svg=$('#chrf'), W=760,H=280,m={l:40,r:10,t:16,b:44}, iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const clips=[['A','Clip A · 10:00',P.chrf_by_run['A:p'],[ALL.chrf_by_run['A:a1'],ALL.chrf_by_run['A:a2']]],
+               ['B','Clip B · 30:00',P.chrf_by_run['B:p'],[ALL.chrf_by_run['B:b']]],
+               ['C','Clip C · 50:00',P.chrf_by_run['C:p'],[ALL.chrf_by_run['C:c']]]];
+  const y=v=>m.t+ih-(v/50)*ih;
+  for(const t of [0,10,20,30,40,50]){el('line',{x1:m.l,x2:W-m.r,y1:y(t),y2:y(t),class:'grid'},svg);el('text',{x:m.l-8,y:y(t)+4,'text-anchor':'end'},svg,t)}
+  const gw=iw/3;
+  clips.forEach((c,i)=>{
+    const bars=[{v:c[2],c:'var(--s1)',n:'Pipeline'}].concat(c[3].map((v,j)=>({v,c:'var(--s2)',n:c[3].length>1?`gpt-live-1 run ${j+1}`:'gpt-live-1'})));
+    const bw=Math.min(56,(gw-60)/bars.length), tot=bw*bars.length+2*(bars.length-1), x0=m.l+gw*i+(gw-tot)/2;
+    bars.forEach((b,j)=>{
+      const x=x0+j*(bw+2), h=ih-(y(b.v)-m.t);
+      const r=el('path',{class:'bar',d:`M${x},${m.t+ih}V${y(b.v)+4}Q${x},${y(b.v)} ${x+4},${y(b.v)}H${x+bw-4}Q${x+bw},${y(b.v)} ${x+bw},${y(b.v)+4}V${m.t+ih}Z`,fill:b.c},svg);
+      tipOn(r,`${c[1]}<br>${b.n}: ${f1(b.v)}`);
+      el('text',{x:x+bw/2,y:y(b.v)-6,'text-anchor':'middle',class:'lab'},svg,f1(b.v));
+    });
+    el('text',{x:m.l+gw*i+gw/2,y:H-22,'text-anchor':'middle'},svg,c[1]);
+    if(c[3].length>1) el('text',{x:m.l+gw*i+gw/2,y:H-8,'text-anchor':'middle'},svg,'two gpt-live-1 runs');
+  });
+})();
+
+// Chart 2: latency histograms (small multiples, shared x)
+(function(){
+  const svg=$('#lat'), W=760,m={l:40,r:10,t:10,b:30}, iw=W-m.l-m.r, ph=120, gap=30, bins=17;
+  const x=v=>m.l+(Math.max(-2,Math.min(15,v))+2)/17*iw;
+  const sets=[['Pipeline',D.lat_hist.pipeline_anchor,'var(--s1)'],['gpt-live-1',D.lat_hist.gpt_anchor,'var(--s2)']];
+  const hist=a=>{const h=Array(bins).fill(0);a.forEach(v=>{h[Math.min(bins-1,Math.max(0,Math.floor(v+2)))]++});return h};
+  const hs=sets.map(s=>hist(s[1])), max=Math.max(...hs.flat());
+  sets.forEach((s,i)=>{
+    const y0=m.t+i*(ph+gap), base=y0+ph, sy=c=>base-c/max*(ph-14);
+    el('line',{x1:m.l,x2:W-m.r,y1:base,y2:base,class:'grid'},svg);
+    el('text',{x:m.l,y:y0+10,class:'lab'},svg,`${s[0]} · n=${s[1].length}`);
+    hs[i].forEach((c,b)=>{ if(!c) return; const bx=m.l+b/17*iw+1, bw=iw/17-2, top=sy(c);
+      const r=el('path',{class:'bin',d:`M${bx},${base}V${top+3}Q${bx},${top} ${bx+3},${top}H${bx+bw-3}Q${bx+bw},${top} ${bx+bw},${top+3}V${base}Z`,fill:s[2]},svg);
+      tipOn(r,`${s[0]}<br>${b-2} to ${b-1} s: ${c} sentences`);});
+    const med=[...s[1]].sort((a,b)=>a-b)[Math.floor(s[1].length/2)];
+    el('line',{x1:x(med),x2:x(med),y1:y0+16,y2:base,stroke:'var(--ink)','stroke-dasharray':'3 3'},svg);
+    el('text',{x:x(med)+5,y:y0+26,class:'lab'},svg,`median ${f1(med)} s`);
+  });
+  const yb=m.t+2*(ph+gap)-gap+4;
+  for(let t=-2;t<=15;t+=1){ if(t%2===0 || t===15){el('text',{x:m.l+(t+2)/17*iw,y:yb+14,'text-anchor':'start'},svg,t)} }
+  el('text',{x:W-m.r,y:yb+28,'text-anchor':'end'},svg,'seconds after the sentence was spoken');
+})();
+
+// Table
+(function(){
+  const rows=[
+   ['chrF++ (mean of 3 clips)',f1(P.chrf_mean),'',f1(G.chrf_mean),'','g'],
+   ['Delay, mean (s)',f2(P.latency_anchor_mean),ci(P.latency_anchor_ci),f2(G.latency_anchor_mean),ci(G.latency_anchor_ci),'p'],
+   ['Delay, 90th percentile (s)',f2(P.latency_anchor_p90),'',f2(G.latency_anchor_p90),'','p'],
+   ['Characters per card',f1(P.chars_per_card),ci(P.chars_per_card_ci),f1(G.chars_per_card),ci(G.chars_per_card_ci),''],
+   ['Display time per card (s)',f2(P.display_s_mean),ci(P.display_s_ci),f2(G.display_s_mean),ci(G.display_s_ci),''],
+   ['Reading speed, mean (units/s)',f2(P.units_per_s_mean),ci(P.units_per_s_ci),f2(G.units_per_s_mean),ci(G.units_per_s_ci),''],
+   ['Blank time between cards, mean (s)',f2(P.gap_s_mean),'',f2(G.gap_s_mean),'','p'],
+   ['Gaps over 2 s',P.gaps_gt_2s+' of '+P.gaps_total,'',G.gaps_gt_2s+' of '+G.gaps_total,'','p'],
+   ['Cards shown under 1 s',P.cards_lt_1s+' ('+Math.round(P.cards_lt_1s_rate*100)+'%)','',G.cards_lt_1s+' ('+Math.round(G.cards_lt_1s_rate*100)+'%)','','p'],
+   ['Cards ending on a full stop',Math.round(P.sentence_complete_card_rate*100)+'%','',Math.round(G.sentence_complete_card_rate*100)+'%','','g'],
+   ['Output length vs reference',f2(P.len_ratio_mean)+'×','',f2(G.len_ratio_mean)+'×','',''],
+   ['Captions on screen',Math.round(P.screen_coverage*100)+'%','',Math.round(G.screen_coverage*100)+'%','','p'],
+  ];
+  $('#tbl').innerHTML='<tr><th>Measure</th><th>Pipeline</th><th>95% range</th><th>gpt-live-1</th><th>95% range</th></tr>'+
+    rows.map(r=>`<tr><td>${r[0]}</td><td class="${r[5]==='p'?'win':''}">${r[1]}</td><td class="ci">${r[2]}</td><td class="${r[5]==='g'?'win':''}">${r[3]}</td><td class="ci">${r[4]}</td></tr>`).join('');
+})();
+
+// Reading speed distribution
+(function(){
+  const svg=$('#ups'), W=760,H=240,m={l:40,r:10,t:16,b:40}, iw=W-m.l-m.r, ih=H-m.t-m.b;
+  const edges=[0,2,3,4,5,6,6.5,7.01], labs=['<2','2–3','3–4','4–5','5–6','6–6.5','6.5–7'];
+  const share=a=>{const h=Array(7).fill(0);a.forEach(v=>{for(let i=0;i<7;i++)if(v>=edges[i]&&v<edges[i+1]){h[i]++;break}});return h.map(c=>c/a.length)};
+  const hp=share(D.cards.pipeline.U), hg=share(D.cards.gpt.U), y=v=>m.t+ih-v/0.6*ih;
+  for(const t of [0,.2,.4,.6]){el('line',{x1:m.l,x2:W-m.r,y1:y(t),y2:y(t),class:'grid'},svg);el('text',{x:m.l-8,y:y(t)+4,'text-anchor':'end'},svg,Math.round(t*100)+'%')}
+  const gw=iw/7, bw=Math.min(34,gw/2-4);
+  labs.forEach((l,i)=>{
+    [[hp[i],'var(--s1)','Pipeline',0],[hg[i],'var(--s2)','gpt-live-1',1]].forEach(([v,c,n,j])=>{
+      const x=m.l+gw*i+gw/2-bw-1+j*(bw+2), top=y(v);
+      const r=el('path',{class:'bar',d:`M${x},${m.t+ih}V${top+3}Q${x},${top} ${x+3},${top}H${x+bw-3}Q${x+bw},${top} ${x+bw},${top+3}V${m.t+ih}Z`,fill:c},svg);
+      tipOn(r,`${n}<br>${l} units/s: ${Math.round(v*100)}% of cards`);
+    });
+    el('text',{x:m.l+gw*i+gw/2,y:H-20,'text-anchor':'middle'},svg,l);
+  });
+  el('text',{x:W-m.r,y:H-4,'text-anchor':'end'},svg,'units per second (weighted characters)');
+})();
+</script>

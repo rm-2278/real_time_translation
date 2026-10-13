@@ -1,0 +1,53 @@
+<transcript>
+[00:00] speculative decoding to improve [uncertain: throughput], it it will decide
+[00:03] it will decided by your speculative decoding configs.
+[00:07] And I recommend you to read more blogs online.
+[00:14] And uh the second one, the speculative decoding
+[00:17] will have [uncertain: efficiency decay] because because like
+[00:21] we will have some uh token level difficulty.
+[00:24] But in sequence level, we will have some
+[00:27] we will have some simple questions and also hard questions.
+[00:31] So we could train in sequence level, maybe we could train a router like uh
+[00:37] to predict to decide which uh query
+[00:40] some queries for small models to generate
+[00:43] and some some hard questions for bigger model to generate.
+[00:47] Such as uh the this one this question,
+[00:50] which city is the capital of Japan?
+[00:52] It's a very simple question.
+[00:54] Everyone I think everyone knows that the answer is Tokyo.
+[00:58] It's it's very easy for small language model to generate it.
+[01:03] And for some hard questions, the such as some problems in
+[01:08] uh International Mathematical Olympiad,
+[01:11] uh we will use large model to generate it.
+[01:13] And it will the answer will be very very long.
+[01:16] By this kind of uh router cascading router stuffs,
+[01:21] we could save a lot of computes for large models.
+[01:25] And and because we use small model to generate,
+[01:28] so we could improve the [uncertain: throughputs] and uh latency together.
+[01:33] Uh the okay, this is uh some generation algorithm
+[01:38] to improve the language model efficiency.
+[01:42] The third perspective is like third part is like system perspective.
+[01:47] Uh uh when we do model generation,
+[01:54] uh we if we want normally the HP uh the memory in GPU
+[02:01] will save save parameters and also KV cache.
+[02:07] So but normally because our prompt is very long,
+[02:11] sometimes the KV cache will have over 30%
+[02:16] 30% uh storage in there.
+[02:20] But and then it will we cannot increase our inference batch size.
+[02:25] If we want to improve the handle more users at the same time,
+[02:30] actually we want to increase the inference batch size, right?
+[02:33] So because our KV cache uh occupy a lot,
+[02:37] so we cannot increase the batch size a lot.
+[02:39] So it will impact the [uncertain: throughput].
+[02:42] The reason for it is like because for different questions,
+[02:46] we don't know how many how how long the answer will it is.
+[02:53] In the previous version, the system will directly arrange
+[02:57] the memory for requests.
+</transcript>
+
+<uncertain_spots>
+- [00:00] "throughput" -- heavily accented pronunciation sounds like "sput", inferred from context and slide
+- [00:17] "efficiency decay" -- mumbled pronunciation, sounds like "decay" but could be another word like "gap" or "hit"
+- [01:28] "throughputs" -- heavily accented pronunciation sounds like "suputs"
+- [02:39] "throughput" -- heavily accented pronunciation sounds like "suput"
+</uncertain_spots>

@@ -83,7 +83,7 @@ async def transcribe(video_path: Path, *, api_key: str, model: str) -> str:
     response = await client.aio.models.generate_content(
         model=model,
         contents=[TRANSCRIPTION_PROMPT, uploaded],
-        config=types.GenerateContentConfig(temperature=0.0, max_output_tokens=8192),
+        config=types.GenerateContentConfig(temperature=0.0, max_output_tokens=32768),
     )
     print(f"Done in {time.time() - t0:.1f}s")
 

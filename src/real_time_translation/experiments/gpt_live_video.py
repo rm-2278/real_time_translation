@@ -230,6 +230,7 @@ def main(argv: list[str] | None = None) -> None:
         "results": {
             "segment_count": len(events),
             "segments": [],
+            "raw_transcript_deltas": res["events"],
             "events": events,
             "full_translation": full,
             "raw_event_counts": res["raw_types"],
