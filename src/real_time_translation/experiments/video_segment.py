@@ -25,8 +25,6 @@ import asyncio
 import contextlib
 import csv
 import json
-import re
-import shutil
 import time
 from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
@@ -38,33 +36,17 @@ from real_time_translation.config import Config
 from real_time_translation.experiments.glossary_metrics import (
     compute_glossary_adherence,
 )
+from real_time_translation.experiments.media import (
+    parse_time,
+    read_all_stderr,
+    run_ffmpeg_pcm,
+)
+from real_time_translation.experiments.results_io import (
+    ensure_csv_header,
+    maybe_compute_chrf,
+    slugify,
+)
 from real_time_translation.pipeline import TranslationPipeline, TranslationResult
-
-
-def _parse_time(value: str) -> float:
-    """Parse a time string into seconds. Accepts seconds, MM:SS, or HH:MM:SS."""
-    value = value.strip()
-    if re.fullmatch(r"\d+(?:\.\d+)?", value):
-        return float(value)
-
-    parts = value.split(":")
-    if len(parts) not in {2, 3}:
-        raise ValueError(f"Invalid time format: {value!r}")
-
-    numbers = [float(p) for p in parts]
-    if len(numbers) == 2:
-        minutes, seconds = numbers
-        return minutes * 60 + seconds
-
-    hours, minutes, seconds = numbers
-    return hours * 3600 + minutes * 60 + seconds
-
-
-def _slugify(value: str) -> str:
-    value = value.strip().lower()
-    value = re.sub(r"[^a-z0-9]+", "_", value)
-    value = re.sub(r"_+", "_", value).strip("_")
-    return value or "experiment"
 
 
 @dataclass
@@ -116,90 +98,6 @@ class SegmentRecord:
     translation: str
     confidence: float
 
-
-async def _run_ffmpeg_pcm(
-    *,
-    input_path: str,
-    start_seconds: float,
-    duration_seconds: float | None,
-    sample_rate: int,
-    channels: int,
-) -> asyncio.subprocess.Process:
-    if shutil.which("ffmpeg") is None:
-        raise RuntimeError("ffmpeg not found in PATH")
-
-    cmd = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-ss", f"{start_seconds}"]
-    cmd += ["-i", input_path]
-    if duration_seconds is not None:
-        cmd += ["-t", f"{duration_seconds}"]
-    cmd += [
-        "-vn",
-        "-f",
-        "s16le",
-        "-ar",
-        str(sample_rate),
-        "-ac",
-        str(channels),
-        "-acodec",
-        "pcm_s16le",
-        "pipe:1",
-    ]
-
-    return await asyncio.create_subprocess_exec(
-        *cmd,
-        stdout=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
-    )
-
-
-async def _read_all_stderr(proc: asyncio.subprocess.Process) -> str:
-    if proc.stderr is None:
-        return ""
-    data = await proc.stderr.read()
-    return data.decode("utf-8", errors="replace")
-
-
-def _ensure_csv_header(csv_path: Path, header: list[str]) -> None:
-    """Migrate an existing results.csv to a new (superset) header in place.
-
-    Both experiment runners append to the same results.csv; if one adds a
-    metric column the other doesn't know about yet, the physical header
-    would drift out of sync with later-appended rows' column order.
-    Rewriting preserves old rows (missing new columns read back as "").
-    """
-    if not csv_path.exists():
-        return
-
-    with csv_path.open(newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        existing_header = reader.fieldnames
-        if existing_header is None or list(existing_header) == header:
-            return
-        rows = list(reader)
-
-    with csv_path.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=header)
-        writer.writeheader()
-        for row in rows:
-            writer.writerow({key: row.get(key, "") for key in header})
-
-
-def _maybe_compute_chrf(
-    *, hypothesis: str, reference_text_path: Path | None
-) -> float | None:
-    if reference_text_path is None:
-        return None
-    reference = reference_text_path.read_text(encoding="utf-8").strip()
-    if not reference:
-        return None
-    try:
-        from sacrebleu.metrics import CHRF  # type: ignore
-    except ImportError as exc:
-        raise RuntimeError(
-            "sacrebleu is not installed. Run: uv sync --extra experiments"
-        ) from exc
-    metric = CHRF(word_order=2)
-    return float(metric.corpus_score([hypothesis], [[reference]]).score)
 
 
 async def run_experiment(
@@ -378,8 +276,8 @@ async def run_experiment(
     if chunk_bytes <= 0:
         raise ValueError("chunk_ms too small")
 
-    proc = await _run_ffmpeg_pcm(
-        input_path=str(input_file),
+    proc = await run_ffmpeg_pcm(
+        source=str(input_file),
         start_seconds=start_seconds,
         duration_seconds=duration_seconds,
         sample_rate=sample_rate,
@@ -388,7 +286,7 @@ async def run_experiment(
     if proc.stdout is None:
         raise RuntimeError("Failed to capture ffmpeg stdout")
 
-    stderr_task = asyncio.create_task(_read_all_stderr(proc))
+    stderr_task = asyncio.create_task(read_all_stderr(proc))
 
     await pipeline.start()
     playback_start = time.time()
@@ -450,7 +348,7 @@ async def run_experiment(
     full_asr = "\n".join(r.asr for r in completed)
     full_translation = "\n".join(r.translation for r in completed)
 
-    chrf_score = _maybe_compute_chrf(
+    chrf_score = maybe_compute_chrf(
         hypothesis=full_translation, reference_text_path=reference_text_path
     )
 
@@ -476,7 +374,7 @@ async def run_experiment(
     now = datetime.now(UTC)
     date_str = now.date().isoformat()
     stamp = now.strftime("%Y%m%d")
-    slug = _slugify(experiment_name)
+    slug = slugify(experiment_name)
 
     experiments_dir = Path("experiments")
     experiments_dir.mkdir(parents=True, exist_ok=True)
@@ -617,7 +515,7 @@ async def run_experiment(
         "json_path": str(json_path),
     }
 
-    _ensure_csv_header(csv_path, header)
+    ensure_csv_header(csv_path, header)
 
     write_header = not csv_path.exists()
     with csv_path.open("a", newline="", encoding="utf-8") as f:
@@ -661,8 +559,8 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> None:
     args = build_parser().parse_args(argv)
 
-    start_seconds = _parse_time(args.start)
-    duration_seconds = _parse_time(args.duration) if args.duration else None
+    start_seconds = parse_time(args.start)
+    duration_seconds = parse_time(args.duration) if args.duration else None
 
     json_path, csv_path = asyncio.run(
         run_experiment(

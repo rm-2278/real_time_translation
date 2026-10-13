@@ -1,90 +1,25 @@
 """Translation pipeline for real-time audio translation."""
 
 import asyncio
-import time
-from collections import deque
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from typing import Any
 
 from real_time_translation.audio.capture import AudioCapture
 from real_time_translation.config import Config
+from real_time_translation.fragment_queue import FragmentQueue, QueuedTranscription
 from real_time_translation.preload.auto_preload import preload_translator
+from real_time_translation.transcription.dangling import split_dangling_tail
 from real_time_translation.transcription.deepgram_client import (
     DeepgramTranscriber,
     TranscriptionResult,
 )
 from real_time_translation.translation.llm_translator import LLMTranslator
+from real_time_translation.translation.prompts import (
+    COMPRESSION_ACTIONS_INSTRUCTIONS,
+    language_name,
+)
 from real_time_translation.translation.rate_limiter import RateLimiter
-
-# Experimental (h-compression-actions-prompt-instruction,
-# research_agent/state/hypotheses.json), gated by
-# Config.compression_actions_prompt_enabled. Identical text to
-# experiments/compression_actions_replay.py's COMPRESSION_INSTRUCTIONS (kept
-# as a separate copy there deliberately -- that script's own paired-control
-# design should not silently change if this constant is edited for the live
-# pipeline).
-COMPRESSION_ACTIONS_INSTRUCTIONS = (
-    "9. COMPRESS LONG OR REDUNDANT CONTENT (EXPERIMENTAL): When <target> is\n"
-    "unusually long, packs in multiple loosely-connected clauses, or\n"
-    "restates something already fully said in <context>, you may shorten\n"
-    "your Japanese output using these techniques, in order of preference:\n"
-    "   a. PRONOMINALIZATION: refer back to an entity already named in\n"
-    "      <context> with a pronoun or elision rather than repeating its\n"
-    "      full name.\n"
-    "   b. SENTENCE_CUT: split an overly long <target> into two shorter,\n"
-    "      natural Japanese clauses instead of one convoluted one, if this\n"
-    "      does not lose meaning.\n"
-    "   c. PARTIAL_SUMMARIZATION: condense a clause that is clearly\n"
-    "      redundant or filler-heavy into a shorter paraphrase that\n"
-    "      preserves its meaning.\n"
-    "   d. DROP: omit a clause ONLY if it is pure repetition of something\n"
-    "      already fully conveyed earlier in <context>, never for new\n"
-    "      information.\n"
-    "   NEVER use these to compress away technical terms, numbers, named\n"
-    "   entities, or any claim/fact that appears only once in <target> --\n"
-    "   when in doubt, translate it in full rather than risk losing it.\n"
-    "   This is more aggressive than rule 8's disfluency smoothing: it\n"
-    "   targets structurally long or redundant complete sentences, not\n"
-    "   just filler words and stutters."
-)
-
-# Words that, when they END a final ASR chunk, leave its translation hanging
-# ("... And" -> "そして、", "introduce my" -> "私の…"). See
-# `_split_dangling_tail`.
-_DANGLING_WORDS = frozenset(
-    {
-        # connectives / fillers
-        *("and", "so", "but", "or", "also", "then", "like", "because", "as"),
-        *("since", "although", "while", "if", "when", "where", "which", "that"),
-        *("um", "uh"),
-        # determiners / possessives
-        *("the", "a", "an", "my", "our", "your", "their", "his", "her", "its"),
-        *("this", "these", "those", "some"),
-        # prepositions
-        *("to", "of", "in", "on", "for", "with", "from", "by", "at", "about"),
-        "into",
-    }
-)
-_MAX_DANGLING_WORDS = 3
-
-
-def _split_dangling_tail(text: str) -> tuple[str, str]:
-    """Split `text` into (head, tail) where tail is trailing dangling words.
-
-    Stops at sentence-final punctuation: "... stuffs. Okay." has no tail,
-    "... language model and also" has tail "and also".
-    """
-    tokens = text.split()
-    i = len(tokens)
-    while i > 0 and len(tokens) - i < _MAX_DANGLING_WORDS:
-        word = tokens[i - 1]
-        if word[-1] in ".?!":
-            break
-        if word.strip(",;:").lower() not in _DANGLING_WORDS:
-            break
-        i -= 1
-    return " ".join(tokens[:i]), " ".join(tokens[i:])
 
 
 @dataclass
@@ -122,71 +57,6 @@ class TranslationResult:
     # predecessor (rather than relying on `translated_text` already being
     # pipeline-accumulated) should key on this instead.
     utterance_id: int = 0
-
-
-@dataclass
-class QueuedTranscription:
-    """Queued transcription with masked text when needed."""
-
-    original: TranscriptionResult
-    text_for_translation: str
-    context: list[str]
-    queued_at: float = field(default_factory=time.time)
-
-
-class _FragmentQueue:
-    """Bounded FIFO queue of `QueuedTranscription`, with peek support.
-
-    Deliberately not `asyncio.Queue`: batch draining (see
-    `TranslationPipeline._drain_batch`) needs to look at the next item and
-    decide *without removing it* whether it fits the current batch's
-    character budget. `asyncio.Queue` has no peek, and popping-then-maybe-
-    pushing-back would reorder it behind items queued after it (`put_nowait`
-    only appends), silently breaking chronological order. `put` is the only
-    method that adds items and wakes waiters, so there's a single code path
-    to reason about for wakeups (no lost-wakeup risk from a second entry
-    point mutating the deque).
-    """
-
-    def __init__(self, maxsize: int) -> None:
-        self._maxsize = max(1, maxsize)
-        self._items: deque[QueuedTranscription] = deque()
-        self._waiters: deque[asyncio.Future[None]] = deque()
-
-    def put(self, item: QueuedTranscription) -> None:
-        """Append, dropping the oldest not-yet-drained item if full."""
-        if len(self._items) >= self._maxsize:
-            self._items.popleft()
-        self._items.append(item)
-        while self._waiters:
-            waiter = self._waiters.popleft()
-            if not waiter.done():
-                waiter.set_result(None)
-                break
-
-    async def get(self) -> QueuedTranscription:
-        """Block until at least one item is available, then pop the front."""
-        while not self._items:
-            waiter: asyncio.Future[None] = asyncio.get_running_loop().create_future()
-            self._waiters.append(waiter)
-            try:
-                await waiter
-            except asyncio.CancelledError:
-                waiter.cancel()
-                raise
-        return self._items.popleft()
-
-    def peek(self) -> QueuedTranscription | None:
-        """Look at the front item without removing it."""
-        return self._items[0] if self._items else None
-
-    def __len__(self) -> int:
-        """Current backlog depth (h-backlog-adaptive-compression-budget)."""
-        return len(self._items)
-
-    def pop_peeked(self) -> QueuedTranscription:
-        """Remove the item just returned by `peek()`."""
-        return self._items.popleft()
 
 
 class TranslationPipeline:
@@ -228,8 +98,8 @@ class TranslationPipeline:
             provider=config.llm_provider,  # type: ignore
             api_key=api_key or "",
             model=model,
-            source_language=self._language_name(config.source_language),
-            target_language=self._language_name(config.target_language),
+            source_language=language_name(config.source_language),
+            target_language=language_name(config.target_language),
             dictionary_path=config.dictionary_path,
             context_window_size=config.context_window_size,
             thinking_budget=config.gemini_thinking_budget,
@@ -349,28 +219,7 @@ class TranslationPipeline:
         self._running = False
         self._on_result: Callable[[TranslationResult], None] | None = None
         self._tasks: list[asyncio.Task[Any]] = []
-        self._transcription_queue = _FragmentQueue(maxsize=config.translation_queue_size)
-
-    @staticmethod
-    def _language_name(code: str) -> str:
-        """Convert language code to language name.
-
-        Args:
-            code: Language code (e.g., "en", "ja")
-
-        Returns:
-            Language name
-        """
-        names = {
-            "en": "English",
-            "ja": "Japanese",
-            "zh": "Chinese",
-            "ko": "Korean",
-            "es": "Spanish",
-            "fr": "French",
-            "de": "German",
-        }
-        return names.get(code, code)
+        self._transcription_queue = FragmentQueue(maxsize=config.translation_queue_size)
 
     def set_callback(self, callback: Callable[[TranslationResult], None]) -> None:
         """Set callback for translation results.
@@ -421,7 +270,7 @@ class TranslationPipeline:
 
         # Start processing tasks. Multiple parallel translation workers
         # prevent the sequential-processing lag-accumulation bug (see
-        # CHANGELOG_2026-02-04.md): with one worker, a ~1s-per-Gemini-call
+        # docs/CHANGELOG_2026-02-04.md): with one worker, a ~1s-per-Gemini-call
         # latency against continuous speech causes the queue (and lag) to
         # grow without bound. A shared rate limiter keeps workers from
         # exceeding the provider's RPM quota.
@@ -522,7 +371,7 @@ class TranslationPipeline:
         if self._dangling_carry:
             text = f"{self._dangling_carry} {text}"
             self._dangling_carry = ""
-        head, tail = _split_dangling_tail(text)
+        head, tail = split_dangling_tail(text)
         closes_open_utterance = (
             result.is_utterance_end
             and self._open_utterance_id == result.utterance_id

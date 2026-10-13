@@ -58,6 +58,8 @@ import re
 from dataclasses import dataclass
 from pathlib import Path
 
+from real_time_translation.experiments.stats import mean, median
+
 _TS_RE = re.compile(r"(\d\d:\d\d:\d\d\.\d\d\d) --> (\d\d:\d\d:\d\d\.\d\d\d)")
 _TAG_RE = re.compile(r"<[^>]+>")
 
@@ -267,18 +269,6 @@ class ClaLatencyReport:
     latency_median: float | None
 
 
-def _mean(values: list[float]) -> float | None:
-    return sum(values) / len(values) if values else None
-
-
-def _median(values: list[float]) -> float | None:
-    if not values:
-        return None
-    ordered = sorted(values)
-    n = len(ordered)
-    mid = n // 2
-    return ordered[mid] if n % 2 else (ordered[mid - 1] + ordered[mid]) / 2
-
 
 # Cells the DP in _cla_align may allocate before we refuse to run it. Sized
 # well above every legitimate wjZofJX0v4M-clip experiment window (worst
@@ -358,8 +348,8 @@ def analyze_experiment(
         experiment_name=data.get("experiment_name", path.stem),
         num_groups=len(groups),
         num_latencies=len(latencies),
-        latency_mean=_mean(latencies),
-        latency_median=_median(latencies),
+        latency_mean=mean(latencies),
+        latency_median=median(latencies),
     )
 
 

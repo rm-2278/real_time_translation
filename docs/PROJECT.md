@@ -1,7 +1,7 @@
 # プロジェクト定義書 (Project Definition)
 
 > このドキュメントはプロジェクトの目的・スコープ・成功指標など、
-> アーキテクチャ詳細（[DESIGN_DOC.md](DESIGN_DOC.md)）やセットアップ手順（[README.md](README.md)）
+> アーキテクチャ詳細（[DESIGN_DOC.md](DESIGN_DOC.md)）やセットアップ手順（[README.md](../README.md)）
 > ではカバーされない「なぜ・何のために作るか」を定義する。
 
 ## 1. プロジェクト概要
@@ -104,7 +104,7 @@ Zoom RTMS / Web Mic / YouTube
 
 ## 10. 関連ドキュメント
 
-- [README.md](README.md) — セットアップ・使い方・環境変数一覧
+- [README.md](../README.md) — セットアップ・使い方・環境変数一覧
 - [DESIGN_DOC.md](DESIGN_DOC.md) — アーキテクチャ詳細設計
 - [AGENTS.md](AGENTS.md) — プロジェクト構造・開発規約（uv, Ruff等）
 - [CLAUDE.md](CLAUDE.md) — 翻訳精度比較実験のロギングルール

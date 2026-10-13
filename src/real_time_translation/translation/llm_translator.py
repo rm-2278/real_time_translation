@@ -26,6 +26,12 @@ from real_time_translation.translation.domain_packs import (
     DEFAULT_DOMAIN_PACKS_DIR,
     resolve_domain_pack,
 )
+from real_time_translation.translation.prompts import (
+    MONOTONIC_STYLE_BLOCK,
+    SYSTEM_PROMPT_TEMPLATE,
+    length_budget_block,
+    prior_translation_block,
+)
 
 
 @dataclass(frozen=True)
@@ -40,24 +46,7 @@ class TranslationOutput:
 class LLMTranslator:
     """Translator using Gemini or OpenAI with contextual prompting."""
 
-    SYSTEM_PROMPT_TEMPLATE = """You are a professional simultaneous interpreter translating from {source_language} to {target_language}.
-
-You will be provided with <context> (previous utterances) and a <target> (the current text to translate).
-
-Strict Rules:
-1. TRANSLATE TARGET ONLY: Translate ONLY the text inside <target>. Use <context> purely to resolve pronouns, understand the ongoing grammatical structure, and correct phonetic ASR errors (e.g., 'laundry model' -> 'language model', 'three d deficient' -> '3D diffusion').
-2. NO FORCED CLOSURES: The <target> is often a mid-sentence fragment from a live stream. DO NOT add terminal punctuation (e.g., periods, '。', 'です', 'ます') unless the <target> text clearly concludes a complete grammatical thought. 
-3. USE CONTINUATIONS: If the <target> is a fragment, translate it as a continuation (e.g., using noun phrases, 'て' forms, or dangling particles) so it flows naturally into whatever text might come next.
-4. PRESERVE TERMINOLOGY: Keep proper nouns, acronyms, and code identifiers EXACTLY as they appear. Do not translate, transliterate, or normalize them. If a term is ambiguous or unknown, keep it unchanged. EXCEPTION -- ASR ERRORS: <target> comes from speech recognition, so a name or term may be a mis-hearing. If a word or phrase sounds like a <dictionary> term (or one of its listed mis-hearings) or a well-known name, and its literal reading makes no sense in context (e.g. 'Muscle Lab' for 'Matsuo Lab', 'suspension agent' for 'Suspicion-Agent'), output the correct term instead.
-5. IGNORE PADDING: Ignore any content inside <cache_padding>...</cache_padding>.
-6. TERMINOLOGY DICTIONARY: A <dictionary> block may appear below, or inline with the current message alongside <context>/<target>. Either way, use its exact target-language translations for any matching terms.
-7. LOW-CONFIDENCE MARKER: If <target> is wrapped exactly as `[uncertain: ...]`, that wrapper is a confidence hint for you, not literal content to translate. Translate only the text inside it (favor a cautious, literal reading over a confident guess) and NEVER reproduce the `[uncertain: ...]`/`[不確か: ...]` wrapper itself in your output.
-8. SMOOTH DISFLUENCY, DON'T TRANSCRIBE IT: <target> is live, unedited speech, not prose -- it will contain filler words ('um', 'uh', 'like', 'you know'), false starts, and immediate stutter-repeats (e.g. 'I I think', 'made made', 'and also and also'). Act like a human simultaneous interpreter, not a transcriptionist: drop filler words and collapse an immediate exact stutter-repeat into a single instance, producing a clean, natural target-language sentence. NEVER drop or alter substantive content, technical terms, numbers, or the speaker's actual meaning -- when a repetition might be deliberate emphasis rather than disfluency, keep it rather than guess wrong.
-
-9. NO PLACEHOLDERS: Never output an ellipsis ('…', '...') or other placeholder for words that have not been spoken yet. If <target> ends mid-phrase, translate only what is there.
-
-Maintain the original tone and style.
-{dictionary_section}"""
+    SYSTEM_PROMPT_TEMPLATE = SYSTEM_PROMPT_TEMPLATE
 
     def __init__(
         self,
@@ -300,85 +289,19 @@ Maintain the original tone and style.
                 formatted = self._dictionary.format_for_prompt(relevant)
                 dictionary_block = f"<dictionary>\n{formatted}\n</dictionary>\n"
 
-        # h-continuation-context-anchor (research_agent/state/hypotheses.json):
-        # for a continuation batch of an in-progress utterance, anchor the
-        # retranslation to what was already shown on screen for this same
-        # utterance, instead of leaving the model to reconstruct it from
-        # <target> alone with no memory of its own prior wording.
-        prior_translation_block = ""
-        if prior_translation and delta_only:
-            # h-hard-prefix-lock-continuation (research_agent/state/
-            # hypotheses.json): unlike the advisory prior_translation mode
-            # above, here <target> is ONLY the newly-heard continuation
-            # fragment, not the whole utterance -- the caller mechanically
-            # freezes <prior_translation> as a literal prefix and appends
-            # this call's raw output to it, so the model must not
-            # reproduce/reword <prior_translation> at all.
-            prior_translation_block = (
-                "<prior_translation>\n"
-                f"{prior_translation}\n"
-                "</prior_translation>\n"
-                "The above is your own translation of this same utterance so "
-                "far, already shown to the viewer and FIXED -- it will not be "
-                "changed. <target> below is ONLY the newly-heard continuation "
-                "of the source speech, NOT including the part already covered "
-                "by <prior_translation>. Translate ONLY <target> and output "
-                "ONLY that new translation, continuing naturally in register "
-                "and grammar from where <prior_translation> left off. Do NOT "
-                "repeat, reword, or re-output any part of <prior_translation> "
-                "itself.\n"
-            )
-        elif prior_translation:
-            prior_translation_block = (
-                "<prior_translation>\n"
-                f"{prior_translation}\n"
-                "</prior_translation>\n"
-                "The above is your own translation of this same utterance so "
-                "far, already shown to the viewer. <target> is the complete "
-                "utterance heard so far, including that earlier part. Preserve "
-                "and extend <prior_translation> rather than rewording it, "
-                "unless the new text in <target> changes its meaning.\n"
-            )
-
-        # Reading-speed-budget-aware translation (caption-readability
-        # engineering track, 2026-09-15): a verbatim translation of a long,
-        # dense utterance can simply be too much text for a viewer to read
-        # in the time available, no matter how the caption is scheduled.
-        # This is a soft budget, not a hard limit -- expect real overrun.
-        budget_block = ""
-        if target_chars is not None:
-            budget_block = (
-                f"Aim to keep your Japanese translation within roughly "
-                f"{target_chars} characters. If the source is dense, "
-                "prioritize the core meaning over a literal word-for-word "
-                "rendering -- compress like a simultaneous interpreter "
-                "working under time pressure, not a transcript.\n"
-            )
-
-        # h-monotonic-chunkwise-prompt-enja (research_agent/state/
-        # hypotheses.json): for EN->JA specifically, real simultaneous
-        # interpreters preserve source word order at some cost to fluency
-        # because it reduces how much clause-final material they need to
-        # wait for before producing correct output. Applied only to
-        # not-yet-utterance-final batches (the caller is responsible for
-        # that gating) -- the eventual utterance-final rewrite still gets
-        # natural phrasing.
-        monotonic_block = ""
-        if monotonic_style:
-            monotonic_block = (
-                "This is an IN-PROGRESS utterance, not yet complete -- more "
-                "source may still arrive and change the natural phrasing of "
-                "the ending. Prefer a translation that follows the SOURCE "
-                "ENGLISH WORD ORDER as closely as Japanese grammar allows, "
-                "even at some cost to natural fluency, rather than "
-                "reordering clauses to anticipate how the sentence will "
-                "end. A fluent rewrite will replace this once the "
-                "utterance is complete.\n"
-            )
+        prior_block = (
+            prior_translation_block(prior_translation, delta_only=delta_only)
+            if prior_translation
+            else ""
+        )
+        budget_block = (
+            length_budget_block(target_chars) if target_chars is not None else ""
+        )
+        monotonic_block = MONOTONIC_STYLE_BLOCK if monotonic_style else ""
 
         return (
             f"{dictionary_block}"
-            f"{prior_translation_block}"
+            f"{prior_block}"
             f"{budget_block}"
             f"{monotonic_block}"
             f"<context>\n{context_block}\n</context>\n<target>\n{text}\n</target>"

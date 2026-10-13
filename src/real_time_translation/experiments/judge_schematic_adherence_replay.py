@@ -44,6 +44,9 @@ import os
 import re
 from pathlib import Path
 
+from real_time_translation.experiments.results_io import last_cumulative_text
+from real_time_translation.experiments.stats import pearson_r
+
 SOURCE_JSON = Path(
     "experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json"
 )
@@ -111,9 +114,6 @@ def judge_decomposed(source: str, translation: str) -> dict:
     return json.loads(match.group(0))
 
 
-def _last_cumulative_text(repeat: list[str]) -> str:
-    return repeat[-1] if repeat else ""
-
 
 def _sampled_points(data: dict) -> list[tuple[str, int, str, str, str]]:
     """Returns (source_name, span_index, condition, source_full, translation)
@@ -128,7 +128,7 @@ def _sampled_points(data: dict) -> list[tuple[str, int, str, str, str]]:
             for cond, repeats in span["condition_repeats"].items():
                 if not repeats:
                     continue
-                translation = _last_cumulative_text(repeats[0])
+                translation = last_cumulative_text(repeats[0])
                 if not translation:
                     continue
                 points.append(
@@ -137,19 +137,6 @@ def _sampled_points(data: dict) -> list[tuple[str, int, str, str, str]]:
     return points
 
 
-def _pearson_r(xs: list[float], ys: list[float]) -> float | None:
-    n = len(xs)
-    if n < 2:
-        return None
-    mean_x = sum(xs) / n
-    mean_y = sum(ys) / n
-    cov = sum((x - mean_x) * (y - mean_y) for x, y in zip(xs, ys, strict=True))
-    var_x = sum((x - mean_x) ** 2 for x in xs)
-    var_y = sum((y - mean_y) ** 2 for y in ys)
-    if var_x == 0 or var_y == 0:
-        return None
-    return cov / (var_x * var_y) ** 0.5
-
 
 def _pairwise_correlations(rows: list[dict]) -> dict:
     out: dict[str, float | None] = {}
@@ -157,7 +144,7 @@ def _pairwise_correlations(rows: list[dict]) -> dict:
         for crit_b in SUB_CRITERIA[i + 1 :]:
             xs = [float(r[crit_a]) for r in rows]
             ys = [float(r[crit_b]) for r in rows]
-            out[f"{crit_a}__vs__{crit_b}"] = _pearson_r(xs, ys)
+            out[f"{crit_a}__vs__{crit_b}"] = pearson_r(xs, ys)
     return out
 
 

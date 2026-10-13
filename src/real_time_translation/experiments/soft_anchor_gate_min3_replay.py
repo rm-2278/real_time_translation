@@ -35,7 +35,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-import statistics
 from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
@@ -48,6 +47,7 @@ from real_time_translation.experiments.prefix_lock_replay import (
     _extract_spans,
     _run_condition,
 )
+from real_time_translation.experiments.stats import mean, stdev
 from real_time_translation.translation.llm_translator import LLMTranslator
 
 SOURCE_EXPERIMENTS = (
@@ -65,13 +65,6 @@ GATE_MIN_WORDS = 3
 # override it before calling into that function.
 gate_replay.GATE_MIN_WORDS = GATE_MIN_WORDS
 
-
-def _mean(values: list[float]) -> float | None:
-    return sum(values) / len(values) if values else None
-
-
-def _stdev(values: list[float]) -> float | None:
-    return statistics.stdev(values) if len(values) > 1 else None
 
 
 async def main() -> None:
@@ -167,8 +160,8 @@ async def main() -> None:
                 scores = [r["score"] for r in per_repeat if r["score"] is not None]
                 judge_score_stats[condition] = {
                     "scores": scores,
-                    "mean": _mean(scores),
-                    "stdev": _stdev(scores),
+                    "mean": mean(scores),
+                    "stdev": stdev(scores),
                     "range": (min(scores), max(scores)) if scores else None,
                 }
 
@@ -192,7 +185,7 @@ async def main() -> None:
             for sr in span_results:
                 nes = [ne for ne in sr["condition_ne"][condition] if ne is not None]
                 if nes:
-                    per_span_ne_means.append(_mean(nes))
+                    per_span_ne_means.append(mean(nes))
             all_repeat_scores = [
                 s
                 for sr in span_results
@@ -205,9 +198,9 @@ async def main() -> None:
             ]
             aggregate[condition] = {
                 "num_spans_with_defined_ne": len(per_span_ne_means),
-                "mean_ne_across_spans": _mean(per_span_ne_means),
-                "mean_fidelity_score_all_repeats": _mean(all_repeat_scores),
-                "mean_within_span_fidelity_stdev": _mean(per_span_stdevs),
+                "mean_ne_across_spans": mean(per_span_ne_means),
+                "mean_fidelity_score_all_repeats": mean(all_repeat_scores),
+                "mean_within_span_fidelity_stdev": mean(per_span_stdevs),
             }
 
         # Noise floor: same-code-path spans (zero batches actually gated by
@@ -222,7 +215,7 @@ async def main() -> None:
             for s in sr["judge_score_stats"]["gated_soft_anchor"]["scores"]
             + sr["judge_score_stats"]["soft_anchor_replay"]["scores"]
         ]
-        noise_floor_stdev = _stdev(noise_floor_scores)
+        noise_floor_stdev = stdev(noise_floor_scores)
 
         gated_spans = [sr for sr in span_results if sr["gated_batch_indices"]]
         gated_vs_soft_anchor_diffs = [
@@ -263,7 +256,7 @@ async def main() -> None:
             "gated_spans_comparison": {
                 "num_gated_spans": len(gated_spans),
                 "gated_vs_soft_anchor_mean_diffs": gated_vs_soft_anchor_diffs,
-                "mean_of_diffs": _mean(gated_vs_soft_anchor_diffs),
+                "mean_of_diffs": mean(gated_vs_soft_anchor_diffs),
             },
             "span_69_batch1_gated": span_69_batch1_gated,
         }
