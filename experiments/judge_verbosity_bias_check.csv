@@ -1,0 +1,3 @@
+subcheck,n,pearson_r,spearman_r,meaningful_sample_size
+subcheck_1_within_span_condition_across_repeats,587,0.0409426829344072,-0.07578135931402932,True
+subcheck_2_across_conditions_same_span_mean_centered,585,0.010555181147551253,-0.09763087655091425,True

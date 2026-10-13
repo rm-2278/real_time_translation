@@ -1,0 +1,618 @@
+{
+  "sampled_n": 60,
+  "complete_n": 60,
+  "span_sample_stride": 5,
+  "pairwise_subcriteria_correlations": {
+    "numbers_and_statistics__vs__named_entities_and_technical_terms": -0.01694915254237288,
+    "numbers_and_statistics__vs__causal_logical_relationships": null,
+    "numbers_and_statistics__vs__overall_completeness": 0.23013906837134174,
+    "named_entities_and_technical_terms__vs__causal_logical_relationships": null,
+    "named_entities_and_technical_terms__vs__overall_completeness": 0.23013906837134174,
+    "causal_logical_relationships__vs__overall_completeness": null
+  },
+  "schematic_adherence_r_squared": null,
+  "rows": [
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 5,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 5,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 5,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 10,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 10,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 10,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 5,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 5,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 5,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 10,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 10,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 10,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 15,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 15,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 80,
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 15,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 80,
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 95,
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 50,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 25,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 95,
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 25,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 80,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 25,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 30,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 30,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 30,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 35,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 35,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 35,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 45,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 45,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 45,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 50,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 50,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 50,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 55,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 55,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 55,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 60,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 60,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 60,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 65,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 65,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 95,
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 65,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 70,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 70,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 90,
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 70,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 75,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 75,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 75,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "baseline_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "soft_anchor_replay",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "gated_soft_anchor",
+      "numbers_and_statistics": 100,
+      "named_entities_and_technical_terms": 100,
+      "causal_logical_relationships": 100,
+      "overall_completeness": 100,
+      "score": 100
+    }
+  ],
+  "source": "experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json",
+  "notes": "New Gemini calls (gemini-3.1-flash-lite), one per sampled point, each returning the 4 named sub-criteria plus the holistic 'score' field in one response -- zero new Deepgram spend, replay of already-recorded source_full / condition_repeats text from experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json. Pairwise correlations >0.9 across most sub-criteria would mean the new decomposed rubric is itself collapsed/not discriminating (mirrors arxiv2509-20293's Arena-Hard Auto finding). schematic_adherence_r_squared is a SINGLE pooled OLS fit across all sampled points, not a per-point statistic -- it answers how well the judge's own stated sub-criteria explain its own holistic verdict, at the rubric level."
+}
