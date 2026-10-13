@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 12,
-  "last_updated": "2026-10-13T00:22:53.656421+00:00",
+  "last_updated": "2026-10-13T00:27:28.526738+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1391,6 +1391,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-13T00:22:53.656389+00:00",
       "note": "Cycle 55 HUMAN_APPROVAL: check-budget(0.02)=AUTO_APPROVE for h-judge-schematic-adherence-sliding-context-windows (uses_existing_clips=true, replay of already-recorded experiment JSON, no live Deepgram/LLM pipeline needed). Set approval=auto_approved/status=queued. h-judge-cross-model-agreement-check ($0.05, approved_by_human) remains queued, deprioritized again this cycle since the new hypothesis is cheaper and directly continues the active schematic-adherence investigation thread. Proceeding to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-13T00:26:48.649894+00:00",
+      "note": "Cycle 55 RUN_EXPERIMENTS complete: implemented and ran judge_schematic_adherence_replay_context_windows.py (40 new gemini-3.1-flash-lite calls, $0.02 logged, zero new Deepgram spend). Set hypothesis.status=testing, experiment_ids set, results.csv row appended, committed before analysis per the hard commit-often rule. Advancing to ANALYZE_RESULTS."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-13T00:27:28.526702+00:00",
+      "note": "Cycle 55 ANALYZE_RESULTS: no config drift to check (pure replay, no live pipeline config). h-judge-schematic-adherence-sliding-context-windows result_summary written -- CONCLUSIVE: real per-window score spread (0-100) in 3 of 4 sub-criteria, correlations not all >0.9, schematic_adherence_r_squared=0.996 (real, non-null, high). Low-scoring windows verified against source JSON to be genuinely disfluent ASR regions, not judge noise. status=tested. Advancing to WRITE_REPORT."
     }
   ]
 }
