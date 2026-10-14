@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 13,
-  "last_updated": "2026-10-14T00:25:18.075413+00:00",
+  "last_updated": "2026-10-14T00:26:01.626496+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1463,6 +1463,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-14T00:25:18.075377+00:00",
       "note": "Cycle 56 GENERATE_HYPOTHESES: no-op, no new hypotheses added. Found during backlog count that the ~6 cap (queued+proposed) is already met: 1 queued (h-judge-cross-model-agreement-check) + 5 proposed (h-review-short-acronym-keyterm-false-positive, h-review-perceived-drops-short-cards, h-computation-aware-laal-enja, h-interim-source-preview-overlay, h-continuous-rating-cps-calibration) = 6, contradicting cycle 55 reflection's 'backlog down to 1' claim (which only counted queued, not proposed, items). 4 of these 5 proposed hypotheses have approval still unset (null), meaning they were never actually run through HUMAN_APPROVAL at all since being added -- this is the real backlog refill cycle 55 asked for, just already sitting unprocessed rather than needing new generation. Moving to HUMAN_APPROVAL to process them instead of adding more on top of an already-full backlog."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-14T00:26:01.626465+00:00",
+      "note": "Cycle 56 HUMAN_APPROVAL complete: 4 stale proposed hypotheses with approval=null processed (all AUTO_APPROVE, set auto_approved/queued). h-continuous-rating-cps-calibration confirmed needs_human (correctly, requires an actual human rating session) and its missing pending_approval.json entry added -- it was never logged there before. 4 hypotheses now queued with approval != needs_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-review-perceived-drops-short-cards, h-computation-aware-laal-enja, h-interim-source-preview-overlay -- 5 total). Advancing to RUN_EXPERIMENTS to check environment and pick one."
     }
   ]
 }
