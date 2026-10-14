@@ -918,7 +918,7 @@
       "approval": "auto_approved",
       "status": "queued",
       "experiment_ids": [],
-      "result_summary": null
+      "result_summary": "blocked_reason (cycle 56, 2026-10-14): needs a live Deepgram listen-websocket run (ASR-only A/B with vs without the AIME keyterm) -- confirmed still blocked, identical HTTP 400 'Connection header did not include upgrade' signature as every cycle since cycle 5 (proxy mangles the WS Connection:Upgrade handshake; REST /v1/projects and Gemini generativelanguage.googleapis.com both return 200, this is WS-upgrade-specific). Deferred to a future cycle/session with working Deepgram WS access."
     },
     {
       "id": "h-review-perceived-drops-short-cards",
