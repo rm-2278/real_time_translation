@@ -100,6 +100,40 @@ def prior_translation_block(prior_translation: str, *, delta_only: bool) -> str:
     )
 
 
+# Winner of experiments/20261014_seam_readability_replay_r2.json: with the
+# previous captions shown, these rules cut seam defects (repeat / missing
+# subject-predicate / dangling / broken join) from 2.95 to 1.85 per 6-caption
+# window, with no more omissions than the baseline.
+SEAMLESS_CAPTIONS_INSTRUCTIONS = """10. SEAMLESS CAPTIONS: Your output is shown as a caption right after <previous_translation> (when present), so the two will be read as one running text.
+   a. Never restate what <previous_translation> already says. If <target> repeats words the speaker already said or only re-confirms them, say only what is new (or very briefly).
+   b. If <previous_translation> ends mid-sentence (e.g. with 'が、' 'て' 'を' or a noun phrase), start so that it attaches grammatically; do not begin a new sentence or repeat its subject.
+   c. If <target> finishes a thought begun earlier, make the predicate explicit so the subject and the verb can be matched by the viewer; if <target> starts a new sentence, make its subject clear instead of leaving a bare fragment.
+   d. A caption that must stop mid-sentence should stop at a clause boundary with a connective form ('〜て、' '〜が、' '〜ので、'), never on a bare particle plus conjunction (e.g. 'IOを、そして'), and never with '...'. If <target> is only a few words of a bigger phrase, keep them as a natural noun phrase or 'て' form that the next caption can continue.
+   e. When <previous_translation> ended mid-sentence and <target> continues it, begin with the continuing words directly (no 'そして' or new subject), so the two captions read as one sentence. Only begin with 'そして/また' when the speaker really starts a new point.
+   f. Keep the subject and its predicate in the same caption whenever <target> contains both; if the predicate is not in <target>, do not end on a bare subject marker ('私の研究は') when a topic-free noun phrase would do."""
+
+PREVIOUS_CAPTIONS_SHOWN = 3
+
+
+def previous_translations_block(lines: list[str]) -> str:
+    """The captions the viewer has just read, so the next one can continue them.
+
+    <context> carries only the previous *source* lines, so the model cannot
+    see its own earlier wording: it restates what was already said, or opens
+    a clause whose subject/predicate the viewer never saw. Seeing the target-
+    language lines lets it attach to them.
+    """
+    if not lines:
+        return ""
+    joined = "\n".join(lines)
+    return (
+        f"<previous_translation>\n{joined}\n</previous_translation>\n"
+        "The above is the Japanese the viewer has ALREADY read for the "
+        "preceding speech. Your translation of <target> will appear "
+        "immediately after it as a new caption.\n"
+    )
+
+
 def length_budget_block(target_chars: int) -> str:
     """Reading-speed-budget-aware translation (caption-readability track).
 

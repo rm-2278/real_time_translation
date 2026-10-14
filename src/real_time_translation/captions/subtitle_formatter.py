@@ -540,6 +540,27 @@ def _merge_simultaneous_utterances(
 # cps_violation at that lag; catchup_window=1.5 gets the same ~2.4s lag at
 # 74.3%). catchup_window=4.0 is the default here as a practical middle of
 # that curve, not a value that makes the trade-off disappear.
+# A card that ends mid-sentence ("…ましたが、") and is followed by its
+# continuation within this many seconds stays on screen until that
+# continuation appears. Otherwise the viewer sees the half-sentence vanish
+# for a fraction of a second right where they are still reading it
+# (2026-10-13 review: 82 such blank gaps on a 14-minute clip).
+_CONTINUATION_HOLD_SECONDS = 1.5
+_SENTENCE_END = "。？！?!."
+
+
+def _hold_through_continuations(cues: list[Cue]) -> list[Cue]:
+    out = list(cues)
+    for i in range(len(out) - 1):
+        a, b = out[i], out[i + 1]
+        gap = b.start - a.end
+        if 0 < gap <= _CONTINUATION_HOLD_SECONDS and not a.text.rstrip().endswith(
+            tuple(_SENTENCE_END)
+        ):
+            out[i] = Cue(a.start, b.start, a.text)
+    return out
+
+
 def format_readable(
     utterances: list[_RawUtterance],
     *,
@@ -579,7 +600,7 @@ def format_readable(
     scheduled = schedule_adaptive(
         items, min_duration=min_duration, catchup_window=catchup_window
     )
-    return [cue for cue, _lag in scheduled]
+    return _hold_through_continuations([cue for cue, _lag in scheduled])
 
 
 def _srt_timestamp(seconds: float) -> str:

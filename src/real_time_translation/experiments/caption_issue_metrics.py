@@ -38,6 +38,7 @@ from pathlib import Path
 from real_time_translation.captions.live_presenter import LiveCaptionPresenter
 from real_time_translation.captions.subtitle_formatter import (
     _build_readable_items,
+    _hold_through_continuations,
     extract_utterance_cues,
     schedule_adaptive,
     weighted_len,
@@ -116,6 +117,8 @@ def caption_metrics(events: list[dict]) -> dict:
         reading_units_per_sec=4.0,
     )
     scheduled = schedule_adaptive(items, min_duration=5 / 6, catchup_window=4.0)
+    held = _hold_through_continuations([cue for cue, _lag in scheduled])
+    scheduled = [(cue, lag) for cue, (_old, lag) in zip(held, scheduled, strict=True)]
     n = len(scheduled)
     short = sum(1 for cue, _lag in scheduled if cue.end - cue.start < 1.0)
     lags = [lag for _cue, lag in scheduled]
@@ -149,8 +152,18 @@ def caption_metrics(events: list[dict]) -> dict:
     burst = 0
     for i, t0 in enumerate(starts):
         burst = max(burst, sum(1 for t in starts[i:] if t < t0 + 3.0))
+    # Blank gaps right after a card that stops mid-sentence: the half-
+    # sentence disappears while the viewer is still reading it.
+    mid_gaps = 0
+    for (a, _), (b, _) in zip(scheduled, scheduled[1:], strict=False):
+        if (
+            0.05 < b.start - a.end <= 1.5
+            and not a.text.rstrip().endswith(("。", "？", "！", "?", "!", "."))
+        ):
+            mid_gaps += 1
     return {
         "n_cues": n,
+        "midsentence_blank_gaps": mid_gaps,
         "peak_units_per_sec": round(max(speeds), 2) if speeds else 0.0,
         "over_burst_cards": sum(1 for v in speeds if v > ANOMALY_UNITS_PER_SEC),
         "max_cards_in_3s": burst,
@@ -235,6 +248,11 @@ def caption_anomalies(captions: dict) -> list[str]:
         out.append(
             f"{captions['over_burst_cards']} card(s) read faster than "
             f"{ANOMALY_UNITS_PER_SEC} units/s (peak {captions['peak_units_per_sec']})"
+        )
+    if captions["midsentence_blank_gaps"]:
+        out.append(
+            f"{captions['midsentence_blank_gaps']} blank gap(s) after a "
+            "mid-sentence card"
         )
     if captions["max_cards_in_3s"] > MAX_CARDS_IN_3S:
         out.append(

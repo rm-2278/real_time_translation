@@ -30,6 +30,7 @@ from real_time_translation.translation.prompts import (
     MONOTONIC_STYLE_BLOCK,
     SYSTEM_PROMPT_TEMPLATE,
     length_budget_block,
+    previous_translations_block,
     prior_translation_block,
 )
 
@@ -271,6 +272,7 @@ class LLMTranslator:
         target_chars: int | None = None,
         monotonic_style: bool = False,
         delta_only: bool = False,
+        previous_translations: list[str] | None = None,
     ) -> str:
         if context_lines is None:
             context_lines = self._context_buffer[-self._context_window_size :]
@@ -299,8 +301,15 @@ class LLMTranslator:
         )
         monotonic_block = MONOTONIC_STYLE_BLOCK if monotonic_style else ""
 
+        previous_block = (
+            previous_translations_block(previous_translations)
+            if previous_translations
+            else ""
+        )
+
         return (
             f"{dictionary_block}"
+            f"{previous_block}"
             f"{prior_block}"
             f"{budget_block}"
             f"{monotonic_block}"
@@ -603,6 +612,7 @@ class LLMTranslator:
         target_chars: int | None = None,
         monotonic_style: bool = False,
         delta_only: bool = False,
+        previous_translations: list[str] | None = None,
     ) -> AsyncIterator[str]:
         """Translate text, yielding output chunks as they are generated.
 
@@ -635,12 +645,17 @@ class LLMTranslator:
 
         Yields:
             Translation text chunks (concatenate for the full translation)
+
+        `previous_translations`: the captions the viewer has just read, so
+        this one can continue them instead of restating or orphaning a
+        clause. None (default) leaves the prompt unchanged.
         """
         if not text.strip():
             return
 
         prompt = self._build_user_prompt(
             text,
+            previous_translations=previous_translations,
             context_lines=context_lines,
             prior_translation=prior_translation,
             target_chars=target_chars,

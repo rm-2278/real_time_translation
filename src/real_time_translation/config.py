@@ -207,6 +207,10 @@ class Config:
     # wires the same instruction text into the live pipeline for a real
     # end-to-end A/B. False (default) preserves today's behavior.
     compression_actions_prompt_enabled: bool = False
+    # Show the model the captions the viewer just read, plus rules for
+    # joining onto them (prompts.SEAMLESS_CAPTIONS_INSTRUCTIONS). On by
+    # default: experiments/20261014_seam_readability_replay_r2.json.
+    seamless_captions_enabled: bool = True
     # Experimental (h-monotonic-chunkwise-prompt-enja,
     # research_agent/state/hypotheses.json): for EN->JA specifically
     # (a distant word-order pair), instruct the translator to prefer
@@ -438,6 +442,9 @@ class Config:
             ),
             compression_actions_prompt_enabled=(
                 os.getenv("COMPRESSION_ACTIONS_PROMPT_ENABLED", "0") == "1"
+            ),
+            seamless_captions_enabled=(
+                os.getenv("SEAMLESS_CAPTIONS_ENABLED", "1") == "1"
             ),
             monotonic_interim_translation_enabled=(
                 os.getenv("MONOTONIC_INTERIM_TRANSLATION_ENABLED", "0") == "1"

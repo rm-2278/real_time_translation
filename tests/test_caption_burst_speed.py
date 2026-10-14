@@ -41,7 +41,33 @@ def test_long_burst_never_flashes_faster_than_ceiling() -> None:
 
 
 def test_anomaly_gate_flags_fast_cards_and_bursts() -> None:
-    ok = {"over_burst_cards": 0, "peak_units_per_sec": 5, "max_cards_in_3s": 2}
+    ok = {
+        "over_burst_cards": 0,
+        "peak_units_per_sec": 5,
+        "max_cards_in_3s": 2,
+        "midsentence_blank_gaps": 0,
+    }
     assert caption_anomalies(ok) == []
-    bad = {"over_burst_cards": 2, "peak_units_per_sec": 30, "max_cards_in_3s": 5}
+    bad = {
+        "over_burst_cards": 2,
+        "peak_units_per_sec": 30,
+        "max_cards_in_3s": 5,
+        "midsentence_blank_gaps": 0,
+    }
     assert len(caption_anomalies(bad)) == 2
+
+
+def test_midsentence_card_is_held_until_its_continuation() -> None:
+    from real_time_translation.captions.subtitle_formatter import (
+        Cue,
+        _hold_through_continuations,
+    )
+
+    cues = [
+        Cue(0.0, 2.0, "研究を始めましたが、"),
+        Cue(2.6, 5.0, "続きです。"),
+        Cue(5.4, 7.0, "別の話。"),
+    ]
+    out = _hold_through_continuations(cues)
+    assert out[0].end == 2.6  # mid-sentence: no blank gap
+    assert out[1].end == 5.0  # sentence ended: gap kept

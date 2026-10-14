@@ -21,6 +21,7 @@ class QueuedTranscription:
     original: TranscriptionResult
     text_for_translation: str
     context: list[str]
+    previous_translations: list[str] | None = None
     queued_at: float = field(default_factory=time.time)
 
 

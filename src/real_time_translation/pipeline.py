@@ -17,6 +17,8 @@ from real_time_translation.transcription.deepgram_client import (
 from real_time_translation.translation.llm_translator import LLMTranslator
 from real_time_translation.translation.prompts import (
     COMPRESSION_ACTIONS_INSTRUCTIONS,
+    PREVIOUS_CAPTIONS_SHOWN,
+    SEAMLESS_CAPTIONS_INSTRUCTIONS,
     language_name,
 )
 from real_time_translation.translation.rate_limiter import RateLimiter
@@ -108,9 +110,21 @@ class TranslationPipeline:
             domain_packs=config.domain_packs,
             domain_packs_dir=config.domain_packs_dir,
             extra_system_instructions=(
-                COMPRESSION_ACTIONS_INSTRUCTIONS
-                if config.compression_actions_prompt_enabled
-                else None
+                "\n\n".join(
+                    text
+                    for text, on in (
+                        (
+                            COMPRESSION_ACTIONS_INSTRUCTIONS,
+                            config.compression_actions_prompt_enabled,
+                        ),
+                        (
+                            SEAMLESS_CAPTIONS_INSTRUCTIONS,
+                            config.seamless_captions_enabled,
+                        ),
+                    )
+                    if on
+                )
+                or None
             ),
         )
 
@@ -354,6 +368,11 @@ class TranslationPipeline:
                     original=result,
                     text_for_translation=masked_text,
                     context=self._translator.context_snapshot(),
+                    previous_translations=(
+                        self._translator.slide_window[-PREVIOUS_CAPTIONS_SHOWN:]
+                        if self._config.seamless_captions_enabled
+                        else None
+                    ),
                 )
                 self._transcription_queue.put(queued)
         except asyncio.CancelledError:
@@ -488,6 +507,7 @@ class TranslationPipeline:
             stream = self._translator.translate_stream(
                 full_target_text,
                 context_lines=batch[0].context,
+                previous_translations=batch[0].previous_translations,
                 update_context=False,
                 prior_translation=prior_translation,
                 target_chars=target_chars,

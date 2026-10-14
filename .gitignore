@@ -34,3 +34,4 @@ experiments/clips/*.pcm
 experiments/refs/audio/
 experiments/caption_demos/
 .DS_Store
+.seam_replay_cache.json

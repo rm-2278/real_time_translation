@@ -1,0 +1,3318 @@
+{
+  "date": "2026-10-14",
+  "experiment_name": "seam_readability_replay_r2",
+  "input": {
+    "source_run": "experiments/20260924_llm2024_8_part1_review_fixes_v2_7m30_21m50.json",
+    "start": 0,
+    "count": 234
+  },
+  "models": {
+    "llm": "gemini-3-flash-preview",
+    "judge": "gemini-3-flash-preview"
+  },
+  "segments": [
+    "Hey. Can you see my screen? Ah, yes.",
+    "Okay. Very good. Yeah.",
+    "Yeah. Yeah.",
+    "Hello, everyone.",
+    "everyone. Yeah. My name is Josh Angou.",
+    "And, currently, I'm a senior research scientist",
+    "Muscle Labs invitation. I'm very happy to discuss with",
+    "you guys, and thanks for coming this talk.",
+    "And, hopefully, we could you could have",
+    "learned something from my talk, and, also, we could",
+    "discuss together for some have",
+    "have some fruitful discussions.",
+    "Here, my talk's title is about an overview",
+    "a large language model efficiency,",
+    "Let",
+    "Let me just first introduce myself.",
+    "Yeah. I graduating got my undergraduate degree from",
+    "in 2018, but my I started my research",
+    "career from 2017, and",
+    "at that time, I do some works, like, for like, you use",
+    "reinforcement learning to train language model.",
+    "Maybe this is several first paper to use IO",
+    "enhance language model coherency.",
+    "At a lot time, we just do that within",
+    "generative network framework to use",
+    "IO, to use",
+    "discriminate",
+    "signal, to improve the language model.",
+    "And then I start my PhD career, my research",
+    "thesis about mainly about the classification and ring",
+    "learning generalization. We hope that",
+    "we could generalize a train model from training data side",
+    "some real world cases.",
+    "I do some internship in Salesforce, started my research about multi model",
+    "You know, our world is like",
+    "multi model in nature.",
+    "nature. So and, like, our human could have",
+    "ears and eyes and to to say and",
+    "to to to say and also hear voices.",
+    "So multi model lung language model actually is very important.",
+    "My research say interests are less in AIME agents.",
+    "Maybe some of you also know my work like a suspicion agent.",
+    "To use a laundry model to play pokers.",
+    "also, I did some research on three d deficient.",
+    "Such as how could we convert one to the",
+    "image to a three d",
+    "three d assets. That's what will be helpful for",
+    "for anime and also games.",
+    "And then in 2024,",
+    "I went I went to Google.",
+    "To do something language model architecture design, work,",
+    "mainly contributed to Gemini and Gemma. And as",
+    "introduced, I already",
+    "like, contribute to some model change in Gemini SWE and",
+    "Gemma 3D, Gemma four stuffs.",
+    "Okay. That's my",
+    "introduction.",
+    "Also, I would like to introduce my",
+    "research institution, Google",
+    "Research Australia.",
+    "Google Research Australia, we build",
+    "this research hub in 2024, and we have three teams.",
+    "Like Hearing Aid, we will improve the",
+    "hearing aid ability in Google's Pixabad, so the",
+    "older generation could hear by wearing our Google's",
+    "pixel bot just just like apples.",
+    "And, also, we do multilingual in language models.",
+    "And we do some some we we will enhance",
+    "Asia language in Gemini. And, we have one",
+    "one another team, like Efficiency in LLM,",
+    "That's what I'm that that's the team what I'm in.",
+    "You know why it's very important? It's",
+    "because, like, you know, Google has many products.",
+    "Gemini and search and YouTube",
+    "and the calendars and the Chrome and the Workspace,",
+    "And if we deploy a language model in all this is",
+    "products, it will be very, very expensive. We will use our",
+    "all our TPUs. So how to enhance the efficiency in",
+    "these products is very, very important for us.",
+    "And we're doing pretty well. We just have a we just",
+    "start our research out for one year. We already",
+    "have many things landed in Google, like",
+    "AI mode, the next next generation searching",
+    "and also Gemini are most at mostly important",
+    "project in Google.",
+    "And, also, as you know, it's mostly",
+    "advanced AI around the world.",
+    "And here is the today's agent. Firstly,",
+    "will introduce what's the language model and also",
+    "how's the language model influence. Like,",
+    "I will introduce some metrics and how it works.",
+    "And, also, I will introduce how what's a general",
+    "introduction",
+    "about language model efficiency from model",
+    "algorithm perspective, system perspective.",
+    "our learning",
+    "limitation, our authority, our",
+    "Google, I cannot speak everything in",
+    "talk is just a very super superficial introduction, but I hope",
+    "I still hope we can learn something.",
+    "After this talk,",
+    "talk, I hope, like, if you are a junior student,",
+    "I hope you could know the basic concepts and what we really care about",
+    "language model efficiency. And then if you are the",
+    "I hope you could know the bigger picture of this area and the hook",
+    "I hope this could inspire you to make a",
+    "grounding groundbreaking contributions in this area in the future.",
+    "And if you are an entrepreneur,",
+    "you want to have a start up by yourself, I hope you could know the general ideas",
+    "how to train and deploy your",
+    "products based on language model efficiently.",
+    "Okay. Here, let me",
+    "first introduce what's a transformer. Because",
+    "you already go through all muscle labs",
+    "course, so I think you already",
+    "know what's what's the basic idea I'll transform our",
+    "I just revisited it. In transformer, we just, like,",
+    "have",
+    "normally, we just have a small three components, like",
+    "based on the we will give you oh,",
+    "a sequence, and we will have a token errors, split the sequence to",
+    "subaward by subaward, and we will have and we will have a embedded",
+    "embedding table to convert this subaward to some embedding.",
+    "And after the embeddings, we will do",
+    "self attention. What's the self attention meeting?",
+    "Self attention will model the dependency between different award.",
+    "Like, for this one, it's like a Japanese food. It's delicious.",
+    "When we say,",
+    "when we want to generate the next token like a delicious,",
+    "We will we will model the dependence, like Japanese and food.",
+    "Okay. I know we know based on a lot of training data set",
+    "already know NetTest Token is delicious.",
+    "And, also, after this, we will have a go through the",
+    "FFN layer. FFN layer is, like, we will we normally regard it, like, a",
+    "static memory. It's like, it will",
+    "many memo much mem memory, word of knowledge,",
+    "in this FFN",
+    "layer. Normally, FFN layer, you know,",
+    "just, like, a non linear transformation. It's like two layers",
+    "MLP. One is the upper projection in",
+    "and then down projection from",
+    "to to to mapping the words to a d model.",
+    "Size vector. And go by stacking",
+    "lot of decoding decoder blocks in",
+    "We could have a output layer to decide which one which are next token.",
+    "The good thing for transformer thing is, like, I will",
+    "block you the same so we could stack it again and again, make it transform very big.",
+    "And make it very big, we could train the transformer on",
+    "very, very",
+    "very large",
+    "Internet scale corpus.",
+    "after training on it,",
+    "it's we we this is a process. We call it a pre training.",
+    "And after training it, we will have a laundry model. It",
+    "like, GPT-three is already know it",
+    "stores a lot of our word knowledge into the laundry model.",
+    "So but the thing is, like, even if we",
+    "even knows, GP three knows a lot of word knowledge.",
+    "You don't know how to answer human's question. So, normally, we just do",
+    "future to prompting to let GPT-three to answer some questions.",
+    "So to alleviate it, we we will do SFT. SFT is, like,",
+    "give a question, give an answer, and we just fine tune the",
+    "pre trained model in the SFT in the this s SFT",
+    "dataset, it will",
+    "learn how to how to answer",
+    "how to do instruction following and how to answer human questions.",
+    "However,",
+    "in this stage in this stage, because",
+    "it's just like language model, it's just like learn the",
+    "format, the human ready for him. And it's just just",
+    "a it just mimics one t",
+    "it's just like a student and just a mimic the what a teacher tell him to do. Is it",
+    "questions.",
+    "based on this, we will do the third stage",
+    "It's like IO fine tuning.",
+    "You the with IO, we will have a reward, and then",
+    "model will generate the sales answer, and as",
+    "and we will have reward. The reward is, like, maybe it's a human labeling. That's",
+    "IHF. And also maybe, recently, we will have a verify",
+    "report reward in mass and coding.",
+    "To with this reward, it will",
+    "get out of the laundry model to crack the sales answer.",
+    "generate your own answer, and I will tell you it's right or not.",
+    "Wrong, and then you will generate a game so that you know how to",
+    "how to really understand these queries and",
+    "how to correct your answers.",
+    "So with this three stage, I",
+    "Sorry to interrupt. Can can I please delete the pop up",
+    "at the bottom side of your slide?",
+    "Okay. No problem. No problem.",
+    "Let me do it.",
+    "Okay. Okay. It's good. Thank you.",
+    "Okay. And",
+    "And with this",
+    "this process,",
+    "the language model you already know has how to",
+    "it's like a multitask generator. It already knows how to do",
+    "how to do coding, how to do semantic parsing.",
+    "Together. And the the next question is, like,",
+    "how to train this language model given your",
+    "limited budgets? So this is the the",
+    "scaling law, and I will just briefly how scaling law law works here.",
+    "And then I think Yanxi will introduce a scheme law further.",
+    "The big idea is, like, giving you many, many computes.",
+    "How do you decide the dataset size?",
+    "2020, I think",
+    "people from Deepgram, it it is a real set.",
+    "If you will increase 10 times compute budget,",
+    "and then your comp your model",
+    "your model size",
+    "size and parameter size will increase, like,",
+    "five five point three times. And then the data should",
+    "just increase by 1.8 times.",
+    "And then you could train your best model given given the limited",
+    "computer budget. That's how scaling law works. It's very important.",
+    "Because we know currently",
+    "And you want to do a whole flow per training",
+    "will be very, very, very expensive. So",
+    "given this budget, you want to to to train the",
+    "best model. This this scaling law tells you how to do it.",
+    "And again, this",
+    "with this scaling law and pretraining",
+    "SFT and RHF, we could say LLM.",
+    "Ability more make progress",
+    "very, very quickly. We could say, like, GPQA is like",
+    "is like",
+    "like a master level question storm question and answer",
+    "problems is already kinda achieved, like, 90%.",
+    "Put put 90% accuracy.",
+    "Okay.",
+    "Okay. So with this kind of strong LLM,",
+    "in 2023, I did a suspension agent in muscle lab.",
+    "This is about could we do with",
+    "just we we just have one strong LLM. We do don't do any"
+  ],
+  "variants": {
+    "base": {
+      "captions": [
+        "こんにちは。画面は見えていますか？あ、はい。",
+        "はい、大丈夫ですね。ええ。",
+        "はい、はい。",
+        "皆さん、こんにちは。",
+        "皆さん、こんにちは。私の名前は Jiaxian Guo です。",
+        "そして、現在はシニア・リサーチ・サイエンティストを務めておりまして、",
+        "松尾・岩澤研究室にお招きいただき、皆さんと議論できることを大変嬉しく",
+        "皆さんとお話しできることを、そしてこのトークにお越しいただきありがとうございます。",
+        "そして、願わくば、皆さんが",
+        "私の話から何かを学んでいただければと思いますし、また、我々も",
+        "一緒に議論を深めたり、何らかの",
+        "実りある議論ができればと思います。",
+        "さて、私の講演のタイトルは、概要についてで、",
+        "大型言語モデルの効率性、",
+        "それでは、",
+        "まず自己紹介をさせてください。",
+        "はい。私は学部を卒業し、学位を……",
+        "2018年に、ですが研究を始めたのは",
+        "キャリアを2017年からスタートさせ、",
+        "当時は、例えば、使用するような研究をいくつか行っており、",
+        "強化学習を用いて言語モデルを訓練するといった、",
+        "おそらくこれが、RL（強化学習）を言語モデルに適用した最初期の論文のいくつかで、",
+        "言語モデルの一貫性を高めるために。",
+        "多くの場合、私たちはそれを～の中で行いますが、",
+        "生成ネットワークのフレームワーク内で、これを利用して",
+        "IOを、そして利用するのは",
+        "識別器を",
+        "信号を、言語モデルを改善するために。",
+        "そして博士課程に進み、私の研究は",
+        "論文のテーマは、主に分類と、そしてリン",
+        "学習の汎化についてです。私たちは、",
+        "学習データ側から学習済みモデルを汎化させることができればと",
+        "いくつかの実世界の事例に。",
+        "Salesforceでインターンシップを行い、マルチモデルに関する研究を始めました。",
+        "私たちの世界は、いわば",
+        "本質的にマルチモーダルであり、",
+        "自然界そのものです。ですから、私たち人間が持つような",
+        "耳や目があり、そして話すこともでき、",
+        "話し、そして声を聞くこともできます。",
+        "ですから、マルチモーダルな言語モデルというのは、実際非常に重要で、",
+        "私の研究上の関心は、AIMEエージェントにはあまりなく、",
+        "おそらく皆さんの中にも、Suspicion-Agentのような私の研究をご存知の方がいらっしゃるかもしれませんが、",
+        "language modelを使ってポーカーをプレイする、といったような",
+        "また、3D diffusionに関する研究も行いました。",
+        "例えば、どのようにして一方を他方へ変換できるかといったことや、",
+        "画像を3Dに",
+        "3D assets。それは、何に役立つかというと、",
+        "アニメやゲームにとっても。",
+        "そして2024年には、",
+        "Googleに行きました。",
+        "言語モデルのアーキテクチャ設計に関する仕事をするために、",
+        "主に Gemini と Gemma に貢献しました。そして、",
+        "ご紹介いただいた通り、すでに",
+        "Gemini SWEにおけるモデルの変更などに貢献し、",
+        "Gemma 3Dや、Gemma 4関連のものなど、",
+        "はい。それが私の",
+        "自己紹介です。",
+        "また、私の紹介をさせていただきたいのは、",
+        "研究機関である、Googleについて紹介したいと思い",
+        "Research Australiaです。",
+        "Google Research Australiaでは、我々は構築して",
+        "このリサーチハブを2024年に設立し、3つのチームを擁しています。",
+        "補聴器のように、我々は向上させていきます、その",
+        "GoogleのPixabadにおける補聴器の機能を向上させ、それによって",
+        "高齢者の方々が、Googleの製品を装着することで聞こえるようになるための",
+        "Pixel Budsで、ちょうどAppleの製品と同じように。",
+        "そして、言語モデルにおいて多言語対応も行っています。",
+        "そして、我々は強化していく予定です、",
+        "Geminiにおけるアジア圏の言語を。そして、我々には一つ",
+        "もう一つのチームとして、大規模言語モデルの効率性を担当するチームがあり、",
+        "それが、私が所属しているチームです。",
+        "なぜそれが非常に重要かというと、それは",
+        "というのも、Googleには多くのプロダクトがあり、",
+        "Geminiや検索、YouTubeなど、",
+        "カレンダー、Chrome、Workspace、",
+        "そして、これらすべてに言語モデルをデプロイすれば、それは",
+        "製品に展開すれば、非常に、非常に高コストになります。そこで我々の",
+        "すべてのTPUを使い切ってしまうでしょう。そこで、いかに効率性を高めるかが、",
+        "これらの製品における効率性を高めることは、我々にとって非常に、非常に重要です。",
+        "そして、我々はかなり順調に進んでおり、ちょうど",
+        "研究を開始してまだ1年ですが、すでに",
+        "Googleにおいて多くの成果を導入しており、例えば",
+        "AI modeや、次世代の検索といったものに、",
+        "そしてGeminiも、最も重要なものとして、",
+        "Googleにおけるプロジェクトです。",
+        "そして、ご存知の通り、それは主に",
+        "世界で最も進んだAIです。",
+        "そして、こちらが本日のアジェンダです。まず最初に、",
+        "言語モデルとは何か、そしてまた、",
+        "言語モデルがどのような影響を与えるか、例えば、",
+        "いくつかの指標とその仕組みについて紹介し、",
+        "そして、一般的なものがどのようなものかについても紹介し",
+        "導入について、",
+        "言語モデルの効率性について、モデルの面から",
+        "アルゴリズムの観点、そしてシステムの観点から、",
+        "私たちの学習について、",
+        "制約、私たちの権限、私たちの",
+        "Google、そのすべてを話すことはできませんが、",
+        "お話しするのは、ごく表面的な導入に過ぎませんが、願わくば",
+        "それでも、何かを学んでいただけることを願っています。",
+        "この講演の後に、",
+        "このトークの後、願わくば、もしあなたが低学年の学生であれば、",
+        "基本的な概念や、私たちが真に重視していることを知っていただければと思います",
+        "言語モデルの効率性について。そして、もしあなたが",
+        "この分野の全体像と、その核心について知っていただければと思いますし、",
+        "これが皆さんが何かを制作する際のインスピレーションとなり、",
+        "将来、この分野において画期的な貢献をするための足がかりに",
+        "そして、もしあなたが起業家であれば、",
+        "ご自身でスタートアップを立ち上げたいと考えているのであれば、その一般的な考え方を知っていただきたいですし、",
+        "どのようにトレーニングし、デプロイするかという",
+        "language modelをベースにしたプロダクトを効率的に構築し、デプロイするための一般的な考え方を知っていただければと思います。",
+        "はい、それでは、ここで私から",
+        "まず、Transformerとは何かについて説明させてください。というのも、",
+        "すでに松尾・岩澤研究室のすべてを経験されているので、",
+        "コースを受講されているので、皆さんはすでに",
+        "Transformerの基本的な考え方はすでにご存知かと思いますが",
+        "ちょうど復習したところですが、Transformerでは、単に、その、",
+        "持っているのは",
+        "通常、3つの小さなコンポーネントがあり、例えば",
+        "それに基づいて、お教えするのは、",
+        "シーケンスがあり、トークナイザーがそのシーケンスを分割して、",
+        "サブワード単位に分割し、そして埋め込み（embedded）を生成して、",
+        "embedding tableを使用して、これらのsubwordをembeddingに変換します。",
+        "そして、埋め込み（embeddings）の後に、我々が行うのは",
+        "セルフアテンションを行います。セルフアテンションの意味するところは、",
+        "Self attentionは、異なる単語間の依存関係をモデル化し、",
+        "例えば、この「Japanese food（日本食）」という言葉であれば、「It's delicious（それは美味しい）」というように、",
+        "例えば、私たちが",
+        "delicious のような次のトークンを生成したいとき、",
+        "Japaneseとfood（食）のような依存関係をモデル化します。",
+        "はい、膨大なトレーニングデータセットに基づいていることは分かっていますが、",
+        "次のトークンが delicious であることは、すでにわかっています。",
+        "そして、この後、さらに詳しく見ていくのは、",
+        "FFNレイヤーについてです。FFNレイヤーは、通常、次のように見なされています。つまり、一種の",
+        "静的なメモリのようなものです。それは、まるで、",
+        "多くの知識、言葉の知識を蓄積しており、",
+        "このFFNの中に",
+        "レイヤーに。通常、FFNレイヤーというのは、",
+        "単なる非線形変換のようなもので、2つの層で構成されていて、",
+        "MLPで、一つはアッププロジェクションで、",
+        "そして、そこからダウン・プロジェクション（次元削減）を",
+        "単語をd次元のモデルへとマッピングするための、",
+        "サイズベクトルへ。そして、これらを積み重ねることで",
+        "多くのデコーダブロックを積み重ねることで、",
+        "出力層を設けて、次のトークンがどれになるかを決定することができ、",
+        "Transformerの利点は、例えば、私が",
+        "ブロックは同じものなので、何度も積み重ねることができ、Transformerを非常に大きくすることができます。",
+        "そして非常に大きくすることで、このTransformerをトレーニングできるようになります、",
+        "非常に、非常に、",
+        "非常に大規模な",
+        "インターネット規模のコーパスで。",
+        "それを使って学習させた後、",
+        "これは、私たちが「pre training」と呼んでいるプロセスで、",
+        "そして、この学習を終えると、language modelが完成します。これは",
+        "GPT-3などはすでにそれを知っており、",
+        "膨大な世界の知識を、そのlanguage modelの中に蓄積します。",
+        "しかし、問題は、たとえ私たちが",
+        "GPT-3はすでに多くの世界知識を蓄積していますが、",
+        "人間の質問にどう答えるべきか分かっていないため、通常、私たちは単に",
+        "few-shot promptingを用いて、GPT-3にいくつかの質問に答えさせたりします。",
+        "ですので、それを解消するためにSFTを行います。SFTとは、例えば、",
+        "質問を与え、回答を与え、そして単にファインチューニングをすることで、",
+        "SFTにおいて、事前学習済みのモデルを、このSFTの",
+        "データセットで、それによって",
+        "答え方を学習し、",
+        "指示に従う方法や、人間の質問に答える方法を",
+        "しかし、",
+        "この段階では、なぜなら",
+        "これは単にlanguage modelのように、単に学習しているだけで",
+        "形式、つまり人間が用意した形式を学習するだけで、そしてそれは単に",
+        "単に一つを模倣しているだけで",
+        "それはまるで生徒が、先生に言われたことをただ真似しているような、そんな感じなのでしょうか",
+        "質問です。",
+        "これに基づき、第3段階を行います",
+        "それは IO fine tuning のようなもので、",
+        "IOを用いることで、報酬が得られ、そして",
+        "モデルが売上の回答を生成し、そして",
+        "報酬が得られます。その報酬は、例えば人間によるラベリングのようなもので、それは",
+        "RLHF、そして最近では、検証モデルを置くこともあります。",
+        "数学やコーディングにおける報酬モデルを",
+        "この報酬によって、それは",
+        "language model が正解を導き出すために、そこから抜け出し、",
+        "自ら回答を生成してください。そして、それが正しいかどうかを私が伝えます。",
+        "間違っていれば、さらに回答を生成し、どのようにすればよいかを理解するために",
+        "どのようにしてこれらのクエリを真に理解するか、そして",
+        "回答を修正する方法を。",
+        "ですので、この3つのステージによって、私は",
+        "すみません、遮ってしまって。ポップアップを消してもいいでしょうか",
+        "スライドの下の方にあるポップアップを",
+        "はい、問題ありません。大丈夫です。",
+        "こちらで削除します。",
+        "はい、大丈夫です。ありがとうございます。",
+        "はい、そして、",
+        "そして、これを使って",
+        "このプロセスによって、",
+        "すでに知っている言語モデルが、どのようにして",
+        "マルチタスク・ジェネレーターのようなもので、すでにどのように実行すべきかを知っており、",
+        "コーディングの方法や、意味解析の方法を。",
+        "同時に。そして、次の質問は、例えば、",
+        "この言語モデルを、あなたの持つ",
+        "限られた予算で。そして、これが、",
+        "スケーリング則であり、ここでスケーリング則がどのように機能するかを簡潔に説明します。",
+        "そして、Yanqi Zhouがスケーリング則についてさらに詳しく説明します。",
+        "大きなアイデアとしては、膨大な計算資源を投入することで、",
+        "データセットのサイズをどのように決定するのでしょうか。",
+        "2020年だったと思いますが、",
+        "DeepMindの人たちが、それは実際のデータセットで、",
+        "もし計算予算を10倍に増やすのであれば、",
+        "そして、モデルを",
+        "モデルのサイズを",
+        "サイズとパラメータ数が増加し、例えば、",
+        "5.3倍になり、そしてデータは",
+        "1.8倍増やすだけでよいのです。",
+        "そして、限られた状況下で最高のモデルをトレーニングできるというもので、",
+        "計算予算です。それがスケーリング則の仕組みであり、非常に重要です。",
+        "なぜなら、現在我々が知っているのは、",
+        "そして、トレーニングごとに一連のフローを実行したいと考えます",
+        "非常に、非常に、非常に高価になります。ですので、",
+        "この予算を考慮すると、トレーニングしたいのは、",
+        "最高のモデルを。このスケーリング則が、その方法を教えてくれます。",
+        "そして繰り返しになりますが、これは",
+        "このスケーリング則と事前学習によって、",
+        "SFTやRHFを経て、大規模言語モデルと言えるようになります。",
+        "能力はさらに進歩し、",
+        "非常に、非常に急速に。例えば、GPQAはまるで",
+        "いうなれば、まるで",
+        "修士レベルの難問が次々と出される、クイズのような、質疑応答の",
+        "問題は、すでに90%ほど達成されており、",
+        "90%の精度に達しています。",
+        "はい。",
+        "わかりました。このように強力な大規模言語モデルがあれば、",
+        "2023年に、松尾・岩澤研究室でSuspicion-Agentを開発しました。",
+        "これは、何ができるかという点についてで、",
+        "たった一つの強力な大規模言語モデルだけで、何も行わずに、"
+      ],
+      "windows": 39,
+      "totals": {
+        "REPEAT": 24,
+        "SUBJ_PRED": 28,
+        "DANGLING": 33,
+        "BAD_JOIN": 30,
+        "OMISSION": 2
+      },
+      "seam_defects_per_window": 2.949,
+      "omissions_per_window": 0.051,
+      "repeat_ngram_score": 107,
+      "mean_chars_per_caption": 24.0,
+      "window_detail": [
+        {
+          "start": 0,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 5 repeats the greeting '皆さん、こんにちは' which was already displayed in caption 4."
+            ]
+          }
+        },
+        {
+          "start": 6,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "The phrase 'being able to discuss/talk with you' is repeated in captions 1 and 2.",
+              "Caption 1 ends with '嬉しく' (happy) but the predicate '思います' (I think/feel) never arrives, leaving it dangling and creating a bad join with caption 2."
+            ]
+          }
+        },
+        {
+          "start": 12,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 5 ends with the object marker 'を' but no verb follows in the sequence (DANGLING).",
+              "Caption 6 ends with the nominalizer 'のは' but the predicate never arrives (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 18,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Redundant repetition of '強化学習' (Reinforcement Learning) in captions 3 and 4.",
+              "Captions 3 ('といった、') and 5 ('ために。') both end with grammatical gaps that are not resolved by the following captions.",
+              "Bad join between 4 and 5: the conjunctive ending 'で、' in 4 does not grammatically connect to the purpose clause in 5."
+            ]
+          }
+        },
+        {
+          "start": 24,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "2-3: '利用するのは' (subject phrase) followed by '識別器を' (object) is ungrammatical",
+              "5: '私の研究は' is a subject that never receives a predicate",
+              "6: 'そしてリン' is an incomplete word and ends the sequence abruptly"
+            ]
+          }
+        },
+        {
+          "start": 30,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 2: '私たちは' (We) lacks a matching predicate like '願っています' (hope) (SUBJ_PRED)",
+              "Captions 2-3: The particle 'に' in 3 cannot grammatically connect back to the verb in 2 because of the 'と' ending (BAD_JOIN)",
+              "Caption 6: Ends with the conjunctive 'であり、' leaving the sentence unfinished (DANGLING)"
+            ]
+          }
+        },
+        {
+          "start": 36,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 2 and 3 repeat the action of 'speaking' (話す/話し) and the conjunction 'and' (そして), mirroring a stutter in the source.",
+              "Caption 6 ends with a dangling conjunction 'が' with no following text to resolve the sentence."
+            ]
+          }
+        },
+        {
+          "start": 42,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 1 ends with 'といったような' (such as...) but the thought is abandoned as Caption 2 starts a new sentence (DANGLING).",
+              "Caption 5-6: '何に役立つかというと' (As for what it's useful for...) does not grammatically connect to 'アニメやゲームにとっても' (also for anime and games) (BAD_JOIN)."
+            ]
+          }
+        },
+        {
+          "start": 48,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 54,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 4 and 5 repeat '紹介' redundantly; caption 5 ends with a dangling '思い' that fails to join grammatically with caption 6."
+            ]
+          }
+        },
+        {
+          "start": 60,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 2,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 3 and 4 repeat the verb '向上' (improve), making the transition redundant.",
+              "Caption 5 ends with 'ための' (for the purpose of) which is not resolved by Caption 6, leaving a grammatical gap (DANGLING).",
+              "The clause starting in Caption 5 '高齢者の方々が...' (the elderly...) never reaches a concluding predicate, leaving the sentence unfinished (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 66,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 72,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "4-5: The conditional clause is repeated ('デプロイすれば' and '展開すれば'), and 'それは' (4) creates a bad join.",
+              "5-6: The word 'そこで' is repeated at the end of 5 and start of 6.",
+              "6: The sentence ends with 'かが、' and the main predicate never arrives."
+            ]
+          }
+        },
+        {
+          "start": 78,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 5 ends with the particle 'に' which is not resolved by caption 6, leaving the items in 5 and 6 without a concluding predicate."
+            ]
+          }
+        },
+        {
+          "start": 84,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 1,
+            "examples": [
+              "The verb 'will introduce' is omitted (5), which leaves the sentence starting with 'Firstly' (まず最初に) in caption 4 without a predicate (4-6)."
+            ]
+          }
+        },
+        {
+          "start": 90,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 1 and 2 repeat the verb '紹介し' (REPEAT).",
+              "Caption 2 ends with the verb '紹介し' while its object '導入について' follows in caption 3, which is ungrammatical in Japanese (BAD_JOIN/DANGLING).",
+              "The sequence 3-6 consists of noun phrases that never resolve into a final predicate (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 96,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 3 and 4 repeat the 'I hope' sentiment across neighbouring lines.",
+              "Captions 5 and 6 repeat the same temporal phrase ('After this talk')."
+            ]
+          }
+        },
+        {
+          "start": 102,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 2,
+            "DANGLING": 2,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 2 ends with 'もしあなたが' (if you are) but the condition is never completed in caption 3.",
+              "Caption 5 ends with the particle '足がかりに' (as a foothold) without a concluding predicate verb."
+            ]
+          }
+        },
+        {
+          "start": 108,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 3 repeats the 'general ideas' and 'deploy' points already stated in 1 and 2; Caption 2 ends with 'という' which does not connect grammatically to 'language model' in 3."
+            ]
+          }
+        },
+        {
+          "start": 114,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT: 'すでに' is used in both caption 1 and 2.",
+              "BAD_JOIN: Caption 4 '持っているのは' and 5 '...コンポーネントがあり' do not form a grammatical sentence.",
+              "DANGLING: Caption 6 ends with the particle 'は、' without a following predicate."
+            ]
+          }
+        },
+        {
+          "start": 120,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 2,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 1 and 2 repeat the action of splitting (分割), creating redundancy.",
+              "Captions 4 and 5 create a BAD_JOIN where '行うのは' is followed by '行います', making the sentence ungrammatical.",
+              "Caption 6 ends with 'モデル化し、' without a following caption to complete the predicate or sentence."
+            ]
+          }
+        },
+        {
+          "start": 126,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The word '例えば' is repeated at the start of captions 1 and 2; caption 1 ends with 'というように、' which creates a dangling grammatical gap before caption 2 starts a new thought."
+            ]
+          }
+        },
+        {
+          "start": 132,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 5-6: 'の中にレイヤーに' is ungrammatical (BAD_JOIN).",
+              "Captions 4-6: The predicate '蓄積しており' is never completed, leaving the sentence unfinished (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 138,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 5 and 6 repeat the phrase '積み重ねることで' (REPEAT).",
+              "Captions 3 and 4 joined together result in 'プロジェクションを単語を', which is ungrammatical (BAD_JOIN/DANGLING).",
+              "The sequence ends at caption 6 with 'by stacking...' but lacks a final predicate to complete the sentence (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 144,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "The subject '私が' in caption 2 has no predicate and does not connect grammatically to caption 3 (BAD_JOIN, DANGLING, SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 150,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 4 ends with 'これは' (This is), which lacks a predicate and creates a bad join with the new subject in caption 5."
+            ]
+          }
+        },
+        {
+          "start": 156,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 2,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "1-2: The subject '私たちが' in caption 1 is never given a predicate and is immediately followed by a new subject 'GPT-3は' in caption 2 (BAD_JOIN).",
+              "6: The sequence ends with 'することで、' (by doing...), leaving the sentence grammatically incomplete without a main predicate (DANGLING)."
+            ]
+          }
+        },
+        {
+          "start": 162,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 4 ends with the object marker 'を' but the predicate never follows, leaving the sentence incomplete and creating a bad join with caption 5."
+            ]
+          }
+        },
+        {
+          "start": 168,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "The phrase '単に' is repeated at the end of caption 2 and the start of caption 3, creating a redundant '単に単に' (BAD_JOIN 2-3).",
+              "The concept of 'learning' (学習...だけで) is repeated across captions 1 and 2, making the sequence feel redundant."
+            ]
+          }
+        },
+        {
+          "start": 174,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT: '報酬が得られ' in caption 2 and '報酬が得られます' in caption 4.",
+              "SUBJ_PRED/DANGLING: Caption 6 is a fragment ending with the object marker 'を' and has no predicate.",
+              "BAD_JOIN: Caption 6 does not grammatically connect to the complete sentence in caption 5."
+            ]
+          }
+        },
+        {
+          "start": 180,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 2,
+            "DANGLING": 1,
+            "BAD_JOIN": 2,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 1 ends with the subject 'それは' but the predicate never arrives, and it does not connect to the new subject in caption 2 (SUBJ_PRED, DANGLING, BAD_JOIN).",
+              "The transition from caption 4 to 5 results in '理解するためにどのように...理解するか' (in order to understand how to understand), which is redundant and ungrammatical (BAD_JOIN).",
+              "Caption 6 ends with the object marker 'を' but lacks a main verb to complete the sentence (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 186,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 1 ends with '私は' but the predicate never follows due to the interruption (SUBJ_PRED, DANGLING).",
+              "The phrase 'ポップアップを' is repeated in both caption 2 and 3, whereas the English source only says it once (REPEAT)."
+            ]
+          }
+        },
+        {
+          "start": 192,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "'そして' is repeated in captions 1 and 2.",
+              "Caption 4 ends with 'どのようにして', which is redundant with caption 5 and creates a dangling fragment/bad join."
+            ]
+          }
+        },
+        {
+          "start": 198,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 1,
+            "examples": [
+              "Captions 2-3: The verb 'train' (訓練する) is omitted, leaving the sentence 'この言語モデルを...予算で' without a predicate.",
+              "Caption 6: Ends with the particle 'ことで、' (by doing...), creating a grammatical gap that is never resolved."
+            ]
+          }
+        },
+        {
+          "start": 204,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 2,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 3: The subject 'DeepMindの人たちが' lacks a predicate and the caption ends with 'で、' which is not resolved by the next caption.",
+              "Captions 5-6: Redundant repetition of the word 'モデル' (model).",
+              "Caption 6: Ends with the object marker 'を' without a following verb, leaving the sentence incomplete."
+            ]
+          }
+        },
+        {
+          "start": 210,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "BAD_JOIN: Captions 4 and 5 do not form a logical sequence ('...training is possible, it is a computer budget') due to the poor split of 'limited computer budget'."
+            ]
+          }
+        },
+        {
+          "start": 216,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "3-4: 'のは' followed by 'を' is ungrammatical (BAD_JOIN)",
+              "5-6: 'これは' lacks a predicate (SUBJ_PRED)",
+              "6: Ends with 'によって' leaving the sentence unfinished (DANGLING)"
+            ]
+          }
+        },
+        {
+          "start": 222,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT/BAD_JOIN: 'まるで' is repeated in captions 3 and 4, creating a redundant and awkward transition (3: 'GPQAはまるで', 4: 'いうなれば、まるで')."
+            ]
+          }
+        },
+        {
+          "start": 228,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "The transition from caption 3 to 4 is ungrammatical; the conditional phrase 'があれば' (if there is) in caption 3 is not resolved by the past-tense statement in caption 4."
+            ]
+          }
+        }
+      ]
+    },
+    "prev_rules": {
+      "captions": [
+        "こんにちは。画面は見えていますか？あ、はい。",
+        "はい、良かったです。ええ。",
+        "はい。ええ。",
+        "皆さん、こんにちは。",
+        "皆さん。はい。私の名前は Jiaxian Guo です。",
+        "現在はシニア・リサーチ・サイエンティストを務めており、",
+        "松尾・岩澤研究室からの招待を受け、こうしてお話しできることを大変嬉しく思います。",
+        "皆さんと、そしてこのトークにお越しいただきありがとうございます。",
+        "そして、願わくば皆さんに、有意義な時間を過ごしていただければと",
+        "私の話から何かを学んでいただき、また、私たちも",
+        "一緒に議論を深め、何かを得ることができればと",
+        "実りある議論ができればと思っています。",
+        "さて、私の講演のタイトルは、概要についてとなっておりまして、",
+        "LLM（大規模言語モデル）の効率性、",
+        "では、",
+        "まずは自己紹介をさせてください。",
+        "はい。私は学部を卒業しまして、",
+        "2018年に取得しましたが、研究を始めたのは",
+        "2017年からで、",
+        "当時は、例えば、利用者が",
+        "強化学習を用いて、language modelを訓練するといった研究を行っていました。",
+        "これはおそらく、RL を使用した最初期の論文のいくつかで、",
+        "language modelの整合性を高めるためのものでした。",
+        "当時は、それを単にその範囲内で行っていましたが、",
+        "生成ネットワークのフレームワークを使用して、",
+        "IOを、そして",
+        "判別器を使用し、",
+        "信号を判別し、language modelを改善します。",
+        "そして博士課程に進み、私の研究は",
+        "論文のテーマは、主に分類とリングに...",
+        "学習の汎化についてです。私たちは、",
+        "学習データ側から、学習済みモデルを汎化させることができればと考えています",
+        "いくつかの実世界の事例において。",
+        "Salesforceでインターンシップを行い、マルチモデルに関する研究を始めました",
+        "私たちの世界は、いわば",
+        "本質的にマルチモーダルであり、",
+        "ですので、人間は、",
+        "耳や目を持ち、そして話すことで、",
+        "声を出すことも、そして声を聞くこともできます。",
+        "ですから、マルチモーダルな大規模言語モデルは、実際非常に重要です。",
+        "私の研究上の関心は、AIMEエージェントよりも、",
+        "おそらく皆さんの中にも、Suspicion-Agentのような私の研究をご存知の方がいるかもしれませんが、",
+        "ポーカーをプレイするために、大規模言語モデルを使用することにあります。",
+        "また、3D diffusionに関する研究も行いました。",
+        "例えば、どのようにして一方を他方へ変換できるかといった、",
+        "画像を3Dへと変換するかといった研究です。",
+        "3D assetsへと。それが、後の工程で役立つことになります",
+        "アニメやゲーム制作において。",
+        "そして2024年には、",
+        "Googleに入社しました。",
+        "language modelのアーキテクチャ設計や、業務に携わるために、",
+        "主に Gemini や Gemma に貢献しました。そして、",
+        "ご紹介いただいた通り、すでに",
+        "Gemini SWEにおけるモデルの変更に貢献したり、",
+        "Gemma 3DやGemma 4関連のプロジェクトにも携わっています。",
+        "以上が私の",
+        "自己紹介です。",
+        "また、私の",
+        "研究機関であるGoogleについて紹介したいと思います",
+        "Research Australiaについてです。",
+        "Google Research Australiaでは、我々は構築して",
+        "2024年にこのリサーチハブを設立し、3つのチームを擁しています。",
+        "補聴器のように、我々は向上させていきます、その",
+        "GoogleのPixabadにおける補聴器の機能を、ですので、",
+        "高齢者の方々が、Googleの製品を装着することで聞き取れるように、",
+        "Pixel Budsを、ちょうどAppleのように。",
+        "そして、言語モデルにおける多言語対応も行っています。",
+        "そして、さらに強化していく予定です",
+        "Geminiにおけるアジア言語への対応を。そして、我々には一つ",
+        "もう一つのチーム、大規模言語モデルの効率性を担当するチームがあり、",
+        "それが私の所属しているチームです。",
+        "なぜそれが非常に重要なのかというと、それは",
+        "Googleが多くのプロダクトを抱えているからです。",
+        "Geminiや検索、YouTubeといった、",
+        "カレンダー、Chrome、Workspaceなど、",
+        "これらすべてに言語モデルをデプロイするとなれば、",
+        "製品に展開するとなれば、非常に、非常にコストがかかります。そこで、我々の",
+        "すべてのTPUを使用します。そこで、いかにして効率性を高めるか、という点が",
+        "これらの製品において、我々にとって非常に、非常に重要になります。",
+        "そして、我々はかなり順調に進んでいます。我々はちょうど、",
+        "研究を開始して1年になりますが、すでに",
+        "Googleの多くの製品に導入されており、例えば",
+        "AI modeや、次世代の検索、",
+        "そしてGeminiも、最も重要なものの一つとして導入されています",
+        "Googleにおけるプロジェクトです。",
+        "そして、ご存知の通り、それは主に",
+        "世界で最も進んだAIです。",
+        "こちらが本日のアジェンダです。まず最初に、",
+        "言語モデルとは何かについて、そしてまた",
+        "言語モデルがどのような影響を与えるか、例えば、",
+        "いくつかの指標と、その仕組みについて紹介します。",
+        "そして、一般的なものがどのようになっているかについても紹介します。",
+        "概要について紹介します。",
+        "モデルの観点からの、language modelの効率性について、",
+        "アルゴリズムの観点、そしてシステムの観点から。",
+        "私たちの学習について",
+        "限界や、私たちの権限、そして私たちの",
+        "Googleでの立場について、すべてをお話しできるわけではありませんが、",
+        "今回の話は、あくまで非常に表面的な導入に過ぎませんが、",
+        "それでも、何かを学んでいただけることを願っています。",
+        "この講演の後に、",
+        "この講演が、例えば学部生の方々にとって、",
+        "基本概念や、私たちが真に重視していることを知っていただければと思いますし、",
+        "language modelの効率性について。そして、もしあなたが",
+        "この分野の全体像と、その核心について知っていただければ幸いです。",
+        "これが皆さんの刺激となり、何かを制作する際の助けになればと願っています。",
+        "将来、この分野において画期的な貢献をするための土台となれば幸いです。",
+        "そして、もしあなたが起業家であれば、",
+        "自分でスタートアップを立ち上げたいと考えているなら、その全体像を把握し、",
+        "どのようにトレーニングし、デプロイするか、その方法を",
+        "language modelに基づいたプロダクトを、効率的に構築するための方法を理解していただければと思います。",
+        "それでは、ここで、",
+        "まず、Transformerとは何かについて説明します。なぜなら、",
+        "皆さんはすでに松尾・岩澤研究室のすべての講義を終えられており、",
+        "コースを修了されていますので、皆さんはすでに",
+        "Transformerの基本的な概念についてはすでにご存知かと思いますが、",
+        "改めて復習しますと、Transformerでは、単に、",
+        "持っているのは、",
+        "通常、3つの小さなコンポーネントがあり、それは、",
+        "それらに基づいて、提供されるのは、",
+        "シーケンスであり、トークナイザーがそのシーケンスを分割して、",
+        "サブワード単位に分割し、そして埋め込みを、",
+        "埋め込みテーブルを用いて、これらのサブワードを埋め込みへと変換します。",
+        "そして埋め込みの後に、次に行うのは",
+        "セルフアテンションです。セルフアテンションとはどういう意味でしょうか。",
+        "セルフアテンションは、異なる単語間の依存関係をモデル化するものです。",
+        "例えば、この「Japanese food（日本食）」と「delicious（美味しい）」のように、",
+        "と言うとき、",
+        "「delicious」のような次のトークンを生成したいとき、",
+        "「Japanese」と「food」のような依存関係をモデル化します。",
+        "膨大なトレーニングデータセットに基づき、",
+        "次のトークンが「delicious」であることを、すでに知っているのです。",
+        "そして、この後に、詳しく見ていくのは",
+        "FFNレイヤーです。FFNレイヤーは、通常、私たちが",
+        "静的なメモリと見なしており、それはまるで、",
+        "多くのメモリ、知識の言葉を、",
+        "このFFNの中に蓄積しているようなもので、",
+        "レイヤーにです。通常、FFNレイヤーというのは、",
+        "単なる非線形変換のようなもので、2つのレイヤーで構成されていて、",
+        "MLPで、一つは上位への投影で、",
+        "そして、そこからのダウンプロジェクション（下位への投影）で、",
+        "単語をd次元モデルへとマッピングするためのものです。",
+        "サイズベクトルへと。そして、これらを積み重ねることで、",
+        "多くのデコーダブロックを積み重ねることで、",
+        "出力層を設けることで、次のトークンがどれになるかを決定することが可能になります。",
+        "Transformerの利点は、例えば、私が",
+        "ブロックが同一であるため、何度も積み重ねることができ、Transformerを非常に大規模にすることが可能です。",
+        "そして非常に大規模にすることで、Transformerを学習させることが可能になります、",
+        "非常に、非常に、",
+        "巨大な、非常に大規模な",
+        "インターネット規模のコーパスで。",
+        "それを用いて学習を行った後、",
+        "これは「事前学習（pre-training）」と呼ばれるプロセスで、",
+        "その学習を終えると、language modelが得られ、それは",
+        "GPT-3のように、すでに知識を持った状態になります。",
+        "大量の単語の知識を、その language model の中に蓄積することになります。",
+        "しかし、たとえ私たちが",
+        "GPT-3が多くの単語の知識を持っていたとしても、",
+        "人間の質問にどう答えるべきかは分かっていません。そのため、通常は、",
+        "few-shotプロンプティングを行って、GPT-3にいくつかの質問に答えさせるようにします。",
+        "そこで、それを解消するためにSFTを行います。SFTとは、例えば、",
+        "質問を与え、回答を与えて、そのデータでファインチューニングを",
+        "このSFTにおいて、事前学習済みモデル（pre-trained model）を",
+        "データセットで学習させることで、",
+        "どのように回答すべきかを学習します",
+        "指示に従う方法や、人間の質問にどのように答えるかを学習します。",
+        "しかし、",
+        "この段階では、というのも",
+        "これは単なる言語モデルと同様に、単に学習しているに過ぎず、",
+        "人間が用意した形式を学習しているだけであり、そしてそれは単に",
+        "単に模倣しているに過ぎず、",
+        "まるで生徒のように、ただ先生に言われたことを模倣しているだけなのでしょうか。",
+        "という疑問です。",
+        "これを踏まえて、第3段階に進みますが、",
+        "それは IO fine-tuning のようなものです。",
+        "IOを用いることで、報酬が得られ、そして",
+        "モデルが売上の回答を生成し、そして",
+        "報酬が得られます。その報酬とは、例えば人間によるラベリングのようなもので、それは",
+        "RLHFです。また、最近では、検証を行うための",
+        "数学やコーディングにおける報酬です。",
+        "この報酬によって、モデルは",
+        "language modelを抜け出し、正解を導き出すことができるようになります。",
+        "自ら答えを生成し、それに対して私が正解か否かを伝えるという、",
+        "間違っているかを伝え、そして、どのようにすればよいかを理解するために、再び生成を繰り返すという",
+        "クエリを真に理解する方法や、",
+        "回答を修正する方法を。",
+        "この3つのステージによって、私は",
+        "すみません、お話を遮って。ポップアップを消してもいいでしょうか？",
+        "スライドの下の方にある？",
+        "はい、問題ありません。どうぞ。",
+        "私がやります。",
+        "はい、大丈夫です。ありがとうございます。",
+        "はい。そして",
+        "これによって、",
+        "このプロセスによって、",
+        "すでに使い慣れている language model が、どのようにして",
+        "マルチタスク・ジェネレーターのような役割を果たし、すでに実行方法を理解しているのです。",
+        "コーディングや、意味解析を。",
+        "これらを組み合わせて。そして、次の疑問は、",
+        "どのようにこの language model をトレーニングするか、皆さんの",
+        "限られた予算で。そこで、これが、",
+        "スケーリング則であり、ここでスケーリング則がどのように機能するかを簡単に説明します。",
+        "そして、Yanqi Zhou がスケーリング則についてさらに詳しく説明します。",
+        "大きな考え方としては、非常に多くの計算リソースを投入することで、",
+        "データセットのサイズをどのように決定するのか、という点です。",
+        "それは2020年のことだったと思いますが、",
+        "DeepMindの人たちが、それは実際のセットだと、",
+        "もし計算予算を10倍に増やすのであれば、",
+        "モデルのサイズも10倍にすべきだと",
+        "サイズも10倍に、",
+        "サイズとパラメータ数も増やすべきだと、つまり",
+        "5.3倍に。そしてデータも、",
+        "わずか1.8倍増やすだけでいいのです。",
+        "そうすれば、限られた条件の中で最適なモデルをトレーニングできるのです、たとえ制限された",
+        "計算予算であっても。これがスケーリング則の仕組みであり、非常に重要な点です。",
+        "なぜなら、現在わかっているのは、",
+        "トレーニングごとに一連のフローを実行したいと考えた場合、",
+        "非常に、非常に高額なものになるからです。そのため、",
+        "この予算を考慮すると、トレーニングを行いたいのは、",
+        "最高のモデルです。このスケーリング則が、その方法を教えてくれます。",
+        "そしてこれもまた、",
+        "このスケーリング則と事前学習によって、",
+        "SFTとRLHFを経て、大規模言語モデルと言えるようになります。",
+        "能力はさらに向上し、",
+        "非常に急速に向上します。例えば、GPQAは、",
+        "いわば",
+        "修士レベルの難問が次々と出題されるQ&Aのようなもので、",
+        "問題については、すでに90%ほど達成されており、",
+        "90%の精度に達しています。",
+        "なるほど。",
+        "なるほど。では、このような強力な大規模言語モデルがあれば、",
+        "2023年に、松尾・岩澤研究室でSuspicion-Agentの開発を行いました。",
+        "これは、何ができるかというもので、",
+        "たった一つの強力な大規模言語モデルだけで、何もせずに、"
+      ],
+      "windows": 39,
+      "totals": {
+        "REPEAT": 23,
+        "SUBJ_PRED": 19,
+        "DANGLING": 22,
+        "BAD_JOIN": 19,
+        "OMISSION": 1
+      },
+      "seam_defects_per_window": 2.128,
+      "omissions_per_window": 0.026,
+      "repeat_ngram_score": 105,
+      "mean_chars_per_caption": 24.1,
+      "window_detail": [
+        {
+          "start": 0,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 6 ends with the continuative 'を務めており、', leaving the sentence unfinished."
+            ]
+          }
+        },
+        {
+          "start": 6,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 2: '皆さんと' is a dangling fragment that does not connect to the predicate in Caption 1 or 2 (DANGLING, SUBJ_PRED, BAD_JOIN).",
+              "Captions 5 and 6: Redundant repetition of the phrase '議論...できれば' (REPEAT)."
+            ]
+          }
+        },
+        {
+          "start": 12,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 6 ends with 'のは' which creates a dangling sentence and leaves the predicate missing (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 18,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 24,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 5 ends with '私の研究は' (my research is) but the predicate never arrives, as caption 6 starts a new subject.",
+              "Caption 6 ends with 'リングに...' which is grammatically incomplete.",
+              "Caption 2 'IOを、そして' leaves the object 'IO' dangling without a verb before the next phrase starts."
+            ]
+          }
+        },
+        {
+          "start": 30,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 36,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 5 is incomplete; the subject '関心は' lacks a predicate and the dangling 'よりも' does not connect grammatically to caption 6."
+            ]
+          }
+        },
+        {
+          "start": 42,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 3 and 4 repeat the phrase '変換するかといった', and caption 5 is a dangling fragment ('3D assetsへと') because the sentence was already closed in caption 4."
+            ]
+          }
+        },
+        {
+          "start": 48,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 54,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 60,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 1 and 2 repeat the idea of building/establishing the hub (構築して and 設立し).",
+              "Caption 6 'Pixel Budsを' is an object without a predicate, making the transition from 5 ungrammatical (BAD_JOIN)."
+            ]
+          }
+        },
+        {
+          "start": 66,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 72,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The conditional phrase '...するとなれば' is repeated in captions 4 and 5.",
+              "The conjunction 'そこで' is repeated at the end of caption 5 and the start of caption 6.",
+              "Caption 6 ends with 'という点が' (the point that...), leaving the sentence without a predicate."
+            ]
+          }
+        },
+        {
+          "start": 78,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 84,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 90,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The phrase '紹介します' is repeated at the end of captions 1, 2, and 3, creating noticeable redundancy for the viewer.",
+              "Captions 4, 5, and 6 present a list of topics (efficiency, perspectives, learning) but the sequence ends without a predicate to complete the thought."
+            ]
+          }
+        },
+        {
+          "start": 96,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 1 ends with the possessive particle '私たちの' without a following noun (DANGLING).",
+              "Captions 5 and 6 redundantly repeat 'この講演' (REPEAT) and the transition between them is awkward (BAD_JOIN).",
+              "Caption 6 introduces a subject 'この講演が' but the predicate never arrives (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 102,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 2,
+            "BAD_JOIN": 2,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 2 ends with 'もしあなたが' (if you are) but Caption 3 starts a new sentence, leaving the conditional clause dangling and the subject without a predicate (2-3).",
+              "Caption 1 ends with the conjunctive 'し、' which does not connect grammatically to the noun phrase starting Caption 2 (1-2)."
+            ]
+          }
+        },
+        {
+          "start": 108,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 2 and 3 repeat '方法を' and create an ungrammatical double-object structure when read together."
+            ]
+          }
+        },
+        {
+          "start": 114,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 2,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT: 'すでに' (already) is repeated in captions 1 and 2.",
+              "BAD_JOIN: Captions 4-5 and 5-6 create ungrammatical sequences (e.g., '持っているのは...があり').",
+              "SUBJ_PRED: Caption 6 ends with '提供されるのは、' but the predicate never arrives."
+            ]
+          }
+        },
+        {
+          "start": 120,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Repetition of '分割' (split) in captions 1 and 2",
+              "Caption 2 ends with '埋め込みを' (embedding [object]), but caption 3 introduces a new object, leaving the first one dangling."
+            ]
+          }
+        },
+        {
+          "start": 126,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 132,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "The transition from caption 5 to 6 is ungrammatical ('もので、レイヤーにです'), and repeating the location 'FFN' and 'layer' across these two captions is redundant."
+            ]
+          }
+        },
+        {
+          "start": 138,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The phrase '積み重ねることで' is repeated in captions 5 and 6",
+              "Caption 6 ends with the particle 'ことで、' but the predicate never arrives to complete the sentence"
+            ]
+          }
+        },
+        {
+          "start": 144,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 2 ends with '私が' (I will) but the predicate never arrives in 3, leaving both '利点は' and '私が' without matching verbs.",
+              "Caption 6 ends with the adjective '大規模な' without a following noun, leaving the sentence incomplete (DANGLING).",
+              "Captions 3 and 4 both use the phrase '非常に大規模' in consecutive sentences, creating noticeable redundancy (REPEAT)."
+            ]
+          }
+        },
+        {
+          "start": 150,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 156,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 2,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "1-2: '私たちが' in caption 1 is left without a predicate and conflicts with the subject in caption 2.",
+              "6: The sentence ends with the object marker 'を' without a following verb (predicate)."
+            ]
+          }
+        },
+        {
+          "start": 162,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 3 and 4 repeat the predicate '学習します' and the concept of learning how to answer, which the viewer would notice as redundant."
+            ]
+          }
+        },
+        {
+          "start": 168,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The word '単に' is repeated at the end of caption 2 and the start of caption 3.",
+              "The phrase '模倣している' (mimicking) is repeated in captions 3 and 4, making the sequence redundant."
+            ]
+          }
+        },
+        {
+          "start": 174,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 1,
+            "examples": [
+              "The phrase '報酬が得られ' is repeated in captions 2 and 4, creating redundancy.",
+              "The word 'report' from the source 'report reward' in line 6 is omitted in the captions."
+            ]
+          }
+        },
+        {
+          "start": 180,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 3 and 4 redundantly repeat the action of 'telling' the model whether it is right or wrong (REPEAT).",
+              "Caption 3 ends with 'という' but caption 4 starts a new clause instead of providing the necessary noun, creating a grammatical gap (DANGLING, BAD_JOIN).",
+              "The sequence from 3 to 6 consists of a long series of noun phrases ending with the object marker 'を', but the main predicate (verb) never arrives (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 186,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 1 ends with the subject '私は' but the predicate never arrives due to an interruption, leaving a dangling grammatical gap (1-2)."
+            ]
+          }
+        },
+        {
+          "start": 192,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 2 and 3 are redundant, repeating 'with this' and 'with this process' consecutively.",
+              "Caption 4 ends with 'どのようにして' (how), which is left hanging and does not grammatically connect to the start of caption 5 (DANGLING/BAD_JOIN)."
+            ]
+          }
+        },
+        {
+          "start": 198,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 6 ends with the particle 'ことで、' and lacks a concluding predicate for the subject '大きな考え方としては' (The big idea is)."
+            ]
+          }
+        },
+        {
+          "start": 204,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT: Captions 5 and 6 both state the model size should be increased 10 times.",
+              "SUBJ_PRED/DANGLING: Caption 3 introduces a subject (DeepMindの人たちが) and a quote (だと) but lacks a main verb, leaving the sentence unfinished.",
+              "BAD_JOIN: The transition from caption 3 to 4 is ungrammatical as the previous thought is abandoned mid-sentence."
+            ]
+          }
+        },
+        {
+          "start": 210,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 216,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "1-2: The connection between the conditional '場合' (if) and 'からです' (because) is illogical.",
+              "6: The caption ends with the particle 'によって、' without a following predicate.",
+              "5-6: The subject 'これも' and the instrumental phrase 'によって' are never resolved with a verb."
+            ]
+          }
+        },
+        {
+          "start": 222,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The verb '向上' (improve) is repeated in captions 2 and 3, creating redundancy."
+            ]
+          }
+        },
+        {
+          "start": 228,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "The phrase 'なるほど' is repeated at the start of both caption 2 and caption 3 (REPEAT).",
+              "The conditional 'あれば' (if there is) at the end of caption 3 does not grammatically connect to the past tense action in caption 4 (BAD_JOIN)."
+            ]
+          }
+        }
+      ]
+    },
+    "prev_rules2": {
+      "captions": [
+        "こんにちは。画面は見えていますか？あ、はい。",
+        "はい、ありがとうございます。",
+        "はい。それでは。",
+        "皆さん、こんにちは。",
+        "Jiaxian Guoと申します。",
+        "現在は、シニア・リサーチ・サイエンティストとして、",
+        "松尾・岩澤研究室に所属しており、本日はお招きいただき、皆さんと議論できることを大変嬉しく",
+        "思います。また、本講演にお越しいただきありがとうございます。",
+        "そして、願わくば皆さんに、",
+        "私の講演から何かを学んでいただければと思いますし、また、私たちが",
+        "一緒に議論を深めることができればと思います",
+        "実りある議論ができれば幸いです。",
+        "さて、私の講演のタイトルは、概要についてで、",
+        "大規模言語モデルの効率性について、",
+        "それでは、",
+        "まずは自己紹介をさせてください。",
+        "はい。私は学部を卒業し、",
+        "2018年に取得しましたが、研究を始めたのは",
+        "キャリアを2017年にスタートさせ、",
+        "当時は、例えば、皆さんが使うような",
+        "reinforcement learningを用いてlanguage modelをトレーニングするといった研究を行っていました。",
+        "これはおそらく、RLHF（Reinforcement Learning from Human Feedback）を用いた初期の論文のいくつかで、",
+        "language modelの整合性を高めるためのものでした。",
+        "当時は、それを単に内部で、",
+        "生成ネットワークのフレームワーク内で使用するために行われていました。",
+        "IOを、そして利用するために",
+        "識別するために、",
+        "信号を、そしてlanguage modelを改善するために、",
+        "そして博士課程でのキャリア、研究をスタートさせました",
+        "学位論文は、主に分類と、そしてリングの",
+        "学習の汎化についてでした。私たちは、",
+        "トレーニングデータの側から、学習済みモデルを汎化させることができると考えていました",
+        "いくつかの実世界の事例において、",
+        "Salesforceでインターンシップを行い、マルチモーダルに関する研究を始めました",
+        "私たちの世界は、いわば",
+        "本質的にマルチモーダルであり、",
+        "人間は、",
+        "耳や目を持ち、いわば",
+        "声を聞くこともできます。",
+        "ですから、マルチモーダルな大規模言語モデルは、実際非常に重要です。",
+        "私の研究上の関心は、AIMEエージェントよりも、",
+        "皆さんのうち何人かはご存知かもしれませんが、Suspicion-Agentのような私の研究や、",
+        "ポーカーをプレイするために、大規模言語モデルを使用することにあります。",
+        "また、3D diffusionに関する研究も行いました。",
+        "例えば、どのようにして一方を他方へと変換できるかといった、",
+        "画像から3Dへと",
+        "3Dアセットへと変換するか、といった研究です。これは、将来的に",
+        "アニメやゲームにおいて役立つものになるでしょう。",
+        "そして2024年には、",
+        "Googleへと移籍しました。",
+        "言語モデルのアーキテクチャ設計や、その開発業務に携わるために、",
+        "主に Gemini や Gemma に貢献してきました。そして、",
+        "ご紹介いただいた通り、すでに",
+        "Gemini SWEにおけるモデルの変更に貢献しており、",
+        "Gemma 3DやGemma 4関連のプロジェクトにも携わっています。",
+        "以上が私の、",
+        "自己紹介です。",
+        "また、私の、",
+        "所属研究機関であるGoogleについて紹介したいと思います",
+        "Research Australiaについてです。",
+        "Google Research Australiaでは、私たちが構築しているのは",
+        "2024年に設立されたこの研究拠点で、3つのチームが活動しています。",
+        "補聴器のように、私たちはその",
+        "GoogleのPixel Budsにおける補聴機能を向上させることで、",
+        "高齢者の方々がGoogleの製品を装着することで、より良く聞こえるように",
+        "Pixel Budsを、ちょうどAppleのように。",
+        "そして、言語モデルにおける多言語対応も進めています。",
+        "そして、さらに強化していく予定です。",
+        "Geminiにおけるアジア言語への対応です。そして、我々には一つ",
+        "別のチームもあり、大規模言語モデルの効率性などを担当しており、",
+        "私が所属しているのは、そのチームです。",
+        "なぜこれが非常に重要なのかというと、それは",
+        "Googleには多くのプロダクトがあるからです。",
+        "Geminiや検索、YouTubeなど、",
+        "カレンダー、Chrome、Workspaceなどがあり、",
+        "これらすべてに言語モデルをデプロイすれば、",
+        "製品にデプロイするとなると、非常にコストがかさみます。そこで我々の",
+        "保有するすべてのTPUを使用することになります。そこで、いかにして効率性を高めるかが、",
+        "これらの製品において、我々にとって非常に重要になります。",
+        "そして、我々は非常にうまく進めています。ただ、我々にはまだ、",
+        "研究を始めてまだ1年ですが、すでに",
+        "Googleの多くの製品に導入されており、例えば",
+        "AI modeや、次世代の検索機能など、",
+        "そしてGeminiも、最も重要なものとして導入されています。",
+        "Googleにおけるプロジェクトです。",
+        "そして、ご存知の通り、そのほとんどが",
+        "世界で最も進んだAIです。",
+        "こちらが本日のアジェンダです。まず最初に、",
+        "言語モデルとは何かについて紹介し、また",
+        "言語モデルがどのような影響を与えるか、例えば、",
+        "いくつかの指標とその仕組みについて紹介します。",
+        "そして、一般的な言語モデルがどのようなものか、その概要についても紹介し、",
+        "導入についてお話しします。",
+        "モデルの観点から見た言語モデルの効率性について、",
+        "アルゴリズムの観点、そしてシステムの観点から解説します。",
+        "私たちの学習について、",
+        "制約や、私たちの権限、そして私たちの",
+        "Googleでの立場上、すべてをお話しすることはできませんが、",
+        "このお話は、ごく表面的な導入に過ぎませんが、皆様にとって",
+        "何かを学んでいただける機会になれば幸いです。",
+        "この講演の後に、",
+        "このお話が、例えば学部生の方々にとって、",
+        "基本的な概念や、私たちが真に重視していることを知っていただければと思いますし、",
+        "言語モデルの効率性について理解を深めていただければと思います。そして、もしあなたが",
+        "この分野の全体像や、その魅力についても知っていただければ幸いです。",
+        "これが皆さんの刺激となり、",
+        "将来、この分野において画期的な貢献をするきっかけになればと願っています。",
+        "そして、もしあなたが起業家であれば、",
+        "ご自身でスタートアップを立ち上げたいと考えているのであれば、その全体像を把握し、",
+        "どのようにトレーニングし、デプロイするか、その方法を",
+        "language modelに基づいたプロダクトを、効率的に構築できるようになることを願っています。",
+        "それでは、ここで",
+        "まず、Transformerとは何かについて説明させてください。というのも、",
+        "皆さんはすでに松尾・岩澤研究室のすべての講義を終えられており、",
+        "コースを受講されているので、すでに皆さんは",
+        "Transformerの基本概念についてはすでにご存知かと思いますが、",
+        "改めて復習しておきますと、Transformerでは、単に、",
+        "持っているのは、",
+        "通常、3つの小さなコンポーネントで構成されており、",
+        "それらに基づいて、提供されるのは、",
+        "シーケンスであり、トークナイザーがそのシーケンスを分割して、",
+        "サブワード単位に分割し、そして埋め込み（embedding）を生成して、",
+        "埋め込みテーブル（embedding table）を使用して、これらのサブワードを埋め込み表現へと変換します。",
+        "そして埋め込みを生成した後に、次に行うのは、",
+        "セルフアテンション（self-attention）です。セルフアテンションとは何を意味するのでしょうか。",
+        "セルフアテンションは、異なる単語間の依存関係をモデル化するもので、",
+        "例えば、「これは日本食です。美味しいです」という文において、",
+        "「美味しい」と言うとき、",
+        "「美味しい」という次のトークンを生成したいときに、",
+        "「日本」や「食」といった単語間の依存関係をモデル化することになります。",
+        "膨大なトレーニングデータセットに基づいていることは分かっていますが、",
+        "次のトークンが「美味しい」になることは、すでに分かっています。",
+        "そして、この後、一通り目を通していくのは、",
+        "FFNレイヤーです。FFNレイヤーは、通常、一種の",
+        "静的なメモリのようなものだと考えられています。これは、",
+        "多くの知識や情報を蓄積しており、",
+        "このFFNの中に、",
+        "レイヤー、通常、FFNレイヤーには、",
+        "単なる非線形変換があり、2つのレイヤーで構成されていて、",
+        "MLPで、一つは上方射影を行うもので、",
+        "そして、そこから下方射影を行うもので、",
+        "単語をd次元モデルへとマッピングするためのものです。",
+        "サイズベクトルへと。そして、これらを積み重ねることで、",
+        "多くのデコーダブロックを積み重ねることで、",
+        "出力レイヤーを設けることで、次のトークンがどれになるかを決定できます。",
+        "Transformerの利点は、例えば、私が",
+        "ブロックが同一であるため、何度も積み重ねることができ、Transformerを非常に大規模にすることが可能です。",
+        "そして、非常に大規模にすることで、Transformerを",
+        "非常に、非常に",
+        "巨大な規模で学習させることが可能になります。",
+        "インターネット規模のコーパスで。",
+        "そのコーパスで学習させた後、",
+        "これは、私たちが「事前学習（pre-training）」と呼んでいるプロセスです。",
+        "そして学習させた後、language modelが得られます。これは、",
+        "GPT-3のように、すでに知識を持った状態になります。",
+        "大量の言語知識を、そのlanguage modelの中に蓄積しているのです。",
+        "しかし、問題は、たとえ私たちが",
+        "GPT-3が膨大な知識を持っていたとしても、",
+        "人間の質問にどう答えるべきかを知りません。そのため、通常は、単に",
+        "few-shotプロンプティングを行って、GPT-3に質問に答えさせるようにします。",
+        "そこで、この問題を軽減するためにSFTを行います。SFTとは、例えば、",
+        "質問を与え、回答を与えて、単にそのデータでフィインチューニングを行うことで、",
+        "このSFTにおいて、事前学習済みモデルをフィインチューニングします。",
+        "データセットで、それによって",
+        "どのように回答すべきかを学習します。",
+        "指示に従う方法や、人間の質問にどのように答えるかを学習します。",
+        "しかし、",
+        "この段階では、というのも",
+        "言語モデルと同様に、単に学習しているだけなので、",
+        "人間が用意した形式を学習しているだけであり、そしてそれはまさに",
+        "単に模倣しているに過ぎず、",
+        "まるで生徒が先生に言われたことをそのまま模倣しているようなもので、",
+        "質問に答えているだけなのです。",
+        "これに基づき、第3段階へと進みます",
+        "それは IO ファインチューニングのようなもので、",
+        "IOを用いて報酬を与え、そして",
+        "モデルが最終的な回答を生成し、そして",
+        "報酬が与えられます。その報酬は、例えば人間によるラベリングのようなもので、それは",
+        "RLHFによるものです。また、最近では検証モデルを用いることもあり、",
+        "数学やコーディングにおける報酬モデルなどがあります。",
+        "この報酬を用いて、モデルは",
+        "language modelを抜け出し、正解を導き出します。",
+        "自ら回答を生成し、それに対して私が正誤を伝えます。",
+        "間違っていれば、再び生成を行い、どのようにすれば",
+        "これらのクエリを真に理解できるのか、そして",
+        "回答を修正できるのかを理解するためのゲームを生成します。",
+        "この3つのステージによって、私は",
+        "失礼、遮ってすみません。ポップアップを消してもいいでしょうか",
+        "スライドの下の方にあるものを？",
+        "はい、もちろんです。問題ありません。",
+        "こちらで消しておきます。",
+        "はい、大丈夫です。ありがとうございます。",
+        "はい、そして",
+        "これによって",
+        "このプロセスによって、",
+        "すでに皆さんがご存知の language model が、どのようにして",
+        "マルチタスク・ジェネレーターのようになり、すでにどのように実行すべきかを習得しています。",
+        "コーディングや、意味解析の方法を。",
+        "これらを同時にこなします。そして、次の疑問は、",
+        "与えられたデータをもとに、この言語モデルをどのように学習させるか、という点です。",
+        "限られた予算内で。これが、",
+        "スケーリング則であり、ここでスケーリング則がどのように機能するかを簡単に説明します。",
+        "そして、Yanqi Zhouがスケーリング則についてさらに詳しく説明します。",
+        "大きな考え方としては、膨大な計算資源を投入することで、",
+        "データセットのサイズをどのように決定するのか、という点です。",
+        "2020年のことだと思いますが、",
+        "DeepMindの人々が、それは実際のセットだと、",
+        "もし計算予算を10倍に増やすのであれば、",
+        "モデルのサイズも",
+        "10倍にするべきだと、",
+        "モデルのサイズとパラメータ数を増やすべきだと、",
+        "5.3倍に。そしてデータも、",
+        "1.8倍だけ増やすべきだと。",
+        "そうすれば、限られた条件の下で最適なモデルを学習できると",
+        "計算予算内で。これがスケーリング則の仕組みであり、非常に重要です。",
+        "なぜなら、現在わかっているのは、",
+        "トレーニングごとに一連のフローを実行したいと考えた場合、",
+        "非常に、非常に高額なコストがかかることになります。そのため、",
+        "この予算を考慮すると、トレーニングを行いたいのは、",
+        "最高のモデルです。そして、このスケーリング則がその方法を教えてくれます。",
+        "そして、これもまた、",
+        "このスケーリング則と事前学習によって、",
+        "SFTやRLHFを組み合わせることで、大規模言語モデルと言えるようになります。",
+        "能力はさらに向上し、",
+        "非常に急速に進化しています。例えば、GPQAは、まるで",
+        "まるで、",
+        "修士レベルの難問が次々と出題される、質疑応答のようなもので、",
+        "問題において、すでに90%程度の正答率が達成されており、",
+        "90%の精度に達しています。",
+        "はい。",
+        "さて、このような強力な大規模言語モデルがあれば、",
+        "2023年に、松尾・岩澤研究室でSuspicion-Agentの開発を行いました。",
+        "これは、何ができるかという点についてで、",
+        "たった一つの強力な大規模言語モデルだけで、他に何もせずに、"
+      ],
+      "windows": 39,
+      "totals": {
+        "REPEAT": 16,
+        "SUBJ_PRED": 23,
+        "DANGLING": 21,
+        "BAD_JOIN": 12,
+        "OMISSION": 1
+      },
+      "seam_defects_per_window": 1.846,
+      "omissions_per_window": 0.026,
+      "repeat_ngram_score": 148,
+      "mean_chars_per_caption": 24.3,
+      "window_detail": [
+        {
+          "start": 0,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 6,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 12,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 2,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 1-2: The subject 'タイトルは' (The title is) never receives a proper predicate verb or copula.",
+              "Caption 2-3: '効率性について、' (about efficiency) is left hanging as the next caption starts a new sentence.",
+              "Caption 6: The sentence ends abruptly with '研究を始めたのは' (The thing is I started research), leaving the predicate missing."
+            ]
+          }
+        },
+        {
+          "start": 18,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 24,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 1 and 2 repeat the same verb (使用/利用), Caption 4 has a grammatical mismatch (信号を、そして), and Caption 6 is an incomplete sentence ending in a dangling particle (リングの)."
+            ]
+          }
+        },
+        {
+          "start": 30,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 6 ends with the connective 'であり、', leaving the sentence grammatically incomplete as there is no following caption."
+            ]
+          }
+        },
+        {
+          "start": 36,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 1,
+            "examples": [
+              "Caption 5 lacks a predicate for 'research interests', and caption 6 ends with a dangling particle 'や'.",
+              "The join between 5 and 6 is ungrammatical as the sentence in 5 is abandoned.",
+              "Omission of 'to say' (speaking) from the source in captions 2-3."
+            ]
+          }
+        },
+        {
+          "start": 42,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 1: The predicate 'ことにあります' lacks a subject, making the sentence's meaning unclear in the sequence.",
+              "Captions 4-5: The phrase '3Dへと' is repeated across the two captions, creating redundancy."
+            ]
+          }
+        },
+        {
+          "start": 48,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 54,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 5 and 6 repeat the 'about' (について) structure for the same entity (Google Research Australia)."
+            ]
+          }
+        },
+        {
+          "start": 60,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 2,
+            "DANGLING": 1,
+            "BAD_JOIN": 2,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 1-2: '構築しているのは' (what we are building is) is followed by a locative '拠点で' (in the hub), leaving the predicate missing (BAD_JOIN/SUBJ_PRED).",
+              "Captions 3-6: The subject '私たちは' (3) and the object 'Pixel Budsを' (6) never receive a main verb, leaving the sentence unfinished (SUBJ_PRED/DANGLING).",
+              "Captions 5-6: The transition from '聞こえるように' (so that they hear) to 'Pixel Budsを' (Pixel Buds [object]) is ungrammatical (BAD_JOIN)."
+            ]
+          }
+        },
+        {
+          "start": 66,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 72,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 1,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT: 'デプロイ' (4, 5) and 'そこで' (5, 6) are redundant in adjacent captions.",
+              "BAD_JOIN: Caption 4 ends with a conditional 'すれば' that is not resolved by 5, which restarts the thought.",
+              "SUBJ_PRED: Caption 6 ends with the subject marker 'が、' but the predicate never arrives."
+            ]
+          }
+        },
+        {
+          "start": 78,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT: The word 'まだ' is repeated in neighboring captions 2 and 3, creating redundancy.",
+              "SUBJ_PRED: In caption 2, '我々には' is introduced as a subject/topic but is left without a predicate as caption 3 starts a new clause."
+            ]
+          }
+        },
+        {
+          "start": 84,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 90,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 6 ends with the particle 'について、' but lacks a predicate to complete the thought, leaving it dangling."
+            ]
+          }
+        },
+        {
+          "start": 96,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 102,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 2-3: The phrase 'もしあなたが' (if you are) at the end of caption 2 is left dangling and has no predicate, as caption 3 starts a new sentence."
+            ]
+          }
+        },
+        {
+          "start": 108,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 114,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT: 'すでに' is used in both caption 1 and 2.",
+              "BAD_JOIN: Captions 4 and 5 do not form a grammatical sentence ('持っているのは' followed by '構成されており').",
+              "SUBJ_PRED/DANGLING: Caption 6 ends with the topic marker 'は、' but the predicate never arrives."
+            ]
+          }
+        },
+        {
+          "start": 120,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The verb '分割' (split) is repeated across captions 1 and 2 to describe the same action.",
+              "Caption 6 ends with the conjunctive particle 'で', leaving the sentence dangling without a following caption."
+            ]
+          }
+        },
+        {
+          "start": 126,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 132,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 5 and 6 repeat 'FFN' and 'レイヤー' redundantly across neighbouring captions.",
+              "Caption 6 ends with the particle 'には' and lacks a predicate, leaving the sentence incomplete (SUBJ_PRED and DANGLING)."
+            ]
+          }
+        },
+        {
+          "start": 138,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 5 and 6 repeat the phrase '積み重ねることで' and the sequence ends abruptly without a main predicate (SUBJ_PRED/DANGLING)."
+            ]
+          }
+        },
+        {
+          "start": 144,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 2 ends with '私が' (I), but the predicate never arrives and it does not grammatically connect to caption 3, leaving a dangling subject."
+            ]
+          }
+        },
+        {
+          "start": 150,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT: 'コーパス' is repeated in 1 and 2, and '学習させた後' is repeated in 2 and 4.",
+              "SUBJ_PRED: Caption 1 is a fragment with no predicate, and its content is repeated in caption 2."
+            ]
+          }
+        },
+        {
+          "start": 156,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 2,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 1 ends with '私たちが' but Caption 2 starts a new subject 'GPT-3が', leaving the first subject without a predicate (1-2).",
+              "Caption 6 ends with the conjunctive 'ことで、' (by doing...), but the sequence ends without a concluding predicate."
+            ]
+          }
+        },
+        {
+          "start": 162,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 3 and 4 are redundant, repeating both the predicate '学習します' and the core concept of 'how to answer'.",
+              "Caption 2 is a fragment that does not join grammatically with the completed sentence in Caption 1."
+            ]
+          }
+        },
+        {
+          "start": 168,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Redundant repetition of the verb '学習している' in captions 1 and 2, and '模倣している' in captions 3 and 4."
+            ]
+          }
+        },
+        {
+          "start": 174,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 180,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 186,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 192,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 2 and 3 are redundant, both expressing 'with this/this process' (これによって and このプロセスによって)."
+            ]
+          }
+        },
+        {
+          "start": 198,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 6 is incomplete: it introduces a topic with '大きな考え方としては' (The big idea is...) but ends with the particle 'で、' (by...), leaving the sentence without a main predicate or conclusion."
+            ]
+          }
+        },
+        {
+          "start": 204,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 2,
+            "DANGLING": 2,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 3 and 6 both end with the particle 'だと、' (that...), leaving the subject 'DeepMindの人々が' and the overall sentences without a main predicate."
+            ]
+          }
+        },
+        {
+          "start": 210,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 216,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 5-6 form a sentence fragment where the predicate never arrives, and caption 6 ends with the dangling particle 'によって、'."
+            ]
+          }
+        },
+        {
+          "start": 222,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 4 repeats the word 'まるで' which already appeared at the end of caption 3."
+            ]
+          }
+        },
+        {
+          "start": 228,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 3 ends with a conditional 'があれば' (if) that is not resolved by the following caption (DANGLING).",
+              "Captions 5-6 form an incomplete sentence ('This is about...') where the main predicate never arrives (SUBJ_PRED)."
+            ]
+          }
+        }
+      ]
+    },
+    "prev5_rules2": {
+      "captions": [
+        "こんにちは。画面は見えていますか？あ、はい。",
+        "はい、ありがとうございます。",
+        "はい、それでは。",
+        "皆さん、こんにちは。",
+        "Jiaxian Guoと申します。",
+        "現在は、シニア・リサーチ・サイエンティストを務めており、",
+        "松尾・岩澤研究室にお招きいただき、皆さんと議論できることを大変嬉しく思います",
+        "また、本講演にお越しいただきありがとうございます。",
+        "そして、願わくば皆さんに、",
+        "私の講演から何かを学んでいただければと思います。また、私たちは",
+        "有意義な議論を交わすことができれば幸いです",
+        "実りある議論ができればと思います。",
+        "さて、私の講演のタイトルは、概要についてのもので、",
+        "大規模言語モデルの効率性についてで、",
+        "それでは、",
+        "まずは自己紹介をさせていただきます。",
+        "私は学部を卒業し、",
+        "2018年に取得しましたが、研究を始めたのは、",
+        "2017年からで、",
+        "当時は、例えば、利用者が",
+        "強化学習を用いて、Language Modelを訓練するといった研究を行っていました。",
+        "これはおそらく、IOを使用した最初期の論文のいくつかで、",
+        "Language Modelの整合性を高めるためのものでした。",
+        "当時は、それを単に内部で、",
+        "Generative Networkのフレームワークを用いて行っていました。",
+        "IOを、そして",
+        "判別器（discriminate）を用いて、",
+        "信号を、Language Modelを改善するために使用していました。",
+        "その後、博士課程での研究を開始し、",
+        "主に分類と、そしてリングに関する学位論文の執筆に取り組みました。",
+        "学習の汎化についてです。私たちは、",
+        "学習データ側から、学習済みモデルを汎化させることができればと考え、",
+        "いくつかの実世界の事例において、",
+        "Salesforceでのインターンシップに参加し、マルチモーダルに関する研究を開始しました。",
+        "私たちの世界は、いわば",
+        "本質的にマルチモーダルであり、",
+        "人間は、",
+        "耳や目を持ち、話し、そして",
+        "声を聞くこともできます。",
+        "ですから、マルチモーダルな大規模言語モデルは、実際非常に重要です。",
+        "私の研究上の関心は、AIMEエージェントよりも、",
+        "おそらく皆さんの何人かは、Suspicion-Agentのような私の研究についてもご存知かもしれませんが、",
+        "言語モデルを使ってポーカーをプレイさせるというものです。",
+        "また、3D diffusionに関する研究も行いました。",
+        "例えば、どのようにして一方を他方へと変換できるかといったことや、",
+        "画像を3Dへと変換する方法などについてです。",
+        "3Dアセットへと変換する方法などです。これらは、将来的に",
+        "アニメやゲーム制作において役立つものになるでしょう。",
+        "そして2024年には、",
+        "Googleに入社しました。",
+        "言語モデルのアーキテクチャ設計や、その業務に携わるために、",
+        "主に Gemini や Gemma に貢献しました。そして、",
+        "紹介された通り、すでに",
+        "Gemini SWEにおけるモデルの変更に貢献したり、",
+        "Gemma 3やGemma 4といったプロジェクトにも携わっています。",
+        "以上が私の、",
+        "自己紹介です。",
+        "また、私のほうから紹介したいのは、",
+        "所属している研究機関であるGoogleについてです。",
+        "Research Australiaについてです。",
+        "Google Research Australiaでは、構築を行っています",
+        "2024年にこの研究拠点を設立し、3つのチームを擁しています。",
+        "補聴器のように、向上させていく予定です、",
+        "GoogleのPixel Budsにおける補聴器としての機能を向上させることで、",
+        "高齢者の方々がGoogleの製品を装着することで、より良く聞こえるように、",
+        "Appleの製品と同じように、Pixel Budsを装着することで、",
+        "また、言語モデルにおける多言語対応も行っています。",
+        "そして、さらに強化していく予定です、",
+        "Geminiにおけるアジア言語への対応を。そして、我々には一つ",
+        "もう一つのチーム、例えば大規模言語モデルの効率性を担当するチームがあり、",
+        "それが、私が所属しているチームです。",
+        "なぜそれが非常に重要なのかというと、それは",
+        "Googleには多くのプロダクトがあるからです。",
+        "Geminiや検索、YouTubeなど、",
+        "カレンダー、Chrome、Workspaceなどがあり、",
+        "これらすべてに言語モデルをデプロイするとなると、",
+        "プロダクトにデプロイすることになり、非常にコストがかさみます。そこで私たちは、自社の",
+        "すべてのTPUを使用します。そこで、どのように効率性を高めるかという点が、",
+        "これらのプロダクトにおいて、私たちにとって非常に重要になります。",
+        "そして、私たちは非常にうまく進めています。ちょうど、私たちは、",
+        "研究を開始してまだ1年ですが、すでに",
+        "Googleの多くのサービスに導入されており、例えば",
+        "AIモードや、次世代の検索機能など、",
+        "そして Gemini も、最も重要なものの一つです。",
+        "Googleにおけるプロジェクトとなっています。",
+        "そして、ご存知の通り、そのほとんどが",
+        "世界で最も進んだAIです。",
+        "そして、こちらが本日のアジェンダです。まず最初に、",
+        "言語モデルとは何かについて紹介し、また",
+        "言語モデルがどのような影響を与えるか、例えば、",
+        "いくつかの指標や、その仕組みについて紹介し、",
+        "さらに、一般的なものがどのようになっているかについても紹介し、",
+        "導入についてお話しします。",
+        "モデルの観点から見た言語モデルの効率性について、",
+        "アルゴリズムの観点、そしてシステムの観点から解説します。",
+        "私たちの学習について、",
+        "制限事項、私たちの権限、そして私たちの",
+        "Googleでの立場、そしてすべてをお話しできるわけではないという点について、",
+        "お話しするのは非常に表面的な導入に過ぎませんが、",
+        "それでも、何かを学んでいただけることを願っています。",
+        "この講演の後に、",
+        "この講演が、例えば学部生の方々にとって、",
+        "基本的な概念や、私たちが真に重視していることについて知っていただければと思います。",
+        "言語モデルの効率性についてです。そして、もしあなたが",
+        "この分野の全体像や、その核心となる部分を理解していただければ幸いです。",
+        "これが皆さんの刺激となり、何かを成し遂げるきっかけになればと願っています。",
+        "将来、この分野において画期的な貢献をするための足がかりになれば幸いです。",
+        "そして、もしあなたが起業家であれば、",
+        "ご自身でスタートアップを立ち上げたいと考えているのであれば、その全体像を把握していただきたいですし、",
+        "どのようにトレーニングし、デプロイするかという、その具体的な方法についても、",
+        "language modelに基づいたプロダクトを、効率的に構築する方法についても理解を深めていただければと思います。",
+        "それでは、ここで",
+        "まず、Transformerとは何かについて説明させてください。というのも、",
+        "皆様はすでに松尾・岩澤研究室のすべての講義を終えられているので、",
+        "コースを受講済みですので、すでに皆さんは",
+        "Transformerの基本的な考え方についてはすでにご存知かと思いますが、",
+        "改めて復習しておきますと、Transformerでは、単に",
+        "持っているのは、",
+        "通常、3つの小さなコンポーネント、つまり、",
+        "それらに基づいて、皆さんに提供するのは、",
+        "シーケンスがあり、トークナイザーによってそのシーケンスを分割し、",
+        "サブワード単位に分割し、そして埋め込み表現、つまりembeddedを",
+        "embedding tableを用いて、これらのサブワードを埋め込み表現へと変換します。",
+        "そして、埋め込み表現の後に、次に行うのは、",
+        "セルフアテンションです。セルフアテンションとは何を意味するのでしょうか。",
+        "セルフアテンションは、異なる単語間の依存関係をモデル化するもので、",
+        "例えば、「これは日本食で、とても美味しい」という文において、",
+        "「美味しい」と言うとき、",
+        "「美味しい」のような次のトークンを生成したいとき、",
+        "「日本食」や「日本」といった単語間の依存関係をモデル化します。",
+        "膨大なトレーニングデータセットに基づいていることは、すでにご存知の通りですが、",
+        "「美味しい」が次のトークンであることを、すでに理解しているのです。",
+        "そして、この後、順を追って説明していきますが、",
+        "FFNレイヤーについて見ていきます。FFNレイヤーは、通常、一種の",
+        "静的なメモリと見なされており、それはまるで、",
+        "多くの知識やメモリを蓄積しており、",
+        "このFFNの中に、",
+        "レイヤーに格納されているようなものです。通常、FFNレイヤーというのは、",
+        "単なる非線形変換のようなもので、2つのレイヤーで構成されており、",
+        "MLPで、一つは上位へのプロジェクションで、",
+        "そして、そこからダウン・プロジェクションを行うという、",
+        "単語を次元モデルへとマッピングするためのものです。",
+        "サイズのベクトルへと。そして、これらを積み重ねることで、",
+        "多数のデコーダー・ブロックを積み重ねることで、",
+        "出力レイヤーを設けることで、次のトークンがどれになるかを決定することができます。",
+        "Transformerの利点は、私が",
+        "ブロックが同一であるため、何度も積み重ねることができ、Transformerを非常に大規模なものにできる点です。",
+        "そして、非常に大規模にすることで、Transformerを訓練できるようになります、",
+        "非常に、非常に",
+        "非常に大規模なデータセットで訓練することが可能になります。",
+        "インターネット規模のコーパスで。",
+        "そして、そのデータで訓練した後は、",
+        "これは「プリトレーニング（事前学習）」と呼ばれるプロセスです。",
+        "学習させた後には、Language Model（言語モデル）が得られます。それは",
+        "GPT-3のようなもので、すでに知っているのです",
+        "大量の世界知識を、その Language Model の中に蓄積しているのです。",
+        "しかし、問題なのは、たとえ私たちが",
+        "GPT-3が膨大な世界知識を持っていたとしても、",
+        "人間の質問にどう答えるべきかを知りません。そのため、通常は、",
+        "few-shot promptingを行って、GPT-3に質問に答えさせるようにします。",
+        "そこで、この問題を軽減するために、SFTを行います。SFTとは、いわば、",
+        "質問と回答を与えて、そのデータでモデルをファインチューニングするもので、",
+        "このSFTのプロセスにおいて、事前学習済みモデルをファインチューニングします。",
+        "データセットを使って、そうすることで",
+        "どのように回答すべきかを学習します。",
+        "指示に従う方法や、人間の質問にどのように答えるかを学習します。",
+        "しかし、",
+        "この段階では、というのも",
+        "これは言語モデルと同様に、単に学習しているだけで、",
+        "形式や、人間が用意した回答の仕方を学習しているに過ぎず、そしてこれはまさに",
+        "単に模倣しているに過ぎず、",
+        "いわば生徒が先生に言われたことをそのまま模倣しているようなもので、果たしてこれは",
+        "質問に答えていると言えるのでしょうか。",
+        "これに基づき、第3段階へと進みます。",
+        "これは IO fine-tuning のようなもので、",
+        "IOを用いて報酬を与え、そして",
+        "モデルが回答を生成し、そして",
+        "報酬を得ます。その報酬とは、例えば人間によるラベリングのようなもので、",
+        "IHFです。また最近では、検証モデル（verify）を導入することもあり、",
+        "数学やコーディングにおける報酬です。",
+        "この報酬を用いて、モデルは",
+        "language modelを抜け出し、正解を導き出します。",
+        "自ら回答を生成し、それが正しいかどうかを判定します。",
+        "間違っていれば、再び生成を繰り返すことで、どのようにすればよいかを学びます。",
+        "これらのクエリを真に理解し、",
+        "回答を修正する方法を学んでいきます。",
+        "この3つのステージによって、私は",
+        "すみません、お話を遮って。ポップアップを消してもいいでしょうか",
+        "スライドの下の方にあるポップアップを消してもよろしいでしょうか？",
+        "はい、問題ありません。",
+        "こちらで消しておきます。",
+        "はい、大丈夫です。ありがとうございます。",
+        "はい、そして",
+        "これによって",
+        "このプロセスによって、",
+        "皆様がすでにご存知の、言語モデルがどのようにして",
+        "マルチタスク・ジェネレーターのようなもので、すでに実行方法を習得しており、",
+        "コーディングや、意味解析の実行方法を習得しているのです。",
+        "これらを組み合わせて実行できるのです。そして、次の疑問は、",
+        "皆様の持っているデータを用いて、どのようにこの言語モデルをトレーニングするか、という点です。",
+        "限られた予算の中で。そこで、これがまさに",
+        "スケーリング則であり、ここでスケーリング則がどのように機能するかを簡単に説明します。",
+        "そして、Yanqi Zhouがスケーリング則についてさらに詳しく説明します。",
+        "この大きな考え方は、膨大な計算リソースを投入することで、",
+        "データセットのサイズをどのように決定すべきか、という点です。",
+        "2020年のことだと思いますが、",
+        "DeepMindの人々が、これは実際のセットであると、",
+        "もし計算予算を10倍に増やすのであれば、",
+        "モデルのサイズと、",
+        "モデルのサイズと、",
+        "サイズとパラメータ数を、例えば、",
+        "5.3倍に増やすべきであり、そしてデータは",
+        "1.8倍だけ増やすべきです。",
+        "そうすれば、限られた条件の中で最適なモデルをトレーニングできるのです。",
+        "計算予算において。これがスケーリング則の仕組みであり、非常に重要です。",
+        "なぜなら、現在私たちが知る限りでは、",
+        "トレーニングごとに一連のフローを実行したいと考えるからです",
+        "非常に、非常に、非常に高額になるため、",
+        "この予算内で、トレーニングを行いたいのです",
+        "最高のモデルを。このスケーリング則が、その方法を教えてくれます。",
+        "そしてこれもまた、",
+        "このスケーリング則と事前学習によって、",
+        "SFTやRLHFを経ることで、大規模言語モデルと言えるようになります。",
+        "能力はさらに進歩し、",
+        "非常に急速に向上しています。例えば、GPQAは、まるで",
+        "まるで、",
+        "修士レベルの難問が次々と出題される、質疑応答のようなもので、",
+        "問題において、すでに90%ほどの正解率を達成しています。",
+        "90%の正解率に達しています。",
+        "はい。",
+        "さて、このような強力な大規模言語モデルがあれば、",
+        "2023年に、私は松尾・岩澤研究室でSuspicion-Agentの研究を行いました。",
+        "これは、何ができるかという点についてで、",
+        "たった一つの強力な大規模言語モデルだけで、何も行わずに、"
+      ],
+      "windows": 39,
+      "totals": {
+        "REPEAT": 19,
+        "SUBJ_PRED": 18,
+        "DANGLING": 22,
+        "BAD_JOIN": 12,
+        "OMISSION": 3
+      },
+      "seam_defects_per_window": 1.821,
+      "omissions_per_window": 0.077,
+      "repeat_ngram_score": 155,
+      "mean_chars_per_caption": 24.7,
+      "window_detail": [
+        {
+          "start": 0,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 6,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 5 and 6 are redundant, repeating the same sentiment about having a fruitful/meaningful discussion."
+            ]
+          }
+        },
+        {
+          "start": 12,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 2,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 6 ends with 'は、' leaving the sentence incomplete (DANGLING, SUBJ_PRED).",
+              "Caption 2 ends with 'で、' which is not resolved by the next caption (DANGLING)."
+            ]
+          }
+        },
+        {
+          "start": 18,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "6: Ends with the dangling particle 'で' and a comma, leaving the sentence unfinished and unresolved."
+            ]
+          }
+        },
+        {
+          "start": 24,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 30,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 3 ends with 'において、' but Caption 4 starts a new sentence, leaving the phrase dangling and creating a nonsensical join.",
+              "Caption 6 ends with the connective 'であり、' leaving the final sentence of the sequence unfinished."
+            ]
+          }
+        },
+        {
+          "start": 36,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 1,
+            "examples": [
+              "Caption 5 ends with 'よりも、' but the predicate for '私の研究上の関心' never arrives, and Caption 6 starts a new sentence (SUBJ_PRED, DANGLING, BAD_JOIN).",
+              "The word 'nature' in line 1 is omitted (OMISSION)."
+            ]
+          }
+        },
+        {
+          "start": 42,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 4 and 5 repeat the phrase '変換する方法など' (methods to convert) in consecutive sentences, which feels redundant to the viewer."
+            ]
+          }
+        },
+        {
+          "start": 48,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 54,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The phrase 'についてです' is repeated in captions 5 and 6, creating redundancy as they refer to the same entity (Google Research Australia)."
+            ]
+          }
+        },
+        {
+          "start": 60,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The phrase '向上' (improve) is repeated in 3 and 4, and '装着することで' (by wearing) is repeated in 5 and 6.",
+              "Caption 6 ends the sequence with a dangling 'by doing' clause (装着することで), leaving the sentence without a final predicate."
+            ]
+          }
+        },
+        {
+          "start": 66,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 72,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 4 and 5 repeat the verb 'デプロイ' (deploy).",
+              "Captions 5 and 6 repeat the transition 'そこで' (so/therefore).",
+              "Caption 6 ends with 'という点が、' without a predicate (SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 78,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 84,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 90,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 6 is a dangling fragment that lacks a predicate and ends with a comma.",
+              "Captions 1 and 2 repeat the same verb ending '紹介し、' in consecutive lines."
+            ]
+          }
+        },
+        {
+          "start": 96,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 1,
+            "examples": [
+              "Caption 6: The subject 'この講演が' lacks a predicate, and the phrase 'I hope' is omitted."
+            ]
+          }
+        },
+        {
+          "start": 102,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 2 ends with 'もしあなたが' (if you are) but the sentence is abandoned and the condition is never resolved in the following captions."
+            ]
+          }
+        },
+        {
+          "start": 108,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 114,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "'すでに' is repeated in captions 1 and 2",
+              "Caption 5 ends with 'つまり、' (that is) but caption 6 does not provide the restatement, creating a BAD_JOIN",
+              "Caption 6 ends the sequence with '提供するのは、' (what we provide is) without a predicate (SUBJ_PRED/DANGLING)"
+            ]
+          }
+        },
+        {
+          "start": 120,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "1-2: '分割し' is repeated across captions.",
+              "2-3: 'embeddedを' in caption 2 is a dangling object with no predicate that makes the join with caption 3 ungrammatical."
+            ]
+          }
+        },
+        {
+          "start": 126,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 132,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 138,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "'積み重ねることで' is repeated in captions 5 and 6",
+              "Caption 6 ends the sequence with 'ことで、' but the main predicate never arrives"
+            ]
+          }
+        },
+        {
+          "start": 144,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "2-3: '私が' (I) in caption 2 is a dangling subject that never receives a predicate, making the transition to 3 ungrammatical.",
+              "4, 6: The phrase 'can train' (訓練できるようになります / 訓練することが可能になります) is repeated redundantly across the sequence."
+            ]
+          }
+        },
+        {
+          "start": 150,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 156,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "1-2: '私たちが' in 1 has no predicate and creates a double subject with 2. 6: Ends with 'もので、' leaving the sentence incomplete."
+            ]
+          }
+        },
+        {
+          "start": 162,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 3 and 4 repeat the same content ('learning how to answer') and the same ending verb ('学習します')."
+            ]
+          }
+        },
+        {
+          "start": 168,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "The phrase 'に過ぎず' is repeated at the end of both caption 2 and caption 3, creating a redundant reading experience."
+            ]
+          }
+        },
+        {
+          "start": 174,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 180,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": []
+          }
+        },
+        {
+          "start": 186,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 2,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 1 ends with '私は' but the predicate never arrives due to interruption (SUBJ_PRED, DANGLING).",
+              "Captions 2 and 3 repeat the request to delete the popup (REPEAT).",
+              "The transition between 2 and 3 is ungrammatical when read together (BAD_JOIN)."
+            ]
+          }
+        },
+        {
+          "start": 192,
+          "verdict": {
+            "REPEAT": 2,
+            "SUBJ_PRED": 0,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "REPEAT: 2 and 3 both express 'with this (process)' consecutively",
+              "REPEAT: 5 and 6 both repeat the phrase 'learned how to execute'",
+              "DANGLING: 4 ends with 'どのようにして' (how) which is not grammatically resolved in 5"
+            ]
+          }
+        },
+        {
+          "start": 198,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 2,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "Caption 3 is a dangling fragment ('限られた予算の中で。') that is grammatically isolated from the preceding and following sentences.",
+              "Caption 6 is an incomplete sentence that ends with a dangling particle ('ことで、'), leaving the subject ('考え方は') without a matching predicate."
+            ]
+          }
+        },
+        {
+          "start": 204,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 2,
+            "DANGLING": 2,
+            "BAD_JOIN": 1,
+            "OMISSION": 1,
+            "examples": [
+              "Captions 5 and 6 are identical, creating a redundant repeat.",
+              "Caption 3 introduces a subject (DeepMindの人々が) but the predicate never arrives.",
+              "The conditional statement starting in caption 4 never reaches a concluding predicate in 5 or 6."
+            ]
+          }
+        },
+        {
+          "start": 210,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 0,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "Captions 4-5: The sentence ends at 4, leaving '計算予算において' in 5 as a dangling fragment with no predicate (BAD_JOIN, SUBJ_PRED)."
+            ]
+          }
+        },
+        {
+          "start": 216,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "J6 ends with the particle 'によって、' leaving the sentence unfinished and the predicate missing (DANGLING, SUBJ_PRED)"
+            ]
+          }
+        },
+        {
+          "start": 222,
+          "verdict": {
+            "REPEAT": 1,
+            "SUBJ_PRED": 0,
+            "DANGLING": 0,
+            "BAD_JOIN": 0,
+            "OMISSION": 0,
+            "examples": [
+              "'まるで' is repeated at the end of caption 3 and in caption 4"
+            ]
+          }
+        },
+        {
+          "start": 228,
+          "verdict": {
+            "REPEAT": 0,
+            "SUBJ_PRED": 1,
+            "DANGLING": 1,
+            "BAD_JOIN": 1,
+            "OMISSION": 0,
+            "examples": [
+              "3-4: 'あれば' (if) in 3 creates a conditional clause that does not connect grammatically to the past-tense statement in 4",
+              "5-6: The subject 'これは' (this) in 5 never receives a concluding predicate",
+              "6: Ends with '行わずに、' leaving the sentence unfinished and dangling"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "elapsed_seconds": 8706.3
+}
