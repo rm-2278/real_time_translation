@@ -915,10 +915,11 @@
       "required_changes": "ASR-only runner (experiments/refs/asr_only_run.py pattern) over the local video with two keyterm lists; if confirmed, a keyterm filter or a dictionary 'no_keyterm' marker.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
-      "approval": null,
-      "status": "proposed",
+      "approval": "approved_by_human",
+      "status": "queued",
       "experiment_ids": [],
-      "result_summary": null
+      "result_summary": null,
+      "approved_at": "2026-10-14T20:20:22.525743+00:00"
     },
     {
       "id": "h-review-perceived-drops-short-cards",
@@ -931,10 +932,11 @@
       "required_changes": "Needs the reviewer's timestamps (or a second viewing of the post-fix render) -- $0 analysis over existing JSON otherwise.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "approved_by_human",
+      "status": "queued",
       "experiment_ids": [],
-      "result_summary": null
+      "result_summary": null,
+      "approved_at": "2026-10-14T20:20:22.525828+00:00"
     },
     {
       "id": "h-computation-aware-laal-enja",
@@ -951,10 +953,11 @@
       "required_changes": "New script src/real_time_translation/experiments/simul_latency_metrics.py (console script), plus an extra join in quality_latency_joint.py. No pipeline changes. Follow ufal/asr_latency or SimulEval's LAAL definition exactly, and unit-test it against a hand-computed toy example.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "approved_by_human",
+      "status": "queued",
       "experiment_ids": [],
-      "result_summary": null
+      "result_summary": null,
+      "approved_at": "2026-10-14T20:20:22.525830+00:00"
     },
     {
       "id": "h-continuous-rating-cps-calibration",
@@ -970,10 +973,11 @@
       "required_changes": "A tiny keypress-logging rating tool (a script, or a page that plays the mp4 and records timestamped 1-4 keys) plus re-render via caption_video_demo with reading_units_per_sec overridden. No pipeline or API changes. Needs roughly 20-30 min of human viewing time.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": "needs_human",
-      "status": "proposed",
+      "approval": "approved_by_human",
+      "status": "queued",
       "experiment_ids": [],
-      "result_summary": null
+      "result_summary": null,
+      "approved_at": "2026-10-14T20:20:22.525831+00:00"
     },
     {
       "id": "h-interim-source-preview-overlay",
@@ -989,10 +993,11 @@
       "required_changes": "Retroactive analysis script ($0). Later, web/overlay.html and live_presenter.py: pass asr_interim text through as a separate 'preview' channel behind a config flag. Note overlay.html currently has uncommitted human edits, so coordinate before touching it.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "approved_by_human",
+      "status": "queued",
       "experiment_ids": [],
-      "result_summary": null
+      "result_summary": null,
+      "approved_at": "2026-10-14T20:20:22.525832+00:00"
     }
   ]
 }

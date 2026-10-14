@@ -15,6 +15,9 @@ Usage:
     python3 research_agent/orchestrator.py advance <NEW_STATE> --note "..."
     python3 research_agent/orchestrator.py check-budget <amount_usd>
     python3 research_agent/orchestrator.py log-cost <amount_usd> --note "..."
+    python3 research_agent/orchestrator.py approve              # list waiting
+    python3 research_agent/orchestrator.py approve <id> [<id>]  # human sign-off
+    python3 research_agent/orchestrator.py approve --all
 """
 
 from __future__ import annotations
@@ -28,6 +31,8 @@ from pathlib import Path
 STATE_DIR = Path(__file__).parent / "state"
 PIPELINE_STATE_PATH = STATE_DIR / "pipeline_state.json"
 BUDGET_PATH = STATE_DIR / "budget.json"
+HYPOTHESES_PATH = STATE_DIR / "hypotheses.json"
+PENDING_APPROVAL_PATH = STATE_DIR / "pending_approval.json"
 
 # The state machine graph. Keys are states; values are the states legally
 # reachable from them. WAITING_APPROVAL is a holding pattern entered from
@@ -131,6 +136,51 @@ def cmd_log_cost(args: argparse.Namespace) -> None:
           f"of ${budget['daily_cap_usd']:.2f} daily cap")
 
 
+def _waiting_hypotheses(items: list[dict]) -> list[dict]:
+    return [
+        h
+        for h in items
+        if h.get("approval") in (None, "proposed", "needs_human")
+        and h.get("status") not in ("done", "rejected", "tested")
+    ]
+
+
+def cmd_approve(args: argparse.Namespace) -> None:
+    """Human sign-off. Run by a person; agents must not call this themselves.
+
+    With no ids, only lists what is waiting. With ids or --all, marks them
+    ``approved_by_human`` / ``queued`` (the outcome PLAYBOOK.md's
+    WAITING_APPROVAL section expects) and clears pending_approval.json.
+    """
+    data = _load(HYPOTHESES_PATH)
+    items = data["hypotheses"]
+    waiting = _waiting_hypotheses(items)
+    if not args.ids and not args.all:
+        if not waiting:
+            print("nothing is waiting for approval")
+        for h in waiting:
+            print(
+                f"{h['id']}  [{h.get('approval')}]  ${h.get('estimated_cost_usd', '?')}"
+                f"  existing_clips={h.get('uses_existing_clips')}\n    {h.get('title', '')}"
+            )
+        return
+    chosen = waiting if args.all else [h for h in waiting if h["id"] in args.ids]
+    unknown = set(args.ids) - {h["id"] for h in chosen}
+    if unknown:
+        raise SystemExit(f"error: not waiting for approval: {', '.join(sorted(unknown))}")
+    for h in chosen:
+        h["approval"] = "approved_by_human"
+        h["status"] = "queued"
+        h["approved_at"] = _now()
+    _save(HYPOTHESES_PATH, data)
+    if PENDING_APPROVAL_PATH.exists():
+        done = {h["id"] for h in chosen}
+        pending = json.loads(PENDING_APPROVAL_PATH.read_text())
+        pending = [e for e in pending if e.get("hypothesis_id") not in done]
+        PENDING_APPROVAL_PATH.write_text(json.dumps(pending, indent=2, ensure_ascii=False) + "\n")
+    print(f"approved {len(chosen)}: {', '.join(h['id'] for h in chosen)}")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)
@@ -150,6 +200,11 @@ def main() -> None:
     p_log.add_argument("amount_usd", type=float)
     p_log.add_argument("--note", default="")
     p_log.set_defaults(func=cmd_log_cost)
+
+    p_appr = sub.add_parser("approve", help="Human sign-off for waiting hypotheses")
+    p_appr.add_argument("ids", nargs="*")
+    p_appr.add_argument("--all", action="store_true")
+    p_appr.set_defaults(func=cmd_approve)
 
     args = parser.parse_args()
     args.func(args)
