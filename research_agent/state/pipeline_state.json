@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 13,
-  "last_updated": "2026-10-14T00:26:01.626496+00:00",
+  "last_updated": "2026-10-14T00:28:41.549300+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1469,6 +1469,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-14T00:26:01.626465+00:00",
       "note": "Cycle 56 HUMAN_APPROVAL complete: 4 stale proposed hypotheses with approval=null processed (all AUTO_APPROVE, set auto_approved/queued). h-continuous-rating-cps-calibration confirmed needs_human (correctly, requires an actual human rating session) and its missing pending_approval.json entry added -- it was never logged there before. 4 hypotheses now queued with approval != needs_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-review-perceived-drops-short-cards, h-computation-aware-laal-enja, h-interim-source-preview-overlay -- 5 total). Advancing to RUN_EXPERIMENTS to check environment and pick one."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-14T00:28:41.549269+00:00",
+      "note": "Cycle 56 RUN_EXPERIMENTS: no experiment ran. Deepgram listen-websocket re-confirmed blocked (same signature since cycle 5); the 3 remaining queued hypotheses that need no live API (h-review-perceived-drops-short-cards $0, h-computation-aware-laal-enja $0, h-interim-source-preview-overlay $0 Step 1) were deliberately NOT implemented this cycle -- this cycle's scheduled invocation already covered EXTRACT_PAPERS/READ_PAPERS/GENERATE_HYPOTHESES/HUMAN_APPROVAL as bounded units; starting a new experiment script (h-computation-aware-laal-enja needs a new simul_latency_metrics.py console script) is reserved for a future cycle's own bounded unit rather than open-endedly continuing this one. Nothing to analyze numerically this cycle. Advancing to WRITE_REPORT per degraded-mode instructions."
     }
   ]
 }
