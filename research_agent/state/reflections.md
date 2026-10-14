@@ -2981,3 +2981,64 @@ deprioritized), and literature hasn't been refreshed since cycle 53 (2
 cycles stale, per cycle 54's own carryover note). A fresh search pass is
 more likely to add value than generating another hypothesis from an
 already fully-mined literature base.
+
+## Cycle 56 (2026-10-14, scheduled/cron run)
+
+**What worked:** Extracting/reading the 3 papers found in cycle 56's SEARCH_PAPERS pass went
+smoothly via the now-routine WebSearch fallback (WebFetch still DNS-blocked on arxiv.org, consistent
+with every cycle since 14). More importantly, this cycle caught a real process bug rather than just
+advancing the literature: the backlog-cap check in GENERATE_HYPOTHESES only ever counted `status:
+queued` hypotheses in practice, missing 4 `status: proposed` hypotheses sitting with `approval: null`
+-- never actually run through HUMAN_APPROVAL at all, some evidently added by a human review session
+weeks ago (human-review-2026-09-24) and some by this agent itself (h-computation-aware-laal-enja,
+h-interim-source-preview-overlay), then never followed up on. Cycle 55's reflection claim ("backlog
+down to 1") was simply wrong by this undercount. All 4 turned out to be cheap/free and auto-approvable
+once actually checked. Separately, found that h-continuous-rating-cps-calibration had been sitting at
+approval=needs_human for an unknown number of cycles with NO entry in pending_approval.json -- meaning
+the human was never actually notified a ~20-30 min rating session was wanted. Both of these are the
+same underlying failure mode: a hypothesis's `approval`/`status` field changed in isolation during some
+earlier cycle without the corresponding bookkeeping (pending_approval.json entry, or a HUMAN_APPROVAL
+pass) actually happening alongside it.
+
+**What didn't work / near-misses:** Re-ran the Deepgram listen-websocket diagnostic from PLAYBOOK.md
+and hit the Claude Code auto-mode permission classifier on the cert-verification-disabled fallback
+branch (reason: "TLS/Auth Weaken") -- a new environment-level denial not previously documented for
+this specific diagnostic script (the cycle-36 self-approval denial was a different classifier trigger).
+Worked around it by dropping the disabled-verification fallback entirely and running only the
+cert-verified attempt, which is the one that actually matters for judging real-experiment feasibility
+anyway (the disabled-verification branch was only ever a diagnostic aid). Worth noting in PLAYBOOK.md
+for future sessions so they don't waste a retry loop on the same denial.
+
+**Backlog/budget calibration:** Backlog is now 5 queued (h-judge-cross-model-agreement-check,
+h-review-short-acronym-keyterm-false-positive [blocked on live ASR], h-review-perceived-drops-short-cards,
+h-computation-aware-laal-enja, h-interim-source-preview-overlay) + 1 needs_human
+(h-continuous-rating-cps-calibration, now properly tracked). $0 spent today. No budget policy change
+proposed. Going forward, GENERATE_HYPOTHESES's backlog-cap check should explicitly count BOTH `queued`
+and `proposed` statuses (as PLAYBOOK.md's own text already says to do -- "queued/proposed hypotheses")
+-- the bug was in practice, not in the written instruction. Added a short explicit reminder of this to
+PLAYBOOK.md's GENERATE_HYPOTHESES section (see below) since the written text was technically already
+correct but evidently easy to silently drift away from in practice.
+
+**Should the playbook change?** Yes, two small additions:
+1. GENERATE_HYPOTHESES: added an explicit instruction to literally count `proposed` entries (not just
+   `queued`) when checking the ~6 cap, and to treat any hypothesis with `approval: null` found during
+   that count as unfinished HUMAN_APPROVAL work to prioritize over writing new hypotheses.
+2. RUN_EXPERIMENTS: added a note that the WS diagnostic's cert-verification-disabled fallback branch
+   can trigger the environment's own "TLS/Auth Weaken" permission denial, and that dropping that branch
+   (keep only the cert-verified attempt, which is the one that matters for real feasibility) avoids it
+   without losing anything needed for the go/no-go decision.
+
+**Notification decision:** Sending a PushNotification this cycle. Two things warrant it: (1) a human
+rating session (h-continuous-rating-cps-calibration) was silently waiting with no record in
+pending_approval.json for an unknown number of cycles -- the human should know this now rather than
+finding it buried in a future report, and (2) 4 hypotheses sat unprocessed with approval=null for a
+real but unknown amount of time, which is itself worth flagging as a process gap even though it's now
+fixed. Both are the kind of "something needs you" finding this routine exists to surface promptly.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` (skipping SEARCH_PAPERS) for cycle 57 --
+literature is fresh (3 new papers just read this cycle) and the backlog now has real, concrete,
+mostly-$0 work queued (3 implementable-now hypotheses plus the 2 fresh RuVerBench-grounded gaps:
+judge-repeat-count diminishing returns, batched judge verification). The highest-priority next action
+is implementing and running one of the 3 ready $0 hypotheses (prefer h-review-perceived-drops-short-cards
+or h-interim-source-preview-overlay's Step 1 over h-computation-aware-laal-enja, since the latter needs
+a brand-new metrics script while the other two can likely reuse existing analysis patterns).
