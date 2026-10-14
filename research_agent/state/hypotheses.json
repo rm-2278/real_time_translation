@@ -918,7 +918,7 @@
       "approval": "approved_by_human",
       "status": "queued",
       "experiment_ids": [],
-      "result_summary": null,
+      "result_summary": "blocked_reason (cycle 56, 2026-10-14): needs a live Deepgram listen-websocket run (ASR-only A/B with vs without the AIME keyterm) -- confirmed still blocked, identical HTTP 400 'Connection header did not include upgrade' signature as every cycle since cycle 5 (proxy mangles the WS Connection:Upgrade handshake; REST /v1/projects and Gemini generativelanguage.googleapis.com both return 200, this is WS-upgrade-specific). Deferred to a future cycle/session with working Deepgram WS access.",
       "approved_at": "2026-10-14T20:20:22.525743+00:00"
     },
     {
@@ -933,9 +933,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "approved_by_human",
-      "status": "queued",
-      "experiment_ids": [],
-      "result_summary": null,
+      "status": "tested",
+      "experiment_ids": [
+        "retroactive: src/real_time_translation/experiments/perceived_drop_analysis.py (new module) run over all 96 experiments/*.json with a results.events log -- see experiments/perceived_drop_analysis.csv"
+      ],
+      "result_summary": "retroactive_cue_outcome_replay (no reviewer timestamps were available beyond the human review note's few named examples, so the analysis uses low ASR confidence (<0.6) as the review's own proxy for a 'felt like a drop' spot, per review item E, plus a new, independently-derived signal: whether a segment's final translation ever became ITS OWN visible on-screen cue at all, replaying render_honest_captions.build_cues's exact cut logic keyed per segment). RESULT: the hypothesis's PREDICTED mechanism (sub-second cards + low ASR confidence) is NOT the dominant explanation -- shown_but_under_1s was 0 in every one of the 96 experiments checked (this repo's cue hold-time minimum, 0.6s plus a further +1.2s for most segments since nearly all of them end an utterance in this fragmented-ASR corpus, floors every SHOWN cue's duration at 1.8s+ in practice, so 'shown but briefly' essentially never happens) and low confidence is rare (101/8343 = 1.2% pooled) with little overlap with any display issue (only 19/101 = 18.8% also invisible-or-short). Instead, a third, much larger, PREVIOUSLY UNDOCUMENTED mechanism dominates: a segment's final translation can be fully correct and never shown on screen at all, because a closely-following segment's text overwrites the pending cue before this segment's own minimum hold time elapses -- found in 2488/8343 = 29.8% of segments pooled across all 96 experiments (21.75% on the human-reviewed full lecture itself, experiments/20260918_llm2025_ep8_zenhan_full_lecture_v2_dict.json, 262 of the 263 affected segments there are themselves utterance-final, not mid-sentence growth being superseded by its own later text). This content is NOT actually dropped from the system (it is present in full_translation and in results.segments) -- it is a RENDERING-level loss, invisible to the viewer, which plausibly reads exactly like '翻訳飛ばし' (skipped translation) despite 0/1209 empty translations and no API timeouts, confirming review item E's 'not API limit' conclusion via a completely independent mechanism. The rate tracks utterance-fragmentation volume directly: runs with many short, closely-spaced utterances (asr_keyterms_off 70%, llm2024_8_part1_full 36.5%) swallow far more segments than runs with fewer, longer batches (raised-timer/semantic-gating hypothesis test runs, ~5%), i.e. it is a direct consequence of the same over-fragmentation already root-caused by review items A/F and partly mitigated by h-review-asr-reemission-watermark/h-review-dangling-connective-carry's fixes -- the review_fixes_v2 run (same fix set, different clip region, NOT a strictly controlled before/after since segment counts and window differ: 234 segments / 860s vs. 1209 segments / full lecture) shows a lower never-shown rate (16.24%) than the original run (21.75%), directionally consistent with but not proof of the fixes helping this specific metric. CONCLUSION: the hypothesis's top-level claim (perceived drops are not API limits) is CONFIRMED, but its proposed MECHANISM is subordinate -- the dominant cause is this cue-overwrite/never-shown effect, not short display duration or low confidence, which should be the next hypothesis's target (e.g. a floor on how often the pending cue is allowed to be silently replaced before being shown at all, independent of its own min-hold timer).",
       "approved_at": "2026-10-14T20:20:22.525828+00:00"
     },
     {

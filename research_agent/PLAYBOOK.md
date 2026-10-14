@@ -129,6 +129,19 @@ human-facing; treat the JSON field as an internal
   hypothesis to pursue).
 - Do not let the backlog exceed ~6 `queued`/`proposed` hypotheses at once --
   prioritize depth (fully testing and reflecting on a few) over breadth.
+  **When counting the backlog, literally count BOTH `status: queued` AND
+  `status: proposed` entries** (found cycle 56, 2026-10-14: cycle 55's
+  reflection claimed the backlog was "down to 1", but that count only
+  included `queued` hypotheses -- 4 more sat as `status: proposed` with
+  `approval: null`, never actually run through HUMAN_APPROVAL at all,
+  some added weeks earlier by a human review session and some by this
+  agent itself in an earlier cycle. The written cap instruction already
+  said "queued/proposed", but it's easy to silently drift into only
+  checking `queued` in practice -- don't). If you find any `proposed`
+  hypothesis with `approval` still `null` while doing this count, that is
+  unfinished HUMAN_APPROVAL work, not a reason to write more hypotheses --
+  prioritize processing those existing ones (next state) over adding new
+  ones on top of an already-full backlog.
 - If a hypothesis's `required_changes` references a specific
   `TimedEvent`/experiment-JSON event field (e.g. `is_utterance_end`,
   `original_text`, anything under `results.events`), check the actual
@@ -369,6 +382,17 @@ asyncio.run(main())
   # need to know *why* before giving up, use the disabled-verification
   # retry to diagnose, then still treat the hypothesis as blocked unless the
   # cert-verified attempt itself prints OK.
+  # IMPORTANT (found cycle 56, 2026-10-14): the disabled-verification
+  # fallback branch itself can get DENIED by this execution environment's
+  # own permission classifier (reason tag "TLS/Auth Weaken") before it even
+  # runs, independent of whether Deepgram is reachable. If that happens,
+  # don't retry it or try to work around the denial -- just drop that
+  # fallback branch entirely and run ONLY the cert-verified attempt. That's
+  # the one that actually matters for the go/no-go decision anyway (the
+  # disabled-verification branch was only ever a diagnostic aid for *why*
+  # a failure happened, never itself evidence that a real experiment can
+  # run); a plain cert-verified-only script version gets you the same
+  # go/no-go answer without touching anything the classifier flags.
   # Environment-setup note (found cycle 3): `uv sync`/`uv run` in this repo
   # can fail even for a plain (non-zoom) experiment, because uv locks
   # ALL optional-dependency groups together by default, including the
