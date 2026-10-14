@@ -3042,3 +3042,71 @@ judge-repeat-count diminishing returns, batched judge verification). The highest
 is implementing and running one of the 3 ready $0 hypotheses (prefer h-review-perceived-drops-short-cards
 or h-interim-source-preview-overlay's Step 1 over h-computation-aware-laal-enja, since the latter needs
 a brand-new metrics script while the other two can likely reuse existing analysis patterns).
+
+## Cycle 57 (2026-10-14, scheduled session)
+
+**What worked:** Followed cycle 56's own recommendation and implemented+ran
+`h-review-perceived-drops-short-cards` (the $0 retroactive hypothesis it flagged as
+highest priority). The implementation path was smooth: `python3.13 -m venv .venv` +
+`uv pip install -e ".[experiments]"` worked cleanly first try (no zoom/rtms testpypi
+issue hit this session), `uv pip install ruff` likewise, and the new script needed no
+live API access at all, so none of RUN_EXPERIMENTS's environment-reachability checks
+actually gated anything this cycle (recorded them anyway for completeness: both REST
+checks returned 200, keys/ffmpeg all present).
+
+**What was more interesting than expected:** The hypothesis's own predicted mechanism
+(sub-second cards + low ASR confidence) turned out NOT to be the dominant explanation
+once measured directly -- "shown but under 1s" was 0/8343 pooled across all 96
+experiments (this repo's own minimum-hold-time floor makes that combination nearly
+impossible once a cue IS shown), and low confidence was rare (1.2%) with little overlap
+with any display issue. Instead, replaying `render_honest_captions.build_cues`'s exact
+cut logic with the originating `(asr_start_time, asr_end_time)` key preserved (not just
+its output `Cue` objects, which `build_cues` itself returns with no key -- see
+`perceived_drop_analysis.py`'s docstring for why that key had to be tracked
+separately) surfaced a third mechanism nobody had quantified before: 29.8% of segments
+pooled (21.75% on the human-reviewed lecture itself) have a translation that is fully
+correct but NEVER becomes its own visible cue at all, because a closely-following
+segment overwrites the pending cue before this one's own minimum hold time (0.6s, or
+1.8s+ for an utterance-ending segment, which 262/263 affected segments on the reviewed
+lecture are) elapses. This is a genuine new finding, not just a confirmation of
+something already written up -- worth flagging because it means the hypothesis's
+*title claim* ("not API limits") was confirmed but its *proposed mechanism* was wrong,
+and the playbook's GENERATE_HYPOTHESES section should treat "confirmed but via a
+different mechanism than predicted" as a legitimate, reportable outcome distinct from
+plain confirm/reject/inconclusive -- this cycle's result_summary and report both say so
+explicitly rather than forcing the predicted-mechanism framing onto a different finding.
+
+**Backlog/budget calibration:** Backlog is now 4 queued
+(h-judge-cross-model-agreement-check [blocked: OPENAI_API_KEY REST set but unreachable
+through the sandbox egress proxy per cycle 52], h-review-short-acronym-keyterm-false-positive
+[blocked: Deepgram WS handshake, unresolved since cycle 5], h-computation-aware-laal-enja,
+h-interim-source-preview-overlay) + 1 needs_human (h-continuous-rating-cps-calibration,
+properly tracked in pending_approval.json since cycle 56). $0 spent today, consistent
+with $0 spent this whole hypothesis (no `log-cost` call was needed or made). Backlog has
+room (5 of ~6 cap) for one new hypothesis next GENERATE_HYPOTHESES pass -- the natural
+candidate is a direct follow-up to this cycle's finding: can the cue-overwrite/never-shown
+effect be fixed with a "guarantee at least one visible frame" rule in
+`render_honest_captions.build_cues`/`subtitle_formatter`/`live_presenter` without
+reintroducing the sub-second-flicker problem H4 already fixed? Left as a note for next
+cycle's GENERATE_HYPOTHESES rather than written up now, to keep this cycle's unit of
+work bounded to one hypothesis fully carried through RUN_EXPERIMENTS->ANALYZE_RESULTS->
+WRITE_REPORT.
+
+**Should the playbook change?** No changes made this cycle. The existing instructions
+were sufficient and no new workaround/gotcha was discovered worth recording (the venv
+setup notes from cycles 3-5 already covered everything needed).
+
+**Notification decision:** Not sending a PushNotification this cycle -- nothing here
+needs the human's attention before the next cycle: no new needs_human item, no budget
+cap concern, no environment breakage, and no silently-dropped bookkeeping like cycle 56
+found. The finding itself is interesting but is exactly the kind of steady, expected
+pipeline progress that should wait for the human to read in the next report rather than
+interrupt them.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` for cycle 58 (not
+`SEARCH_PAPERS` -- no new literature search is likely to add much right now; the most
+valuable next hypothesis is a direct, code-grounded follow-up to this cycle's own
+empirical finding, not a new paper). Highest-priority next action: generate (if the
+cap allows) a hypothesis for a "guarantee minimum visibility" fix to the cue-overwrite
+effect, then continue processing the existing $0 queue
+(h-computation-aware-laal-enja / h-interim-source-preview-overlay Step 1).
