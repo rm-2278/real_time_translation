@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 13,
-  "last_updated": "2026-10-14T00:30:47.900314+00:00",
+  "last_updated": "2026-10-14T12:27:31.551299+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1493,6 +1493,18 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-14T00:30:47.900280+00:00",
       "note": "Cycle 56 REFLECT complete. Appended reflection entry; made 2 PLAYBOOK.md self-improvements (backlog-cap counting fix, WS-diagnostic permission-classifier workaround). Advancing REFLECT -> GENERATE_HYPOTHESES (skipping SEARCH_PAPERS) for cycle 57 -- literature is fresh (3 papers just read this cycle) and the backlog has concrete, mostly-$0 work ready (3 implementable-now hypotheses: h-review-perceived-drops-short-cards, h-computation-aware-laal-enja, h-interim-source-preview-overlay). Next session's priority: implement and run one of those 3, preferring h-review-perceived-drops-short-cards or h-interim-source-preview-overlay's Step 1 over h-computation-aware-laal-enja (needs a brand-new metrics script)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-14T12:27:24.579441+00:00",
+      "note": "Backlog already at cap (5 queued + 1 proposed/needs_human = 6); no hypothesis has approval=null. No new hypotheses added this cycle per PLAYBOOK's backlog-cap rule. Proceeding to process the existing queued backlog."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-14T12:27:31.551264+00:00",
+      "note": "All 5 queued hypotheses already have approval set (auto_approved/approved_by_human); h-continuous-rating-cps-calibration remains needs_human/proposed in pending_approval.json, untouched (terminal per cycle-36 self-approval-block finding, no new human signal observed). Running h-review-perceived-drops-short-cards (/bin/bash retroactive analysis, prioritized per cycle-56 reflection)."
     }
   ]
 }
