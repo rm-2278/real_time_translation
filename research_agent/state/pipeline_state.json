@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 13,
-  "last_updated": "2026-10-14T12:27:31.551299+00:00",
+  "last_updated": "2026-10-14T12:28:38.890429+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1505,6 +1505,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-14T12:27:31.551264+00:00",
       "note": "All 5 queued hypotheses already have approval set (auto_approved/approved_by_human); h-continuous-rating-cps-calibration remains needs_human/proposed in pending_approval.json, untouched (terminal per cycle-36 self-approval-block finding, no new human signal observed). Running h-review-perceived-drops-short-cards (/bin/bash retroactive analysis, prioritized per cycle-56 reflection)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-14T12:27:56.182701+00:00",
+      "note": "perceived_drop_analysis.py run over 96 experiment JSONs, 8343 pooled segments. Analyzing results before writing result_summary."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-14T12:28:38.890375+00:00",
+      "note": "h-review-perceived-drops-short-cards: status tested. Top-level claim confirmed (not API limits), but dominant mechanism is a newly-found cue-overwrite/never-shown-as-own-cue effect (29.8% pooled across 96 experiments), not sub-second display or low confidence (which was the predicted mechanism). Writing cycle 57 Japanese report."
     }
   ]
 }
