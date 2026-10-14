@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 13,
-  "last_updated": "2026-10-13T12:21:01.600438+00:00",
+  "last_updated": "2026-10-14T00:21:14.279873+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1445,6 +1445,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-10-13T12:21:01.600347+00:00",
       "note": "Cycle 56 SEARCH_PAPERS complete: ran 3 WebSearch queries, found 3 new post-survey papers not already in corpus (SimulS2ST-Omni arXiv 2607.19810; RuVerBench arXiv 2606.29920; RubricEval arXiv 2603.25133), added as 'found' stubs in papers.json. The latter two are directly relevant to refilling the thin hypothesis backlog along the active judge-reliability/rubric-decomposition investigation thread. Details in papers.json _websearch_note_cycle56. Advancing to EXTRACT_PAPERS."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-10-14T00:21:14.279629+00:00",
+      "note": "Cycle 56 EXTRACT_PAPERS complete: extracted concrete claims for the 3 papers found this cycle (simuls2stomni2607, ruverbench2606, rubriceval2603) via WebSearch fallback (WebFetch EGRESS_BLOCKED for arxiv.org this session, consistent with prior cycles). Set status=extracted on each with extracted_claims + relevance_note. Advancing to READ_PAPERS to write summary/key_findings and cross-reference against existing hypotheses/experiments."
     }
   ]
 }
