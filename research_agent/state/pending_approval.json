@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "hypothesis_id": "h-continuous-rating-cps-calibration",
+    "reason": "Requires an actual human (rm-2278) to watch two re-renders of an existing clip in randomized order and press a 1-4 rating key every ~5s (~20-30 min of human viewing time) -- no agent action can substitute for this; it is a human-rating-session hypothesis, not a budget/approval question. approval was already set to needs_human in hypotheses.json in an earlier cycle, but was never logged here -- found and fixed during cycle 56 HUMAN_APPROVAL while processing the backlog's unset-approval items.",
+    "estimated_cost_usd": 0.0,
+    "asked_at": "2026-10-14T00:25:40.711865+00:00"
+  }
+]

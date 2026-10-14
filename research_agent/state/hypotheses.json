@@ -915,8 +915,8 @@
       "required_changes": "ASR-only runner (experiments/refs/asr_only_run.py pattern) over the local video with two keyterm lists; if confirmed, a keyterm filter or a dictionary 'no_keyterm' marker.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": null
     },
@@ -931,8 +931,8 @@
       "required_changes": "Needs the reviewer's timestamps (or a second viewing of the post-fix render) -- $0 analysis over existing JSON otherwise.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": null
     },
@@ -951,8 +951,8 @@
       "required_changes": "New script src/real_time_translation/experiments/simul_latency_metrics.py (console script), plus an extra join in quality_latency_joint.py. No pipeline changes. Follow ufal/asr_latency or SimulEval's LAAL definition exactly, and unit-test it against a hand-computed toy example.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": null
     },
@@ -989,8 +989,8 @@
       "required_changes": "Retroactive analysis script ($0). Later, web/overlay.html and live_presenter.py: pass asr_interim text through as a separate 'preview' channel behind a config flag. Note overlay.html currently has uncommitted human edits, so coordinate before touching it.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": null
     }
