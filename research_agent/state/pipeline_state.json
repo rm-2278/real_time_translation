@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 13,
-  "last_updated": "2026-10-15T00:29:49.168534+00:00",
+  "last_updated": "2026-10-15T00:31:05.116179+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1547,6 +1547,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-15T00:29:49.168502+00:00",
       "note": "cycle 58: ran cue_minimum_visibility_replay.py over 102 experiments/*.json for h-cue-minimum-visibility-guarantee, $0 no API calls. Setting status=testing before analysis per PLAYBOOK's commit-now rule."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-15T00:31:05.116144+00:00",
+      "note": "cycle 58: h-cue-minimum-visibility-guarantee analyzed (confirmed predicted tradeoff + found new per-event drift failure mode). Advancing to WRITE_REPORT."
     }
   ]
 }
