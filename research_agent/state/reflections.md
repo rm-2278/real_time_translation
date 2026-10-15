@@ -3110,3 +3110,72 @@ empirical finding, not a new paper). Highest-priority next action: generate (if 
 cap allows) a hypothesis for a "guarantee minimum visibility" fix to the cue-overwrite
 effect, then continue processing the existing $0 queue
 (h-computation-aware-laal-enja / h-interim-source-preview-overlay Step 1).
+
+## Cycle 58 (2026-10-15, scheduled session)
+
+**What worked / what didn't:** The full GENERATE_HYPOTHESES -> HUMAN_APPROVAL ->
+RUN_EXPERIMENTS -> ANALYZE_RESULTS -> WRITE_REPORT loop ran cleanly in one session for
+a single new hypothesis, exactly the pattern cycle 57's reflection asked for. What
+worked well: writing the hypothesis's own `predicted_effect` as a genuine, falsifiable
+prediction (not just "this will help") paid off directly -- the first half of the
+prediction (never-shown converts to shown-but-under-1s, not eliminated) was confirmed
+almost exactly (29.8%->1.49% / 0%->42.03% pooled), which made the result easy to write
+up honestly as "confirmed, not a clean win" rather than forcing a positive spin. What
+didn't fully work: the hypothesis's own `required_changes` field, written during
+GENERATE_HYPOTHESES, specified "emit a forced Cue ... before starting the new cue's
+clock" without being precise about whether this operates at the EVENT level or the
+SEGMENT level -- that ambiguity is exactly what let the far more serious failure mode
+(553s of virtual-clock drift on a dense token-streaming experiment, from forcing a
+visibility-cue on every rapid within-segment partial update, not just real
+between-segment overwrites) slip past hypothesis design and only surface during
+RUN_EXPERIMENTS/ANALYZE_RESULTS. This is a new instance of a known pattern in this
+playbook (see the GENERATE_HYPOTHESES section's running list of near-misses from
+not verifying an empirical/algorithmic claim against the actual code before finalizing
+hypothesis text) -- except here the gap was in *my own* required_changes text, not in
+a claim about existing code. Lesson for next time a hypothesis proposes modifying an
+existing cut/cue/batching algorithm: explicitly state during GENERATE_HYPOTHESES
+whether the proposed change operates per-event or per-segment/per-finalized-unit, and
+sanity-check that choice against at least one experiment JSON with a high
+events-per-segment ratio (this corpus already has one, `20260806_hardest_5min_gpt54nano.json`,
+1806 events / 69 segments = 26:1) before writing required_changes, not just against a
+typical/representative one (the full lecture is closer to events-per-segment ~1-2:1
+and would never have surfaced this).
+
+**Backlog/budget calibration:** Backlog is now 5 queued
+(h-judge-cross-model-agreement-check [blocked: OPENAI_API_KEY REST reachable but WS/API
+untested this cycle, last confirmed blocked cycle 52], h-review-short-acronym-keyterm-false-positive
+[blocked: Deepgram WS handshake, unresolved since cycle 5, not retested this cycle],
+h-computation-aware-laal-enja, h-interim-source-preview-overlay [needs a new script],
+h-continuous-rating-cps-calibration [needs ~20-30min of actual human viewing, approved
+but not executable by an agent]) -- room for 1 more next GENERATE_HYPOTHESES pass, but
+per PLAYBOOK the two still-actionable $0 items (h-computation-aware-laal-enja,
+h-interim-source-preview-overlay) should be processed before adding anything new.
+$0 spent today (2026-10-15), consistent with $0 spent on this hypothesis (pure
+retroactive analysis, no `log-cost` call needed or made).
+
+**Should the playbook change?** No changes made this cycle. The one near-miss found
+above (per-event vs. per-segment ambiguity in a hypothesis's own required_changes) is
+narrow enough that it doesn't obviously generalize into a standing playbook rule the
+way the TimedEvent-field and boundary-operator near-misses did -- noting it here as a
+reflections.md lesson is enough for now; if a similar ambiguity bites a future
+algorithm-modifying hypothesis again, that would be the signal to promote it into
+PLAYBOOK.md's GENERATE_HYPOTHESES section as a standing check.
+
+**Notification decision:** Not sending a PushNotification this cycle -- the finding
+(a plausible-looking fix doesn't actually work, and a more severe failure mode was
+caught before any code reached the live pipeline) is exactly the kind of thing the
+pipeline is supposed to catch on its own and report in the next Japanese report, not
+an urgent interrupt. No new needs_human item, no budget cap concern, no environment
+breakage.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` for cycle 59 (not
+`SEARCH_PAPERS` -- the backlog already has actionable work and a fresh literature
+search isn't the bottleneck right now). Highest-priority next action: per the
+"process existing queue before adding new" rule, process
+`h-computation-aware-laal-enja` and/or `h-interim-source-preview-overlay` Step 1
+(both $0, retroactive, both need a new script) before writing any new hypothesis.
+A natural future hypothesis (not written this cycle, backlog has room for only one
+more and the $0 queue should come first) is a segment-boundary-aware version of this
+cycle's fix: force a minimum-visibility cue only when the overwritten text belongs to
+a genuinely different `(asr_start_time, asr_end_time)` key, not merely different text
+under the same key, to avoid the per-event drift failure mode found this cycle.
