@@ -1015,10 +1015,11 @@
       "required_changes": "New script src/real_time_translation/experiments/cue_minimum_visibility_replay.py, built the same way perceived_drop_analysis.py was (a near-literal, key-tracking copy of build_cues's cut loop, not a call into build_cues itself, so per-segment outcomes stay attributable): when a pending cue would be overwritten before `_hold_for(cue_text, cue_is_end)` elapses AND the new text differs from the pending text, emit a forced Cue capped at `min_display_seconds` (0.6s, no utterance_end_hold_seconds) for the superseded text before starting the new cue's clock, pushing the following cue's effective start out by that forced duration. Re-run over all 96 experiments/*.json (same corpus perceived_drop_analysis.py used) and report, per experiment and pooled: new never_shown_as_own_cue rate, new shown_but_under_1s rate (the key risk metric above), and total added end-of-clip lag in seconds from the forced extensions. Compare directly against experiments/perceived_drop_analysis.csv's existing numbers for the same files. Purely retroactive replay of already-saved results.events -- no new Deepgram/LLM calls, no code change to the live pipeline or to build_cues itself (this stays a standalone analysis script until/unless the human decides the tradeoff is worth shipping).",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
-      "result_summary": null
+      "result_summary": null,
+      "approved_at": "2026-10-15T00:24:40.000000+00:00"
     }
   ]
 }
