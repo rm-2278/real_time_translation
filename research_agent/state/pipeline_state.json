@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 13,
-  "last_updated": "2026-10-15T00:32:46.898947+00:00",
+  "last_updated": "2026-10-15T12:20:40.284522+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1565,6 +1565,18 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-15T00:32:46.898911+00:00",
       "note": "cycle 58 REFLECT -> GENERATE_HYPOTHESES (start cycle 59). Backlog already has actionable $0 queue items; process those before adding new hypotheses, per PLAYBOOK."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-15T12:20:34.659787+00:00",
+      "note": "cycle 59: backlog has 5 queued (2 actionable $0 retroactive: h-computation-aware-laal-enja, h-interim-source-preview-overlay; others blocked on OPENAI_API_KEY WS/REST egress, Deepgram WS, or human viewing time). Not adding a new hypothesis this cycle per cycle-58 reflection's guidance to process the existing queue first. Moving to HUMAN_APPROVAL to re-confirm approval status."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-15T12:20:40.284456+00:00",
+      "note": "cycle 59: all 5 queued hypotheses already have approval set (approved_by_human), none needs_human/null. Advancing to RUN_EXPERIMENTS to pick a $0 retroactive item (h-computation-aware-laal-enja or h-interim-source-preview-overlay)."
     }
   ]
 }
