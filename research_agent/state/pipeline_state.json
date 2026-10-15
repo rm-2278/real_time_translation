@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 13,
-  "last_updated": "2026-10-15T12:20:40.284522+00:00",
+  "last_updated": "2026-10-15T12:27:46.322153+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1577,6 +1577,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-15T12:20:40.284456+00:00",
       "note": "cycle 59: all 5 queued hypotheses already have approval set (approved_by_human), none needs_human/null. Advancing to RUN_EXPERIMENTS to pick a $0 retroactive item (h-computation-aware-laal-enja or h-interim-source-preview-overlay)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-15T12:27:46.322113+00:00",
+      "note": "cycle 59: ran interim_preview_timing.py for h-interim-source-preview-overlay Step 1 over 97 experiments/*.json with event logs, $0 no API calls. Setting status=tested (analysis done inline) before commit per PLAYBOOK's commit-now rule."
     }
   ]
 }
