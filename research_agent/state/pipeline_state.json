@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 13,
-  "last_updated": "2026-10-15T00:25:44.772399+00:00",
+  "last_updated": "2026-10-15T00:29:49.168534+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1541,6 +1541,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-15T00:25:44.772315+00:00",
       "note": "cycle 58: all 6 backlog hypotheses have approval set (none needs_human). Advancing to RUN_EXPERIMENTS to pick one (prefer $0 retroactive)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-15T00:29:49.168502+00:00",
+      "note": "cycle 58: ran cue_minimum_visibility_replay.py over 102 experiments/*.json for h-cue-minimum-visibility-guarantee, $0 no API calls. Setting status=testing before analysis per PLAYBOOK's commit-now rule."
     }
   ]
 }

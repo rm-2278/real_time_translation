@@ -1016,8 +1016,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "retroactive: src/real_time_translation/experiments/cue_minimum_visibility_replay.py run over all 102 experiments/*.json with a results.events log -- see experiments/cue_minimum_visibility_replay.csv"
+      ],
       "result_summary": null,
       "approved_at": "2026-10-15T00:24:40.000000+00:00"
     }
