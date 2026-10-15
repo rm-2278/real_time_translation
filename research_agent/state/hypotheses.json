@@ -1000,6 +1000,25 @@
       "experiment_ids": [],
       "result_summary": null,
       "approved_at": "2026-10-14T20:20:22.525832+00:00"
+    },
+    {
+      "id": "h-cue-minimum-visibility-guarantee",
+      "title": "Guarantee every finalized segment at least one visible frame in build_cues's cut logic, without just converting the invisibility problem into a milder flicker problem",
+      "description": "h-review-perceived-drops-short-cards (cycle 57) found that render_honest_captions.build_cues silently discards a pending cue's text with ZERO screen time whenever a closely-following segment's text arrives before the pending cue's own min-hold timer (_hold_for: 0.6s floor, +1.2s more if utterance-end) elapses -- the code just overwrites cue_text/cue_is_end and `continue`s, with no Cue ever appended for the superseded text. Measured: 2488/8343 = 29.8% of segments pooled across all 96 experiments/*.json, 263/1209 = 21.75% on the human-reviewed full lecture itself, 262 of those 263 themselves utterance-final (not mid-sentence growth being superseded by its own later revision). The content is not lost from the system (full_translation/results.segments still have it) -- it is a pure rendering-level loss, and plausibly what the human reviewer perceived as skipped translations. This hypothesis asks the obvious follow-up question raised in cycle 57's reflections.md and NOT yet answered: can build_cues guarantee at least one visible cue per finalized segment, and if so, what does that cost? Specifically, does forcing a short cue for the superseded text (at the min_display_seconds=0.6s floor only, deliberately WITHOUT the +1.2s utterance-end extension, since re-applying full hold time to every forced interstitial cue would just push the overwrite problem one segment further down the queue instead of fixing it) just convert a 'never shown' segment into a 'shown but under SHORT_CUE_SECONDS=1.0s' segment -- the exact flicker-adjacent failure mode that h-review-perceived-drops-short-cards found was 0/8343 (0%) under the CURRENT algorithm specifically because nothing short-lived is ever produced today (things are either fully held for 1.8s+ or not shown at all, with no middle case). If so, this is not a clean win -- it trades an invisible-content problem for a different, milder but real flicker problem, and that tradeoff (plus the cumulative display-timeline lag the forced cues add) is what needs to be measured and reported honestly, per persistent-delivery2026-revision-optimization's broader point that crediting 'currently visible' text is not the same as crediting content a viewer actually perceives well.",
+      "grounded_in": [
+        "persistent-delivery2026-revision-optimization",
+        "google-live-caption-stability-blog",
+        "meetdot2021-emnlp-demo",
+        "machacek-bojar2020-subtitler"
+      ],
+      "predicted_effect": "Forcing a 0.6s-floor-only cue for every segment that would otherwise be silently overwritten will drive never_shown_as_own_cue toward 0% but will raise shown_but_under_1s from its current ~0% to a substantial, non-trivial rate (plausibly in the same ballpark as the 29.8%/21.75% it replaces, since most previously-invisible segments are exactly the ones that arrive faster than the 0.6-1.8s hold window). Net honest conclusion is likely 'converts the problem, does not remove it' rather than a clean fix -- report whichever outcome the numbers actually show, including the cumulative added end-of-clip lag from the forced extensions, rather than forcing a positive framing.",
+      "required_changes": "New script src/real_time_translation/experiments/cue_minimum_visibility_replay.py, built the same way perceived_drop_analysis.py was (a near-literal, key-tracking copy of build_cues's cut loop, not a call into build_cues itself, so per-segment outcomes stay attributable): when a pending cue would be overwritten before `_hold_for(cue_text, cue_is_end)` elapses AND the new text differs from the pending text, emit a forced Cue capped at `min_display_seconds` (0.6s, no utterance_end_hold_seconds) for the superseded text before starting the new cue's clock, pushing the following cue's effective start out by that forced duration. Re-run over all 96 experiments/*.json (same corpus perceived_drop_analysis.py used) and report, per experiment and pooled: new never_shown_as_own_cue rate, new shown_but_under_1s rate (the key risk metric above), and total added end-of-clip lag in seconds from the forced extensions. Compare directly against experiments/perceived_drop_analysis.csv's existing numbers for the same files. Purely retroactive replay of already-saved results.events -- no new Deepgram/LLM calls, no code change to the live pipeline or to build_cues itself (this stays a standalone analysis script until/unless the human decides the tradeoff is worth shipping).",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.0,
+      "approval": null,
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": null
     }
   ]
 }
