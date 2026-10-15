@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 13,
-  "last_updated": "2026-10-15T00:24:18.641778+00:00",
+  "last_updated": "2026-10-15T00:25:44.772399+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1535,6 +1535,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-15T00:24:18.641743+00:00",
       "note": "cycle 58: added h-cue-minimum-visibility-guarantee (follow-up to cycle 57's cue-overwrite finding); backlog now 6/6 cap, no more new hypotheses this cycle. Moving to HUMAN_APPROVAL to process it + re-check the rest of the backlog."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-15T00:25:44.772315+00:00",
+      "note": "cycle 58: all 6 backlog hypotheses have approval set (none needs_human). Advancing to RUN_EXPERIMENTS to pick one (prefer $0 retroactive)."
     }
   ]
 }
