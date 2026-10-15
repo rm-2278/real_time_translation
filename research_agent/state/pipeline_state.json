@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 13,
-  "last_updated": "2026-10-14T12:30:23.522348+00:00",
+  "last_updated": "2026-10-15T00:24:18.641778+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1529,6 +1529,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-14T12:30:23.522311+00:00",
       "note": "Cycle 57 reflection complete, see reflections.md. Advancing straight to GENERATE_HYPOTHESES (skip SEARCH_PAPERS): most valuable next hypothesis is a direct follow-up to this cycle's own finding (cue-overwrite/never-shown effect), not new literature."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-15T00:24:18.641743+00:00",
+      "note": "cycle 58: added h-cue-minimum-visibility-guarantee (follow-up to cycle 57's cue-overwrite finding); backlog now 6/6 cap, no more new hypotheses this cycle. Moving to HUMAN_APPROVAL to process it + re-check the rest of the backlog."
     }
   ]
 }
