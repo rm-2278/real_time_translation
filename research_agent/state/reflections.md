@@ -3179,3 +3179,68 @@ more and the $0 queue should come first) is a segment-boundary-aware version of 
 cycle's fix: force a minimum-visibility cue only when the overwritten text belongs to
 a genuinely different `(asr_start_time, asr_end_time)` key, not merely different text
 under the same key, to avoid the per-event drift failure mode found this cycle.
+
+## Cycle 59 (2026-10-15, scheduled session)
+
+**What worked / what didn't:** Followed cycle 58's own handoff instruction exactly --
+no new hypothesis written in GENERATE_HYPOTHESES, went straight to processing
+`h-interim-source-preview-overlay` Step 1 since the backlog already had actionable
+work. What worked well: this hypothesis's own description explicitly separated "Step 1
+($0, retroactive)" from "Step 2 (overlay.html change)", which made picking a cleanly
+bounded unit of work trivial -- no ambiguity about scope like cycle 58's
+required_changes ambiguity. The implementation itself was also low-risk: reusing
+`flicker_metrics.group_asr_interim`/`group_translation_by_utterance` for the grouping
+key and `TimedEvent.wall_clock_lag` directly (no new timestamp math) meant there was
+very little room for a subtle bug, and the result (median 1.166s/6.035s on the cited
+experiment) landing almost exactly on the hypothesis's own informal estimate
+(1.17s/6.01s) was a useful independent check that the *new* script's logic is sound,
+not just that the old eyeballed numbers were right. What was genuinely new information
+(not just confirmation): the naive "subtract the two separately-computed medians"
+approach the hypothesis implicitly used (6.035-1.166=4.869s) does NOT equal the
+properly joined per-utterance median (4.321s) on the same experiment -- a concrete,
+measured instance of exactly the kind of error this playbook's GENERATE_HYPOTHESES
+section has repeatedly warned about in other forms (treating two separately-computed
+distributions as if their summary statistics compose like the underlying paired
+values do). Worth keeping in mind for any future hypothesis that compares two
+timing/quality distributions that are not obviously independent per-item.
+
+**Backlog/budget calibration:** Backlog is back down to... actually still 5 queued
+(`h-interim-source-preview-overlay` is now `tested`, not removed from the backlog
+count methodology -- see PLAYBOOK's "queued OR proposed" counting rule: a `tested`
+hypothesis no longer counts toward the cap). Remaining queued: `h-judge-cross-model-agreement-check`
+(blocked: OPENAI_API_KEY reachability untested since cycle 52), `h-review-short-acronym-keyterm-false-positive`
+(blocked: Deepgram WS handshake, unresolved since cycle 5), `h-computation-aware-laal-enja`
+(not yet started, needs a new script), `h-continuous-rating-cps-calibration` (needs
+human viewing time, not agent-executable). That's 4 queued now, room for up to 2 more
+before the cap -- but per PLAYBOOK, `h-computation-aware-laal-enja` (the other
+still-actionable $0 item) should be processed before writing anything new, and the two
+blocked items deserve a fresh reachability check before being written off again, since
+this session's own environment check (unlike several recent ones) found both
+`DEEPGRAM_API_KEY` and `GOOGLE_API_KEY` set -- `OPENAI_API_KEY`/Deepgram-WS specifically
+were not re-checked this cycle since the hypothesis actually worked on needed neither.
+$0 spent today (2026-10-15), consistent with $0 spent on this hypothesis.
+
+**Should the playbook change?** No changes made this cycle. The separately-computed-vs-
+jointly-computed distribution-subtraction error found above is a real, concrete
+instance of a known general pattern already covered by this playbook's existing
+GENERATE_HYPOTHESES near-miss list in spirit, even though none of the existing bullets
+state it in exactly these terms. Not promoting it to a new standing bullet yet --
+noting it here is enough until a future hypothesis actually falls into the same trap
+despite this reflections.md entry existing, which would be the signal to generalize it
+into PLAYBOOK.md directly.
+
+**Notification decision:** Not sending a PushNotification this cycle -- a confirmed,
+non-surprising, non-urgent measurement result with no environment breakage, no new
+needs_human item, and no budget concern. This is ordinary pipeline output for the next
+Japanese report, not something rm-2278 needs interrupted for.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` for cycle 60 (not
+`SEARCH_PAPERS` -- the backlog still has actionable queued work, a fresh literature
+search is not the bottleneck). Highest-priority next action: process
+`h-computation-aware-laal-enja` (the remaining $0 actionable item) before writing any
+new hypothesis; if time/scope remains after that, re-check Deepgram WS and OpenAI
+REST/WS reachability in this environment (both were last confirmed blocked in earlier
+sessions, but this session's own DEEPGRAM_API_KEY/GOOGLE_API_KEY check came back
+positive where several recent sessions found at least one blocked, so the egress
+picture may have changed) before deciding whether `h-review-short-acronym-keyterm-false-positive`
+or `h-judge-cross-model-agreement-check` can finally be unblocked.
