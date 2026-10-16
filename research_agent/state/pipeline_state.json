@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 13,
-  "last_updated": "2026-10-16T12:23:58.675746+00:00",
+  "last_updated": "2026-10-16T12:25:04.694797+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1643,6 +1643,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-16T12:23:58.675707+00:00",
       "note": "cycle 61 GENERATE_HYPOTHESES: added 1 new hypothesis (h-ca-al-gap-exclusion-softsegmenter), a SOFTSEGMENTER-style mid-run gap exclusion for ca_al_char_s, per cycle 60 reflection's own stated priority. Backlog now 4 proposed/queued (3 pre-existing queued unchanged + this 1 new proposed), under the ~6 cap. No proposed-with-null-approval items were left unprocessed before adding this (checked: 0 prior to this entry)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-16T12:25:04.694746+00:00",
+      "note": "cycle 61 HUMAN_APPROVAL: h-ca-al-gap-exclusion-softsegmenter checked via check-budget 0.0 -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued (normal auto-approve path, not the self-approval/needs_human gate). No other proposed/null-approval entries existed. 4 hypotheses now queued with approval != needs_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-ca-al-gap-exclusion-softsegmenter)."
     }
   ]
 }

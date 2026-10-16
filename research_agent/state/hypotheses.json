@@ -1040,8 +1040,8 @@
       "required_changes": "In-place addition to src/real_time_translation/experiments/simul_latency_metrics.py: a new gap-exclusion remap function (operating on the per-span settle-time timeline before the existing AL computation), a new CSV/report column (name it to make clear it is NOT LAAL/SOFTSEGMENTER proper, e.g. ca_al_char_s_gapexcl), and the empirical threshold derivation plus its rationale written into the module docstring in the same style as the existing 'Leading/trailing silence' note. Join the new column into quality_latency_joint.py alongside the existing ca_al_char_s. Add unit tests for the gap-exclusion remap with hand-computed toy examples, analogous to settle_times()'s own worked examples. Purely retroactive re-analysis of the same 102 existing experiment JSONs -- no new Deepgram/LLM calls, no pipeline code change.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
