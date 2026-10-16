@@ -1041,11 +1041,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/simul_latency_metrics.csv"
       ],
-      "result_summary": ""
+      "result_summary": "PARTIALLY CONFIRMED, with an honest residual the predicted_effect flagged as a possible outcome. Implemented mid-run gap exclusion (10s threshold, empirically derived: every one of the other 100 experiment JSONs has a max inter-utterance gap of <=8.25s, while only the two outlier full-lecture runs have gaps >10s, 7-8 of them each, 12.0-103.76s) in simul_latency_metrics.py, re-ran over all 102 experiment JSONs. RESULT: the two previously-anomalous runs drop substantially -- llm2025_ep8_zenhan_full_lecture 179.24s -> 59.70s (8 gaps excluded, 239.17s total excluded), llm2025_ep8_zenhan_full_lecture_v2_dict 199.32s -> 73.75s (7 gaps, 251.17s excluded) -- confirming most of the original inflation WAS a pure pause/segmentation artifact, as polak2026-meta-evaluation-latency-metrics predicts for naive AL on long-form audio. However the gap-excluded values (59.70s/73.75s) do NOT come down into the structurally-similar other lecture pair's range (-0.41s/15.06s) -- a large residual (~45-70s beyond that range) remains even after excluding every >10s silence. This is the \"genuine residual\" branch of the two predicted outcomes, not the \"pure artifact\" branch: some of this pipeline's own latency on these two runs is real, not measurement noise -- plausibly a translation backlog that does not fully drain across/after a long pause (the MT queue may still be working through pre-gap backlog when speech resumes), which would connect to h-mt-queue-wait-decomposition's own queue-wait findings but was not directly measured here (left for a future hypothesis, not chased in this cycle's unit of work). Verified the fix is precisely targeted: all other 100 runs have num_excluded_gaps=0 and ca_al_char_s_gapexcl byte-identical to ca_al_char_s (checked programmatically, not just spot-checked). Added 4 new unit tests (_excluded_gaps/_gap_exclusion_offset toy cases, an end-to-end hand-computed gap-exclusion case verifying 6.5s -> 1.5s on a synthetic 50s-gap toy, and a no-gap case confirming byte-identical output) alongside the existing 5; all 9 pass, full suite (38 tests) passes, ruff clean. No pipeline code touched, no new Deepgram/LLM calls -- pure retroactive re-analysis, \\/bin/bash spend."
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 13,
-  "last_updated": "2026-10-16T12:33:24.395467+00:00",
+  "last_updated": "2026-10-16T12:34:06.056844+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1655,6 +1655,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-16T12:33:24.395406+00:00",
       "note": "cycle 61 RUN_EXPERIMENTS: picked h-ca-al-gap-exclusion-softsegmenter (the only $0, no-live-API queued hypothesis; the other 3 queued need OpenAI API, a live Deepgram ASR run, or human viewing time). Implemented gap exclusion in simul_latency_metrics.py, added unit tests, re-ran over all 102 experiment JSONs + re-joined quality_latency_joint.py. Committed (a025d3f)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-16T12:34:06.056811+00:00",
+      "note": "cycle 61 ANALYZE_RESULTS: h-ca-al-gap-exclusion-softsegmenter result_summary written. Gap exclusion substantially reduces the two outlier runs (179->60s, 199->74s) confirming most inflation was a pause/segmentation artifact, but a large residual (45-70s) remains beyond the other lecture pair's range -- partial confirmation, not a clean fix. status=tested."
     }
   ]
 }
