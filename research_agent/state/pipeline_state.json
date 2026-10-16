@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 13,
-  "last_updated": "2026-10-16T00:38:15.453967+00:00",
+  "last_updated": "2026-10-16T12:23:58.675746+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1637,6 +1637,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-16T00:38:15.453932+00:00",
       "note": "cycle 60 REFLECT complete (reflections.md entry written, no PLAYBOOK.md changes). Backlog has actionable queued work (3 items) plus a concretely-motivated follow-up candidate (gap-exclusion refinement to simul_latency_metrics.py), so skipping SEARCH_PAPERS and starting cycle 61 at GENERATE_HYPOTHESES."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-16T12:23:58.675707+00:00",
+      "note": "cycle 61 GENERATE_HYPOTHESES: added 1 new hypothesis (h-ca-al-gap-exclusion-softsegmenter), a SOFTSEGMENTER-style mid-run gap exclusion for ca_al_char_s, per cycle 60 reflection's own stated priority. Backlog now 4 proposed/queued (3 pre-existing queued unchanged + this 1 new proposed), under the ~6 cap. No proposed-with-null-approval items were left unprocessed before adding this (checked: 0 prior to this entry)."
     }
   ]
 }
