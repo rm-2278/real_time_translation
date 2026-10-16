@@ -3322,3 +3322,91 @@ positive` or `h-judge-cross-model-agreement-check` can finally run; (2) if a new
 hypothesis is warranted, the gap-exclusion/SOFTSEGMENTER-style refinement to this
 cycle's `simul_latency_metrics.py` is a well-motivated, concretely-scoped, zero-cost
 candidate backed by this cycle's own measured gap statistics.
+
+## Cycle 61 (2026-10-16, scheduled run)
+
+**What worked:** Picking up exactly the next action cycle 60's own reflection named
+(the gap-exclusion/SOFTSEGMENTER-style refinement to `simul_latency_metrics.py`)
+meant GENERATE_HYPOTHESES this cycle needed almost no fresh exploration -- the hard
+part (finding the right empirical threshold) was mostly a matter of actually running
+the numbers rather than guessing. Computing the inter-utterance gap distribution
+directly from raw event timestamps (not through the existing translation-span
+grouping) was the right call: my first attempt reused the span-grouping helper
+style and silently merged several of the real gaps across continuation-chain
+boundaries, giving a max gap of 29.53s for the worst file when the real number
+(cross-checked against deduped raw `(asr_start_time, asr_end_time)` pairs) is
+103.76s. Caught this before writing the hypothesis text, not after, by directly
+validating the computed numbers against the specific 104/90/55s figures already in
+`h-computation-aware-laal-enja`'s own result_summary -- a concrete instance of the
+GENERATE_HYPOTHESES near-miss pattern this file already warns about ("verify an
+empirical claim against the actual code/data before finalizing the hypothesis
+text"), this time catching my own derivation error rather than a stale assumption
+about an existing field.
+
+**What didn't fully resolve:** The hypothesis's own predicted_effect named two
+honest possible outcomes (pure artifact vs. genuine residual) and the real result
+landed on the less clean one: gap exclusion cuts the two outlier runs roughly
+in half to two-thirds (179->60s, 199->74s) but leaves a 45-70s gap versus the
+structurally-similar other lecture pair's -0.4/15.1s range. I reported this
+plainly in both the hypothesis's result_summary and the Japanese report rather
+than rounding it up to "confirmed" -- the predicted_effect section explicitly
+asked for this and it would have been easy to oversell the before/after drop
+(179->60 does sound like a win in isolation) without checking it against the
+right comparison point.
+
+**Backlog/budget calibration:** Backlog is 4 queued now that
+`h-ca-al-gap-exclusion-softsegmenter` moved from newly-proposed through to
+`tested` within this same cycle (all 1 new hypothesis processed end-to-end, none
+left mid-pipeline). The other 3 queued items
+(`h-judge-cross-model-agreement-check`, `h-review-short-acronym-keyterm-false-
+positive`, `h-continuous-rating-cps-calibration`) are unchanged -- still blocked on
+OpenAI reachability, Deepgram reachability, and human viewing time respectively,
+none of which this cycle attempted to re-check (the $0 retroactive hypothesis was
+a correct priority pick per PLAYBOOK's own ordering, but it does mean the
+reachability picture is now 1 cycle more stale than before). $0 spent this cycle,
+consistent with a purely retroactive re-analysis of already-saved experiment JSON
+-- no live Deepgram/LLM calls were needed or made. Budget policy: no change
+proposed.
+
+**Should the playbook change?** No changes made to PLAYBOOK.md this cycle. Worth
+recording for a future cycle rather than promoting to a bullet yet: when a new
+metric's computation depends on grouping events by *any* chaining/continuation
+heuristic (this cycle: translation-span grouping via `is_utterance_end` chains),
+and the thing being measured is specifically about *gaps* between groups, prefer
+computing that measurement directly from the raw per-event fields (here,
+deduped `(asr_start_time, asr_end_time)` pairs across the whole event list)
+rather than through the existing grouping helper, even when that helper is
+well-tested for its own original purpose (utterance-level translation-quality
+analysis) -- a grouping heuristic's edge cases (continuation chains spanning a
+real gap) can be exactly invisible for its original use case while being exactly
+the thing that corrupts a new, differently-shaped measurement built on top of it.
+Not promoting this to a standing GENERATE_HYPOTHESES bullet yet since it's a
+narrower, more specific case of the existing "verify empirical claims against the
+actual code/data" bullet -- noting it here is enough until a future cycle
+rediscovers the same trap with a different grouping helper.
+
+**Notification decision:** Not sending a PushNotification this cycle. No new
+`needs_human` item, no budget concern, and the environment wasn't even touched
+(this hypothesis needed no Deepgram/GOOGLE_API_KEY/OpenAI reachability at all,
+since it is a pure retroactive re-analysis of already-saved experiment JSON -- no
+degraded-mode gap to flag either). The partial-confirmation result (a real but
+unexplained residual latency on the two outlier lecture runs) is interesting and
+written up plainly in the Japanese report and this entry, but it is a research
+finding for rm-2278 to read whenever convenient, not something that needs to
+interrupt them -- same call as cycle 60 made for its own non-urgent finding.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` for cycle 62 (not
+`SEARCH_PAPERS`): the backlog still has 3 actionable queued items blocked only on
+reachability checks or human time, not on a lack of hypotheses, and this cycle's
+own finding (a plausible post-gap translation-backlog residual, connectable to
+`h-mt-queue-wait-decomposition`) is a concretely-motivated candidate for a future
+GENERATE_HYPOTHESES pass -- a fresh literature search is not the bottleneck right
+now. Highest-priority next actions, in order: (1) re-check Deepgram
+listen-websocket and OpenAI REST/WS reachability in this environment (unchanged
+from cycle 60's own top priority, still not re-tested two cycles running) to see
+if `h-review-short-acronym-keyterm-false-positive` or
+`h-judge-cross-model-agreement-check` can finally run; (2) if a new hypothesis is
+warranted instead, measuring the post-gap translation-queue-wait residual found
+this cycle (via `mt_latency_decomposition.py`'s existing method, scoped to
+batches immediately following one of this cycle's excluded gaps) is a
+well-motivated, concretely-scoped, zero-cost candidate.
