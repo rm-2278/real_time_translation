@@ -130,6 +130,35 @@ number in this module already includes full Deepgram+queue+LLM wall
 time), not a claim of metric parity -- see the Japanese report and
 `reflections.md` for how large the residual mid-run-pause effect still
 is on this repo's own long-form runs.
+
+Mid-run gap exclusion (h-ca-al-gap-exclusion-softsegmenter, cycle 61):
+`ca_al_char_s_gapexcl` extends the fix above to *mid-run* silence, the gap
+left open by the note above. Confirmed empirically across all 102
+experiment JSONs (deduped, sorted `(asr_start_time, asr_end_time)`
+utterance intervals from every event, not just translation events): every
+run other than the two `20260918_llm2025_ep8_zenhan_full_lecture*` ones has
+a largest inter-utterance gap of at most 8.25s (`20260722_
+en_talk_transition_accuracy_check.json`), while those two lecture runs each
+have 6 gaps of 12.0-103.76s (totalling ~235s/~311s of extended dead air per
+run) with nothing in between the two populations (no gap anywhere in the
+corpus falls in (8.25s, 12.0s]). `GAP_EXCLUSION_THRESHOLD_S = 10.0`
+(this module's constant) sits in that empty zone by construction, so it
+reclassifies exactly the six outlier-lecture gaps as "extended" and leaves
+every other run's gap structure, and therefore its `ca_al_char_s_gapexcl`
+value, identical to `ca_al_char_s` (see `_exclude_large_gaps()`). This is
+**not** a reimplementation of SOFTSEGMENTER's actual (cross-system,
+reference-aware) algorithm -- it is a simplified, single-system,
+single-condition approximation of its spirit (don't let an
+arbitrary-length silence masquerade as "the system is behind"): for each
+gap longer than the threshold, only the *excess* beyond the threshold is
+excluded from both the elapsed-time denominator `S` and every subsequent
+settle time (i.e. the ideal-rate clock is treated as paused only for the
+excess portion, not the whole gap -- a gap at or under the threshold is
+still charged normally, consistent with every well-behaved run never
+exceeding 8.25s). See the Japanese report and `reflections.md` cycle 61
+for whether this moves the two outlier runs' AL into the same range as
+the rest of the corpus, or leaves a residual gap worth treating as a real
+pipeline effect rather than a pure measurement artifact.
 """
 
 from __future__ import annotations
@@ -146,6 +175,13 @@ from real_time_translation.experiments.stats import mean, median
 
 _VTT_TIMESTAMP_RE = re.compile(r"(\d\d:\d\d:\d\d\.\d\d\d) --> (\d\d:\d\d:\d\d\.\d\d\d)")
 _VTT_TAG_RE = re.compile(r"<[^>]+>")
+
+# See the module docstring's "Mid-run gap exclusion" section for the
+# empirical derivation: every experiment other than the two outlier full
+# lecture runs has a largest inter-utterance gap of at most 8.25s, while
+# those two have several gaps of 12.0-103.76s -- this threshold sits in the
+# empty zone between the two populations.
+GAP_EXCLUSION_THRESHOLD_S = 10.0
 
 
 def _longest_common_prefix_len(a: str, b: str) -> int:
@@ -231,6 +267,67 @@ def _speech_span(events: list[dict]) -> tuple[float, float] | None:
     return min(starts), max(ends)
 
 
+def _asr_utterance_intervals(events: list[dict]) -> list[tuple[float, float]]:
+    """Deduped, chronologically sorted `(asr_start_time, asr_end_time)`
+    pairs across *every* event (any `kind`), not grouped into translation
+    spans -- grouping by translation-span chaining was tried first and
+    silently merged several of these intervals across the very gaps this
+    function needs to find (continuation/revision batches can share a span
+    across what is, at the raw-utterance level, a large real gap), so this
+    works directly off the raw per-event timestamps instead, validated
+    against the exact gap sizes quoted in the module docstring."""
+    seen: set[tuple[float, float]] = set()
+    intervals: list[tuple[float, float]] = []
+    for e in events:
+        start, end = e.get("asr_start_time"), e.get("asr_end_time")
+        if start is None or end is None:
+            continue
+        key = (round(start, 3), round(end, 3))
+        if key not in seen:
+            seen.add(key)
+            intervals.append(key)
+    intervals.sort()
+    return intervals
+
+
+@dataclass(frozen=True)
+class _ExcludedGap:
+    gap_start: float  # end of the utterance before the gap
+    excl_begin: float  # gap_start + threshold -- exclusion starts here
+    gap_end: float  # start of the utterance after the gap
+    excluded_s: float  # gap_end - excl_begin
+
+
+def _excluded_gaps(
+    intervals: list[tuple[float, float]], threshold_s: float
+) -> list[_ExcludedGap]:
+    gaps: list[_ExcludedGap] = []
+    for (_, prev_end), (next_start, _) in zip(intervals, intervals[1:], strict=False):
+        gap = next_start - prev_end
+        if gap > threshold_s:
+            gaps.append(
+                _ExcludedGap(
+                    gap_start=prev_end,
+                    excl_begin=prev_end + threshold_s,
+                    gap_end=next_start,
+                    excluded_s=gap - threshold_s,
+                )
+            )
+    return gaps
+
+
+def _gap_exclusion_offset(excluded: list[_ExcludedGap], t: float) -> float:
+    """Cumulative excluded time charged against elapsed-time `t`: 0 before
+    a gap's exclusion begins, the excess within it while `t` is inside the
+    excluded portion, the gap's full excluded amount once `t` is past it."""
+    total = 0.0
+    for g in excluded:
+        if t <= g.excl_begin:
+            continue
+        total += min(t, g.gap_end) - g.excl_begin
+    return total
+
+
 def _source_duration_seconds(input_cfg: dict, events: list[dict]) -> float | None:
     span = _speech_span(events)
     if span is not None:
@@ -312,6 +409,9 @@ class AlReport:
     vtt_video_id: str
     ref_chars: int | None
     ca_al_vtt_refrate_char_s: float | None
+    ca_al_char_s_gapexcl: float
+    num_excluded_gaps: int
+    excluded_gap_total_s: float
 
 
 def analyze_experiment(path: Path) -> AlReport | None:
@@ -360,6 +460,28 @@ def analyze_experiment(path: Path) -> AlReport | None:
         ]
         ca_al_vtt_refrate = sum(lags_ref) / len(lags_ref)
 
+    intervals = _asr_utterance_intervals(events)
+    excluded = _excluded_gaps(intervals, GAP_EXCLUSION_THRESHOLD_S)
+    excluded_total = sum(g.excluded_s for g in excluded)
+    duration_gapexcl = duration - excluded_total
+    if excluded and duration_gapexcl > 0:
+        gamma_gapexcl = n / duration_gapexcl
+        settle_gapexcl = [
+            (t - t0) - _gap_exclusion_offset(excluded, t) for t in global_settle
+        ]
+        tau_gapexcl = n
+        for idx, d in enumerate(settle_gapexcl, start=1):
+            if d >= duration_gapexcl:
+                tau_gapexcl = idx
+                break
+        lags_gapexcl = [
+            settle_gapexcl[i - 1] - (i - 1) / gamma_gapexcl
+            for i in range(1, tau_gapexcl + 1)
+        ]
+        ca_al_gapexcl = sum(lags_gapexcl) / len(lags_gapexcl)
+    else:
+        ca_al_gapexcl = ca_al
+
     return AlReport(
         json_path=str(path),
         experiment_name=data.get("experiment_name", path.stem),
@@ -373,6 +495,9 @@ def analyze_experiment(path: Path) -> AlReport | None:
         vtt_video_id=vtt_video_id,
         ref_chars=ref_chars,
         ca_al_vtt_refrate_char_s=ca_al_vtt_refrate,
+        ca_al_char_s_gapexcl=ca_al_gapexcl,
+        num_excluded_gaps=len(excluded),
+        excluded_gap_total_s=excluded_total,
     )
 
 
@@ -418,6 +543,9 @@ def main() -> None:
                 "vtt_video_id",
                 "ref_chars",
                 "ca_al_vtt_refrate_char_s",
+                "ca_al_char_s_gapexcl",
+                "num_excluded_gaps",
+                "excluded_gap_total_s",
             ]
         )
         for r in reports:
@@ -435,6 +563,9 @@ def main() -> None:
                     r.vtt_video_id,
                     r.ref_chars,
                     r.ca_al_vtt_refrate_char_s,
+                    r.ca_al_char_s_gapexcl,
+                    r.num_excluded_gaps,
+                    r.excluded_gap_total_s,
                 ]
             )
 
@@ -460,6 +591,16 @@ def main() -> None:
             "NOT LAAL -- see module docstring) across "
             f"{len(refrate_values)} run(s) with a matching .ja.vtt: "
             f"mean={mean(refrate_values):.3f}s median={median(refrate_values):.3f}s"
+        )
+    gapexcl_values = [r.ca_al_char_s_gapexcl for r in reports]
+    affected = [r for r in reports if r.num_excluded_gaps > 0]
+    if gapexcl_values:
+        print(
+            f"ca_al_char_s_gapexcl (mid-run gap exclusion, threshold="
+            f"{GAP_EXCLUSION_THRESHOLD_S}s -- see module docstring) across "
+            f"{len(gapexcl_values)} run(s): mean={mean(gapexcl_values):.3f}s "
+            f"median={median(gapexcl_values):.3f}s; {len(affected)} run(s) had "
+            "at least one excluded gap"
         )
 
 

@@ -27,7 +27,8 @@ repo's event log lacks. For SPEECH source (what this repo actually has),
 `simul_latency_metrics.py` computes character-level, computation-aware AL
 retroactively from the same event log's `playback_offset` timestamps --
 no token alignment needed. That module's own `ca_al_char_s` /
-`ca_al_vtt_refrate_char_s` columns are joined in below.
+`ca_al_vtt_refrate_char_s` / `ca_al_char_s_gapexcl` (cycle 61,
+mid-run-silence-excluded variant) columns are joined in below.
 """
 
 from __future__ import annotations
@@ -100,6 +101,7 @@ def main() -> None:
         "mt_stream_duration_mean_s",
         "ca_al_char_s",
         "ca_al_vtt_refrate_char_s",
+        "ca_al_char_s_gapexcl",
     ]
 
     rows_out: list[dict[str, str]] = []
@@ -133,6 +135,9 @@ def main() -> None:
                     ),
                     "ca_al_vtt_refrate_char_s": simul_latency.get(name, {}).get(
                         "ca_al_vtt_refrate_char_s", ""
+                    ),
+                    "ca_al_char_s_gapexcl": simul_latency.get(name, {}).get(
+                        "ca_al_char_s_gapexcl", ""
                     ),
                 }
             )
