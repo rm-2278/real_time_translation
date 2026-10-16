@@ -3244,3 +3244,81 @@ sessions, but this session's own DEEPGRAM_API_KEY/GOOGLE_API_KEY check came back
 positive where several recent sessions found at least one blocked, so the egress
 picture may have changed) before deciding whether `h-review-short-acronym-keyterm-false-positive`
 or `h-judge-cross-model-agreement-check` can finally be unblocked.
+
+## Cycle 60 (2026-10-16, scheduled session)
+
+**What worked / what didn't:** GENERATE_HYPOTHESES correctly deferred to processing
+existing queued work (per cycle 59's own hand-off note) instead of adding more to an
+already-adequate backlog. The implementation itself worked well as a *process*: before
+trusting the first corpus-wide run, I deliberately spot-checked individual numbers
+against intuition (full-lecture AL should be roughly comparable to the per-utterance
+`avg_mt_latency_seconds`/`wall_clock_lag` numbers already in results.csv, not two orders
+of magnitude larger) and that caught a real bug (anchoring the ideal-rate line at t=0
+instead of speech start, inflated by ~75s of lead-in dead air) before it reached the
+report or hypotheses.json. This is exactly the "verify an empirical claim against the
+actual data, don't just trust the formula" discipline PLAYBOOK.md's GENERATE_HYPOTHESES
+section has repeatedly had to learn the hard way (cycles 13/17/20) -- this time it paid
+off during RUN_EXPERIMENTS/ANALYZE_RESULTS instead of being caught after the fact. What
+didn't fully resolve: even after that fix, the metric is still dominated by a second,
+real (not buggy) effect -- a specific long-form recording's own internal pause structure
+-- which I diagnosed (traced to top gaps of 104s/90s/55s vs. a comparable run's max 8.2s)
+but did not fix within this cycle's scope (a proper fix would be a SOFTSEGMENTER-style
+gap-exclusion policy, which is its own hypothesis, not a one-line patch). I also
+implemented a second column (`ca_al_vtt_refrate_char_s`) whose sign came out
+counter-intuitive relative to what I understood Papi et al.'s LAAL correction to be
+doing -- rather than guess at the "right" sign/formula from memory (risking confidently
+asserting something wrong, the exact failure mode cycle 20's GATE_MIN_WORDS strict-
+inequality near-miss warns about for *code*, here applied to *citing a paper's formula*
+instead), I deliberately renamed it away from "LAAL" and documented the discrepancy
+plainly in both the module docstring and the Japanese report, flagged for a future
+READ_PAPERS verification pass. I think this was the right call: an honestly-labeled
+"I'm not sure this is right, here's why" is more useful to a future session (or to
+rm-2278) than a confidently-named metric that quietly encodes an unverified guess.
+
+**Backlog/budget calibration:** Backlog is down to 3 queued now that
+`h-computation-aware-laal-enja` moved to `tested`
+(`h-judge-cross-model-agreement-check`, `h-review-short-acronym-keyterm-false-positive`,
+`h-continuous-rating-cps-calibration` remain, all blocked on either a reachability
+re-check or human viewing time). Room for up to 3 more before the ~6 cap, but per
+PLAYBOOK's own backlog-depth-over-breadth guidance and this session's remaining
+scope, I did not use GENERATE_HYPOTHESES this cycle to add any -- the pause-sensitivity
+finding above is a good candidate for a *future* cycle's GENERATE_HYPOTHESES pass (a
+SOFTSEGMENTER-style gap-exclusion refinement to `simul_latency_metrics.py`), not
+something to rush into this same cycle on top of an already-substantial implementation.
+$0 spent today (2026-10-16), consistent with $0 spent on this hypothesis (pure
+retroactive analysis, no live Deepgram/LLM calls). Budget policy itself: no change
+proposed this cycle.
+
+**Should the playbook change?** No changes made to PLAYBOOK.md this cycle. One thing
+worth recording here instead of promoting to a standing PLAYBOOK bullet yet: when a
+GENERATE_HYPOTHESES-stage hypothesis explicitly asks to reproduce or approximate a named
+academic metric (this cycle: LAAL) from memory rather than from a freshly re-read
+primary source, and the implementation's own sanity check comes out directionally
+counter-intuitive, the right move is to rename/relabel the output rather than force a
+confident claim of equivalence -- consistent in spirit with the existing GENERATE_HYPOTHESES
+near-miss list ("verify an empirical claim against the actual code/data before
+finalizing the hypothesis text"), just applied to a *paper's formula* rather than *this
+repo's own code*. Not promoting to a new bullet yet, same as cycle 59's call on its own
+cross-distribution near-miss -- noting it here is enough until a future cycle falls into
+the same trap despite this entry existing.
+
+**Notification decision:** Not sending a PushNotification this cycle. Nothing here rises
+to "the human needs to act now": no new `needs_human` item, no budget concern, no
+environment breakage (DEEPGRAM_API_KEY/GOOGLE_API_KEY reachability wasn't even needed
+for this $0 retroactive hypothesis). The pause-sensitivity finding and the LAAL-sign
+discrepancy are both already written up plainly in the Japanese report and this entry
+for rm-2278 to read whenever convenient -- interesting, but not urgent or surprising
+enough to interrupt for.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` for cycle 61 (not
+`SEARCH_PAPERS` -- same reasoning as recent cycles: the backlog still has actionable
+queued work and an unexplored, concretely-motivated follow-up (gap-exclusion refinement
+to `simul_latency_metrics.py`), so a fresh literature search is not the bottleneck right
+now). Highest-priority next actions, in order: (1) re-check Deepgram listen-websocket and
+OpenAI REST/WS reachability in this environment (both have been blocked in most recent
+sessions but this picture has shifted before and is worth re-testing before writing
+either queued hypothesis off again), to see if `h-review-short-acronym-keyterm-false-
+positive` or `h-judge-cross-model-agreement-check` can finally run; (2) if a new
+hypothesis is warranted, the gap-exclusion/SOFTSEGMENTER-style refinement to this
+cycle's `simul_latency_metrics.py` is a well-motivated, concretely-scoped, zero-cost
+candidate backed by this cycle's own measured gap statistics.
