@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 13,
-  "last_updated": "2026-10-16T12:25:04.694797+00:00",
+  "last_updated": "2026-10-16T12:33:24.395467+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1649,6 +1649,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-16T12:25:04.694746+00:00",
       "note": "cycle 61 HUMAN_APPROVAL: h-ca-al-gap-exclusion-softsegmenter checked via check-budget 0.0 -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued (normal auto-approve path, not the self-approval/needs_human gate). No other proposed/null-approval entries existed. 4 hypotheses now queued with approval != needs_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-ca-al-gap-exclusion-softsegmenter)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-16T12:33:24.395406+00:00",
+      "note": "cycle 61 RUN_EXPERIMENTS: picked h-ca-al-gap-exclusion-softsegmenter (the only $0, no-live-API queued hypothesis; the other 3 queued need OpenAI API, a live Deepgram ASR run, or human viewing time). Implemented gap exclusion in simul_latency_metrics.py, added unit tests, re-ran over all 102 experiment JSONs + re-joined quality_latency_joint.py. Committed (a025d3f)."
     }
   ]
 }
