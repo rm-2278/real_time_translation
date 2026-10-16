@@ -20,6 +20,14 @@ disk, which is enough to let a human eyeball whether a config that "wins"
 on latency also "loses" on quality across an existing sweep (e.g. the
 endpointing or masking-holdback experiments), which is the actual thing the
 literature's complaint is about (a single scalar hiding a real tradeoff).
+
+Update (h-computation-aware-laal-enja, cycle 60): the sentence above is
+only true for TEXT source, where AL/LAAL need per-token alignment this
+repo's event log lacks. For SPEECH source (what this repo actually has),
+`simul_latency_metrics.py` computes character-level, computation-aware AL
+retroactively from the same event log's `playback_offset` timestamps --
+no token alignment needed. That module's own `ca_al_char_s` /
+`ca_al_vtt_refrate_char_s` columns are joined in below.
 """
 
 from __future__ import annotations
@@ -63,6 +71,11 @@ def main() -> None:
         default=Path("experiments/mt_latency_decomposition.csv"),
     )
     parser.add_argument(
+        "--simul-latency-csv",
+        type=Path,
+        default=Path("experiments/simul_latency_metrics.csv"),
+    )
+    parser.add_argument(
         "--out-csv", type=Path, default=Path("experiments/quality_latency_joint.csv")
     )
     args = parser.parse_args()
@@ -73,6 +86,7 @@ def main() -> None:
     cla = _read_csv_by_key(args.cla_csv, "experiment_name")
     flicker = _read_csv_by_key(args.flicker_csv, "experiment_name")
     decomp = _read_csv_by_key(args.mt_decomposition_csv, "experiment_name")
+    simul_latency = _read_csv_by_key(args.simul_latency_csv, "experiment_name")
 
     fieldnames = [
         "experiment_name",
@@ -84,6 +98,8 @@ def main() -> None:
         "translation_ne_char_cross_batch_mean",
         "mt_queue_wait_median_s",
         "mt_stream_duration_mean_s",
+        "ca_al_char_s",
+        "ca_al_vtt_refrate_char_s",
     ]
 
     rows_out: list[dict[str, str]] = []
@@ -111,6 +127,12 @@ def main() -> None:
                     ),
                     "mt_stream_duration_mean_s": decomp.get(name, {}).get(
                         "stream_duration_mean_s", ""
+                    ),
+                    "ca_al_char_s": simul_latency.get(name, {}).get(
+                        "ca_al_char_s", ""
+                    ),
+                    "ca_al_vtt_refrate_char_s": simul_latency.get(name, {}).get(
+                        "ca_al_vtt_refrate_char_s", ""
                     ),
                 }
             )

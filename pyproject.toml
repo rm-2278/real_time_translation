@@ -55,6 +55,7 @@ real-time-translation-exp-technical-term-recall = "real_time_translation.experim
 real-time-translation-caption-latency-diagnostics = "real_time_translation.experiments.latency_diagnostics:main"
 real-time-translation-fidelity-judge = "real_time_translation.experiments.translation_fidelity_judge:main"
 real-time-translation-exp-perceived-drop = "real_time_translation.experiments.perceived_drop_analysis:main"
+real-time-translation-exp-simul-latency = "real_time_translation.experiments.simul_latency_metrics:main"
 
 [build-system]
 requires = ["hatchling"]
