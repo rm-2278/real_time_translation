@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
-  "cycle": 13,
-  "last_updated": "2026-10-14T12:30:23.522348+00:00",
+  "current_state": "SEARCH_PAPERS",
+  "cycle": 14,
+  "last_updated": "2026-10-17T12:17:41.350503+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1529,6 +1529,186 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-14T12:30:23.522311+00:00",
       "note": "Cycle 57 reflection complete, see reflections.md. Advancing straight to GENERATE_HYPOTHESES (skip SEARCH_PAPERS): most valuable next hypothesis is a direct follow-up to this cycle's own finding (cue-overwrite/never-shown effect), not new literature."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-15T00:24:18.641743+00:00",
+      "note": "cycle 58: added h-cue-minimum-visibility-guarantee (follow-up to cycle 57's cue-overwrite finding); backlog now 6/6 cap, no more new hypotheses this cycle. Moving to HUMAN_APPROVAL to process it + re-check the rest of the backlog."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-15T00:25:44.772315+00:00",
+      "note": "cycle 58: all 6 backlog hypotheses have approval set (none needs_human). Advancing to RUN_EXPERIMENTS to pick one (prefer $0 retroactive)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-15T00:29:49.168502+00:00",
+      "note": "cycle 58: ran cue_minimum_visibility_replay.py over 102 experiments/*.json for h-cue-minimum-visibility-guarantee, $0 no API calls. Setting status=testing before analysis per PLAYBOOK's commit-now rule."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-15T00:31:05.116144+00:00",
+      "note": "cycle 58: h-cue-minimum-visibility-guarantee analyzed (confirmed predicted tradeoff + found new per-event drift failure mode). Advancing to WRITE_REPORT."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-10-15T00:31:59.765862+00:00",
+      "note": "cycle 58: Japanese report written (research_agent/reports/20261015_cycle58_report.md). Advancing to REFLECT."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-15T00:32:46.898911+00:00",
+      "note": "cycle 58 REFLECT -> GENERATE_HYPOTHESES (start cycle 59). Backlog already has actionable $0 queue items; process those before adding new hypotheses, per PLAYBOOK."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-15T12:20:34.659787+00:00",
+      "note": "cycle 59: backlog has 5 queued (2 actionable $0 retroactive: h-computation-aware-laal-enja, h-interim-source-preview-overlay; others blocked on OPENAI_API_KEY WS/REST egress, Deepgram WS, or human viewing time). Not adding a new hypothesis this cycle per cycle-58 reflection's guidance to process the existing queue first. Moving to HUMAN_APPROVAL to re-confirm approval status."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-15T12:20:40.284456+00:00",
+      "note": "cycle 59: all 5 queued hypotheses already have approval set (approved_by_human), none needs_human/null. Advancing to RUN_EXPERIMENTS to pick a $0 retroactive item (h-computation-aware-laal-enja or h-interim-source-preview-overlay)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-15T12:27:46.322113+00:00",
+      "note": "cycle 59: ran interim_preview_timing.py for h-interim-source-preview-overlay Step 1 over 97 experiments/*.json with event logs, $0 no API calls. Setting status=tested (analysis done inline) before commit per PLAYBOOK's commit-now rule."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-15T12:27:55.788626+00:00",
+      "note": "cycle 59: h-interim-source-preview-overlay Step 1 analyzed and confirmed (result_summary written). Advancing to WRITE_REPORT."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-10-15T12:28:43.270999+00:00",
+      "note": "cycle 59: Japanese report written (research_agent/reports/20261015_cycle59_report.md). 00_pipeline_overview_ja.md not touched -- no material pipeline-shape change this cycle. Advancing to REFLECT."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-15T12:29:24.547572+00:00",
+      "note": "cycle 59 REFLECT -> GENERATE_HYPOTHESES (start cycle 60). Backlog still has actionable queued work (h-computation-aware-laal-enja); process that before adding new hypotheses, per PLAYBOOK."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-16T00:27:09.633851+00:00",
+      "note": "cycle 60 GENERATE_HYPOTHESES: no new hypotheses written. Backlog is 4 queued (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-computation-aware-laal-enja, h-continuous-rating-cps-calibration), under the ~6 cap, and none are proposed-with-null-approval, so per PLAYBOOK prioritizing processing existing queued work over adding more. Per cycle 59's reflections.md, highest-priority actionable item is h-computation-aware-laal-enja ($0, already approved_by_human, needs only implementation)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-16T00:27:16.077916+00:00",
+      "note": "h-computation-aware-laal-enja is already approval=approved_by_human, status=queued, estimated_cost_usd=0.0 (pure retroactive analysis, check-budget confirms AUTO_APPROVE). h-judge-cross-model-agreement-check and h-review-short-acronym-keyterm-false-positive remain queued but blocked on reachability checks (OpenAI / Deepgram WS) not re-verified this cycle; h-continuous-rating-cps-calibration needs human viewing time, not agent-executable. Proceeding to implement+run h-computation-aware-laal-enja only."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-16T00:35:05.015170+00:00",
+      "note": "h-computation-aware-laal-enja: implementation validated against hand-computed toy examples (5 unit tests, all passing), confirmed real ruff/pytest green. Run over 102 experiments with results.events. Analyzing results now."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-16T00:36:32.784928+00:00",
+      "note": "h-computation-aware-laal-enja analyzed: partial confirmation of predicted effect, with a found/fixed lead-in-silence bug and a found-but-unresolved pause-sensitivity issue on long-form runs (traced to specific recording's own pause structure, not a code defect). Writing Japanese report."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-10-16T00:37:34.941612+00:00",
+      "note": "cycle 60 Japanese report written (research_agent/reports/20261016_cycle60_report.md). Proceeding to REFLECT."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-16T00:38:15.453932+00:00",
+      "note": "cycle 60 REFLECT complete (reflections.md entry written, no PLAYBOOK.md changes). Backlog has actionable queued work (3 items) plus a concretely-motivated follow-up candidate (gap-exclusion refinement to simul_latency_metrics.py), so skipping SEARCH_PAPERS and starting cycle 61 at GENERATE_HYPOTHESES."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-16T12:23:58.675707+00:00",
+      "note": "cycle 61 GENERATE_HYPOTHESES: added 1 new hypothesis (h-ca-al-gap-exclusion-softsegmenter), a SOFTSEGMENTER-style mid-run gap exclusion for ca_al_char_s, per cycle 60 reflection's own stated priority. Backlog now 4 proposed/queued (3 pre-existing queued unchanged + this 1 new proposed), under the ~6 cap. No proposed-with-null-approval items were left unprocessed before adding this (checked: 0 prior to this entry)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-16T12:25:04.694746+00:00",
+      "note": "cycle 61 HUMAN_APPROVAL: h-ca-al-gap-exclusion-softsegmenter checked via check-budget 0.0 -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued (normal auto-approve path, not the self-approval/needs_human gate). No other proposed/null-approval entries existed. 4 hypotheses now queued with approval != needs_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-ca-al-gap-exclusion-softsegmenter)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-16T12:33:24.395406+00:00",
+      "note": "cycle 61 RUN_EXPERIMENTS: picked h-ca-al-gap-exclusion-softsegmenter (the only $0, no-live-API queued hypothesis; the other 3 queued need OpenAI API, a live Deepgram ASR run, or human viewing time). Implemented gap exclusion in simul_latency_metrics.py, added unit tests, re-ran over all 102 experiment JSONs + re-joined quality_latency_joint.py. Committed (a025d3f)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-16T12:34:06.056811+00:00",
+      "note": "cycle 61 ANALYZE_RESULTS: h-ca-al-gap-exclusion-softsegmenter result_summary written. Gap exclusion substantially reduces the two outlier runs (179->60s, 199->74s) confirming most inflation was a pause/segmentation artifact, but a large residual (45-70s) remains beyond the other lecture pair's range -- partial confirmation, not a clean fix. status=tested."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-10-16T12:35:00.799253+00:00",
+      "note": "cycle 61 WRITE_REPORT: Japanese report written to research_agent/reports/20261016_cycle61_report.md covering h-ca-al-gap-exclusion-softsegmenter's implementation and partial-confirmation result."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-16T12:35:47.470101+00:00",
+      "note": "cycle 61 REFLECT -> GENERATE_HYPOTHESES (start cycle 62). Reflections written: gap-exclusion fix verified correct and precisely targeted, but a 45-70s residual latency remains unexplained on the two outlier lecture runs after gap exclusion -- a candidate for a future hypothesis (post-gap MT queue-wait measurement). Deepgram/OpenAI reachability still not re-checked for 2 cycles running -- top priority for next RUN_EXPERIMENTS pick. No PLAYBOOK.md changes, no notification sent (no urgent/needs_human item)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-17T00:22:21.911656+00:00",
+      "note": "Cycle 62: backlog was 3 queued/0 unprocessed-proposed (under ~6 cap), added 1 new hypothesis h-mt-queue-wait-post-gap-residual (zero-cost retroactive follow-up to cycle 61's unresolved AL residual, empirically pre-verified: post-gap batches show 5-7x elevated queue_wait_s vs baseline). Also fixed a stale '6 gaps each' docstring claim in simul_latency_metrics.py found while re-running _excluded_gaps() for verification (actual: 8 and 7 gaps)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-17T12:09:01.371956+00:00",
+      "note": "cycle 62 HUMAN_APPROVAL: h-mt-queue-wait-post-gap-residual checked via check-budget 0.0 -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued (normal auto-approve path). pending_approval.json is empty. Now 4 hypotheses sit queued (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration pre-existing + this new one), none needs_human."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-17T12:14:49.682153+00:00",
+      "note": "cycle 62 RUN_EXPERIMENTS: ran h-mt-queue-wait-post-gap-residual (the only $0, no-live-API queued hypothesis -- the other 3 queued need OpenAI API, a live Deepgram ASR run, or human viewing time per their own required_changes). Added post_gap_queue_wait.py joining simul_latency_metrics's excluded gaps with mt_latency_decomposition's queue_wait_s. Output experiments/post_gap_queue_wait.csv. $0 logged."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-17T12:15:31.602428+00:00",
+      "note": "cycle 62 ANALYZE_RESULTS: h-mt-queue-wait-post-gap-residual result_summary written (PARTIALLY CONFIRMED -- post-gap queue_wait elevated 4.5-5.9x baseline, but explains only 39.7%/54.9% of the cycle-61 AL residual on each outlier run, leaving a sizeable unexplained remainder)."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-10-17T12:16:24.795949+00:00",
+      "note": "cycle 62 WRITE_REPORT: Japanese report written to research_agent/reports/20261017_cycle62_report.md covering h-mt-queue-wait-post-gap-residual's implementation and partial-confirmation result (post-gap queue_wait elevated 4.5-5.9x, explains 39.7%/54.9% of each outlier run's AL residual). No change to 00_pipeline_overview_ja.md this cycle (pipeline shape unchanged)."
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-10-17T12:17:41.350474+00:00",
+      "note": "cycle 62 REFLECT complete (reflections.md entry written, no PLAYBOOK.md changes). Advancing to SEARCH_PAPERS for cycle 63: last real literature pass was cycle 57 (2026-10-13), 4 days/5 cycles ago, all generating hypotheses from existing experiment data rather than new literature -- a fresh pass is overdue. Also flagged: Deepgram/OpenAI reachability check has been skipped 3 cycles running (60,61,62), stalling 3 queued API-gated hypotheses; should be re-run next regardless of which hypothesis is picked."
     }
   ]
 }

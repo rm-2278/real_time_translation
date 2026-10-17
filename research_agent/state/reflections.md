@@ -3110,3 +3110,403 @@ empirical finding, not a new paper). Highest-priority next action: generate (if 
 cap allows) a hypothesis for a "guarantee minimum visibility" fix to the cue-overwrite
 effect, then continue processing the existing $0 queue
 (h-computation-aware-laal-enja / h-interim-source-preview-overlay Step 1).
+
+## Cycle 58 (2026-10-15, scheduled session)
+
+**What worked / what didn't:** The full GENERATE_HYPOTHESES -> HUMAN_APPROVAL ->
+RUN_EXPERIMENTS -> ANALYZE_RESULTS -> WRITE_REPORT loop ran cleanly in one session for
+a single new hypothesis, exactly the pattern cycle 57's reflection asked for. What
+worked well: writing the hypothesis's own `predicted_effect` as a genuine, falsifiable
+prediction (not just "this will help") paid off directly -- the first half of the
+prediction (never-shown converts to shown-but-under-1s, not eliminated) was confirmed
+almost exactly (29.8%->1.49% / 0%->42.03% pooled), which made the result easy to write
+up honestly as "confirmed, not a clean win" rather than forcing a positive spin. What
+didn't fully work: the hypothesis's own `required_changes` field, written during
+GENERATE_HYPOTHESES, specified "emit a forced Cue ... before starting the new cue's
+clock" without being precise about whether this operates at the EVENT level or the
+SEGMENT level -- that ambiguity is exactly what let the far more serious failure mode
+(553s of virtual-clock drift on a dense token-streaming experiment, from forcing a
+visibility-cue on every rapid within-segment partial update, not just real
+between-segment overwrites) slip past hypothesis design and only surface during
+RUN_EXPERIMENTS/ANALYZE_RESULTS. This is a new instance of a known pattern in this
+playbook (see the GENERATE_HYPOTHESES section's running list of near-misses from
+not verifying an empirical/algorithmic claim against the actual code before finalizing
+hypothesis text) -- except here the gap was in *my own* required_changes text, not in
+a claim about existing code. Lesson for next time a hypothesis proposes modifying an
+existing cut/cue/batching algorithm: explicitly state during GENERATE_HYPOTHESES
+whether the proposed change operates per-event or per-segment/per-finalized-unit, and
+sanity-check that choice against at least one experiment JSON with a high
+events-per-segment ratio (this corpus already has one, `20260806_hardest_5min_gpt54nano.json`,
+1806 events / 69 segments = 26:1) before writing required_changes, not just against a
+typical/representative one (the full lecture is closer to events-per-segment ~1-2:1
+and would never have surfaced this).
+
+**Backlog/budget calibration:** Backlog is now 5 queued
+(h-judge-cross-model-agreement-check [blocked: OPENAI_API_KEY REST reachable but WS/API
+untested this cycle, last confirmed blocked cycle 52], h-review-short-acronym-keyterm-false-positive
+[blocked: Deepgram WS handshake, unresolved since cycle 5, not retested this cycle],
+h-computation-aware-laal-enja, h-interim-source-preview-overlay [needs a new script],
+h-continuous-rating-cps-calibration [needs ~20-30min of actual human viewing, approved
+but not executable by an agent]) -- room for 1 more next GENERATE_HYPOTHESES pass, but
+per PLAYBOOK the two still-actionable $0 items (h-computation-aware-laal-enja,
+h-interim-source-preview-overlay) should be processed before adding anything new.
+$0 spent today (2026-10-15), consistent with $0 spent on this hypothesis (pure
+retroactive analysis, no `log-cost` call needed or made).
+
+**Should the playbook change?** No changes made this cycle. The one near-miss found
+above (per-event vs. per-segment ambiguity in a hypothesis's own required_changes) is
+narrow enough that it doesn't obviously generalize into a standing playbook rule the
+way the TimedEvent-field and boundary-operator near-misses did -- noting it here as a
+reflections.md lesson is enough for now; if a similar ambiguity bites a future
+algorithm-modifying hypothesis again, that would be the signal to promote it into
+PLAYBOOK.md's GENERATE_HYPOTHESES section as a standing check.
+
+**Notification decision:** Not sending a PushNotification this cycle -- the finding
+(a plausible-looking fix doesn't actually work, and a more severe failure mode was
+caught before any code reached the live pipeline) is exactly the kind of thing the
+pipeline is supposed to catch on its own and report in the next Japanese report, not
+an urgent interrupt. No new needs_human item, no budget cap concern, no environment
+breakage.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` for cycle 59 (not
+`SEARCH_PAPERS` -- the backlog already has actionable work and a fresh literature
+search isn't the bottleneck right now). Highest-priority next action: per the
+"process existing queue before adding new" rule, process
+`h-computation-aware-laal-enja` and/or `h-interim-source-preview-overlay` Step 1
+(both $0, retroactive, both need a new script) before writing any new hypothesis.
+A natural future hypothesis (not written this cycle, backlog has room for only one
+more and the $0 queue should come first) is a segment-boundary-aware version of this
+cycle's fix: force a minimum-visibility cue only when the overwritten text belongs to
+a genuinely different `(asr_start_time, asr_end_time)` key, not merely different text
+under the same key, to avoid the per-event drift failure mode found this cycle.
+
+## Cycle 59 (2026-10-15, scheduled session)
+
+**What worked / what didn't:** Followed cycle 58's own handoff instruction exactly --
+no new hypothesis written in GENERATE_HYPOTHESES, went straight to processing
+`h-interim-source-preview-overlay` Step 1 since the backlog already had actionable
+work. What worked well: this hypothesis's own description explicitly separated "Step 1
+($0, retroactive)" from "Step 2 (overlay.html change)", which made picking a cleanly
+bounded unit of work trivial -- no ambiguity about scope like cycle 58's
+required_changes ambiguity. The implementation itself was also low-risk: reusing
+`flicker_metrics.group_asr_interim`/`group_translation_by_utterance` for the grouping
+key and `TimedEvent.wall_clock_lag` directly (no new timestamp math) meant there was
+very little room for a subtle bug, and the result (median 1.166s/6.035s on the cited
+experiment) landing almost exactly on the hypothesis's own informal estimate
+(1.17s/6.01s) was a useful independent check that the *new* script's logic is sound,
+not just that the old eyeballed numbers were right. What was genuinely new information
+(not just confirmation): the naive "subtract the two separately-computed medians"
+approach the hypothesis implicitly used (6.035-1.166=4.869s) does NOT equal the
+properly joined per-utterance median (4.321s) on the same experiment -- a concrete,
+measured instance of exactly the kind of error this playbook's GENERATE_HYPOTHESES
+section has repeatedly warned about in other forms (treating two separately-computed
+distributions as if their summary statistics compose like the underlying paired
+values do). Worth keeping in mind for any future hypothesis that compares two
+timing/quality distributions that are not obviously independent per-item.
+
+**Backlog/budget calibration:** Backlog is back down to... actually still 5 queued
+(`h-interim-source-preview-overlay` is now `tested`, not removed from the backlog
+count methodology -- see PLAYBOOK's "queued OR proposed" counting rule: a `tested`
+hypothesis no longer counts toward the cap). Remaining queued: `h-judge-cross-model-agreement-check`
+(blocked: OPENAI_API_KEY reachability untested since cycle 52), `h-review-short-acronym-keyterm-false-positive`
+(blocked: Deepgram WS handshake, unresolved since cycle 5), `h-computation-aware-laal-enja`
+(not yet started, needs a new script), `h-continuous-rating-cps-calibration` (needs
+human viewing time, not agent-executable). That's 4 queued now, room for up to 2 more
+before the cap -- but per PLAYBOOK, `h-computation-aware-laal-enja` (the other
+still-actionable $0 item) should be processed before writing anything new, and the two
+blocked items deserve a fresh reachability check before being written off again, since
+this session's own environment check (unlike several recent ones) found both
+`DEEPGRAM_API_KEY` and `GOOGLE_API_KEY` set -- `OPENAI_API_KEY`/Deepgram-WS specifically
+were not re-checked this cycle since the hypothesis actually worked on needed neither.
+$0 spent today (2026-10-15), consistent with $0 spent on this hypothesis.
+
+**Should the playbook change?** No changes made this cycle. The separately-computed-vs-
+jointly-computed distribution-subtraction error found above is a real, concrete
+instance of a known general pattern already covered by this playbook's existing
+GENERATE_HYPOTHESES near-miss list in spirit, even though none of the existing bullets
+state it in exactly these terms. Not promoting it to a new standing bullet yet --
+noting it here is enough until a future hypothesis actually falls into the same trap
+despite this reflections.md entry existing, which would be the signal to generalize it
+into PLAYBOOK.md directly.
+
+**Notification decision:** Not sending a PushNotification this cycle -- a confirmed,
+non-surprising, non-urgent measurement result with no environment breakage, no new
+needs_human item, and no budget concern. This is ordinary pipeline output for the next
+Japanese report, not something rm-2278 needs interrupted for.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` for cycle 60 (not
+`SEARCH_PAPERS` -- the backlog still has actionable queued work, a fresh literature
+search is not the bottleneck). Highest-priority next action: process
+`h-computation-aware-laal-enja` (the remaining $0 actionable item) before writing any
+new hypothesis; if time/scope remains after that, re-check Deepgram WS and OpenAI
+REST/WS reachability in this environment (both were last confirmed blocked in earlier
+sessions, but this session's own DEEPGRAM_API_KEY/GOOGLE_API_KEY check came back
+positive where several recent sessions found at least one blocked, so the egress
+picture may have changed) before deciding whether `h-review-short-acronym-keyterm-false-positive`
+or `h-judge-cross-model-agreement-check` can finally be unblocked.
+
+## Cycle 60 (2026-10-16, scheduled session)
+
+**What worked / what didn't:** GENERATE_HYPOTHESES correctly deferred to processing
+existing queued work (per cycle 59's own hand-off note) instead of adding more to an
+already-adequate backlog. The implementation itself worked well as a *process*: before
+trusting the first corpus-wide run, I deliberately spot-checked individual numbers
+against intuition (full-lecture AL should be roughly comparable to the per-utterance
+`avg_mt_latency_seconds`/`wall_clock_lag` numbers already in results.csv, not two orders
+of magnitude larger) and that caught a real bug (anchoring the ideal-rate line at t=0
+instead of speech start, inflated by ~75s of lead-in dead air) before it reached the
+report or hypotheses.json. This is exactly the "verify an empirical claim against the
+actual data, don't just trust the formula" discipline PLAYBOOK.md's GENERATE_HYPOTHESES
+section has repeatedly had to learn the hard way (cycles 13/17/20) -- this time it paid
+off during RUN_EXPERIMENTS/ANALYZE_RESULTS instead of being caught after the fact. What
+didn't fully resolve: even after that fix, the metric is still dominated by a second,
+real (not buggy) effect -- a specific long-form recording's own internal pause structure
+-- which I diagnosed (traced to top gaps of 104s/90s/55s vs. a comparable run's max 8.2s)
+but did not fix within this cycle's scope (a proper fix would be a SOFTSEGMENTER-style
+gap-exclusion policy, which is its own hypothesis, not a one-line patch). I also
+implemented a second column (`ca_al_vtt_refrate_char_s`) whose sign came out
+counter-intuitive relative to what I understood Papi et al.'s LAAL correction to be
+doing -- rather than guess at the "right" sign/formula from memory (risking confidently
+asserting something wrong, the exact failure mode cycle 20's GATE_MIN_WORDS strict-
+inequality near-miss warns about for *code*, here applied to *citing a paper's formula*
+instead), I deliberately renamed it away from "LAAL" and documented the discrepancy
+plainly in both the module docstring and the Japanese report, flagged for a future
+READ_PAPERS verification pass. I think this was the right call: an honestly-labeled
+"I'm not sure this is right, here's why" is more useful to a future session (or to
+rm-2278) than a confidently-named metric that quietly encodes an unverified guess.
+
+**Backlog/budget calibration:** Backlog is down to 3 queued now that
+`h-computation-aware-laal-enja` moved to `tested`
+(`h-judge-cross-model-agreement-check`, `h-review-short-acronym-keyterm-false-positive`,
+`h-continuous-rating-cps-calibration` remain, all blocked on either a reachability
+re-check or human viewing time). Room for up to 3 more before the ~6 cap, but per
+PLAYBOOK's own backlog-depth-over-breadth guidance and this session's remaining
+scope, I did not use GENERATE_HYPOTHESES this cycle to add any -- the pause-sensitivity
+finding above is a good candidate for a *future* cycle's GENERATE_HYPOTHESES pass (a
+SOFTSEGMENTER-style gap-exclusion refinement to `simul_latency_metrics.py`), not
+something to rush into this same cycle on top of an already-substantial implementation.
+$0 spent today (2026-10-16), consistent with $0 spent on this hypothesis (pure
+retroactive analysis, no live Deepgram/LLM calls). Budget policy itself: no change
+proposed this cycle.
+
+**Should the playbook change?** No changes made to PLAYBOOK.md this cycle. One thing
+worth recording here instead of promoting to a standing PLAYBOOK bullet yet: when a
+GENERATE_HYPOTHESES-stage hypothesis explicitly asks to reproduce or approximate a named
+academic metric (this cycle: LAAL) from memory rather than from a freshly re-read
+primary source, and the implementation's own sanity check comes out directionally
+counter-intuitive, the right move is to rename/relabel the output rather than force a
+confident claim of equivalence -- consistent in spirit with the existing GENERATE_HYPOTHESES
+near-miss list ("verify an empirical claim against the actual code/data before
+finalizing the hypothesis text"), just applied to a *paper's formula* rather than *this
+repo's own code*. Not promoting to a new bullet yet, same as cycle 59's call on its own
+cross-distribution near-miss -- noting it here is enough until a future cycle falls into
+the same trap despite this entry existing.
+
+**Notification decision:** Not sending a PushNotification this cycle. Nothing here rises
+to "the human needs to act now": no new `needs_human` item, no budget concern, no
+environment breakage (DEEPGRAM_API_KEY/GOOGLE_API_KEY reachability wasn't even needed
+for this $0 retroactive hypothesis). The pause-sensitivity finding and the LAAL-sign
+discrepancy are both already written up plainly in the Japanese report and this entry
+for rm-2278 to read whenever convenient -- interesting, but not urgent or surprising
+enough to interrupt for.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` for cycle 61 (not
+`SEARCH_PAPERS` -- same reasoning as recent cycles: the backlog still has actionable
+queued work and an unexplored, concretely-motivated follow-up (gap-exclusion refinement
+to `simul_latency_metrics.py`), so a fresh literature search is not the bottleneck right
+now). Highest-priority next actions, in order: (1) re-check Deepgram listen-websocket and
+OpenAI REST/WS reachability in this environment (both have been blocked in most recent
+sessions but this picture has shifted before and is worth re-testing before writing
+either queued hypothesis off again), to see if `h-review-short-acronym-keyterm-false-
+positive` or `h-judge-cross-model-agreement-check` can finally run; (2) if a new
+hypothesis is warranted, the gap-exclusion/SOFTSEGMENTER-style refinement to this
+cycle's `simul_latency_metrics.py` is a well-motivated, concretely-scoped, zero-cost
+candidate backed by this cycle's own measured gap statistics.
+
+## Cycle 61 (2026-10-16, scheduled run)
+
+**What worked:** Picking up exactly the next action cycle 60's own reflection named
+(the gap-exclusion/SOFTSEGMENTER-style refinement to `simul_latency_metrics.py`)
+meant GENERATE_HYPOTHESES this cycle needed almost no fresh exploration -- the hard
+part (finding the right empirical threshold) was mostly a matter of actually running
+the numbers rather than guessing. Computing the inter-utterance gap distribution
+directly from raw event timestamps (not through the existing translation-span
+grouping) was the right call: my first attempt reused the span-grouping helper
+style and silently merged several of the real gaps across continuation-chain
+boundaries, giving a max gap of 29.53s for the worst file when the real number
+(cross-checked against deduped raw `(asr_start_time, asr_end_time)` pairs) is
+103.76s. Caught this before writing the hypothesis text, not after, by directly
+validating the computed numbers against the specific 104/90/55s figures already in
+`h-computation-aware-laal-enja`'s own result_summary -- a concrete instance of the
+GENERATE_HYPOTHESES near-miss pattern this file already warns about ("verify an
+empirical claim against the actual code/data before finalizing the hypothesis
+text"), this time catching my own derivation error rather than a stale assumption
+about an existing field.
+
+**What didn't fully resolve:** The hypothesis's own predicted_effect named two
+honest possible outcomes (pure artifact vs. genuine residual) and the real result
+landed on the less clean one: gap exclusion cuts the two outlier runs roughly
+in half to two-thirds (179->60s, 199->74s) but leaves a 45-70s gap versus the
+structurally-similar other lecture pair's -0.4/15.1s range. I reported this
+plainly in both the hypothesis's result_summary and the Japanese report rather
+than rounding it up to "confirmed" -- the predicted_effect section explicitly
+asked for this and it would have been easy to oversell the before/after drop
+(179->60 does sound like a win in isolation) without checking it against the
+right comparison point.
+
+**Backlog/budget calibration:** Backlog is 4 queued now that
+`h-ca-al-gap-exclusion-softsegmenter` moved from newly-proposed through to
+`tested` within this same cycle (all 1 new hypothesis processed end-to-end, none
+left mid-pipeline). The other 3 queued items
+(`h-judge-cross-model-agreement-check`, `h-review-short-acronym-keyterm-false-
+positive`, `h-continuous-rating-cps-calibration`) are unchanged -- still blocked on
+OpenAI reachability, Deepgram reachability, and human viewing time respectively,
+none of which this cycle attempted to re-check (the $0 retroactive hypothesis was
+a correct priority pick per PLAYBOOK's own ordering, but it does mean the
+reachability picture is now 1 cycle more stale than before). $0 spent this cycle,
+consistent with a purely retroactive re-analysis of already-saved experiment JSON
+-- no live Deepgram/LLM calls were needed or made. Budget policy: no change
+proposed.
+
+**Should the playbook change?** No changes made to PLAYBOOK.md this cycle. Worth
+recording for a future cycle rather than promoting to a bullet yet: when a new
+metric's computation depends on grouping events by *any* chaining/continuation
+heuristic (this cycle: translation-span grouping via `is_utterance_end` chains),
+and the thing being measured is specifically about *gaps* between groups, prefer
+computing that measurement directly from the raw per-event fields (here,
+deduped `(asr_start_time, asr_end_time)` pairs across the whole event list)
+rather than through the existing grouping helper, even when that helper is
+well-tested for its own original purpose (utterance-level translation-quality
+analysis) -- a grouping heuristic's edge cases (continuation chains spanning a
+real gap) can be exactly invisible for its original use case while being exactly
+the thing that corrupts a new, differently-shaped measurement built on top of it.
+Not promoting this to a standing GENERATE_HYPOTHESES bullet yet since it's a
+narrower, more specific case of the existing "verify empirical claims against the
+actual code/data" bullet -- noting it here is enough until a future cycle
+rediscovers the same trap with a different grouping helper.
+
+**Notification decision:** Not sending a PushNotification this cycle. No new
+`needs_human` item, no budget concern, and the environment wasn't even touched
+(this hypothesis needed no Deepgram/GOOGLE_API_KEY/OpenAI reachability at all,
+since it is a pure retroactive re-analysis of already-saved experiment JSON -- no
+degraded-mode gap to flag either). The partial-confirmation result (a real but
+unexplained residual latency on the two outlier lecture runs) is interesting and
+written up plainly in the Japanese report and this entry, but it is a research
+finding for rm-2278 to read whenever convenient, not something that needs to
+interrupt them -- same call as cycle 60 made for its own non-urgent finding.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` for cycle 62 (not
+`SEARCH_PAPERS`): the backlog still has 3 actionable queued items blocked only on
+reachability checks or human time, not on a lack of hypotheses, and this cycle's
+own finding (a plausible post-gap translation-backlog residual, connectable to
+`h-mt-queue-wait-decomposition`) is a concretely-motivated candidate for a future
+GENERATE_HYPOTHESES pass -- a fresh literature search is not the bottleneck right
+now. Highest-priority next actions, in order: (1) re-check Deepgram
+listen-websocket and OpenAI REST/WS reachability in this environment (unchanged
+from cycle 60's own top priority, still not re-tested two cycles running) to see
+if `h-review-short-acronym-keyterm-false-positive` or
+`h-judge-cross-model-agreement-check` can finally run; (2) if a new hypothesis is
+warranted instead, measuring the post-gap translation-queue-wait residual found
+this cycle (via `mt_latency_decomposition.py`'s existing method, scoped to
+batches immediately following one of this cycle's excluded gaps) is a
+well-motivated, concretely-scoped, zero-cost candidate.
+
+## Cycle 62 (2026-10-17, scheduled run)
+
+**What worked:** `h-mt-queue-wait-post-gap-residual` was a clean, well-scoped,
+zero-cost unit: joining two already-existing retroactive analysis modules
+(`simul_latency_metrics._excluded_gaps()` and
+`mt_latency_decomposition.batch_latencies()`) by a shared `(asr_start_time,
+asr_end_time)` batch key, with no changes to either existing module, is exactly
+the kind of composition this backlog of retroactive-analysis hypotheses is
+supposed to produce. The formal run's numbers (post-gap `queue_wait_s` 4.5-5.9x
+baseline, direction and rough magnitude matching the GENERATE_HYPOTHESES-time
+exploratory pre-check's 5-7x estimate) held up under the full run across both
+outlier lecture experiments, and the corpus-wide check (`--out-csv` over all
+`experiments/*.json`) confirmed only those same two runs have any excluded gap
+at all, consistent with `simul_latency_metrics.py`'s own docstring claim -- no
+surprises there.
+
+**What didn't fully resolve:** the hypothesis's own honest framing ("it may
+fully explain the residual, or leave its own smaller unexplained remainder, and
+either outcome should be reported plainly") turned out to be the second case --
+the post-gap queueing effect explains only 39.7%/54.9% of each run's
+`ca_al_char_s_gapexcl` residual, not the whole thing. This is a real, useful,
+partial answer (it rules out "none of the residual is queueing-related" and
+rules out "all of it is"), but cycle 61's open question ("is the remaining
+45-70s residual a genuine pipeline effect or a measurement gap") is still not
+closed -- roughly half of it still is. Worth being explicit about in future
+reflections rather than letting "partially confirmed" quietly read as "mostly
+done": a ~40-55% explanatory share leaves a comparably-sized unexplained
+remainder, which is not a small gap.
+
+**Backlog calibration:** still well-calibrated on count (4 queued/proposed,
+under the ~6 cap, 0 unprocessed `proposed` entries this cycle -- re-counted
+both statuses per the standing cycle-56 lesson). But on *composition*: of the 4
+queued items, 3 (`h-judge-cross-model-agreement-check`,
+`h-review-short-acronym-keyterm-false-positive`,
+`h-continuous-rating-cps-calibration`) have sat queued for multiple cycles now
+blocked on either live-API reachability or human viewing time, not on anything
+this agent can resolve by itself -- meanwhile this agent keeps defaulting to
+the one `$0`/no-live-API hypothesis each cycle, which is the right per-cycle
+choice (cheapest first, per PLAYBOOK) but means the *other* 3 items are
+effectively stalled indefinitely unless the reachability check actually gets
+re-run. That check has now been skipped for three cycles running (60, 61, 62)
+-- this cycle again only confirmed `DEEPGRAM_API_KEY`/`GOOGLE_API_KEY` are
+*set* and `ffmpeg` is present, not that the Deepgram listen-websocket or OpenAI
+REST endpoints are actually *reachable* from this sandbox (the distinction
+PLAYBOOK's RUN_EXPERIMENTS section explicitly warns about) -- because the
+hypothesis actually run this cycle needed neither. This is not wrong (PLAYBOOK
+says pick the cheapest queued hypothesis first, and doing so was correct), but
+if this pattern repeats indefinitely, the 3 blocked items will never move.
+Flagging this plainly rather than letting another cycle's reflection just
+repeat the same note: next cycle, even if a new $0 hypothesis is queued and
+available, the reachability check itself costs nothing and should be run
+anyway (it is not gated on which hypothesis gets picked), so there is no
+actual reason it needs to keep losing to the $0-hypothesis priority rule --
+that rule is about which *experiment* to run, not about skipping a free
+diagnostic.
+
+**Budget policy:** no change proposed. $0 spent again this cycle, well under
+both caps; nothing about this cycle's work suggests the $3/batch or $7/day
+caps are miscalibrated in either direction.
+
+**Should PLAYBOOK.md change?** No edit made this cycle. Considered adding an
+explicit line decoupling "run the environment reachability check" from "pick
+the cheapest queued hypothesis," per the backlog-composition note above, but
+decided against editing PLAYBOOK.md for a pattern only confirmed stalling for
+2-3 cycles so far -- noting it here first, and if a 4th consecutive cycle still
+skips the reachability check while 3 items sit blocked on it, that is the
+threshold to actually add the line rather than keep re-noting the same
+observation.
+
+**Notification decision:** Not sending a PushNotification this cycle. No new
+`needs_human` item, `pending_approval.json` is empty, budget is untouched
+($0/$7 daily), and the result (a real but partial, not fully resolving,
+finding) is informative but not urgent -- same non-urgent-finding call cycles
+60 and 61 made. The 3-cycles-running gap in the reachability check is worth
+rm-2278 knowing about eventually, but it is adequately captured in this
+entry and the Japanese report's handoff section for whenever they next read
+it, not something that needs to interrupt them now.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` for cycle 63 (not
+`GENERATE_HYPOTHESES` again): the last real literature pass was cycle 57's
+`SEARCH_PAPERS -> EXTRACT_PAPERS` transition on 2026-10-13 (per
+`pipeline_state.json`'s history) -- four days and five cycles ago now, all of
+which generated hypotheses purely from this repo's own existing experiment
+data rather than new literature. That is a legitimate, PLAYBOOK-sanctioned
+choice each of those times (data-mining this repo's 100+ existing experiment
+JSONs has clearly not run dry), but letting it continue indefinitely risks
+missing anything genuinely new in the field, which is the other half of this
+pipeline's stated goal. A fresh SEARCH_PAPERS pass is overdue by this agent's
+own judgment, not because the backlog is empty. Highest-priority next actions,
+in order: (1) actually re-run the Deepgram listen-websocket / OpenAI REST
+reachability check (now 3 cycles overdue, see Backlog calibration above) so
+the 3 API-gated queued hypotheses stop being silently stalled; (2) a real
+WebSearch pass for post-2026-09-08-survey literature, prioritizing the gaps
+the survey itself flagged (cascade-vs-end-to-end comparisons, stability/
+flicker policies, LLM-as-MT prompting, updated vendor ASR latency numbers) per
+PLAYBOOK's SEARCH_PAPERS section; (3) if time remains after both, the
+post-gap-batch backlog-propagation follow-up noted above (how many batches
+after a gap does the queueing effect persist across) is a well-motivated,
+zero-cost GENERATE_HYPOTHESES candidate for whenever the backlog has room.
