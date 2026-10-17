@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 13,
-  "last_updated": "2026-10-17T00:22:21.911686+00:00",
+  "last_updated": "2026-10-17T12:09:01.371988+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1679,6 +1679,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-17T00:22:21.911656+00:00",
       "note": "Cycle 62: backlog was 3 queued/0 unprocessed-proposed (under ~6 cap), added 1 new hypothesis h-mt-queue-wait-post-gap-residual (zero-cost retroactive follow-up to cycle 61's unresolved AL residual, empirically pre-verified: post-gap batches show 5-7x elevated queue_wait_s vs baseline). Also fixed a stale '6 gaps each' docstring claim in simul_latency_metrics.py found while re-running _excluded_gaps() for verification (actual: 8 and 7 gaps)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-17T12:09:01.371956+00:00",
+      "note": "cycle 62 HUMAN_APPROVAL: h-mt-queue-wait-post-gap-residual checked via check-budget 0.0 -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued (normal auto-approve path). pending_approval.json is empty. Now 4 hypotheses sit queued (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration pre-existing + this new one), none needs_human."
     }
   ]
 }
