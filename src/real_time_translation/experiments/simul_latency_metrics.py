@@ -138,10 +138,15 @@ experiment JSONs (deduped, sorted `(asr_start_time, asr_end_time)`
 utterance intervals from every event, not just translation events): every
 run other than the two `20260918_llm2025_ep8_zenhan_full_lecture*` ones has
 a largest inter-utterance gap of at most 8.25s (`20260722_
-en_talk_transition_accuracy_check.json`), while those two lecture runs each
-have 6 gaps of 12.0-103.76s (totalling ~235s/~311s of extended dead air per
-run) with nothing in between the two populations (no gap anywhere in the
-corpus falls in (8.25s, 12.0s]). `GAP_EXCLUSION_THRESHOLD_S = 10.0`
+en_talk_transition_accuracy_check.json`), while those two lecture runs have
+8 and 7 gaps respectively (not "6 gaps each" as an earlier draft of this
+note claimed -- corrected cycle 62 after re-running `_excluded_gaps()` and
+counting programmatically: 8 gaps/239.17s excluded for
+`llm2025_ep8_zenhan_full_lecture`, 7 gaps/251.17s for `_v2_dict`, matching
+the cycle 61 Japanese report, not this docstring's prior "6" claim) of
+12.0-103.76s (totalling ~235-251s of extended dead air per run) with
+nothing in between the two populations (no gap anywhere in the corpus
+falls in (8.25s, 12.0s]). `GAP_EXCLUSION_THRESHOLD_S = 10.0`
 (this module's constant) sits in that empty zone by construction, so it
 reclassifies exactly the six outlier-lecture gaps as "extended" and leaves
 every other run's gap structure, and therefore its `ca_al_char_s_gapexcl`
