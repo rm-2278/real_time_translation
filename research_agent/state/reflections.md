@@ -3410,3 +3410,103 @@ warranted instead, measuring the post-gap translation-queue-wait residual found
 this cycle (via `mt_latency_decomposition.py`'s existing method, scoped to
 batches immediately following one of this cycle's excluded gaps) is a
 well-motivated, concretely-scoped, zero-cost candidate.
+
+## Cycle 62 (2026-10-17, scheduled run)
+
+**What worked:** `h-mt-queue-wait-post-gap-residual` was a clean, well-scoped,
+zero-cost unit: joining two already-existing retroactive analysis modules
+(`simul_latency_metrics._excluded_gaps()` and
+`mt_latency_decomposition.batch_latencies()`) by a shared `(asr_start_time,
+asr_end_time)` batch key, with no changes to either existing module, is exactly
+the kind of composition this backlog of retroactive-analysis hypotheses is
+supposed to produce. The formal run's numbers (post-gap `queue_wait_s` 4.5-5.9x
+baseline, direction and rough magnitude matching the GENERATE_HYPOTHESES-time
+exploratory pre-check's 5-7x estimate) held up under the full run across both
+outlier lecture experiments, and the corpus-wide check (`--out-csv` over all
+`experiments/*.json`) confirmed only those same two runs have any excluded gap
+at all, consistent with `simul_latency_metrics.py`'s own docstring claim -- no
+surprises there.
+
+**What didn't fully resolve:** the hypothesis's own honest framing ("it may
+fully explain the residual, or leave its own smaller unexplained remainder, and
+either outcome should be reported plainly") turned out to be the second case --
+the post-gap queueing effect explains only 39.7%/54.9% of each run's
+`ca_al_char_s_gapexcl` residual, not the whole thing. This is a real, useful,
+partial answer (it rules out "none of the residual is queueing-related" and
+rules out "all of it is"), but cycle 61's open question ("is the remaining
+45-70s residual a genuine pipeline effect or a measurement gap") is still not
+closed -- roughly half of it still is. Worth being explicit about in future
+reflections rather than letting "partially confirmed" quietly read as "mostly
+done": a ~40-55% explanatory share leaves a comparably-sized unexplained
+remainder, which is not a small gap.
+
+**Backlog calibration:** still well-calibrated on count (4 queued/proposed,
+under the ~6 cap, 0 unprocessed `proposed` entries this cycle -- re-counted
+both statuses per the standing cycle-56 lesson). But on *composition*: of the 4
+queued items, 3 (`h-judge-cross-model-agreement-check`,
+`h-review-short-acronym-keyterm-false-positive`,
+`h-continuous-rating-cps-calibration`) have sat queued for multiple cycles now
+blocked on either live-API reachability or human viewing time, not on anything
+this agent can resolve by itself -- meanwhile this agent keeps defaulting to
+the one `$0`/no-live-API hypothesis each cycle, which is the right per-cycle
+choice (cheapest first, per PLAYBOOK) but means the *other* 3 items are
+effectively stalled indefinitely unless the reachability check actually gets
+re-run. That check has now been skipped for three cycles running (60, 61, 62)
+-- this cycle again only confirmed `DEEPGRAM_API_KEY`/`GOOGLE_API_KEY` are
+*set* and `ffmpeg` is present, not that the Deepgram listen-websocket or OpenAI
+REST endpoints are actually *reachable* from this sandbox (the distinction
+PLAYBOOK's RUN_EXPERIMENTS section explicitly warns about) -- because the
+hypothesis actually run this cycle needed neither. This is not wrong (PLAYBOOK
+says pick the cheapest queued hypothesis first, and doing so was correct), but
+if this pattern repeats indefinitely, the 3 blocked items will never move.
+Flagging this plainly rather than letting another cycle's reflection just
+repeat the same note: next cycle, even if a new $0 hypothesis is queued and
+available, the reachability check itself costs nothing and should be run
+anyway (it is not gated on which hypothesis gets picked), so there is no
+actual reason it needs to keep losing to the $0-hypothesis priority rule --
+that rule is about which *experiment* to run, not about skipping a free
+diagnostic.
+
+**Budget policy:** no change proposed. $0 spent again this cycle, well under
+both caps; nothing about this cycle's work suggests the $3/batch or $7/day
+caps are miscalibrated in either direction.
+
+**Should PLAYBOOK.md change?** No edit made this cycle. Considered adding an
+explicit line decoupling "run the environment reachability check" from "pick
+the cheapest queued hypothesis," per the backlog-composition note above, but
+decided against editing PLAYBOOK.md for a pattern only confirmed stalling for
+2-3 cycles so far -- noting it here first, and if a 4th consecutive cycle still
+skips the reachability check while 3 items sit blocked on it, that is the
+threshold to actually add the line rather than keep re-noting the same
+observation.
+
+**Notification decision:** Not sending a PushNotification this cycle. No new
+`needs_human` item, `pending_approval.json` is empty, budget is untouched
+($0/$7 daily), and the result (a real but partial, not fully resolving,
+finding) is informative but not urgent -- same non-urgent-finding call cycles
+60 and 61 made. The 3-cycles-running gap in the reachability check is worth
+rm-2278 knowing about eventually, but it is adequately captured in this
+entry and the Japanese report's handoff section for whenever they next read
+it, not something that needs to interrupt them now.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` for cycle 63 (not
+`GENERATE_HYPOTHESES` again): the last real literature pass was cycle 57's
+`SEARCH_PAPERS -> EXTRACT_PAPERS` transition on 2026-10-13 (per
+`pipeline_state.json`'s history) -- four days and five cycles ago now, all of
+which generated hypotheses purely from this repo's own existing experiment
+data rather than new literature. That is a legitimate, PLAYBOOK-sanctioned
+choice each of those times (data-mining this repo's 100+ existing experiment
+JSONs has clearly not run dry), but letting it continue indefinitely risks
+missing anything genuinely new in the field, which is the other half of this
+pipeline's stated goal. A fresh SEARCH_PAPERS pass is overdue by this agent's
+own judgment, not because the backlog is empty. Highest-priority next actions,
+in order: (1) actually re-run the Deepgram listen-websocket / OpenAI REST
+reachability check (now 3 cycles overdue, see Backlog calibration above) so
+the 3 API-gated queued hypotheses stop being silently stalled; (2) a real
+WebSearch pass for post-2026-09-08-survey literature, prioritizing the gaps
+the survey itself flagged (cascade-vs-end-to-end comparisons, stability/
+flicker policies, LLM-as-MT prompting, updated vendor ASR latency numbers) per
+PLAYBOOK's SEARCH_PAPERS section; (3) if time remains after both, the
+post-gap-batch backlog-propagation follow-up noted above (how many batches
+after a gap does the queueing effect persist across) is a well-motivated,
+zero-cost GENERATE_HYPOTHESES candidate for whenever the backlog has room.
