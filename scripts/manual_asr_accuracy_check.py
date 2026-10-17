@@ -2,15 +2,14 @@
 
 import asyncio
 import logging
+import os
 import re
 import sys
-import time
 from dataclasses import dataclass
 from pathlib import Path
 
 from deepgram import DeepgramClient
 from dotenv import load_dotenv
-import os
 
 from real_time_translation.translation.llm_translator import LLMTranslator
 
@@ -162,7 +161,7 @@ async def test_accuracy(audio_path: str) -> None:
             chunk_result = await asyncio.wait_for(translator.translate(chunk), timeout=60.0)
             all_translations.append(chunk_result.latest_slide)
             all_kept_terms.extend(chunk_result.kept_terms)
-        except asyncio.TimeoutError:
+        except TimeoutError:
             logger.error("Chunk %d timed out!", chunk_num)
             all_translations.append(f"[翻訳タイムアウト: {chunk[:50]}...]")
 

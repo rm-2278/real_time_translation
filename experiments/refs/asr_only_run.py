@@ -9,19 +9,17 @@ from __future__ import annotations
 import asyncio
 import json
 import sys
-import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
 
-from real_time_translation.audio.capture import QueueAudioCapture  # noqa: E402
 from real_time_translation.config import Config  # noqa: E402
 from real_time_translation.experiments.youtube_segment import (  # noqa: E402
     _parse_time,
+    _read_all_stderr,
     _resolve_youtube_audio_url,
     _run_ffmpeg_pcm,
-    _read_all_stderr,
 )
 from real_time_translation.transcription.deepgram_client import (  # noqa: E402
     DeepgramTranscriber,

@@ -25,7 +25,7 @@ import csv
 import json
 import time
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -220,7 +220,7 @@ async def run_experiment(
         sum(r.confidence for r in records) / len(records) if records else 0.0
     )
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     date_str = now.date().isoformat()
     stamp = now.strftime("%Y%m%d")
     slug = slugify(experiment_name)

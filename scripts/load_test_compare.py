@@ -14,6 +14,7 @@ Usage:
 import argparse
 import asyncio
 import time
+
 import httpx
 
 TRANSLATOR_URL = "http://localhost:8002"
@@ -29,9 +30,9 @@ async def set_workers(client: httpx.AsyncClient, num_workers: int) -> None:
     """Unfortunately we can't change workers at runtime, so this is informational."""
     print(f"\n{'='*60}")
     print(f"NOTE: To test with {num_workers} worker(s), you need to:")
-    print(f"  1. Stop the service: docker compose stop gemini")
+    print("  1. Stop the service: docker compose stop gemini")
     print(f"  2. Set environment: TRANSLATION_WORKERS={num_workers}")
-    print(f"  3. Restart: docker compose up -d gemini")
+    print("  3. Restart: docker compose up -d gemini")
     print(f"{'='*60}\n")
 
 
@@ -134,11 +135,11 @@ def print_results(metrics: dict) -> None:
     print(f"Sentences Sent: {TOTAL_SENTENCES}")
     print(f"Speech Rate: {SENTENCES_PER_SECOND:.2f} sentences/sec")
     
-    print(f"\nQueue Metrics:")
+    print("\nQueue Metrics:")
     print(f"  Max Queue Size: {metrics['max_queue']}")
     print(f"  Avg Queue Size: {metrics['avg_queue']:.1f}")
     
-    print(f"\nFinal Stats:")
+    print("\nFinal Stats:")
     print(f"  Processed: {final.get('processed', 'N/A')}")
     print(f"  Dropped: {final.get('dropped', 'N/A')}")
     print(f"  Summarized: {final.get('summarized', 'N/A')}")

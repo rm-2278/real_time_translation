@@ -23,14 +23,14 @@ import glob
 import json
 from pathlib import Path
 
-from real_time_translation.experiments.readability_metrics import (
-    ReadabilityReport,
-    analyze_readability,
-)
 from real_time_translation.captions.subtitle_formatter import (
     extract_utterance_cues,
     format_naive,
     format_readable,
+)
+from real_time_translation.experiments.readability_metrics import (
+    ReadabilityReport,
+    analyze_readability,
 )
 
 

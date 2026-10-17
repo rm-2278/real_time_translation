@@ -8,6 +8,8 @@ from dataclasses import dataclass
 from typing import Any
 
 from deepgram import AsyncDeepgramClient
+
+
 @dataclass
 class TranscriptionResult:
     """Result from transcription service."""
@@ -271,7 +273,7 @@ class DeepgramTranscriber:
                     timeout = max(self._keepalive_interval * 2, 3.0)
                     try:
                         await asyncio.wait_for(self._listener_task, timeout=timeout)
-                    except asyncio.TimeoutError:
+                    except TimeoutError:
                         pass  # Timeout is expected; listener runs until cancelled
             except Exception:
                 pass  # Ignore errors during finalize

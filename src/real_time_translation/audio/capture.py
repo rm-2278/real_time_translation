@@ -75,7 +75,7 @@ class ZoomRTMSCapture(AudioCapture):
         self._config = config
         self._running = False
         self._queue: asyncio.Queue[bytes] = asyncio.Queue()
-        self._client: "rtms.Client | None" = None
+        self._client: rtms.Client | None = None
         self._loop: asyncio.AbstractEventLoop | None = None
 
     async def start(self) -> None:

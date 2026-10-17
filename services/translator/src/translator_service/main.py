@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import asyncio
-
 import logging
 import os
 import time
@@ -15,16 +14,15 @@ from typing import Any
 import httpx
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 from pydantic import BaseModel, Field
 
 from translator_service.fast_translator import FastTranslator
-from translator_service.zoom_caption import ZoomCaptionClient
 from translator_service.queue_manager import (
     TranslationQueueConfig,
     TranslationQueueManager,
     TranslationRequest,
 )
+from translator_service.zoom_caption import ZoomCaptionClient
 
 logger = logging.getLogger(__name__)
 

@@ -25,7 +25,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 STATE_DIR = Path(__file__).parent / "state"
@@ -54,7 +54,7 @@ ALL_STATES = set(TRANSITIONS.keys())
 
 
 def _now() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
 
 def _load(path: Path) -> dict:
@@ -97,7 +97,7 @@ def cmd_advance(args: argparse.Namespace) -> None:
 
 
 def _roll_budget_if_new_day(budget: dict) -> None:
-    today = datetime.now(timezone.utc).date().isoformat()
+    today = datetime.now(UTC).date().isoformat()
     if budget.get("date") != today:
         budget["date"] = today
         budget["spent_today_usd"] = 0.0

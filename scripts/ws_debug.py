@@ -21,7 +21,7 @@ async def debug_client():
     while True:
         try:
             async with websockets.connect(uri) as ws:
-                print(f"[WS-DEBUG] Connected! Listening for messages...")
+                print("[WS-DEBUG] Connected! Listening for messages...")
                 print("=" * 60)
                 async for message in ws:
                     try:

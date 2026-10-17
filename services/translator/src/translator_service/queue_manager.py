@@ -24,8 +24,9 @@ from __future__ import annotations
 import asyncio
 import logging
 import time
+from collections.abc import Callable, Coroutine
 from dataclasses import dataclass, field
-from typing import Any, Callable, Coroutine
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -202,7 +203,7 @@ class TranslationQueueManager:
             try:
                 # Wait for item with timeout (allows checking _running flag)
                 request = await asyncio.wait_for(self._queue.get(), timeout=0.5)
-            except asyncio.TimeoutError:
+            except TimeoutError:
                 # No item in queue, loop back to check _running
                 continue
             except asyncio.CancelledError:

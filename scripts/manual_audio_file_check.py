@@ -108,7 +108,7 @@ async def test_with_audio_file(audio_path: str) -> None:
                 print(f"Sending: {progress}% ({i + 1}/{total_chunks}) - ASR: {len(all_asr)}, Trans: {result_count[0]}")
 
         # Give Deepgram time to process last chunks
-        print(f"\nAll audio sent. Waiting 10 seconds for Deepgram to catch up...")
+        print("\nAll audio sent. Waiting 10 seconds for Deepgram to catch up...")
         await asyncio.sleep(10)
 
         print("Waiting for remaining ASR and translations...")
@@ -134,7 +134,7 @@ async def test_with_audio_file(audio_path: str) -> None:
 
             # Stop if no new results for 20 seconds
             if stable_seconds >= 20:
-                print(f"  No new results for 20 seconds, finishing...")
+                print("  No new results for 20 seconds, finishing...")
                 break
     finally:
         await pipeline.stop()
