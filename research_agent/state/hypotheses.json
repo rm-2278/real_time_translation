@@ -1060,8 +1060,8 @@
       "required_changes": "New retroactive analysis script src/real_time_translation/experiments/post_gap_queue_wait.py (console script real-time-translation-exp-post-gap-queue-wait): import _asr_utterance_intervals/_excluded_gaps/GAP_EXCLUSION_THRESHOLD_S from simul_latency_metrics.py and batch_latencies from mt_latency_decomposition.py (no changes to either existing module), tag each batch post-gap/baseline per the join described above, write a small CSV/report comparing the two groups' queue_wait_s per run and the implied AL-residual explanatory share, with unit tests on a synthetic toy event list (a few batches, one injected >10s gap) verifying the tagging logic against a hand-computed expected baseline/post-gap split. Purely retroactive re-analysis of the same 2 already-existing experiment JSONs -- no new Deepgram/LLM calls, no pipeline code change.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
