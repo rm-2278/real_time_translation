@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 13,
-  "last_updated": "2026-10-17T12:09:01.371988+00:00",
+  "last_updated": "2026-10-17T12:14:49.682182+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1685,6 +1685,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-17T12:09:01.371956+00:00",
       "note": "cycle 62 HUMAN_APPROVAL: h-mt-queue-wait-post-gap-residual checked via check-budget 0.0 -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued (normal auto-approve path). pending_approval.json is empty. Now 4 hypotheses sit queued (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration pre-existing + this new one), none needs_human."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-17T12:14:49.682153+00:00",
+      "note": "cycle 62 RUN_EXPERIMENTS: ran h-mt-queue-wait-post-gap-residual (the only $0, no-live-API queued hypothesis -- the other 3 queued need OpenAI API, a live Deepgram ASR run, or human viewing time per their own required_changes). Added post_gap_queue_wait.py joining simul_latency_metrics's excluded gaps with mt_latency_decomposition's queue_wait_s. Output experiments/post_gap_queue_wait.csv. $0 logged."
     }
   ]
 }
