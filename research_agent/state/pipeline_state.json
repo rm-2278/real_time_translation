@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 13,
-  "last_updated": "2026-10-17T12:14:49.682182+00:00",
+  "last_updated": "2026-10-17T12:15:31.602452+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1691,6 +1691,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-17T12:14:49.682153+00:00",
       "note": "cycle 62 RUN_EXPERIMENTS: ran h-mt-queue-wait-post-gap-residual (the only $0, no-live-API queued hypothesis -- the other 3 queued need OpenAI API, a live Deepgram ASR run, or human viewing time per their own required_changes). Added post_gap_queue_wait.py joining simul_latency_metrics's excluded gaps with mt_latency_decomposition's queue_wait_s. Output experiments/post_gap_queue_wait.csv. $0 logged."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-17T12:15:31.602428+00:00",
+      "note": "cycle 62 ANALYZE_RESULTS: h-mt-queue-wait-post-gap-residual result_summary written (PARTIALLY CONFIRMED -- post-gap queue_wait elevated 4.5-5.9x baseline, but explains only 39.7%/54.9% of the cycle-61 AL residual on each outlier run, leaving a sizeable unexplained remainder)."
     }
   ]
 }
