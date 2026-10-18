@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 14,
-  "last_updated": "2026-10-18T00:08:42.816332+00:00",
+  "last_updated": "2026-10-18T00:10:17.187229+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1715,6 +1715,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-10-18T00:08:42.816304+00:00",
       "note": "Cycle 63 SEARCH_PAPERS: WebSearch pass for post-2026-10-13 literature targeting survey gaps (updated vendor ASR latency, LLM-as-MT prompting). Most results (AlignAtt4LLM, NeMo@IWSLT2026, MLLP-VRAIN, prefix-to-prefix paper) were already in papers.json as duplicates. Added 2 new found-status stubs: AA-WER Streaming (Artificial Analysis vendor benchmark, June 2026) and EAST (arXiv 2504.09570, LLM prompt-based streaming MT KV-cache cost). WebFetch to arxiv.org/aclanthology.org/artificialanalysis.ai all failed with DNS/EGRESS_BLOCKED this session -- full extraction deferred to EXTRACT_PAPERS, which per playbook should fall back to WebSearch abstract queries."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-10-18T00:10:17.187198+00:00",
+      "note": "Cycle 63 EXTRACT_PAPERS: extracted abstracts for the 2 found-status papers (AA-WER Streaming, EAST) via WebSearch fallback since WebFetch to arxiv.org/aclanthology.org/artificialanalysis.ai was all DNS/EGRESS_BLOCKED this session. Corrected EAST's title to its real title during extraction."
     }
   ]
 }
