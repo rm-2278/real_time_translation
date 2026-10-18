@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 14,
-  "last_updated": "2026-10-18T00:12:38.065841+00:00",
+  "last_updated": "2026-10-18T00:13:00.168374+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1733,6 +1733,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-18T00:12:38.065812+00:00",
       "note": "Cycle 63 GENERATE_HYPOTHESES: added 1 new $0 retroactive hypothesis, h-post-gap-queue-wait-persistence, following up on h-mt-queue-wait-post-gap-residual's (tested cycle 62/63) 39.7-54.9% explanatory-share residual per reflections.md's cycle-62 suggestion. Backlog now 3 queued + 1 proposed = 4, still under the ~6 cap (counting both statuses per cycle-56 lesson). No literature from this cycle's SEARCH_PAPERS/EXTRACT_PAPERS/READ_PAPERS motivated a hypothesis (both new papers cross-referenced as inapplicable/non-actionable for this repo)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-18T00:13:00.168348+00:00",
+      "note": "Cycle 63 HUMAN_APPROVAL: check-budget AUTO_APPROVE for h-post-gap-queue-wait-persistence ($0, uses_existing_clips=true, zero same-day spend). Set approval=auto_approved, status=queued. This is a normal new-hypothesis auto-approval (not a needs_human/pending_approval.json reversal), distinct from the cycle-36-documented self-approval block which applies specifically to converting an existing needs_human escalation -- not retested here. 4 hypotheses now queued (3 approved_by_human + 1 just auto_approved), all approval != needs_human, so advancing to RUN_EXPERIMENTS per playbook."
     }
   ]
 }
