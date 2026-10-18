@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 14,
-  "last_updated": "2026-10-18T00:18:03.367828+00:00",
+  "last_updated": "2026-10-18T00:18:32.912700+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1745,6 +1745,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-18T00:18:03.367799+00:00",
       "note": "Cycle 63 RUN_EXPERIMENTS: ran h-post-gap-queue-wait-persistence (0-cost retroactive). Extended post_gap_queue_wait.py with _tag_offset_batches (offsets 0..5 after each excluded gap, truncated before overlapping the next gap's own anchor) and analyze_persistence(), with 3 new unit tests covering truncation and decay-stop logic (6/6 passing, ruff clean). Ran over all of experiments/*.json: both cycle-61/62 outlier full-lecture runs show the elevated queue_wait persisting 2-3 offsets past the single post-gap batch before decaying to baseline, and 2 more runs with excluded gaps were found incidentally (full_llm2025_zenhan_gemini3flash_s0, full_llm2025_zenhan_gpt54mini_s0)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-18T00:18:32.912670+00:00",
+      "note": "Cycle 63 ANALYZE_RESULTS: h-post-gap-queue-wait-persistence CONFIRMED -- post-gap elevated queue_wait_s persists 2-3 batches (not just 1) before decaying to baseline in both cycle-61/62 outlier full-lecture runs, raising the AL-residual explanatory share from 54.9%/39.7% (offset-0-only) to 74.6%/54.7% (cumulative across elevated offsets). 2 incidental additional runs with excluded gaps found and analyzed as supporting evidence (23.7%/30.3% shares, shorter decays). Noted small per-offset sample-size caveat (n=1-2 at highest elevated offsets) in result_summary."
     }
   ]
 }
