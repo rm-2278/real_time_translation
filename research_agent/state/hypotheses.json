@@ -1082,13 +1082,13 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/post_gap_queue_wait_persistence.csv",
         "experiments/20260918_llm2025_ep8_zenhan_full_lecture.json",
         "experiments/20260918_llm2025_ep8_zenhan_full_lecture_v2_dict.json"
       ],
-      "result_summary": null
+      "result_summary": "CONFIRMED (persistence beyond offset 0 is real and materially raises the explanatory share). For both cycle-61/62 outlier full-lecture runs, elevated queue_wait_s does NOT drop back to baseline immediately at the batch after the tagged post-gap anchor: llm2025_ep8_zenhan_full_lecture decays over offsets 0/1/2 (7.92s/5.76s/3.83s vs. baseline 1.30s, n=5/2/1) before offset 3 would have fallen back to baseline; llm2025_ep8_zenhan_full_lecture_v2_dict decays over offsets 0/1 (6.15s/6.57s vs. baseline 1.21s, n=6/2) before offset 2 falls back. Summing excess queue_wait across all elevated offsets (not just offset 0) raises the explanatory share of each run's own cycle-61 ca_al_char_s_gapexcl residual from h-mt-queue-wait-post-gap-residual's single-batch figures (54.9%/39.7%) to 74.6%/54.7% -- closing most but still not all of the residual (a 25-45% remainder is still unexplained by this mechanism). Caveat: the per-offset sample sizes thin out fast (n=1-2 at the highest elevated offset in both runs), so the exact decay length (2 vs 3 batches) is noisier than the overall direction/magnitude of the effect; this should be read as 'the effect clearly spans multiple batches, not just one' rather than a precise batch-count. Incidental finding: running the generic experiments/*.json glob (not restricted to the 2 cycle-61 outlier runs) surfaced 2 more runs with excluded gaps -- full_llm2025_zenhan_gemini3flash_s0 (23.7%) and full_llm2025_zenhan_gpt54mini_s0 (30.3%) -- with smaller explanatory shares and shorter 1-2-offset decays; these were not part of cycle-61's original residual question (that was specific to the 2 outlier full-lecture runs) so are reported here as additional supporting evidence for the same qualitative persistence effect, not as closing a different residual."
     }
   ]
 }
