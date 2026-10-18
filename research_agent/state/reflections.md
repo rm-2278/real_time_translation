@@ -3603,3 +3603,72 @@ cycle on the same question" situation noted above is itself a legitimate
 a 3rd time against pivoting to a different data-mining angle, per the
 threshold noted above, rather than mechanically repeating the same
 decomposition pattern a 3rd time without that check.
+
+## Cycle 64 (2026-10-18, scheduled run)
+
+**What worked this cycle:** The explicit threshold cycle 63 set for itself
+("if a 3rd follow-up on the post-gap queue-wait residual also only
+partially closes it, stop chasing this thread") was actually followed
+through on, not re-litigated from scratch -- this cycle checked the
+reflections.md note, confirmed the condition (2 follow-ups, both partial),
+and pivoted to a different data-mining angle instead of running a 3rd
+decomposition pass. This is a good sign that the self-written threshold
+notes from past cycles are actually load-bearing, not just narrative.
+
+The pivot itself (auditing `papers.json` for never-cited papers,
+cross-referencing against `grounded_in` across all 54 hypotheses) is a
+cheap, mechanical way to find a genuinely fresh angle rather than
+re-running a variant of the same analysis under a new name -- worth
+reusing as a standard move whenever GENERATE_HYPOTHESES needs a pivot and
+isn't sure what to pivot to. 20 papers had never been cited by any
+hypothesis; `doi2024-enja-si-word-order` stood out as both topically
+distinct from the queue-wait/judge-noise/caption-rendering threads
+dominating the backlog and directly testable with data already on hand.
+
+**What didn't work / limitations found:** The result was a clean, honest
+null for the main (well-powered) comparison, which is the right outcome
+to report plainly rather than dress up -- but the secondary comparison
+(verb_position_ratio vs queue_wait_s, n=157) turned up an unexplained
+small discrepancy: joint resolution of both metrics (157) is well below
+what independence between the two missingness patterns would predict
+(~362, from resolution rates 50.8% and 14% independently). This wasn't
+investigated further since it's outside this hypothesis's actual question
+and the n=157 secondary result is being treated as "no signal" either way
+-- but if a future hypothesis cares specifically about `queue_wait_s`
+resolution (14% corpus-wide, inherited unchanged from
+`h-mt-queue-wait-decomposition`'s `_content_ready_lookup()` limitation)
+intersecting with some other per-utterance property, this non-independence
+is worth checking first rather than assuming resolution gaps are random.
+
+**Backlog calibration:** 3 queued (unchanged, all three legitimately
+blocked on environment/human per cycle 63's confirmation, correctly not
+re-tested this cycle) + 1 new hypothesis added and fully run through to
+`tested` within this same cycle, so the backlog is effectively back to 3,
+well under the 6 cap. Depth-over-breadth was maintained: only 1 new
+hypothesis was proposed this cycle, and it was carried all the way to a
+reported conclusion rather than left half-finished.
+
+**Budget policy:** no change proposed. $0 spent again this cycle ($0 total
+today), well under both caps.
+
+**Should PLAYBOOK.md change?** No edit made this cycle. The
+"papers.json never-cited audit" pattern used to find this cycle's pivot
+angle worked well, but it's a single use so far -- if GENERATE_HYPOTHESES
+needs a pivot-angle move again in a future cycle and this same technique
+gets reinvented from scratch rather than reused, that repetition would be
+the signal to actually write it into the playbook's GENERATE_HYPOTHESES
+section as a named technique. Not doing so yet on one data point.
+
+**Notification decision:** Not sending a PushNotification this cycle. No
+new `needs_human` item, `pending_approval.json` is empty, budget is
+untouched, and the result (an honest, well-powered null finding on a
+previously-uncited paper) is informative but not urgent -- consistent with
+recent cycles' non-urgent-finding calls.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` rather than
+`SEARCH_PAPERS` for cycle 65 -- the literature base still has several
+never-cited papers worth mining as pivot angles (e.g.
+`sasst2026-syntax-aware-chunking`, `exposst2026-adaptive-masking-
+positioning`, both noted in this cycle's report as candidates), so a fresh
+literature search isn't likely to add much right now; working through the
+existing backlog of uncited-but-relevant papers is higher priority.
