@@ -57,6 +57,7 @@ real-time-translation-fidelity-judge = "real_time_translation.experiments.transl
 real-time-translation-exp-perceived-drop = "real_time_translation.experiments.perceived_drop_analysis:main"
 real-time-translation-exp-simul-latency = "real_time_translation.experiments.simul_latency_metrics:main"
 real-time-translation-exp-post-gap-queue-wait = "real_time_translation.experiments.post_gap_queue_wait:main"
+real-time-translation-exp-word-order-reordering-proxy = "real_time_translation.experiments.word_order_reordering_proxy:main"
 
 [build-system]
 requires = ["hatchling"]

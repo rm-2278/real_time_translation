@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 14,
-  "last_updated": "2026-10-18T00:20:15.515344+00:00",
+  "last_updated": "2026-10-18T12:10:49.454743+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1763,6 +1763,18 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-18T00:20:15.515316+00:00",
       "note": "Cycle 63 REFLECT: wrote reflections.md entry. Advancing REFLECT -> GENERATE_HYPOTHESES (not SEARCH_PAPERS) for cycle 64 -- this cycle's own literature pass just ran and found nothing actionable, so a fresh search isn't likely to add much yet; backlog has room (4/6) and the 2nd-follow-up threshold on the post-gap-residual thread (noted in reflections.md) is itself a GENERATE_HYPOTHESES input for next cycle."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-18T12:10:34.839994+00:00",
+      "note": "cycle 64 GENERATE_HYPOTHESES: added h-enja-word-order-reordering-proxy-latency (0 cost, retroactive, grounded in previously-uncited doi2024-enja-si-word-order), pivoting away from the post-gap queue-wait residual thread per cycle 63 reflections threshold. Backlog 3 queued + 1 proposed, under cap. Proceeding to check budget/approval for all unset/proposed hypotheses."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-18T12:10:49.454715+00:00",
+      "note": "cycle 64: h-enja-word-order-reordering-proxy-latency now queued/auto_approved ($0, retroactive). The 3 pre-existing queued hypotheses remain legitimately blocked (Deepgram WS, OpenAI REST, human rater) per cycle 63's confirmation -- not re-testing those blockers again this cycle per that reflection's guidance."
     }
   ]
 }

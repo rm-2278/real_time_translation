@@ -234,6 +234,11 @@
       "at": "2026-10-18T00:17:42.172653+00:00",
       "amount_usd": 0.0,
       "note": "h-post-gap-queue-wait-persistence: extended post_gap_queue_wait.py with per-offset (0..N) tagging + persistence CSV, ran retroactively over experiments/*.json, zero new Deepgram/LLM API spend"
+    },
+    {
+      "at": "2026-10-18T12:13:50.769056+00:00",
+      "amount_usd": 0.0,
+      "note": "h-enja-word-order-reordering-proxy-latency: implemented word_order_reordering_proxy.py, ran retroactively over 139 existing experiment JSON files, zero new Deepgram/LLM API spend"
     }
   ]
 }
