@@ -1167,6 +1167,34 @@
         "Treat all numbers as indicative, since the report itself flags them as vendor-commissioned."
       ],
       "relevant_to": []
+    },
+    {
+      "id": "aa-wer-streaming-2026",
+      "title": "AA-WER Streaming: Artificial Analysis benchmark for streaming speech-to-text (accuracy vs. latency)",
+      "authors": "Artificial Analysis",
+      "year": 2026,
+      "venue": "Artificial Analysis (vendor-neutral benchmark site)",
+      "url": "https://artificialanalysis.ai/articles/new-streaming-speech-to-text-benchmark-aa-wer-streaming",
+      "source": "websearch_cycle63",
+      "status": "found",
+      "summary": "",
+      "key_findings": [],
+      "relevant_to": [],
+      "extraction_note": "Found cycle 63 (2026-10-18) SEARCH_PAPERS pass, targeting the survey's 'updated vendor ASR latency numbers' gap. Announced June 2026. Reports WER + latency together (latency timed from VAD-detected end-of-speech via Silero VAD, split into first-partial vs first-final transcript) over ~8h of audio (AA-AgentTalk, Earnings22-Cleaned-AA, VoxPopuli-Cleaned-AA). Says Deepgram is among the Pareto-optimal vendors but WebSearch snippets did not surface Deepgram's specific Nova-2/Nova-3 numbers (ElevenLabs Scribe v2 Realtime was the only vendor with concrete numbers visible: 2.8% WER final / 2.9% partial on AA-AgentTalk). WebFetch to the host failed (DNS/EGRESS_BLOCKED this session, consistent with other arxiv/aclanthology hosts also failing today) -- needs a real EXTRACT_PAPERS pass, ideally via the per-model benchmark pages, to get Deepgram's actual figures before this is useful evidence for any hypothesis."
+    },
+    {
+      "id": "east-simultaneous-translation-2025",
+      "title": "EAST: efficient streaming/simultaneous translation with LLMs under prompt-based incremental decoding",
+      "authors": "Biaofu Xu et al.",
+      "year": 2025,
+      "venue": "arXiv",
+      "url": "https://arxiv.org/pdf/2504.09570v1.pdf",
+      "source": "websearch_cycle63",
+      "status": "found",
+      "summary": "",
+      "key_findings": [],
+      "relevant_to": [],
+      "extraction_note": "Found cycle 63 (2026-10-18) SEARCH_PAPERS pass, targeting the survey's 'new LLM-as-MT prompting techniques' gap (this repo already does prompt-based incremental/streaming translation via LangChain+Gemini, so KV-cache-recompute cost as the source prefix grows is directly relevant to this pipeline's own latency profile). WebSearch summary only: reports that naive prompt-based streaming MT must recompute the KV cache every time the prompt changes as new source words arrive, and proposes a fix (code at github.com/biaofuxmu/EAST). WebFetch to arxiv.org failed this session (DNS/EGRESS_BLOCKED) -- needs EXTRACT_PAPERS to pull the actual abstract/method details before judging relevance; this repo calls a hosted LLM API per batch rather than running its own model, so a locally-computed KV-cache optimization may or may not translate into an actionable hypothesis (e.g. could still inform prompt-construction choices to minimize re-sent context) -- do not assume applicability without reading further."
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
