@@ -747,7 +747,7 @@
       "status": "queued",
       "experiment_ids": [],
       "result_summary": "",
-      "blocked_reason": "Cycle 52 (2026-10-11): environment check found DEEPGRAM_API_KEY/GOOGLE_API_KEY/OPENAI_API_KEY all set and ffmpeg available, but this hypothesis specifically needs OPENAI_API_KEY *reachability* (its gpt-4o-mini judge_openai() path), not just DEEPGRAM/GOOGLE as prior cycles checked. `curl -H \"Authorization: Bearer $OPENAI_API_KEY\" https://api.openai.com/v1/models` failed with the sandbox's egress proxy returning CONNECT tunnel failed / HTTP 403 ('connect_rejected', organization policy) -- the same class of host-specific egress block this playbook already documents for api.deepgram.com in earlier cycles (a set/valid key does not imply a reachable host), just on a different host and with no prior precedent for OPENAI specifically. generativelanguage.googleapis.com and api.deepgram.com were not re-tested this cycle since this hypothesis's required_changes (judge_openai() in translation_fidelity_judge.py) touches neither. No code written yet (holding off until the host is reachable, to avoid an untested implementation sitting around). Nothing fabricated; no spend. Remains queued/approved_by_human for whenever api.openai.com is allowlisted."
+      "blocked_reason": "Cycle 63 (2026-10-18) reachability re-check: api.openai.com REST is blocked at the egress-proxy CONNECT level (curl: CONNECT tunnel failed, response 403) in this sandbox session, confirming this hypothesis's own required_changes note ('needs OPENAI_API_KEY specifically') cannot be satisfied here. Not re-tested every cycle -- re-check if the environment changes."
     },
     {
       "id": "h-soft-anchor-gate-min3-erasure-decomposition",
@@ -919,7 +919,8 @@
       "status": "queued",
       "experiment_ids": [],
       "result_summary": "blocked_reason (cycle 56, 2026-10-14): needs a live Deepgram listen-websocket run (ASR-only A/B with vs without the AIME keyterm) -- confirmed still blocked, identical HTTP 400 'Connection header did not include upgrade' signature as every cycle since cycle 5 (proxy mangles the WS Connection:Upgrade handshake; REST /v1/projects and Gemini generativelanguage.googleapis.com both return 200, this is WS-upgrade-specific). Deferred to a future cycle/session with working Deepgram WS access.",
-      "approved_at": "2026-10-14T20:20:22.525743+00:00"
+      "approved_at": "2026-10-14T20:20:22.525743+00:00",
+      "blocked_reason": "Cycle 63 (2026-10-18) reachability re-check: Deepgram REST is reachable (200) but the actual listen-websocket upgrade handshake fails with HTTP 400 'Connection header did not include upgrade' -- the egress proxy mangles the WS upgrade, same failure mode PLAYBOOK.md documents from cycle 5. This hypothesis's ASR-only runner needs a live Deepgram websocket connection, so it remains blocked in this sandbox regardless of the key being set and REST being reachable."
     },
     {
       "id": "h-review-perceived-drops-short-cards",
