@@ -1080,8 +1080,8 @@
       "required_changes": "Extend src/real_time_translation/experiments/post_gap_queue_wait.py's tagging (or add a new retroactive script reusing its _tag_post_gap_batches/batch_latencies imports) to tag each batch by its integer offset from the nearest preceding excluded gap (0, 1, 2, ... up to some small cap, everything else remains 'baseline'), report mean queue_wait_s per offset per run, and recompute explanatory_share_of_gapexcl_al summing excess queue_wait across all offsets found to be elevated (not just offset 0) against the same ca_al_char_s_gapexcl denominator. Add unit tests on a synthetic toy event list covering a multi-batch decay pattern. Purely retroactive re-analysis of the same 2 existing experiment JSONs already used by h-mt-queue-wait-post-gap-residual -- no new Deepgram/LLM calls, no pipeline code change.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": null
     }
