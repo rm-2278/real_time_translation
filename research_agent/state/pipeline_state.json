@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 14,
-  "last_updated": "2026-10-18T00:13:00.168374+00:00",
+  "last_updated": "2026-10-18T00:18:03.367828+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1739,6 +1739,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-18T00:13:00.168348+00:00",
       "note": "Cycle 63 HUMAN_APPROVAL: check-budget AUTO_APPROVE for h-post-gap-queue-wait-persistence ($0, uses_existing_clips=true, zero same-day spend). Set approval=auto_approved, status=queued. This is a normal new-hypothesis auto-approval (not a needs_human/pending_approval.json reversal), distinct from the cycle-36-documented self-approval block which applies specifically to converting an existing needs_human escalation -- not retested here. 4 hypotheses now queued (3 approved_by_human + 1 just auto_approved), all approval != needs_human, so advancing to RUN_EXPERIMENTS per playbook."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-18T00:18:03.367799+00:00",
+      "note": "Cycle 63 RUN_EXPERIMENTS: ran h-post-gap-queue-wait-persistence (0-cost retroactive). Extended post_gap_queue_wait.py with _tag_offset_batches (offsets 0..5 after each excluded gap, truncated before overlapping the next gap's own anchor) and analyze_persistence(), with 3 new unit tests covering truncation and decay-stop logic (6/6 passing, ruff clean). Ran over all of experiments/*.json: both cycle-61/62 outlier full-lecture runs show the elevated queue_wait persisting 2-3 offsets past the single post-gap batch before decaying to baseline, and 2 more runs with excluded gaps were found incidentally (full_llm2025_zenhan_gemini3flash_s0, full_llm2025_zenhan_gpt54mini_s0)."
     }
   ]
 }
