@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 14,
-  "last_updated": "2026-10-18T12:10:49.454743+00:00",
+  "last_updated": "2026-10-18T12:16:31.422893+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1775,6 +1775,30 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-18T12:10:49.454715+00:00",
       "note": "cycle 64: h-enja-word-order-reordering-proxy-latency now queued/auto_approved ($0, retroactive). The 3 pre-existing queued hypotheses remain legitimately blocked (Deepgram WS, OpenAI REST, human rater) per cycle 63's confirmation -- not re-testing those blockers again this cycle per that reflection's guidance."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-18T12:14:16.730051+00:00",
+      "note": "cycle 64: experiment run, results in experiments/word_order_reordering_proxy.csv. Proceeding to analysis."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-18T12:15:13.953512+00:00",
+      "note": "cycle 64: h-enja-word-order-reordering-proxy-latency tested, honest null result. Writing Japanese report."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-10-18T12:16:00.877590+00:00",
+      "note": "cycle 64: report written. Proceeding to self-reflection."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-18T12:16:31.422863+00:00",
+      "note": "cycle 63 REFLECT -> GENERATE_HYPOTHESES (start cycle 65): existing paper base has several never-cited papers (sasst2026-syntax-aware-chunking, exposst2026-adaptive-masking-positioning, etc.) worth mining before a fresh literature search."
     }
   ]
 }
