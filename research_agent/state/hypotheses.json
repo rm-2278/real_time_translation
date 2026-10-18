@@ -1066,6 +1066,24 @@
         "experiments/post_gap_queue_wait.csv"
       ],
       "result_summary": "PARTIALLY CONFIRMED. For both outlier full-lecture runs, batches tagged as the first batch right after an excluded (>10s) gap show a mean queue_wait_s 4.5-5.9x the run's own baseline (llm2025_ep8_zenhan_full_lecture: 5/8 gaps resolved, post_gap_mean=7.92s vs baseline_mean=1.35s; _v2_dict: 6/7 gaps resolved, post_gap_mean=6.15s vs baseline_mean=1.26s) -- the predicted direction and rough order of magnitude held, though the formal run's post_gap_mean came out somewhat lower than the GENERATE_HYPOTHESES exploratory pre-check's 7.43-8.47s figure (the pre-check's own note already flagged two low outliers, 2.57s/2.80s, that this formal run's mean necessarily includes). Summing each run's post-gap excess queue_wait (post_gap_queue_wait_s minus that run's baseline mean) against its own ca_al_char_s_gapexcl (cycle 61's unresolved AL residual) gives an explanatory share of 54.9% (first run) and 39.7% (second run) -- so the post-gap MT queueing effect is real and substantial, but accounts for less than half to just over half of the residual, not all of it. A roughly 45-60% remainder of the residual is still unexplained by this mechanism alone; a future hypothesis would need to look elsewhere (e.g. whether settle-time effects propagate forward past just the one post-gap batch, or a different source of inflation entirely) rather than treating this as closing the cycle-61 question."
+    },
+    {
+      "id": "h-post-gap-queue-wait-persistence",
+      "title": "Measure how many batches after a >10s silence gap the elevated MT queue-wait (h-mt-queue-wait-post-gap-residual) persists, to see if propagation beyond just the first post-gap batch explains more of the cycle-61 AL residual",
+      "description": "h-mt-queue-wait-post-gap-residual (cycle 63 tested) confirmed post-gap batches carry 4.5-5.9x elevated queue_wait_s vs. each run's baseline, but that effect alone only explains 54.9%/39.7% of the two outlier runs' cycle-61 ca_al_char_s_gapexcl residual -- its own result_summary explicitly flags that the remaining ~45-60% could come from the excess propagating forward into the settle times of batches AFTER the first post-gap one, a mechanism post_gap_queue_wait.py's _tag_post_gap_batches() does not measure (it tags only the single nearest-batch-to-gap-end as 'post-gap', everything else as 'baseline', with no notion of a second or third batch still carrying excess queue_wait as the backlog drains). This hypothesis extends that same retroactive analysis to batches at offset 1, 2, 3... after each gap (not just offset 0) to find how many batches it takes for queue_wait_s to return to baseline, and whether summing the excess across all elevated offsets closes more of the residual than the single-batch version did.",
+      "grounded_in": [
+        "papi2025-howreal",
+        "arivazhagan2020-retranslation",
+        "polak2026-meta-evaluation-latency-metrics"
+      ],
+      "predicted_effect": "Expect queue_wait_s to decay from the offset-0 elevation (4.5-5.9x baseline) back toward baseline over a small number of subsequent batches (plausibly 1-3, given each run's baseline batch cadence), not drop to baseline instantly at offset 1 -- a pure single-batch effect would mean h-mt-queue-wait-post-gap-residual's unexplained remainder comes from somewhere else entirely, while a multi-batch decay would mean this hypothesis's wider accounting closes a meaningfully larger share of the residual than that hypothesis's 39.7-54.9%. Either outcome is informative and should be reported as found, not assumed.",
+      "required_changes": "Extend src/real_time_translation/experiments/post_gap_queue_wait.py's tagging (or add a new retroactive script reusing its _tag_post_gap_batches/batch_latencies imports) to tag each batch by its integer offset from the nearest preceding excluded gap (0, 1, 2, ... up to some small cap, everything else remains 'baseline'), report mean queue_wait_s per offset per run, and recompute explanatory_share_of_gapexcl_al summing excess queue_wait across all offsets found to be elevated (not just offset 0) against the same ca_al_char_s_gapexcl denominator. Add unit tests on a synthetic toy event list covering a multi-batch decay pattern. Purely retroactive re-analysis of the same 2 existing experiment JSONs already used by h-mt-queue-wait-post-gap-residual -- no new Deepgram/LLM calls, no pipeline code change.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.0,
+      "approval": null,
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": null
     }
   ]
 }
