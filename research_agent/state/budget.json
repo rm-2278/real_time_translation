@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-17",
+  "date": "2026-10-18",
   "spent_today_usd": 0.0,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
@@ -229,6 +229,11 @@
       "at": "2026-10-17T12:13:56.521928+00:00",
       "amount_usd": 0.0,
       "note": "h-mt-queue-wait-post-gap-residual: retroactive analysis, no new Deepgram/LLM calls"
+    },
+    {
+      "at": "2026-10-18T00:17:42.172653+00:00",
+      "amount_usd": 0.0,
+      "note": "h-post-gap-queue-wait-persistence: extended post_gap_queue_wait.py with per-offset (0..N) tagging + persistence CSV, ran retroactively over experiments/*.json, zero new Deepgram/LLM API spend"
     }
   ]
 }

@@ -1082,8 +1082,12 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/post_gap_queue_wait_persistence.csv",
+        "experiments/20260918_llm2025_ep8_zenhan_full_lecture.json",
+        "experiments/20260918_llm2025_ep8_zenhan_full_lecture_v2_dict.json"
+      ],
       "result_summary": null
     }
   ]
