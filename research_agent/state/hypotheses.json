@@ -1102,8 +1102,8 @@
       "required_changes": "New retroactive analysis script under src/real_time_translation/experiments/ (e.g. word_order_reordering_proxy.py) that: (1) reuses mt_latency_decomposition.batch_latencies() for per-batch queue_wait_s/stream_duration_s, (2) filters to is_utterance_end=True translation_complete events across all experiments/*.json with results.events, (3) computes the dependency-free verb-position proxy on each utterance's original_text, (4) correlates the proxy against queue_wait_s/stream_duration_s and against results.csv's per-run fidelity/chrF columns where resolvable, reporting Pearson/Spearman and an honest null-result path if correlation is weak. No live Deepgram/LLM calls, no pipeline code changes. Add unit tests for the proxy heuristic on a handful of hand-picked English sentences with known verb positions.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
