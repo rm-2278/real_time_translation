@@ -3510,3 +3510,96 @@ PLAYBOOK's SEARCH_PAPERS section; (3) if time remains after both, the
 post-gap-batch backlog-propagation follow-up noted above (how many batches
 after a gap does the queueing effect persist across) is a well-motivated,
 zero-cost GENERATE_HYPOTHESES candidate for whenever the backlog has room.
+
+## Cycle 63 (2026-10-18, scheduled run)
+
+**What worked:** Completed a full cycle end-to-end for the first time in a
+while (SEARCH_PAPERS -> ANALYZE_RESULTS -> WRITE_REPORT), addressing the two
+highest-priority items cycle 62's reflection flagged: a real literature pass
+(overdue 5 cycles) and the Deepgram/OpenAI reachability re-check (overdue 3
+cycles, now 4). Both landed clean findings. The literature pass found 2 new
+papers, cross-referenced both against this repo's actual code
+(llm_translator.py's context-window/caching design for EAST,
+experiments/results.csv's existing ASR-latency-isn't-the-bottleneck
+conclusion for AA-WER Streaming) and correctly declined to force a hypothesis
+out of either -- "read but not hypothesis-worthy" is a legitimate READ_PAPERS
+outcome, not a failure to find something. The reachability check confirmed
+the same blockers persist unchanged (Deepgram WS upgrade still mangled by the
+egress proxy with the identical cycle-5 error text; OpenAI REST now also
+confirmed CONNECT-blocked, which hadn't been explicitly re-verified in recent
+cycles) -- this closes the "is it reachable yet" question for the 2 API-gated
+queued hypotheses with an actual answer instead of another silent skip, and
+the `blocked_reason` field written to each hypothesis means a future cycle
+doesn't have to re-derive this from scratch.
+
+The $0 hypothesis itself (h-post-gap-queue-wait-persistence) also worked
+cleanly: extended cycle 62's own module rather than duplicating it, added
+unit tests that specifically exercise the one subtle piece of new logic
+(truncating an offset run before it overlaps the next gap's own anchor) with
+a synthetic back-to-back-gaps scenario, and the real result was informative
+in the way PLAYBOOK asks for -- it confirmed the predicted direction
+(multi-batch persistence) and materially raised the explanatory share
+(54.9/39.7% -> 74.6/54.7%) without claiming to fully close the residual
+(still 25-45% unexplained). Also surfaced 2 more runs with excluded gaps as
+a side effect of running the generic `experiments/*.json` glob rather than
+hand-picking the 2 known outlier files -- worth remembering as a general
+habit: prefer the broad glob over a hardcoded file list when a retroactive
+script's cost is free, since it can find relevant data points the previous
+cycle's narrower analysis didn't know to look for.
+
+**What didn't fully resolve:** Same shape of problem as cycle 62 --
+diminishing returns on the "how much of the residual is explained" question.
+Two cycles in a row now have taken a real, confirmed effect and narrowed
+(not closed) the unexplained remainder. If a 3rd follow-up on this exact
+residual also only partially closes it, that is the point to stop chasing
+this specific thread and treat the remainder as a separate, differently-
+caused phenomenon rather than assuming one more layer of the same mechanism
+will finish the job -- noting this threshold explicitly now so it isn't
+re-decided from scratch next time.
+
+**Backlog calibration:** 4 queued/proposed (3 approved_by_human,
+1 auto_approved this cycle), still comfortably under the 6 cap (both
+statuses counted). Composition: the same 3 items from cycle 62
+(h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-
+positive, h-continuous-rating-cps-calibration) remain queued and still
+blocked -- but now for *confirmed, not-assumed* reasons (OpenAI REST
+genuinely blocked, Deepgram WS genuinely mangled, human viewing time
+genuinely not something this agent can supply). This is a meaningfully
+different state than "stalled because the diagnostic hasn't been re-run":
+these 3 are now legitimately nothing-to-do-until-the-environment-or-a-human-
+changes, not silently neglected. Future cycles should not keep re-running
+the identical reachability check every single time on the assumption it
+might have changed -- that's reasonable to skip again for a while now that
+it's freshly confirmed, and worth re-checking only if something suggests the
+sandbox's network policy changed (a different proxy error shape, a
+PLAYBOOK/environment note about it) rather than on a fixed cadence.
+
+**Budget policy:** no change proposed. $0 spent again this cycle ($0 total
+today after the daily-cap date rollover), well under both caps.
+
+**Should PLAYBOOK.md change?** No edit made this cycle. Considered adding an
+explicit "don't re-run the reachability check every cycle once confirmed,
+only on suspected environment change" line, but this is a single
+data point (one confirmation) -- if the next 1-2 cycles that reach
+RUN_EXPERIMENTS with a live-API-gated hypothesis available keep re-running it
+out of habit anyway, that repeated-redundant-check pattern (the mirror image
+of cycle 60-62's repeated-skip pattern) would be the trigger to actually add
+guidance, not this single cycle.
+
+**Notification decision:** Not sending a PushNotification this cycle. No new
+`needs_human` item, `pending_approval.json` is empty, budget is untouched,
+and the result (a real, confirmed, but still partial finding, plus two
+already-known-category environment blockers now re-confirmed rather than
+newly discovered) is informative but not urgent -- consistent with recent
+cycles' non-urgent-finding calls.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` for cycle 64 would be
+premature -- this cycle's own literature pass just ran and didn't exhaust
+anything (no backlog gap it needs to fill right now). Advancing to
+`GENERATE_HYPOTHESES` instead: the backlog has room (4/6), and the open
+"25-45% of the residual still unexplained, and this is the 2nd follow-up
+cycle on the same question" situation noted above is itself a legitimate
+`GENERATE_HYPOTHESES` input -- next cycle should weigh continuing this thread
+a 3rd time against pivoting to a different data-mining angle, per the
+threshold noted above, rather than mechanically repeating the same
+decomposition pattern a 3rd time without that check.
