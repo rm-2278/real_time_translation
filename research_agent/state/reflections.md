@@ -3745,3 +3745,74 @@ which this cycle did not test; plus the syntax/masking papers noted above
 as not directly portable but potentially worth a second look from a
 different angle), so a fresh literature search isn't the most valuable
 next step yet.
+
+## Cycle 66 (2026-10-19, scheduled run)
+
+**What worked this cycle? What didn't?** GENERATE_HYPOTHESES worked well:
+picked up exactly the thread cycle 65's own reflection flagged as the next
+candidate (ruverbench2606's untested repeat-count/diminishing-returns
+claim, distinct from the reasoning-order claim already tested), reused
+cycle 65's fixed-translation-text replay infrastructure cleanly (no new
+Deepgram spend, no new translation generation, pure additional judge calls
+against already-recorded text). The experiment itself ran without any
+operational hiccups: 170/170 gemini-3.1-flash-lite calls parsed cleanly.
+
+What didn't work: the analysis design itself was unsound, and I almost
+reported a false positive. Computing "variance of the mean across all
+combinatorial subsets of one small fixed 5-draw sample" and comparing it
+to a naive i.i.d. 1/K prediction produces a sharply shrinking ratio curve
+(1.0, 0.667, 0.444, 0.25) that LOOKS exactly like evidence of positive
+correlation between repeated judge calls -- but it is a guaranteed
+finite-population-correction artifact of exhaustive without-replacement
+subsetting, true for ANY data fed through it, correlated or not. Caught
+this only by thinking to run a synthetic i.i.d. control through the
+identical analysis code and seeing it reproduce the identical curve
+exactly. This is now written into PLAYBOOK.md's ANALYZE_RESULTS section
+(see the cycle-66 entry) as a third example in the same family as the
+cycle-20/21 noise-floor entries: before trusting any "does X shrink as K
+grows" comparison, run a synthetic control with known ground truth through
+the same analysis code first.
+
+**Was the hypothesis backlog well-calibrated?** Yes -- only 1 new
+hypothesis this cycle (depth over breadth), fully carried through
+GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS -> ANALYZE_RESULTS
+-> WRITE_REPORT in one session. Backlog is unchanged at 3 queued
+(pre-existing, still legitimately blocked on environment/human-approval
+per cycles 63-65's confirmations) + this cycle's 1 now `tested`, so
+effectively still 3 queued, well under the 6 cap.
+
+**Is the auto-approval budget policy still right?** No change proposed.
+$0.06 spent this cycle (plus $0.05 carried from earlier today), both well
+under the $3 per-batch and $7 daily caps. Total spend today: $0.11.
+
+**Should PLAYBOOK.md change?** Yes -- added the cycle-66 finding to
+ANALYZE_RESULTS (synthetic-control-before-trusting-a-shrinking-noise-curve
+rule), since this is a concrete, costly-to-rediscover trap in the same
+family as the existing noise-floor entries and is worth flagging the first
+time, not waiting for a second occurrence (unlike the GENERATE_HYPOTHESES
+"pivot-angle technique" convention, which is for reusable positive
+techniques, not analysis pitfalls -- the existing ANALYZE_RESULTS entries
+for cycle 12/19-21's confounds were likewise written up on first
+occurrence, so this follows established practice, not a new convention).
+
+**Notification decision:** Not sending a PushNotification this cycle. No
+new `needs_human` item, `pending_approval.json` is empty, budget is barely
+touched ($0.11/$7 daily), and the result -- while worth documenting
+carefully -- is a methodological non-finding (the underlying research
+question about judge repeat-count noise scaling remains open, not resolved
+either way) rather than something that needs the human's decision or
+immediate attention. Consistent with recent cycles' non-urgent-finding
+calls.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` rather than
+`SEARCH_PAPERS` -- `ruverbench2606`'s repeat-count claim is still
+genuinely open (this cycle only showed one analysis method can't answer
+it, not that the claim is false), and a corrected redesign (independent
+per-K replicate batches rather than combinatorial subsetting) is a
+concrete, well-specified candidate for a future hypothesis. The other
+never-cited papers from cycle 64/65's inventory (`sasst2026-syntax-aware-
+chunking`, `exposst2026-adaptive-masking-positioning`, and the remaining
+~15 never-cited entries) are also still available as alternative angles if
+a future cycle prefers not to immediately retry the repeat-count design. A
+fresh literature search isn't the most valuable next step yet given this
+much unexplored ground already in papers.json.

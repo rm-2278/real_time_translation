@@ -586,6 +586,33 @@ asyncio.run(main())
   methods depends on how much translation difficulty varies across the
   spans in your sample (small on the low-variance original clip, ~2x on
   the more varied guest-talk clip) -- check both, don't assume either one.
+- **Never treat "variance of the mean across exhaustively-enumerated
+  subsets of one small FIXED sample" as a simulation of "what would happen
+  with independent fresh repeat batches"** (found cycle 66, 2026-10-19,
+  h-judge-repeat-count-diminishing-returns): that hypothesis collected
+  K_MAX=5 real judge() calls per group, then computed, for K'=1..5, the
+  variance of the mean across all `C(5, K')` subsets drawn WITHOUT
+  replacement from those same 5 fixed draws, and compared it to a naive
+  i.i.d. `single_draw_variance / K'` prediction. The resulting
+  empirical/theoretical ratio shrank sharply as K' grew (1.0, 0.667, 0.444,
+  0.25 at K'=1..4), which looked like strong evidence that repeated judge
+  calls on the same input are positively correlated. A synthetic control
+  (34 groups x 5 draws from a TRUE i.i.d. Gaussian generator, zero real
+  correlation by construction) run through the identical analysis code
+  reproduced the numerically IDENTICAL curve -- proving the shrinkage is a
+  guaranteed finite-population-correction artifact of exhaustively
+  subsetting one small fixed sample without replacement, true regardless of
+  whether the underlying process is correlated or not, not evidence about
+  the real judge. Caught during ANALYZE_RESULTS before being written up as
+  a finding, same spirit as the two entries above. Practical fix: before
+  trusting any "does noise shrink as K grows" comparison, run a synthetic
+  i.i.d. control (same analysis code, fake random data with no real
+  correlation by construction) and confirm it does NOT reproduce the
+  observed curve -- if it does, the comparison method itself is invalid, no
+  matter what real data is fed through it. A statistically valid test of
+  this kind of question needs genuinely independent per-K REPLICATE
+  BATCHES (actually drawing fresh K=2, K=3, K=4, K=5 samples as separate
+  live judge-call sets), not combinatorial subsetting of one fixed batch.
 - Compare the new experiment's metrics (chrF, latency, and, once
   `h-flicker-metric` has landed, normalized erasure) against the relevant
   baseline row(s) in `experiments/results.csv`.
