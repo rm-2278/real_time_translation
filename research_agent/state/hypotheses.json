@@ -1139,8 +1139,8 @@
       "required_changes": "New script src/real_time_translation/experiments/judge_repeat_diminishing_returns.py that: (1) reuses judge_reasoning_order_replay.py's _sampled_groups()/score_first prompt and fixed-translation-text convention exactly (same source JSON, same 34 groups, same score_first-only prompt copied in, since the existing module isn't designed to be imported as a library function for a different K -- confirmed by reading it: _judge_once/_sampled_groups have no K parameter); (2) for each sampled group, calls judge() K_MAX=5 times (not 2) on the identical fixed (source_full, translation) pair, recording all 5 raw scores (170 total new judge calls across 34 groups); (3) for each group, computes, for every K' in 1..5, the empirical variance of the mean across all C(5, K') same-size subsets of that group's 5 draws (itertools.combinations, no new live calls needed since all subsets are reused from the same 5 already-collected draws); (4) averages each K''s subset-mean-variance across all 34 groups to get one empirical curve point per K', and separately computes the naive theoretical prediction (each group's own 5-draw sample variance divided by K', averaged the same way) as the baseline i.i.d. comparison curve; (5) reports both curves side by side plus their ratio at each K', so a ratio near 1.0 at every K' supports plain i.i.d. scaling (ruverbench2606's 'diminishing returns' is then just ordinary 1/sqrt(K) statistics, not a repo-specific extra effect) while a ratio that grows with K signals faster-than-predicted flattening (positive correlation between repeats). Does NOT modify translation_fidelity_judge.py or any production code -- replay-only, same as h-judge-reasoning-before-score-noise. Zero new Deepgram spend, zero new translation generation; only new spend is the extra judge() calls (170 total vs cycle 65's 136, similar per-call rate).",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.07,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }

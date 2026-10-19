@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 14,
-  "last_updated": "2026-10-19T12:13:25.719930+00:00",
+  "last_updated": "2026-10-19T12:13:42.607282+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1841,6 +1841,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-19T12:13:25.719868+00:00",
       "note": "Cycle 66: added 1 new hypothesis h-judge-repeat-count-diminishing-returns (grounded in ruverbench2606's untested diminishing-returns-with-repeat-count claim, flagged in cycle 65's reflections). Backlog now 4 queued/proposed (3 pre-existing queued + this 1 proposed), well under the 6 cap. Reused cycle 65's fixed-translation-text replay design, K raised 2->5."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-19T12:13:42.607249+00:00",
+      "note": "check-budget(0.07) -> AUTO_APPROVE, uses_existing_clips=true. Set h-judge-repeat-count-diminishing-returns to auto_approved/queued. 4 total queued/proposed now 3 queued (pre-existing) + this one = 4 queued, under cap."
     }
   ]
 }
