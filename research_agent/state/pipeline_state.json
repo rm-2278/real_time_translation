@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 14,
-  "last_updated": "2026-10-19T00:20:27.393710+00:00",
+  "last_updated": "2026-10-19T00:21:23.891342+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1817,6 +1817,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-19T00:20:27.393682+00:00",
       "note": "cycle 65: h-judge-reasoning-before-score-noise experiment run, results in experiments/judge_reasoning_order_replay.json + results.csv. Proceeding to analysis."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-19T00:21:23.891273+00:00",
+      "note": "cycle 65: h-judge-reasoning-before-score-noise tested, honest negative/contradicted result (reasoning-first increases judge noise ~2.4x vs decreasing it). Writing Japanese report."
     }
   ]
 }
