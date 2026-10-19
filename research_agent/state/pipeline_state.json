@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 14,
-  "last_updated": "2026-10-19T00:15:00.761567+00:00",
+  "last_updated": "2026-10-19T00:20:27.393710+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1811,6 +1811,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-19T00:15:00.761534+00:00",
       "note": "cycle 65: h-judge-reasoning-before-score-noise now queued/auto_approved ($0.05, uses_existing_clips). The 3 pre-existing queued hypotheses remain legitimately blocked per cycle 63/64's confirmation -- not re-testing those blockers again. Proceeding to implement and run the new hypothesis's replay script."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-19T00:20:27.393682+00:00",
+      "note": "cycle 65: h-judge-reasoning-before-score-noise experiment run, results in experiments/judge_reasoning_order_replay.json + results.csv. Proceeding to analysis."
     }
   ]
 }
