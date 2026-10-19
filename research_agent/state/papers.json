@@ -967,7 +967,9 @@
         "Reports a concrete, previously untested-here trade-off: BATCHING multiple rubric items into one judge call changes accuracy (direction given as a trade-off, not simply 'batching is worse') vs calling the judge once per item.",
         "Reports majority voting (multiple independent judge calls per item, take the modal/averaged verdict) reduces noise but with diminishing returns per added vote -- this repo already has REPEATS-based data for some hypotheses (e.g. the 2-repeat recalibrated-noisefloor replay) but has never specifically measured a diminishing-returns curve as repeat count increases past 2."
       ],
-      "relevant_to": [],
+      "relevant_to": [
+        "h-judge-reasoning-before-score-noise"
+      ],
       "extraction_method": "websearch_fallback (WebFetch EGRESS_BLOCKED for arxiv.org this session; used WebSearch with exact-title query instead per PLAYBOOK.md EXTRACT_PAPERS fallback)",
       "extracted_claims": [
         "Presents RuVerBench, described as the first benchmark assessing LLM-as-a-Judge (LaaJ) reliability specifically for rubric verification in agentic scenarios (not single-turn response grading).",
@@ -994,7 +996,9 @@
         "Judge reliability degrading sharply on harder/more ambiguous items (55.97% on Hard) is a plausible same-shape effect as this repo's own cycle 55 finding that low-scoring sliding-context-window judge results concentrated on genuinely disfluent/garbled ASR source spans -- suggestive but not yet verified as the same mechanism.",
         "Explicit reasoning before the verdict improving judge accuracy is a prompt-design lever this repo's translation_fidelity_judge.judge() implementation has not been checked against (does the current judge prompt already request reasoning-before-score, or go straight to a score?) -- a concrete, cheap, code-level thing to verify before treating it as a gap."
       ],
-      "relevant_to": [],
+      "relevant_to": [
+        "h-judge-reasoning-before-score-noise"
+      ],
       "extraction_method": "websearch_fallback (WebFetch EGRESS_BLOCKED for arxiv.org this session; used WebSearch with exact-title query instead per PLAYBOOK.md EXTRACT_PAPERS fallback)",
       "extracted_claims": [
         "Presents RubricEval, a meta-evaluation benchmark for how accurately LLM judges grade individual rubric items in instruction-following tasks, rather than only grading whole responses (response-level) -- argues prior meta-evaluation work focuses almost entirely on the response level, leaving rubric-item-level reliability unclear.",
