@@ -191,6 +191,32 @@ human-facing; treat the JSON field as an internal
   reflections.md cycle 20).
 - Advance to `HUMAN_APPROVAL`.
 
+**Pivot-angle technique: mine never-cited papers (used cycle 64, 2026-10-18,
+and cycle 65, 2026-10-19 -- now a named, reusable move per this playbook's
+own rule that a technique reinvented twice should be written down):** when
+you need a fresh hypothesis angle and aren't sure what to pivot to (e.g. a
+multi-cycle thread has plateaued, or the backlog needs a genuinely new
+direction rather than another variant of the same analysis), grep
+`papers.json` for which paper `id`s are never referenced in any
+hypothesis's `grounded_in` list (not `relevant_to` -- that field is
+sometimes populated by a different, earlier pass and does not mean a
+hypothesis actually tested anything from that paper). This is a cheap,
+mechanical way to surface genuinely untried angles instead of re-running a
+variant of existing analysis under a new name. Cycle 64 found
+`doi2024-enja-si-word-order` this way; cycle 65 found `rubriceval2603` +
+`ruverbench2606` this way (both had been read and summarized with an
+explicit note that they were relevant to the judge-reliability thread, but
+neither had actually grounded a hypothesis yet). Caveat: a paper being
+previously-uncited does not by itself mean it is testable -- some
+never-cited papers (e.g. `exposst2026-adaptive-masking-positioning`,
+`sasst2026-syntax-aware-chunking`) require fine-tuning/self-hosted model
+access this repo's API-only architecture cannot use, per their own
+`key_findings`; read the paper's existing summary/key_findings in
+`papers.json` first and only write a hypothesis if it suggests something
+concretely testable against this repo's actual code/data (verify by
+reading the relevant source file, same rule as the rest of this section),
+not just because it is on the never-cited list.
+
 **Human-requested literature refresh mid-cycle (found cycle 15,
 2026-09-16):** if a human interactively asks for a fresh literature/blog
 pass while `current_state` is already past `SEARCH_PAPERS` (e.g. sitting in

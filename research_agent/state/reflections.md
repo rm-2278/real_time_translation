@@ -3672,3 +3672,76 @@ never-cited papers worth mining as pivot angles (e.g.
 positioning`, both noted in this cycle's report as candidates), so a fresh
 literature search isn't likely to add much right now; working through the
 existing backlog of uncited-but-relevant papers is higher priority.
+
+## Cycle 65 (2026-10-19, scheduled run)
+
+**What worked this cycle?** The "mine never-cited papers in papers.json for
+a GENERATE_HYPOTHESES pivot angle" technique (first used cycle 64) was
+reused a second time, this time landing on `rubriceval2603` and
+`ruverbench2606` -- both had been read and summarized weeks earlier with
+explicit notes flagging them as relevant to this repo's own judge-noise
+work, but neither had actually grounded a hypothesis. Per cycle 64's own
+reflection ("if this technique gets reinvented from scratch rather than
+reused, that repetition would be the signal to write it into the
+playbook"), this cycle wrote it into PLAYBOOK.md's GENERATE_HYPOTHESES
+section as a named, reusable move, with the caveat (also learned this
+cycle, by re-reading `exposst2026`/`sasst2026`'s own key_findings) that
+never-cited does not automatically mean testable -- some require
+fine-tuning/self-hosted models this repo's API-only architecture can't
+use.
+
+The experiment itself also worked cleanly end-to-end in one cycle:
+verified the actual judge prompt code before writing the hypothesis (per
+this playbook's own standing rule), designed a genuinely novel
+fixed-translation-text replay that isolates pure judge-scoring noise for
+the first time (previous noise-floor work at cycles 19-21 conflated
+translation-generation stochasticity with judge noise, which this cycle's
+hypothesis text explicitly called out as a design improvement, not just a
+replication), ran it live (136 real Gemini judge calls, $0.05, zero new
+Deepgram spend), and got a clean, unambiguous result with no missing data
+or parse failures.
+
+**What didn't work / limitations found:** The result itself (reasoning-
+first increases judge noise ~2.4x rather than decreasing it, contradicting
+rubriceval2603) is a genuine, well-supported negative finding, not a
+limitation of the experiment design -- but it is worth being honest that
+this is still only a K=2-per-group check (this repo's standard REPEATS
+convention, not a deeply-powered one), and the experiment cannot
+distinguish between two candidate mechanisms (open-ended reasoning content
+itself amplifying variance, vs. simply moving the score token later in
+the completion). A natural follow-up (not pursued this cycle, to keep
+depth over breadth and because a clean negative result doesn't urgently
+need more confirmation before being reported) would be a 3rd prompt
+variant that asks for reasoning AFTER the score (structurally different
+from both current variants) to help separate "reasoning before vs after"
+from "score early vs late in the completion" -- noting this as a
+candidate for a future cycle rather than writing it up now.
+
+**Backlog calibration:** 3 queued (unchanged, all legitimately blocked per
+cycle 63/64's confirmation) + 1 new hypothesis added and fully run through
+to `tested` within this same cycle, so the backlog is effectively back to
+3, well under the 6 cap. Depth-over-breadth maintained: only 1 new
+hypothesis this cycle, carried to a fully reported conclusion.
+
+**Budget policy:** no change proposed. $0.05 spent this cycle, well under
+both the $3 per-batch and $7 daily caps.
+
+**Should PLAYBOOK.md change?** Yes -- added the never-cited-papers pivot
+technique to GENERATE_HYPOTHESES (see above), since this is now a 2-for-2
+reused technique per this playbook's own stated threshold for writing
+things down. No other playbook changes this cycle.
+
+**Notification decision:** Not sending a PushNotification this cycle. No
+new `needs_human` item, `pending_approval.json` is empty, budget is barely
+touched, and the result -- while a clear negative finding worth having on
+record -- is not urgent (it recommends NOT changing production code,
+rather than flagging something that needs the human's attention or
+decision). Consistent with recent cycles' non-urgent-finding calls.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` rather than
+`SEARCH_PAPERS` -- the never-cited-papers list still has untried angles
+(`ruverbench2606`'s majority-voting diminishing-returns claim specifically,
+which this cycle did not test; plus the syntax/masking papers noted above
+as not directly portable but potentially worth a second look from a
+different angle), so a fresh literature search isn't the most valuable
+next step yet.
