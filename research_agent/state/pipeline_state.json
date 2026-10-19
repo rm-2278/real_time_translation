@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 14,
-  "last_updated": "2026-10-18T12:16:31.422893+00:00",
+  "last_updated": "2026-10-19T00:14:06.811487+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1799,6 +1799,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-18T12:16:31.422863+00:00",
       "note": "cycle 63 REFLECT -> GENERATE_HYPOTHESES (start cycle 65): existing paper base has several never-cited papers (sasst2026-syntax-aware-chunking, exposst2026-adaptive-masking-positioning, etc.) worth mining before a fresh literature search."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-19T00:14:06.811454+00:00",
+      "note": "cycle 65 GENERATE_HYPOTHESES: added h-judge-reasoning-before-score-noise (grounded in previously-uncited rubriceval2603 + ruverbench2606, 0.05 cost, uses_existing_clips). Backlog 3 queued + 1 proposed, under cap. Proceeding to check budget/approval."
     }
   ]
 }
