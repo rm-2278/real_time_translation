@@ -1140,8 +1140,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.07,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/judge_repeat_diminishing_returns.json"
+      ],
       "result_summary": ""
     }
   ]
