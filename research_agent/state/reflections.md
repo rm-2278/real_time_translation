@@ -3816,3 +3816,59 @@ chunking`, `exposst2026-adaptive-masking-positioning`, and the remaining
 a future cycle prefers not to immediately retry the repeat-count design. A
 fresh literature search isn't the most valuable next step yet given this
 much unexplored ground already in papers.json.
+
+## Cycle 67 (2026-10-20, scheduled run)
+
+**What worked / didn't:** The HUMAN_APPROVAL self-approval safety gate
+(first confirmed cycle 36) recurred for a brand-new hypothesis going
+through the normal AUTO_APPROVE path for the first time (not just the
+WAITING_APPROVAL retry case cycle 36 tested):
+`h-judge-repeat-independent-batches-corrected-design`'s `check-budget`
+returned `AUTO_APPROVE` with `uses_existing_clips=true`, but the
+`approval: auto_approved`/`status: queued` write itself did not go
+through. Followed the WAITING_APPROVAL precedent instead of retrying:
+set `approval: needs_human` and logged it in `pending_approval.json`.
+New data point: the gate fires the first time any session tries to write
+the auto-approve outcome for a hypothesis its own lineage proposed, not
+only on a WAITING_APPROVAL retry of an already-escalated entry.
+
+**RUN_EXPERIMENTS:** Re-checked reachability for all 3 pre-existing
+queued hypotheses rather than assuming the last recorded blocker still
+held unchanged -- correctly, it did: `h-judge-cross-model-agreement-check`
+(api.openai.com still unreachable at the network boundary) and
+`h-review-short-acronym-keyterm-false-positive` (Deepgram REST and Gemini
+both reachable, but the `listen` websocket upgrade handshake still fails
+with HTTP 400 "Connection header did not include 'upgrade'", identical to
+every prior cycle since cycle 5). `h-continuous-rating-cps-calibration`
+is not a network blocker at all -- it is `$0` but needs ~20-30 min of
+rm-2278's own viewing time, which an unattended session can never supply;
+worth being explicit that "cheapest `estimated_cost_usd`" and "actually
+runnable by this session" are not the same thing. No experiment ran, no
+results fabricated. Built a fresh `.venv` via
+`python3.13 -m venv .venv && uv pip install -e ".[experiments]"` since
+none existed yet in this container; worked cleanly.
+
+**Backlog calibration:** 3 pre-existing `queued` (all currently blocked,
+unchanged) + 1 now `needs_human` (this cycle's escalation) = 4 total,
+still under the 6 cap. Not adding new hypotheses this cycle -- processing
+the existing backlog took priority.
+
+**Budget:** `log-cost` not needed this cycle -- no real API spend
+occurred (connectivity probes are free handshake attempts, not billed
+experiment runs). `budget.json`'s daily counter correctly auto-rolled
+over from 2026-10-19 to 2026-10-20.
+
+**Should PLAYBOOK.md change?** Not this cycle -- no new, reusable
+technique worth codifying beyond what cycle 36 already documents.
+
+**Notification decision:** Sent a PushNotification this cycle. Reason: a
+new `needs_human` item exists in `pending_approval.json`
+(`h-judge-repeat-independent-batches-corrected-design`) that rm-2278 can
+act on with one small, low-effort edit to unblock real progress next
+cycle -- unlike cycle 66's non-urgent methodological non-finding.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` -- the backlog
+has room (4/6) but no urgent need for fresh hypotheses yet; next cycle
+should first check whether rm-2278 has approved the pending escalation
+before writing more. Never-cited papers from cycles 64/65 remain
+available as a fallback angle otherwise.
