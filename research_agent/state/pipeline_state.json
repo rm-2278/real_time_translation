@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 14,
-  "last_updated": "2026-10-20T00:10:28.567566+00:00",
+  "last_updated": "2026-10-20T12:13:33.806732+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1877,6 +1877,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-20T00:10:28.566990+00:00",
       "note": "Added 1 new hypothesis (h-judge-repeat-independent-batches-corrected-design, a corrected redesign of cycle 66's flawed repeat-count analysis, flagged in cycle 66's reflections.md as the next concrete step). Backlog is 3 queued + 1 proposed (4 total), under the 6 cap, so no further hypotheses added this cycle (depth over breadth). Advancing to process HUMAN_APPROVAL for this and any other pending proposed/unset-approval hypotheses next."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-20T12:13:33.806704+00:00",
+      "note": "Picking up a pre-existing queued hypothesis for this cycle's experiment run."
     }
   ]
 }
