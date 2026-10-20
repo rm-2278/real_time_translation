@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 14,
-  "last_updated": "2026-10-19T12:22:58.085583+00:00",
+  "last_updated": "2026-10-20T00:10:28.567566+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1871,6 +1871,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-19T12:22:58.085551+00:00",
       "note": "Cycle 66 REFLECT complete. ruverbench2606's repeat-count claim remains open (design flaw found, not the claim itself); many never-cited papers still available. Advancing straight to GENERATE_HYPOTHESES rather than a fresh SEARCH_PAPERS pass."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-20T00:10:28.566990+00:00",
+      "note": "Added 1 new hypothesis (h-judge-repeat-independent-batches-corrected-design, a corrected redesign of cycle 66's flawed repeat-count analysis, flagged in cycle 66's reflections.md as the next concrete step). Backlog is 3 queued + 1 proposed (4 total), under the 6 cap, so no further hypotheses added this cycle (depth over breadth). Advancing to process HUMAN_APPROVAL for this and any other pending proposed/unset-approval hypotheses next."
     }
   ]
 }
