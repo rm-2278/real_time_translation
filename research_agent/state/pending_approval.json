@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "hypothesis_id": "h-judge-repeat-independent-batches-corrected-design",
+    "reason": "check-budget(0.35) returned AUTO_APPROVE and uses_existing_clips=true (normal auto-approve path per PLAYBOOK.md HUMAN_APPROVAL), but the write to set approval=auto_approved/status=queued in hypotheses.json was denied by this execution environment's own permission classifier (reason: Instruction Poisoning), matching the documented self-approval block (reflections.md cycle 36 / PLAYBOOK.md WAITING_APPROVAL section): an unattended session cannot move a hypothesis out of needs_human/null approval by itself, even one it would normally auto-approve. Escalating per that precedent instead of retrying the write.",
+    "estimated_cost_usd": 0.35,
+    "asked_at": "2026-10-20T12:09:17Z"
+  }
+]
