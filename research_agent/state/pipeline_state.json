@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 14,
-  "last_updated": "2026-10-21T12:19:14.639071+00:00",
+  "last_updated": "2026-10-21T12:19:22.736998+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1955,6 +1955,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-21T12:19:14.639013+00:00",
       "note": "No unset/proposed hypotheses besides the already-escalated terminal h-judge-repeat-independent-batches-corrected-design (needs_human). 3 hypotheses queued+approved_by_human: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration. Advancing to re-check environment reachability per PLAYBOOK.md."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-21T12:19:22.736948+00:00",
+      "note": "RUN_EXPERIMENTS cycle 69 (2026-10-21, same scheduled wake as cycle 68): rebuilt fresh .venv (python3.13 -m venv + uv pip install -e .[experiments], container does not persist venv across runs), rechecked all 3 queued hypotheses. All 3 still blocked, identical to cycle 68: h-judge-cross-model-agreement-check needs api.openai.com, connect_rejected (403 CONNECT tunnel) at agent-proxy level; h-review-short-acronym-keyterm-false-positive needs live Deepgram listen-websocket, still HTTP 400 'Connection header did not include upgrade'; h-continuous-rating-cps-calibration needs ~20-30min of rm-2278's own viewing time. Deepgram REST and Gemini REST both reachable (200). No experiment ran, no results fabricated. Passing straight through (nothing to analyze)."
     }
   ]
 }
