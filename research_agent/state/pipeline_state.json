@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 14,
-  "last_updated": "2026-10-21T00:09:26.607054+00:00",
+  "last_updated": "2026-10-21T00:10:02.434239+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1907,6 +1907,18 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-21T00:09:26.606514+00:00",
       "note": "Completing cycle 67's REFLECT transition (reflections.md entry was already written and committed; this session executes the actual state advance). Per cycle 67 reflection: backlog has room (4/6), proceeding to check pending approval status before deciding whether to add new hypotheses."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-21T00:09:49.618446+00:00",
+      "note": "Backlog is 4/6 (3 queued+approved_by_human, 1 proposed+needs_human already escalated and terminal per cycle-36 precedent). Not writing new hypotheses this cycle -- prioritizing actually running the 3 already-approved queued hypotheses, especially since DEEPGRAM_API_KEY/GOOGLE_API_KEY/OPENAI_API_KEY are all set in this environment (unlike several recent cycles). Re-checking approval status before RUN_EXPERIMENTS."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-21T00:10:02.434212+00:00",
+      "note": "No pending approval=unset/proposed items besides the already-escalated h-judge-repeat-independent-batches-corrected-design (needs_human, terminal per cycle-36 precedent, left untouched). 3 hypotheses already queued+approved_by_human: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration. Advancing to re-check environment reachability."
     }
   ]
 }
