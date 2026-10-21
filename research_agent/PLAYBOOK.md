@@ -664,6 +664,22 @@ working memory, not a human-facing report) answering honestly:
   clearly supports more untested hypotheses and a fresh search isn't
   likely to add much this cycle.
 - Commit.
+- **Call `orchestrator.py advance` in the same turn you write and commit
+  the `reflections.md` entry, not as a separate later step** (found
+  cycle 68, 2026-10-21, confirmed as a repeat cycle 69, 2026-10-21 same
+  day: twice now a session wrote and committed the REFLECT entry but got
+  cut off before calling `advance`, leaving `pipeline_state.json`'s
+  `current_state` stuck on `REFLECT` one step behind what the committed
+  prose already narrates as decided. The very next scheduled session then
+  has to spend its first move just completing the missed transition
+  before it can do any real work this section's `current_state` says is
+  next). If you ever find `current_state: REFLECT` at Step 0 with a
+  `reflections.md` entry that already states a "next state" decision for
+  the *current* cycle (not a stale decision from an older cycle), trust
+  the `pipeline_state.json` field over the prose: just call `advance` to
+  whatever the prose already decided (do not re-decide or re-litigate it),
+  commit that one-line state change, and move on -- it is not meaningful
+  new work, just finishing an interrupted transition.
 
 ## Hard rules (do not relax these without an explicit human instruction)
 

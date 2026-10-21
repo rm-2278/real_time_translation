@@ -3951,3 +3951,103 @@ still has room and the paper base still has unexplored never-cited angles
 if cycle 69 decides fresh hypotheses are warranted. Re-affirming: the
 pending `needs_human` approval should be checked first before adding more
 on top of an already-adequate backlog.
+
+## Cycle 69 (2026-10-21, scheduled run, same day as cycle 68)
+
+**What worked / didn't:** Same interruption pattern as cycle 68 hit again:
+cycle 68's `reflections.md` entry was already written and committed by the
+prior session, but the `orchestrator.py advance` call for
+`REFLECT -> GENERATE_HYPOTHESES` was never made, so `pipeline_state.json`
+was one step behind the committed narrative for the second time running.
+Completed that transition first (trusting `pipeline_state.json` over the
+prose, per this cycle's own new PLAYBOOK.md note added below), then ran
+`GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS ->
+ANALYZE_RESULTS -> WRITE_REPORT -> REFLECT` in one session, same as cycle
+68. Since this is now a confirmed repeat (not a one-off), added a note to
+PLAYBOOK.md's REFLECT section instructing future sessions to call
+`advance` in the same turn as writing/committing the reflection entry,
+and to trust `pipeline_state.json` over reflections.md prose if the two
+ever disagree about what's "next".
+
+**GENERATE_HYPOTHESES:** No new hypotheses added, third cycle running
+(67, 68, 69) with an unchanged backlog. Actually exercised the
+never-cited-papers pivot-angle technique this time (cycle 68 only
+mentioned it as an option without running it) -- checked all 15
+never-cited papers' existing `summary`/`key_findings` against this
+repo's actual architecture. Confirmed none yield a new concretely
+testable $0 angle: most are explicitly marked in their own `key_findings`
+as requiring fine-tuning/self-hosting this repo's hosted-API-only design
+cannot do (`east-simultaneous-translation-2025`,
+`causal-alignment2026-streaming-transcription`,
+`prefix2prefix2026-llm-architecture-simulst`, `speechllm2026-streaming-s2tt`,
+`cuni2026-pocket-offline-simulst`, `simuls2stomni2607`,
+`exposst2026-adaptive-masking-positioning`,
+`sasst2026-syntax-aware-chunking`), one was already explicitly reasoned
+through and rejected on cost/benefit grounds
+(`rlm-cascade2026-response-level-speculative`: draft+verify adds a round
+trip to save time on translation calls that are already ~0.04s, not
+the slow long-form coding responses the paper's gains come from), and
+the rest are either informational-only vendor benchmarks
+(`vendor-benchmarks-2026-hamming-livelingo`, `aa-wer-streaming-2026`) or
+narrowly-scoped IWSLT system-description papers with no single
+actionable claim distinct from what's already grounding existing
+hypotheses (`nemo-iwslt2026-cascade`, `papi2026-doa-decoder-only-attention
+-policy`, `mllp-vrain-iwslt2026-simulst`). This was a genuinely useful
+exercise even though it produced no new hypothesis -- it converts "maybe
+there's something in the never-cited list" (an open question carried
+since cycle 65) into a checked, closed one for this paper base. Backlog
+stays 4/6: not because of a self-imposed cap, but because the real
+constraint this cycle (and the last two) is 100% of the current backlog
+being execution-blocked, which adding a 5th/6th item would not fix.
+
+**RUN_EXPERIMENTS:** Rebuilt `.venv` again (confirmed: this environment
+does not persist it across scheduled wakes, so this workaround is a
+recurring per-cycle cost, not a one-time fix). All 3 queued hypotheses
+re-verified identically blocked to cycle 68 -- `h-judge-cross-model-
+agreement-check` (OpenAI host connect_rejected by the proxy),
+`h-review-short-acronym-keyterm-false-positive` (Deepgram listen-websocket
+upgrade-handshake mangled, HTTP 400), `h-continuous-rating-cps-calibration`
+(needs human viewing time). No experiment ran, no results fabricated,
+zero new spend, `log-cost` not needed.
+
+**Backlog calibration:** Three consecutive no-op RUN_EXPERIMENTS cycles
+now (67, 68, 69) with the exact same three blockers each time. The
+backlog itself is not miscalibrated in the usual sense (too ambitious/
+too timid/duplicating past work) -- it is well-formed but 100%
+unreachable from an unattended session specifically. Flagging for next
+cycle: if cycle 70 also finds nothing runnable, it is worth deliberately
+writing one hypothesis that depends on *zero* live API access at all (a
+pure code-audit or pure-statistics-over-existing-JSON angle, in the
+spirit of `h-flicker-metric`/`h-mt-queue-wait-decomposition`/
+`h-enja-word-order-reordering-proxy-latency`), purely so that
+RUN_EXPERIMENTS has something runnable regardless of network/proxy
+policy or human availability, rather than re-verifying the same 3
+blockers a fourth time.
+
+**Budget:** `log-cost` not needed -- zero real API spend this cycle
+(only free connectivity probes, same as cycles 67-68).
+
+**Should PLAYBOOK.md change?** Yes, one change made this cycle: added a
+note to the REFLECT section instructing future sessions to call
+`orchestrator.py advance` in the same turn as writing the reflections.md
+entry (not as a separate later step), and to trust `pipeline_state.json`
+over reflections.md prose if a session ever finds them disagreeing about
+what's next. This is the "reinvented twice" bar from this playbook's own
+convention: the exact same REFLECT-written-but-not-advanced interruption
+hit cycle 68 and now cycle 69 (same day), so it is a real recurring
+failure mode worth codifying, not a one-off.
+
+**Notification decision:** Not sending a PushNotification this cycle.
+Nothing changed from a human-actionable standpoint since cycle 68's
+report -- the same `pending_approval.json` entry is still awaiting
+rm-2278's sign-off (flagged in cycles 67 and 68 already), and the OpenAI/
+Deepgram blockers are identical re-confirmations, not new findings.
+Sending another notification for an unchanged "still waiting" state would
+be noise; the human already has everything they need from the cycle 68
+report to act (or not) on the pending approval and the OpenAI host policy
+question.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` again next
+time this pipeline wakes. If cycle 70 finds the backlog still 100%
+blocked, seriously consider writing a zero-API-dependency hypothesis per
+the Backlog calibration note above rather than deferring again.
