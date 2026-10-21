@@ -3872,3 +3872,82 @@ has room (4/6) but no urgent need for fresh hypotheses yet; next cycle
 should first check whether rm-2278 has approved the pending escalation
 before writing more. Never-cited papers from cycles 64/65 remain
 available as a fallback angle otherwise.
+
+## Cycle 68 (2026-10-21, scheduled run)
+
+**What worked / didn't:** This session started mid-interruption: cycle 67's
+`reflections.md` entry had already been written and committed by a prior
+session, but the actual `orchestrator.py advance REFLECT -> GENERATE_HYPOTHESES`
+call was never made, so `pipeline_state.json` was still sitting in `REFLECT`
+with `current_state` one step behind the narrative. Completed that
+transition first, then proceeded through
+`GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS -> ANALYZE_RESULTS
+-> WRITE_REPORT -> REFLECT` in one session. Lesson for future sessions:
+always trust `pipeline_state.json`'s `current_state` over what the latest
+reflections.md prose implies should have happened next -- the two can
+drift apart if a session gets cut off between writing the reflection and
+calling `advance`.
+
+**GENERATE_HYPOTHESES:** No new hypotheses added. Backlog was 4/6 (3
+`queued`+`approved_by_human`, 1 `proposed`+`needs_human`, still pending
+rm-2278's sign-off from cycle 67). Prioritized re-verifying the existing
+backlog's runnability over adding more, per cycle 67's own stated plan.
+
+**RUN_EXPERIMENTS:** Rebuilt `.venv` from scratch (none existed in this
+fresh container) via the documented `python3.13 -m venv` + `uv pip install
+-e ".[experiments]"` workaround -- worked cleanly again. Re-checked all 3
+queued hypotheses' blockers rather than assuming they still held:
+- `h-judge-cross-model-agreement-check`: `api.openai.com` connection
+  **explicitly rejected by the agent-proxy itself** this cycle, with a
+  clear error message naming it `connect_rejected` / "host is not allowed
+  for this session" -- a sharper diagnosis than prior cycles' "unreachable
+  (403 CONNECT)", which left open whether this was a proxy allowlist
+  decision or something more transient. Worth remembering for future
+  cycles: when a host fails at the CONNECT-tunnel stage (not a 4xx/5xx
+  *from* the target service, which would come through as a normal HTTP
+  response), that's this execution environment's own network policy
+  speaking, not the target API -- no amount of retrying or key-rotation
+  on this session's end will fix it. This looks like the same structural
+  blocker documented since at least cycle 56/63, just confirmed with a
+  more explicit error this time.
+- `h-review-short-acronym-keyterm-false-positive`: Deepgram `listen`
+  websocket handshake still fails identically (HTTP 400, missing Upgrade
+  header) -- same signature since cycle 5, now confirmed again cycle 68.
+- `h-continuous-rating-cps-calibration`: still needs ~20-30min of
+  rm-2278's own viewing time, structurally impossible for an unattended
+  session regardless of any network state.
+
+No experiment ran, no results fabricated.
+
+**Backlog calibration:** Unchanged at 4/6 (3 queued, all still blocked by
+the same 3 independent, non-overlapping reasons; 1 needs_human, still
+awaiting human sign-off). Not adding new hypotheses two cycles running now
+-- if cycle 69 also finds nothing new to run, it's worth reconsidering
+whether to add a hypothesis that doesn't depend on OpenAI or Deepgram
+websocket access at all (e.g. another retroactive-analysis-only angle from
+the never-cited-papers list), rather than just re-checking the same 3
+blocked items a third time.
+
+**Budget:** `log-cost` not needed -- zero real API spend (only free
+connectivity probes this cycle, same as cycle 67).
+
+**Should PLAYBOOK.md change?** Not this cycle. The OpenAI-host-rejection
+finding is a sharper confirmation of an already-documented blocker, not a
+new failure mode or a new technique -- doesn't yet meet the "reinvented
+twice" bar for codifying into PLAYBOOK.md itself. If a future cycle needs
+to re-diagnose a similar proxy-level host rejection from scratch, this
+entry plus cycle 67's are enough context without a playbook edit.
+
+**Notification decision:** Not sending a PushNotification this cycle --
+nothing changed from a human-actionable standpoint since cycle 67's report
+(the same pending_approval.json entry is still awaiting sign-off, already
+flagged then; the OpenAI finding sharpens a known blocker but doesn't give
+rm-2278 anything new to act on). Sending another notification for an
+unchanged "still waiting" state would be noise.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` again next time
+this pipeline wakes, consistent with cycle 67's assessment -- the backlog
+still has room and the paper base still has unexplored never-cited angles
+if cycle 69 decides fresh hypotheses are warranted. Re-affirming: the
+pending `needs_human` approval should be checked first before adding more
+on top of an already-adequate backlog.
