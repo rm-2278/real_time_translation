@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 14,
-  "last_updated": "2026-10-22T00:14:48.025742+00:00",
+  "last_updated": "2026-10-22T00:14:51.872821+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1997,6 +1997,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-22T00:14:48.025715+00:00",
       "note": "cycle 70: h-soft-anchor-repeat-variance-decomposition tested. Confound check: both source JSONs' REPEATS=2 condition_ne values read as-is, no re-derivation, no config diff possible (pure arithmetic over existing numbers, same single-translator-instance guarantee already established by their own source hypotheses). Finding: mixed result -- original clip confirms lower soft-anchor variance; guest-talk clip's MEAN variance is inflated above baseline by one real outlier span (73, intermittent catastrophic truncation in one soft_anchor repeat, invisible to judge()-on-repeats[0]-only evaluation) even though the median still favors soft-anchor. status=tested, no results.csv row (analysis-script precedent)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-22T00:14:51.872795+00:00",
+      "note": "cycle 70: ANALYZE_RESULTS done, result_summary written in hypotheses.json. Moving to write the Japanese cycle report."
     }
   ]
 }
