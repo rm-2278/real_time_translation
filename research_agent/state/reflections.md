@@ -4051,3 +4051,84 @@ question.
 time this pipeline wakes. If cycle 70 finds the backlog still 100%
 blocked, seriously consider writing a zero-API-dependency hypothesis per
 the Backlog calibration note above rather than deferring again.
+
+## Cycle 70 (2026-10-22, scheduled run)
+
+**What worked:** Cycle 69's own flag (write one zero-API-dependency
+hypothesis if cycle 70 also finds nothing runnable) turned out to be worth
+following even before checking whether anything else was runnable this
+time -- I added `h-soft-anchor-repeat-variance-decomposition` first, ran it
+as this cycle's RUN_EXPERIMENTS pick (prefer-$0-first, per PLAYBOOK.md),
+and only then separately re-checked Deepgram/OpenAI reachability for
+completeness. This was the right order: it meant the cycle produced a real
+result regardless of what the reachability check found. The result itself
+is a good example of why "prefer $0 retroactive-analysis hypotheses" is
+genuinely high-value, not just a budget-safety default: it surfaced a real,
+previously-undetected intermittent failure mode (soft_anchor_replay
+occasionally collapsing to a truncated tail fragment on one repeat) that
+the existing judge()-on-repeats[0]-only fidelity check structurally cannot
+see, by doing nothing more than decomposing variance that was already
+sitting, unanalyzed, in two JSON files written weeks ago. Two different
+prior hypotheses had each half-noticed the "anchoring looks more stable
+across repeats" pattern and moved on without checking it rigorously; this
+is the kind of finding that specifically rewards actually formalizing a
+passing observation into a decomposition, rather than letting two
+consistent-looking asides accumulate as received wisdom.
+
+**What didn't:** The environment-reachability picture is more nuanced than
+a flat "blocked"/"not blocked" binary this time, and worth being precise
+about for whoever reads this next. DEEPGRAM_API_KEY/GOOGLE_API_KEY/
+OPENAI_API_KEY were all set (not reliably true in every past cycle), and
+both Deepgram and Gemini REST endpoints returned 200. But the actual
+Deepgram `listen` WebSocket upgrade handshake still failed with the exact
+same HTTP 400 "Connection header did not include 'upgrade'" first found
+cycle 5, and `api.openai.com` is still proxy-rejected at the CONNECT-tunnel
+level -- both confirmed by direct tests, not inferred from the REST check
+alone (this playbook's own RUN_EXPERIMENTS section already warns REST
+success doesn't imply WS success, and that held again here). Net effect:
+despite keys now being present, the two network-dependent queued
+hypotheses (`h-judge-cross-model-agreement-check`,
+`h-review-short-acronym-keyterm-false-positive`) are still exactly as
+blocked as cycles 67-69 found them. This is not a new finding worth
+treating as unresolved-until-fixed -- it's a repeat confirmation -- but it
+does mean "keys are set" is not by itself a signal to re-attempt those two
+hypotheses in a future cycle; the actual blocker (WS handshake mangling,
+OpenAI host policy) is unchanged and needs an infrastructure-level fix,
+not a retry.
+
+**Backlog calibration:** 5/6 now (4 queued + 1 needs_human), still under
+cap. Depth-over-breadth continues to hold -- the new hypothesis was added
+because it answered a concretely flagged, substantive, unexplored question
+(not just to fill backlog space), and it got fully tested in the same
+cycle it was proposed, so it didn't sit as unprocessed backlog even
+briefly.
+
+**Budget:** `log-cost` not needed (zero real API spend -- the one
+hypothesis run this cycle was pure retroactive arithmetic over existing
+JSON, and the reachability checks were free connectivity probes with no
+billable calls on either side).
+
+**Should PLAYBOOK.md change?** No changes needed this cycle. The existing
+sections (RUN_EXPERIMENTS's "prefer $0 retroactive-analysis hypotheses
+first", ANALYZE_RESULTS's noise-floor/confound-check discipline, and the
+REFLECT-advance-same-turn fix from cycles 68/69) all worked as written with
+no friction found.
+
+**Notification decision:** Sending a PushNotification this cycle. Unlike
+cycles 67-69 (three consecutive no-op re-confirmations of the same three
+blockers, correctly judged not notification-worthy), this cycle produced a
+genuinely new, human-actionable finding: a previously-undetected,
+judge()-invisible intermittent failure mode in `anchor_continuation_translation`
+(soft_anchor_replay), the feature two prior hypotheses already recommended
+promoting out of experimental status on the strength of its NE/fidelity
+numbers alone. rm-2278 should see this before any such promotion happens.
+The pre-existing `pending_approval.json` entry and the OpenAI host-policy
+question are unchanged from cycles 67-69's own already-delivered reports,
+so the notification leads with the new finding rather than re-surfacing
+those as if they were new.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` (the paper base
+hasn't changed since the last SEARCH_PAPERS pass and nothing here suggests
+a fresh literature search would add much this cycle; a future cycle should
+still consider a dedicated SEARCH_PAPERS pass if the backlog ever runs dry
+of groundable angles, which it has not yet).
