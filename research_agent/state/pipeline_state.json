@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 14,
-  "last_updated": "2026-10-22T12:24:51.781779+00:00",
+  "last_updated": "2026-10-22T12:25:25.366279+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2033,6 +2033,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-22T12:24:51.781748+00:00",
       "note": "cycle 71: h-soft-anchor-truncation-detector run complete, moving to analyze."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-22T12:25:25.366251+00:00",
+      "note": "cycle 71: ANALYZE_RESULTS done, result_summary written in hypotheses.json. Moving to write the Japanese cycle report."
     }
   ]
 }
