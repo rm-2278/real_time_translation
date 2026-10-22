@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 14,
-  "last_updated": "2026-10-21T12:21:11.037167+00:00",
+  "last_updated": "2026-10-22T00:12:03.492764+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1979,6 +1979,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-21T12:21:11.037124+00:00",
       "note": "Cycle 69 REFLECT entry written and committed (013203e); advancing immediately in the same session per this cycle's own new PLAYBOOK.md note, to avoid repeating the exact write-but-don't-advance desync found in cycles 68 and 69."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-22T00:12:03.492662+00:00",
+      "note": "cycle 70: 1 new hypothesis added (h-soft-anchor-repeat-variance-decomposition, zero-API retroactive analysis). Backlog 5/6 (3 queued approved_by_human still execution-blocked from cycle 67-69, 1 proposed/needs_human awaiting human sign-off per cycle 36's self-approval gate, 1 new proposed). Checking budget for the new hypothesis next."
     }
   ]
 }
