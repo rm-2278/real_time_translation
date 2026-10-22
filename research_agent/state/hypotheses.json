@@ -1175,8 +1175,8 @@
       "required_changes": "New analysis script src/real_time_translation/experiments/soft_anchor_repeat_variance_decomposition.py: (1) load both experiments/20260919_h_hard_prefix_lock_replay.json and experiments/20260919_h_soft_anchor_generalization_guest_talk.json; (2) for each file, for each span, for each condition present (baseline_replay/soft_anchor_replay in both files, hard_lock only in the first), read condition_ne[condition] (a list of exactly 2 raw floats per span when defined -- skip spans where fewer than 2 non-null values exist, same num_spans_with_defined_ne-style filtering each source script already applies); (3) compute each span's own within-span sample variance (ddof=1, i.e. single pairwise squared difference over 1 for the n=2 case) per condition; (4) average those within-span variances across all usable spans per condition per clip (this is the 'within-group' step of judge_noise_power_analysis.py's established decomposition -- average variances, never pool raw values across spans first); (5) separately compute each condition's between-span variance (variance of each span's own 2-repeat mean NE, across spans) for comparison/context, making the within-vs-between distinction explicit in the output exactly as cycle 21 did for judge noise; (6) report both per-clip and pooled-across-both-clips numbers, plus simple descriptive stats (min/max/median within-span variance per condition) so a single misleading mean doesn't hide a shift in distribution shape. No pipeline.py/llm_translator.py changes, no new translate_stream or judge() calls of any kind -- pure Python arithmetic over two files already on disk. Follows this repo's replay/analysis-script precedent (no results.csv row, per the convention already established by flicker_metrics.py and prefix_lock_replay.py for non-chrF/latency-comparable analyses).",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
