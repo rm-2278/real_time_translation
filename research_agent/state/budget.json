@@ -249,6 +249,11 @@
       "at": "2026-10-19T12:20:41.335164+00:00",
       "amount_usd": 0.06,
       "note": "h-judge-repeat-count-diminishing-returns: judge_repeat_diminishing_returns.py, 170 new gemini-3.1-flash-lite judge calls (34 zero-effect span x condition groups x K_MAX=5 repeats each), zero new Deepgram spend, zero new translation generation (replay of already-recorded repeats[0] cumulative text from experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json, same convention as cycle 65). Estimated by scaling cycle 65's measured 136-call/$0.05 rate to 170 calls."
+    },
+    {
+      "at": "2026-10-22T12:24:32.779435+00:00",
+      "amount_usd": 0.0,
+      "note": "h-soft-anchor-truncation-detector: implemented soft_anchor_truncation_detector.py, ran over the same 2 existing replay JSONs as h-soft-anchor-repeat-variance-decomposition, zero new API spend"
     }
   ]
 }
