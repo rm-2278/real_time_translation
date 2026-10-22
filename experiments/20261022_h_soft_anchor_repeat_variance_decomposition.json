@@ -1,0 +1,68 @@
+{
+  "experiment_name": "h_soft_anchor_repeat_variance_decomposition",
+  "input": {
+    "type": "retroactive_analysis",
+    "sources": {
+      "original_clip": "experiments/20260919_h_hard_prefix_lock_replay.json",
+      "guest_talk_clip": "experiments/20260919_h_soft_anchor_generalization_guest_talk.json"
+    },
+    "note": "Pure arithmetic over condition_ne values already recorded in two prior replay experiment JSONs (h-hard-prefix-lock-continuation, h-soft-anchor-generalization-guest-talk). No live Deepgram/Gemini/OpenAI calls of any kind; no new translation or judge calls."
+  },
+  "per_clip": {
+    "original_clip": {
+      "baseline_replay": {
+        "num_usable_spans": 15,
+        "mean_within_span_variance": 0.021558666606194776,
+        "median_within_span_variance": 0.0017301038062283738,
+        "min_within_span_variance": 0.0,
+        "max_within_span_variance": 0.171615141312111,
+        "between_span_variance_of_span_means": 0.28708160953467765,
+        "mean_ne_across_spans": 0.5965106611426974,
+        "naive_pooled_variance_all_raw_values": 0.2883332781401344
+      },
+      "soft_anchor_replay": {
+        "num_usable_spans": 15,
+        "mean_within_span_variance": 0.0005444486890705569,
+        "median_within_span_variance": 0.0,
+        "min_within_span_variance": 0.0,
+        "max_within_span_variance": 0.005000000000000001,
+        "between_span_variance_of_span_means": 0.07958244392987611,
+        "mean_ne_across_spans": 0.21209214550470917,
+        "naive_pooled_variance_all_raw_values": 0.07711983311629618
+      }
+    },
+    "guest_talk_clip": {
+      "baseline_replay": {
+        "num_usable_spans": 83,
+        "mean_within_span_variance": 0.039906026286285735,
+        "median_within_span_variance": 0.0022598464802948267,
+        "min_within_span_variance": 0.0,
+        "max_within_span_variance": 0.439453125,
+        "between_span_variance_of_span_means": 0.22091300799781538,
+        "mean_ne_across_spans": 0.630301604310958,
+        "naive_pooled_variance_all_raw_values": 0.23964808177820265
+      },
+      "soft_anchor_replay": {
+        "num_usable_spans": 83,
+        "mean_within_span_variance": 0.10263203419467586,
+        "median_within_span_variance": 0.0,
+        "min_within_span_variance": 0.0,
+        "max_within_span_variance": 7.086505190311419,
+        "between_span_variance_of_span_means": 0.06919208239151953,
+        "mean_ne_across_spans": 0.10718552965992442,
+        "naive_pooled_variance_all_raw_values": 0.12039975969919574
+      }
+    }
+  },
+  "pooled_across_clips": {
+    "baseline_replay": {
+      "mean_of_per_clip_mean_within_span_variance": 0.030732346446240254,
+      "num_clips": 2
+    },
+    "soft_anchor_replay": {
+      "mean_of_per_clip_mean_within_span_variance": 0.051588241441873205,
+      "num_clips": 2
+    }
+  },
+  "method_note": "Within-span variance is averaged across spans (not raw repeat values pooled across spans first), per the decomposition established in judge_noise_power_analysis.py's _decompose_zero_effect_variance() (cycle 21) -- pooling raw values first conflates each span's own translation-difficulty level with true repeat noise. hard_lock intentionally excluded: its condition_ne is [0.0, 0.0] in every span by construction (frozen prefix cannot be rewritten), so its variance is zero trivially and uninformatively, same conclusion as h-hard-prefix-lock-continuation's own mean-NE result_summary."
+}
