@@ -4132,3 +4132,93 @@ hasn't changed since the last SEARCH_PAPERS pass and nothing here suggests
 a fresh literature search would add much this cycle; a future cycle should
 still consider a dedicated SEARCH_PAPERS pass if the backlog ever runs dry
 of groundable angles, which it has not yet).
+
+## Cycle 71 (2026-10-22, scheduled run, same day as cycle 70)
+
+**What worked:** Writing a hypothesis that directly implements a prior
+cycle's own explicit recommendation (rather than inventing a fresh
+direction) continues to be a reliable, low-risk way to produce a real
+result when network-dependent hypotheses stay blocked. Cycle 70's
+`h-soft-anchor-repeat-variance-decomposition` result_summary recommended,
+by name, "(a) a length/overlap sanity check against each span's own
+cumulative source text... as a cheap, judge-free truncation detector" --
+this cycle built exactly that (`h-soft-anchor-truncation-detector`,
+`soft_anchor_truncation_detector.py`), calibrated its 40% flag-ratio
+threshold against the one known real case (span 73, actual ratio 0.2237,
+~1.8x margin), and ran it over the same two replay JSONs with zero new
+API calls. The sanity check (span 73 must be recovered) passed, which is
+the right kind of self-verifying design for this class of script: if it
+hadn't recovered span 73, that would have been a clear signal the
+threshold or indexing logic was wrong, not that the known case was a
+fluke.
+
+**What didn't / what's notably different this time:** The result is
+closer to a clean null than cycle 70's own mixed finding -- span 73
+remains the *only* flagged instance across all 196 span+condition groups
+checked (98 spans x up to 3 conditions each, minus hard_lock's absence
+from the guest-talk clip). This directly answers cycle 70's own open
+question ("is span 73 really the only instance, or is judge()'s
+repeats[0]-only blind spot hiding more?") with a real "no more found"
+answer, not just a repeat confirmation of an existing blocker (the usual
+shape of a no-op cycle). Worth being honest that a true negative result
+(nothing newly discovered) is less narratively interesting than cycle 70's
+own finding, but it is exactly the kind of follow-up verification this
+playbook's own ANALYZE_RESULTS section keeps emphasizing ("verify
+empirically rather than reasoning abstractly") -- and it closes the loop
+on recommendation (a) before anyone could be tempted to jump straight to
+recommendation (b) (a production guard) on the strength of n=1 alone.
+
+**Backlog calibration:** Down to 4 (3 queued + 1 needs_human, all genuinely
+blocked for this unattended session -- 2 on live-API egress
+(`h-judge-cross-model-agreement-check` needs OpenAI; `h-review-short-
+acronym-keyterm-false-positive` needs Deepgram's `listen` WebSocket), 1
+needs a human's own ~20-30 minutes of viewing time
+(`h-continuous-rating-cps-calibration`, not a network/approval block at
+all -- re-reading its `required_changes`, it is structurally impossible
+for *any* unattended session to complete, not just this sandboxed one, and
+worth flagging to rm-2278 as such rather than re-counting it as "waiting on
+infrastructure" indefinitely), and 1 waiting on human sign-off in
+`pending_approval.json`). With room at 4/6, the backlog is not over-full,
+but it is worth being honest that literally 0 of the 4 are runnable by an
+unattended session right now -- the same structural situation cycles
+67-69 already diagnosed, just with one new zero-API hypothesis cycle 70
+and this cycle each found and fully resolved on top of it. This is the
+second cycle in a row (70, 71) where a genuinely new zero-API angle was
+findable by formalizing a passing observation already sitting in existing
+result_summary text -- but that well is not infinite, and this cycle's own
+result (a clean null, no further anomalies) suggests the two existing
+replay JSONs may now be close to fully mined for this particular thread
+(repeat-level anomalies in soft_anchor_replay). A fresh literature pass
+(last real one was cycle 62/63, 2026-10-17 -- 8-9 narrated cycles ago) is
+likely more productive than inventing a fourth variant of this same
+replay-data-mining approach.
+
+**Budget:** `log-cost` recorded a $0.0 entry for bookkeeping completeness
+(matching this repo's established convention for zero-spend retroactive
+analyses) -- zero real API spend this cycle, same as cycle 70.
+
+**Should PLAYBOOK.md change?** No changes needed this cycle. The
+GENERATE_HYPOTHESES section's pivot/follow-up guidance, the HUMAN_APPROVAL
+auto-approve path, and the RUN_EXPERIMENTS "prefer $0 retroactive first"
+rule all worked exactly as written, with no friction encountered.
+
+**Notification decision:** Not sending a PushNotification this cycle. The
+one thing a human needs to know (soft_anchor_replay's truncation failure
+mode) was already flagged last cycle (70) and this cycle's result is
+reassuring, not alarming (n=1 confirmed, not growing) -- re-notifying about
+the same already-reported finding with a "still just 1, not more" update
+would not meet the bar of being worth interrupting rm-2278 for. The
+pre-existing `pending_approval.json` entry and the OpenAI/Deepgram-WS
+network blockers are also unchanged from already-delivered reports.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` for cycle 72. Reasoning:
+(1) the backlog, while under cap, is 100% blocked for this unattended
+session on infrastructure/human-presence grounds, not on a lack of
+hypotheses to generate; (2) this cycle's clean null result suggests the
+two existing repeat-level replay JSONs are close to mined out for the
+soft-anchor-truncation thread specifically; (3) it has been 8-9 narrated
+cycles since the last real literature search (cycle 62/63,
+2026-10-17) -- longer than this playbook's own historical cadence,
+and the "mine never-cited papers" pivot technique (cycles 64-65) is a
+reasonable thing to re-run again on the current `papers.json` state
+before writing another retroactive-analysis hypothesis purely by reflex.
