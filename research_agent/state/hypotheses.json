@@ -1197,11 +1197,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/20261022_h_soft_anchor_truncation_detector.json"
       ],
-      "result_summary": ""
+      "result_summary": "Ran soft_anchor_truncation_detector.py over the same 2 existing replay JSONs as h-soft-anchor-repeat-variance-decomposition (98 spans total, 15 original_clip + 83 guest_talk_clip, x up to 3 conditions each). No live API calls, no config-diff/confound concern applies (pure arithmetic over fixed numbers already on disk, same precedent as the parent hypothesis). SANITY CHECK PASSED: span 73 (cycle 70's known guest-talk soft_anchor_replay truncation) is correctly recovered -- repeat 1's final text (17 chars, 'non-dekosuto-gakakaru-to-iu-ten-desu', the tail-only fragment) is 22.37% of repeat 0's length (76 chars, the full correct translation), well under the 40% flag threshold (itself calibrated with ~1.8x margin above this exact known case). RESULT: span 73 remains the ONLY flagged instance across all 196 span+condition groups checked (15x3 + 83x2, since hard_lock only exists in the original_clip source) -- 0 additional truncations found in baseline_replay (either clip), hard_lock (confirmed structurally immune by construction, 0/15, as predicted), or soft_anchor_replay on the original_clip. This answers the predicted_effect's open empirical question: n=1 is confirmed as the true count (not an artifact of judge()'s repeats[0]-only blind spot hiding more instances elsewhere) across the full 98-span sample available. CONCLUSION: per the predicted_effect's own stated interpretation, this null-ish result (one real instance, no more found) means recommendation (b) from cycle 70 (a server-side length/overlap guard in production) is NOT YET justified by volume on current data -- 1 instance in 98 spans (~1%) is real and worth remembering if anchor_continuation_translation is promoted out of experimental status, but does not by itself warrant adding runtime guard logic now. The detector script itself is cheap enough (pure string-length arithmetic, <1s runtime) to re-run automatically against any future soft_anchor_replay replay JSON as a standing judge()-independent regression check, which is a more actionable near-term recommendation than a production guard: suggest adding it to this repo's own experiment-review checklist for any future anchor_continuation_translation replay, rather than building guard logic against a single observed case. Per this repo's established replay/analysis-script precedent, no results.csv row added."
     }
   ]
 }
