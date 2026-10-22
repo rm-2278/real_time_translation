@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 14,
-  "last_updated": "2026-10-22T12:23:10.992930+00:00",
+  "last_updated": "2026-10-22T12:24:51.781779+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2027,6 +2027,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-22T12:23:10.992902+00:00",
       "note": "cycle 71: h-soft-anchor-truncation-detector now queued/auto_approved (write succeeded this time, unlike cycle 70's h-judge-repeat-independent-batches-corrected-design denial). 4 hypotheses now queued total (3 carried from cycles 67-69 still execution-blocked on live Deepgram/OpenAI access + this new zero-API retroactive one); 1 proposed/needs_human remains terminal in pending_approval.json per cycle 36 precedent. Proceeding to RUN_EXPERIMENTS, will run the $0 retroactive hypothesis first per playbook."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-22T12:24:51.781748+00:00",
+      "note": "cycle 71: h-soft-anchor-truncation-detector run complete, moving to analyze."
     }
   ]
 }
