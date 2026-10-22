@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 14,
-  "last_updated": "2026-10-22T00:12:17.874150+00:00",
+  "last_updated": "2026-10-22T00:14:48.025742+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1991,6 +1991,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-22T00:12:17.874116+00:00",
       "note": "cycle 70: 4 hypotheses now queued with approval!=needs_human (3 carried over from cycles 67-69 still execution-blocked on live API access, 1 new zero-API retroactive hypothesis just auto-approved). Proceeding to RUN_EXPERIMENTS; will prefer the $0 retroactive hypothesis first per playbook."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-22T00:14:48.025715+00:00",
+      "note": "cycle 70: h-soft-anchor-repeat-variance-decomposition tested. Confound check: both source JSONs' REPEATS=2 condition_ne values read as-is, no re-derivation, no config diff possible (pure arithmetic over existing numbers, same single-translator-instance guarantee already established by their own source hypotheses). Finding: mixed result -- original clip confirms lower soft-anchor variance; guest-talk clip's MEAN variance is inflated above baseline by one real outlier span (73, intermittent catastrophic truncation in one soft_anchor repeat, invisible to judge()-on-repeats[0]-only evaluation) even though the median still favors soft-anchor. status=tested, no results.csv row (analysis-script precedent)."
     }
   ]
 }
