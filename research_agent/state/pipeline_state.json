@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 14,
-  "last_updated": "2026-10-22T00:12:03.492764+00:00",
+  "last_updated": "2026-10-22T00:12:17.874150+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -1985,6 +1985,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-22T00:12:03.492662+00:00",
       "note": "cycle 70: 1 new hypothesis added (h-soft-anchor-repeat-variance-decomposition, zero-API retroactive analysis). Backlog 5/6 (3 queued approved_by_human still execution-blocked from cycle 67-69, 1 proposed/needs_human awaiting human sign-off per cycle 36's self-approval gate, 1 new proposed). Checking budget for the new hypothesis next."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-22T00:12:17.874116+00:00",
+      "note": "cycle 70: 4 hypotheses now queued with approval!=needs_human (3 carried over from cycles 67-69 still execution-blocked on live API access, 1 new zero-API retroactive hypothesis just auto-approved). Proceeding to RUN_EXPERIMENTS; will prefer the $0 retroactive hypothesis first per playbook."
     }
   ]
 }
