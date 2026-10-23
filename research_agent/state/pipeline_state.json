@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 15,
-  "last_updated": "2026-10-23T00:10:29.845395+00:00",
+  "last_updated": "2026-10-23T12:16:39.279113+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2057,6 +2057,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-10-23T00:10:29.845363+00:00",
       "note": "cycle 72: SEARCH_PAPERS done. WebSearch pass targeting post-cycle-63 literature gaps found no new hits on general SimulST/streaming-MT, LLM decoding policy, live-caption stability, or vendor ASR latency (all already covered by existing papers.json entries). Found 4 new judge-reliability papers (babeljudge2026, llm-jury-eamt2026, unlp2026-holistic-vs-decomposed-scale, sourcefree-mt-eval-2026), added as 'found' stubs -- directly relevant to this pipeline's long-running judge-noise/rubric-decomposition thread. unlp2026's reported holistic-vs-decomposed finding potentially cuts against this repo's own schematic-decomposition direction (cycles 53-55); flagged for verification during EXTRACT_PAPERS/READ_PAPERS, not treated as settled."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-10-23T12:16:39.279073+00:00",
+      "note": "cycle 72: extracted babeljudge2026, llm-jury-eamt2026, unlp2026-holistic-vs-decomposed-scale, sourcefree-mt-eval-2026 via WebSearch fallback (arxiv.org/aclanthology.org WebFetch EGRESS_BLOCKED this session). Key corrections found: sourcefree-mt-eval-2026's actual axis is source-vs-reference-grounding, not source-free-vs-translation-only as originally guessed at SEARCH_PAPERS time; unlp2026 paper's full title identified as the Chaplynskyi/Zakharov EN-UK QE-vs-professional-translator study, reporting holistic>decomposed reliability for both human raters and LLM judges, a direct literature counterpoint to this repo's own h-judge-rubric-decomposition-schematic-adherence direction."
     }
   ]
 }
