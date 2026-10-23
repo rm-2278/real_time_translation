@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 15,
-  "last_updated": "2026-10-22T12:27:39.726115+00:00",
+  "last_updated": "2026-10-23T00:10:29.845395+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2051,6 +2051,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-10-22T12:27:39.726087+00:00",
       "note": "cycle 71/72 boundary, same session as reflection. REFLECT entry recommends SEARCH_PAPERS over GENERATE_HYPOTHESES (backlog 100% blocked on infra/human-presence grounds not lack-of-hypotheses; the two repeat-level replay JSONs look close to mined out for the soft-anchor-truncation thread; 8-9 narrated cycles since last real literature search)."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-10-23T00:10:29.845363+00:00",
+      "note": "cycle 72: SEARCH_PAPERS done. WebSearch pass targeting post-cycle-63 literature gaps found no new hits on general SimulST/streaming-MT, LLM decoding policy, live-caption stability, or vendor ASR latency (all already covered by existing papers.json entries). Found 4 new judge-reliability papers (babeljudge2026, llm-jury-eamt2026, unlp2026-holistic-vs-decomposed-scale, sourcefree-mt-eval-2026), added as 'found' stubs -- directly relevant to this pipeline's long-running judge-noise/rubric-decomposition thread. unlp2026's reported holistic-vs-decomposed finding potentially cuts against this repo's own schematic-decomposition direction (cycles 53-55); flagged for verification during EXTRACT_PAPERS/READ_PAPERS, not treated as settled."
     }
   ]
 }
