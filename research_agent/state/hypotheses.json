@@ -1232,8 +1232,8 @@
       "required_changes": "New retroactive analysis script src/real_time_translation/experiments/source_residue_detector.py: for every experiment JSON under experiments/*.json with a results.events list, iterate events where kind == 'translation_complete' (committed output only, not 'translation_partial' interim text), extract maximal runs of [A-Za-z][A-Za-z '-]* (ASCII letters plus internal spaces/hyphens/apostrophes) of length >= 4 characters from the 'text' field, drop any run that exactly matches or is a substring of a dictionary.csv target_term (load dictionary.csv once), then for the remaining candidate runs check whether the run (or its word-tokenized form, allowing for case differences) appears verbatim in that SAME event's own 'original_text' field -- flag only those as true residue. Output a summary CSV/table: per-experiment residue count, and a few example flagged (original_text, text, flagged_run) triples for manual spot-check. Pure Python, no live API calls.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
