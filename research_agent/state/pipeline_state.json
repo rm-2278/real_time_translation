@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "REFLECT",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 16,
-  "last_updated": "2026-10-24T12:19:02.869475+00:00",
+  "last_updated": "2026-10-24T12:19:52.517842+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2153,6 +2153,12 @@
       "to": "REFLECT",
       "at": "2026-10-24T12:19:02.869444+00:00",
       "note": "Cycle 73 WRITE_REPORT: wrote research_agent/reports/20261024_cycle73_report.md covering SEARCH_PAPERS through ANALYZE_RESULTS. No change needed to 00_pipeline_overview_ja.md this cycle (no structural pipeline change)."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-24T12:19:52.517806+00:00",
+      "note": "Cycle 73 REFLECT -> GENERATE_HYPOTHESES (not SEARCH_PAPERS): this cycle's literature pass is fresh and RUN_EXPERIMENTS surfaced a concrete $0 follow-up (dictionary.csv expansion for recurring non-dictionary technical terms found by source_residue_detector.py). Backlog 3 queued + 1 proposed = 4/6, room remains."
     }
   ]
 }
