@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 16,
-  "last_updated": "2026-10-24T12:17:41.693870+00:00",
+  "last_updated": "2026-10-24T12:18:12.221371+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2141,6 +2141,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-24T12:17:41.693842+00:00",
       "note": "Cycle 73 RUN_EXPERIMENTS: h-translation-source-residue-detector run over 25 experiment JSONs (7484 translation_complete events), 535 flagged candidate residue runs after dictionary.csv exclusion. Moving to ANALYZE_RESULTS to classify these before drawing a conclusion."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-24T12:18:12.221336+00:00",
+      "note": "Cycle 73 ANALYZE_RESULTS: 535/7484 flagged events numerically, but word-count breakdown (verified empirically, not just reasoned about) shows 80% are single-word and 0 are >=5 words -- all inspected examples are legitimate proper-noun/technical-term code-switching, not the catastrophic sentence-level source-echo failure failure-aware-recoverable-llm-translation-2026's check targets. Hypothesis marked tested: prediction of near-zero TRUE residue is supported once code-switching is distinguished from real residue, though the raw flagged count contradicted it at first glance."
     }
   ]
 }
