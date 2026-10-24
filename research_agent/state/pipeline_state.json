@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 15,
-  "last_updated": "2026-10-23T12:16:39.279113+00:00",
+  "last_updated": "2026-10-24T00:08:58.233466+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2063,6 +2063,12 @@
       "to": "READ_PAPERS",
       "at": "2026-10-23T12:16:39.279073+00:00",
       "note": "cycle 72: extracted babeljudge2026, llm-jury-eamt2026, unlp2026-holistic-vs-decomposed-scale, sourcefree-mt-eval-2026 via WebSearch fallback (arxiv.org/aclanthology.org WebFetch EGRESS_BLOCKED this session). Key corrections found: sourcefree-mt-eval-2026's actual axis is source-vs-reference-grounding, not source-free-vs-translation-only as originally guessed at SEARCH_PAPERS time; unlp2026 paper's full title identified as the Chaplynskyi/Zakharov EN-UK QE-vs-professional-translator study, reporting holistic>decomposed reliability for both human raters and LLM judges, a direct literature counterpoint to this repo's own h-judge-rubric-decomposition-schematic-adherence direction."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-24T00:08:58.232804+00:00",
+      "note": "Cycle 72 READ_PAPERS done: summarized + cross-referenced babeljudge2026, llm-jury-eamt2026, unlp2026-holistic-vs-decomposed-scale, sourcefree-mt-eval-2026 against results.csv/hypotheses.json/translation_fidelity_judge.py. Key cross-refs: llm-jury ensemble idea already grounded by queued h-judge-cross-model-agreement-check (not duplicating); unlp2026 contradicts the already-taken h-judge-rubric-decomposition-schematic-adherence direction (flag in report); sourcefree-mt-eval confirms judge() already source-conditions correctly (no gap); babeljudge2026 order-bias technique doesn't apply to single-candidate judge() as-is."
     }
   ]
 }
