@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 16,
-  "last_updated": "2026-10-24T00:19:31.681113+00:00",
+  "last_updated": "2026-10-24T12:09:26.697812+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2105,6 +2105,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-10-24T00:19:31.681082+00:00",
       "note": "Cycle 72 REFLECT done: wrote reflections entry, edited PLAYBOOK.md to add explicit OpenAI reachability check to RUN_EXPERIMENTS environment-check section. Advancing to SEARCH_PAPERS for cycle 73 (new cycle): backlog has room (4/6), no other immediately-processable queued item remains this cycle, cycle 72's own literature pass is still fresh but a future GENERATE_HYPOTHESES should also mine never-cited papers before reflexively searching more."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-10-24T12:09:26.697785+00:00",
+      "note": "Cycle 73: WebSearch pass for post-survey literature targeting flicker/stability-policy and cascade-vs-e2e gaps. Added 2 new found stubs (stable-prefix-dynamic-lagging-2026, failure-aware-recoverable-llm-translation-2026); 2 other candidates (MLLP-VRAIN, NeMo@IWSLT2026) found but already in papers.json, correctly skipped as duplicates. Vendor ASR latency search yielded only unverifiable marketing content, not added per PLAYBOOK preference for arXiv/ACL/Semantic Scholar/OpenReview."
     }
   ]
 }
