@@ -1215,7 +1215,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
       "approval": "auto_approved",
-      "status": "queued"
+      "status": "tested",
+      "experiment_ids": [
+        "experiments/judge_block_order_replay.json"
+      ],
+      "result_summary": "NO systematic directional position bias found in judge()'s central tendency from block order alone. On 34 sampled zero-effect span x condition groups, each judged K=2 times with the SAME fixed, already-recorded (source, translation) pair for both the current production source-first prompt and a translation-first variant (wording/schema otherwise identical), the paired per-group mean score delta (translation_first - source_first) is +1.25, but its stdev_of_deltas is 11.60 (SE~=1.99 across n=34, delta/SE~=0.63) -- the signed shift is well within noise, not distinguishable from zero. Secondary finding, smaller but real: translation_first shows moderately higher per-call scoring NOISE than source_first -- within_group_noise_stdev=5.39 vs 3.64 (~1.48x stdev, ~2.19x variance). This is in the same direction as, but notably smaller than, cycle 65's h-judge-reasoning-before-score-noise finding (reasoning-first prompt: 2.4x stdev increase over score-first on the identical design) -- both findings point the same way: deviating from translation_fidelity_judge.py's exact current wording/order tends to add judge-scoring noise rather than reduce it, at least for the two specific deviations tried so far. Conclusion: no evidence of a systematic order bias in the BabelJudge sense (a verdict that changes direction depending on presentation order), so no action needed on correctness grounds; but there is a mild noise-based argument for NOT swapping the current source-first order in production, since it is empirically the lower-noise of the two orders tested. Single K=2 check per group (not a well-powered test), consistent with this backlog's established noise-floor-before-conclusions caution (cycles 19-21)."
     }
   ]
 }

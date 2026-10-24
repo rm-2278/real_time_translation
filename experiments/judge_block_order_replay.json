@@ -1,0 +1,1061 @@
+{
+  "sampled_groups": 34,
+  "span_sample_stride": 4,
+  "judge_repeats_per_variant": 2,
+  "noise_conditions": [
+    "soft_anchor_replay",
+    "gated_soft_anchor"
+  ],
+  "summary_by_variant": {
+    "source_first": {
+      "num_groups": 34,
+      "num_groups_with_stdev": 34,
+      "mean_within_group_variance": 13.23529411764706,
+      "within_group_noise_stdev": 3.638034375544995
+    },
+    "translation_first": {
+      "num_groups": 34,
+      "num_groups_with_stdev": 34,
+      "mean_within_group_variance": 29.044117647058826,
+      "within_group_noise_stdev": 5.389259471120204
+    }
+  },
+  "paired_per_group_stdev_delta": {
+    "n_paired_groups": 34,
+    "mean_delta_translation_minus_source_first": 1.1438492048605917,
+    "deltas": [
+      0.0,
+      7.0710678118654755,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      3.5355339059327378,
+      0.0,
+      -14.142135623730951,
+      -7.0710678118654755,
+      0.0,
+      0.0,
+      0.0,
+      10.606601717798213,
+      14.142135623730951,
+      3.5355339059327378,
+      3.5355339059327378,
+      -7.0710678118654755,
+      -3.5355339059327378,
+      0.0,
+      7.0710678118654755,
+      3.5355339059327378,
+      0.0,
+      7.0710678118654755,
+      10.606601717798213,
+      0.0,
+      0.0
+    ]
+  },
+  "paired_per_group_mean_score_delta": {
+    "n_paired_groups": 34,
+    "mean_delta_translation_minus_source_first": 1.25,
+    "stdev_of_deltas": 11.600189392393295,
+    "deltas": [
+      0.0,
+      5.0,
+      0.0,
+      0.0,
+      -15.0,
+      -15.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      2.5,
+      30.0,
+      20.0,
+      5.0,
+      10.0,
+      0.0,
+      0.0,
+      17.5,
+      10.0,
+      -7.5,
+      -7.5,
+      15.0,
+      2.5,
+      15.0,
+      5.0,
+      -2.5,
+      10.0,
+      -5.0,
+      -32.5,
+      0.0,
+      -20.0
+    ],
+    "notes": "A systematic (non-zero, consistent-sign) mean score delta here, beyond what stdev_of_deltas alone would predict from chance, is evidence of real block-order position bias -- distinct from the noise-magnitude delta above, which only says whether swapping order makes scoring MORE SCATTERED, not whether it shifts scores in a consistent direction."
+  },
+  "rows": [
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 4,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 4,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 4,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 4,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 4,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 4,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 4,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 4,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 12,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 12,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 12,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 12,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 12,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 12,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 12,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_h_continuation_anchor_test_rpmunlimited.json",
+      "span_index": 12,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 0,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 4,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 4,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 4,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 4,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 4,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 4,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 4,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 4,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 12,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 12,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 12,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 12,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 12,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 12,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 12,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 12,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 20,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 28,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 60
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 28,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 60
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 28,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 28,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 28,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 80
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 28,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 60
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 28,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 28,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 32,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 32,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 32,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 32,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 32,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 32,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 32,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 32,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 36,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 36,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 36,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 36,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 36,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 36,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 36,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 36,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 70
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 75
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 80
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 80
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 80
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 80
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 40,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 44,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 44,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 44,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 44,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 44,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 44,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 44,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 44,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 52,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 75
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 52,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 52,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 52,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 95
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 52,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 52,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 52,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 52,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 64,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 64,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 64,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 64,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 64,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 64,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 64,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 64,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 68,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 68,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 68,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 85
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 68,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 68,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 80
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 68,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 80
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 68,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 68,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 90
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 76,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 75
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 76,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 60
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 76,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 50
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 76,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 75
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 76,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 76,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 76,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 60
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 76,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 75
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "soft_anchor_replay",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "soft_anchor_replay",
+      "variant": "translation_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "gated_soft_anchor",
+      "variant": "source_first",
+      "score": 100
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 80
+    },
+    {
+      "source_name": "20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "span_index": 80,
+      "condition": "gated_soft_anchor",
+      "variant": "translation_first",
+      "score": 80
+    }
+  ],
+  "source": "experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json",
+  "notes": "Fixed-text design: translation text is repeats[0]'s final cumulative text, held constant across both prompt variants (source_first = current production block order; translation_first = source/translation blocks swapped, wording and JSON schema otherwise identical) and across the 2 judge-repeats within each variant -- only the block order varies, isolating pure position/order bias from translation-generation stochasticity (same convention as judge_reasoning_order_replay.py). within_group_noise_stdev is sqrt(mean(per-group variance)), matching judge_noise_power_analysis.py's _decompose_zero_effect_variance() within-group convention. Report honestly if any score delta is small relative to either variant's own within-group noise, since this is a single K=2 check, not a well-powered test."
+}
