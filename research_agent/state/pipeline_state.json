@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 16,
-  "last_updated": "2026-10-24T12:11:29.801380+00:00",
+  "last_updated": "2026-10-24T12:13:23.533240+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2123,6 +2123,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-24T12:11:29.801353+00:00",
       "note": "Cycle 73 READ_PAPERS: cross-referenced both new papers against experiments/results.csv, src/real_time_translation/experiments/, and production code (grep for monotonic/residue/leak/omission + git log skim). stable-prefix-dynamic-lagging-2026's core mechanism is closely related to (not duplicate of) the already-tested h-hard-prefix-lock-continuation/h-soft-anchor-* line. failure-aware-recoverable-llm-translation-2026's large-omission detector is already covered by h-soft-anchor-truncation-detector (cycle 71), but its source-language-residue check (English leaking into JA output) has NO existing analog anywhere in this repo -- confirmed gap, good /bin/bash GENERATE_HYPOTHESES candidate."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-24T12:13:23.533207+00:00",
+      "note": "Cycle 73 GENERATE_HYPOTHESES: added 1 new $0 retroactive hypothesis (h-translation-source-residue-detector, grounded in failure-aware-recoverable-llm-translation-2026), explicitly designed around the dictionary.csv English-target-term confound (46 entries, up to 35 chars, checked before finalizing). Backlog now 3 queued + 2 proposed = 5/6, under the ~6 cap."
     }
   ]
 }
