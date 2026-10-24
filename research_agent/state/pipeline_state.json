@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 16,
-  "last_updated": "2026-10-24T12:13:23.533240+00:00",
+  "last_updated": "2026-10-24T12:13:53.483770+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2129,6 +2129,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-24T12:13:23.533207+00:00",
       "note": "Cycle 73 GENERATE_HYPOTHESES: added 1 new $0 retroactive hypothesis (h-translation-source-residue-detector, grounded in failure-aware-recoverable-llm-translation-2026), explicitly designed around the dictionary.csv English-target-term confound (46 entries, up to 35 chars, checked before finalizing). Backlog now 3 queued + 2 proposed = 5/6, under the ~6 cap."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-24T12:13:53.483744+00:00",
+      "note": "Cycle 73 HUMAN_APPROVAL: check-budget(0.0) -> AUTO_APPROVE for h-translation-source-residue-detector, uses_existing_clips=true, normal auto-approve path. Set approval=auto_approved, status=queued. h-judge-repeat-independent-batches-corrected-design remains needs_human/proposed in pending_approval.json, untouched per the documented self-approval-block precedent (not re-attempted). 4 hypotheses now queued with approval != needs_human -> advancing to RUN_EXPERIMENTS."
     }
   ]
 }
