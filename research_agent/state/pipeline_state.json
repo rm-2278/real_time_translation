@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 16,
-  "last_updated": "2026-10-24T12:09:26.697812+00:00",
+  "last_updated": "2026-10-24T12:10:28.778759+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2111,6 +2111,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-10-24T12:09:26.697785+00:00",
       "note": "Cycle 73: WebSearch pass for post-survey literature targeting flicker/stability-policy and cascade-vs-e2e gaps. Added 2 new found stubs (stable-prefix-dynamic-lagging-2026, failure-aware-recoverable-llm-translation-2026); 2 other candidates (MLLP-VRAIN, NeMo@IWSLT2026) found but already in papers.json, correctly skipped as duplicates. Vendor ASR latency search yielded only unverifiable marketing content, not added per PLAYBOOK preference for arXiv/ACL/Semantic Scholar/OpenReview."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-10-24T12:10:28.778729+00:00",
+      "note": "Cycle 73 EXTRACT_PAPERS: arxiv.org WebFetch EGRESS_BLOCKED this session, used WebSearch fallback per PLAYBOOK. Extracted stable-prefix-dynamic-lagging-2026 (monotonic non-shrinking commit length under re-translation, char-based JA latency metric -- conceptually close to this repo's own prefix-lock/soft-anchor line) and failure-aware-recoverable-llm-translation-2026 (inference-time API-orchestration recovery protocol: finish_reason/emptiness/source-residue checks, large-omission heuristic -- directly portable to hosted-API architecture, unlike training-time methods)."
     }
   ]
 }
