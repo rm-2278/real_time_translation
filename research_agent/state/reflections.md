@@ -4222,3 +4222,86 @@ cycles since the last real literature search (cycle 62/63,
 and the "mine never-cited papers" pivot technique (cycles 64-65) is a
 reasonable thing to re-run again on the current `papers.json` state
 before writing another retroactive-analysis hypothesis purely by reflex.
+
+## Cycle 72 (2026-10-24, scheduled session)
+
+**What worked:** The READ_PAPERS cross-reference step earned its keep
+again this cycle -- actually grepping `results.csv`/`hypotheses.json` and
+re-reading `translation_fidelity_judge.py` (rather than reasoning about it
+abstractly) resolved all 4 new papers' relevance cleanly: one
+(`llm-jury-eamt2026`) turned out to already be grounded by an existing
+queued hypothesis (avoided a duplicate), one (`sourcefree-mt-eval-2026`)
+turned out to confirm an already-correct design choice (no gap, no new
+hypothesis needed), one (`unlp2026-holistic-vs-decomposed-scale`) surfaced
+a genuine literature conflict with an already-taken direction worth
+flagging to rm-2278 rather than filing away, and one (`babeljudge2026`)
+needed its method adapted (pairwise order-bias -> single-candidate
+block-order-bias) before it was testable at all -- none of these four
+outcomes would have been found by skimming titles/abstracts alone.
+
+**What didn't work / new finding:** `h-judge-cross-model-agreement-check`
+had sat `queued`/`approved_by_human` since roughly cycle 56 with nobody
+actually testing whether `api.openai.com` itself was reachable in a
+sandbox session -- this cycle finally checked and found it outright
+CONNECT-rejected (403, policy denial) by the egress proxy, in the same
+session where Gemini returned 200. This is a DIFFERENT failure mode than
+the long-documented Deepgram listen-websocket block (host-level reject vs.
+WS-upgrade-specific mangling) and had never been explicitly recorded
+before. Edited PLAYBOOK.md's RUN_EXPERIMENTS environment-check section to
+add an explicit OpenAI reachability check alongside the existing Gemini
+one, so a future cycle doesn't have to rediscover this from scratch before
+deciding whether to attempt that hypothesis.
+
+**Backlog calibration:** Added exactly 1 new hypothesis
+(`h-judge-block-order-position-bias`), bringing the backlog to 3 queued +
+1 proposed/needs_human = 4/6 after this cycle's RUN_EXPERIMENTS resolved
+it to `tested` (it was briefly 5/6 mid-cycle). This felt right-sized:
+depth over breadth continues to hold, and the backlog is genuinely not
+over-full this time (unlike cycles 67-71's structural 100%-blocked
+situation) -- 3 of the 4 remaining queued/pending items are blocked on
+non-code factors (OpenAI egress, Deepgram WS, a human-rating protocol
+needing rm-2278's own viewing time), but that's an honest count, not a
+backlog-management failure. Search queries for a future SEARCH_PAPERS
+pass could reasonably continue the judge-reliability thread (there are
+at least 2 more angles already noted in papers.json's cross-reference
+note that weren't written up as hypotheses this cycle: babeljudge2026's
+agentic-trajectory metrics, irrelevant here, and whether source-before-
+translation vs translation-before-source interacts with the reasoning-
+first variant tested cycle 65 -- a 2x2 design, not attempted yet, possibly
+over-engineering a secondary finding rather than a genuinely new
+direction).
+
+**Budget policy:** No change proposed. $0.05 was auto-approved and spent
+exactly as predicted; the daily/batch caps were never close to binding
+this cycle (spent_today=$0.05 of $7.00).
+
+**Should PLAYBOOK.md change?** Yes -- see the OpenAI-reachability-check
+addition above. This is the kind of concrete, mechanical check (like the
+existing Deepgram listen-websocket diagnostic) that should live in the
+playbook once discovered, rather than being rediscovered by a future
+session that picks `h-judge-cross-model-agreement-check` again without
+realizing OpenAI itself is the blocker (not the key, not the hypothesis
+design).
+
+**Notification decision:** Not sending a PushNotification this cycle. The
+openai.com block is worth a line in the Japanese report (done) but is not
+urgent -- it only blocks one already-queued, non-time-sensitive hypothesis,
+and rm-2278 already has two other items waiting on them
+(`h-judge-repeat-independent-batches-corrected-design` approval, and now
+also OpenAI egress being allowed) that are better surfaced via the report
+than an interrupt. The unlp2026 literature-conflict finding is informative
+but not actionable/urgent either (the decomposition-direction hypotheses
+are already `tested`, nothing is actively in flight that this would
+block).
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` for a new cycle
+(73). Reasoning: (1) this cycle's literature pass (cycle 72's own
+WebSearch, done by the prior session) is still fresh, but the backlog has
+room (4/6) and no other immediately-processable queued item remains after
+this cycle's RUN_EXPERIMENTS, so a fresh search is reasonable rather than
+forcing a `GENERATE_HYPOTHESES` pass on a thread that was just fully
+exercised this cycle; (2) per the "mine never-cited papers" pivot
+technique (cycles 64-65), a future GENERATE_HYPOTHESES pass should also
+check `papers.json` for judge-reliability papers never yet cited in any
+hypothesis's `grounded_in` before reflexively searching for more new
+papers on the same topic.

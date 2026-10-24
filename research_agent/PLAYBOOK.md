@@ -341,6 +341,23 @@ off", which only a human signal resolves.
     -H "Authorization: Token $DEEPGRAM_API_KEY" https://api.deepgram.com/v1/projects
   curl -sS -o /dev/null -w "gemini reachable: %{http_code}\n" \
     "https://generativelanguage.googleapis.com/v1beta/models?key=$GOOGLE_API_KEY"
+  # IMPORTANT (found cycle 72, 2026-10-24): if a queued hypothesis needs
+  # OPENAI_API_KEY (e.g. a cross-judge-model check using gpt-4o-mini),
+  # check api.openai.com reachability explicitly too, the same way as
+  # Gemini above -- do not assume it behaves like Gemini just because both
+  # are "an LLM API key is set". Cycle 72 found api.openai.com outright
+  # CONNECT-rejected (403, "policy denial") by this sandbox's egress
+  # proxy, in the SAME session where Gemini returned 200 -- a host-level
+  # block, not a WS-upgrade-specific one like the Deepgram issue below.
+  # h-judge-cross-model-agreement-check had sat queued/approved since
+  # cycle ~56 with nobody actually testing OpenAI reachability until
+  # cycle 72 (`curl -sS -o /dev/null -w "%{http_code}" -H "Authorization:
+  # Bearer $OPENAI_API_KEY" https://api.openai.com/v1/models`, or check
+  # `curl -sS "$HTTPS_PROXY/__agentproxy/status"`'s recentRelayFailures
+  # for a connect_rejected entry naming the host) -- if still blocked,
+  # log it the same way as any other environment blocker (blocked_reason
+  # on the hypothesis, do not retry endlessly) rather than silently
+  # skipping the check every cycle.
   # IMPORTANT (found cycle 3, 2026-09-08, same day as the note above but a
   # different session): a 200 on the REST check above is NOT sufficient
   # evidence that a live experiment can actually run. Observed same day:
