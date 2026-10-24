@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 16,
-  "last_updated": "2026-10-24T12:13:53.483770+00:00",
+  "last_updated": "2026-10-24T12:17:41.693870+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2135,6 +2135,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-24T12:13:53.483744+00:00",
       "note": "Cycle 73 HUMAN_APPROVAL: check-budget(0.0) -> AUTO_APPROVE for h-translation-source-residue-detector, uses_existing_clips=true, normal auto-approve path. Set approval=auto_approved, status=queued. h-judge-repeat-independent-batches-corrected-design remains needs_human/proposed in pending_approval.json, untouched per the documented self-approval-block precedent (not re-attempted). 4 hypotheses now queued with approval != needs_human -> advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-24T12:17:41.693842+00:00",
+      "note": "Cycle 73 RUN_EXPERIMENTS: h-translation-source-residue-detector run over 25 experiment JSONs (7484 translation_complete events), 535 flagged candidate residue runs after dictionary.csv exclusion. Moving to ANALYZE_RESULTS to classify these before drawing a conclusion."
     }
   ]
 }
