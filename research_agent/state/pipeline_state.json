@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 16,
-  "last_updated": "2026-10-24T12:10:28.778759+00:00",
+  "last_updated": "2026-10-24T12:11:29.801380+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2117,6 +2117,12 @@
       "to": "READ_PAPERS",
       "at": "2026-10-24T12:10:28.778729+00:00",
       "note": "Cycle 73 EXTRACT_PAPERS: arxiv.org WebFetch EGRESS_BLOCKED this session, used WebSearch fallback per PLAYBOOK. Extracted stable-prefix-dynamic-lagging-2026 (monotonic non-shrinking commit length under re-translation, char-based JA latency metric -- conceptually close to this repo's own prefix-lock/soft-anchor line) and failure-aware-recoverable-llm-translation-2026 (inference-time API-orchestration recovery protocol: finish_reason/emptiness/source-residue checks, large-omission heuristic -- directly portable to hosted-API architecture, unlike training-time methods)."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-24T12:11:29.801353+00:00",
+      "note": "Cycle 73 READ_PAPERS: cross-referenced both new papers against experiments/results.csv, src/real_time_translation/experiments/, and production code (grep for monotonic/residue/leak/omission + git log skim). stable-prefix-dynamic-lagging-2026's core mechanism is closely related to (not duplicate of) the already-tested h-hard-prefix-lock-continuation/h-soft-anchor-* line. failure-aware-recoverable-llm-translation-2026's large-omission detector is already covered by h-soft-anchor-truncation-detector (cycle 71), but its source-language-residue check (English leaking into JA output) has NO existing analog anywhere in this repo -- confirmed gap, good /bin/bash GENERATE_HYPOTHESES candidate."
     }
   ]
 }
