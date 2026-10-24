@@ -259,6 +259,11 @@
       "at": "2026-10-24T00:16:46.037254+00:00",
       "amount_usd": 0.05,
       "note": "h_judge_block_order_position_bias"
+    },
+    {
+      "at": "2026-10-24T12:17:31.872945+00:00",
+      "amount_usd": 0.0,
+      "note": "h-translation-source-residue-detector: implemented source_residue_detector.py, ran over 25 existing experiment JSON files (7484 translation_complete events checked), zero new Deepgram/LLM API spend"
     }
   ]
 }

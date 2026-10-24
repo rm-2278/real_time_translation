@@ -1,0 +1,4094 @@
+{
+  "hypothesis_id": "h-translation-source-residue-detector",
+  "dictionary_terms_loaded": 46,
+  "num_experiments_scanned": 73,
+  "total_translation_complete_checked": 7484,
+  "total_flagged": 535,
+  "reports": [
+    {
+      "experiment_name": "asr_keyterms_off_rpmunlimited",
+      "json_path": "experiments/20260915_asr_keyterms_off_rpmunlimited.json",
+      "num_translation_complete_checked": 256,
+      "num_flagged": 10,
+      "flagged_events": [
+        {
+          "original_text": "To make a tool like this into a chatbot, the easiest starting point is to have",
+          "text": "このようなツールをchatbotにするための、最も簡単な出発点は、",
+          "flagged_runs": [
+            "chatbot"
+          ]
+        },
+        {
+          "original_text": "see what happens inside a tool like ChatGPT, almost all of the",
+          "text": "ChatGPTのようなツールの内部で何が起きているのかを確認すると、そのほとんどすべてが、",
+          "flagged_runs": [
+            "ChatGPT"
+          ]
+        },
+        {
+          "original_text": "take a moment to get familiar with it. We often call this embedding a word.",
+          "text": "これに慣れるための時間を少し取りましょう。私たちはこれをよく、単語の埋め込み（embedding）と呼びます。",
+          "flagged_runs": [
+            "embedding"
+          ]
+        },
+        {
+          "original_text": "coordinates for points in three d space would be no problem. but word embedding",
+          "text": "3次元空間内の点の座標として可視化することは問題ありませんが、word embeddingは",
+          "flagged_runs": [
+            "word embedding"
+          ]
+        },
+        {
+          "original_text": "have a kind of semantic meaning. For the simple word to vector model I'm running",
+          "text": "意味的な内容を持っており、私が実行しているシンプルな word to vector モデルでは、",
+          "flagged_runs": [
+            "word to vector"
+          ]
+        },
+        {
+          "original_text": "have a kind of semantic meaning. For the simple word to vector model I'm running here,",
+          "text": "意味的な内容を持っており、ここで実行しているシンプルな word to vector モデルでは、",
+          "flagged_runs": [
+            "word to vector"
+          ]
+        },
+        {
+          "original_text": "if I run a search for all the words whose embeddings are closest to that of tower,",
+          "text": "tower の埋め込みに最も近いすべての単語を検索すると、",
+          "flagged_runs": [
+            "tower"
+          ]
+        },
+        {
+          "original_text": "you'll notice how they all seem to give very similar tower ish vibes.",
+          "text": "それらはすべて、tower（塔）のような、非常によく似た雰囲気を持っていることに気づくでしょう。",
+          "flagged_runs": [
+            "tower"
+          ]
+        },
+        {
+          "original_text": "If you wanna pull up some Python and play along at home, this is the",
+          "text": "もしPythonを立ち上げて、自宅で一緒に試してみたいのであれば、これが",
+          "flagged_runs": [
+            "Python"
+          ]
+        },
+        {
+          "original_text": "If you wanna pull up some Python and play along at home, this is the specific",
+          "text": "もしPythonを立ち上げて、自宅で一緒に試してみたいのであれば、これが具体的な",
+          "flagged_runs": [
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "asr_keyterms_on_rpmunlimited",
+      "json_path": "experiments/20260915_asr_keyterms_on_rpmunlimited.json",
+      "num_translation_complete_checked": 255,
+      "num_flagged": 11,
+      "flagged_events": [
+        {
+          "original_text": "I want to talk more about these multilayer perceptron blocks, how training works,",
+          "text": "これらの multilayer perceptron ブロックについて、そして学習がどのように機能するのかについて、詳しくお話ししたいと思います。",
+          "flagged_runs": [
+            "multilayer perceptron"
+          ]
+        },
+        {
+          "original_text": "see what happens inside a tool like ChatGPT, almost all of the",
+          "text": "ChatGPTのようなツールの内部で何が起きているのかを確認すると、そのほとんどすべてが",
+          "flagged_runs": [
+            "ChatGPT"
+          ]
+        },
+        {
+          "original_text": "known as the embedding matrix has a single column for each one of",
+          "text": "embedding matrixとして知られるこの行列は、各単語に対して一列ずつ、",
+          "flagged_runs": [
+            "embedding matrix"
+          ]
+        },
+        {
+          "original_text": "take a moment to get familiar with it. We often call this embedding a word.",
+          "text": "これに慣れるための時間を少し取りましょう。私たちはこれをよく、単語を埋め込む（embedding）と呼びます。",
+          "flagged_runs": [
+            "embedding"
+          ]
+        },
+        {
+          "original_text": "coordinates for points in three d space would be no problem. but word embedding",
+          "text": "3次元空間内の点の座標として可視化することは問題ありませんが、word embeddingは",
+          "flagged_runs": [
+            "word embedding"
+          ]
+        },
+        {
+          "original_text": "have a kind of semantic meaning. For the simple word to vector model I'm running here,",
+          "text": "意味的な内容を持っており、ここで実行しているシンプルな word to vector モデルでは、",
+          "flagged_runs": [
+            "word to vector"
+          ]
+        },
+        {
+          "original_text": "if I run a search for all the words whose embeddings are closest to that of tower,",
+          "text": "towerの埋め込みに最も近いすべての単語を検索すると、",
+          "flagged_runs": [
+            "tower"
+          ]
+        },
+        {
+          "original_text": "you'll notice how they all seem to give very similar tower ish",
+          "text": "それらはすべて、非常に似た「tower（塔）」のような意味を持っていることに気づくでしょう",
+          "flagged_runs": [
+            "tower"
+          ]
+        },
+        {
+          "original_text": "you'll notice how they all seem to give very similar tower ish vibes.",
+          "text": "それらはすべて、tower（塔）のような、非常によく似たニュアンスを持っていることに気づくでしょう。",
+          "flagged_runs": [
+            "tower"
+          ]
+        },
+        {
+          "original_text": "If you wanna pull up some Python and play along at home, this is the",
+          "text": "もしPythonを立ち上げて、自宅で一緒に試してみたいのであれば、これが",
+          "flagged_runs": [
+            "Python"
+          ]
+        },
+        {
+          "original_text": "If you wanna pull up some Python and play along at home, this is the specific",
+          "text": "もしPythonを立ち上げて、自宅で一緒に試してみたいのであれば、これが具体的な",
+          "flagged_runs": [
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "asr_model_nova3_curated_dict",
+      "json_path": "experiments/20260915_asr_model_nova3_curated_dict.json",
+      "num_translation_complete_checked": 37,
+      "num_flagged": 2,
+      "flagged_events": [
+        {
+          "original_text": "before ChatGPT came into the scene, this is what early",
+          "text": "ChatGPTが登場する前、これが初期の",
+          "flagged_runs": [
+            "ChatGPT"
+          ]
+        },
+        {
+          "original_text": "before ChatGPT came into the scene, this is what early demos of GPT-three looked like.",
+          "text": "ChatGPTが登場する前、初期のGPT-3のデモはこのようになっていました。",
+          "flagged_runs": [
+            "ChatGPT"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "budget_translation_baseline",
+      "json_path": "experiments/20260915_budget_translation_baseline.json",
+      "num_translation_complete_checked": 50,
+      "num_flagged": 6,
+      "flagged_events": [
+        {
+          "original_text": "embedding table to convert this",
+          "text": "embedding tableを用いて、これらを変換し、",
+          "flagged_runs": [
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "embedding table to convert this sub award",
+          "text": "このサブワードを変換するためのembedding tableがあり、",
+          "flagged_runs": [
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "self attention. What's the self attention meeting",
+          "text": "self attentionを行います。このself attentionの意味するところは、",
+          "flagged_runs": [
+            "self attention",
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "we will we will model the dependence, like, Japanese and food.",
+          "text": "Japaneseとfoodといった依存関係をモデル化し、",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "data set, you already know next token is they",
+          "text": "データセットに基づき、次のトークンが「they」であることを既に知っており、",
+          "flagged_runs": [
+            "they"
+          ]
+        },
+        {
+          "original_text": "FFN layer. Normally, FFN layer, you go",
+          "text": "FFN layer。通常、FFN layerでは、",
+          "flagged_runs": [
+            "FFN layer",
+            "FFN layer"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "budget_translation_enabled",
+      "json_path": "experiments/20260915_budget_translation_enabled.json",
+      "num_translation_complete_checked": 50,
+      "num_flagged": 3,
+      "flagged_events": [
+        {
+          "original_text": "self attention. What's the self attention meeting",
+          "text": "self attentionを行い、その意味は",
+          "flagged_runs": [
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "Say, for attention, we have model the dependency between different award. So",
+          "text": "アテンションで、異なるaward間の依存関係をモデル化し、",
+          "flagged_runs": [
+            "award"
+          ]
+        },
+        {
+          "original_text": "we will we will model the dependence, like, Japanese and food.",
+          "text": "Japaneseとfoodのような依存関係をモデル化し、",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "budget_translation_tight",
+      "json_path": "experiments/20260915_budget_translation_tight.json",
+      "num_translation_complete_checked": 50,
+      "num_flagged": 3,
+      "flagged_events": [
+        {
+          "original_text": "self attention. What's the self attention meeting",
+          "text": "self attention。その意味は",
+          "flagged_runs": [
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "we will we will model the dependence, like, Japanese and food.",
+          "text": "Japaneseとfoodの依存関係をモデル化し、",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "data set, you already know next token is they",
+          "text": "データセットから、次が「they」だと分かります",
+          "flagged_runs": [
+            "they"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "latest_model_gpt54mini",
+      "json_path": "experiments/20260915_latest_model_gpt54mini.json",
+      "num_translation_complete_checked": 37,
+      "num_flagged": 3,
+      "flagged_events": [
+        {
+          "original_text": "forth between attention blocks and multilayer perceptron perceptron blocks.",
+          "text": "attentionブロックと多層パーセプトロンブロックの間を行き来して",
+          "flagged_runs": [
+            "attention"
+          ]
+        },
+        {
+          "original_text": "before chat GPT came into the scene, this is what early",
+          "text": "chat GPTが登場する前は、これが初期の",
+          "flagged_runs": [
+            "chat GPT"
+          ]
+        },
+        {
+          "original_text": "before chat GPT came into the scene, this is what early demos of GPT three looked like.",
+          "text": "chat GPT が登場する前は、これが GPT three の初期デモの見た目でした",
+          "flagged_runs": [
+            "chat GPT",
+            "GPT three"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "llm_course_ep8_guest_talk_10min",
+      "json_path": "experiments/20260915_llm_course_ep8_guest_talk_10min.json",
+      "num_translation_complete_checked": 102,
+      "num_flagged": 10,
+      "flagged_events": [
+        {
+          "original_text": "subaward by subaward, and we will have and we will have a embedded embedding table to convert this sub award",
+          "text": "各subawardごとに、これらを変換するためのembedding tableを用意し、",
+          "flagged_runs": [
+            "subaward",
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "to sound embeddings. And after the embed we will do",
+          "text": "音の埋め込み（embeddings）についてですが、埋め込みを行った後には、",
+          "flagged_runs": [
+            "embeddings"
+          ]
+        },
+        {
+          "original_text": "self attention. What's the self attention meeting Say, for attention, we have model that dependency between different award. So",
+          "text": "self attentionとは何か。self attentionが意味するものとは、例えばアテンションにおいて、異なる単語間の依存関係をモデル化するということで、",
+          "flagged_runs": [
+            "self attention",
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "and then down projection from two to to to to to to to mapping the words to a d model. Size vector. And go by stacking",
+          "text": "そして2から、単語をd modelサイズのベクトルにマッピングするためにダウンプロジェクションを行い、スタッキングによって",
+          "flagged_runs": [
+            "d model"
+          ]
+        },
+        {
+          "original_text": "transform very big. And make it very big, we could train the transformer on very, very large",
+          "text": "非常に大きく変換し、そしてそれを巨大なものにするために、非常に、非常に大規模なデータでtransformerを学習させることができ、",
+          "flagged_runs": [
+            "transformer"
+          ]
+        },
+        {
+          "original_text": "like IO fine tuning. You the with IO, we will have a reward.",
+          "text": "IO fine tuningのように、IOを用いることで報酬が得られ、",
+          "flagged_runs": [
+            "IO fine tuning"
+          ]
+        },
+        {
+          "original_text": "law works here. And then I think think will introduce a scaling law file. The big idea is, like, given you",
+          "text": "ここで法則が機能します。そして、scaling lawのファイルを導入することになると思いますが、その大きな考え方は、与えられた",
+          "flagged_runs": [
+            "scaling law"
+          ]
+        },
+        {
+          "original_text": "Make progress very, very quickly. We could say like, GPQA is like is like",
+          "text": "非常に、非常に速いスピードで進歩しており、例えばGPQAは、まるで",
+          "flagged_runs": [
+            "GPQA"
+          ]
+        },
+        {
+          "original_text": "we could say the intelligence score doubled in Gemini, but But output speed tripled. And, also,",
+          "text": "Geminiではインテリジェンス・スコアが2倍になったと言えますが、出力速度は3倍になりました。そして、また、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "x excess is a price for minion tokens is a price The y axis is performance in AIME arena. We could say Jim, like,",
+          "text": "x軸は100万トークンあたりの価格で、y軸はAIME arenaにおけるパフォーマンスです。言わば、",
+          "flagged_runs": [
+            "AIME arena"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "llm_course_ep8_guest_talk_10min_rpm60",
+      "json_path": "experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json",
+      "num_translation_complete_checked": 238,
+      "num_flagged": 13,
+      "flagged_events": [
+        {
+          "original_text": "embedding table to convert this",
+          "text": "embedding tableを用いて、これらを変換し、",
+          "flagged_runs": [
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "embedding table to convert this sub award",
+          "text": "embedding tableを用いて、これらのサブワードを変換し、",
+          "flagged_runs": [
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "self attention. What's the self attention meeting",
+          "text": "self attentionを行います。このself attentionの意味するところは、",
+          "flagged_runs": [
+            "self attention",
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "we will we will model the dependence, like Japanese and food.",
+          "text": "Japaneseとfoodといった依存関係をモデル化し、",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "data set, it already know next token is they",
+          "text": "データセットに基づき、次のトークンが「they」であることを既に学習しており、",
+          "flagged_runs": [
+            "they"
+          ]
+        },
+        {
+          "original_text": "it's we this is a process. We call it a pretraining. pretraining.",
+          "text": "これは事前学習、pretrainingと呼ばれるプロセスで、",
+          "flagged_runs": [
+            "pretraining"
+          ]
+        },
+        {
+          "original_text": "IHF. And also maybe, recently, we will have a verify",
+          "text": "RLHF、そして最近では、検証モデル（verify）を用いたり、",
+          "flagged_runs": [
+            "verify"
+          ]
+        },
+        {
+          "original_text": "like, GPQA is like",
+          "text": "例えば、GPQAは、いわば",
+          "flagged_runs": [
+            "GPQA"
+          ]
+        },
+        {
+          "original_text": "in 2023, I did a suspicion agent in muscle lab.",
+          "text": "2023年に、私はmuscle labでsuspicion agentを行いました。",
+          "flagged_runs": [
+            "muscle lab",
+            "suspicion agent"
+          ]
+        },
+        {
+          "original_text": "we could say the intelligence score doubled in Gemini, but",
+          "text": "Geminiのインテリジェンス・スコアは2倍になったと言えますが、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "The y axis is performance in AIME arena. We could say",
+          "text": "y軸は AIME arena におけるパフォーマンスで、これはつまり",
+          "flagged_runs": [
+            "AIME arena"
+          ]
+        },
+        {
+          "original_text": "The y axis is performance in AIME arena. We could say Jim, like,",
+          "text": "y軸はAIME arenaにおけるパフォーマンスで、いわば、Jimは、",
+          "flagged_runs": [
+            "AIME arena"
+          ]
+        },
+        {
+          "original_text": "also have many breakthroughs. Gemini is always",
+          "text": "また、多くのブレイクスルーがあり、Geminiは常に",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "llm_course_transformer_clip_rpm60",
+      "json_path": "experiments/20260915_llm_course_transformer_clip_rpm60.json",
+      "num_translation_complete_checked": 50,
+      "num_flagged": 5,
+      "flagged_events": [
+        {
+          "original_text": "embedding table to convert this",
+          "text": "embedding tableを用いて、これらを変換し、",
+          "flagged_runs": [
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "embedding table to convert this sub award",
+          "text": "embedding tableを用いて、これらのサブワードを変換し、",
+          "flagged_runs": [
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "self attention. What's the self attention meeting",
+          "text": "self attentionを行います。このself attentionの意味するところは、",
+          "flagged_runs": [
+            "self attention",
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "we will we will model the dependence, like, Japanese and food.",
+          "text": "Japaneseやfoodといった単語間の依存関係をモデル化し、",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "data set, you already know next token is they",
+          "text": "データセットにおいて、次のトークンが「they」であると既に分かっている場合、",
+          "flagged_runs": [
+            "they"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "llm_course_transformer_clip_best_config",
+      "json_path": "experiments/20260916_llm_course_transformer_clip_best_config.json",
+      "num_translation_complete_checked": 33,
+      "num_flagged": 4,
+      "flagged_events": [
+        {
+          "original_text": "Self attention will model the dependency between different award.",
+          "text": "Self attentionは単語間の依存関係をモデル化し、",
+          "flagged_runs": [
+            "Self attention"
+          ]
+        },
+        {
+          "original_text": "when we want to generate the next token like a delicious,",
+          "text": "deliciousのような次のトークンを生成する際、",
+          "flagged_runs": [
+            "delicious"
+          ]
+        },
+        {
+          "original_text": "We will we will model the dependence, like Japanese and food.",
+          "text": "Japaneseとfoodのような依存関係をモデル化し、",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "already know next token is delicious.",
+          "text": "次のトークンがdeliciousだと分かっています。",
+          "flagged_runs": [
+            "delicious"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "h_backlog_compression_control",
+      "json_path": "experiments/20260917_h_backlog_compression_control.json",
+      "num_translation_complete_checked": 33,
+      "num_flagged": 3,
+      "flagged_events": [
+        {
+          "original_text": "Self attention will model the dependency between different award.",
+          "text": "Self attentionは単語間の依存関係をモデル化し、",
+          "flagged_runs": [
+            "Self attention"
+          ]
+        },
+        {
+          "original_text": "We will we will model the dependence, like Japanese and food.",
+          "text": "Japaneseとfoodのように、依存関係をモデル化し、",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "already know next token is delicious.",
+          "text": "次のトークンがdeliciousだと分かっています。",
+          "flagged_runs": [
+            "delicious"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "h_backlog_compression_control_rpm9",
+      "json_path": "experiments/20260918_h_backlog_compression_control_rpm9.json",
+      "num_translation_complete_checked": 33,
+      "num_flagged": 4,
+      "flagged_events": [
+        {
+          "original_text": "self attention. What's the self attention meeting?",
+          "text": "self attentionを。その意味は、",
+          "flagged_runs": [
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "Self attention will model the dependency between different award.",
+          "text": "Self attentionは単語間の依存関係をモデル化し、",
+          "flagged_runs": [
+            "Self attention"
+          ]
+        },
+        {
+          "original_text": "We will we will model the dependence, like Japanese and food.",
+          "text": "Japaneseとfoodのような依存関係をモデル化し、",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "already know next token is delicious.",
+          "text": "次のトークンがdeliciousだと分かっています。",
+          "flagged_runs": [
+            "delicious"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture",
+      "json_path": "experiments/20260918_llm2025_ep8_zenhan_full_lecture.json",
+      "num_translation_complete_checked": 1245,
+      "num_flagged": 74,
+      "flagged_events": [
+        {
+          "original_text": "Hi, Jessam. Can you please start your presentation from now?",
+          "text": "こんにちは、Jessam。プレゼンを始めてください。",
+          "flagged_runs": [
+            "Jessam"
+          ]
+        },
+        {
+          "original_text": "Hello, everyone. Yeah. My name is Josh.",
+          "text": "皆さん、こんにちは。Joshです。",
+          "flagged_runs": [
+            "Josh"
+          ]
+        },
+        {
+          "original_text": "And, currently, I'm a senior research scientist in Google Research Australia. And also, thanks for",
+          "text": "現在、Google Research Australiaのシニアリサーチサイエンティストです。また、",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "Muscle Labs invitation. I'm very happy to discuss with",
+          "text": "Muscle Labsの招待に感謝し、皆様と議論できることを喜ばしく",
+          "flagged_runs": [
+            "Muscle Labs"
+          ]
+        },
+        {
+          "original_text": "And then I do some internship in Salesforce, started my research about multi model",
+          "text": "その後Salesforceでインターンをし、マルチモデルの研究を始めました",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "And then I do some internship in Salesforce, started my research about multi model language model.",
+          "text": "その後Salesforceでインターンをし、マルチモーダル言語モデルの研究を始めました。",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "And then in 2024, I went I went to Google.",
+          "text": "そして2024年にGoogleへ移りました。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "mainly contributed to Gemini and a Gemma. And as",
+          "text": "主にGeminiとGemmaに貢献し、そして",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini suite and",
+          "text": "Geminiスイートのモデル変更に貢献し、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "Gemini three, Gemini four stuffs.",
+          "text": "Gemini 3や4など。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "institution, Google Research Australia. Google Research Australia,",
+          "text": "所属先のGoogle Research Australiaです。同組織は、",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "older generation could hear by wearing our Google's",
+          "text": "高齢層がGoogleの製品で聴力を補えるよう",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Asia language in Gemini. And, we have one",
+          "text": "Geminiのアジア言語を。また、我々には一つ",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "Southeast Asia language in Gemini.",
+          "text": "Geminiで東南アジア言語を強化し、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "like, you know, Google has many products.",
+          "text": "Googleには多くの製品があり、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Gemini and search and YouTube",
+          "text": "Geminiや検索、YouTubeなど",
+          "flagged_runs": [
+            "Gemini",
+            "YouTube"
+          ]
+        },
+        {
+          "original_text": "and the calendars and the Chrome and the Workspace",
+          "text": "カレンダー、Chrome、Workspaceなど、",
+          "flagged_runs": [
+            "Chrome",
+            "Workspace"
+          ]
+        },
+        {
+          "original_text": "have many things landed in Google, like",
+          "text": "Googleの多くの製品に導入され、例えば",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "AI mode, the next next generation searching",
+          "text": "次世代の検索であるAI modeや",
+          "flagged_runs": [
+            "AI mode"
+          ]
+        },
+        {
+          "original_text": "and also Gemini are most at mostly important",
+          "text": "そしてGeminiが最も重要で",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "project in Google.",
+          "text": "Googleのプロジェクト。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in very detail. So this",
+          "text": "Googleについては、詳細を全て話すことはできません。そこで、この",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Self attention will model the dependency between different award.",
+          "text": "Self attentionは単語間の依存関係をモデル化し、",
+          "flagged_runs": [
+            "Self attention"
+          ]
+        },
+        {
+          "original_text": "when we want to generate the next token like a delicious,",
+          "text": "deliciousのような次のトークンを生成する際、",
+          "flagged_runs": [
+            "delicious"
+          ]
+        },
+        {
+          "original_text": "We will we will model the dependence, like Japanese and food.",
+          "text": "Japaneseとfoodのように、依存関係をモデル化し、",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "already know next token is delicious.",
+          "text": "次のトークンがdeliciousだと分かっています。",
+          "flagged_runs": [
+            "delicious"
+          ]
+        },
+        {
+          "original_text": "very, very quickly. We could say, like, GPQA is like",
+          "text": "非常に急速に。例えばGPQAも同様に",
+          "flagged_runs": [
+            "GPQA"
+          ]
+        },
+        {
+          "original_text": "we could say the intelligence score doubled in Gemini.",
+          "text": "Geminiの知能スコアが倍増したと言えます。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "have many breakthroughs. Gemini is always",
+          "text": "多くの突破口があり、Geminiは常に",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "like when you use Gemini, you don't wanna wait so much time to wait for your token.",
+          "text": "Geminiを使う際、トークンを長く待ちたくはないでしょう。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "Google can hand handle? So that's what companies",
+          "text": "Googleが処理できるか。企業が",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Turing language model survey, no so we",
+          "text": "Turing言語モデルの調査では、私たちは",
+          "flagged_runs": [
+            "Turing"
+          ]
+        },
+        {
+          "original_text": "which pruning to have some",
+          "text": "どの pruning であれば",
+          "flagged_runs": [
+            "pruning"
+          ]
+        },
+        {
+          "original_text": "architecture. We call it gated FFN.",
+          "text": "これをgated FFNと呼びます。",
+          "flagged_runs": [
+            "gated FFN"
+          ]
+        },
+        {
+          "original_text": "Google, we have done it very well. We released our last year.",
+          "text": "Googleではこれを上手く実現し、昨年リリースしました。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Could achieve once over once 13,000 AIME Arena score. And it's also the",
+          "text": "AIME Arenaで13,000点以上を達成し、さらにこれは",
+          "flagged_runs": [
+            "AIME Arena"
+          ]
+        },
+        {
+          "original_text": "Could achieve once over once 13,000 AIME Arena score. And it's also the world's first product level",
+          "text": "AIME Arenaで13,000点以上を達成し、さらにこれは世界初のプロダクトレベルの",
+          "flagged_runs": [
+            "AIME Arena"
+          ]
+        },
+        {
+          "original_text": "In JMAS-10L layers are with 95 sparsity.",
+          "text": "JMAS-10Lの層は95%の疎性を持ち、",
+          "flagged_runs": [
+            "JMAS"
+          ]
+        },
+        {
+          "original_text": "perspective. There are some others just like sparse attention and",
+          "text": "視点から。他にも、sparse attentionや",
+          "flagged_runs": [
+            "sparse attention"
+          ]
+        },
+        {
+          "original_text": "For the unexpected 100,000,000 salary package for Google and OpenAI researchers because",
+          "text": "GoogleやOpenAIの研究者への、1億ドルの破格の給与提示は、",
+          "flagged_runs": [
+            "Google",
+            "OpenAI"
+          ]
+        },
+        {
+          "original_text": "For the unexpected 100,000,000 salary package for Google and OpenAI researchers because you know, the",
+          "text": "GoogleやOpenAIの研究者への、1億ドルの破格の給与提示は、というのも、",
+          "flagged_runs": [
+            "Google",
+            "OpenAI"
+          ]
+        },
+        {
+          "original_text": "recently, Meta gave us a very high salary package for some of",
+          "text": "最近ではMetaも、一部の者に高額な給与を提示し",
+          "flagged_runs": [
+            "Meta"
+          ]
+        },
+        {
+          "original_text": "Google and OpenEye researchers. And",
+          "text": "GoogleとOpenAIの研究者に。そして",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "token will be you very much be because",
+          "text": "次のトークンは「you very much」だとわかっているため、",
+          "flagged_runs": [
+            "you very much"
+          ]
+        },
+        {
+          "original_text": "we do not think it's too much to output you very",
+          "text": "you very と出力しても\n負荷は高くないと考えます",
+          "flagged_runs": [
+            "you very"
+          ]
+        },
+        {
+          "original_text": "normally, we do not think it's too much to output you very much.",
+          "text": "通常、you very muchと出力するのは当然だと考えます。",
+          "flagged_runs": [
+            "you very much"
+          ]
+        },
+        {
+          "original_text": "context and reasoning to generate. We call it hard tokens.",
+          "text": "生成のための文脈と推論。これをhard tokensと呼びます。",
+          "flagged_runs": [
+            "hard tokens"
+          ]
+        },
+        {
+          "original_text": "So that's a intuition for speculative coding.",
+          "text": "これがspeculative codingの直感的な理解です。",
+          "flagged_runs": [
+            "speculative coding"
+          ]
+        },
+        {
+          "original_text": "this method is proposed by Google in 2021. And here, we could say in original paper, we could say,",
+          "text": "この手法は2021年にGoogleが提案したもので、元の論文によれば、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "answer is Tokyo. It's it's very easy for",
+          "text": "答えはTokyoで、非常に簡単です。",
+          "flagged_runs": [
+            "Tokyo"
+          ]
+        },
+        {
+          "original_text": "KiwiCatch memory is used to store the actual KiwiCatch.",
+          "text": "KiwiCatchメモリは実物の保存に使われ、",
+          "flagged_runs": [
+            "KiwiCatch"
+          ]
+        },
+        {
+          "original_text": "you could say DeepSake's open source framework.",
+          "text": "DeepSakeのオープンソース枠組みや、",
+          "flagged_runs": [
+            "DeepSake"
+          ]
+        },
+        {
+          "original_text": "in the model level, such as a Metformin",
+          "text": "モデルレベルで、例えばMetforminのようにな",
+          "flagged_runs": [
+            "Metformin"
+          ]
+        },
+        {
+          "original_text": "Metaformer is like you",
+          "text": "Metaformerは、まるで",
+          "flagged_runs": [
+            "Metaformer"
+          ]
+        },
+        {
+          "original_text": "for language model solving, such as Google and Celebrace.",
+          "text": "GoogleやCerebrasなど\n言語モデル向けがあり",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "it's already acquired by NVIDIA.",
+          "text": "すでにNVIDIAに買収されています。",
+          "flagged_runs": [
+            "NVIDIA"
+          ]
+        },
+        {
+          "original_text": "Diffusion model is like a process of tokens, general tokens altogether parallel.",
+          "text": "Diffusion modelは全トークンを並列処理し、",
+          "flagged_runs": [
+            "Diffusion model"
+          ]
+        },
+        {
+          "original_text": "regarding Gemini or Gemini. So",
+          "text": "Geminiに関してなど、ですので",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "Okay. So that's why Celebrate do it very well.",
+          "text": "だからこそCelebrateは非常に優れており、",
+          "flagged_runs": [
+            "Celebrate"
+          ]
+        },
+        {
+          "original_text": "Yeah. Actually, I think, yeah, that's Google's Google's advantages.",
+          "text": "はい、実はそれがGoogleの強みで、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "to enhance Japanese Japanese ability in Gemini and Gemini. So",
+          "text": "Geminiの日本語能力を向上させるために。そして",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "I think that's what I can say. That's Google's advantage of all",
+          "text": "それが言えることであり、Googleの強みは",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "From my from my perspective, like, Google has",
+          "text": "私の視点では、Googleは",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "progress in Gemini. I think when you say",
+          "text": "Geminiの進展。あなたが言うところの",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "In Google, we do a lot, such as of being simple simple QA. It's a",
+          "text": "Googleでは単純なQAなど、多くの取り組みを…",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "In Google, we do it very real, and we use many different",
+          "text": "Googleでは、多種多様な",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Yeah. Yeah. It's Autoground means I I suppose",
+          "text": "ええ、Autogroundの意味は、おそらく",
+          "flagged_runs": [
+            "Autoground"
+          ]
+        },
+        {
+          "original_text": "Gemma three and Yeah. Yeah.",
+          "text": "Gemma 3に関連していると、ええ。",
+          "flagged_runs": [
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "RTPUs superior to GPUs,",
+          "text": "RTPUはGPUより優れており、",
+          "flagged_runs": [
+            "RTPU"
+          ]
+        },
+        {
+          "original_text": "introduction for this. And for Google, I think",
+          "text": "これに関する紹介があり、Googleについては、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "gravity released by Google. I think, currently, web coding is very good at",
+          "text": "Googleが公開したAnti-gravityなど、現状Webコーディングは非常に有効で",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "resources, I'm I'm I think Google know",
+          "text": "リソースについては、Googleが知っていると",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "before Google will provide some free TPUs. I'm not sure if",
+          "text": "Googleが無料TPUを提供し、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "And how does Google analyze the data from questions? I I I think it's a",
+          "text": "Googleは質問のデータをどう分析し、それは…",
+          "flagged_runs": [
+            "Google"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "json_path": "experiments/20260918_llm2025_ep8_zenhan_full_lecture_v2_dict.json",
+      "num_translation_complete_checked": 1246,
+      "num_flagged": 108,
+      "flagged_events": [
+        {
+          "original_text": "Hi, Jessam. Can you please start your presentation from now?",
+          "text": "こんにちは、Jessam。プレゼンを始めていただけますか？",
+          "flagged_runs": [
+            "Jessam"
+          ]
+        },
+        {
+          "original_text": "Hello, everyone. Yeah. My name is Josh Angou.",
+          "text": "皆さん、こんにちは。Josh Angouです。",
+          "flagged_runs": [
+            "Josh Angou"
+          ]
+        },
+        {
+          "original_text": "And, currently, I'm a senior research scientist in Google Research Australia. And also, thanks for",
+          "text": "Google Research Australia でシニアリサーチサイエンティストを務めています。また、お招きいただき",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "Muscle Labs invitation. I'm very happy to discuss with",
+          "text": "Muscle Labsの招待に感謝します。皆さんと議論できるのを",
+          "flagged_runs": [
+            "Muscle Labs"
+          ]
+        },
+        {
+          "original_text": "And then I do some internship in Salesforce, started my research about multi model",
+          "text": "その後Salesforceでインターンをし、マルチモデルの研究を始めました",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "And then I do some internship in Salesforce, started my research about multi model model.",
+          "text": "その後Salesforceでインターンをし、マルチモーダルモデルの研究を始めました",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "Maybe some of you also know my work like a suspicion agent.",
+          "text": "ご存知の方もいるかもしれませんが、私の研究にはsuspicion agentなどがあり、",
+          "flagged_runs": [
+            "suspicion agent"
+          ]
+        },
+        {
+          "original_text": "And then in 2024, I went I went to Google.",
+          "text": "そして2024年にGoogleへ移りました。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "mainly contributed to Gemini and Gemma. And as",
+          "text": "主にGeminiとGemmaに貢献し、そして",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini SWE and",
+          "text": "Gemini SWEのモデル変更に貢献したり、",
+          "flagged_runs": [
+            "Gemini SWE"
+          ]
+        },
+        {
+          "original_text": "Gemma 3D, Gemma four stuffs. Okay.",
+          "text": "Gemma 3DやGemma 4関連など。はい。",
+          "flagged_runs": [
+            "Gemma",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "Gemma 3D, Gemma four stuffs.",
+          "text": "Gemma 3DやGemma 4関連など",
+          "flagged_runs": [
+            "Gemma",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "institution, Google Research Australia. Google Research Australia,",
+          "text": "所属先のGoogle Research Australiaです。この組織は、",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "older generation could hear by wearing our Google's",
+          "text": "高齢世代がGoogleの製品を装着して聞こえるように",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Asia language in Gemini. And, we have one",
+          "text": "Geminiでのアジア言語。そして、ある",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "Southeast Asia language in Gemini.",
+          "text": "Geminiでの東南アジア言語を。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "like, you know, Google has many products.",
+          "text": "Googleには多くの製品があり、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Gemini and search and YouTube",
+          "text": "Gemini、検索、YouTubeなど",
+          "flagged_runs": [
+            "Gemini",
+            "YouTube"
+          ]
+        },
+        {
+          "original_text": "and the calendars and the Chrome and the Workspace",
+          "text": "カレンダー、Chrome、Workspaceなど",
+          "flagged_runs": [
+            "Chrome",
+            "Workspace"
+          ]
+        },
+        {
+          "original_text": "have many things landed in Google, like",
+          "text": "Googleの多くの製品に導入され、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "and also Gemini are most at mostly important",
+          "text": "そして Gemini も極めて重要で",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "project in Google.",
+          "text": "Googleでのプロジェクト",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in",
+          "text": "Google、全ては話せませんが",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in very detail. So this",
+          "text": "Google、全てを詳細には話せませんが、そこでこの",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "language model efficiency. And then if you are the",
+          "text": "language modelの効率性について。そしてもしあなたが",
+          "flagged_runs": [
+            "language model"
+          ]
+        },
+        {
+          "original_text": "embedding table to convert this subaward to some embedding.",
+          "text": "embedding tableで、サブワードを埋め込みに変換し、",
+          "flagged_runs": [
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "self attention. What's the self attention meeting?",
+          "text": "self attentionを行います。その意味とは、",
+          "flagged_runs": [
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "Self attention will model the dependency between different award.",
+          "text": "Self attentionは単語間の依存関係をモデル化し、",
+          "flagged_runs": [
+            "Self attention"
+          ]
+        },
+        {
+          "original_text": "when we want to generate the next token like a delicious,",
+          "text": "deliciousのような次のトークンを生成する際、",
+          "flagged_runs": [
+            "delicious"
+          ]
+        },
+        {
+          "original_text": "We will we will model the dependence, like Japanese and food.",
+          "text": "Japaneseとfoodのような依存関係をモデル化します",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "already know NetTest Token is delicious.",
+          "text": "次のトークンがdeliciousだと分かっています。",
+          "flagged_runs": [
+            "delicious"
+          ]
+        },
+        {
+          "original_text": "to to to mapping the words to a d model.",
+          "text": "単語を d model へマッピングする",
+          "flagged_runs": [
+            "d model"
+          ]
+        },
+        {
+          "original_text": "it's we we this is a process. We call it a pre training.",
+          "text": "このプロセスを、pre trainingと呼んでいます。",
+          "flagged_runs": [
+            "pre training"
+          ]
+        },
+        {
+          "original_text": "even knows, GPQA knows a lot of our knowledge.",
+          "text": "GPQAも多くの知識を保持しており、",
+          "flagged_runs": [
+            "GPQA"
+          ]
+        },
+        {
+          "original_text": "And then I think Yanxi will introduce a scheme law further.",
+          "text": "その後、Yanxiがscaling lawを詳説します",
+          "flagged_runs": [
+            "Yanxi"
+          ]
+        },
+        {
+          "original_text": "people from Deepgram, it it is a real set.",
+          "text": "Deepgramの人たちによれば、これは本物のセットで、",
+          "flagged_runs": [
+            "Deepgram"
+          ]
+        },
+        {
+          "original_text": "very, very quickly. We could say, like, GPQA is like",
+          "text": "非常に急速に。例えばGPQAは、まるで",
+          "flagged_runs": [
+            "GPQA"
+          ]
+        },
+        {
+          "original_text": "in 2023, I did a suspension agent in muscle lab.",
+          "text": "2023年、私はmuscle labでサスペンション・エージェントを開発しました。",
+          "flagged_runs": [
+            "muscle lab"
+          ]
+        },
+        {
+          "original_text": "we could say the intelligence score doubled in Gemini.",
+          "text": "Geminiの知能スコアが倍増したと言えます。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "x excess is a price for minion tokens is a price",
+          "text": "x excessはminion tokensの価格であり、",
+          "flagged_runs": [
+            "x excess",
+            "minion tokens"
+          ]
+        },
+        {
+          "original_text": "The y access is performance in LLM Arena.",
+          "text": "y軸はLLM Arenaの性能です",
+          "flagged_runs": [
+            "LLM Arena"
+          ]
+        },
+        {
+          "original_text": "We could say Gemini also have many breakthroughs. Gemini is always",
+          "text": "Geminiも多くの進歩を遂げており、常に",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "Gemma always achieves the best performance. So let's say",
+          "text": "Gemmaは常に最高の性能を発揮します。そこで、",
+          "flagged_runs": [
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "like when you use Gemini, you don't wanna wait so much time to wait for your token.",
+          "text": "Geminiを使う際、トークンを長く待ちたくないものです。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "Google can hand handle? So that's what companies",
+          "text": "Googleが処理できるか、企業は",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "what happened during the language model inference.",
+          "text": "languageモデルの推論中に何が起きたかについて",
+          "flagged_runs": [
+            "language"
+          ]
+        },
+        {
+          "original_text": "Normally, during the language model inference, we will have this.",
+          "text": "通常、language modelの推論中には、これが発生します。",
+          "flagged_runs": [
+            "language model"
+          ]
+        },
+        {
+          "original_text": "Turing language model survey, no so we",
+          "text": "Turing language modelの調査では、",
+          "flagged_runs": [
+            "Turing language model"
+          ]
+        },
+        {
+          "original_text": "we will call such as in pre fill, if",
+          "text": "例えば pre fill と呼ばれる段階や、もし",
+          "flagged_runs": [
+            "pre fill"
+          ]
+        },
+        {
+          "original_text": "And we know for different language model. So so in stage,",
+          "text": "そして、異なる language model において、つまり段階的に、",
+          "flagged_runs": [
+            "language model"
+          ]
+        },
+        {
+          "original_text": "sparsity language model. If you really count",
+          "text": "スパース性 language model です。実際に数えてみると",
+          "flagged_runs": [
+            "language model"
+          ]
+        },
+        {
+          "original_text": "architecture. We call it gated FFN. We will have",
+          "text": "これをgated FFNと呼び、",
+          "flagged_runs": [
+            "gated FFN"
+          ]
+        },
+        {
+          "original_text": "Zelle weights to",
+          "text": "Zelleの重みを",
+          "flagged_runs": [
+            "Zelle"
+          ]
+        },
+        {
+          "original_text": "Google, we have done it very well. We released our last year.",
+          "text": "Googleではこれをうまく実現し、昨年リリースしました。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Could achieve once over once 13,000 LLM Arena score.",
+          "text": "大規模言語モデルのArenaスコアで13,000超を達成できました。",
+          "flagged_runs": [
+            "Arena"
+          ]
+        },
+        {
+          "original_text": "In Gemma 3n, we",
+          "text": "Gemma 3nでは、",
+          "flagged_runs": [
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "In Gemma 3n, for the 10 layers are with 95 sparsity.",
+          "text": "Gemma 3nでは、10層で95%のスパース性を実現し",
+          "flagged_runs": [
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "Gemma 3n is already open sourced in",
+          "text": "Gemma 3nは既に公開されており、",
+          "flagged_runs": [
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "pixel turn. Actually, when you use these things,",
+          "text": "pixel turn。実際、これらを使う際、",
+          "flagged_runs": [
+            "pixel turn"
+          ]
+        },
+        {
+          "original_text": "you are calling Gemma 3n in pixel turn. And also the Gemma 3n",
+          "text": "PixelでGemma 3nを呼び出しており、このGemma 3nは",
+          "flagged_runs": [
+            "Gemma",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "And, also, if we mention Activation",
+          "text": "また、Activationについて言えば",
+          "flagged_runs": [
+            "Activation"
+          ]
+        },
+        {
+          "original_text": "And, also, Yanxi will enjoy use it again.",
+          "text": "また、Yanxiもこれを再利用するでしょう。",
+          "flagged_runs": [
+            "Yanxi"
+          ]
+        },
+        {
+          "original_text": "Normally, when we train one language model, we normally we will train the",
+          "text": "通常、1つのlanguage modelを学習させる際は、通常は",
+          "flagged_runs": [
+            "language model"
+          ]
+        },
+        {
+          "original_text": "For the unexpected 100,000,000 salary package for Google and OpenAI researchers because, you know, the you",
+          "text": "GoogleやOpenAIの研究者への、1億ドルの破格の給与パッケージについてですが、というのも",
+          "flagged_runs": [
+            "Google",
+            "OpenAI"
+          ]
+        },
+        {
+          "original_text": "recently, Meta gave us a very high salary package for some of",
+          "text": "最近、Metaから非常に高額な報酬パッケージを提示され、その一部として",
+          "flagged_runs": [
+            "Meta"
+          ]
+        },
+        {
+          "original_text": "Google and OpenEye researchers. And",
+          "text": "GoogleやOpenAIの研究者に。そして",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "token will be you very much be because",
+          "text": "次のトークンが you very much になると分かっているため、",
+          "flagged_runs": [
+            "you very much"
+          ]
+        },
+        {
+          "original_text": "we do not think it's too much to output you very",
+          "text": "you veryと出力しても\n不自然ではないと考えます",
+          "flagged_runs": [
+            "you very"
+          ]
+        },
+        {
+          "original_text": "normally, we do not think it's too much to output you very much.",
+          "text": "通常、you very muchと出力しても不自然ではありません。",
+          "flagged_runs": [
+            "you very much"
+          ]
+        },
+        {
+          "original_text": "So we call this token maybe, like, easy token. It",
+          "text": "これを「easy token」と呼び、",
+          "flagged_runs": [
+            "easy token"
+          ]
+        },
+        {
+          "original_text": "context and reasoning to generate. We call it hard tokens.",
+          "text": "生成のための文脈と推論。これをhard tokensと呼びます",
+          "flagged_runs": [
+            "hard tokens"
+          ]
+        },
+        {
+          "original_text": "Draft is a very, very small model, and you for each",
+          "text": "Draftは非常に小さなモデルで、各",
+          "flagged_runs": [
+            "Draft"
+          ]
+        },
+        {
+          "original_text": "But for Huddl tokens, software model cannot",
+          "text": "しかし Huddl トークンは生成できず",
+          "flagged_runs": [
+            "Huddl"
+          ]
+        },
+        {
+          "original_text": "this method is proposed by Google in 2021. And here, we could say, in original paper, we could say,",
+          "text": "この手法は2021年にGoogleが提案したもので、元の論文によれば、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "answer is Tokyo. It's it's very easy for",
+          "text": "答えはTokyoです。非常に簡単で、",
+          "flagged_runs": [
+            "Tokyo"
+          ]
+        },
+        {
+          "original_text": "the memory for twin",
+          "text": "twin用のメモリを",
+          "flagged_runs": [
+            "twin"
+          ]
+        },
+        {
+          "original_text": "with PagedAttention, we could",
+          "text": "PagedAttentionで、",
+          "flagged_runs": [
+            "PagedAttention"
+          ]
+        },
+        {
+          "original_text": "sudoku again and again and again. Finally, maybe one hundred years later,",
+          "text": "sudokuを何度も解き続け、100年後にはついに",
+          "flagged_runs": [
+            "sudoku"
+          ]
+        },
+        {
+          "original_text": "in the model level, such as a Metformin",
+          "text": "モデルレベルで、例えばMetforminのような",
+          "flagged_runs": [
+            "Metformin"
+          ]
+        },
+        {
+          "original_text": "Metaphormer is like we have a different large size of our FFN layers.",
+          "text": "Metaphormerは、FFN層のサイズが異なるようなもので、",
+          "flagged_runs": [
+            "Metaphormer"
+          ]
+        },
+        {
+          "original_text": "for launching model serving, such as Google and Celebrace.",
+          "text": "GoogleやCelebraceなど、モデルサービングの開始に",
+          "flagged_runs": [
+            "Google",
+            "Celebrace"
+          ]
+        },
+        {
+          "original_text": "it's already acquired by NVIDIA.",
+          "text": "すでにNVIDIAに買収されています。",
+          "flagged_runs": [
+            "NVIDIA"
+          ]
+        },
+        {
+          "original_text": "Diffusion model is like a process of tokens, general tokens altogether parallel.",
+          "text": "Diffusion modelは全トークンを並列処理する方式で、",
+          "flagged_runs": [
+            "Diffusion model"
+          ]
+        },
+        {
+          "original_text": "regarding Gemini or Gemini. So",
+          "text": "Geminiについてなど、ですので",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "for it. And we know train one language model, you're very, very",
+          "text": "そのために。そして、1つのlanguage modelを訓練するには、非常に",
+          "flagged_runs": [
+            "language model"
+          ]
+        },
+        {
+          "original_text": "Okay. So that's why Celebrate do it very well.",
+          "text": "だからこそCelebrateは非常に優れているのです",
+          "flagged_runs": [
+            "Celebrate"
+          ]
+        },
+        {
+          "original_text": "think Gemma's Japan is is amazing. Do you have any",
+          "text": "Gemmaの日本での活躍は素晴らしく、何か",
+          "flagged_runs": [
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "Yeah. Actually, I think yeah. That's good Google's advantages.",
+          "text": "はい、実際そうですね。Googleの強みだと思います",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "to enhance the Japanese Japanese ability in Gemma and Gemini. So",
+          "text": "GemmaとGeminiの日本語能力を強化するために。そして、",
+          "flagged_runs": [
+            "Gemma",
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "I think that's what I can say. That's Google's advantage of all",
+          "text": "これこそがGoogleの強みだと言えます",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Gemini's development? Please tell us an impressive story.",
+          "text": "Gemini開発で最も胸が熱くなった瞬間は？印象的な話を教えてください。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "From my from my perspective, like, Google has",
+          "text": "私の視点では、Googleは",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "progress in Gemini. I think when you say",
+          "text": "Geminiの進展。あなたが言うところの",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "In Google, we do a lot, such as of being simple simple QA. It's a",
+          "text": "Googleでは、単純なQAなど多くの取り組みを行っており、それは",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "how how how much the Angi model",
+          "text": "どれほどAngiモデルが",
+          "flagged_runs": [
+            "Angi"
+          ]
+        },
+        {
+          "original_text": "In Google, we do it very real, and we use many different",
+          "text": "Googleでは非常に実戦的で、多様な",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "For Serving, and it will be very, very important too.",
+          "text": "Servingにおいても、これは非常に重要になります。",
+          "flagged_runs": [
+            "Serving"
+          ]
+        },
+        {
+          "original_text": "And in Free Local Edge AI system, what",
+          "text": "そして Free Local Edge AI システムでは、どのような",
+          "flagged_runs": [
+            "Free Local Edge AI"
+          ]
+        },
+        {
+          "original_text": "language models. So I think a battery stuff will be very important.",
+          "text": "language models。なので、バッテリーが非常に重要になると思います",
+          "flagged_runs": [
+            "language models"
+          ]
+        },
+        {
+          "original_text": "Gemma",
+          "text": "Gemmaも",
+          "flagged_runs": [
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "Gemma 3n. Yeah. Yeah.",
+          "text": "Gemma 3nですね。ええ。",
+          "flagged_runs": [
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "RTPUs superior to GPUs,",
+          "text": "RTPUはGPUより優れており、",
+          "flagged_runs": [
+            "RTPU"
+          ]
+        },
+        {
+          "original_text": "introduction for this. And for Google, I think",
+          "text": "これの紹介を。Googleについては、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Like anti",
+          "text": "例えば anti",
+          "flagged_runs": [
+            "anti"
+          ]
+        },
+        {
+          "original_text": "gravity released by Google. I think, currently, web coding is very good at",
+          "text": "Googleが公開したanti-gravityなど、ウェブコーディングは現在非常に優れており",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "resources, I'm I'm I think Google know",
+          "text": "リソースについては、Googleが知っていると",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "before Google will provide some free TPUs. I'm not sure if",
+          "text": "Googleが無料のTPUを提供するか、不確かですが",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "And how does Google analyze the data from questions? I I I think it's a",
+          "text": "Googleは質問のデータをどう分析するのか、それは",
+          "flagged_runs": [
+            "Google"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "llm2024_8_part1_review_fixes_7m30_21m50",
+      "json_path": "experiments/20260924_llm2024_8_part1_review_fixes_7m30_21m50.json",
+      "num_translation_complete_checked": 116,
+      "num_flagged": 24,
+      "flagged_events": [
+        {
+          "original_text": "And, currently, I'm a senior research scientist in Google Research Australia. And also, thanks for",
+          "text": "Google Research Australiaのシニアリサーチサイエンティストです。また、感謝の意を",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "discriminator signal, to improve the language model.",
+          "text": "discriminatorの信号で、LMを改善します。",
+          "flagged_runs": [
+            "discriminator"
+          ]
+        },
+        {
+          "original_text": "then I do some internship in Salesforce, started my research about multi model",
+          "text": "その後Salesforceでインターンをし、マルチモーダルの研究を始めました",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "then I do some internship in Salesforce, started my research about multi model model.",
+          "text": "その後Salesforceでインターンをし、マルチモーダル研究を開始しました",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "2024, I went I went to Google.",
+          "text": "2024年、Googleへ行きました。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "mainly contributed to Gemini and Gemma. And as",
+          "text": "主にGeminiとGemmaに貢献しました。",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini SWE and",
+          "text": "Gemini SWEのモデル変更に貢献したり",
+          "flagged_runs": [
+            "Gemini SWE"
+          ]
+        },
+        {
+          "original_text": "Gemma 3D, Gemma four stuffs. Okay. That's my",
+          "text": "Gemma 3DやGemma 4などですね。",
+          "flagged_runs": [
+            "Gemma",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "research institution, Google",
+          "text": "私の研究機関、Google",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google Research Australia.",
+          "text": "Google Research Australiaです。",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "Google Research Australia, we build",
+          "text": "Google Research Australiaでは、",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "hearing aid ability in Google's Pixabad, so the",
+          "text": "GoogleのPixel Budsの補聴器機能を向上させ、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "older generation could hear by wearing our Google's",
+          "text": "高齢者がGoogleのデバイスを装着して聞こえるように",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Asia language in Gemini. And, we have one",
+          "text": "Geminiでのアジア言語。そして、ある",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "because, like, you know, Google has many products.",
+          "text": "Googleには多くの製品があるからです。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Gemini and search and YouTube",
+          "text": "Gemini、検索、YouTubeなど",
+          "flagged_runs": [
+            "Gemini",
+            "YouTube"
+          ]
+        },
+        {
+          "original_text": "and the calendars and the Chrome and the Workspace,",
+          "text": "カレンダー、Chrome、Workspace、",
+          "flagged_runs": [
+            "Chrome",
+            "Workspace"
+          ]
+        },
+        {
+          "original_text": "all our TPUs. So how to enhance the efficiency in",
+          "text": "全TPUsを消費するため、効率性をどう高めるか",
+          "flagged_runs": [
+            "TPUs"
+          ]
+        },
+        {
+          "original_text": "have many things landed in Google, like",
+          "text": "すでにGoogleで多くの成果を上げ、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "AI mode, the next next generation searching",
+          "text": "AI modeや次世代検索など",
+          "flagged_runs": [
+            "AI mode"
+          ]
+        },
+        {
+          "original_text": "and also Gemini are most at mostly important",
+          "text": "そしてGeminiも極めて重要で",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "project in Google.",
+          "text": "Googleのプロジェクト",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in",
+          "text": "Googleの立場上、全ては話せませんが",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in very detail. So this",
+          "text": "Googleの立場上、詳細は控えさせていただきます。",
+          "flagged_runs": [
+            "Google"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "llm2024_8_part1_review_fixes_v2_7m30_21m50",
+      "json_path": "experiments/20260924_llm2024_8_part1_review_fixes_v2_7m30_21m50.json",
+      "num_translation_complete_checked": 243,
+      "num_flagged": 32,
+      "flagged_events": [
+        {
+          "original_text": "And, currently, I'm a senior research scientist in Google Research Australia. And also, thanks for",
+          "text": "現在はGoogle Research Australiaのシニアリサーチサイエンティストです。また、感謝の意を",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "I do some internship in Salesforce, started my research about multi model",
+          "text": "その後 Salesforce でインターンをし、マルチモデルの研究を始めました",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "I do some internship in Salesforce, started my research about multi model model.",
+          "text": "その後 Salesforce でインターンをし、マルチモデルの研究を始めました",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "I went I went to Google.",
+          "text": "Googleに行きました。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "mainly contributed to Gemini and Gemma. And as",
+          "text": "主にGeminiとGemmaに貢献しました。",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini SWE and",
+          "text": "Gemini SWEのモデル変更に貢献したり",
+          "flagged_runs": [
+            "Gemini SWE"
+          ]
+        },
+        {
+          "original_text": "Gemma 3D, Gemma four stuffs.",
+          "text": "Gemma 3DやGemma 4関連など。",
+          "flagged_runs": [
+            "Gemma",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "research institution, Google",
+          "text": "所属先のGoogleを",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Research Australia.",
+          "text": "Research Australia。",
+          "flagged_runs": [
+            "Research Australia"
+          ]
+        },
+        {
+          "original_text": "Google Research Australia, we build",
+          "text": "Google Research Australiaでは、",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "hearing aid ability in Google's Pixabad, so the",
+          "text": "GoogleのPixabadにおける補聴器機能を向上させ、",
+          "flagged_runs": [
+            "Google",
+            "Pixabad"
+          ]
+        },
+        {
+          "original_text": "older generation could hear by wearing our Google's",
+          "text": "高齢者がGoogleのデバイスを装着して聞こえるように",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Asia language in Gemini. And, we have one",
+          "text": "Geminiでのアジア言語。そして、一つ",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "because, like, you know, Google has many products.",
+          "text": "Googleには多くの製品があるからです。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Gemini and search and YouTube",
+          "text": "Gemini、検索、YouTubeなど",
+          "flagged_runs": [
+            "Gemini",
+            "YouTube"
+          ]
+        },
+        {
+          "original_text": "and the calendars and the Chrome and the Workspace,",
+          "text": "カレンダー、Chrome、Workspaceなど、",
+          "flagged_runs": [
+            "Chrome",
+            "Workspace"
+          ]
+        },
+        {
+          "original_text": "all our TPUs. So how to enhance the efficiency in",
+          "text": "全TPUsを消費するため、効率性をどう高めるか",
+          "flagged_runs": [
+            "TPUs"
+          ]
+        },
+        {
+          "original_text": "have many things landed in Google, like",
+          "text": "すでにGoogleで多くを実装し、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "AI mode, the next next generation searching",
+          "text": "AI modeや次世代検索など",
+          "flagged_runs": [
+            "AI mode"
+          ]
+        },
+        {
+          "original_text": "and also Gemini are most at mostly important",
+          "text": "そしてGeminiも極めて重要で",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "project in Google.",
+          "text": "Googleのプロジェクト",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in",
+          "text": "Googleの立場上、全ては話せませんが",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in very detail. So this",
+          "text": "Googleの立場上、詳細は話せませんが",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "embedding table to convert this subaward to some embedding.",
+          "text": "embedding tableでサブワードを埋め込みに変換し、",
+          "flagged_runs": [
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "And after the embeddings, we will do",
+          "text": "埋め込み（embeddings）の後に、行うのは",
+          "flagged_runs": [
+            "embeddings"
+          ]
+        },
+        {
+          "original_text": "self attention. What's the self attention meeting?",
+          "text": "self attention。その意味は、",
+          "flagged_runs": [
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "Self attention will model the dependency between different award.",
+          "text": "Self attentionは単語間の依存関係をモデル化し、",
+          "flagged_runs": [
+            "Self attention"
+          ]
+        },
+        {
+          "original_text": "when we want to generate the next token like a delicious,",
+          "text": "「delicious」のような次のトークンを生成する際、",
+          "flagged_runs": [
+            "delicious"
+          ]
+        },
+        {
+          "original_text": "We will we will model the dependence, like Japanese and food.",
+          "text": "Japaneseとfoodのような依存関係をモデル化します",
+          "flagged_runs": [
+            "Japanese",
+            "food"
+          ]
+        },
+        {
+          "original_text": "already know NetTest Token is delicious.",
+          "text": "次のトークンはdeliciousだと分かっています。",
+          "flagged_runs": [
+            "delicious"
+          ]
+        },
+        {
+          "original_text": "It's like IO fine tuning.",
+          "text": "IO fine tuningのようなものです。",
+          "flagged_runs": [
+            "IO fine tuning"
+          ]
+        },
+        {
+          "original_text": "very, very quickly. We could say, like, GPQA is like",
+          "text": "非常に急速に。例えばGPQAは",
+          "flagged_runs": [
+            "GPQA"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "gpt_live1_cmp_A1",
+      "json_path": "experiments/20261013_gpt_live1_cmp_a1.json",
+      "num_translation_complete_checked": 20,
+      "num_flagged": 7,
+      "flagged_events": [
+        {
+          "original_text": " language model architecture design work, mainly contribute to Gemini and Gema and as Kojima-san introduced, I already contribute some",
+          "text": "そして2024年には、Googleに行って言語モデルのアーキテクチャ設計の仕事にも携わり、主にGeminiやGemaに貢献しました。",
+          "flagged_runs": [
+            "Gemini",
+            "Gema"
+          ]
+        },
+        {
+          "original_text": " model changes in Gemini 3 and Gema 3, Gema 4 stuffs Okay, that's my introduction and also I would like",
+          "text": "小島さんが紹介してくれたように、私はすでにGemini3やGema3、Gema4などのモデルにもいくつかの変更に貢献してきました。",
+          "flagged_runs": [
+            "Gemini",
+            "Gema",
+            "Gema"
+          ]
+        },
+        {
+          "original_text": ". Google Research Australia we build this research hub in 2024 and we",
+          "text": "私の所属研究機関であるGoogleリサーチ・オーストラリアについても紹介したいと思います。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": " have 3 teams like Helen AID, we will improve- her AID ability in Google's Pix bar, sort of older generation could hear by wearing our Google's Pixel Bud, just like Apple's and also we do multilingual in language",
+          "text": "Googleリサーチ・オーストラリアは2024年にこのリサーチハブを設立し、Helen AIDのように、GoogleのPix barでAIDの能力を向上させたり、Pixel Budsを装着することで高齢の方でも聞こえるようにするなど、Appleのような取り組みを行っています。",
+          "flagged_runs": [
+            "Google",
+            "Helen AID",
+            "Google",
+            "Pix bar",
+            "Apple"
+          ]
+        },
+        {
+          "original_text": " Gemini, and also we have one another team like efficiency in",
+          "text": "Geminiで東南アジアの言語対応も強化しています。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": ", Gemini and search and YouTube and calendars and Chrome and Workspace and if we deploy language model in all",
+          "text": "ご存知のようにGoogleにはGeminiや検索、YouTube、カレンダー、Chromeなど多くの製品があるため、",
+          "flagged_runs": [
+            "Gemini",
+            "YouTube",
+            "Chrome"
+          ]
+        },
+        {
+          "original_text": " Hub for one year, we already have many things landed in Google, like AM mode, the next generation searching system, and also Gemini, almost- most important project in Google",
+          "text": "私たちのリサーチハブはまだ設立から1年ですが、すでにAMモードや次世代検索システムなど多くの成果をGoogleに導入しています。",
+          "flagged_runs": [
+            "Google"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "gpt_live1_cmp_A2",
+      "json_path": "experiments/20261013_gpt_live1_cmp_a2.json",
+      "num_translation_complete_checked": 23,
+      "num_flagged": 7,
+      "flagged_events": [
+        {
+          "original_text": " language model architecture design work, mainly contribute to Gemini and Gemma and as Kojima-san introduced, I already like",
+          "text": "2024年にはGoogleに行き、主にGeminiやGEMAに貢献する形で言語モデルのアーキテクチャ設計の仕事をしました。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": " contribute some model changes in Gemini 3 and Gemma 3, Gemma 4 stuffs Okay, that's my introduction",
+          "text": "小島さんが紹介してくださったように、すでにGemini 3やGemma 3、Gemma 4などのモデル変更にも貢献しています。",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": " and we have 3 teams like Helen A, we will improve the Helen A's ability in Google's",
+          "text": "Google Research Australiaでは、2024年に研究拠点を構築し、Helen Aのように3つのチームがあります。",
+          "flagged_runs": [
+            "Helen A"
+          ]
+        },
+        {
+          "original_text": " PixBar, so older generation could hear by wearing our Google's, Pixel Bud, just like Apple's And also we do multilingual in",
+          "text": "私たちはHelen Aの能力をGoogleのPixBarに組み込むことで、高齢の方々がPixel Budを着用するだけで、Appleのように聞こえやすくなるようにしています。",
+          "flagged_runs": [
+            "Google",
+            "PixBar",
+            "Pixel Bud",
+            "Apple"
+          ]
+        },
+        {
+          "original_text": " will enhance Southeastern Asia language in Gemini. And also we have one",
+          "text": "さらに、東南アジアの言語をGeminiでより強化しています。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": ", another team like Efficient is saying AM That's what I am that's the team",
+          "text": "それともう一つ、EfficientというAMに特化したチームもあります。",
+          "flagged_runs": [
+            "Efficient"
+          ]
+        },
+        {
+          "original_text": " most important project in Google And also, as you know, it's a most advanced AI",
+          "text": "私たちは研究を始めてまだ1年ですが、すでにGoogle内で多くの成果を出しています。",
+          "flagged_runs": [
+            "Google"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "gpt_live1_cmp_C",
+      "json_path": "experiments/20261013_gpt_live1_cmp_c.json",
+      "num_translation_complete_checked": 26,
+      "num_flagged": 1,
+      "flagged_events": [
+        {
+          "original_text": " So, let's try to go into improve spoot. It's, it's will decide, it will decide by your speculative decoding configs, and I recommend you to write more blocks online",
+          "text": "では、spootを改善してみましょう。",
+          "flagged_runs": [
+            "spoot"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "gpt_live1_llm2025_zenhan_3min",
+      "json_path": "experiments/20261013_gpt_live1_llm2025_zenhan_3min.json",
+      "num_translation_complete_checked": 31,
+      "num_flagged": 6,
+      "flagged_events": [
+        {
+          "original_text": " contribute to Gemini and Gemma and as Kojima-san introduced, I already contributed some model change in Gemini 3 and",
+          "text": "2024年には、Googleに行って言語モデルのアーキテクチャ設計の仕事をし、主にGeminiやGemmaに貢献しました。",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": " Gemma3, Gemma4 stuffs Okay, that's my introduction And also, I would like to introduce my",
+          "text": "小島さんが紹介されたように、私はすでにGemini 3やGemma 3、Gemma 4などのモデル変更にも携わっています。",
+          "flagged_runs": [
+            "Gemma",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": " Australia Google Research Australia, we build this research hub",
+          "text": "研究機関であるGoogle Research Australiaも紹介したいと思います。",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": " will enhance the Southeast Asia language, in Gemini. And also we have another team like efficiency in",
+          "text": "また、言語モデルでの多言語対応にも取り組んでおり、Geminiで東南アジアの言語を強化しています。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": " because like, you know, Google has many products, Gemini and search and YouTube and calendars and Chrome and workspace. And if we deploy language model in",
+          "text": "ご存じの通り、なぜそれがとても重要なのかというと、GoogleにはGeminiや検索、YouTube、カレンダー、Chrome、Workspaceなど多くの製品があるからです。",
+          "flagged_runs": [
+            "Google",
+            "Gemini",
+            "YouTube",
+            "Chrome"
+          ]
+        },
+        {
+          "original_text": " most important project in Google And",
+          "text": "Geminiなど、Googleで重要な成果がすでに出ています。",
+          "flagged_runs": [
+            "Google"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "full_llm2025_zenhan_gemini3flash_s0",
+      "json_path": "experiments/20261014_full_llm2025_zenhan_gemini3flash_s0.json",
+      "num_translation_complete_checked": 407,
+      "num_flagged": 35,
+      "flagged_events": [
+        {
+          "original_text": "And, currently, I'm a senior research in Google",
+          "text": "現在はGoogleのシニアリサーチを務めており、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Research Australia. And, also, thanks for",
+          "text": "Research Australiaに所属しています。また、感謝の意を申し上げたいのは、",
+          "flagged_runs": [
+            "Research Australia"
+          ]
+        },
+        {
+          "original_text": "I went to Google to do something language model",
+          "text": "Googleへ行き、言語モデルに関する取り組みを",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "I went to Google to do something language model architecture design, work,",
+          "text": "Googleへ行き、言語モデルのアーキテクチャ設計などの業務に携わりました。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "mainly contribute to Gemini and Gemma,",
+          "text": "主に Gemini や Gemma に貢献し、",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "mainly contribute to Gemini and Gemma, And as",
+          "text": "主に Gemini や Gemma に貢献し、そして、",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini suite",
+          "text": "Gemini シリーズにおけるモデルの変更などに貢献してきました。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini suite Gemini three, Gemini",
+          "text": "Gemini 3などのGeminiシリーズにおけるモデル変更に貢献しました。",
+          "flagged_runs": [
+            "Gemini",
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini suite Gemini three, Gemini four stuffs.",
+          "text": "Gemini シリーズや Gemini 3、Gemini 4 といったモデルの変更にも貢献してきました。",
+          "flagged_runs": [
+            "Gemini",
+            "Gemini",
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "research institution, Google",
+          "text": "私の所属機関であるGoogleについて、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Research Australia.",
+          "text": "Research Australiaについてです。",
+          "flagged_runs": [
+            "Research Australia"
+          ]
+        },
+        {
+          "original_text": "Google Research Australia, we build this research hub,",
+          "text": "Google Research Australiaでは、このリサーチハブを構築しており、",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "hearing aid ability in Google",
+          "text": "Googleにおける補聴能力を向上させることです。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "hearing aid ability in Google PixPad so that",
+          "text": "Google PixPadにおける補聴機能を向上させることです。",
+          "flagged_runs": [
+            "Google PixPad"
+          ]
+        },
+        {
+          "original_text": "older generation could hear by wearing our Google's",
+          "text": "高齢者の方々がGoogleのデバイスを装着することで、音が聞こえるようになるよう、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Southeastern Asia language in Gemini.",
+          "text": "Geminiにおいて東南アジアの言語にも対応しています。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "Gemini and search and YouTube and calendar",
+          "text": "Geminiや検索、YouTube、カレンダーといったサービスを、皆さんが",
+          "flagged_runs": [
+            "Gemini",
+            "YouTube"
+          ]
+        },
+        {
+          "original_text": "and the Chrome and the workspace.",
+          "text": "ChromeやWorkspaceを担当している、",
+          "flagged_runs": [
+            "Chrome"
+          ]
+        },
+        {
+          "original_text": "in Google, like, AMO",
+          "text": "GoogleのAMOなどの製品に導入しており、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "in Google, like, AMO mode, the next",
+          "text": "Googleにおいて、例えばAMOモードや、次世代の",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "next generation searching system, and also Gemini, our",
+          "text": "次世代の検索システム、そしてGeminiにも導入されています。",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "most important project in Google.",
+          "text": "Googleにおいて最も重要なプロジェクトであるGeminiなどにも導入されています。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "our... Also, our Google",
+          "text": "また、Googleの",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in very",
+          "text": "Googleに所属していることもあり、すべてを詳細に話すことはできませんが、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in very detailed",
+          "text": "Googleに所属しているため、すべてを詳細に話すことはできませんが、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "embedding table to convert this",
+          "text": "embedding tableを用いて変換し、",
+          "flagged_runs": [
+            "embedding table"
+          ]
+        },
+        {
+          "original_text": "like IO fine tuning.",
+          "text": "IO fine tuningのような手法を検討します。",
+          "flagged_runs": [
+            "IO fine tuning"
+          ]
+        },
+        {
+          "original_text": "like, GPQA is like",
+          "text": "例えば、GPQAなどは",
+          "flagged_runs": [
+            "GPQA"
+          ]
+        },
+        {
+          "original_text": "the intelligence score doubled in Gemini, but",
+          "text": "Geminiにおいて知能スコアが倍増し、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "x... Access",
+          "text": "Accessのような、",
+          "flagged_runs": [
+            "Access"
+          ]
+        },
+        {
+          "original_text": "The y axis is performance in AIME arena. We could say",
+          "text": "y軸は AIME arena におけるパフォーマンスであり、これもまた、と言えるでしょう。",
+          "flagged_runs": [
+            "AIME arena"
+          ]
+        },
+        {
+          "original_text": "The y axis is performance in AIME arena. We could say Jim, like,",
+          "text": "y軸はAIME arenaにおけるパフォーマンスであり、Jimと言えるでしょう、",
+          "flagged_runs": [
+            "AIME arena"
+          ]
+        },
+        {
+          "original_text": "also have many breakthroughs. Gemini is always",
+          "text": "多くのブレイクスルーをもたらしており、Geminiは常に",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "also have many breakthroughs. Gemini is always ships",
+          "text": "多くのブレイクスルーをもたらしており、Geminiは常に、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "user cares about. Right? When you... Just like when you use Gemini, you don't wanna wait",
+          "text": "ユーザーが気にする点です。Geminiを使うときと同じように、待ちたくはないはずです",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "full_llm2025_zenhan_gpt54mini_s0",
+      "json_path": "experiments/20261014_full_llm2025_zenhan_gpt54mini_s0.json",
+      "num_translation_complete_checked": 416,
+      "num_flagged": 62,
+      "flagged_events": [
+        {
+          "original_text": "And currently, I'm a senior research scientist Google",
+          "text": "そして今、Googleのシニアリサーチサイエンティストです",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Research Australia. And, also, thanks for",
+          "text": "Research Australia。そして、あと、ありがとう",
+          "flagged_runs": [
+            "Research Australia"
+          ]
+        },
+        {
+          "original_text": "Muscle Labs invitation. I'm very happy to",
+          "text": "で、Muscle Labsの招待で。とても嬉しくて",
+          "flagged_runs": [
+            "Muscle Labs"
+          ]
+        },
+        {
+          "original_text": "Muscle Labs invitation. I'm very happy to discuss with",
+          "text": "Muscle Labsの招待で、今日はお話しできてとても嬉しいです",
+          "flagged_runs": [
+            "Muscle Labs"
+          ]
+        },
+        {
+          "original_text": "I do some internship in started my research about multi model language model.",
+          "text": "そして、そのあとインターンをして、multi model language modelについての研究を始めました",
+          "flagged_runs": [
+            "multi model language model"
+          ]
+        },
+        {
+          "original_text": "multi model in nature. So",
+          "text": "自然界ではmulti modelのようなものです",
+          "flagged_runs": [
+            "multi model"
+          ]
+        },
+        {
+          "original_text": "So multi model lung... Language model actually is very important.",
+          "text": "だから、multi modelの肺… 言語モデルは実際とても重要です",
+          "flagged_runs": [
+            "multi model"
+          ]
+        },
+        {
+          "original_text": "I went to Google to do something language model",
+          "text": "Googleに行って、言語モデルの何かをやるために",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "I went to Google to do something language model architecture design work",
+          "text": "Googleに行って、言語モデルのアーキテクチャ設計の仕事をするために",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "mainly contribute to Gemini and Gemma",
+          "text": "主にGeminiとGemmaに貢献するために",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "mainly contribute to Gemini and Gemma And as",
+          "text": "主にGeminiとGemmaに貢献して、そして",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini suite",
+          "text": "みたいな、Gemini suite のいくつかのモデル変更に貢献して",
+          "flagged_runs": [
+            "Gemini suite"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini suite Gemini three, Gemini",
+          "text": "みたいな、Gemini suiteのいくつかのモデル変更に貢献して、Gemini three、Gemini",
+          "flagged_runs": [
+            "Gemini suite",
+            "Gemini three",
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini suite Gemini three, Gemini four stuffs.",
+          "text": "みたいな、Gemini suiteのいくつかのモデル変更に貢献して、Gemini three、Gemini fourとかに",
+          "flagged_runs": [
+            "Gemini suite",
+            "Gemini three",
+            "Gemini four"
+          ]
+        },
+        {
+          "original_text": "research institution, Google",
+          "text": "私の研究機関、Google",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Research Australia.",
+          "text": "Research Australia。",
+          "flagged_runs": [
+            "Research Australia"
+          ]
+        },
+        {
+          "original_text": "Google Research Australia, we build this research hub,",
+          "text": "Google Research Australiaでは、この研究拠点を構築しています、",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "hearing aid ability in Google",
+          "text": "Googleでの補聴能力",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "hearing aid ability in Google PixPad so that",
+          "text": "Google PixPadの補聴能力",
+          "flagged_runs": [
+            "Google PixPad"
+          ]
+        },
+        {
+          "original_text": "older generation could hear by wearing our Google's",
+          "text": "ので、古い世代の人たちがGoogleのを身につけることで聞けるように",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "pixel bot just just like apples.",
+          "text": "pixel botも、Appleのように",
+          "flagged_runs": [
+            "pixel bot"
+          ]
+        },
+        {
+          "original_text": "Southeastern Asia language in Gemini,",
+          "text": "Geminiでの東南アジアの言語、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "you know, Google has many products.",
+          "text": "Googleには多くの製品があるんです",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Gemini and search and YouTube and",
+          "text": "GeminiとsearchとYouTube",
+          "flagged_runs": [
+            "Gemini",
+            "search",
+            "YouTube"
+          ]
+        },
+        {
+          "original_text": "and the calendars and the Chrome and the Workspace.",
+          "text": "とカレンダーとChromeとWorkspace。",
+          "flagged_runs": [
+            "Chrome",
+            "Workspace"
+          ]
+        },
+        {
+          "original_text": "in Google, like, AMO",
+          "text": "Googleで、AMOみたいな",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "in Google, like, AMO mode, the next",
+          "text": "Googleでは、たとえばAMO mode、次の",
+          "flagged_runs": [
+            "Google",
+            "AMO mode"
+          ]
+        },
+        {
+          "original_text": "next generation searching system, and also Gemini, our",
+          "text": "次世代検索システム、そしてGeminiも、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "next generation searching system, and also Gemini, our most",
+          "text": "次世代検索システム、そしてGemini、私たちの最も",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "our... Also, our Google",
+          "text": "私たちの… また、私たちのGoogle",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in very",
+          "text": "Google、私はすべてを非常に話すことはできません",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in very detailed",
+          "text": "Googleでは、すべてを非常に詳しくは話せないので",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "introduce what's a transformer. Because, you",
+          "text": "transformerとは何かをご紹介します。なぜなら、あなたは",
+          "flagged_runs": [
+            "transformer"
+          ]
+        },
+        {
+          "original_text": "idea of transformer. I I just revisited it. In transformer,",
+          "text": "transformerのアイデアを、さっき見直したところで。transformerでは、",
+          "flagged_runs": [
+            "transformer",
+            "transformer"
+          ]
+        },
+        {
+          "original_text": "transformer, we just, like,",
+          "text": "transformerを、ただ、",
+          "flagged_runs": [
+            "transformer"
+          ]
+        },
+        {
+          "original_text": "self attention. What's the self attention meeting",
+          "text": "self attention。self attentionの意味は",
+          "flagged_runs": [
+            "self attention",
+            "self attention"
+          ]
+        },
+        {
+          "original_text": "data set, it already know next token is they",
+          "text": "データセットでは、次のトークンが they だとすでに知っていて",
+          "flagged_runs": [
+            "they"
+          ]
+        },
+        {
+          "original_text": "Memory, word of knowledge in this f f n",
+          "text": "記憶、知識の語で、この f f n",
+          "flagged_runs": [
+            "f f n"
+          ]
+        },
+        {
+          "original_text": "layer. Normally, f f n layer, you know, just",
+          "text": "層です。通常、f f n層は、ほら、ただ",
+          "flagged_runs": [
+            "f f n"
+          ]
+        },
+        {
+          "original_text": "mapping the words to a d model.",
+          "text": "単語を d model にマッピングすることに",
+          "flagged_runs": [
+            "d model"
+          ]
+        },
+        {
+          "original_text": "lot of decoding... Decoder blocks in transformer, we",
+          "text": "たくさんのデコーディング… transformer の Decoder blocks で、私たちは",
+          "flagged_runs": [
+            "transformer",
+            "Decoder blocks"
+          ]
+        },
+        {
+          "original_text": "is a process. We call it a pretraining.",
+          "text": "これはプロセスです。これをpretrainingと呼びます",
+          "flagged_runs": [
+            "pretraining"
+          ]
+        },
+        {
+          "original_text": "like, a GP suite. It already know",
+          "text": "みたいな、GP suite。もう知っていて",
+          "flagged_runs": [
+            "GP suite"
+          ]
+        },
+        {
+          "original_text": "like, a GP suite. It already know It",
+          "text": "みたいな、GP suite。もう知っている、それ",
+          "flagged_runs": [
+            "GP suite"
+          ]
+        },
+        {
+          "original_text": "it knows, g p three knows a lot of",
+          "text": "それは知っていて、g p three は多くを知っている",
+          "flagged_runs": [
+            "g p three"
+          ]
+        },
+        {
+          "original_text": "it knows, g p three knows a lot of word knowledge.",
+          "text": "それは知っていて、g p three は多くの語彙知識を知っている",
+          "flagged_runs": [
+            "g p three"
+          ]
+        },
+        {
+          "original_text": "IHF. And also maybe, recently, we will have a verify",
+          "text": "IHF。あと、最近はverifyもあるかもしれません",
+          "flagged_runs": [
+            "verify"
+          ]
+        },
+        {
+          "original_text": "get out of the laundry model to crack a sales answer.",
+          "text": "洗濯モデルから抜け出して、sales answer を解くために",
+          "flagged_runs": [
+            "sales answer"
+          ]
+        },
+        {
+          "original_text": "with this scaling law and pretraining as and RHFAR",
+          "text": "このスケーリング則と事前学習、そしてRHFARで",
+          "flagged_runs": [
+            "RHFAR"
+          ]
+        },
+        {
+          "original_text": "like, GPQA is like",
+          "text": "たとえば、GPQAは",
+          "flagged_runs": [
+            "GPQA"
+          ]
+        },
+        {
+          "original_text": "a master level question... Storm question",
+          "text": "みたいな、修士レベルの問題… Storm question",
+          "flagged_runs": [
+            "Storm question"
+          ]
+        },
+        {
+          "original_text": "a master level question... Storm question and answer",
+          "text": "修士レベルの問題みたいなものです。Stormの質問と回答",
+          "flagged_runs": [
+            "Storm"
+          ]
+        },
+        {
+          "original_text": "g t four already could achieve comparable performance",
+          "text": "g t four はすでに同等の性能を達成できていました",
+          "flagged_runs": [
+            "g t four"
+          ]
+        },
+        {
+          "original_text": "g t four already could achieve comparable performance with",
+          "text": "g t fourはすでに同等の性能を達成できていて、",
+          "flagged_runs": [
+            "g t four"
+          ]
+        },
+        {
+          "original_text": "is, like, only... At that time, only g d four could",
+          "text": "は、当時はg d fourだけができた",
+          "flagged_runs": [
+            "g d four"
+          ]
+        },
+        {
+          "original_text": "the intelligence score doubled in Gemini, but",
+          "text": "Geminiでは知能スコアが2倍になり、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "x... Access",
+          "text": "X... Access",
+          "flagged_runs": [
+            "Access"
+          ]
+        },
+        {
+          "original_text": "is a price for minion tokens is a price",
+          "text": "は、minion tokens の価格であり、価格です",
+          "flagged_runs": [
+            "minion tokens"
+          ]
+        },
+        {
+          "original_text": "The y axis is performance in AIME arena.",
+          "text": "y軸はAIME arenaでの性能です",
+          "flagged_runs": [
+            "AIME arena"
+          ]
+        },
+        {
+          "original_text": "also have many breakthroughs. Gemini is always",
+          "text": "多くのブレークスルーもある。Geminiはいつも",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "also have many breakthroughs. Gemini is always ships",
+          "text": "みたいに、多くのブレークスルーもある。Geminiはいつも出荷されている",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "user cares about. Right? When you... Just like when you use Gemini, you don't wanna wait",
+          "text": "ユーザーが気にすることですよね。Geminiを使うときみたいに、待ちたくないんです",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "20261014_seamless_captions_replay_7m30_21m50",
+      "json_path": "experiments/20261014_seamless_captions_replay_7m30_21m50.json",
+      "num_translation_complete_checked": 243,
+      "num_flagged": 22,
+      "flagged_events": [
+        {
+          "original_text": "And, currently, I'm a senior research scientist in Google Research Australia. And also, thanks for",
+          "text": "現在はGoogle Research Australiaのシニアリサーチサイエンティストです。また、感謝の意を",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "I do some internship in Salesforce, started my research about multi model",
+          "text": "Salesforceでインターンをしており、マルチモデルの研究を始めました。",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "I do some internship in Salesforce, started my research about multi model model.",
+          "text": "その後 Salesforce でインターンをし、マルチモデルの研究を始めました",
+          "flagged_runs": [
+            "Salesforce"
+          ]
+        },
+        {
+          "original_text": "I went I went to Google.",
+          "text": "Googleへ行きました。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "mainly contributed to Gemini and Gemma. And as",
+          "text": "主にGeminiとGemmaに貢献しました。そして、",
+          "flagged_runs": [
+            "Gemini",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "like, contribute to some model change in Gemini SWE and",
+          "text": "GeminiのSWEにおけるモデル変更に貢献し、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "Gemma 3D, Gemma four stuffs.",
+          "text": "Gemma 3やGemma 4などにも。",
+          "flagged_runs": [
+            "Gemma",
+            "Gemma"
+          ]
+        },
+        {
+          "original_text": "research institution, Google",
+          "text": "所属機関のGoogleを",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Research Australia.",
+          "text": "Research Australiaです。",
+          "flagged_runs": [
+            "Research Australia"
+          ]
+        },
+        {
+          "original_text": "Google Research Australia, we build",
+          "text": "Google Research Australiaでは、",
+          "flagged_runs": [
+            "Google Research Australia"
+          ]
+        },
+        {
+          "original_text": "hearing aid ability in Google's Pixabad, so the",
+          "text": "GoogleのPixabadにおける補聴機能を、",
+          "flagged_runs": [
+            "Google",
+            "Pixabad"
+          ]
+        },
+        {
+          "original_text": "older generation could hear by wearing our Google's",
+          "text": "高齢者の方々がGoogleの製品を装着することで聞こえるようにし、",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Asia language in Gemini. And, we have one",
+          "text": "Geminiでのアジア言語対応、そして一つ",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "because, like, you know, Google has many products.",
+          "text": "Googleが多くの製品を抱えているからです。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Gemini and search and YouTube",
+          "text": "Geminiや検索、YouTubeなど、",
+          "flagged_runs": [
+            "Gemini",
+            "YouTube"
+          ]
+        },
+        {
+          "original_text": "and the calendars and the Chrome and the Workspace,",
+          "text": "カレンダー、Chrome、Workspaceなど、",
+          "flagged_runs": [
+            "Chrome",
+            "Workspace"
+          ]
+        },
+        {
+          "original_text": "have many things landed in Google, like",
+          "text": "Googleの多くの製品に導入されており、例えば",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "and also Gemini are most at mostly important",
+          "text": "そしてGeminiなどが最も重要で、",
+          "flagged_runs": [
+            "Gemini"
+          ]
+        },
+        {
+          "original_text": "project in Google.",
+          "text": "Googleのプロジェクトです。",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in",
+          "text": "Googleでの立場上、全ては話せませんが",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Google, I cannot speak everything in very detail. So this",
+          "text": "Googleの立場上、詳細は話せませんが",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "very, very quickly. We could say, like, GPQA is like",
+          "text": "非常に急速に。例えば、GPQAのような、",
+          "flagged_runs": [
+            "GPQA"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "full_llm2025_zenhan_gemini3flash_s1500",
+      "json_path": "experiments/20261015_full_llm2025_zenhan_gemini3flash_s1500.json",
+      "num_translation_complete_checked": 347,
+      "num_flagged": 8,
+      "flagged_events": [
+        {
+          "original_text": "could Google can hand... Handle? So that's what",
+          "text": "Googleが処理できるのか、といったことです。つまり、それは何なのかを",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "could Google can hand... Handle? So that's what companies",
+          "text": "Googleが処理できるのか、といったことです。企業はそうした",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "like DeepSake. Right? It's a... It's like a six hundred",
+          "text": "DeepSakeのように。これは、600",
+          "flagged_runs": [
+            "DeepSake"
+          ]
+        },
+        {
+          "original_text": "the number of parameter size in transformer, you will find that.",
+          "text": "transformerのパラメータ数を見ると、それがわかるでしょう。",
+          "flagged_runs": [
+            "transformer"
+          ]
+        },
+        {
+          "original_text": "weights as zero. We call it spa weight.",
+          "text": "重みをゼロにしたりします。これをspa weightと呼び、",
+          "flagged_runs": [
+            "spa weight"
+          ]
+        },
+        {
+          "original_text": "sparse activation.",
+          "text": "sparse activationと呼びます。",
+          "flagged_runs": [
+            "sparse activation"
+          ]
+        },
+        {
+          "original_text": "maybe you could say some other names for sparse weights. It's like",
+          "text": "sparse weightsの別の呼び方と言えるかもしれません。それは",
+          "flagged_runs": [
+            "sparse weights"
+          ]
+        },
+        {
+          "original_text": "we will use this kind of this kind of architecture We call it gated FFN. We will have",
+          "text": "このようなアーキテクチャを使用しており、これをgated FFNと呼んでいます。そして、",
+          "flagged_runs": [
+            "gated FFN"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "full_llm2025_zenhan_gemini3flash_s2380",
+      "json_path": "experiments/20261015_full_llm2025_zenhan_gemini3flash_s2380.json",
+      "num_translation_complete_checked": 85,
+      "num_flagged": 3,
+      "flagged_events": [
+        {
+          "original_text": "Google, we have done it very well. We released our",
+          "text": "Googleでは、これを非常にうまく進めており、公開したのは",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "parameters. So we could say to Baidu... By",
+          "text": "パラメーターが含まれています。そのため、Baiduに対しては……",
+          "flagged_runs": [
+            "Baidu"
+          ]
+        },
+        {
+          "original_text": "parameters. So we could say to Baidu... By By doing sparse",
+          "text": "パラメーターが含まれています。つまり、Baiduに対して言えることは、スパース化を行うことで、",
+          "flagged_runs": [
+            "Baidu"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "full_llm2025_zenhan_gemini3flash_s3000",
+      "json_path": "experiments/20261015_full_llm2025_zenhan_gemini3flash_s3000.json",
+      "num_translation_complete_checked": 15,
+      "num_flagged": 2,
+      "flagged_events": [
+        {
+          "original_text": "speculative decoding configs. And I",
+          "text": "speculative decodingの設定を決定し、そして私は",
+          "flagged_runs": [
+            "speculative decoding"
+          ]
+        },
+        {
+          "original_text": "speculative decoding configs. And I recommend you to",
+          "text": "speculative decodingの設定を決定します。そして、私がお勧めするのは、",
+          "flagged_runs": [
+            "speculative decoding"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "full_llm2025_zenhan_gpt54mini_s1500",
+      "json_path": "experiments/20261015_full_llm2025_zenhan_gpt54mini_s1500.json",
+      "num_translation_complete_checked": 343,
+      "num_flagged": 47,
+      "flagged_events": [
+        {
+          "original_text": "could Google can hand... Handle? So that's what",
+          "text": "Googleが処理できるか… 対応できるか？ それがつまり",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "could Google can hand... Handle? So that's what companies",
+          "text": "Googleが処理できる…扱える？ それが企業が",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Flops will decide how many operate... How many",
+          "text": "Flopsが、どれだけ動かせるかを決めて、どれだけ",
+          "flagged_runs": [
+            "Flops"
+          ]
+        },
+        {
+          "original_text": "expensive, such as in pixel... Such as in",
+          "text": "高価です。たとえば pixel... のような",
+          "flagged_runs": [
+            "pixel"
+          ]
+        },
+        {
+          "original_text": "expensive, such as in pixel... Such as in in",
+          "text": "高コストで、たとえばpixel... たとえば、in",
+          "flagged_runs": [
+            "pixel"
+          ]
+        },
+        {
+          "original_text": "Apple intelligence and also pixel",
+          "text": "Apple intelligenceやpixelも",
+          "flagged_runs": [
+            "Apple intelligence",
+            "pixel"
+          ]
+        },
+        {
+          "original_text": "Apple intelligence and also pixel pixel phones.",
+          "text": "Apple intelligenceや、pixelのスマートフォンでも",
+          "flagged_runs": [
+            "Apple intelligence",
+            "pixel"
+          ]
+        },
+        {
+          "original_text": "like DeepSake. Right? It's a... It's like a six hundred model.",
+          "text": "DeepSakeみたいなものです。そうですよね？ 600モデルみたいなものです",
+          "flagged_runs": [
+            "DeepSake"
+          ]
+        },
+        {
+          "original_text": "So we would solve it in deep... Many, many diff... Many",
+          "text": "なので、deep... たくさんの、たくさんのdiff... たくさん",
+          "flagged_runs": [
+            "deep"
+          ]
+        },
+        {
+          "original_text": "So we would solve it in deep... Many, many diff... Many many devices.",
+          "text": "なので、それをdeep... 多くの、多くのdiff... 多くのデバイスで解決することになります",
+          "flagged_runs": [
+            "deep"
+          ]
+        },
+        {
+          "original_text": "call... Such as in pre fill, if",
+          "text": "pre fill のような、",
+          "flagged_runs": [
+            "pre fill"
+          ]
+        },
+        {
+          "original_text": "to language model and calculate the Kiwi catch for",
+          "text": "言語モデルに対して、Kiwi catch を計算して",
+          "flagged_runs": [
+            "Kiwi catch"
+          ]
+        },
+        {
+          "original_text": "to language model and calculate the Kiwi catch for it.",
+          "text": "言語モデルにして、その Kiwi catch を計算する",
+          "flagged_runs": [
+            "Kiwi catch"
+          ]
+        },
+        {
+          "original_text": "completion will be batch size times six",
+          "text": "completion は batch size × 6 になります",
+          "flagged_runs": [
+            "completion",
+            "batch size"
+          ]
+        },
+        {
+          "original_text": "completion will be batch size times six to the length",
+          "text": "completion は batch size × 6 の長さまで",
+          "flagged_runs": [
+            "completion",
+            "batch size"
+          ]
+        },
+        {
+          "original_text": "It maybe depends on your promised lens. And",
+          "text": "それは、たぶん約束した lens によるかもしれません",
+          "flagged_runs": [
+            "lens"
+          ]
+        },
+        {
+          "original_text": "It maybe depends on your promised lens. And anyway, it's larger than one. And then so",
+          "text": "たぶん約束した lens によるんだと思います。とにかく、1 より大きいです",
+          "flagged_runs": [
+            "lens"
+          ]
+        },
+        {
+          "original_text": "section lens and also times your model",
+          "text": "そして、section lens と、さらに model の倍も",
+          "flagged_runs": [
+            "section lens",
+            "model"
+          ]
+        },
+        {
+          "original_text": "section lens and also times your model model dimension.",
+          "text": "そして、section lens と、さらにモデルのモデル次元の倍数です",
+          "flagged_runs": [
+            "section lens"
+          ]
+        },
+        {
+          "original_text": "And then the training data side label will become the software logits.",
+          "text": "そして、学習データ側のラベルがソフトウェアのlogitsになります",
+          "flagged_runs": [
+            "logits"
+          ]
+        },
+        {
+          "original_text": "We could use these software logits to further train",
+          "text": "このソフトウェアのlogitsを使って、さらに学習できます",
+          "flagged_runs": [
+            "logits"
+          ]
+        },
+        {
+          "original_text": "We could use these software logits to further train our small model",
+          "text": "このソフトウェアのlogitsを使って、小さいモデルをさらに学習できます",
+          "flagged_runs": [
+            "logits"
+          ]
+        },
+        {
+          "original_text": "sparsity language model. If you really count",
+          "text": "たとえば、sparsity language model。もし本当に数えるなら",
+          "flagged_runs": [
+            "sparsity language model"
+          ]
+        },
+        {
+          "original_text": "the number of parameter size in transformer, you will find",
+          "text": "transformerのパラメータサイズの数を見れば、わかります",
+          "flagged_runs": [
+            "transformer"
+          ]
+        },
+        {
+          "original_text": "the number of parameter size in transformer, you will find that.",
+          "text": "transformerのパラメータサイズの数を見ると、わかります",
+          "flagged_runs": [
+            "transformer"
+          ]
+        },
+        {
+          "original_text": "weights as zero. We call it spot",
+          "text": "重みをゼロにして、これをspotと呼びます",
+          "flagged_runs": [
+            "spot"
+          ]
+        },
+        {
+          "original_text": "sparse activation.",
+          "text": "sparse activation。",
+          "flagged_runs": [
+            "sparse activation"
+          ]
+        },
+        {
+          "original_text": "maybe you could say some other names for sparse weights. It's like",
+          "text": "sparse weights の別の呼び方をいくつか挙げるとすると、これは",
+          "flagged_runs": [
+            "sparse weights"
+          ]
+        },
+        {
+          "original_text": "which pruning.",
+          "text": "どの pruning を使うかみたいな",
+          "flagged_runs": [
+            "pruning"
+          ]
+        },
+        {
+          "original_text": "If we do weights pruning, we make",
+          "text": "もし weights pruning を行うなら、私たちは作りましょ",
+          "flagged_runs": [
+            "weights pruning"
+          ]
+        },
+        {
+          "original_text": "If we do weights pruning, we make some weights",
+          "text": "もし weights pruning を行うなら、いくつかの重みを",
+          "flagged_runs": [
+            "weights pruning"
+          ]
+        },
+        {
+          "original_text": "our f f n layers as zero,",
+          "text": "私たちの f f n 層をゼロにして、",
+          "flagged_runs": [
+            "f f n"
+          ]
+        },
+        {
+          "original_text": "high was saying that it's not simple",
+          "text": "highは、単純ではないと言っていて",
+          "flagged_runs": [
+            "high"
+          ]
+        },
+        {
+          "original_text": "gain. So if you want to use which pruning to",
+          "text": "利得。なので、どの pruning を使いたいなら",
+          "flagged_runs": [
+            "pruning"
+          ]
+        },
+        {
+          "original_text": "transformer in FFN,",
+          "text": "FFNのtransformer、",
+          "flagged_runs": [
+            "transformer"
+          ]
+        },
+        {
+          "original_text": "we will use this kind of this kind of architecture We call it gated FFN. We will have",
+          "text": "この種の、この種のアーキテクチャを使います。これをgated FFNと呼びます。私たちは持つことに",
+          "flagged_runs": [
+            "gated FFN"
+          ]
+        },
+        {
+          "original_text": "MLP one, MLP two, and f... MLP three.",
+          "text": "MLP one、MLP two、そして f... MLP three。",
+          "flagged_runs": [
+            "MLP one",
+            "MLP two",
+            "MLP three"
+          ]
+        },
+        {
+          "original_text": "MLP one, MLP two, and f... MLP three. three And when we realize m o p one's outputs,",
+          "text": "MLP1、MLP2、そしてf… MLP3。3つ。m o p1の出力を認識するとき、",
+          "flagged_runs": [
+            "m o p"
+          ]
+        },
+        {
+          "original_text": "in t file model, it's a paper in twenty",
+          "text": "t file modelの、20年の論文で",
+          "flagged_runs": [
+            "t file model"
+          ]
+        },
+        {
+          "original_text": "most of our computes spend on f m one and f f two and f f three. I",
+          "text": "私たちの計算資源のほとんどはf m oneとf f twoとf f threeに費やされていて、私",
+          "flagged_runs": [
+            "f m one",
+            "f f two",
+            "f f three"
+          ]
+        },
+        {
+          "original_text": "most of our computes spend on f m one and f f two and f f three. I useless because we",
+          "text": "私たちの計算資源のほとんどはf m oneとf f two、f f threeに費やされていて、私たちは無駄にしているので",
+          "flagged_runs": [
+            "f m one",
+            "f f two",
+            "f f three"
+          ]
+        },
+        {
+          "original_text": "many out out... Outputs our f f one as zero And based on this the... This",
+          "text": "多くの出力は… 出力は、私たちのf f oneをゼロとして、そしてこれに基づいて、",
+          "flagged_runs": [
+            "f f one"
+          ]
+        },
+        {
+          "original_text": "we could only fetch f f m two weights and",
+          "text": "f f m 2の重みしか取得できませんでした",
+          "flagged_runs": [
+            "f f m"
+          ]
+        },
+        {
+          "original_text": "we could only fetch f f m two weights and f f m three weights",
+          "text": "f f m2の重みとf f m3の重みしか取得できず",
+          "flagged_runs": [
+            "f f m",
+            "f f m"
+          ]
+        },
+        {
+          "original_text": "processing units, such as this is a f m two",
+          "text": "processing units、たとえばこれは f m2 です",
+          "flagged_runs": [
+            "processing units"
+          ]
+        },
+        {
+          "original_text": "memory to processing units, so it will alleviate the",
+          "text": "memoryをprocessing unitsへ投影するので、それは軽減する",
+          "flagged_runs": [
+            "memory",
+            "processing units"
+          ]
+        },
+        {
+          "original_text": "Zelle weights to",
+          "text": "Zelleの重み",
+          "flagged_runs": [
+            "Zelle"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "full_llm2025_zenhan_gpt54mini_s2380",
+      "json_path": "experiments/20261015_full_llm2025_zenhan_gpt54mini_s2380.json",
+      "num_translation_complete_checked": 85,
+      "num_flagged": 16,
+      "flagged_events": [
+        {
+          "original_text": "Google, we have done it very well. We released our",
+          "text": "そしてGoogleでは、それをとても上手くやってきました。公開しました",
+          "flagged_runs": [
+            "Google"
+          ]
+        },
+        {
+          "original_text": "Hugging Face. And we do a lot of efficient",
+          "text": "Hugging Faceで。さらに、かなり多くの効率的な",
+          "flagged_runs": [
+            "Hugging Face"
+          ]
+        },
+        {
+          "original_text": "if you have pixel turn, you will use some",
+          "text": "pixel turnがあれば、使う",
+          "flagged_runs": [
+            "pixel turn"
+          ]
+        },
+        {
+          "original_text": "AI functions in pixel turn. Actually, when you use these things, you",
+          "text": "pixel turn のいくつかのAI機能。実際、こういうものを使うと、あなたは",
+          "flagged_runs": [
+            "pixel turn"
+          ]
+        },
+        {
+          "original_text": "you are calling in pixel turn. And",
+          "text": "pixel turnと呼んでいる",
+          "flagged_runs": [
+            "pixel turn"
+          ]
+        },
+        {
+          "original_text": "you are calling in pixel turn. And also the",
+          "text": "pixel turnと呼んでいて、さらにその",
+          "flagged_runs": [
+            "pixel turn"
+          ]
+        },
+        {
+          "original_text": "washing will be",
+          "text": "washingは",
+          "flagged_runs": [
+            "washing"
+          ]
+        },
+        {
+          "original_text": "than our open source washing.",
+          "text": "オープンソースのwashingよりも",
+          "flagged_runs": [
+            "washing"
+          ]
+        },
+        {
+          "original_text": "And, also, if we mention activation spastic,",
+          "text": "そして、あと、activation spasticについて触れると、",
+          "flagged_runs": [
+            "activation spastic"
+          ]
+        },
+        {
+          "original_text": "And, also, if we mention activation spastic, we have to mention MOE.",
+          "text": "そして、あと、activation spasticに触れるなら、MOEにも触れなければならない",
+          "flagged_runs": [
+            "activation spastic"
+          ]
+        },
+        {
+          "original_text": "MOE... We know MOE mixture of exports. You",
+          "text": "MOE… MOEのmixture of exportsは知っています。あなた",
+          "flagged_runs": [
+            "mixture of exports"
+          ]
+        },
+        {
+          "original_text": "we will do the combine combine function",
+          "text": "そして、combine combine関数を行います",
+          "flagged_runs": [
+            "combine combine"
+          ]
+        },
+        {
+          "original_text": "we will do the combine combine function again to",
+          "text": "そして、combine関数をもう一度行います",
+          "flagged_runs": [
+            "combine"
+          ]
+        },
+        {
+          "original_text": "actually, the m o... Mixture of exports each other, like, a special",
+          "text": "なので、実際には、m o... Mixture of exports は互いに、なんというか、特別な",
+          "flagged_runs": [
+            "Mixture of exports"
+          ]
+        },
+        {
+          "original_text": "parameters. So we could say to Baidu... By",
+          "text": "パラメータです。なのでBaiduに言えるのは…",
+          "flagged_runs": [
+            "Baidu"
+          ]
+        },
+        {
+          "original_text": "parameters. So we could say to Baidu... By By doing sparse",
+          "text": "パラメータです。なのでBaiduに言えるのは… sparseを使うことで",
+          "flagged_runs": [
+            "Baidu",
+            "sparse"
+          ]
+        }
+      ]
+    },
+    {
+      "experiment_name": "full_llm2025_zenhan_gpt54mini_s3000",
+      "json_path": "experiments/20261015_full_llm2025_zenhan_gpt54mini_s3000.json",
+      "num_translation_complete_checked": 18,
+      "num_flagged": 4,
+      "flagged_events": [
+        {
+          "original_text": "speculative decoding configs. And I",
+          "text": "あなたの speculative decoding の設定です。そして私は",
+          "flagged_runs": [
+            "speculative decoding"
+          ]
+        },
+        {
+          "original_text": "speculative decoding configs. And I recommend you to",
+          "text": "あなたの speculative decoding の設定です。そして、私はあなたにお勧めします",
+          "flagged_runs": [
+            "speculative decoding"
+          ]
+        },
+        {
+          "original_text": "speculative coding will have efficiency, okay, because because",
+          "text": "speculative coding は効率が出ます、いいですか、",
+          "flagged_runs": [
+            "speculative coding"
+          ]
+        },
+        {
+          "original_text": "speculative coding will have efficiency, okay, because because like,",
+          "text": "speculative coding は効率が出るので、いいです、だって、なんというか、",
+          "flagged_runs": [
+            "speculative coding"
+          ]
+        }
+      ]
+    }
+  ]
+}
