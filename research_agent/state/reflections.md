@@ -4305,3 +4305,78 @@ technique (cycles 64-65), a future GENERATE_HYPOTHESES pass should also
 check `papers.json` for judge-reliability papers never yet cited in any
 hypothesis's `grounded_in` before reflexively searching for more new
 papers on the same topic.
+
+
+## Cycle 73 (2026-10-24)
+
+**What worked:** A full SEARCH_PAPERS -> ... -> WRITE_REPORT pass in one
+session, same as cycle 72. The dedup-by-title check during SEARCH_PAPERS
+caught 2 of 4 WebSearch candidates (MLLP-VRAIN, NeMo@IWSLT2026) as already
+in papers.json before wasting an EXTRACT_PAPERS/READ_PAPERS pass on them --
+worth keeping as a standing habit, not just the "mine never-cited papers"
+pivot technique (cycles 64-65), which is the inverse check (find what's
+missing, not what's already there).
+
+**What didn't / near-miss caught in time:** h-translation-source-residue-
+detector's own predicted_effect ("near-zero true residue") looked falsified
+at first glance -- 535/7484 events flagged, a 7.1% rate that would have
+been a genuine, surprising finding if reported at face value. Only a
+word-count breakdown of the flagged runs (and actually re-querying the data
+for runs >=5 words, per this file's own repeated "verify empirically, don't
+just reason about it" lesson -- cycles 13/17/20/66 above) revealed the
+flagged set is 100% single-to-4-word proper-noun/technical-term code-
+switching, zero clause-level echoes. This is now the sixth instance of the
+same underlying pattern this file has logged (h-gemini-only-masking-replay,
+h-cross-utterance-flicker, cycle 13's is_utterance_end, cycle 17's
+original_text non-cumulativity, cycle 20's GATE_MIN_WORDS strict-inequality
+boundary, cycle 66's finite-population-correction artifact) -- a hypothesis's
+own stated prediction is not evidence on its own, in either direction (it
+was wrong about the raw count, right about the underlying claim once
+properly decomposed). PLAYBOOK.md's GENERATE_HYPOTHESES section already
+has several dated instances of this lesson; this cycle's ANALYZE_RESULTS
+instance fits the same shape closely enough that no further playbook edit
+seems warranted (the existing instructions already say to verify, not
+reason abstractly -- this cycle followed that instruction and it worked,
+rather than exposing a new gap in the instruction itself).
+
+**Backlog calibration:** Added exactly 1 new hypothesis
+(h-translation-source-residue-detector), which resolved to `tested` within
+the same cycle (RUN_EXPERIMENTS was $0/retroactive, no environment
+blockers). Backlog is now 3 queued + 1 proposed = 4/6 -- 2 of the 3 queued
+items remain blocked on environment factors unchanged from prior cycles
+(Deepgram listen-websocket, OpenAI egress); h-continuous-rating-cps-
+calibration is queued/approved and NOT currently known to be blocked, worth
+picking first in a future RUN_EXPERIMENTS state before the other two. This
+felt right-sized -- one new hypothesis, fully carried through to a tested
+conclusion in the same session, rather than letting it sit as `queued` into
+a future cycle.
+
+**Budget policy:** No change proposed. $0.00 spent this cycle (the one new
+experiment was a pure retroactive analysis); daily/batch caps were never
+close to binding (spent_today=$0.05 of $7.00, carried over from an earlier
+cycle 72 cost-log entry, unaffected by this cycle).
+
+**Should PLAYBOOK.md change?** No edit made this cycle. Nothing here
+exposed an unclear or wrong instruction in the file -- the existing
+GENERATE_HYPOTHESES/ANALYZE_RESULTS verify-empirically guidance already
+covered exactly the near-miss this cycle hit, and following it worked as
+intended.
+
+**Notification decision:** Not sending a PushNotification this cycle.
+Nothing urgent or actionable surfaced: the residue-detector result is a
+clean negative finding (no bug found), the dictionary-expansion secondary
+observation is a nice-to-have not a problem, and the one needs_human item
+(h-judge-repeat-independent-batches-corrected-design) has been reported in
+multiple prior reports already with no new urgency this cycle.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` (not back to
+SEARCH_PAPERS) for the next pass. Reasoning: this cycle's own literature
+pass (2 new papers, both followed through to READ_PAPERS) is fresh, and
+this cycle's own RUN_EXPERIMENTS surfaced a concrete, well-grounded,
+$0 follow-up candidate (whether adding the recurring non-dictionary
+technical terms found by source_residue_detector.py -- chatbot, embedding,
+word embedding, multilayer perceptron, etc. -- to dictionary.csv changes
+anything measurable) that doesn't need a fresh search to motivate. Backlog
+has room (4/6). A future SEARCH_PAPERS pass should still eventually revisit
+the "mine never-cited papers" technique (cycles 64-65) across the growing
+judge-reliability thread, but that is not urgent this cycle.
