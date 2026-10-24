@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 15,
-  "last_updated": "2026-10-24T00:10:46.265977+00:00",
+  "last_updated": "2026-10-24T00:17:37.010056+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2081,6 +2081,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-24T00:10:46.265946+00:00",
       "note": "Cycle 72 HUMAN_APPROVAL done: h-judge-block-order-position-bias auto-approved and queued. At least one hypothesis (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-judge-block-order-position-bias) is queued with approval != needs_human, so advancing to RUN_EXPERIMENTS per playbook."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-24T00:17:33.470479+00:00",
+      "note": "Cycle 72 RUN_EXPERIMENTS done: ran h-judge-block-order-position-bias (h-judge-cross-model-agreement-check skipped, OpenAI egress blocked this session, logged as blocked_reason). Config diff check: translation_fidelity_judge_block_order_replay.py's only change vs the base judge is the prompt block order and a new score-delta computation; no other config drift to confound the comparison."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-24T00:17:37.010024+00:00",
+      "note": "Cycle 72 ANALYZE_RESULTS done: h-judge-block-order-position-bias result_summary finalized (no systematic directional bias; mild noise-increase argument to keep production source-first order). Noise-floor caution applied per PLAYBOOK.md: mean delta (+1.25) checked against its own stdev_of_deltas (11.60) via SE, not treated as a finding on its own."
     }
   ]
 }
