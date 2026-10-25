@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 16,
-  "last_updated": "2026-10-25T00:10:28.597908+00:00",
+  "last_updated": "2026-10-25T12:10:35.215863+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2165,6 +2165,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-25T00:10:28.597877+00:00",
       "note": "Cycle 74 GENERATE_HYPOTHESES: added 1 new hypothesis (h-dictionary-term-compliance-leakage), a direct follow-up of h-translation-source-residue-detector's own flagged-events data (language model -> 言語モデル dictionary entry bypassed 6x in one experiment, verified by reading actual original_text/text pairs). Backlog now 3 queued + 2 proposed = 5/6, within cap -- not adding more this cycle (depth over breadth)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-25T12:10:35.215837+00:00",
+      "note": "cycle 74 HUMAN_APPROVAL: auto-approved h-dictionary-term-compliance-leakage ($0, uses_existing_clips=true, check-budget AUTO_APPROVE). h-judge-repeat-independent-batches-corrected-design remains needs_human/pending_approval.json per the documented self-approval block (reflections.md cycle 36) -- not re-attempted. 4 hypotheses now queued (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-dictionary-term-compliance-leakage); proceeding to RUN_EXPERIMENTS, preferring $0 retroactive hypothesis first."
     }
   ]
 }
