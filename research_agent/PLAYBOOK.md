@@ -630,6 +630,32 @@ asyncio.run(main())
   this kind of question needs genuinely independent per-K REPLICATE
   BATCHES (actually drawing fresh K=2, K=3, K=4, K=5 samples as separate
   live judge-call sets), not combinatorial subsetting of one fixed batch.
+- **When writing or reviewing a regex that checks a word boundary against
+  this repo's actual EN/JA-mixed translation output, do not use a plain
+  `\b` (or rely on `\w`)** (found cycle 74, 2026-10-25,
+  h-dictionary-term-compliance-leakage): Python's `re` module's `\w`
+  (and therefore `\b`) treats Japanese kana/kanji as "word" characters
+  (Unicode letter category), not just ASCII alphanumerics. An English
+  term immediately followed or preceded by Japanese text with no space --
+  extremely common in this repo's actual output, since a leaked English
+  noun is normally wrapped directly in Japanese particles/grammar, e.g.
+  "attentionを行います" -- has NO `\b` boundary there at all, so a plain
+  `\bterm\b` pattern silently fails to match it. This cycle's first
+  implementation used exactly that pattern and undercounted a real
+  "leaked English term" effect by roughly 5x (6 instead of the correct 29
+  occurrences) before being caught by manually reading a sample of the
+  "neither matched" bucket during ANALYZE_RESULTS and noticing the term
+  was visibly present in the text despite not being flagged -- the same
+  "verify empirically, don't reason abstractly" lesson as the six prior
+  dated instances in GENERATE_HYPOTHESES above, but a distinct, reusable
+  bug class (a standard-library Unicode-awareness trap) rather than a
+  one-off factual mistake. Fix: use an explicit ASCII-only lookaround
+  instead, e.g. `re.compile(r"(?<![A-Za-z0-9])" + re.escape(term) +
+  r"(?![A-Za-z0-9])", re.IGNORECASE)` -- see
+  `dictionary_compliance_checker.py`'s `_source_term_pattern()` for a
+  worked example. Any future script that matches an English term's
+  boundary against this repo's committed JA output should use the same
+  ASCII-only-lookaround pattern, not `\b`.
 - Compare the new experiment's metrics (chrF, latency, and, once
   `h-flicker-metric` has landed, normalized erasure) against the relevant
   baseline row(s) in `experiments/results.csv`.

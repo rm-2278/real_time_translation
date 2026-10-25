@@ -4380,3 +4380,95 @@ anything measurable) that doesn't need a fresh search to motivate. Backlog
 has room (4/6). A future SEARCH_PAPERS pass should still eventually revisit
 the "mine never-cited papers" technique (cycles 64-65) across the growing
 judge-reliability thread, but that is not urgent this cycle.
+
+
+## Cycle 74 (2026-10-25)
+
+**What worked:** A focused, bounded HUMAN_APPROVAL -> ... -> WRITE_REPORT
+pass (no fresh literature search this time, per PLAYBOOK's "one bounded
+unit of work" guidance -- the hypothesis was already generated and
+grounded last cycle). The self-approval write (`approval: null` ->
+`"auto_approved"`, `status: "proposed"` -> `"queued"`) for
+h-dictionary-term-compliance-leakage went through with no permission
+denial this cycle, confirming this is NOT a contradiction of the cycle-36
+self-approval block: that block specifically targets overriding an
+existing `needs_human` verdict, not the ordinary $0/uses_existing_clips
+auto-approve path for a brand-new `proposed` hypothesis with
+`approval: null` -- the latter has succeeded repeatedly across many prior
+cycles (most `tested` hypotheses in hypotheses.json show
+`approval: auto_approved`) and this cycle is consistent with that, not an
+exception to flag.
+
+**What didn't / near-miss caught in time:** This is now the SEVENTH
+instance of the "verify empirically, don't reason abstractly" pattern (see
+GENERATE_HYPOTHESES's dated list and cycle-73's "sixth instance" note), and
+it is a genuinely new, concrete technical gotcha worth naming for future
+text-processing scripts specifically: Python's `re` module's `\w` (and
+therefore `\b`) treats Japanese kana/kanji as "word" characters (Unicode
+letter category), not just ASCII alnum. A naive `\bterm\b` pattern
+therefore finds NO boundary at an English/Japanese seam with no space
+(e.g. "attentionを行います" -- no `\b` between "n" and "を"), silently
+misclassifying genuine English-term leaks as "ambiguous" instead of
+"leaked" whenever the leaked term directly abuts Japanese text (very
+common in this repo's actual output, since a leaked English noun is
+usually wrapped in Japanese particles/grammar with no space). This
+initially produced leaked=6 (compliance 98.5%, looked clean) instead of
+the correct leaked=29 (compliance 92.9%, a real, reportable effect) --
+caught only by manually reading a sample of "ambiguous" classifications
+during ANALYZE_RESULTS and noticing the English term was visibly present
+in the text field despite not being flagged. Added a note to
+PLAYBOOK.md's ANALYZE_RESULTS section (see diff this cycle) naming this
+specific bug class (ASCII-only lookaround instead of `\b` for any
+EN/JA-mixed-text regex boundary check) since dictionary_compliance_checker.py
+is unlikely to be the last script in this pipeline doing boundary-sensitive
+matching against this repo's EN/JA-mixed translation output.
+
+**Backlog calibration:** No new hypotheses added this cycle (none
+proposed -- this was a RUN_EXPERIMENTS/ANALYZE_RESULTS cycle for an
+already-generated hypothesis, not a GENERATE_HYPOTHESES cycle). Backlog is
+now 3 queued (h-judge-cross-model-agreement-check,
+h-review-short-acronym-keyterm-false-positive,
+h-continuous-rating-cps-calibration) + 1 proposed/needs_human
+(h-judge-repeat-independent-batches-corrected-design) = 4/6, with room to
+spare. The 3 queued items remain unprocessed from prior cycles (2 are
+known environment-blocked per cycle-72/73 notes: Deepgram
+listen-websocket, OpenAI egress); worth picking
+h-continuous-rating-cps-calibration first in a future RUN_EXPERIMENTS pass
+since it is not currently known to be blocked.
+
+**Budget policy:** No change proposed. $0.00 spent this cycle (pure
+retroactive analysis, zero new Deepgram/LLM API calls). Caps were never
+close to binding.
+
+**Should PLAYBOOK.md change?** Yes -- added one note to the
+ANALYZE_RESULTS section naming the Python Unicode-`\b` gotcha found this
+cycle (see above), since it is a concrete, reusable, non-obvious bug class
+specific to this repo's EN/JA-mixed text, distinct in kind from the prior
+six "verify empirically" instances (those were about field-population
+assumptions, operator strictness, and finite-population-correction
+artifacts -- this one is a standard-library Unicode-awareness trap that
+will recur in any future script doing word-boundary matching against this
+repo's actual translation output). No other playbook change -- the
+HUMAN_APPROVAL / WAITING_APPROVAL distinction discussed above is already
+correctly specified in the existing text (needs_human vs. new-proposal
+auto-approve are already written as separate cases); this cycle's
+experience just confirms the existing text is right, not that it needs
+editing.
+
+**Notification decision:** Not sending a PushNotification this cycle.
+Nothing urgent: the dictionary-leak finding is informative but not a
+production incident (92.9% compliance, concentrated in 2 terms, with a
+concrete low-risk follow-up already named in the report), and the one
+needs_human item has been reported in multiple prior cycles already with
+no new urgency.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new cycle, `cycle`
+counter increments). Reasoning: no fresh literature pass has happened
+since cycle 73 (this cycle only ran RUN_EXPERIMENTS/ANALYZE_RESULTS on an
+already-grounded hypothesis), and the backlog (4/6) has room for a fresh
+search to motivate new hypotheses without first forcing a
+GENERATE_HYPOTHESES pass on an already-exhausted thread. A future
+GENERATE_HYPOTHESES pass should consider a concrete, low-risk follow-up to
+this cycle's finding (adding "self attention" -> "セルフアテンション" as
+its own dictionary.csv entry, or a system-prompt compliance-emphasis
+instruction) as a candidate alongside whatever the next search turns up.
