@@ -1,6 +1,6 @@
 {
-  "date": "2026-10-24",
-  "spent_today_usd": 0.05,
+  "date": "2026-10-25",
+  "spent_today_usd": 0.0,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
   "total_spent_usd": 3.8,
@@ -264,6 +264,11 @@
       "at": "2026-10-24T12:17:31.872945+00:00",
       "amount_usd": 0.0,
       "note": "h-translation-source-residue-detector: implemented source_residue_detector.py, ran over 25 existing experiment JSON files (7484 translation_complete events checked), zero new Deepgram/LLM API spend"
+    },
+    {
+      "at": "2026-10-25T12:14:09.944537+00:00",
+      "amount_usd": 0.0,
+      "note": "h-dictionary-term-compliance-leakage: implemented dictionary_compliance_checker.py, scanned 70 experiment JSONs with occurrences (458 total: 380 compliant, 29 leaked, 49 ambiguous), zero new Deepgram/LLM API spend"
     }
   ]
 }

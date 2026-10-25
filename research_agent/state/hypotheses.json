@@ -1251,8 +1251,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/20261025_h_dictionary_term_compliance_leakage.json"
+      ],
       "result_summary": ""
     }
   ]

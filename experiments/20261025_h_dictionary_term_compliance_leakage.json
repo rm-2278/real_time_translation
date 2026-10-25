@@ -1,0 +1,249 @@
+{
+  "hypothesis_id": "h-dictionary-term-compliance-leakage",
+  "num_translated_dictionary_entries": 30,
+  "num_experiments_scanned": 70,
+  "total_occurrences": 458,
+  "total_compliant": 380,
+  "total_leaked": 29,
+  "total_ambiguous": 49,
+  "overall_compliance_rate": 0.9290953545232273,
+  "per_entry": [
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "num_occurrences": 133,
+      "num_compliant": 110,
+      "num_leaked": 20,
+      "num_ambiguous": 3
+    },
+    {
+      "source_term": "backpropagation",
+      "target_term": "誤差逆伝播",
+      "num_occurrences": 1,
+      "num_compliant": 1,
+      "num_leaked": 0,
+      "num_ambiguous": 0
+    },
+    {
+      "source_term": "classification",
+      "target_term": "分類",
+      "num_occurrences": 7,
+      "num_compliant": 7,
+      "num_leaked": 0,
+      "num_ambiguous": 0
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "num_occurrences": 317,
+      "num_compliant": 262,
+      "num_leaked": 9,
+      "num_ambiguous": 46
+    }
+  ],
+  "leaked_examples": [
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "budget_translation_baseline",
+      "original_text": "self attention. What's the self attention meeting",
+      "text": "self attentionを行います。このself attentionの意味するところは、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "budget_translation_enabled",
+      "original_text": "self attention. What's the self attention meeting",
+      "text": "self attentionを行い、その意味は"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "budget_translation_tight",
+      "original_text": "self attention. What's the self attention meeting",
+      "text": "self attention。その意味は"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "latest_model_gpt54mini",
+      "original_text": "forth between attention blocks and multilayer perceptron perceptron blocks.",
+      "text": "attentionブロックと多層パーセプトロンブロックの間を行き来して"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm_course_ep8_guest_talk_10min_rpm60",
+      "original_text": "self attention. What's the self attention meeting",
+      "text": "self attentionを行います。このself attentionの意味するところは、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm_course_transformer_clip_rpm60",
+      "original_text": "self attention. What's the self attention meeting",
+      "text": "self attentionを行います。このself attentionの意味するところは、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm_course_transformer_clip_best_config",
+      "original_text": "Self attention will model the dependency between different award.",
+      "text": "Self attentionは単語間の依存関係をモデル化し、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "h_backlog_compression_control",
+      "original_text": "Self attention will model the dependency between different award.",
+      "text": "Self attentionは単語間の依存関係をモデル化し、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "h_backlog_compression_control_rpm9",
+      "original_text": "self attention. What's the self attention meeting?",
+      "text": "self attentionを。その意味は、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "h_backlog_compression_control_rpm9",
+      "original_text": "Self attention will model the dependency between different award.",
+      "text": "Self attentionは単語間の依存関係をモデル化し、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture",
+      "original_text": "Self attention will model the dependency between different award.",
+      "text": "Self attentionは単語間の依存関係をモデル化し、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture",
+      "original_text": "perspective. There are some others just like sparse attention and",
+      "text": "視点から。他にも、sparse attentionや"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture",
+      "original_text": "like, a page attention. In page attention,",
+      "text": "Page Attentionです。これを用いると、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture",
+      "original_text": "mixture of depths and also linear attention. We'll",
+      "text": "Mixture of DepthsやLinear Attentionもあり、これらを"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "self attention. What's the self attention meeting?",
+      "text": "self attentionを行います。その意味とは、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "Self attention will model the dependency between different award.",
+      "text": "Self attentionは単語間の依存関係をモデル化し、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "60% parameter size, and the attention only takes 30 about 30%.",
+      "text": "パラメータの60%を占め、Attentionは30%程度に過ぎません。"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm2024_8_part1_review_fixes_v2_7m30_21m50",
+      "original_text": "self attention. What's the self attention meeting?",
+      "text": "self attention。その意味は、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "llm2024_8_part1_review_fixes_v2_7m30_21m50",
+      "original_text": "Self attention will model the dependency between different award.",
+      "text": "Self attentionは単語間の依存関係をモデル化し、"
+    },
+    {
+      "source_term": "attention",
+      "target_term": "アテンション",
+      "experiment_name": "full_llm2025_zenhan_gpt54mini_s0",
+      "original_text": "self attention. What's the self attention meeting",
+      "text": "self attention。self attentionの意味は"
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "language model efficiency. And then if you are the",
+      "text": "language modelの効率性について。そしてもしあなたが"
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "Normally, during the language model inference, we will have this.",
+      "text": "通常、language modelの推論中には、これが発生します。"
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "Turing language model survey, no so we",
+      "text": "Turing language modelの調査では、"
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "And we know for different language model. So so in stage,",
+      "text": "そして、異なる language model において、つまり段階的に、"
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "sparsity language model. If you really count",
+      "text": "スパース性 language model です。実際に数えてみると"
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "Normally, when we train one language model, we normally we will train the",
+      "text": "通常、1つのlanguage modelを学習させる際は、通常は"
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "experiment_name": "llm2025_ep8_zenhan_full_lecture_v2_dict",
+      "original_text": "for it. And we know train one language model, you're very, very",
+      "text": "そのために。そして、1つのlanguage modelを訓練するには、非常に"
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "experiment_name": "full_llm2025_zenhan_gpt54mini_s0",
+      "original_text": "I do some internship in started my research about multi model language model.",
+      "text": "そして、そのあとインターンをして、multi model language modelについての研究を始めました"
+    },
+    {
+      "source_term": "language model",
+      "target_term": "言語モデル",
+      "experiment_name": "full_llm2025_zenhan_gpt54mini_s1500",
+      "original_text": "sparsity language model. If you really count",
+      "text": "たとえば、sparsity language model。もし本当に数えるなら"
+    }
+  ]
+}

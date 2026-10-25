@@ -1,0 +1,5 @@
+source_term,target_term,num_occurrences,num_compliant,num_leaked,num_ambiguous,compliance_rate
+attention,アテンション,133,110,20,3,0.8462
+backpropagation,誤差逆伝播,1,1,0,0,1.0000
+classification,分類,7,7,0,0,1.0000
+language model,言語モデル,317,262,9,46,0.9668
