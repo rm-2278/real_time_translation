@@ -1251,11 +1251,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/20261025_h_dictionary_term_compliance_leakage.json"
       ],
-      "result_summary": ""
+      "result_summary": "Prediction confirmed. Of 30 dictionary.csv entries with a genuinely Japanese target_term, only 4 (attention, language model, backpropagation, classification) actually occurred in any experiment's original_text; across those, 458 occurrences (compliant=380, leaked=29, ambiguous=49), overall compliance rate 92.91% (compliant/(compliant+leaked)) -- measurably below 100%, confirming the predicted leak exists at a non-trivial rate, concentrated in 2 entries: 'attention' (20/133 leaked, 84.6% compliant) and 'language model' (9/317 leaked, 96.7% compliant). A real implementation bug was caught and fixed mid-analysis before trusting these numbers: the initial \\b-word-boundary regex silently undercounted leaks (6 instead of 29) because Python's \\w/\\b treat Japanese kana/kanji as word characters, so an English term immediately abutting Japanese text with no space (e.g. 'attentionを行います') has no \\b boundary and was misclassified 'ambiguous' instead of 'leaked' -- fixed with an ASCII-only lookaround boundary, verified empirically (same playbook lesson as cycles 13/17/20/66/73). The second part of the predicted_effect also holds: nearly all leaked 'attention' occurrences are the compound phrase 'self attention' (a term not itself in dictionary.csv, only its head noun is), i.e. compliance drops specifically when the dictionary term is embedded inside a longer noun phrase/clause rather than standing alone -- a concrete, actionable pattern, not just 'dictionary isn't perfect'. 'language model' leaks cluster heavily in one experiment (llm2025_ep8_zenhan_full_lecture_v2_dict, 7/9), consistent with topic density (a lecture almost entirely about language models) rather than a different per-entry mechanism. No prompt-engineering fix was implemented this cycle (out of scope for a $0 retroactive-analysis hypothesis); the concrete next step is a human-reviewable candidate for h-review-* style follow-up: either add compound forms (e.g. 'self attention' -> 'セルフアテンション') as their own dictionary.csv entries, or test a system-prompt instruction emphasizing dictionary compliance even when the term appears inside a longer phrase."
     }
   ]
 }
