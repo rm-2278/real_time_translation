@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 16,
-  "last_updated": "2026-10-24T12:19:52.517842+00:00",
+  "last_updated": "2026-10-25T00:10:28.597908+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2159,6 +2159,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-24T12:19:52.517806+00:00",
       "note": "Cycle 73 REFLECT -> GENERATE_HYPOTHESES (not SEARCH_PAPERS): this cycle's literature pass is fresh and RUN_EXPERIMENTS surfaced a concrete $0 follow-up (dictionary.csv expansion for recurring non-dictionary technical terms found by source_residue_detector.py). Backlog 3 queued + 1 proposed = 4/6, room remains."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-25T00:10:28.597877+00:00",
+      "note": "Cycle 74 GENERATE_HYPOTHESES: added 1 new hypothesis (h-dictionary-term-compliance-leakage), a direct follow-up of h-translation-source-residue-detector's own flagged-events data (language model -> 言語モデル dictionary entry bypassed 6x in one experiment, verified by reading actual original_text/text pairs). Backlog now 3 queued + 2 proposed = 5/6, within cap -- not adding more this cycle (depth over breadth)."
     }
   ]
 }
