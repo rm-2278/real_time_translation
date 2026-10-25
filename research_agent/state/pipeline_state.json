@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 16,
-  "last_updated": "2026-10-25T12:10:35.215863+00:00",
+  "last_updated": "2026-10-25T12:14:52.420018+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2171,6 +2171,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-25T12:10:35.215837+00:00",
       "note": "cycle 74 HUMAN_APPROVAL: auto-approved h-dictionary-term-compliance-leakage ($0, uses_existing_clips=true, check-budget AUTO_APPROVE). h-judge-repeat-independent-batches-corrected-design remains needs_human/pending_approval.json per the documented self-approval block (reflections.md cycle 36) -- not re-attempted. 4 hypotheses now queued (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-dictionary-term-compliance-leakage); proceeding to RUN_EXPERIMENTS, preferring $0 retroactive hypothesis first."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-25T12:14:24.411599+00:00",
+      "note": "cycle 74 RUN_EXPERIMENTS: ran dictionary_compliance_checker.py over experiments/*.json, zero new API spend"
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-25T12:14:52.419991+00:00",
+      "note": "cycle 74 ANALYZE_RESULTS: h-dictionary-term-compliance-leakage tested, 92.91% compliance confirmed, regex boundary bug caught mid-analysis"
     }
   ]
 }
