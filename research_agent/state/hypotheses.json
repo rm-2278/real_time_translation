@@ -1250,8 +1250,8 @@
       "required_changes": "New retroactive analysis script src/real_time_translation/experiments/dictionary_compliance_checker.py: load dictionary.csv, split entries into 'translated' (target_term contains at least one Japanese character -- hiragana/katakana/kanji unicode ranges, re.search(r'[\\u3040-\\u30ff\\u4e00-\\u9fff]', target_term)) vs 'intentional-English-anchor' (target_term has no Japanese characters at all, e.g. RoPE/Chain of Thought -- excluded from this check, they are correctly-English by design). For each 'translated' entry, scan every experiment JSON's translation_complete events (same same-event original_text/text field pairing as source_residue_detector.py -- never cross-event) for occurrences of the source_term (case-insensitive, word-boundary regex) in original_text. For each such occurrence, classify the paired text field as 'compliant' (the Japanese target_term, or a close variant, appears in text), 'leaked' (the literal English source_term string appears verbatim in text instead), or 'ambiguous' (neither clearly present -- e.g. the sentence was reworded enough that neither string appears literally; log these separately, do not count them as compliant or leaked). Output a per-entry and overall compliance-rate table plus example (original_text, text) triples for every leaked occurrence, to the same experiments/*.csv + experiments/*.json sidecar convention as source_residue_detector.py. Pure Python, reads existing experiments/*.json and dictionary.csv only -- no live API calls.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
