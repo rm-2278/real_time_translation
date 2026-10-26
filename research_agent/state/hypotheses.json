@@ -1268,8 +1268,8 @@
       "required_changes": "Phase 1 (replay, $0, this hypothesis's primary scope): new script src/real_time_translation/experiments/combined_completeness_signal_replay.py. Reuse the already-recorded ASR interim text snapshots and check_completeness True/False decisions logged in h-semantic-completeness-gating's own experiment JSON (confirm the exact field name/location by reading that experiment's JSON directly before coding -- do not assume a field name without checking, per PLAYBOOK.md's verify-empirically rule). For each logged interim snapshot, issue ONE new LLM call using the existing translation prompt/schema PLUS one added boolean 'semantically_complete' field (verify the actual structured-output schema in llm_translator.py before adding a field, so the change is additive and does not alter existing parsing), and record whether the new combined call's completeness field agrees with the original separate check_completeness call's decision on the same text. Phase 2 (only if Phase 1 shows reasonable agreement, deferred to a LATER cycle's RUN_EXPERIMENTS, not this hypothesis's $0 scope): a live A/B of combined-call vs. separate-call gating, needs human approval regardless of cost since it touches the live pipeline.py force-finalize path.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.1,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
