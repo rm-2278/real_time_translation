@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 17,
-  "last_updated": "2026-10-26T00:09:14.420473+00:00",
+  "last_updated": "2026-10-26T00:10:06.072856+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2201,6 +2201,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-10-26T00:09:14.420444+00:00",
       "note": "cycle 75: WebSearch pass found 3 new candidate papers (2 IWSLT 2026 SimulST systems, 1 new judge-reliability paper); added as 'found' stubs to papers.json. Deepgram-latency angle turned up nothing new."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-10-26T00:10:06.072825+00:00",
+      "note": "cycle 75: extracted concrete claims for the 2 new IWSLT 2026 papers (BLEU/latency numbers, policy mechanism); the Arabic-Thai judge-reliability paper's findings not retrievable at snippet level, flagged as weaker candidate."
     }
   ]
 }
