@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 17,
-  "last_updated": "2026-10-25T12:16:49.727498+00:00",
+  "last_updated": "2026-10-26T00:09:14.420473+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2195,6 +2195,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-10-25T12:16:49.727471+00:00",
       "note": "cycle 74 REFLECT: advancing to new cycle 75, fresh literature pass since no search happened since cycle 73; backlog 4/6 has room"
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-10-26T00:09:14.420444+00:00",
+      "note": "cycle 75: WebSearch pass found 3 new candidate papers (2 IWSLT 2026 SimulST systems, 1 new judge-reliability paper); added as 'found' stubs to papers.json. Deepgram-latency angle turned up nothing new."
     }
   ]
 }
