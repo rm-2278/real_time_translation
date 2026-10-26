@@ -4472,3 +4472,96 @@ GENERATE_HYPOTHESES pass should consider a concrete, low-risk follow-up to
 this cycle's finding (adding "self attention" -> "セルフアテンション" as
 its own dictionary.csv entry, or a system-prompt compliance-emphasis
 instruction) as a candidate alongside whatever the next search turns up.
+
+---
+
+## Cycle 75 (2026-10-26)
+
+**What worked:** Running a full cycle (SEARCH_PAPERS through WRITE_REPORT)
+in one session worked cleanly, and the GENERATE_HYPOTHESES "verify against
+actual code/data before finalizing" discipline caught two real errors
+before any API spend: the semantic-gating experiment JSON does NOT log
+per-call classifier decisions (only growing asr_interim text snapshots),
+and `translate_stream` has no structured-output schema to extend (plain
+streamed text, not JSON). Both assumptions were in the hypothesis's
+original `required_changes` text and would have produced a broken or
+misleading experiment script if implemented as originally written. Caught
+by actually reading the experiment JSON's `events` list and
+`llm_translator.py`'s `translate_stream` body directly before writing any
+code, exactly per PLAYBOOK's repeated "verify empirically, don't reason
+abstractly" instruction (now a 7th-and-8th dated instance of this same
+general pattern, though these two are closer to the GENERATE_HYPOTHESES
+"check the actual construction sites" rule than to the ANALYZE_RESULTS
+regex-gotcha rule -- same spirit, different section). Correcting the plan
+mid-RUN_EXPERIMENTS (updating hypotheses.json's required_changes with an
+explicit "CORRECTED" note before writing the script) kept the written
+record honest about what was actually planned vs. what was actually run,
+rather than silently implementing something different from the committed
+hypothesis text.
+
+**What didn't fully resolve:** The experiment itself (31/31 verdict
+agreement between a separate classifier call and a new combined
+translate+completeness-tag call) is a clean, honest result, but it only
+answers "do the two signals agree," not the production question that
+motivated the hypothesis in the first place (does removing the second
+call actually fix the latency regression). That's correctly scoped and
+stated in both hypotheses.json's result_summary and the Japanese report,
+with a named follow-up (a live pipeline.py-integrated A/B, needing its own
+HUMAN_APPROVAL since it touches the production force-finalize path) --
+but it means this hypothesis's contribution is "necessary condition
+confirmed, sufficient condition still open," not a closed loop. Future
+cycles should treat "verdict signal agrees in isolation" and "removing a
+second API call actually improves production latency" as two genuinely
+separate claims requiring separate evidence, not assume the first implies
+the second.
+
+**Backlog calibration:** Added exactly 1 new hypothesis this cycle
+(`h-combined-translate-completeness-signal`), keeping depth over breadth
+as PLAYBOOK recommends -- the other 2 new papers found this cycle
+(Pinch-AST, the Arabic-Thai judge paper) did not yield new testable gaps
+after cross-referencing against existing work and reading their abstracts
+closely, which is a legitimate "no hypothesis" outcome, not a missed
+opportunity. Backlog is now 4 queued (h-judge-cross-model-agreement-check,
+h-review-short-acronym-keyterm-false-positive,
+h-continuous-rating-cps-calibration, and this cycle's new hypothesis which
+is already tested and off the backlog) + 1 proposed/needs_human
+(h-judge-repeat-independent-batches-corrected-design, still waiting on
+rm-2278, no new urgency) = effectively 3 queued + 1 terminal-pending, well
+under the 6 cap, with room for another literature-grounded hypothesis next
+cycle.
+
+**Budget policy:** No change proposed. $0.03 spent this cycle (31
+stride-sampled snapshots x 2 short gemini-3-flash-preview calls each).
+Caps were never close to binding; total_spent_usd is $3.83 of no
+particular cap (daily/per-batch caps reset and were each used at <1% this
+cycle).
+
+**Should PLAYBOOK.md change?** No change made this cycle. The existing
+GENERATE_HYPOTHESES verify-empirically rules already cover exactly the
+kind of mistake caught here in spirit (check actual construction
+sites/field population before finalizing hypothesis text) -- this cycle's
+two catches are evidence the existing instruction is being followed
+correctly (caught before any API spend, plan corrected and the correction
+recorded in hypotheses.json), not evidence the instruction itself is
+incomplete or needs a new named sub-rule. Did not add a new dated
+sub-bullet for this one, unlike some prior cycles' genuinely novel bug
+classes (e.g. cycle 74's Unicode `\b` gotcha) -- this is the same general
+principle recurring, not a new specific trap worth naming on its own.
+
+**Notification decision:** Not sending a PushNotification this cycle.
+Nothing urgent or actionable-right-now: the new hypothesis's result is a
+clean research finding with an honestly-scoped limitation, not a
+production incident, and the one needs_human item remains exactly as
+previously reported with no new urgency.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` (not
+`SEARCH_PAPERS`). Reasoning: this cycle already did a fresh literature
+pass (3 new papers found/read), so immediately re-searching would be low
+yield; the backlog has room (3 queued + 1 terminal-pending, well under 6)
+and un-exhausted leads exist for a next hypothesis: Pinch-AST's paper
+confirms the prefix-lock/continuation-anchor problem framing is shared
+across systems but gave no new concrete mechanism to test, and the
+never-cited-papers mining technique (PLAYBOOK's "pivot-angle" move) has
+not been re-run since cycle 65 -- worth trying again next cycle before a
+fresh WebSearch pass, to see if any of the ~60+ papers in papers.json with
+`grounded_in` still empty suggest an untried angle.
