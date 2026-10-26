@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 17,
-  "last_updated": "2026-10-26T00:13:30.383872+00:00",
+  "last_updated": "2026-10-26T00:23:04.425468+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2225,6 +2225,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-26T00:13:30.383839+00:00",
       "note": "cycle 75: h-combined-translate-completeness-signal auto-approved and queued. 4 hypotheses now queued with approval != needs_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-combined-translate-completeness-signal)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-26T00:23:04.425437+00:00",
+      "note": "cycle 75: ran h-combined-translate-completeness-signal's replay (31 samples, 100% agreement, real verdict variance). Proceeding to analysis."
     }
   ]
 }
