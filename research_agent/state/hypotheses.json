@@ -1270,7 +1270,9 @@
       "estimated_cost_usd": 0.1,
       "approval": "auto_approved",
       "status": "testing",
-      "experiment_ids": [],
+      "experiment_ids": [
+        "experiments/combined_completeness_signal_replay.json"
+      ],
       "result_summary": ""
     }
   ]

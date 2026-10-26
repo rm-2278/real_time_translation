@@ -1,0 +1,263 @@
+{
+  "source": "experiments/20260917_h_semantic_gating_test_v2.json",
+  "model": "gemini-3-flash-preview",
+  "sample_stride": 3,
+  "num_snapshots_sampled": 31,
+  "num_rows_with_text": 31,
+  "num_scored_pairs": 31,
+  "num_either_none": 0,
+  "agree": 31,
+  "disagree": 0,
+  "agreement_rate": 1.0,
+  "rows": [
+    {
+      "text": "And are",
+      "playback_offset": 1.0286259651184082,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "そして…",
+      "agreement": true
+    },
+    {
+      "text": "And our primary job is going to be to understand how to read",
+      "playback_offset": 4.029396057128906,
+      "separate_verdict": true,
+      "combined_verdict": true,
+      "combined_translation": "我々の主な任務は、読み方を理解することです",
+      "agreement": true
+    },
+    {
+      "text": "how to read the underlying matrices.",
+      "playback_offset": 6.1324920654296875,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "基盤となる行列の読み取り方",
+      "agreement": true
+    },
+    {
+      "text": "how to read the underlying matrices. I'm glossing over",
+      "playback_offset": 7.738152027130127,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "基盤となる行列の読み方ですが、詳細は省きます…",
+      "agreement": true
+    },
+    {
+      "text": "I'm glossing over some details about some normalization steps that happen in",
+      "playback_offset": 10.342154026031494,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "...で行われる正規化の手順の詳細については、一部省きますが...",
+      "agreement": true
+    },
+    {
+      "text": "this is after all a high level preview. After that, the process",
+      "playback_offset": 14.441045045852661,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "これはあくまで概要レベルのプレビューです。その後、プロセスは...",
+      "agreement": true
+    },
+    {
+      "text": "forth between attention blocks and",
+      "playback_offset": 18.234691858291626,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "アテンション・ブロックの間を行き来し、",
+      "agreement": true
+    },
+    {
+      "text": "Until at the very end, the hope",
+      "playback_offset": 22.232685804367065,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "最後の最後まで、希望は……",
+      "agreement": true
+    },
+    {
+      "text": "has somehow been",
+      "playback_offset": 25.935341835021973,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "どういうわけか…",
+      "agreement": true
+    },
+    {
+      "text": "has somehow been baked into the very last vector in the sequence.",
+      "playback_offset": 28.94529891014099,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "どういうわけか、シーケンスの最後のベクトルに組み込まれています。",
+      "agreement": true
+    },
+    {
+      "text": "We then perform a certain operation on that last vector,",
+      "playback_offset": 31.8439199924469,
+      "separate_verdict": true,
+      "combined_verdict": true,
+      "combined_translation": "次に、その最後のベクトルにある操作を施します。",
+      "agreement": true
+    },
+    {
+      "text": "over all possible tokens, all",
+      "playback_offset": 35.73416304588318,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "あり得るすべてのトークンにわたる、すべての",
+      "agreement": true
+    },
+    {
+      "text": "over all possible tokens, all possible little chunks of text that might come next.",
+      "playback_offset": 38.34180998802185,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "次に来る可能性のある、あらゆるトークン、あらゆるテキストの断片すべてにわたって",
+      "agreement": true
+    },
+    {
+      "text": "And like I said, once you have a tool that predicts what",
+      "playback_offset": 41.7424840927124,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "前にも言ったように、何を予測するツールさえあれば",
+      "agreement": true
+    },
+    {
+      "text": "you can feed it a little",
+      "playback_offset": 44.63925504684448,
+      "separate_verdict": true,
+      "combined_verdict": true,
+      "combined_translation": "少し食べさせてみて",
+      "agreement": true
+    },
+    {
+      "text": "you can feed it a little bit of seed text and have it repeatedly play this game of",
+      "playback_offset": 47.75317096710205,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "少量のシードテキストを与え、次のようなゲームを繰り返しプレイさせることができます。",
+      "agreement": true
+    },
+    {
+      "text": "game of predicting what comes next, sampling from the",
+      "playback_offset": 50.14371585845947,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "次に何が来るかを予測するゲーム、...からサンプリングし",
+      "agreement": true
+    },
+    {
+      "text": "and then repeating over and over. Some of",
+      "playback_offset": 53.85106682777405,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "...何度も何度も繰り返されます。そのうちの...",
+      "agreement": true
+    },
+    {
+      "text": "before chat GPT",
+      "playback_offset": 56.93396592140198,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "ChatGPT以前は",
+      "agreement": true
+    },
+    {
+      "text": "before chat GPT came into the scene, this is what early demos of GPT",
+      "playback_offset": 59.95635485649109,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "ChatGPTが登場する前、GPTの初期デモはこんな風に…",
+      "agreement": true
+    },
+    {
+      "text": "You would have it auto complete stories and essays based on an",
+      "playback_offset": 63.941988945007324,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "ある…に基づいた物語やエッセイを自動補完させるのです",
+      "agreement": true
+    },
+    {
+      "text": "You would have it auto complete stories and essays based on an initial snippet. To",
+      "playback_offset": 65.74995803833008,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "冒頭の数行をもとに、物語やエッセイを自動補完させるのです。そのために……",
+      "agreement": true
+    },
+    {
+      "text": "To make a tool like this into a chatbot,",
+      "playback_offset": 68.2423210144043,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "こうしたツールをチャットボットにするには",
+      "agreement": true
+    },
+    {
+      "text": "little bit of text that establishes the",
+      "playback_offset": 71.937420129776,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "～を規定する少量のテキストが",
+      "agreement": true
+    },
+    {
+      "text": "interacting with a helpful AI assistant",
+      "playback_offset": 74.94742894172668,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "役立つAIアシスタントとのやり取り",
+      "agreement": true
+    },
+    {
+      "text": "and then you would use",
+      "playback_offset": 78.03343892097473,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "そして、これを使います",
+      "agreement": true
+    },
+    {
+      "text": "and then you would use the user's initial question or prompt as",
+      "playback_offset": 80.44158792495728,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "そして ユーザーの最初の質問やプロンプトを…として",
+      "agreement": true
+    },
+    {
+      "text": "then you have it start predicting what such",
+      "playback_offset": 83.93519997596741,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "次に、それがどのような…かを予測させます",
+      "agreement": true
+    },
+    {
+      "text": "then you have it start predicting what such a helpful AI assistant would say in",
+      "playback_offset": 86.44595313072205,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "次に、こうした有能なAIアシスタントならどう答えるかを予測させ始めます",
+      "agreement": true
+    },
+    {
+      "text": "then you have it start predicting what such a helpful AI assist would say in response.",
+      "playback_offset": 87.74142384529114,
+      "separate_verdict": true,
+      "combined_verdict": true,
+      "combined_translation": "次に、そのような有能なAIアシスタントが返答として何と言うかを、予測させます。",
+      "agreement": true
+    },
+    {
+      "text": "to say about an added step of training",
+      "playback_offset": 89.94456601142883,
+      "separate_verdict": false,
+      "combined_verdict": false,
+      "combined_translation": "追加の学習ステップについてですが",
+      "agreement": true
+    }
+  ],
+  "notes": "Each sampled asr_interim growing-text snapshot gets TWO fresh calls: (1) the separate completeness classifier, replicating check_completeness's existing production prompt verbatim; (2) a new combined translate+completeness-tag call. agreement_rate is agree / (agree + disagree), excluding pairs where either call returned an unparseable/None verdict (counted separately in num_either_none). This tests ONLY whether the two signals agree on identical text -- it does NOT measure the actual latency or rate-limit-contention effect of removing the separate call in production (that would require a live A/B against pipeline.py's force-finalize path, out of this replay's $0.10 scope per hypotheses.json)."
+}

@@ -1,9 +1,9 @@
 {
-  "date": "2026-10-25",
-  "spent_today_usd": 0.0,
+  "date": "2026-10-26",
+  "spent_today_usd": 0.03,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
-  "total_spent_usd": 3.8,
+  "total_spent_usd": 3.83,
   "cost_log": [
     {
       "at": "2026-09-08T07:28:31.381613+00:00",
@@ -269,6 +269,11 @@
       "at": "2026-10-25T12:14:09.944537+00:00",
       "amount_usd": 0.0,
       "note": "h-dictionary-term-compliance-leakage: implemented dictionary_compliance_checker.py, scanned 70 experiment JSONs with occurrences (458 total: 380 compliant, 29 leaked, 49 ambiguous), zero new Deepgram/LLM API spend"
+    },
+    {
+      "at": "2026-10-26T00:20:14.726556+00:00",
+      "amount_usd": 0.03,
+      "note": "h-combined-translate-completeness-signal: combined_completeness_signal_replay.py, 31 asr_interim snapshots x 2 fresh gemini-3-flash-preview calls each (62 total calls: separate classifier + combined translate+tag), zero new Deepgram spend (replay of already-recorded growing-text snapshots from experiments/20260917_h_semantic_gating_test_v2.json). Estimated by scaling against prior short-call rates (e.g. cycle 65's 136-call/$0.05)."
     }
   ]
 }
