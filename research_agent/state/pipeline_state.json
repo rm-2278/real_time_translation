@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 17,
-  "last_updated": "2026-10-26T00:10:06.072856+00:00",
+  "last_updated": "2026-10-26T00:11:01.930721+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2207,6 +2207,12 @@
       "to": "READ_PAPERS",
       "at": "2026-10-26T00:10:06.072825+00:00",
       "note": "cycle 75: extracted concrete claims for the 2 new IWSLT 2026 papers (BLEU/latency numbers, policy mechanism); the Arabic-Thai judge-reliability paper's findings not retrievable at snippet level, flagged as weaker candidate."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-26T00:11:01.930693+00:00",
+      "note": "cycle 75: read all 3 new papers (summary + key_findings), cross-referenced against experiments/ -- no duplicate implementation found. Backlog check: 3 queued + 1 proposed/needs_human before this cycle (4/6), room for up to 2 new hypotheses while staying within the cap."
     }
   ]
 }
