@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 17,
-  "last_updated": "2026-10-26T00:12:44.418868+00:00",
+  "last_updated": "2026-10-26T00:13:30.383872+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2219,6 +2219,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-26T00:12:44.418831+00:00",
       "note": "cycle 75: added h-combined-translate-completeness-signal grounded in cuhksz2026-iwslt-qwen3omni-wait-token. Pinchast/openwho papers yielded no new testable gap this cycle (pinchast corroborates existing prefix-lock lineage; openwho's findings unconfirmed). Backlog 5/6 (3 queued, 2 proposed -- 1 proposed is the pre-existing terminal needs_human entry)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-26T00:13:30.383839+00:00",
+      "note": "cycle 75: h-combined-translate-completeness-signal auto-approved and queued. 4 hypotheses now queued with approval != needs_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-combined-translate-completeness-signal)."
     }
   ]
 }
