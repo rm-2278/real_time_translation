@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 17,
-  "last_updated": "2026-10-26T12:21:53.745332+00:00",
+  "last_updated": "2026-10-27T00:08:30.225023+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2255,6 +2255,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-26T12:21:53.745300+00:00",
       "note": "cycle 76: added h-judge-holistic-vs-decomposed-repeat-noise grounded in unlp2026-holistic-vs-decomposed-scale (never-cited-papers pivot angle). Backlog now 4 queued/proposed + this new one = 5/6, within cap."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-27T00:08:30.224710+00:00",
+      "note": "cycle 76: auto-approved h-judge-holistic-vs-decomposed-repeat-noise (check-budget AUTO_APPROVE, uses_existing_clips=true). Queued now: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-judge-holistic-vs-decomposed-repeat-noise (4). h-judge-repeat-independent-batches-corrected-design remains needs_human in pending_approval.json (self-approval block precedent, cycle 36/69)."
     }
   ]
 }
