@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 17,
-  "last_updated": "2026-10-27T00:13:10.582118+00:00",
+  "last_updated": "2026-10-27T00:13:34.723130+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2267,6 +2267,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-10-27T00:13:10.582089+00:00",
       "note": "cycle 76: h-judge-holistic-vs-decomposed-repeat-noise run (48 live Gemini calls), moving to analysis."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-27T00:13:34.723101+00:00",
+      "note": "cycle 76: h-judge-holistic-vs-decomposed-repeat-noise analyzed as inconclusive (ceiling effect on holistic-only variant, 8/8 zero-variance points); moving to write the Japanese cycle report."
     }
   ]
 }
