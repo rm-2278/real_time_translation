@@ -4565,3 +4565,92 @@ never-cited-papers mining technique (PLAYBOOK's "pivot-angle" move) has
 not been re-run since cycle 65 -- worth trying again next cycle before a
 fresh WebSearch pass, to see if any of the ~60+ papers in papers.json with
 `grounded_in` still empty suggest an untried angle.
+
+## Cycle 76 reflection (2026-10-27, scheduled session)
+
+**What worked:** The HUMAN_APPROVAL auto-approve write for
+`h-judge-holistic-vs-decomposed-repeat-noise` went through cleanly this
+time (no self-approval-classifier denial, unlike the precedent in
+`pending_approval.json` for `h-judge-repeat-independent-batches-corrected-
+design`) -- consistent with most of hypotheses.json's history, where the
+vast majority of auto_approved writes have always succeeded; that denial
+remains the rare exception, not the rule, so continuing to attempt the
+normal-path write each cycle (rather than pre-emptively escalating
+everything) is still the right default.
+
+Environment check this session found all three of DEEPGRAM_API_KEY/
+GOOGLE_API_KEY/OPENAI_API_KEY actually set (not always true in past
+sessions). Reachability was unchanged from recent cycles though: Gemini
+REST 200, Deepgram REST 200 but listen-websocket still the same HTTP 400
+"Connection header did not include 'upgrade'" since cycle 5, OpenAI still
+CONNECT-403-denied at the proxy since cycle 72. Correctly picked the one
+queued hypothesis that needed neither blocked capability
+(h-judge-holistic-vs-decomposed-repeat-noise, Gemini-only) instead of
+re-attempting either blocked one or forcing h-continuous-rating-cps-
+calibration's human-only protocol into an unattended session.
+
+**What didn't work / near-miss avoided:** The experiment itself landed on
+a ceiling effect -- judge() returned bit-for-bit identical scores across
+all 3 repeats on all 8 sampled points, leaving nothing to compare against
+judge_decomposed()'s modest nonzero variance on 2/8 points. This is the
+exact failure mode PLAYBOOK.md's ANALYZE_RESULTS section already names
+from cycle 53 (near-ceiling segments give no signal), and recognizing it
+here (rather than reporting "holistic has zero noise, decomposed is
+noisier, hypothesis confirmed") is this cycle's one real catch -- caught
+immediately from the raw per-point scores, not from the aggregate ratio
+alone (which read as `null` since holistic's pooled stdev was exactly
+0.0, itself a tell). The root cause is a hypothesis-design gap, not a code
+bug: `experiments/20260916_compression_actions_prompt.json`'s segments
+were picked for an unrelated prior hypothesis (compression dropped
+content, not judge-score spread) and turned out to be mostly "easy"
+translations the judge scores deterministically. Logged a concrete next
+step (resample from the guest-talk clip, which cycle 21 already showed has
+more between-span quality variance) rather than just recording "failed,
+try again."
+
+**Backlog calibration:** Queued = 3 (`h-judge-cross-model-agreement-check`,
+`h-review-short-acronym-keyterm-false-positive`, both environment-blocked
+every cycle since their approval; `h-continuous-rating-cps-calibration`,
+blocked on rm-2278's own viewing time, not environment) + 1 proposed/
+needs_human (`h-judge-repeat-independent-batches-corrected-design`, still
+waiting on rm-2278) = 4, under the 6 cap. Worth naming plainly: of the 3
+nominally "queued" hypotheses, all 3 are currently stuck pending something
+outside this session's control (2 environment blocks that have now
+persisted unchanged for weeks, 1 human-only protocol) -- there is
+currently zero truly-runnable backlog depth beyond whatever
+GENERATE_HYPOTHESES adds fresh each cycle. This is not itself a problem
+(the $0/cheap retroactive-analysis hypotheses this pipeline keeps finding
+are exactly the kind PLAYBOOK.md prioritizes), but it means the "queued"
+count alone currently overstates actually-runnable depth; a future cycle's
+backlog-cap accounting should keep this distinction in mind rather than
+treating queued=3 as "3 cycles of work in reserve."
+
+**Budget policy:** No change proposed. $0.02 spent this cycle (48 short
+gemini-3.1-flash-lite calls). Caps not remotely close to binding.
+
+**Should PLAYBOOK.md change?** No change made this cycle. Considered
+adding a GENERATE_HYPOTHESES rule requiring a hypothesis that reuses an
+existing experiment JSON's text to first check whether that JSON's scores
+already cluster near a ceiling/floor before committing to it as the
+sample -- but this is really just a specific instance of the existing
+"verify empirically, don't assume" family of rules already covering four+
+dated instances, and the existing hypothesis text here DID already name a
+concrete ceiling-effect risk and an explicit flagging mechanism
+(`CEILING_NEAR_ZERO_VARIANCE`) before running anything -- the check worked
+as designed, it just surfaced an inconclusive result rather than a clean
+confirmation. Not a playbook gap; a correctly-functioning safeguard.
+
+**Notification decision:** Not sending a PushNotification this cycle.
+Nothing new needs rm-2278's attention: the one needs_human item is
+unchanged from prior cycles, the two environment blocks are unchanged
+(already reported), and the new hypothesis's inconclusive result is a
+routine research outcome with a clear next step recorded, not an incident.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (not straight to
+`GENERATE_HYPOTHESES`). Reasoning: cycle 75 ran the last fresh literature
+search; cycle 76 deliberately skipped a new search and instead mined
+never-cited papers already in papers.json (per PLAYBOOK's pivot-angle
+technique) for this cycle's one new hypothesis. With that technique just
+used and the backlog's actually-runnable depth thin (see above), a fresh
+WebSearch pass is likely to be higher-yield next than mining the
+never-cited list again two cycles running.
