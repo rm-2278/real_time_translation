@@ -1287,11 +1287,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.02,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/judge_holistic_vs_decomposed_noise.json"
       ],
-      "result_summary": ""
+      "result_summary": "INCONCLUSIVE, dominated by a ceiling effect on the holistic-only side. Ran judge_holistic_vs_decomposed_noise.py: 8 sampled (source_text, translation) pairs from experiments/20260916_compression_actions_prompt.json (index 5 plus stride-3 indices 0,3,6,9,12,15,18) x judge() (holistic-only) vs judge_decomposed() (decomposed-plus-holistic) x 3 repeats each = 48 live gemini-3.1-flash-lite calls. judge() returned the IDENTICAL score on all 3 repeats for 8/8 sampled points (pooled noise stdev=0.0); judge_decomposed() showed nonzero variance on 2/8 points (index 3: [20,30,30], index 9: [80,100,100]), pooled noise stdev=4.56. The direction matches unlp2026s prediction (decomposed > holistic noise) but a variant at a hard floor of zero variance on every single point cannot be compared meaningfully to any nonzero number -- same failure mode PLAYBOOK.md ANALYZE_RESULTS already documents from cycle 53s replay (near-ceiling segments give no signal to compare). Root cause: this clips compression_actions segments mostly score 90-100 deterministically; only index 3 (score ~40) showed any real judge disagreement at all, in EITHER variant. Do not read this as \"holistic-only has zero noise\" -- it means this sample has no headroom to show noise. Concrete next step for a future replay: resample from segments/sources with more marginal or contested content (lower baseline scores, more genuine translation imperfection) instead of this clip -- e.g. revisit the guest-talk clip used by h-soft-anchor-generalization-guest-talk/h-soft-anchor-disfluency-gate (experiments/20260915_llm_course_ep8_guest_talk_10min_rpm60.json), which cycle 21s noise-floor work already showed has higher between-span variance (translation difficulty varies more) than this clip."
     }
   ]
 }

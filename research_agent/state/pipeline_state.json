@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 17,
-  "last_updated": "2026-10-27T00:08:30.225023+00:00",
+  "last_updated": "2026-10-27T00:13:10.582118+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2261,6 +2261,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-27T00:08:30.224710+00:00",
       "note": "cycle 76: auto-approved h-judge-holistic-vs-decomposed-repeat-noise (check-budget AUTO_APPROVE, uses_existing_clips=true). Queued now: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-judge-holistic-vs-decomposed-repeat-noise (4). h-judge-repeat-independent-batches-corrected-design remains needs_human in pending_approval.json (self-approval block precedent, cycle 36/69)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-27T00:13:10.582089+00:00",
+      "note": "cycle 76: h-judge-holistic-vs-decomposed-repeat-noise run (48 live Gemini calls), moving to analysis."
     }
   ]
 }
