@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 18,
-  "last_updated": "2026-10-27T00:15:15.116921+00:00",
+  "last_updated": "2026-10-27T12:13:02.782351+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2285,6 +2285,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-10-27T00:15:15.116892+00:00",
       "note": "cycle 76 REFLECT complete, advancing to SEARCH_PAPERS for cycle 77 (fresh literature pass; cycle 76 used the never-cited-papers pivot instead of a new search) -- cycle counter increments to 77."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-10-27T12:13:02.782304+00:00",
+      "note": "cycle 77: WebSearch pass for post-survey SimulST/streaming-MT literature (flicker/stability policy, ASR vendor latency, cascade-vs-e2e, LLM prefix-commit prompting, Gemini Live translate update). Found 1 genuinely new paper not already in papers.json: reina-santan2026-readwrite-overread-bias (arXiv:2604.09916, REINA-SAN/TAN, addresses read/write-policy bias toward over-reading audio before writing -- directly relevant to this repo's soft-anchor/semantic-gating hypothesis thread). All other candidates surfaced by search (AlignAtt4LLM, Chen2024 revision-controllable decoding, papi2025-howreal's arXiv preprint 2412.18495, hoang2026-dynamic-lagging's 2609.05799, prefix2prefix2026's 2607.13158, Gemini 3.5 Live Translate) were confirmed duplicates of papers already read in prior cycles -- checked by URL/arXiv-id against existing papers.json entries before accepting, not just by title."
     }
   ]
 }

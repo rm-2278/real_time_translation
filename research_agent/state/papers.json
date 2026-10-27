@@ -1383,6 +1383,16 @@
         "h-judge-cross-model-agreement-check"
       ],
       "extraction_note": "EXTRACT_PAPERS (cycle 75): WebSearch-only (abstract/metadata snippet from a KMITL dspace repository record; full text, authors, and actual reliability numbers not retrievable via WebSearch -- venue still unconfirmed). Concrete claims pulled: compares GPT-5.2, Gemini 3 Pro, and Claude Opus 4.5 against Google Translate on 293 documents from the OpenWHO corpus (document-level Arabic->Thai medical translation), explicitly framed as a reliability study of LLM-as-a-judge methodology, not just a translation-quality comparison. No agreement/kappa numbers, bias findings, or conclusions were retrievable from the snippet. Relevance caveat (unchanged from the found-stub note): this is a low-resource, linguistically distant pair in the medical domain -- not EN->JA SimulST -- so any hypothesis grounded in it must be about judge-methodology transfer (e.g. inter-model-as-judge agreement patterns, domain-specific error sensitivity) and should not assume its specific findings generalize to this repo's EN->JA judge-reliability thread without that caveat stated explicitly. Given the full text/numbers are not accessible via WebSearch, this paper is a weaker READ_PAPERS candidate than the two IWSLT papers above -- flagging for the READ_PAPERS pass to decide whether abstract-level detail is sufficient to write key_findings, or whether it should stay at 'extracted' pending a future full-text retrieval attempt. || READ_PAPERS cross-reference (cycle 75): grepped experiments/results.csv and experiments/*.json filenames for 'wait token'/'lcp'/'longest common prefix'/'flicker'/'policy', and skimmed `git log --oneline -20 -- experiments/ src/` for recent human commits -- no literal LCP or wait-token implementation exists in this repo; closest existing analogs are the soft-anchor-gate and prefix-lock/continuation-anchor hypothesis lineages, which this paper's `relevant_to` list reflects as corroborating prior art, not duplicated technique."
+    },
+    {
+      "id": "reina-santan2026-readwrite-overread-bias",
+      "title": "Regularized Entropy Information Adaptation with Temporal-Awareness Networks for Simultaneous Speech Translation",
+      "authors": "unknown (REINA-SAN/REINA-TAN authors)",
+      "year": 2026,
+      "venue": "arXiv:2604.09916 (posted 2026-04-10, cs.LG/eess.AS)",
+      "url": "https://arxiv.org/abs/2604.09916",
+      "source": "websearch_cycle77",
+      "status": "found"
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
