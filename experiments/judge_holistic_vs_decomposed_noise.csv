@@ -1,0 +1,9 @@
+segment_index,holistic_only_mean,holistic_only_variance,decomposed_embedded_holistic_mean,decomposed_embedded_holistic_variance
+5,100,0,100,0
+0,100,0,100,0
+3,40,0,26.666666666666668,33.333333333333336
+6,90,0,100,0
+9,100,0,93.33333333333333,133.33333333333334
+12,90,0,100,0
+15,100,0,100,0
+18,100,0,100,0
