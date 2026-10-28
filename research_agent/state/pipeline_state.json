@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 18,
-  "last_updated": "2026-10-27T12:13:02.782351+00:00",
+  "last_updated": "2026-10-28T00:10:11.328836+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2291,6 +2291,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-10-27T12:13:02.782304+00:00",
       "note": "cycle 77: WebSearch pass for post-survey SimulST/streaming-MT literature (flicker/stability policy, ASR vendor latency, cascade-vs-e2e, LLM prefix-commit prompting, Gemini Live translate update). Found 1 genuinely new paper not already in papers.json: reina-santan2026-readwrite-overread-bias (arXiv:2604.09916, REINA-SAN/TAN, addresses read/write-policy bias toward over-reading audio before writing -- directly relevant to this repo's soft-anchor/semantic-gating hypothesis thread). All other candidates surfaced by search (AlignAtt4LLM, Chen2024 revision-controllable decoding, papi2025-howreal's arXiv preprint 2412.18495, hoang2026-dynamic-lagging's 2609.05799, prefix2prefix2026's 2607.13158, Gemini 3.5 Live Translate) were confirmed duplicates of papers already read in prior cycles -- checked by URL/arXiv-id against existing papers.json entries before accepting, not just by title."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-10-28T00:10:11.328259+00:00",
+      "note": "cycle 77: extracted reina-santan2026-readwrite-overread-bias via WebSearch fallback (arxiv.org WebFetch ENOTFOUND/EGRESS_BLOCKED). Found concrete claims: REINA baseline's info-gain policy over-reads before writing; REINA-SAN (supervised alignment net, more read-loop-resistant) and REINA-TAN (timestep-augmented net, slightly better streaming-efficiency tradeoff) both fix it; on Whisper, up to 7.1% NoSE frontier improvement over baselines. status: found -> extracted. Moving to READ_PAPERS."
     }
   ]
 }

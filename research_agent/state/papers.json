@@ -1387,12 +1387,21 @@
     {
       "id": "reina-santan2026-readwrite-overread-bias",
       "title": "Regularized Entropy Information Adaptation with Temporal-Awareness Networks for Simultaneous Speech Translation",
-      "authors": "unknown (REINA-SAN/REINA-TAN authors)",
+      "authors": "Joseph Liu, Nameer Hirschkind, Xiao Yu, Mahesh Kumar Nandwana",
       "year": 2026,
-      "venue": "arXiv:2604.09916 (posted 2026-04-10, cs.LG/eess.AS)",
+      "venue": "Interspeech 2026 / arXiv:2604.09916 (posted 2026-04-10, cs.LG/eess.AS)",
       "url": "https://arxiv.org/abs/2604.09916",
       "source": "websearch_cycle77",
-      "status": "found"
+      "status": "extracted",
+      "extraction_method": "websearch_fallback_cycle77: WebFetch to arxiv.org returned ENOTFOUND (host not in this cloud session's allowed network domains -- EGRESS_BLOCKED per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction), so extraction used WebSearch on the exact paper title + 'abstract' instead, which returned a paraphrased abstract (via emergentmind.com/awesomepapers.io secondary sources, not the arXiv page itself) plus concrete numbers.",
+      "extracted_claims": [
+        "Starts from REINA, a prior read/write policy for SimulST trained to estimate how much *information* is gained from reading more audio before deciding whether to write (emit a translation) or keep reading.",
+        "Identifies that pure information-gain policies tend to lack temporal context, which biases them toward over-reading: they wait until most/all of the utterance's audio has been read before producing any output, hurting streaming latency even when quality is fine.",
+        "Proposes two concrete fixes: REINA-SAN (adds a supervised alignment network to the policy) and REINA-TAN (adds a timestep-augmented network instead). Both are presented as fixing this over-reading/stability problem relative to the REINA baseline.",
+        "Reported trade-off: REINA-TAN gives a slightly better streaming-efficiency/latency trade-off than REINA-SAN, but REINA-SAN is more resistant to 'read loops' (a failure mode where the policy keeps choosing to read without ever writing).",
+        "Quantitative result: applied to Whisper, both variants improve the Normalized Streaming Efficiency (NoSE) frontier by up to 7.1% over competitive baselines.",
+        "Architecture is a trained read/write policy sitting on a (fine-tuned/adapted) Whisper ASR backbone -- this is a training-time policy change to the ASR model itself, not an API-orchestration or prompting technique."
+      ]
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
