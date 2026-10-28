@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 18,
-  "last_updated": "2026-10-28T00:14:42.220312+00:00",
+  "last_updated": "2026-10-28T00:20:54.931799+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2315,6 +2315,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-28T00:14:42.220264+00:00",
       "note": "cycle 77: check-budget 0 -> AUTO_APPROVE; h-gate-utterance-end-temporal-blindness has uses_existing_clips=true, so per PLAYBOOK's normal auto-approve path set approval=auto_approved, status=queued. h-judge-repeat-independent-batches-corrected-design remains needs_human/proposed in pending_approval.json (self-approval block precedent, cycle 36/69 -- untouched). Queued now: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-gate-utterance-end-temporal-blindness (4). Moving to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-28T00:20:18.589517+00:00",
+      "note": "cycle 77: h-gate-utterance-end-temporal-blindness run (0 new API calls), moving to analysis."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-28T00:20:54.931760+00:00",
+      "note": "cycle 77: h-gate-utterance-end-temporal-blindness analyzed. Core prediction confirmed (98.6% of gated batches are is_utterance_end=true; known erasure cost sits almost entirely in that bucket). Offsetting-benefit question (does the gate help/hurt final judge-score fidelity on that bucket) is INCONCLUSIVE: nominal +3.4 point difference favoring the gated condition, but smaller than the within-group noise floor (~6.0-7.3) and unpaired, so per PLAYBOOK's established noise-floor rule this is not read as a real effect either way. status: testing -> tested. Moving to WRITE_REPORT."
     }
   ]
 }
