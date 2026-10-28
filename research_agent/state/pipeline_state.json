@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 18,
-  "last_updated": "2026-10-28T00:11:01.489830+00:00",
+  "last_updated": "2026-10-28T00:14:17.366812+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2303,6 +2303,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-28T00:11:01.489796+00:00",
       "note": "cycle 77: read reina-santan2026-readwrite-overread-bias (full summary + key_findings in papers.json). Cross-referenced against experiments/results.csv (h_localagreement_commit_test, h_masking_holdback*, h_soft_anchor_gate_* lines) and git log -- this repo already has substantial tested work on the read/write-commit-timing design space the paper covers. Paper's own method (trained REINA-SAN/TAN policy networks on a Whisper backbone) is not portable to this repo's hosted-API-only architecture (same caveat as cuhksz2026-iwslt-qwen3omni-wait-token). status: extracted -> read. Backlog check: 3 queued + 1 proposed/needs_human = 4, under the 6 cap, so room exists but existing needs_human item takes priority per PLAYBOOK. Moving to GENERATE_HYPOTHESES."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-28T00:14:17.366780+00:00",
+      "note": "cycle 77: added 1 new hypothesis, h-gate-utterance-end-temporal-blindness, grounded in reina-santan2026-readwrite-overread-bias. Verified empirically before writing (per PLAYBOOK's repeated 'check the code/data, don't assume' rule): soft_anchor_disfluency_gate_replay.py:83's gate condition has no is_utterance_end check, and a one-off count over the two existing gated-condition experiment JSONs found 22/22 (100%) and 46/47 (97.9%) of gated batches are is_utterance_end=true. $0 retroactive hypothesis (uses_existing_clips=true, estimated_cost_usd=0). Backlog count (queued+proposed, both statuses per PLAYBOOK's explicit rule): 3 queued + 2 proposed (the new one plus pre-existing h-judge-repeat-independent-batches-corrected-design, needs_human) = 5, under the 6 cap. Moving to HUMAN_APPROVAL to run check-budget on the new hypothesis."
     }
   ]
 }
