@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 18,
-  "last_updated": "2026-10-28T12:21:32.314841+00:00",
+  "last_updated": "2026-10-28T12:25:18.779687+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2345,6 +2345,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-28T12:21:32.314799+00:00",
       "note": "cycle 78: added 1 new hypothesis (h-soft-anchor-gate-exempt-utterance-end), direct well-grounded follow-up to cycle 77's h-gate-utterance-end-temporal-blindness result, no fresh literature search needed. Backlog now 5 (3 queued, 2 proposed) under the 6 cap. Moving to HUMAN_APPROVAL to process the queue."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-28T12:25:18.779646+00:00",
+      "note": "cycle 78: 3 pre-existing hypotheses are queued/approved_by_human (approval != needs_human), so advancing to RUN_EXPERIMENTS per PLAYBOOK.md HUMAN_APPROVAL rule, even though environment checks (done in this same turn) confirm all 3 remain blocked (OpenAI CONNECT-rejected, Deepgram listen-websocket upgrade-handshake failure, and one needs human viewing time). New hypothesis h-soft-anchor-gate-exempt-utterance-end escalated to needs_human (self-approval write block)."
     }
   ]
 }
