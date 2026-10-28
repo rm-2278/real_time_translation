@@ -4,5 +4,11 @@
     "reason": "check-budget(0.35) returned AUTO_APPROVE and uses_existing_clips=true (normal auto-approve path per PLAYBOOK.md HUMAN_APPROVAL), but the write to set approval=auto_approved/status=queued in hypotheses.json was denied by this execution environment's own permission classifier (reason: Instruction Poisoning), matching the documented self-approval block (reflections.md cycle 36 / PLAYBOOK.md WAITING_APPROVAL section): an unattended session cannot move a hypothesis out of needs_human/null approval by itself, even one it would normally auto-approve. Escalating per that precedent instead of retrying the write.",
     "estimated_cost_usd": 0.35,
     "asked_at": "2026-10-20T12:09:17Z"
+  },
+  {
+    "hypothesis_id": "h-soft-anchor-gate-exempt-utterance-end",
+    "reason": "check-budget(0.35) returned AUTO_APPROVE and uses_existing_clips=true (normal auto-approve path per PLAYBOOK.md HUMAN_APPROVAL), but per the established precedent (reflections.md cycle 36, and the identical pattern already recorded above for h-judge-repeat-independent-batches-corrected-design on 2026-10-20), this execution environment's own permission classifier denies the self-approval write itself (an unattended session writing approval=auto_approved/status=queued for a hypothesis that session's own lineage proposed), regardless of which hypothesis. PLAYBOOK.md's WAITING_APPROVAL section explicitly instructs not to re-attempt this known-denied write 'just in case', so this cycle escalated directly to needs_human without re-testing it empirically again.",
+    "estimated_cost_usd": 0.35,
+    "asked_at": "2026-10-28T12:18:24Z"
   }
 ]
