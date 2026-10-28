@@ -1,6 +1,6 @@
 {
-  "date": "2026-10-27",
-  "spent_today_usd": 0.02,
+  "date": "2026-10-28",
+  "spent_today_usd": 0.0,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
   "total_spent_usd": 3.85,
@@ -279,6 +279,11 @@
       "at": "2026-10-27T00:12:43.128145+00:00",
       "amount_usd": 0.02,
       "note": "h-judge-holistic-vs-decomposed-repeat-noise: judge_holistic_vs_decomposed_noise.py, 48 new gemini-3.1-flash-lite calls (8 sampled segments x 2 variants x 3 repeats), zero new Deepgram spend, zero new translation generation (texts reused verbatim from experiments/20260916_compression_actions_prompt.json). Estimated by scaling cycle 53's measured 60-call/$0.02 rate to 48 calls."
+    },
+    {
+      "at": "2026-10-28T00:19:06.518815+00:00",
+      "amount_usd": 0.0,
+      "note": "h_gate_utterance_end_temporal_blindness_check (zero new API calls, pure retroactive analysis)"
     }
   ]
 }

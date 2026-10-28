@@ -1302,8 +1302,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/gate_utterance_end_temporal_blindness_check.json"
+      ],
       "result_summary": ""
     }
   ]

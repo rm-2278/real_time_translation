@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-28",
+  "experiment_name": "h_gate_utterance_end_temporal_blindness_check",
+  "domain": null,
+  "input": {
+    "type": "retroactive_analysis",
+    "source_jsons": [
+      "experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json",
+      "experiments/20260922_h_soft_anchor_gate_min3_replay.json"
+    ],
+    "note": "Zero new Deepgram/LLM API calls -- reuses gated_batch_indices/batches[i].is_utterance_end/condition_repeats/judge_score_stats already recorded in both source JSONs. Erasure method identical to soft_anchor_gate_erasure_decomposition.py's _per_transition_erasure, generalized across both source JSONs and both source clips (the existing script only covered the guest-talk clip in the min3 JSON)."
+  },
+  "results": {
+    "is_utterance_end_fraction_overall": 0.9855072463768116,
+    "is_utterance_end_count": 68,
+    "is_utterance_end_total_gated_batches": 69,
+    "per_source_json": {
+      "experiments/20260921_h_soft_anchor_gate_recalibrated_noisefloor_replay.json": {
+        "gated_batches_with_known_end_flag": 22,
+        "gated_batches_is_utterance_end": 22,
+        "fraction": 1.0
+      },
+      "experiments/20260922_h_soft_anchor_gate_min3_replay.json": {
+        "gated_batches_with_known_end_flag": 47,
+        "gated_batches_is_utterance_end": 46,
+        "fraction": 0.9787234042553191
+      }
+    },
+    "erasure_gated_transition_by_condition_and_end_flag": {
+      "gated_soft_anchor": {
+        "is_utterance_end": {
+          "n": 136,
+          "mean_erasure_normalized": 0.6175709479531646
+        },
+        "mid_utterance": {
+          "n": 2,
+          "mean_erasure_normalized": 0.23809523809523808
+        }
+      },
+      "soft_anchor_replay": {
+        "is_utterance_end": {
+          "n": 136,
+          "mean_erasure_normalized": 0.0908129316452414
+        },
+        "mid_utterance": {
+          "n": 2,
+          "mean_erasure_normalized": 0.0
+        }
+      }
+    },
+    "judge_score_mean_by_end_flag_and_condition": {
+      "is_utterance_end": {
+        "gated_soft_anchor": 95.58823529411765,
+        "soft_anchor_replay": 92.16911764705883
+      },
+      "mid_utterance_or_mixed": {
+        "gated_soft_anchor": 82.5,
+        "soft_anchor_replay": 77.5
+      }
+    },
+    "judge_noise_decomposition_by_end_flag": {
+      "is_utterance_end": {
+        "gated_soft_anchor": {
+          "num_groups": 68,
+          "between_group_variance": 93.0363321799308,
+          "between_group_stdev": 9.645534312827403,
+          "within_group_noise_variance": 36.029411764705884,
+          "within_group_noise_stdev": 6.002450479987809
+        },
+        "soft_anchor_replay": {
+          "num_groups": 68,
+          "between_group_variance": 154.2103698096886,
+          "between_group_stdev": 12.418146794497503,
+          "within_group_noise_variance": 53.125,
+          "within_group_noise_stdev": 7.2886898685566255
+        }
+      },
+      "mid_utterance_or_mixed": {
+        "gated_soft_anchor": {
+          "num_groups": 1,
+          "between_group_variance": null,
+          "within_group_noise_stdev": null
+        },
+        "soft_anchor_replay": {
+          "num_groups": 1,
+          "between_group_variance": null,
+          "within_group_noise_stdev": null
+        }
+      }
+    },
+    "num_gated_spans_all_end": 68,
+    "num_gated_spans_mid_or_mixed": 1
+  },
+  "conclusion": {
+    "confirms_near_total_utterance_end_skew": true
+  },
+  "notes": "h-gate-utterance-end-temporal-blindness. Formalizes the GENERATE_HYPOTHESES one-off count (22/22, 46/47) with exact per-file counts, adds a per-transition erasure split by is_utterance_end (reusing soft_anchor_gate_erasure_decomposition.py's method), and a whole-span judge_score_stats comparison restricted to gated spans, split by whether all gated batches in that span are is_utterance_end. The mid_utterance_or_mixed bucket is expected to be very small given the near-total skew found -- read its noise decomposition's num_groups before trusting any difference reported for it.",
+  "created_at_utc": "2026-10-28T00:18:32.261163+00:00"
+}
