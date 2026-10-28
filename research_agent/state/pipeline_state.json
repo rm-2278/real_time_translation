@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 18,
-  "last_updated": "2026-10-28T00:10:11.328836+00:00",
+  "last_updated": "2026-10-28T00:11:01.489830+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2297,6 +2297,12 @@
       "to": "READ_PAPERS",
       "at": "2026-10-28T00:10:11.328259+00:00",
       "note": "cycle 77: extracted reina-santan2026-readwrite-overread-bias via WebSearch fallback (arxiv.org WebFetch ENOTFOUND/EGRESS_BLOCKED). Found concrete claims: REINA baseline's info-gain policy over-reads before writing; REINA-SAN (supervised alignment net, more read-loop-resistant) and REINA-TAN (timestep-augmented net, slightly better streaming-efficiency tradeoff) both fix it; on Whisper, up to 7.1% NoSE frontier improvement over baselines. status: found -> extracted. Moving to READ_PAPERS."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-28T00:11:01.489796+00:00",
+      "note": "cycle 77: read reina-santan2026-readwrite-overread-bias (full summary + key_findings in papers.json). Cross-referenced against experiments/results.csv (h_localagreement_commit_test, h_masking_holdback*, h_soft_anchor_gate_* lines) and git log -- this repo already has substantial tested work on the read/write-commit-timing design space the paper covers. Paper's own method (trained REINA-SAN/TAN policy networks on a Whisper backbone) is not portable to this repo's hosted-API-only architecture (same caveat as cuhksz2026-iwslt-qwen3omni-wait-token). status: extracted -> read. Backlog check: 3 queued + 1 proposed/needs_human = 4, under the 6 cap, so room exists but existing needs_human item takes priority per PLAYBOOK. Moving to GENERATE_HYPOTHESES."
     }
   ]
 }
