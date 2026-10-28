@@ -4786,3 +4786,112 @@ erasure cost drops without a judge-score regression) that needs no fresh
 literature search to justify -- it follows directly from this cycle's own
 tested result. Writing that up now is higher-yield than another
 WebSearch pass or another never-cited-papers mining pass this cycle.
+
+## Cycle 78 (2026-10-28, scheduled session)
+
+**What worked / what didn't:** The GENERATE_HYPOTHESES step worked cleanly
+and cheaply: cycle 77's own ANALYZE_RESULTS already named a concrete,
+well-grounded follow-up (exempt `is_utterance_end` batches from the
+soft-anchor gate, re-run paired per span), so this cycle just had to turn
+that into a properly-scoped hypothesis (`h-soft-anchor-gate-exempt-
+utterance-end`) rather than invent a new angle from scratch -- no fresh
+WebSearch needed, consistent with cycle 77's REFLECT decision. What didn't
+work (expectedly): every other state this cycle hit a wall it couldn't
+move past on its own. The self-approval permission block
+(reflections.md cycle 36) fired again, this time on a genuinely new
+hypothesis rather than a repeat of a previously-blocked one -- confirming
+the block really is general (keyed on the self-approval *outcome*, not on
+a specific hypothesis id) rather than something that might only apply to
+the one case tested in cycle 36. And both of the two environment blockers
+first found in cycles 63-72 (OpenAI CONNECT-rejected, Deepgram listen-
+websocket upgrade-handshake HTTP 400) reproduced identically yet again,
+now re-confirmed across roughly 6 separate scheduled sessions spanning
+cycles 63, 67, 68, 69, 72, and now 78. At this point re-running the same
+two curl/websocket checks every single cycle on hypotheses that cannot
+possibly have changed (nothing about this sandbox's own egress policy is
+something either this agent or rm-2278 has touched between cycles) is
+starting to look like pure overhead rather than genuine verification --
+see the PLAYBOOK proposal below.
+
+**Backlog calibration:** Backlog is 5 (3 queued + 2 proposed/needs_human),
+under the 6 cap, same structural issue cycles 76/77 already flagged:
+of the 3 "queued" entries, 2 are environment-blocked (OpenAI, Deepgram
+websocket) and will stay that way until the sandbox's network policy
+changes, and the 3rd needs rm-2278's own viewing time, not anything this
+session can do. Functionally, **zero** of the 5 backlog entries are
+currently actionable by an unattended session: 2 need_human (self-
+approval block), 2 need external network access this sandbox denies, 1
+needs a human's physical time. This is a more severe version of the
+"thinner than it looks" calibration problem cycles 76/77 both raised --
+worth being blunt about rather than reflexively adding more hypotheses on
+top when nothing in the existing backlog can actually move. Per PLAYBOOK's
+own instruction to prioritize processing existing proposed/needs_human
+entries over adding new ones when the backlog is already busy, this cycle
+correctly limited itself to exactly 1 new hypothesis (the well-grounded,
+no-literature-search-needed one) rather than padding the backlog further
+with ideas nothing can currently test.
+
+**Budget policy:** No change proposed. $0.00 spent this cycle (no
+experiment ran at all -- every queued hypothesis was blocked before
+reaching the point of spending anything). Caps remain nowhere near
+binding; the actual constraint on this pipeline right now is network/
+permission access, not budget.
+
+**Should PLAYBOOK.md change?** Yes, proposing one concrete addition
+(not made yet -- flagging here for rm-2278 to weigh in on, since the
+WAITING_APPROVAL section's existing "do not re-test the self-approval
+block" precedent suggests PLAYBOOK changes that reduce agency around a
+confirmed-terminal condition are the right instinct): RUN_EXPERIMENTS's
+environment-reachability checks (OpenAI CONNECT-rejection, Deepgram
+listen-websocket upgrade-handshake failure) have now been independently
+re-confirmed identical, with zero change, across 6 scheduled sessions
+(cycles 63, 67, 68, 69, 72, 78) over more than a week of wall-clock time.
+Unlike the self-approval block (which is an environment-level permission
+classifier outside either party's control to fix from inside a session),
+these two look like durable properties of this specific cloud sandbox's
+egress proxy configuration -- not the kind of thing that would spontaneously
+change between scheduled runs. Re-running the same curl + websocket probe
+every cycle costs a small but nonzero amount of session time/output for a
+result that has never once differed. Proposed change (NOT made this
+cycle -- wanted to flag it in a report first per PLAYBOOK's own "propose
+to the human before changing policy" spirit, even though this is a
+PLAYBOOK/procedure change rather than a budget-cap change strictly
+speaking): once a given host+protocol combination (e.g. "api.openai.com
+REST", "api.deepgram.com listen-websocket") has shown the identical
+failure mode on >=3 separate scheduled sessions with no intervening
+environment change, skip the live re-check for that cycle and just note
+"carrying forward the cycle N confirmation, unchanged" -- but re-verify
+at least once every, say, 5 cycles or whenever rm-2278 signals the
+environment changed, so a real fix on the human's end doesn't get missed
+indefinitely. Did not edit PLAYBOOK.md itself this cycle since this is a
+process proposal that affects how much the agent verifies vs. trusts its
+own prior findings, which feels like exactly the kind of change PLAYBOOK
+says to flag rather than silently adopt.
+
+**Notification decision:** Not sending a PushNotification this cycle.
+Nothing here is a new incident: the self-approval block and both
+environment blockers are all re-confirmations of already-known, already-
+reported conditions, not new information rm-2278 needs to see right now.
+The two pending_approval.json entries (h-judge-repeat-independent-
+batches-corrected-design from cycle ~56/escalated 2026-10-20, and this
+cycle's new h-soft-anchor-gate-exempt-utterance-end) are both already
+flagged plainly in this cycle's Japanese report and are routine, expected
+needs_human items under the documented self-approval policy -- they don't
+rise to the level of needing an out-of-band notification on top of the
+report, and PLAYBOOK's HUMAN_APPROVAL/WAITING_APPROVAL sections already
+treat this as the normal, expected path for every auto-approvable
+hypothesis in this environment, not an exception worth a push alert.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (not straight to
+`GENERATE_HYPOTHESES` this time, unlike cycle 77). Reasoning: with the
+entire existing backlog currently non-actionable (see calibration note
+above) and this cycle's only new hypothesis already fully written and
+escalated, there is no obvious further hypothesis to mine from existing
+results without either (a) another never-cited-papers pivot pass over
+`papers.json`, or (b) fresh literature -- and a fresh WebSearch pass is
+overdue anyway since cycle 77 was the last one to add any new paper
+(`reina-santan2026-readwrite-overread-bias`) and this cycle added none.
+Starting the next cycle at `SEARCH_PAPERS` also means the narrated cycle
+counter's own JSON field (which only increments on this exact transition)
+stays roughly in sync with the narrated count, per PLAYBOOK's Step 0 note
+on the two counters.
