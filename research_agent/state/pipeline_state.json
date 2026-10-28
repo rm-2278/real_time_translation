@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 18,
-  "last_updated": "2026-10-28T12:25:18.779687+00:00",
+  "last_updated": "2026-10-28T12:25:27.605030+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2351,6 +2351,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-28T12:25:18.779646+00:00",
       "note": "cycle 78: 3 pre-existing hypotheses are queued/approved_by_human (approval != needs_human), so advancing to RUN_EXPERIMENTS per PLAYBOOK.md HUMAN_APPROVAL rule, even though environment checks (done in this same turn) confirm all 3 remain blocked (OpenAI CONNECT-rejected, Deepgram listen-websocket upgrade-handshake failure, and one needs human viewing time). New hypothesis h-soft-anchor-gate-exempt-utterance-end escalated to needs_human (self-approval write block)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-28T12:25:27.604998+00:00",
+      "note": "cycle 78: no experiment was run -- all 3 queued hypotheses are blocked (OpenAI CONNECT-rejected, Deepgram listen-websocket upgrade-handshake failure, one needs human viewing time) and the new hypothesis is needs_human. No new result to analyze; proceeding straight to WRITE_REPORT per PLAYBOOK.md's degraded-mode instruction (do not fabricate results, note the environment gap in the Japanese report)."
     }
   ]
 }
