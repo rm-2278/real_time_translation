@@ -4654,3 +4654,135 @@ technique) for this cycle's one new hypothesis. With that technique just
 used and the backlog's actually-runnable depth thin (see above), a fresh
 WebSearch pass is likely to be higher-yield next than mining the
 never-cited list again two cycles running.
+
+## Cycle 77 (2026-10-28, scheduled session)
+
+**What worked:** A full literature-to-hypothesis-to-tested-result loop in
+one session, starting from `EXTRACT_PAPERS` (the prior cycle had already
+done `SEARCH_PAPERS` and left one paper, `reina-santan2026-readwrite-
+overread-bias`, as `found`). WebFetch to arxiv.org was EGRESS_BLOCKED
+(ENOTFOUND) again this session -- confirms this is a standing
+characteristic of this sandbox, not a one-off, consistent with every
+prior cycle's note on this. The WebSearch-title-plus-"abstract" fallback
+worked cleanly and gave genuinely useful concrete claims (REINA-SAN/TAN,
+the 7.1% NoSE improvement, the over-reading/temporal-blindness framing),
+not just a marketing-level abstract paraphrase.
+
+The resulting hypothesis, `h-gate-utterance-end-temporal-blindness`, is a
+good example of PLAYBOOK's own "verify empirically before finalizing the
+hypothesis text" rule paying off twice in one cycle: (1) at
+GENERATE_HYPOTHESES time, checking `soft_anchor_disfluency_gate_replay.py`'s
+actual gate condition (no `is_utterance_end` check at all) and a quick
+count over the two existing gated-condition JSONs (22/22, 46/47 --
+~98-100% utterance-end) turned a vague "maybe this paper's framing applies
+somewhere in this repo" instinct into a concrete, already-largely-answered
+question before any code was written for the full experiment; (2) while
+implementing the retroactive script, I almost shipped a real bug: the
+`Transition` dataclass didn't originally record which `condition`
+("gated_soft_anchor" vs "soft_anchor_replay") each erasure value came
+from, so the per-condition split in `erasure_by_condition_and_end_flag`
+was silently pooling both conditions together under each condition key.
+Caught by rereading the aggregation code against the dataclass fields
+before running it, not by the run itself (the run would have produced a
+*plausible-looking* but wrong number for each "condition" -- identical
+values in both, in fact, since both loops would scan the same unfiltered
+`tagged` list). Fixed by adding the `condition` field and filtering on it.
+This is the same general class of near-miss PLAYBOOK.md's
+GENERATE_HYPOTHESES section already documents at length (verify the
+actual code/data, don't assume), but it is worth naming as a second,
+distinct instance: a dataclass silently *missing* a field needed to
+disambiguate a later groupby is just as dangerous as assuming a wrong
+value for a field that *does* exist, and both failure modes are only
+caught by rereading the aggregation logic against what was actually
+recorded, not by the code running without error.
+
+A second, smaller near-miss: the hypothesis's own `required_changes` text
+(written at GENERATE_HYPOTHESES time, before I'd fully re-inspected the
+JSON schema) described `condition_ne` as "already measured per batch".
+While writing the actual script I rechecked a span with `num_batches=3`
+against its `condition_ne` list length (2, matching `REPEATS`, not 3) and
+confirmed `condition_ne` is a per-span, per-repeat scalar, not a
+per-batch/per-transition value -- so I did not use it for the per-
+transition erasure comparison (used the LCP-based per-transition
+recomputation from `condition_repeats` instead, same as
+`soft_anchor_gate_erasure_decomposition.py`) and only used `condition_ne`'s
+sibling field `judge_score_stats` (confirmed same per-span-per-repeat
+granularity) for the whole-span comparison. The hypothesis text itself
+was technically imprecise but the implementation was checked against the
+real data before being used, so no wrong conclusion resulted -- same
+"verify before implementing" discipline, just caught one step later than
+the `is_utterance_end` check above.
+
+A third, process-level thing that worked: writing a CSV row for
+`experiments/results.csv` by hand (matching the 18-column header) and
+getting the column count wrong on the first attempt (ended up with 17
+fields, shifting `notes` into `glossary_matched_terms` and losing
+`json_path` entirely) -- caught immediately by re-reading the row back
+with `csv.reader` and comparing field-by-field against the header, before
+committing. Fixed by removing the bad row and re-appending with an
+explicit `['']*13` padding block whose length I verified against the
+header count before writing. Worth noting as a concrete process lesson
+(not a PLAYBOOK change, see below): always re-parse a hand-constructed
+CSV row with `csv.reader` against the header before trusting it, rather
+than just visually inspecting the written line -- the misalignment was
+not obvious from eyeballing the raw comma-separated text.
+
+**Backlog calibration:** Added exactly 1 new hypothesis this cycle
+(within the 1-3 PLAYBOOK allows), prioritizing depth -- it was
+immediately run through the full HUMAN_APPROVAL -> RUN_EXPERIMENTS ->
+ANALYZE_RESULTS pipeline in the same session since it was $0 and had no
+environment blockers, rather than just being queued and left for a future
+cycle. Backlog is now 3 queued (`h-judge-cross-model-agreement-check`,
+`h-review-short-acronym-keyterm-false-positive`, both environment-blocked
+every cycle since approval; `h-continuous-rating-cps-calibration`, blocked
+on rm-2278's own viewing time) + 1 proposed/needs_human
+(`h-judge-repeat-independent-batches-corrected-design`) = 4, under the 6
+cap, same structural point cycle 76 made: all 3 "queued" items are
+currently stuck on something outside this session's control, so the real
+actionable backlog depth is thinner than the raw count suggests. This
+cycle's own new hypothesis didn't sit in that queue at all -- it went
+straight through to `tested` -- so it doesn't change that underlying
+calibration problem, but it is a data point that $0 retroactive hypotheses
+discovered via the literature-grounding route (rather than the
+never-cited-papers pivot) can still move end-to-end in one cycle when
+they don't need live API access.
+
+**Budget policy:** No change proposed. $0.00 spent this cycle (pure
+retroactive analysis, no new API calls at all). Caps not remotely close
+to binding.
+
+**Should PLAYBOOK.md change?** No change made this cycle. The two near-
+misses described above (a dataclass missing a disambiguating field; a
+hand-built CSV row with a wrong field count) are both concrete instances
+of PLAYBOOK's existing "verify empirically, don't assume, re-check before
+trusting" family of rules, not a new bug class distinct enough to warrant
+its own dated paragraph the way e.g. the `\b` Unicode-boundary trap
+(cycle 74) was. Considered adding an explicit "re-parse any hand-built
+`results.csv` row with `csv.reader` before committing" line to the Hard
+Rules section, but this is narrow enough (a one-time formatting slip, not
+a recurring misunderstanding about the CSV schema itself) that it reads
+better as this cycle's own reflections-log lesson than a permanent
+PLAYBOOK addition -- if a future cycle makes the same CSV-column mistake
+again, that would be the signal to actually add the rule (per PLAYBOOK's
+own "a technique/mistake reinvented twice should be written down" spirit).
+
+**Notification decision:** Not sending a PushNotification this cycle.
+Nothing here needs rm-2278's attention right now: no new environment
+blocker, no new needs_human item, and the hypothesis's result (a
+confirmed-but-partial finding, with a concrete non-$0 follow-up named but
+not run) is a routine research outcome, not an incident. The follow-up
+idea (exempt `is_utterance_end` batches from the gate, re-run the replay)
+is recorded in this cycle's `result_summary` and Japanese report for a
+future cycle's GENERATE_HYPOTHESES to pick up; it doesn't need a human
+decision before then since it would itself go through the normal
+HUMAN_APPROVAL budget check like any other hypothesis.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` (not back to
+`SEARCH_PAPERS`). Reasoning: this cycle's own `ANALYZE_RESULTS` surfaced a
+concrete, well-grounded, immediately-writable next hypothesis (modify
+`soft_anchor_disfluency_gate_replay.py`'s gate condition to skip
+`is_utterance_end` batches, re-run the gate replay, check whether the
+erasure cost drops without a judge-score regression) that needs no fresh
+literature search to justify -- it follows directly from this cycle's own
+tested result. Writing that up now is higher-yield than another
+WebSearch pass or another never-cited-papers mining pass this cycle.
