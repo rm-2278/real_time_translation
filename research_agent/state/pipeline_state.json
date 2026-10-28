@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 18,
-  "last_updated": "2026-10-28T00:23:10.858486+00:00",
+  "last_updated": "2026-10-28T12:21:32.314841+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2339,6 +2339,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-28T00:23:10.858457+00:00",
       "note": "cycle 77 REFLECT complete, advancing to GENERATE_HYPOTHESES (not SEARCH_PAPERS) -- this cycle's own ANALYZE_RESULTS surfaced a concrete, well-grounded next hypothesis (exempt is_utterance_end batches from the soft-anchor gate, re-run the replay) that needs no fresh literature search. cycle counter does not increment on this transition (REFLECT->GENERATE_HYPOTHESES, not REFLECT->SEARCH_PAPERS) per PLAYBOOK's documented counter behavior; narrated cycle count advances to 78 for the next pass regardless."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-28T12:21:32.314799+00:00",
+      "note": "cycle 78: added 1 new hypothesis (h-soft-anchor-gate-exempt-utterance-end), direct well-grounded follow-up to cycle 77's h-gate-utterance-end-temporal-blindness result, no fresh literature search needed. Backlog now 5 (3 queued, 2 proposed) under the 6 cap. Moving to HUMAN_APPROVAL to process the queue."
     }
   ]
 }
