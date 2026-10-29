@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 19,
-  "last_updated": "2026-10-28T12:27:32.209292+00:00",
+  "last_updated": "2026-10-29T00:10:20.343598+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2375,6 +2375,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-10-28T12:27:32.209256+00:00",
       "note": "cycle 78 REFLECT complete, advancing to SEARCH_PAPERS (not GENERATE_HYPOTHESES) -- entire existing backlog is currently non-actionable by an unattended session (2 needs_human via the self-approval block, 2 environment-blocked, 1 needs human viewing time) and this cycle's only new hypothesis was already written from cycle 77's own result with no fresh literature needed, so a new WebSearch pass is overdue for the next cycle rather than mining the same paper base again. cycle counter increments to 19 on this REFLECT->SEARCH_PAPERS transition; narrated cycle count advances to 79 for the next pass."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-10-29T00:10:20.343564+00:00",
+      "note": "cycle 79 SEARCH_PAPERS complete: 6 WebSearch queries covering the 4 playbook-flagged gap areas, 2 new candidate papers stubbed (iwslt2026-findings-overview, huang2024-conversational-simulmt), rest of results re-confirmed existing papers.json entries. Moving to EXTRACT_PAPERS to pull abstracts for the 2 new stubs."
     }
   ]
 }
