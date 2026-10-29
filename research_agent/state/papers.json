@@ -1410,11 +1410,20 @@
       "venue": "IWSLT 2026 (ACL Anthology 2026.iwslt-1.39)",
       "url": "https://aclanthology.org/2026.iwslt-1.39/",
       "source": "websearch_cycle79",
-      "status": "extracted",
-      "summary": "",
-      "key_findings": [],
-      "relevant_to": [],
-      "extraction_note": "EXTRACT_PAPERS (cycle 79): WebFetch to aclanthology.org EGRESS_BLOCKED (getaddrinfo ENOTFOUND) this session, fell back to WebSearch per PLAYBOOK.md fallback. Abstract-level info only: IWSLT 2026 (23rd workshop, July 3-4 2026, San Diego) covered ten shared-task tracks with 30+ participating teams, with this edition's emphasis specifically on speech generation and evaluation metrics -- the search snippets did NOT confirm whether a simultaneous-translation track was run at all in 2026 (2025's edition had one; this overview paper's visible abstract text does not explicitly list it among the highlighted tracks). Do not assume this paper has an aggregate simultaneous-track results table until a direct read of the PDF confirms the track existed this year -- that confirmation did not happen this cycle."
+      "status": "read",
+      "summary": "IWSLT 2026の年次findings論文。10件以上のshared taskトラックと30以上の参加チームの結果を総括し、この回は特に音声生成と評価メトリクスの精度に重点を置いている。WebSearchのスニペットレベルの情報だけでは、2026年版に同時通訳(simultaneous translation)トラック自体が含まれていたかどうかは確認できなかった(2025年版にはあった)。",
+      "key_findings": [
+        "2026年のIWSLTは音声生成・評価メトリクスの精度向上に特に焦点を当てている回だった",
+        "10以上のshared taskトラック、30チーム以上が参加",
+        "簡時通訳トラックの有無・結果表はアブストラクトレベルでは確認不可(PDF本文の直接確認が必要、未実施)",
+        "現時点では本リポジトリの具体的な仮説を直接裏付ける材料はなく、トラック構成を確認できるまでは実験のgrounded_inとしては使わない"
+      ],
+      "relevant_to": [
+        "evaluation-metrics",
+        "judge-methodology"
+      ],
+      "extraction_note": "EXTRACT_PAPERS (cycle 79): WebFetch to aclanthology.org EGRESS_BLOCKED (getaddrinfo ENOTFOUND) this session, fell back to WebSearch per PLAYBOOK.md fallback. Abstract-level info only: IWSLT 2026 (23rd workshop, July 3-4 2026, San Diego) covered ten shared-task tracks with 30+ participating teams, with this edition's emphasis specifically on speech generation and evaluation metrics -- the search snippets did NOT confirm whether a simultaneous-translation track was run at all in 2026 (2025's edition had one; this overview paper's visible abstract text does not explicitly list it among the highlighted tracks). Do not assume this paper has an aggregate simultaneous-track results table until a direct read of the PDF confirms the track existed this year -- that confirmation did not happen this cycle.",
+      "cross_reference_note_cycle79": "grep experiments/results.csv + experiments/*.json for keywords (evaluation/metric/chrf/judge/schematic) and git log -- the schematic-adherence judge diagnostic (h-judge-schematic-adherence-sliding-context-windows, cycle 56-57, experiments/judge_schematic_adherence_replay_context_windows.json) already validates this repo's own judge rubric; nothing in results.csv/*.json tests against IWSLT's own metrics or shared-task data, so this paper does not duplicate existing work, but it also doesn't yet ground anything concrete until the simultaneous-track question is resolved."
     },
     {
       "id": "huang2024-conversational-simulmt",
@@ -1424,11 +1433,21 @@
       "venue": "arXiv (2402.10552); published IWSLT 2025 (ACL Anthology 2025.iwslt-1.8)",
       "url": "https://arxiv.org/abs/2402.10552",
       "source": "websearch_cycle79",
-      "status": "extracted",
-      "summary": "",
-      "key_findings": [],
-      "relevant_to": [],
-      "extraction_note": "EXTRACT_PAPERS (cycle 79): WebFetch to arxiv.org EGRESS_BLOCKED (getaddrinfo ENOTFOUND) this session, fell back to WebSearch per PLAYBOOK.md fallback -- got a usable abstract-level summary. Venue corrected: this is an IWSLT 2025 paper (not 2026 as the id's year prefix loosely implied from the websearch_cycle79 discovery context), originally posted to arXiv Feb 2024. IMPORTANT caveat for GENERATE_HYPOTHESES testability per PLAYBOOK's never-cited-papers rule: the method (multi-turn dialogue-style decoding with alternating source/target chunks, reusing KV-cache) REQUIRES supervised fine-tuning of the LLM on a purpose-built dataset (tested only on Llama2-7b-chat, fine-tuned) -- it is not a zero-shot prompting trick usable as-is against a hosted API like Gemini/GPT without that fine-tuning step. This repo's architecture is API-only (see exposst2026-adaptive-masking-positioning / sasst2026-syntax-aware-chunking's own already-documented same caveat) -- same untestable-without-self-hosting pattern. A hypothesis grounded in this paper should either (a) not attempt the actual fine-tuned KV-cache mechanism, and instead test only the prompt-shape idea (reformatting translation history as alternating turns) as a zero-shot prompt variant against the existing hosted Gemini call, acknowledging this is a weaker, untested-by-the-paper approximation of their result, or (b) not be written at all if that distinction can't be made clearly -- do not claim this paper's own reported quality/latency numbers as evidence for a hosted-API-only prompt change."
+      "status": "read",
+      "summary": "SimulMTをマルチターンの対話として捉え直し、ソース/ターゲットの発話を交互のターンとしてデコーダに与え、KV-cacheを再利用することで効率的な同時翻訳を実現する手法。Llama2-7b-chatを専用データセットでfine-tuningして評価しており、ゼロショットでホスト型API(Gemini等)にそのまま適用できる手法ではない。",
+      "key_findings": [
+        "翻訳履歴を単一の連結テキストではなく、交互のsource/targetターン(対話形式)としてモデルに与える",
+        "KV-cacheの再利用により、ターンごとの再計算を避け効率を改善",
+        "Llama2-7b-chatの専用fine-tuningで評価されており、手法の核(KV-cache再利用)はホスト型APIでは再現不可",
+        "本リポジトリはAPI-onlyアーキテクチャのため、fine-tuning自体は適用できない(exposst2026-adaptive-masking-positioning / sasst2026-syntax-aware-chunkingと同じ制約パターン)",
+        "テスト可能な部分として残るのは「プロンプトの形(履歴を交互ターンとして提示する)」のみ――現在のllm_translator.pyは履歴を単一の<context>テキストブロックとして渡しており(context_window_size行をフラットに連結)、交互ターン形式は未検証"
+      ],
+      "relevant_to": [
+        "translation-context-formatting",
+        "llm-prompting"
+      ],
+      "extraction_note": "EXTRACT_PAPERS (cycle 79): WebFetch to arxiv.org EGRESS_BLOCKED (getaddrinfo ENOTFOUND) this session, fell back to WebSearch per PLAYBOOK.md fallback -- got a usable abstract-level summary. Venue corrected: this is an IWSLT 2025 paper (not 2026 as the id's year prefix loosely implied from the websearch_cycle79 discovery context), originally posted to arXiv Feb 2024. IMPORTANT caveat for GENERATE_HYPOTHESES testability per PLAYBOOK's never-cited-papers rule: the method (multi-turn dialogue-style decoding with alternating source/target chunks, reusing KV-cache) REQUIRES supervised fine-tuning of the LLM on a purpose-built dataset (tested only on Llama2-7b-chat, fine-tuned) -- it is not a zero-shot prompting trick usable as-is against a hosted API like Gemini/GPT without that fine-tuning step. This repo's architecture is API-only (see exposst2026-adaptive-masking-positioning / sasst2026-syntax-aware-chunking's own already-documented same caveat) -- same untestable-without-self-hosting pattern. A hypothesis grounded in this paper should either (a) not attempt the actual fine-tuned KV-cache mechanism, and instead test only the prompt-shape idea (reformatting translation history as alternating turns) as a zero-shot prompt variant against the existing hosted Gemini call, acknowledging this is a weaker, untested-by-the-paper approximation of their result, or (b) not be written at all if that distinction can't be made clearly -- do not claim this paper's own reported quality/latency numbers as evidence for a hosted-API-only prompt change.",
+      "cross_reference_note_cycle79": "grep experiments/results.csv + experiments/*.json for keywords (continuation/context/dialogue/multi-turn/alternating/conversation_history) and git log -- continuation_translation_mode (retranslate/append/anchor) is extensively tested (h_continuation_anchor_test family, h_append_continuation_test, validated 'append' mode -25% NE, now in production best-known config per experiments/results.csv notes), but that tests HOW a continuation batch is translated, not HOW prior context is formatted in the prompt sent to the LLM. Confirmed via src/real_time_translation/translation/llm_translator.py (_build_prompt area, context_window_size default 3): context_lines is a flat list joined with '\\n' into one <context> block (translate() method, ~line 270-316), not alternating source/target chat turns. So the 'alternating-turn context formatting' angle from this paper is NOT already tested -- a candidate for a future zero-shot-prompt-variant hypothesis (not the fine-tuned KV-cache mechanism itself, which this repo's API-only architecture cannot use)."
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
