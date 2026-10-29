@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 19,
-  "last_updated": "2026-10-29T00:12:03.195767+00:00",
+  "last_updated": "2026-10-29T12:09:19.596143+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2387,6 +2387,12 @@
       "to": "READ_PAPERS",
       "at": "2026-10-29T00:12:03.195735+00:00",
       "note": "cycle 79 EXTRACT_PAPERS complete for the 2 new stubs (abstract-level only, both WebFetch hosts egress-blocked, used WebSearch fallback per PLAYBOOK.md). Moving to READ_PAPERS for full summary/key_findings + cross-reference against experiments/ -- deferring that heavier write-up to the next invocation to keep this unit bounded."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-10-29T12:09:19.596057+00:00",
+      "note": "cycle 79 READ_PAPERS complete: wrote real summary + key_findings for the 2 new papers (iwslt2026-findings-overview, huang2024-conversational-simulmt), both marked status=read. Cross-referenced against experiments/results.csv (keyword grep for continuation/context/dialogue/multi-turn/alternating) and git log -- continuation_translation_mode is extensively tested but tests HOW a continuation batch translates, not HOW prior context is formatted in the prompt; confirmed via llm_translator.py that context is a flat joined text block, not alternating source/target turns, so huang2024's prompt-shape angle (zero-shot variant only, not the fine-tuned KV-cache mechanism) is a genuinely untested angle, logged in the paper's cross_reference_note_cycle79 for GENERATE_HYPOTHESES to pick up. Backlog currently at 5 queued/proposed hypotheses (checked both statuses), under the 6 cap but near it -- GENERATE_HYPOTHESES should prioritize processing existing needs_human entries over adding many new ones."
     }
   ]
 }
