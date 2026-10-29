@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 19,
-  "last_updated": "2026-10-29T00:10:20.343598+00:00",
+  "last_updated": "2026-10-29T00:12:03.195767+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2381,6 +2381,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-10-29T00:10:20.343564+00:00",
       "note": "cycle 79 SEARCH_PAPERS complete: 6 WebSearch queries covering the 4 playbook-flagged gap areas, 2 new candidate papers stubbed (iwslt2026-findings-overview, huang2024-conversational-simulmt), rest of results re-confirmed existing papers.json entries. Moving to EXTRACT_PAPERS to pull abstracts for the 2 new stubs."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-10-29T00:12:03.195735+00:00",
+      "note": "cycle 79 EXTRACT_PAPERS complete for the 2 new stubs (abstract-level only, both WebFetch hosts egress-blocked, used WebSearch fallback per PLAYBOOK.md). Moving to READ_PAPERS for full summary/key_findings + cross-reference against experiments/ -- deferring that heavier write-up to the next invocation to keep this unit bounded."
     }
   ]
 }
