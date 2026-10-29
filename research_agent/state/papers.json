@@ -1410,23 +1410,25 @@
       "venue": "IWSLT 2026 (ACL Anthology 2026.iwslt-1.39)",
       "url": "https://aclanthology.org/2026.iwslt-1.39/",
       "source": "websearch_cycle79",
-      "status": "found",
+      "status": "extracted",
       "summary": "",
       "key_findings": [],
-      "relevant_to": []
+      "relevant_to": [],
+      "extraction_note": "EXTRACT_PAPERS (cycle 79): WebFetch to aclanthology.org EGRESS_BLOCKED (getaddrinfo ENOTFOUND) this session, fell back to WebSearch per PLAYBOOK.md fallback. Abstract-level info only: IWSLT 2026 (23rd workshop, July 3-4 2026, San Diego) covered ten shared-task tracks with 30+ participating teams, with this edition's emphasis specifically on speech generation and evaluation metrics -- the search snippets did NOT confirm whether a simultaneous-translation track was run at all in 2026 (2025's edition had one; this overview paper's visible abstract text does not explicitly list it among the highlighted tracks). Do not assume this paper has an aggregate simultaneous-track results table until a direct read of the PDF confirms the track existed this year -- that confirmation did not happen this cycle."
     },
     {
       "id": "huang2024-conversational-simulmt",
       "title": "Conversational SimulMT: Efficient Simultaneous Translation with Large Language Models",
-      "authors": "",
+      "authors": "Minghan Wang, Thuy-Trang Vu, Yuxia Wang, Ehsan Shareghi, Gholamreza Haffari",
       "year": 2024,
-      "venue": "arXiv (2402.10552)",
+      "venue": "arXiv (2402.10552); published IWSLT 2025 (ACL Anthology 2025.iwslt-1.8)",
       "url": "https://arxiv.org/abs/2402.10552",
       "source": "websearch_cycle79",
-      "status": "found",
+      "status": "extracted",
       "summary": "",
       "key_findings": [],
-      "relevant_to": []
+      "relevant_to": [],
+      "extraction_note": "EXTRACT_PAPERS (cycle 79): WebFetch to arxiv.org EGRESS_BLOCKED (getaddrinfo ENOTFOUND) this session, fell back to WebSearch per PLAYBOOK.md fallback -- got a usable abstract-level summary. Venue corrected: this is an IWSLT 2025 paper (not 2026 as the id's year prefix loosely implied from the websearch_cycle79 discovery context), originally posted to arXiv Feb 2024. IMPORTANT caveat for GENERATE_HYPOTHESES testability per PLAYBOOK's never-cited-papers rule: the method (multi-turn dialogue-style decoding with alternating source/target chunks, reusing KV-cache) REQUIRES supervised fine-tuning of the LLM on a purpose-built dataset (tested only on Llama2-7b-chat, fine-tuned) -- it is not a zero-shot prompting trick usable as-is against a hosted API like Gemini/GPT without that fine-tuning step. This repo's architecture is API-only (see exposst2026-adaptive-masking-positioning / sasst2026-syntax-aware-chunking's own already-documented same caveat) -- same untestable-without-self-hosting pattern. A hypothesis grounded in this paper should either (a) not attempt the actual fine-tuned KV-cache mechanism, and instead test only the prompt-shape idea (reformatting translation history as alternating turns) as a zero-shot prompt variant against the existing hosted Gemini call, acknowledging this is a weaker, untested-by-the-paper approximation of their result, or (b) not be written at all if that distinction can't be made clearly -- do not claim this paper's own reported quality/latency numbers as evidence for a hosted-API-only prompt change."
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
