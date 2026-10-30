@@ -1337,8 +1337,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.1,
       "approval": "auto_approved",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/20261030_h_alternating_turn_context_replay.json"
+      ],
       "result_summary": ""
     }
   ]

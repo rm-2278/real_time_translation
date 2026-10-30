@@ -1,0 +1,558 @@
+{
+  "date": "2026-10-30",
+  "experiment_name": "alternating_turn_context_replay",
+  "domain": null,
+  "input": {
+    "type": "replay",
+    "source_experiment": "experiments/20260915_h_continuation_anchor_test_rpmunlimited.json",
+    "note": "Not a live pipeline run -- Deepgram listen-websocket confirmed blocked this session (HTTP 400 'Connection header did not include upgrade', same signature as every prior cycle, re-tested this cycle with a freshly-built python3.13 venv). Replays the same already-recorded, matched (asr, translation) segment pairs through LLMTranslator.translate_stream() directly, sequentially/single-threaded. Only the prompt's context/history formatting (history_pairs vs context_lines+previous_translations) differs between conditions; the prior-window content and size (3 segments) are identical."
+  },
+  "models": {
+    "deepgram_model": "nova-3-general",
+    "deepgram_language": "en",
+    "llm_provider": "gemini",
+    "llm_model": "gemini-3-flash-preview",
+    "gemini_thinking_budget": 0
+  },
+  "config": {
+    "context_window": 3,
+    "repeats": 2
+  },
+  "results": {
+    "baseline_replay": {
+      "full_translations_per_repeat": [
+        "詳細についてはいくつか省略しますが、その間に行われるいくつかの正規化ステップについての詳細は省略しますが、これはあくまでハイレベルなプレビューですので。その後、プロセスはアテンションブロックと多層パーセプトロンの間を行き来し、そして最終的に、これらすべての情報が何らかの形で、そのシーケンスの最後にあるベクトルに集約され、そして、その最後のベクトルに対して特定の操作を行うことで、確率分布を生成し、すべての可能なトークン、つまりテキストのあらゆる断片にわたる、そして、先ほど申し上げたように、何が次に来るかを予測するツールを一度手に入れれば、少量のシードテキストを入力し、それを繰り返し行わせることで、そして何度も繰り返させることができます。ご存知の方もいらっしゃるかもしれませんが、ChatGPTが登場する前、初期の物語やエッセイを自動補完させていたのです、あるこのようなツールをチャットボットにするには、ユーザーの最初の質問やプロンプトを、次のように利用します。",
+        "詳細についてはいくつか省略しますが、その間に行われるいくつかの正規化ステップについての詳細は省略しますが、これはあくまでハイレベルなプレビューですので。その後、プロセスはアテンションブロックと多層パーセプトロンの間を行き来し、そして最終的に、これらすべての情報を得られることが期待されます。何らかの形で、そのシーケンスの最後にあるベクトルに集約され、そして、その最後のベクトルに対して特定の操作を行うことで、確率分布を生成し、すべての可能なトークン、つまりテキストのあらゆる断片にわたる、そして、先ほど申し上げたように、何が次に来るかを予測するツールを一度手に入れれば、少量のシードテキストを入力し、それを繰り返し行わせることで、そして何度も繰り返すことができます。ご存知の方もいらっしゃるかもしれませんが、ChatGPTが登場する前、初期の物語やエッセイを、ある特定の指示に基づいて自動補完させていたのです。このようなツールをチャットボットにするには、ユーザーの最初の質問やプロンプトを、次のように利用します。"
+      ],
+      "segments_per_repeat": [
+        [
+          {
+            "index": 0,
+            "source_text": "I'm glossing over some details",
+            "translation": "詳細についてはいくつか省略しますが、",
+            "ttft_seconds": 1.119504690170288,
+            "total_seconds": 1.1496856212615967,
+            "error": null
+          },
+          {
+            "index": 1,
+            "source_text": "I'm glossing over some details about some normalization steps that happen in between, but",
+            "translation": "その間に行われるいくつかの正規化ステップについての詳細は省略しますが、",
+            "ttft_seconds": 0.883075475692749,
+            "total_seconds": 0.9530565738677979,
+            "error": null
+          },
+          {
+            "index": 2,
+            "source_text": "this is after all a high level preview. After that, the process",
+            "translation": "これはあくまでハイレベルなプレビューですので。その後、プロセスは",
+            "ttft_seconds": 0.811967134475708,
+            "total_seconds": 0.8802697658538818,
+            "error": null
+          },
+          {
+            "index": 3,
+            "source_text": "forth between attention blocks and multilayer perceptron",
+            "translation": "アテンションブロックと多層パーセプトロンの間を行き来し、",
+            "ttft_seconds": 0.7756071090698242,
+            "total_seconds": 0.8802824020385742,
+            "error": null
+          },
+          {
+            "index": 4,
+            "source_text": "Until at the very end, the hope is that all of the",
+            "translation": "そして最終的に、これらすべての情報が",
+            "ttft_seconds": 0.7136142253875732,
+            "total_seconds": 0.789931058883667,
+            "error": null
+          },
+          {
+            "index": 5,
+            "source_text": "has somehow been baked into the very last vector in",
+            "translation": "何らかの形で、そのシーケンスの最後にあるベクトルに集約され、",
+            "ttft_seconds": 0.8324525356292725,
+            "total_seconds": 0.9082229137420654,
+            "error": null
+          },
+          {
+            "index": 6,
+            "source_text": "We then perform a certain operation on that last vector, that produces a probability distribution",
+            "translation": "そして、その最後のベクトルに対して特定の操作を行うことで、確率分布を生成し、",
+            "ttft_seconds": 0.8171179294586182,
+            "total_seconds": 0.9370503425598145,
+            "error": null
+          },
+          {
+            "index": 7,
+            "source_text": "over all possible tokens, all possible little chunks of text",
+            "translation": "すべての可能なトークン、つまりテキストのあらゆる断片にわたる、",
+            "ttft_seconds": 0.81178879737854,
+            "total_seconds": 0.9083807468414307,
+            "error": null
+          },
+          {
+            "index": 8,
+            "source_text": "And like I said, once you have a tool that predicts what",
+            "translation": "そして、先ほど申し上げたように、何が次に来るかを予測するツールを一度手に入れれば、",
+            "ttft_seconds": 0.8945217132568359,
+            "total_seconds": 0.9014251232147217,
+            "error": null
+          },
+          {
+            "index": 9,
+            "source_text": "you can feed it a little bit of seed text and have it repeatedly",
+            "translation": "少量のシードテキストを入力し、それを繰り返し行わせることで、",
+            "ttft_seconds": 0.8717970848083496,
+            "total_seconds": 0.943734884262085,
+            "error": null
+          },
+          {
+            "index": 10,
+            "source_text": "and then repeating over and over. Some of you in the know may",
+            "translation": "そして何度も繰り返させることができます。ご存知の方もいらっしゃるかもしれませんが、",
+            "ttft_seconds": 1.1756460666656494,
+            "total_seconds": 1.1805531978607178,
+            "error": null
+          },
+          {
+            "index": 11,
+            "source_text": "before chat GPT came into the scene, this is what early",
+            "translation": "ChatGPTが登場する前、初期の",
+            "ttft_seconds": 0.8673574924468994,
+            "total_seconds": 0.8734781742095947,
+            "error": null
+          },
+          {
+            "index": 12,
+            "source_text": "You would have it auto complete stories and essays based on an",
+            "translation": "物語やエッセイを自動補完させていたのです、ある",
+            "ttft_seconds": 0.804157018661499,
+            "total_seconds": 0.8907878398895264,
+            "error": null
+          },
+          {
+            "index": 13,
+            "source_text": "To make a tool like this into a chatbot,",
+            "translation": "このようなツールをチャットボットにするには、",
+            "ttft_seconds": 0.9113502502441406,
+            "total_seconds": 0.978952169418335,
+            "error": null
+          },
+          {
+            "index": 14,
+            "source_text": "and then you would use the user's initial question or prompt as",
+            "translation": "ユーザーの最初の質問やプロンプトを、次のように利用します。",
+            "ttft_seconds": 0.7447564601898193,
+            "total_seconds": 0.8227403163909912,
+            "error": null
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "source_text": "I'm glossing over some details",
+            "translation": "詳細についてはいくつか省略しますが、",
+            "ttft_seconds": 1.0370121002197266,
+            "total_seconds": 1.090848684310913,
+            "error": null
+          },
+          {
+            "index": 1,
+            "source_text": "I'm glossing over some details about some normalization steps that happen in between, but",
+            "translation": "その間に行われるいくつかの正規化ステップについての詳細は省略しますが、",
+            "ttft_seconds": 0.7738256454467773,
+            "total_seconds": 0.8063089847564697,
+            "error": null
+          },
+          {
+            "index": 2,
+            "source_text": "this is after all a high level preview. After that, the process",
+            "translation": "これはあくまでハイレベルなプレビューですので。その後、プロセスは",
+            "ttft_seconds": 0.87894606590271,
+            "total_seconds": 0.982623815536499,
+            "error": null
+          },
+          {
+            "index": 3,
+            "source_text": "forth between attention blocks and multilayer perceptron",
+            "translation": "アテンションブロックと多層パーセプトロンの間を行き来し、",
+            "ttft_seconds": 0.7760086059570312,
+            "total_seconds": 0.9018104076385498,
+            "error": null
+          },
+          {
+            "index": 4,
+            "source_text": "Until at the very end, the hope is that all of the",
+            "translation": "そして最終的に、これらすべての情報を得られることが期待されます。",
+            "ttft_seconds": 0.7172338962554932,
+            "total_seconds": 0.8277678489685059,
+            "error": null
+          },
+          {
+            "index": 5,
+            "source_text": "has somehow been baked into the very last vector in",
+            "translation": "何らかの形で、そのシーケンスの最後にあるベクトルに集約され、",
+            "ttft_seconds": 0.8494884967803955,
+            "total_seconds": 0.8845188617706299,
+            "error": null
+          },
+          {
+            "index": 6,
+            "source_text": "We then perform a certain operation on that last vector, that produces a probability distribution",
+            "translation": "そして、その最後のベクトルに対して特定の操作を行うことで、確率分布を生成し、",
+            "ttft_seconds": 0.8714389801025391,
+            "total_seconds": 0.9498245716094971,
+            "error": null
+          },
+          {
+            "index": 7,
+            "source_text": "over all possible tokens, all possible little chunks of text",
+            "translation": "すべての可能なトークン、つまりテキストのあらゆる断片にわたる、",
+            "ttft_seconds": 0.735971212387085,
+            "total_seconds": 0.8284652233123779,
+            "error": null
+          },
+          {
+            "index": 8,
+            "source_text": "And like I said, once you have a tool that predicts what",
+            "translation": "そして、先ほど申し上げたように、何が次に来るかを予測するツールを一度手に入れれば、",
+            "ttft_seconds": 0.9683201313018799,
+            "total_seconds": 0.9882197380065918,
+            "error": null
+          },
+          {
+            "index": 9,
+            "source_text": "you can feed it a little bit of seed text and have it repeatedly",
+            "translation": "少量のシードテキストを入力し、それを繰り返し行わせることで、",
+            "ttft_seconds": 0.8276870250701904,
+            "total_seconds": 0.8309781551361084,
+            "error": null
+          },
+          {
+            "index": 10,
+            "source_text": "and then repeating over and over. Some of you in the know may",
+            "translation": "そして何度も繰り返すことができます。ご存知の方もいらっしゃるかもしれませんが、",
+            "ttft_seconds": 0.8729417324066162,
+            "total_seconds": 0.8779096603393555,
+            "error": null
+          },
+          {
+            "index": 11,
+            "source_text": "before chat GPT came into the scene, this is what early",
+            "translation": "ChatGPTが登場する前、初期の",
+            "ttft_seconds": 0.8513591289520264,
+            "total_seconds": 0.8569769859313965,
+            "error": null
+          },
+          {
+            "index": 12,
+            "source_text": "You would have it auto complete stories and essays based on an",
+            "translation": "物語やエッセイを、ある特定の指示に基づいて自動補完させていたのです。",
+            "ttft_seconds": 0.7579765319824219,
+            "total_seconds": 0.86212158203125,
+            "error": null
+          },
+          {
+            "index": 13,
+            "source_text": "To make a tool like this into a chatbot,",
+            "translation": "このようなツールをチャットボットにするには、",
+            "ttft_seconds": 0.8095343112945557,
+            "total_seconds": 0.8588342666625977,
+            "error": null
+          },
+          {
+            "index": 14,
+            "source_text": "and then you would use the user's initial question or prompt as",
+            "translation": "ユーザーの最初の質問やプロンプトを、次のように利用します。",
+            "ttft_seconds": 0.902517557144165,
+            "total_seconds": 0.9964518547058105,
+            "error": null
+          }
+        ]
+      ]
+    },
+    "alternating_turns": {
+      "full_translations_per_repeat": [
+        "詳細についてはいくつか省略しますが、その間に行われるいくつかの正規化ステップについての詳細は省略しますが、これはあくまでハイレベルなプレビューですので。その後、プロセスはアテンションブロックと多層パーセプトロンの間を行き来し、最終的に、これらすべての成分が、何らかの形で、最後のベクトルに集約されることが期待されます。そのベクトルは、その最後のベクトルに対して特定の操作を行うことで、確率分布を生成し、考えられ得るすべてのトークン、つまりテキストの断片すべてにわたる確率分布を生成し、そして申し上げた通り、次に来るものを予測するツールを一度手に入れれば、種となるテキストを少し入力し、それを繰り返すことで、何度も繰り返させることができます。ご存知の方もいらっしゃるかもしれませんが、ChatGPTが登場する前、初期の物語やエッセイを自動補完させていたのですが、それはあるこのようなツールをチャットボットにするには、そして、ユーザーの最初の質問やプロンプトを、",
+        "詳細についてはいくつか省略しますが、その間に行われるいくつかの正規化ステップについての詳細は省略しますが、これはあくまでハイレベルなプレビューですので。その後、プロセスはアテンションブロックと多層パーセプトロンの間を行き来し、最終的に、これらすべての何らかの形で、最後のベクトルに集約されることが期待されます。そのベクトルは、その最後のベクトルに対して特定の操作を行い、確率分布を生成します。考えられるすべてのトークン、つまりテキストの断片すべてにわたる確率分布を生成し、そして申し上げた通り、次に来るものを予測するツールを一度手に入れれば、シードテキストを少し入力して、繰り返し何度も繰り返させることができます。ご存知の方もいらっしゃるかもしれませんが、ChatGPTが登場する前、初期の物語やエッセイを自動補完させていたのですが、それはあるこのようなツールをチャットボットにするには、そして、ユーザーの最初の質問やプロンプトを、"
+      ],
+      "segments_per_repeat": [
+        [
+          {
+            "index": 0,
+            "source_text": "I'm glossing over some details",
+            "translation": "詳細についてはいくつか省略しますが、",
+            "ttft_seconds": 1.1489222049713135,
+            "total_seconds": 1.1937966346740723,
+            "error": null
+          },
+          {
+            "index": 1,
+            "source_text": "I'm glossing over some details about some normalization steps that happen in between, but",
+            "translation": "その間に行われるいくつかの正規化ステップについての詳細は省略しますが、",
+            "ttft_seconds": 0.8081254959106445,
+            "total_seconds": 0.8993587493896484,
+            "error": null
+          },
+          {
+            "index": 2,
+            "source_text": "this is after all a high level preview. After that, the process",
+            "translation": "これはあくまでハイレベルなプレビューですので。その後、プロセスは",
+            "ttft_seconds": 0.6895031929016113,
+            "total_seconds": 0.763343334197998,
+            "error": null
+          },
+          {
+            "index": 3,
+            "source_text": "forth between attention blocks and multilayer perceptron",
+            "translation": "アテンションブロックと多層パーセプトロンの間を行き来し、",
+            "ttft_seconds": 0.6870460510253906,
+            "total_seconds": 0.787081241607666,
+            "error": null
+          },
+          {
+            "index": 4,
+            "source_text": "Until at the very end, the hope is that all of the",
+            "translation": "最終的に、これらすべての成分が、",
+            "ttft_seconds": 0.9183921813964844,
+            "total_seconds": 0.923778772354126,
+            "error": null
+          },
+          {
+            "index": 5,
+            "source_text": "has somehow been baked into the very last vector in",
+            "translation": "何らかの形で、最後のベクトルに集約されることが期待されます。そのベクトルは、",
+            "ttft_seconds": 0.9155030250549316,
+            "total_seconds": 0.9855132102966309,
+            "error": null
+          },
+          {
+            "index": 6,
+            "source_text": "We then perform a certain operation on that last vector, that produces a probability distribution",
+            "translation": "その最後のベクトルに対して特定の操作を行うことで、確率分布を生成し、",
+            "ttft_seconds": 0.8570137023925781,
+            "total_seconds": 0.9541127681732178,
+            "error": null
+          },
+          {
+            "index": 7,
+            "source_text": "over all possible tokens, all possible little chunks of text",
+            "translation": "考えられ得るすべてのトークン、つまりテキストの断片すべてにわたる確率分布を生成し、",
+            "ttft_seconds": 1.1474559307098389,
+            "total_seconds": 1.1533691883087158,
+            "error": null
+          },
+          {
+            "index": 8,
+            "source_text": "And like I said, once you have a tool that predicts what",
+            "translation": "そして申し上げた通り、次に来るものを予測するツールを一度手に入れれば、",
+            "ttft_seconds": 1.033459186553955,
+            "total_seconds": 1.038625717163086,
+            "error": null
+          },
+          {
+            "index": 9,
+            "source_text": "you can feed it a little bit of seed text and have it repeatedly",
+            "translation": "種となるテキストを少し入力し、それを繰り返すことで、",
+            "ttft_seconds": 1.005573034286499,
+            "total_seconds": 1.0113015174865723,
+            "error": null
+          },
+          {
+            "index": 10,
+            "source_text": "and then repeating over and over. Some of you in the know may",
+            "translation": "何度も繰り返させることができます。ご存知の方もいらっしゃるかもしれませんが、",
+            "ttft_seconds": 0.955460786819458,
+            "total_seconds": 0.9624714851379395,
+            "error": null
+          },
+          {
+            "index": 11,
+            "source_text": "before chat GPT came into the scene, this is what early",
+            "translation": "ChatGPTが登場する前、初期の",
+            "ttft_seconds": 0.7468123435974121,
+            "total_seconds": 0.7891459465026855,
+            "error": null
+          },
+          {
+            "index": 12,
+            "source_text": "You would have it auto complete stories and essays based on an",
+            "translation": "物語やエッセイを自動補完させていたのですが、それはある",
+            "ttft_seconds": 3.1851768493652344,
+            "total_seconds": 3.3062562942504883,
+            "error": null
+          },
+          {
+            "index": 13,
+            "source_text": "To make a tool like this into a chatbot,",
+            "translation": "このようなツールをチャットボットにするには、",
+            "ttft_seconds": 0.7282772064208984,
+            "total_seconds": 0.7804923057556152,
+            "error": null
+          },
+          {
+            "index": 14,
+            "source_text": "and then you would use the user's initial question or prompt as",
+            "translation": "そして、ユーザーの最初の質問やプロンプトを、",
+            "ttft_seconds": 0.8262526988983154,
+            "total_seconds": 0.8636353015899658,
+            "error": null
+          }
+        ],
+        [
+          {
+            "index": 0,
+            "source_text": "I'm glossing over some details",
+            "translation": "詳細についてはいくつか省略しますが、",
+            "ttft_seconds": 0.9933140277862549,
+            "total_seconds": 1.0626347064971924,
+            "error": null
+          },
+          {
+            "index": 1,
+            "source_text": "I'm glossing over some details about some normalization steps that happen in between, but",
+            "translation": "その間に行われるいくつかの正規化ステップについての詳細は省略しますが、",
+            "ttft_seconds": 0.66066575050354,
+            "total_seconds": 0.7619566917419434,
+            "error": null
+          },
+          {
+            "index": 2,
+            "source_text": "this is after all a high level preview. After that, the process",
+            "translation": "これはあくまでハイレベルなプレビューですので。その後、プロセスは",
+            "ttft_seconds": 0.799574613571167,
+            "total_seconds": 0.889570951461792,
+            "error": null
+          },
+          {
+            "index": 3,
+            "source_text": "forth between attention blocks and multilayer perceptron",
+            "translation": "アテンションブロックと多層パーセプトロンの間を行き来し、",
+            "ttft_seconds": 0.7701420783996582,
+            "total_seconds": 0.8758423328399658,
+            "error": null
+          },
+          {
+            "index": 4,
+            "source_text": "Until at the very end, the hope is that all of the",
+            "translation": "最終的に、これらすべての",
+            "ttft_seconds": 0.9800975322723389,
+            "total_seconds": 0.9836468696594238,
+            "error": null
+          },
+          {
+            "index": 5,
+            "source_text": "has somehow been baked into the very last vector in",
+            "translation": "何らかの形で、最後のベクトルに集約されることが期待されます。そのベクトルは、",
+            "ttft_seconds": 0.9412510395050049,
+            "total_seconds": 0.9435379505157471,
+            "error": null
+          },
+          {
+            "index": 6,
+            "source_text": "We then perform a certain operation on that last vector, that produces a probability distribution",
+            "translation": "その最後のベクトルに対して特定の操作を行い、確率分布を生成します。",
+            "ttft_seconds": 0.9886956214904785,
+            "total_seconds": 0.9899115562438965,
+            "error": null
+          },
+          {
+            "index": 7,
+            "source_text": "over all possible tokens, all possible little chunks of text",
+            "translation": "考えられるすべてのトークン、つまりテキストの断片すべてにわたる確率分布を生成し、",
+            "ttft_seconds": 0.8901433944702148,
+            "total_seconds": 0.9842522144317627,
+            "error": null
+          },
+          {
+            "index": 8,
+            "source_text": "And like I said, once you have a tool that predicts what",
+            "translation": "そして申し上げた通り、次に来るものを予測するツールを一度手に入れれば、",
+            "ttft_seconds": 0.8261048793792725,
+            "total_seconds": 0.8311684131622314,
+            "error": null
+          },
+          {
+            "index": 9,
+            "source_text": "you can feed it a little bit of seed text and have it repeatedly",
+            "translation": "シードテキストを少し入力して、繰り返し",
+            "ttft_seconds": 0.8844387531280518,
+            "total_seconds": 0.8921647071838379,
+            "error": null
+          },
+          {
+            "index": 10,
+            "source_text": "and then repeating over and over. Some of you in the know may",
+            "translation": "何度も繰り返させることができます。ご存知の方もいらっしゃるかもしれませんが、",
+            "ttft_seconds": 0.8340561389923096,
+            "total_seconds": 0.8364503383636475,
+            "error": null
+          },
+          {
+            "index": 11,
+            "source_text": "before chat GPT came into the scene, this is what early",
+            "translation": "ChatGPTが登場する前、初期の",
+            "ttft_seconds": 0.6791903972625732,
+            "total_seconds": 0.7298998832702637,
+            "error": null
+          },
+          {
+            "index": 12,
+            "source_text": "You would have it auto complete stories and essays based on an",
+            "translation": "物語やエッセイを自動補完させていたのですが、それはある",
+            "ttft_seconds": 0.9232077598571777,
+            "total_seconds": 0.9277257919311523,
+            "error": null
+          },
+          {
+            "index": 13,
+            "source_text": "To make a tool like this into a chatbot,",
+            "translation": "このようなツールをチャットボットにするには、",
+            "ttft_seconds": 0.749098539352417,
+            "total_seconds": 0.8173737525939941,
+            "error": null
+          },
+          {
+            "index": 14,
+            "source_text": "and then you would use the user's initial question or prompt as",
+            "translation": "そして、ユーザーの最初の質問やプロンプトを、",
+            "ttft_seconds": 0.7369296550750732,
+            "total_seconds": 0.7503681182861328,
+            "error": null
+          }
+        ]
+      ]
+    }
+  },
+  "metrics": {
+    "baseline_replay": {
+      "repeats": 2,
+      "segments_per_repeat": 15,
+      "mean_output_chars": 444.5,
+      "mean_ttft_seconds": 0.8554991801579793,
+      "retention_scores": [
+        92,
+        90
+      ],
+      "mean_retention_score": 91.0,
+      "within_condition_retention_stdev": 1.4142135623730951
+    },
+    "alternating_turns": {
+      "repeats": 2,
+      "segments_per_repeat": 15,
+      "mean_output_chars": 422.5,
+      "mean_ttft_seconds": 0.9436628023783366,
+      "retention_scores": [
+        90,
+        90
+      ],
+      "mean_retention_score": 90.0,
+      "within_condition_retention_stdev": 0.0
+    },
+    "mean_retention_delta_alt_minus_baseline": -1.0,
+    "within_condition_noise_floor_stdev": 1.4142135623730951,
+    "delta_within_noise_floor": true
+  },
+  "notes": "h-alternating-turn-context-format. Grounded in huang2024-conversational-simulmt. REPEATS=2 full independent passes per condition so a same-condition-twice noise check (reflections.md cycle 19-21's method) can be done before trusting mean_retention_delta_alt_minus_baseline as a real effect rather than resampling noise.",
+  "created_at_utc": "2026-10-30T12:18:59.144506+00:00"
+}

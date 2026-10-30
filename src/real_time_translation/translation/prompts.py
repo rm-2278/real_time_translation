@@ -134,6 +134,35 @@ def previous_translations_block(lines: list[str]) -> str:
     )
 
 
+def alternating_turns_block(pairs: list[tuple[str, str]]) -> str:
+    """Prior source/translation pairs as one chronologically-interleaved block.
+
+    h-alternating-turn-context-format (research_agent/state/hypotheses.json):
+    an alternative to building <context> (source lines only) and
+    <previous_translation> (target lines only) as two separate flat lists --
+    this merges them into one <history> block where each turn pairs a prior
+    source line with the translation it actually produced, per
+    huang2024-conversational-simulmt's dialogue-style context framing
+    (prompt-shape only; that paper's own fine-tuned, KV-cache-reusing decoder
+    mechanism is not replicated here -- this repo is hosted-API-only).
+    """
+    if not pairs:
+        return ""
+    turns = [
+        f"<source>{src}</source>\n<translation>{tgt}</translation>" for src, tgt in pairs
+    ]
+    joined = "\n".join(turns)
+    return (
+        f"<history>\n{joined}\n</history>\n"
+        "The above is the recent speech (<source>) paired with the Japanese "
+        "caption you already produced for it (<translation>), shown in "
+        "chronological order so you can see which source line produced "
+        "which translation. Use it the same way you would use <context> "
+        "and <previous_translation>: to resolve pronouns/ASR errors and to "
+        "continue your own prior wording without restating it.\n"
+    )
+
+
 def length_budget_block(target_chars: int) -> str:
     """Reading-speed-budget-aware translation (caption-readability track).
 

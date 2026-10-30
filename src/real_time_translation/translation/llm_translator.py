@@ -29,6 +29,7 @@ from real_time_translation.translation.domain_packs import (
 from real_time_translation.translation.prompts import (
     MONOTONIC_STYLE_BLOCK,
     SYSTEM_PROMPT_TEMPLATE,
+    alternating_turns_block,
     length_budget_block,
     previous_translations_block,
     prior_translation_block,
@@ -273,6 +274,7 @@ class LLMTranslator:
         monotonic_style: bool = False,
         delta_only: bool = False,
         previous_translations: list[str] | None = None,
+        history_pairs: list[tuple[str, str]] | None = None,
     ) -> str:
         if context_lines is None:
             context_lines = self._context_buffer[-self._context_window_size :]
@@ -306,6 +308,22 @@ class LLMTranslator:
             if previous_translations
             else ""
         )
+
+        # h-alternating-turn-context-format: when history_pairs is given,
+        # replace the separate context_block/<previous_translation> pair
+        # with one chronologically-interleaved <history> block instead.
+        # Existing behavior (both separate flat blocks) is unchanged when
+        # history_pairs is None, which every current caller still passes.
+        if history_pairs is not None:
+            history_block = alternating_turns_block(history_pairs)
+            return (
+                f"{dictionary_block}"
+                f"{history_block}"
+                f"{prior_block}"
+                f"{budget_block}"
+                f"{monotonic_block}"
+                f"<target>\n{text}\n</target>"
+            )
 
         return (
             f"{dictionary_block}"
@@ -613,6 +631,7 @@ class LLMTranslator:
         monotonic_style: bool = False,
         delta_only: bool = False,
         previous_translations: list[str] | None = None,
+        history_pairs: list[tuple[str, str]] | None = None,
     ) -> AsyncIterator[str]:
         """Translate text, yielding output chunks as they are generated.
 
@@ -649,6 +668,13 @@ class LLMTranslator:
         `previous_translations`: the captions the viewer has just read, so
         this one can continue them instead of restating or orphaning a
         clause. None (default) leaves the prompt unchanged.
+
+        history_pairs: h-alternating-turn-context-format. Optional list of
+        (source_line, translation_line) pairs in chronological order. When
+        given, REPLACES context_lines/previous_translations with one
+        interleaved <history> block (see alternating_turns_block()) instead
+        of two separate flat ones. None (default) leaves the prompt
+        unchanged.
         """
         if not text.strip():
             return
@@ -661,6 +687,7 @@ class LLMTranslator:
             target_chars=target_chars,
             monotonic_style=monotonic_style,
             delta_only=delta_only,
+            history_pairs=history_pairs,
         )
 
         full_text = ""
