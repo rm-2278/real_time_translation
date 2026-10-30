@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 19,
-  "last_updated": "2026-10-30T12:14:29.078719+00:00",
+  "last_updated": "2026-10-30T12:14:57.928112+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2399,6 +2399,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-10-30T12:14:29.078686+00:00",
       "note": "cycle 79: wrote 1 new hypothesis (h-alternating-turn-context-format, grounded in huang2024-conversational-simulmt's dialogue-style context framing, uses_existing_clips=true, est $0.10) -- the only genuinely new, non-blocked-and-non-self-approval-controversy item for this cycle. Did not add a 2nd/3rd hypothesis: backlog already has 5 queued/proposed items (at the ~6 cap), and all 3 already-queued+approved_by_human hypotheses remain environment-blocked this cycle (OpenAI api.openai.com CONNECT-rejected, confirmed again; Deepgram listen-websocket HTTP 400 'Connection header did not include upgrade', confirmed again with a freshly-built python3.13 venv; h-continuous-rating-cps-calibration needs rm-2278's own viewing time). The 2 proposed/needs_human hypotheses are left untouched in pending_approval.json per PLAYBOOK.md WAITING_APPROVAL -- NOT re-testing the self-approval question a 3rd time this week (see reflections.md's immediately-preceding cycle-79 entries from earlier today); that needs a human decision (see pending_approval.json + the cycle79 JA interim report), not another unattended re-test. Moving to HUMAN_APPROVAL to process the one new hypothesis only."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-10-30T12:14:57.928088+00:00",
+      "note": "cycle 79 HUMAN_APPROVAL: check-budget(0.1) for h-alternating-turn-context-format returned AUTO_APPROVE, uses_existing_clips=true -- set approval=auto_approved, status=queued (normal path for a brand-new hypothesis, not a re-litigation of the 2 already-escalated needs_human items, which remain untouched in pending_approval.json). At least 1 hypothesis is now queued with approval != needs_human, so advancing to RUN_EXPERIMENTS per PLAYBOOK.md."
     }
   ]
 }
