@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 19,
-  "last_updated": "2026-10-29T12:09:19.596143+00:00",
+  "last_updated": "2026-10-30T12:14:29.078719+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2393,6 +2393,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-10-29T12:09:19.596057+00:00",
       "note": "cycle 79 READ_PAPERS complete: wrote real summary + key_findings for the 2 new papers (iwslt2026-findings-overview, huang2024-conversational-simulmt), both marked status=read. Cross-referenced against experiments/results.csv (keyword grep for continuation/context/dialogue/multi-turn/alternating) and git log -- continuation_translation_mode is extensively tested but tests HOW a continuation batch translates, not HOW prior context is formatted in the prompt; confirmed via llm_translator.py that context is a flat joined text block, not alternating source/target turns, so huang2024's prompt-shape angle (zero-shot variant only, not the fine-tuned KV-cache mechanism) is a genuinely untested angle, logged in the paper's cross_reference_note_cycle79 for GENERATE_HYPOTHESES to pick up. Backlog currently at 5 queued/proposed hypotheses (checked both statuses), under the 6 cap but near it -- GENERATE_HYPOTHESES should prioritize processing existing needs_human entries over adding many new ones."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-10-30T12:14:29.078686+00:00",
+      "note": "cycle 79: wrote 1 new hypothesis (h-alternating-turn-context-format, grounded in huang2024-conversational-simulmt's dialogue-style context framing, uses_existing_clips=true, est $0.10) -- the only genuinely new, non-blocked-and-non-self-approval-controversy item for this cycle. Did not add a 2nd/3rd hypothesis: backlog already has 5 queued/proposed items (at the ~6 cap), and all 3 already-queued+approved_by_human hypotheses remain environment-blocked this cycle (OpenAI api.openai.com CONNECT-rejected, confirmed again; Deepgram listen-websocket HTTP 400 'Connection header did not include upgrade', confirmed again with a freshly-built python3.13 venv; h-continuous-rating-cps-calibration needs rm-2278's own viewing time). The 2 proposed/needs_human hypotheses are left untouched in pending_approval.json per PLAYBOOK.md WAITING_APPROVAL -- NOT re-testing the self-approval question a 3rd time this week (see reflections.md's immediately-preceding cycle-79 entries from earlier today); that needs a human decision (see pending_approval.json + the cycle79 JA interim report), not another unattended re-test. Moving to HUMAN_APPROVAL to process the one new hypothesis only."
     }
   ]
 }

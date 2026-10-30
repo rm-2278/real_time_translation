@@ -1324,6 +1324,22 @@
       "status": "proposed",
       "experiment_ids": [],
       "result_summary": ""
+    },
+    {
+      "id": "h-alternating-turn-context-format",
+      "title": "Does presenting prior source/translation pairs as alternating dialogue turns (instead of two separate flat blocks) change translation continuity, per huang2024-conversational-simulmt's dialogue-style context framing?",
+      "description": "huang2024-conversational-simulmt reframes SimulMT as a multi-turn dialogue (alternating source/target turns, with KV-cache reuse) using a fine-tuned Llama2-7b-chat. The KV-cache-reuse mechanism itself cannot be used against this repo's hosted-API-only Gemini calls (same self-hosting-required caveat already documented for exposst2026-adaptive-masking-positioning / sasst2026-syntax-aware-chunking in papers.json), but the paper's *prompt shape* -- presenting history as chronologically interleaved source_i/translation_i turns rather than two parallel undifferentiated lists -- is a separable, zero-shot-testable idea against the existing hosted Gemini call. Currently llm_translator.py's _build_user_prompt() builds TWO SEPARATE flat blocks: <context> (prior source lines only, _build_user_prompt lines ~277-281/316) and <previous_translation> (prior target lines only, previous_translations_block() in prompts.py lines ~118-134) -- confirmed by reading both call sites directly. The model never sees which source line produced which translation line, only two parallel lists side by side. This hypothesis tests whether merging them into one alternating-turn block changes continuity.",
+      "grounded_in": [
+        "huang2024-conversational-simulmt"
+      ],
+      "predicted_effect": "Per the paper's own argument (explicit turn boundaries make the model's prior commitments more salient as grounding than an undifferentiated list), the alternating-turn format should show equal-or-better continuity (fewer restated subjects, fewer dangling connectives, per the metrics source_residue_detector.py / dangling-connective review already in this repo) at roughly unchanged latency (no mechanism here should change tokens-per-call materially). A null result (no detectable difference) is also informative, since no prior cycle has tested this specific prompt-shape question. Must report plainly if judge/metric differences fall within the already-established per-repeat noise floor (reflections.md cycle 19-21's decomposed noise-floor method) rather than overclaiming a real effect from a small sample.",
+      "required_changes": "Add a new prompt-formatting function in prompts.py, e.g. alternating_turns_block(pairs: list[tuple[str, str]]), that interleaves matched (source_i, translation_i) pairs chronologically into one <history> block, as an ALTERNATE path alongside (not replacing) the existing flat context_block/previous_translations_block construction in llm_translator.py's _build_user_prompt -- gate it behind a new keyword argument so existing behavior is unchanged for every current caller. Build a small standalone replay script (does not modify the default call path) that: for already-recorded multi-batch utterance sequences with matched (source_i, translation_i) pairs (reuse e.g. experiments/20260915_h_continuation_anchor_test_rpmunlimited.json, which already has clean per-utterance matched sequences), re-translates the SAME held-out target text under both the current flat-block format and the new alternating-turn format -- NEW Gemini calls for BOTH conditions (do not reuse either condition's old cached translation as a baseline, since that would not isolate the prompt-format variable alone if any other repo code has changed since that JSON was recorded) -- then score both conditions with translation_fidelity_judge.judge() (same judge/spec as prior replay hypotheses). Run at least 2 repeats per condition per span to allow a same-condition-twice noise check per the established method, per reflections.md cycle 19-21.",
+      "uses_existing_clips": true,
+      "estimated_cost_usd": 0.1,
+      "approval": null,
+      "status": "proposed",
+      "experiment_ids": [],
+      "result_summary": ""
     }
   ]
 }
