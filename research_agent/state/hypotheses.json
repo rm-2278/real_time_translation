@@ -1337,11 +1337,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.1,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/20261030_h_alternating_turn_context_replay.json"
       ],
-      "result_summary": ""
+      "result_summary": "Inconclusive/null on this one 15-segment utterance replay. Mean fidelity-judge retention: 91.0 (baseline_replay, today's two-flat-blocks <context>+<previous_translation> format) vs 90.0 (alternating_turns, new interleaved <history> block), delta=-1.0, within this run's own 2-repeat noise floor (stdev=1.41), per experiments/20261030_h_alternating_turn_context_replay.json. No evidence of either benefit or harm from the alternating-turn prompt shape at this sample size (n=15 segments, 2 repeats/condition, 1 clip) -- NOT strong enough evidence to conclude the two formats are equivalent in general, just that this small replay could not detect a difference. Minor, unverified observation (not statistically examined): alternating_turns produced slightly shorter mean output (422.5 vs 444.5 chars) -- could be noise, could be a real compression effect from seeing paired history; would need a larger/paired sample to say. The new alternating_turns_block()/history_pairs code path itself is implemented and tested working (both conditions ran without errors), so a future cycle could extend this to more clips/segments/repeats if this thread is worth pursuing further, or move on given the null result and the already-large backlog of other, currently-blocked hypotheses."
     }
   ]
 }

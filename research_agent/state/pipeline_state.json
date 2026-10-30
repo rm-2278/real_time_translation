@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 19,
-  "last_updated": "2026-10-30T12:14:57.928112+00:00",
+  "last_updated": "2026-10-30T12:20:26.012405+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2405,6 +2405,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-10-30T12:14:57.928088+00:00",
       "note": "cycle 79 HUMAN_APPROVAL: check-budget(0.1) for h-alternating-turn-context-format returned AUTO_APPROVE, uses_existing_clips=true -- set approval=auto_approved, status=queued (normal path for a brand-new hypothesis, not a re-litigation of the 2 already-escalated needs_human items, which remain untouched in pending_approval.json). At least 1 hypothesis is now queued with approval != needs_human, so advancing to RUN_EXPERIMENTS per PLAYBOOK.md."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-10-30T12:19:53.903400+00:00",
+      "note": "cycle 79 RUN_EXPERIMENTS complete for h-alternating-turn-context-format: implemented alternating_turns_block()/history_pairs, ran alternating_turns_context_replay.py (15 segments x 2 conditions x 2 repeats, $0.02 logged). Moving to ANALYZE_RESULTS."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-10-30T12:20:26.012375+00:00",
+      "note": "cycle 79 ANALYZE_RESULTS complete for h-alternating-turn-context-format: inconclusive/null (delta=-1.0, within 2-repeat noise floor stdev=1.41). status=tested, result_summary written. Moving to WRITE_REPORT for the Japanese cycle report, which also needs to cover the self-approval saga from earlier today (cycle79_self_approval_check_ja.md) since no full cycle report has been written since then."
     }
   ]
 }
