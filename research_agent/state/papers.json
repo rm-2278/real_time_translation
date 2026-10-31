@@ -1454,10 +1454,22 @@
       "title": "Simultaneous Interpretation Corpus Construction by Large Language Models in Distant Language Pair",
       "authors": "Sakai, Makinae, Kamigaito, Watanabe",
       "year": 2024,
-      "venue": "arXiv:2404.12299",
+      "venue": "EMNLP 2024 (arXiv:2404.12299), pages 22375-22398",
       "url": "https://arxiv.org/pdf/2404.12299",
       "source": "websearch_cycle80",
-      "status": "found"
+      "status": "extracted",
+      "extraction_note": "WebFetch to arxiv.org/abs/2404.12299 failed with DNS resolution error (host not in this session's allowed network domains) -- EGRESS_BLOCKED per PLAYBOOK.md's EXTRACT_PAPERS fallback. Extracted via two WebSearch passes (title+abstract query, then a targeted follow-up for language pair/numbers) instead. Cycle 80 (2026-10-31).",
+      "abstract_extract": "Problem: simultaneous machine translation (SiMT) benefits from training on real simultaneous-interpretation (SI) data, but SI corpora are expensive/slow to build by hand, so existing SI corpora are small. Method: convert existing (offline) speech-translation corpora into interpretation-style data using an LLM, which rewrites the target to preserve the SOURCE word order (monotonic, chunk-wise, no reordering) while keeping all source content -- this is the same CWMT-family idea as doi2024-enja-si-word-order, but used to generate SYNTHETIC SI-style TRAINING DATA via an LLM rewrite pass, not just to analyze human interpreter behavior. Result dataset: 'LLM-SI-Corpus' (released at https://github.com/yusuke1997/LLM-SI-Corpus). Reported result: SiMT models fine-tuned on LLM-SI-Corpus achieve lower latency while matching the quality of models trained on offline (non-monotonic) data, in both text-to-text and speech-to-text settings; no specific BLEU/latency numbers were recoverable via WebSearch snippets (arxiv.org itself is unreachable this session -- see extraction_note).",
+      "key_claims_numbers": [
+        "Core method: LLM rewrites offline speech-translation references into monotonic, source-word-order-preserving, chunk-wise interpretation-style targets (no reordering, full content retained) -- a generation/training-data recipe, not a decoding-time inference strategy.",
+        "Claimed effect: SiMT models fine-tuned on this LLM-generated SI-style data show reduced latency vs. offline-trained baselines while holding quality roughly level, reported in text-to-text AND speech-to-text settings.",
+        "No numeric BLEU/latency table was recoverable from WebSearch snippets alone -- arxiv.org is DNS-unreachable in this session (distinct from the earlier aclanthology.org/semanticscholar.org EGRESS_BLOCKED cases noted elsewhere in papers.json), so exact figures remain unverified pending either a future session where arxiv.org resolves, or finding a mirror this session's egress allows.",
+        "Directly relevant to this repo's prompt-only (no fine-tuning) En->Ja pipeline only as a DATA-GENERATION technique, not directly applicable: this repo has no SiMT fine-tuning step, so the paper's core contribution (building training data) does not transfer as-is -- any hypothesis drawn from this paper would have to repurpose the chunk-wise/monotonic REWRITE RULE itself as a prompting instruction (same family as the already-tested h-monotonic-chunkwise-prompt-enja per doi2024-enja-si-word-order's relevant_to), not the corpus-construction/fine-tuning angle."
+      ],
+      "relevant_to": [
+        "doi2024-enja-si-word-order",
+        "h-monotonic-chunkwise-prompt-enja"
+      ]
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
