@@ -5156,3 +5156,74 @@ available right now, and a fresh literature pass (plus mining
 papers.json for never-cited papers, the named pivot-angle technique) is
 the most direct way to find them. `pipeline_state.json`'s own `cycle`
 JSON counter increments on this transition per its usual rule.
+
+## Cycle 80 (2026-11-01, scheduled)
+
+**What worked / didn't:** The pivot-angle technique (grep `papers.json`
+for never-cited paper ids) worked again on the first try -- found
+`llm-jury-eamt2026` and used it to design
+`h-judge-cross-gemini-model-agreement-check`, a genuinely new angle (not
+a resubmission of the OpenAI-blocked `h-judge-cross-model-agreement-check`
+under a different name) that specifically routes around the two
+persistent sandbox blockers by using only `GOOGLE_API_KEY`. What didn't
+work: the hypothesis still couldn't be auto-approved and run this same
+cycle, because it was proposed by this session's own lineage and hit the
+now-very-well-established self-approval write block. That's expected
+(not a surprise), but it means the "find a Gemini-only angle" lever,
+while real, still costs a full extra cycle of human-approval latency
+before it pays off -- it does not fully substitute for getting
+`pending_approval.json` actually cleared by a human.
+
+**Backlog calibration:** Backlog is now at the 6-item cap for the first
+time I can find in this pipeline's history (3 queued: all 3 structurally
+blocked -- 2 by sandbox egress policy, 1 by needing rm-2278's own
+viewing time; 3 proposed/needs_human: all 3 awaiting human sign-off, none
+env-blocked once approved). This is a qualitatively different kind of
+"full" than earlier cycles' backlogs: every single item is blocked on
+something only a human (or a human-controlled environment change) can
+resolve, not on a lack of ideas or testing depth. Writing an 7th
+hypothesis next cycle would violate the cap outright, so `GENERATE_HYPOTHESES`
+next cycle should be a near-immediate no-op (confirm backlog is still
+at/over cap, do not add anything, move on) unless a human has cleared at
+least one slot by then. The honest conclusion this cycle: the pipeline's
+actual bottleneck right now is *not* idea generation (SEARCH_PAPERS still
+has find more never-cited papers to mine, e.g. nemo-iwslt2026-cascade,
+mllp-vrain-iwslt2026-simulst, several others remain uncited and unread
+for testability) -- it is purely human attention (approving
+`pending_approval.json`, OR spending ~20-30 min on the CPS-calibration
+viewing task, OR deciding whether to allow OpenAI/Deepgram-WS egress in
+this sandbox). Future cycles should keep surfacing this plainly in the
+Japanese report (as this cycle's report does) rather than papering over
+it with more hypothesis-writing busywork that the cap would block anyway.
+
+**Is the auto-approval budget policy still right?** No change proposed.
+Nothing hit a cap; the stuck items are $0.05-$0.35 each, far under both
+caps. The actual constraint this cycle was never budget -- it was the
+self-approval write gate and raw host-level egress blocks, neither of
+which `budget.json` governs.
+
+**Should this playbook itself change?** Not this cycle. The GENERATE_HYPOTHESES
+section's "~6 backlog cap, count both queued and proposed" rule worked
+exactly as written and caught the cap being reached in real time (I
+counted before writing the new hypothesis and again after). One thing
+worth flagging for a future REFLECT pass rather than editing now (to
+avoid the same same-session compounding-edit risk cycle 78/79 already
+noted): the HUMAN_APPROVAL section's self-approval guidance currently
+only lives in the WAITING_APPROVAL section's long cycle-36 writeup, not
+in HUMAN_APPROVAL's own numbered steps -- a future session reading only
+the HUMAN_APPROVAL section top-to-bottom (without already knowing to
+cross-reference WAITING_APPROVAL) could plausibly still attempt the
+denied write once more. This session already knew to check because of
+having read the whole file per PLAYBOOK's own Step-0 instruction, so it
+wasn't actually a problem in practice this cycle -- noting it as a
+possible future clarity improvement, not acting on it now.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+81), same reasoning as cycle 78->79: with the hypothesis backlog at cap
+and every item blocked on a human action, there is nothing for
+GENERATE_HYPOTHESES to productively add next cycle regardless, so a
+fresh literature pass (continuing to mine never-cited papers for the
+*next* available backlog slot, whenever one opens up) is the better use
+of an unattended cycle than re-deriving the same "backlog is full and
+blocked" conclusion from scratch. `pipeline_state.json`'s own `cycle`
+JSON counter increments on this transition per its usual rule.
