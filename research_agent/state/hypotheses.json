@@ -1356,10 +1356,11 @@
       "required_changes": "At RUN_EXPERIMENTS time, first confirm the candidate alt-model id is still live via a cheap models.list()-style check (or a single short generate_content call) before spending on the full replay -- if gemini-3.6-flash 404s, fall back to gemini-3.5-flash-lite (also previously used in this repo's experiments/model_comparison/), and treat total unavailability of any distinct second Gemini model as an environment blocker, not a crash. Extend translation_fidelity_judge.py with a second entry point (e.g. judge_alt_gemini(source, translation) mirroring judge()'s exact prompt/parsing but passing the alt model id) or add a small new replay script following judge_block_order_replay.py's pattern -- do not modify judge() or its existing call sites. Re-score the same ~20-30 (source, translation) pairs h-judge-cross-model-agreement-check already specified (sampled from experiments/*.json used by h-judge-verbosity-length-bias-retroactive plus experiments/20260918_h_backlog_compression_control_rpm9.json), reusing the already-cached gemini-3.1-flash-lite scores where available and making new calls only for the alt-Gemini model. Log actual cost via `orchestrator.py log-cost` immediately after the run.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
-      "approval": null,
+      "approval": "needs_human",
       "status": "proposed",
       "experiment_ids": [],
-      "result_summary": ""
+      "result_summary": "",
+      "blocked_reason": "check-budget(0.05) returned AUTO_APPROVE and uses_existing_clips=true (normal auto-approve path per PLAYBOOK.md HUMAN_APPROVAL), but per the established precedent (reflections.md cycle 36, and the identical pattern already recorded for h-judge-repeat-independent-batches-corrected-design and h-soft-anchor-gate-exempt-utterance-end in pending_approval.json), this execution environment's own permission classifier denies the self-approval write itself (an unattended session writing approval=auto_approved/status=queued for a hypothesis that session's own lineage proposed), regardless of which hypothesis. PLAYBOOK.md's WAITING_APPROVAL section explicitly instructs not to re-attempt this known-denied write 'just in case', so this cycle escalated directly to needs_human without re-testing it empirically again."
     }
   ]
 }
