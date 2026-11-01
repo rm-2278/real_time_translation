@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 20,
-  "last_updated": "2026-11-01T12:12:25.182574+00:00",
+  "last_updated": "2026-11-01T12:14:03.539498+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2453,6 +2453,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-01T12:12:25.182484+00:00",
       "note": "Cycle 80 GENERATE_HYPOTHESES complete: added 1 new hypothesis (h-judge-cross-gemini-model-agreement-check, Gemini-only variant of the OpenAI-blocked h-judge-cross-model-agreement-check, grounded in never-cited llm-jury-eamt2026). Backlog now 6 (queued:3, proposed:3 incl. the 2 pre-existing needs_human/terminal entries). Moving to HUMAN_APPROVAL to check-budget the new entry and re-sweep the 3 queued-but-blocked ones."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-01T12:14:03.539456+00:00",
+      "note": "Cycle 80 HUMAN_APPROVAL complete: new hypothesis h-judge-cross-gemini-model-agreement-check escalated to needs_human (self-approval write precedent, cycle 36), added to pending_approval.json. The 3 pre-existing queued hypotheses (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration) remain status=queued with approval=approved_by_human (not needs_human), so per PLAYBOOK.md's literal threshold advancing to RUN_EXPERIMENTS to re-check whether any are actually runnable this cycle, rather than WAITING_APPROVAL."
     }
   ]
 }
