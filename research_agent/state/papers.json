@@ -1483,10 +1483,18 @@
       "title": "Hearing to Translate: The Effectiveness of Speech Modality Integration into LLMs",
       "authors": "Papi et al.",
       "year": 2026,
-      "venue": "arXiv:2512.16378 (submitted 2025-12-18, v2 2025-12-24; cs.CL)",
+      "venue": "arXiv:2512.16378 (submitted 2025-12-18, v2 2025-12-24; cs.CL); later TACL 2026 (2026.tacl-1.89)",
       "url": "https://arxiv.org/abs/2512.16378",
       "source": "websearch_cycle81",
-      "status": "found",
+      "status": "extracted",
+      "extraction_note": "WebFetch to arxiv.org/abs/2512.16378 failed with DNS resolution error (arxiv.org not resolvable in this session -- same EGRESS_BLOCKED class PLAYBOOK.md already documents for other hosts). Extracted via WebSearch title+abstract query per the documented fallback. Cycle 81 (2026-11-02).",
+      "abstract_extract": "Motivation: as LLMs expand beyond text, SpeechLLMs integrate speech as a native modality, raising the question of whether they now beat established cascaded (ASR-then-MT) systems. Method: a benchmark suite covering 16 benchmarks, 13 language pairs, and 9 challenging conditions (disfluent, noisy, long-form speech), comparing SpeechLLMs against cascaded and direct (non-LLM) speech-translation systems. Finding: cascaded systems are the most dependable overall; current SpeechLLMs match them only in certain settings; speech foundation models without an LLM component trail both. Conclusion: an LLM -- whether embedded in the model or used as the MT stage of a pipeline -- is necessary for high-quality speech translation.",
+      "key_claims_numbers": [
+        "Benchmark scope: 16 benchmarks x 13 language pairs x 9 challenging conditions (disfluent/noisy/long-form speech) -- large, recent (2025/2026), post-dates this repo's existing single-citation cascade-vs-end-to-end source (papi2025-howreal).",
+        "Headline result: cascaded (ASR->LLM-MT) systems are the most dependable/robust OVERALL across this suite; SpeechLLMs only match them in SOME settings, not universally -- this directly supports, rather than challenges, this repo's existing architecture choice (Deepgram ASR cascade + separate LLM translation stage, not a speech-native LLM).",
+        "Speech foundation models with no LLM stage at all perform worst of the three categories -- reinforces that an LLM (cascaded or embedded) is the thing doing the quality-critical work, not the acoustic/speech-modality integration itself.",
+        "No per-language-pair or En->Ja-specific numeric breakdown was recoverable from WebSearch snippets alone (exact BLEU/COMET/latency tables not visible without full-text access) -- the qualitative conclusion (cascade >= SpeechLLM on dependability) is usable as supporting evidence; specific numbers are not verified this cycle."
+      ],
       "relevant_to": ["cascade-vs-end-to-end"]
     },
     {
@@ -1497,7 +1505,15 @@
       "venue": "arXiv:2603.01865 (submitted 2026-03-02; cs.CL)",
       "url": "https://arxiv.org/abs/2603.01865",
       "source": "websearch_cycle81",
-      "status": "found",
+      "status": "extracted",
+      "extraction_note": "WebFetch to arxiv.org/abs/2603.01865 failed with DNS resolution error (arxiv.org not resolvable in this session), same EGRESS_BLOCKED class as the entry above. Extracted via WebSearch title+abstract query per the documented fallback. Cycle 81 (2026-11-02).",
+      "abstract_extract": "Problem: LLM-as-judge evaluation is standard for open-ended model assessment, but judges carry systematic biases that persist no matter how many scenarios or generations are added, and these biases can be as large as the model differences the benchmark is trying to detect -- making single-judge rankings unreliable. Method: a variance decomposition that partitions benchmark score variance into scenario, generation, judge, and residual components, isolating a SYSTEMATIC between-judge offset term from genuine random noise. Proposed fix: CyclicJudge, a round-robin judge-assignment scheme that cancels the systematic judge-bias term while each judge is still used only once per cycle, so cost stays at single-judge-evaluation levels (no multi-judge cost increase). Validation: empirical results on MT-Bench (and, per one abstract variant, also MindEval, covering general-purpose and domain-specific settings) support the theoretical predictions.",
+      "key_claims_numbers": [
+        "Core finding directly relevant to this repo's own judge-noise thread: judge-score variance has (at least) two distinct sources -- a SYSTEMATIC between-judge offset/bias term, and random (resampling) noise -- and the paper's framing implies the offset term can be comparable in size to real model-quality differences, i.e. it is not necessarily dominated by random noise the way this repo's cycle 19-21 noise-floor work (REPEATS-based resampling of a SINGLE judge/model) implicitly assumes.",
+        "This repo's existing judge-noise-floor hypotheses (h-soft-anchor-disfluency-gate's noise check, h-judge-noise-repeats-power-check) all resample the SAME single judge model repeatedly -- that design measures only the random/residual noise term in this paper's decomposition, and would not detect or correct for a systematic single-judge offset/bias, since there is no second judge to compare against for cancellation.",
+        "Proposed fix (CyclicJudge's round-robin multi-judge rotation) requires access to MULTIPLE distinct judge models used in rotation -- this repo's architecture only has reachable LLM API access confirmed for Gemini this session (OpenAI/api.openai.com was found egress-blocked in an earlier cycle per PLAYBOOK.md's RUN_EXPERIMENTS notes), so a literal CyclicJudge implementation needing >=2 independently-reachable judge APIs may itself be environment-constrained -- worth checking reachability again before treating this as directly actionable, not assuming it transfers.",
+        "No exact numeric effect sizes (how much variance the offset term accounts for vs. residual, on MT-Bench) were recoverable from WebSearch snippets alone -- the qualitative claim (a systematic judge-offset term exists and is non-negligible) is usable; magnitude is not verified this cycle."
+      ],
       "relevant_to": ["judge-reliability", "judge-noise"]
     }
   ],
