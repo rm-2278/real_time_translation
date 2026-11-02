@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 21,
-  "last_updated": "2026-11-02T00:10:17.988134+00:00",
+  "last_updated": "2026-11-02T12:13:28.695982+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2489,6 +2489,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-02T00:10:17.988085+00:00",
       "note": "cycle 81 SEARCH_PAPERS: 5 WebSearch queries per PLAYBOOK gaps (flicker/stability, EN-JA cascade LLM, judge noise/variance, vendor ASR latency, Gemini Live chunking). Added 2 new found-status stubs: papi2026-hearing-to-translate-cascade-vs-speechllm (cascade-vs-SpeechLLM benchmark, updates cascade-vs-e2e evidence base) and zhu2026-cyclicjudge-variance-decomposition (judge-offset-vs-noise decomposition, relevant to h-judge-* thread). Backlog already at 6-item cap, all blocked on human action -- no new hypotheses written this cycle."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-02T12:13:28.695936+00:00",
+      "note": "cycle 81 EXTRACT_PAPERS: extracted both found papers (papi2026-hearing-to-translate-cascade-vs-speechllm, zhu2026-cyclicjudge-variance-decomposition) via WebSearch fallback (arxiv.org DNS-unreachable this session for WebFetch); status=extracted, abstract_extract + key_claims_numbers added to papers.json"
     }
   ]
 }
