@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 21,
-  "last_updated": "2026-11-01T12:18:16.280674+00:00",
+  "last_updated": "2026-11-02T00:10:17.988134+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2483,6 +2483,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-01T12:18:16.280632+00:00",
       "note": "cycle 80 REFLECT complete: backlog at the 6-item cap, every item blocked on a human action (2 env-blocked queued, 1 needs rm-2278 viewing time, 3 proposed/needs_human awaiting signoff incl. this cycle's new h-judge-cross-gemini-model-agreement-check). GENERATE_HYPOTHESES would be a near-immediate no-op next cycle regardless (cap already reached), so advancing to SEARCH_PAPERS (new cycle 81) to keep mining never-cited papers for whenever a backlog slot opens up, same reasoning as cycle 78->79."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-02T00:10:17.988085+00:00",
+      "note": "cycle 81 SEARCH_PAPERS: 5 WebSearch queries per PLAYBOOK gaps (flicker/stability, EN-JA cascade LLM, judge noise/variance, vendor ASR latency, Gemini Live chunking). Added 2 new found-status stubs: papi2026-hearing-to-translate-cascade-vs-speechllm (cascade-vs-SpeechLLM benchmark, updates cascade-vs-e2e evidence base) and zhu2026-cyclicjudge-variance-decomposition (judge-offset-vs-noise decomposition, relevant to h-judge-* thread). Backlog already at 6-item cap, all blocked on human action -- no new hypotheses written this cycle."
     }
   ]
 }
