@@ -507,8 +507,13 @@ asyncio.run(main())
   legal transition, so just append the reason to the hypothesis's
   `result_summary` as `"blocked_reason": "..."` instead, e.g. via a
   dedicated field), skip straight to $0/no-new-experiment hypotheses if
-  any remain queued, otherwise advance to `WRITE_REPORT` anyway (mention
-  the environment gap in the Japanese report so the human can fix it) and
+  any remain queued, otherwise advance to `ANALYZE_RESULTS` (nothing to
+  analyze, just pass through -- the orchestrator's `TRANSITIONS` table
+  does NOT allow a direct `RUN_EXPERIMENTS -> WRITE_REPORT` jump, found
+  cycle 81, 2026-11-03, when `advance WRITE_REPORT` from `RUN_EXPERIMENTS`
+  failed with "illegal transition"; only `ANALYZE_RESULTS` is legal from
+  `RUN_EXPERIMENTS`) and then `WRITE_REPORT` anyway (mention the
+  environment gap in the Japanese report so the human can fix it) and
   then `REFLECT`. Never fabricate experiment results if the environment
   can't actually run one.
 - If the environment check passes: pick one `queued` hypothesis (prefer

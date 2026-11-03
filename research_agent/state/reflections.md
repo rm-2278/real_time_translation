@@ -5227,3 +5227,86 @@ fresh literature pass (continuing to mine never-cited papers for the
 of an unattended cycle than re-deriving the same "backlog is full and
 blocked" conclusion from scratch. `pipeline_state.json`'s own `cycle`
 JSON counter increments on this transition per its usual rule.
+
+## Cycle 81 (2026-11-03, scheduled)
+
+**What worked / didn't:** This cycle picked up mid-cycle (a prior session
+had already done `SEARCH_PAPERS -> EXTRACT_PAPERS` and left 2 papers at
+`status: "extracted"`). Finishing `READ_PAPERS` for both was
+straightforward and the cross-reference step (grep experiments/
+results.csv + recent git log for topical keywords, per the playbook's
+own prescribed method rather than eyeballing a directory listing) caught
+no duplicates -- both papers' angles (cascade-vs-SpeechLLM architecture
+choice, and CyclicJudge's systematic between-judge-offset term as
+distinct from the random noise this repo's existing judge-noise work
+measures) are genuinely new ground. What didn't produce anything new:
+exactly as cycle 80 forecast, `GENERATE_HYPOTHESES` was a near-immediate
+no-op this cycle -- backlog was already at the 6-item cap with all 3
+`proposed` entries already `needs_human` and logged in
+`pending_approval.json`, so there was nothing to add and nothing to
+process in `HUMAN_APPROVAL` either (no hypothesis had `approval` unset
+or literally `"proposed"` as a value). `RUN_EXPERIMENTS` reconfirmed all
+3 `queued` hypotheses still blocked, identical signatures to cycles
+72/78/80 (OpenAI CONNECT-rejected 403; Deepgram listen-websocket HTTP
+400 "Connection header did not include 'upgrade'"; the third needs
+rm-2278's own viewing time, not an environment issue). No experiment
+ran, no result fabricated -- correctly passed through `ANALYZE_RESULTS`
+with nothing to analyze (note: the orchestrator's `TRANSITIONS` table
+does NOT allow `RUN_EXPERIMENTS -> WRITE_REPORT` directly even in this
+degraded no-experiment case, only `RUN_EXPERIMENTS -> ANALYZE_RESULTS ->
+WRITE_REPORT` -- the playbook's RUN_EXPERIMENTS section phrasing
+("skip... otherwise advance to WRITE_REPORT anyway") reads as if a
+direct skip were legal; it isn't, and `orchestrator.py advance
+WRITE_REPORT` from `RUN_EXPERIMENTS` fails with "illegal transition".
+Worth fixing the playbook wording -- see item 4 below).
+
+**Was the hypothesis backlog well-calibrated?** N/A this cycle in the
+sense that nothing was added or could be added -- the cap is working
+exactly as designed (prevents backlog bloat while every slot is
+genuinely blocked on a human action, not idea generation). The one
+candidate angle this cycle's READ_PAPERS surfaced for *whenever* a slot
+opens -- `zhu2026-cyclicjudge-variance-decomposition`'s systematic
+single-judge-offset argument -- is a good next pivot-angle candidate
+precisely because it is NOT a resubmission of the already-blocked
+`h-judge-cross-model-agreement-check`/`h-judge-cross-gemini-model-
+agreement-check` line (those measure cross-model *agreement*; this
+paper's angle is about whether a single judge's score carries a
+systematic offset detectable only via >=2 distinct judges in rotation,
+a different question) -- but it also inherits the same >=2-reachable-
+judge-API constraint, so until OpenAI egress or a second model provider
+opens up, a literal CyclicJudge implementation would face the identical
+single-provider ceiling as the existing cross-model-agreement
+hypotheses. Noting this now so a future GENERATE_HYPOTHESES cycle (once
+a backlog slot opens) can design it Gemini-only from the start the same
+way `h-judge-cross-gemini-model-agreement-check` did, rather than
+rediscovering the constraint from scratch.
+
+**Is the auto-approval budget policy still right?** No change proposed.
+Nothing hit a cap this cycle (zero actual spend -- no experiment ran at
+all). The bottleneck remains entirely the self-approval write block and
+the two persistent egress blockers, neither of which `budget.json`
+governs; same conclusion as cycles 78/80.
+
+**Should this playbook itself change?** Yes, one small fix: the
+`RUN_EXPERIMENTS` section's degraded-mode instruction currently reads
+"skip straight to $0/no-new-experiment hypotheses if any remain queued,
+otherwise advance to `WRITE_REPORT` anyway" -- but the orchestrator's
+`TRANSITIONS` table only allows `RUN_EXPERIMENTS -> ANALYZE_RESULTS`,
+never a direct jump to `WRITE_REPORT`. This cycle caught it immediately
+(the `advance` command's own error names the one legal transition) and
+cost nothing beyond one extra `advance ANALYZE_RESULTS --note "..."`
+call, but a future session reading only that sentence literally could
+plausibly retry the illegal call a few times before checking
+`TRANSITIONS` itself. Editing `PLAYBOOK.md`'s `RUN_EXPERIMENTS` section
+now to say "...otherwise advance to `ANALYZE_RESULTS` (nothing to
+analyze, just pass through) then `WRITE_REPORT` anyway" instead, so the
+correct two-step path is explicit rather than implied.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+82). Same reasoning as cycles 79/80: with the backlog at cap and every
+item blocked on a human action, there is nothing for `GENERATE_HYPOTHESES`
+to productively add next cycle regardless, so a fresh literature pass
+(continuing to mine never-cited papers for the next available backlog
+slot) is the better use of an unattended cycle. `pipeline_state.json`'s
+own `cycle` JSON counter increments on this transition per its usual
+rule.
