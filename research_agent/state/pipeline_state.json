@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 21,
-  "last_updated": "2026-11-03T00:09:19.423849+00:00",
+  "last_updated": "2026-11-03T00:09:28.844402+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2507,6 +2507,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-03T00:09:19.423805+00:00",
       "note": "Backlog at cap (3 queued + 3 proposed = 6); all 3 proposed already needs_human with entries in pending_approval.json from prior cycles (self-approval write block, confirmed cycle 36 and reconfirmed since -- not retried). No new hypotheses added this cycle per the cap rule."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-03T00:09:28.844357+00:00",
+      "note": "Nothing to process: no hypothesis has approval unset or value 'proposed'. 3 hypotheses already queued with approval=approved_by_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration) -> advancing to RUN_EXPERIMENTS per the at-least-one-queued-and-approvable rule."
     }
   ]
 }
