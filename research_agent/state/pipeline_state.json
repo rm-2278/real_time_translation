@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 21,
-  "last_updated": "2026-11-03T00:09:02.210648+00:00",
+  "last_updated": "2026-11-03T00:09:19.423849+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2501,6 +2501,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-03T00:09:02.210600+00:00",
       "note": "Read both extracted papers (papi2026-hearing-to-translate cascade-vs-speechllm, zhu2026-cyclicjudge variance decomposition), wrote summaries+key_findings, cross-referenced against experiments/results.csv and recent git log for duplicates (none found). Backlog already at cap (3 queued + 3 proposed = 6) with all 3 proposed already needs_human/flagged, so GENERATE_HYPOTHESES this cycle should not add new hypotheses."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-03T00:09:19.423805+00:00",
+      "note": "Backlog at cap (3 queued + 3 proposed = 6); all 3 proposed already needs_human with entries in pending_approval.json from prior cycles (self-approval write block, confirmed cycle 36 and reconfirmed since -- not retried). No new hypotheses added this cycle per the cap rule."
     }
   ]
 }
