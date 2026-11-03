@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "REFLECT",
-  "cycle": 21,
-  "last_updated": "2026-11-03T00:12:58.171024+00:00",
+  "current_state": "SEARCH_PAPERS",
+  "cycle": 22,
+  "last_updated": "2026-11-03T00:13:04.016812+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2531,6 +2531,12 @@
       "to": "REFLECT",
       "at": "2026-11-03T00:12:58.170985+00:00",
       "note": "Reflections.md cycle 81 entry written (see commit c061a90): READ_PAPERS went cleanly, GENERATE_HYPOTHESES/HUMAN_APPROVAL were no-ops as cycle 80 forecast, all 3 queued hypotheses reconfirmed blocked, playbook wording bug fixed (RUN_EXPERIMENTS degraded-mode must pass through ANALYZE_RESULTS)."
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-11-03T00:13:04.016768+00:00",
+      "note": "Cycle 81 complete, backlog at cap and every queued/proposed item blocked on a human action -- advancing to SEARCH_PAPERS for new narrated cycle 82 (fresh literature pass is the best use of an unattended cycle), same reasoning as cycles 79/80."
     }
   ]
 }
