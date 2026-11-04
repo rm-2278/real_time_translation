@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 22,
-  "last_updated": "2026-11-04T12:11:15.495975+00:00",
+  "last_updated": "2026-11-04T12:11:29.550279+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2561,6 +2561,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-04T12:11:15.495946+00:00",
       "note": "cycle 82 GENERATE_HYPOTHESES: backlog already at the 6 queued/proposed cap (3 queued+approved, 3 proposed+needs_human, all already processed through HUMAN_APPROVAL in a prior cycle) -- no new hypotheses added, per PLAYBOOK's depth-over-breadth rule."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-04T12:11:29.550249+00:00",
+      "note": "cycle 82 HUMAN_APPROVAL: 3 hypotheses already queued+approved_by_human from a prior cycle (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration); 3 others sit proposed+needs_human in pending_approval.json, terminal per the self-approval-block precedent (reflections.md cycle 36) -- not re-attempted. Advancing since at least one queued hypothesis has approval != needs_human."
     }
   ]
 }
