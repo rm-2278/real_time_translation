@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 22,
-  "last_updated": "2026-11-04T12:10:56.541239+00:00",
+  "last_updated": "2026-11-04T12:11:15.495975+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2555,6 +2555,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-04T12:10:56.541208+00:00",
       "note": "cycle 82 READ_PAPERS: sole extracted paper (koshkin2026-hikari) was a duplicate of causal-alignment2026-streaming-transcription (same arXiv:2603.11578); merged details, marked duplicate, cross-referenced its one candidate angle against hypotheses.json (already covered by h-asr-confidence-early-commit). No other extracted/found papers remained."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-04T12:11:15.495946+00:00",
+      "note": "cycle 82 GENERATE_HYPOTHESES: backlog already at the 6 queued/proposed cap (3 queued+approved, 3 proposed+needs_human, all already processed through HUMAN_APPROVAL in a prior cycle) -- no new hypotheses added, per PLAYBOOK's depth-over-breadth rule."
     }
   ]
 }
