@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 22,
-  "last_updated": "2026-11-03T12:12:43.554025+00:00",
+  "last_updated": "2026-11-04T00:10:04.905284+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2543,6 +2543,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-03T12:12:43.553992+00:00",
       "note": "Cycle 82 SEARCH_PAPERS: WebSearch pass (3 queries: judge-bias round-robin correction, EN-JA anchor/prefix-commit policy, Deepgram Flux EOT GA). Found 1 new concretely relevant paper, stubbed as status=found: koshkin2026-hikari-causal-alignment-wait-token (arXiv:2603.11578, En->Ja/De/Ru SOTA end-to-end SimulST via a single probabilistic WAIT token folding READ/WRITE into one distribution -- relevant to both the cascade-vs-end-to-end evidence base and this repo's own confidence-gating hypothesis line). Judge-bias query resurfaced already-known zhu2026-cyclicjudge plus a few unpinnable results (no recoverable arXiv id), not added. Deepgram Flux query found only product-changelog news, not a new paper, already covered by h-deepgram-flux-eot-availability-check. See papers.json _websearch_note_cycle82 for full detail."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-04T00:10:04.905241+00:00",
+      "note": "Cycle 82 EXTRACT_PAPERS: extracted koshkin2026-hikari-causal-alignment-wait-token via WebSearch fallback (arxiv.org EGRESS_BLOCKED). Pulled WAIT-token mechanism, Decoder Time Dilation, delay-recovery SFT claims, and en-ja/de/ru SOTA BLEU claims; flagged one unverified third-party BLEU number and missing AL/latency metrics as gaps. status=extracted, relevance_note ties it to the h-soft-anchor-gate-*/h-masking-holdback confidence-gating line for READ_PAPERS to follow up on next."
     }
   ]
 }
