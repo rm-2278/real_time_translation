@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 22,
-  "last_updated": "2026-11-04T12:13:13.710047+00:00",
+  "last_updated": "2026-11-04T12:13:20.546958+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2573,6 +2573,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-04T12:13:13.710014+00:00",
       "note": "cycle 82 RUN_EXPERIMENTS: all 3 queued hypotheses still blocked, identical signatures to cycles 72/78/80/81 (OpenAI CONNECT-rejected 403; Deepgram listen-websocket HTTP 400 'Connection header did not include upgrade'; third needs rm-2278's own viewing time). No experiment ran, no result fabricated -- passing through ANALYZE_RESULTS with nothing to analyze (RUN_EXPERIMENTS -> WRITE_REPORT direct jump is illegal per TRANSITIONS)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-04T12:13:20.546925+00:00",
+      "note": "cycle 82 ANALYZE_RESULTS: nothing to analyze (no experiment ran), pass-through per the RUN_EXPERIMENTS degraded-mode path."
     }
   ]
 }
