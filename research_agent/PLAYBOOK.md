@@ -71,6 +71,17 @@ human-facing; treat the JSON field as an internal
 - Prefer arXiv, ACL Anthology, Semantic Scholar, OpenReview (open access,
   no login needed). Do not attempt to set up browser automation -- it was
   explicitly decided WebSearch/WebFetch are sufficient.
+- **Before stubbing a new entry, check it isn't already in `papers.json`
+  under a different `id`** (found cycle 82, 2026-11-04): a WebSearch pass
+  re-found a paper (arXiv:2603.11578) that had already been read in an
+  earlier cycle under a different, independently-chosen id
+  (`causal-alignment2026-streaming-transcription` vs. the new
+  `koshkin2026-hikari-causal-alignment-wait-token`) -- titles can drift
+  slightly between searches, so compare the candidate's URL/arXiv id
+  against every existing entry's `url` field (a quick grep is enough),
+  not just against titles, before adding a stub. Caught during the
+  following cycle's READ_PAPERS instead, costing one wasted
+  EXTRACT_PAPERS pass -- cheaper to catch here.
 - For each promising paper, append a stub entry to `papers.json` with
   `"status": "found"` and whatever metadata you have (title/url/venue/year).
 - Advance: `python3 research_agent/orchestrator.py advance EXTRACT_PAPERS --note "..."`

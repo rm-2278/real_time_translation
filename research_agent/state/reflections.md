@@ -5310,3 +5310,59 @@ to productively add next cycle regardless, so a fresh literature pass
 slot) is the better use of an unattended cycle. `pipeline_state.json`'s
 own `cycle` JSON counter increments on this transition per its usual
 rule.
+
+## Cycle 82 (2026-11-04, scheduled)
+
+**What worked / what didn't?** Picked up exactly where cycle 82's prior
+session left off (`READ_PAPERS`, one `extracted` paper waiting). That
+paper turned out to be a duplicate of an already-read entry
+(`causal-alignment2026-streaming-transcription`, same arXiv:2603.11578,
+re-found independently under `koshkin2026-hikari-causal-alignment-wait-
+token`) -- caught by comparing `url` fields across `papers.json`, not
+titles (they weren't even phrased identically). Merged the genuinely new
+detail from the re-extraction (real author list, the unverified
+third-party BLEU numbers, and a relevance check against this repo's
+confidence-gating line) into the canonical entry, marked the new id
+`status: "duplicate"`, and confirmed its one candidate new angle
+(checking ASR-interim confidence before a gate decision) is already
+covered by `h-asr-confidence-early-commit`'s tested-and-negative result
+-- so no new hypothesis came out of it, correctly. Session then cascaded
+cleanly through `GENERATE_HYPOTHESES → HUMAN_APPROVAL → RUN_EXPERIMENTS →
+ANALYZE_RESULTS → WRITE_REPORT` with no surprises: backlog still exactly
+at the 6-item cap, all 3 `queued` hypotheses re-confirmed blocked with
+identical signatures to cycles 72/78/80/81 (OpenAI CONNECT-rejected 403;
+Deepgram listen-websocket HTTP 400 "Connection header did not include
+'upgrade'"; the third needs rm-2278's own viewing time). No experiment
+ran, no result fabricated.
+
+**Was the hypothesis backlog well-calibrated?** N/A again this cycle for
+the same reason as 79-81: every slot is genuinely blocked on a human
+action (3 on `pending_approval.json`, 3 queued-but-environment-blocked),
+not on idea generation, so the cap is doing its job correctly rather than
+stalling anything.
+
+**Is the auto-approval budget policy still right?** No change proposed.
+Zero spend again this cycle.
+
+**Should this playbook itself change?** Yes, one small fix, already
+applied: added a line to `SEARCH_PAPERS` instructing a URL/arXiv-id check
+against existing `papers.json` entries before stubbing a new paper, since
+this cycle's duplicate was exactly this kind of avoidable re-find (title
+phrasing drifted between the two WebSearch passes, but the URL was
+identical). This is a first occurrence, not yet a twice-reinvented
+pattern, but the fix is cheap and mechanical (one grep) and prevents a
+wasted EXTRACT_PAPERS pass next time, so fixing it now rather than
+waiting for a second occurrence.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+83). Same reasoning as cycles 79-81: with the backlog at cap and every
+item blocked on a human action, there is nothing for `GENERATE_HYPOTHESES`
+to productively add next cycle regardless, so a fresh literature pass
+(continuing to mine never-cited papers for the next available backlog
+slot, now also checking URLs against existing entries per the playbook
+fix above) is the better use of an unattended cycle. Not executing that
+SEARCH_PAPERS pass in this same session -- this session's one bounded
+unit of work for this invocation is now complete (`READ_PAPERS` through
+`REFLECT`); leaving the actual search for the next scheduled session to
+pick up fresh, per Step 0. `pipeline_state.json`'s own `cycle` JSON
+counter increments on this transition per its usual rule.
