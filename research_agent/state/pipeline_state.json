@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 22,
-  "last_updated": "2026-11-04T00:10:04.905284+00:00",
+  "last_updated": "2026-11-04T12:10:56.541239+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2549,6 +2549,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-04T00:10:04.905241+00:00",
       "note": "Cycle 82 EXTRACT_PAPERS: extracted koshkin2026-hikari-causal-alignment-wait-token via WebSearch fallback (arxiv.org EGRESS_BLOCKED). Pulled WAIT-token mechanism, Decoder Time Dilation, delay-recovery SFT claims, and en-ja/de/ru SOTA BLEU claims; flagged one unverified third-party BLEU number and missing AL/latency metrics as gaps. status=extracted, relevance_note ties it to the h-soft-anchor-gate-*/h-masking-holdback confidence-gating line for READ_PAPERS to follow up on next."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-04T12:10:56.541208+00:00",
+      "note": "cycle 82 READ_PAPERS: sole extracted paper (koshkin2026-hikari) was a duplicate of causal-alignment2026-streaming-transcription (same arXiv:2603.11578); merged details, marked duplicate, cross-referenced its one candidate angle against hypotheses.json (already covered by h-asr-confidence-early-commit). No other extracted/found papers remained."
     }
   ]
 }
