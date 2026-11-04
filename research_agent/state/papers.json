@@ -1539,12 +1539,23 @@
     {
       "id": "koshkin2026-hikari-causal-alignment-wait-token",
       "title": "Streaming Translation and Transcription Through Speech-to-Text Causal Alignment",
-      "authors": "Koshkin et al.",
+      "authors": "Roman Koshkin et al. (7 authors total)",
       "year": 2026,
-      "venue": "arXiv:2603.11578 (submitted 2026-03-12; cs.CL)",
+      "venue": "arXiv:2603.11578 (submitted 2026-03-12; cs.CL; 16 pages, 6 figures)",
       "url": "https://arxiv.org/abs/2603.11578",
       "source": "websearch_cycle82",
-      "status": "found"
+      "status": "extracted",
+      "extraction_method": "websearch_fallback_cycle82: WebFetch to arxiv.org returned ENOTFOUND (host not in this cloud session's allowed network domains -- EGRESS_BLOCKED per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction, consistent with every prior cycle since cycle 14), so extraction used WebSearch on the exact paper title + 'abstract', then a second WebSearch for method/results keywords. Both returned paraphrased abstract content via secondary sources (alphaxiv.org, emergentmind.com, opentrain.ai mirrors), not the arXiv page itself.",
+      "extracted_claims": [
+        "Problem framing: prior SiMT (simultaneous machine translation) has mostly relied on offline MT models plus separately hand-engineered or learned READ/WRITE policies bolted on top -- a cascade-style separation of 'what to say' from 'when to say it'.",
+        "Proposed model, 'Hikari': policy-free, fully end-to-end, performing simultaneous speech-to-text translation AND streaming transcription jointly, by folding the READ/WRITE timing decision into the token-probability distribution itself via a special 'WAIT' token -- when the model is uncertain, probability mass shifts from text tokens to WAIT instead of a separate policy module deciding to hold.",
+        "Secondary mechanism, 'Decoder Time Dilation': reduces autoregressive decoding overhead and helps keep a balanced training distribution (exact mechanism not recovered from search snippets -- would need the PDF for the real formulation).",
+        "Training detail: a supervised fine-tuning stage specifically teaches the model to recover from delays (i.e. catch back up after falling behind), not just to decide when to wait in the first place.",
+        "Results: claims new state-of-the-art BLEU in both low-latency and high-latency regimes on English->Japanese, English->German, and English->Russian, ahead of recent baselines (baseline identities not recovered from search snippets).",
+        "Unverified third-party numbers (a benchmark-aggregator site, not the paper itself -- flagged explicitly as unverified): BLEU 42.17 on an 'IWSLT25 Instruct en-ja' set, BLEU 49.42 on an 'HQ Podcasts en-ja' set. Do not cite these in a hypothesis without independent confirmation.",
+        "Gap: no latency/lag metric (e.g. Average Lag, AL) or exact baseline list was recoverable via WebSearch -- would need the actual PDF (blocked this session) to get the real results tables."
+      ],
+      "relevance_note_cycle82": "Directly relevant to this repo's own confidence/gating hypothesis line (h-soft-anchor-gate-*, h-masking-holdback): Hikari's WAIT-token mechanism is an end-to-end *trained-model* analogue of a READ/WRITE confidence gate, conceptually similar to what this repo approximates via prompt-engineered gating heuristics on top of a cascade (Deepgram ASR -> prompted LLM). Not directly portable (no fine-tuning in this project, same limitation as every other end-to-end paper already in papers.json), but worth reading fully (next state) for whether its WAIT-trigger criterion (confidence collapse pattern) suggests a cheap retroactive analysis of this repo's own ASR-interim confidence/stability signals before a gate decision -- needs verifying against the actual gate implementation per PLAYBOOK.md's field-verification rule before becoming a hypothesis, not assumed from the abstract alone."
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
