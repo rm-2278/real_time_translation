@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 23,
-  "last_updated": "2026-11-05T00:12:55.312814+00:00",
+  "last_updated": "2026-11-05T00:12:55.502427+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2615,6 +2615,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-05T00:12:55.312765+00:00",
       "note": "Cycle 83 GENERATE_HYPOTHESES: no-op (cap reached, see prior note)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-05T00:12:55.502383+00:00",
+      "note": "Cycle 83 HUMAN_APPROVAL: no hypothesis has approval unset/'proposed' (the 3 proposed/needs_human entries are already escalated terminal-until-human per WAITING_APPROVAL precedent, not re-touched). 3 hypotheses already queued+approved_by_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration) -- proceeding to RUN_EXPERIMENTS to re-check environment reachability."
     }
   ]
 }
