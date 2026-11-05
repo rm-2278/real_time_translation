@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 23,
-  "last_updated": "2026-11-05T00:12:41.470513+00:00",
+  "last_updated": "2026-11-05T00:12:55.312814+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2609,6 +2609,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-05T00:12:41.470472+00:00",
       "note": "Cycle 83 READ_PAPERS done (compactqe2026 read + cross-referenced, no near-miss found). Backlog already at 6-item cap (3 queued+approved_by_human, 3 proposed+needs_human already in pending_approval.json) -- per playbook, no new hypotheses written this cycle; the 3 proposed/needs_human entries are not unfinished HUMAN_APPROVAL work (already escalated), just terminal-until-human per WAITING_APPROVAL precedent."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-05T00:12:55.312765+00:00",
+      "note": "Cycle 83 GENERATE_HYPOTHESES: no-op (cap reached, see prior note)."
     }
   ]
 }
