@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 23,
-  "last_updated": "2026-11-04T12:15:18.763138+00:00",
+  "last_updated": "2026-11-05T00:10:08.573172+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2591,6 +2591,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-04T12:15:18.763100+00:00",
       "note": "cycle 82 REFLECT: backlog still at cap, all 3 queued hypotheses still env-blocked (identical to 72/78/80/81). Caught+fixed a papers.json duplicate during READ_PAPERS this cycle; added a URL/arXiv-id dedup check to PLAYBOOK.md's SEARCH_PAPERS section so it doesn't recur. Advancing to SEARCH_PAPERS (new narrated cycle 83) per cycles 79-81 precedent; not executing that search in this session -- this session's bounded unit of work ends here."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-05T00:10:08.573137+00:00",
+      "note": "Cycle 83 SEARCH_PAPERS: 6 WebSearch passes, 2 new paper stubs added (wmt2026-verbalized-confidence-judge, compactqe2026-small-open-weight-qe) after URL-dedup check against all 73 existing entries; everything else re-found was an already-known duplicate. Backlog already at 6-item cap (3 queued, 3 needs_human), so no hypothesis work this cycle per playbook."
     }
   ]
 }
