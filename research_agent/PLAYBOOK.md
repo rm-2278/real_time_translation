@@ -507,6 +507,19 @@ asyncio.run(main())
   # revert it afterward -- check what a variable's shell-export actually
   # took effect via the experiment JSON's own `config` block before
   # trusting a long/expensive run, not just before it starts.
+  **If a queued hypothesis's `required_changes` involves
+  `caption_video_demo.py` (or any other script that burns in Japanese
+  captions via Pillow/TTF)** (found cycle 83, 2026-11-05,
+  h-continuous-rating-cps-calibration): its `FONT_PATH` module constant is
+  hardcoded to a macOS-only path
+  (`/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc`) that does not exist on
+  a Linux cloud container, so a real re-render fails there outright. A
+  usable Japanese TTF *is* available on this sandbox's Linux image at
+  `/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf` (IPAGothic) -- check
+  for that path (or run `fc-list | grep -i noto.*cjk` as a fallback) before
+  concluding the whole hypothesis is blocked on font availability; only the
+  *human-viewing-time* part of this hypothesis is a genuine, unavoidable
+  block in an unattended session, not the rendering step itself.
   If any of these fail (this can legitimately happen -- e.g. a cloud
   sandbox where secrets haven't been provisioned yet, a fresh
   environment without ffmpeg, or -- distinct from a missing/bad key --

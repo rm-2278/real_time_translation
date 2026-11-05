@@ -5366,3 +5366,78 @@ unit of work for this invocation is now complete (`READ_PAPERS` through
 `REFLECT`); leaving the actual search for the next scheduled session to
 pick up fresh, per Step 0. `pipeline_state.json`'s own `cycle` JSON
 counter increments on this transition per its usual rule.
+
+## Cycle 83 (2026-11-05, scheduled session)
+
+**What worked / didn't:** The cycle-82 playbook fix (check candidate
+papers' URLs against every existing `papers.json` entry before stubbing)
+worked exactly as intended this cycle -- most of this cycle's 6 WebSearch
+passes re-surfaced already-known papers under slightly different title
+phrasing (REINA-TAN, DOA, prefix2prefix2026, nemo-iwslt2026-cascade,
+huang2024-conversational-simulmt, east-simultaneous-translation-2025,
+aa-wer-streaming-2026), and the URL check caught every one of them before
+a duplicate stub was written. Only 2 genuinely new URLs survived the
+check. `arxiv.org`/`aclanthology.org` WebFetch was EGRESS_BLOCKED again
+this session (same known pattern as prior cycles, different hosts than
+the RUN_EXPERIMENTS section's Deepgram/OpenAI blocks) -- the WebSearch
+abstract-fallback worked cleanly for one of the two new stubs
+(`compactqe2026-small-open-weight-qe`, cross-confirmed via two
+independent secondary sources), but for the other
+(`wmt2026-verbalized-confidence-judge`) a follow-up confirmation search
+for the candidate title's exact author list came back with zero matches,
+so I deliberately left it at `status: "found"` rather than promoting it
+to `"extracted"` on an unconfirmed identity match. This is the same
+"verify empirically, don't finalize on an unconfirmed inference" principle
+GENERATE_HYPOTHESES's accumulated notes describe, just applied to paper
+metadata instead of a hypothesis's factual claims -- worth remembering
+as a reusable instance of that pattern even though it's not yet a second
+*distinct* occurrence of this specific sub-case (previous instances were
+all about code/data claims, not bibliographic identity).
+
+`h-continuous-rating-cps-calibration` got its first-ever RUN_EXPERIMENTS
+attempt this cycle (it's been sitting `queued`+`approved_by_human` for a
+while with `result_summary: null`, i.e. nobody had actually tried it yet).
+Found a concrete, previously-undocumented blocker along the way:
+`caption_video_demo.py`'s hardcoded macOS font path doesn't exist on this
+Linux sandbox. Fixed the playbook to note the actual available Linux font
+path (`ipag.ttf`) for whoever picks this up next, but did not attempt the
+font-path fix or the keypress-tool build myself this cycle -- the
+hypothesis's real bottleneck is rm-2278's own 20-30 min of viewing time,
+which no amount of tooling fixes in an unattended session, so building
+the tool now without being able to validate it end-to-end risked a
+half-working script sitting unused. Judgment call; a future session (or
+rm-2278 directly) may reasonably decide the font fix is worth doing ahead
+of time so the tool is ready the moment a human is available.
+
+**Backlog calibration:** N/A again, same reasoning as cycles 79-82 --
+every slot is genuinely blocked on a human action (3 on
+`pending_approval.json` needing an approval signal, 3 queued but
+blocked: 2 on environment/network, 1 on viewing time), not on idea
+generation, so the 6-item cap is doing its job rather than stalling
+anything. Not writing new hypotheses on top of a full, correctly-blocked
+backlog.
+
+**Budget policy:** No change proposed. Zero spend again this cycle (pure
+WebSearch/WebFetch + environment reachability checks, no live
+Deepgram/LLM API calls).
+
+**Should this playbook itself change?** Yes, one small addition, already
+applied: a RUN_EXPERIMENTS note documenting the macOS-vs-Linux font-path
+issue in `caption_video_demo.py` and the actual working Linux font path
+(`/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf`), so a future
+session working on `h-continuous-rating-cps-calibration` (or any other
+hypothesis that touches that script) doesn't have to rediscover this
+from scratch, and so "font path" isn't mistaken for a reason to treat the
+*whole* hypothesis as environment-blocked when only the human-viewing-time
+part actually is.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+84). Same reasoning as cycles 79-83: backlog is at cap and every item is
+blocked on a human action, so another literature pass (continuing to
+mine never-cited papers, and following up on whether
+`wmt2026-verbalized-confidence-judge`'s identity can be confirmed, e.g.
+via a working `aclanthology.org` fetch in a future environment) is a
+better use of the next unattended cycle than forcing more hypothesis
+generation into an already-full, correctly-blocked backlog.
+`pipeline_state.json`'s own `cycle` JSON counter increments on this
+transition per its usual rule.
