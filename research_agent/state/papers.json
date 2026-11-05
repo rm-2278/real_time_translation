@@ -1572,24 +1572,30 @@
       "status": "found",
       "summary": "",
       "key_findings": [
-        "WebSearch snippet only: a WMT 2026 shared-task system description paper that uses an LLM-as-a-judge approach across all three subtasks and has the judge produce a verbalized confidence alongside its score, rather than a bare numeric score -- potentially relevant to this repo's own judge-score-noise research thread (h-judge-*). Needs EXTRACT_PAPERS pass (title/authors/claims unconfirmed; WebFetch to aclanthology.org was EGRESS_BLOCKED this session, same class of block noted elsewhere in papers.json -- use the WebSearch-abstract fallback per PLAYBOOK.md EXTRACT_PAPERS)."
+        "UNCONFIRMED IDENTITY (cycle 83): best WebSearch candidate for this exact ACL Anthology ID (2026.wmt-main.107) is 'Leveraging Verbalized Confidence in LLM-as-a-Judge for Automated Translation Quality Evaluation' by Richard Servajean, Mohammad Golam Sohrab, Lucie Kunitomo-Jacquin, Matiss Rikters (WMT26 program, Oct 28 2026 slot per statmt.org/wmt26/program.html; a GitHub repo sshrichard/WMT-Evaluation-Shared-Task-2026 describes a WMT2026 QE shared-task submission covering segment-level score prediction with/without verbalized confidence) -- but a follow-up search for this exact author list + 'verbalized confidence' + WMT 2026 returned ZERO matching results, so this title/author match is NOT independently confirmed and should not be treated as settled fact.",
+        "Per PLAYBOOK.md's repeated 'verify empirically, don't reason abstractly' lesson, deliberately leaving status at 'found' rather than 'extracted' until a future session can either WebFetch aclanthology.org/2026.wmt-main.107/ directly (host was EGRESS_BLOCKED this session, getaddrinfo ENOTFOUND -- may be allowed in a different environment) or otherwise independently confirm the title."
       ],
-      "relevant_to": []
+      "relevant_to": [],
+      "_extraction_note": "EXTRACT_PAPERS deferred -- see key_findings for why. Do not upgrade to 'extracted'/'read' on a future pass without actually confirming the ID<->title mapping first (e.g. a successful aclanthology.org fetch, or an independently-reproducible WebSearch match)."
     },
     {
       "id": "compactqe2026-small-open-weight-qe",
       "title": "CompactQE: Interpretable Translation Quality Estimation via Small Open-Weight LLMs",
-      "authors": "Jassem (further co-authors unconfirmed)",
+      "authors": "Guttmann et al.",
       "year": 2026,
-      "venue": "arXiv:2605.15763",
+      "venue": "EAMT 2026 (also arXiv:2605.15763)",
       "url": "https://arxiv.org/abs/2605.15763",
       "source": "websearch",
-      "status": "found",
-      "summary": "",
+      "status": "read",
+      "summary": "Argues state-of-the-art translation QE depends on large proprietary LLMs, raising privacy/cost concerns, and proposes a single-prompt approach with small (<30B param) open-weight LLMs that produces a quality score, MQM-style error annotations, a correction, and a post-edit all in one pass -- contrasted with multi-call pipelines like MQM-APE. Reports the open-weight models beat MetricX-25-QE (SPA 0.71; their best open-weight model ~on par, EuroLLM slightly lower at 0.72) for system-level ranking, but segment/span-level QE remains weak for both small open-weight and larger proprietary LLMs.",
       "key_findings": [
-        "WebSearch snippet only (WebFetch to arxiv.org EGRESS_BLOCKED this session): single-prompt QE using open-weight LLMs under 30B params, producing quality score + error annotations + corrections + edited translation in one pass; reports system-level human-correlation beating traditional neural metrics and approaching larger proprietary LLM judges. Motivated by privacy/cost concerns with sending text to large proprietary judge APIs -- tangential to this repo's current Gemini-API-based judge approach, but worth reading in full during EXTRACT_PAPERS given the active judge-reliability research thread (h-judge-*)."
+        "Single-prompt QE (score+error-annotation+correction+post-edit together) with small open-weight (<30B) LLMs matches or beats MetricX-25-QE at system-level ranking -- a cheaper/more private alternative to sending text to a large proprietary judge API.",
+        "Segment-level and span-level QE remain weak for ALL model sizes tested (small open-weight and large proprietary alike) -- this repo's own judge-noise findings (reflections.md cycles 19-21) are about exactly this granularity, so this is a relevant cross-check, not a contradiction: both lines of evidence agree segment/span-level LLM-judge scores are noisy.",
+        "Tangential to this repo's actual architecture (uses Gemini API judges, not self-hosted open-weight models) -- not directly actionable as a code change, but a useful citation for the judge-reliability thread's framing in a future report/reflection."
       ],
-      "relevant_to": []
+      "relevant_to": [],
+      "_extraction_note": "Extracted via WebSearch fallback (WebFetch to arxiv.org/aclanthology.org EGRESS_BLOCKED this session, cycle 83) -- cross-confirmed against two independent secondary sources (arxiv.org/html mirror snippet + ACL Anthology EAMT-1.9 listing) with consistent title/author/content, so treated as reliable despite not reading the primary source directly.",
+      "_read_cross_reference_note_cycle83": "Cross-referenced against experiments/*.json, experiments/results.csv, and git log -- no existing experiment tests an open-weight/local QE model (every hypothesis to date uses gemini-3-flash-preview / gemini-3.1-flash-lite via the Gemini API). Not an actionable code change for this repo's current architecture (API-only, no self-hosted model serving), but its segment/span-level-QE-is-noisy-for-all-sizes finding corroborates this repo's own judge-noise findings (reflections.md cycles 19-21) from an independent source -- worth citing in a future report/reflection, not worth a new hypothesis on its own."
     }
   ],
   "_websearch_note": "One real WebSearch pass was run on 2026-09-08 (query: '2026 normalized erasure caption flicker simultaneous speech translation LLM cascade stability metric') to check for post-survey literature. It also cross-validated this pipeline's NE implementation: an independent summary described 'NE score of 0.2' as meaning roughly 1/5 of tokens change before settling, which matches what src/real_time_translation/experiments/flicker_metrics.py measured for this repo's own ASR-interim stream (asr_ne_word_mean ~= 0.20 across the existing experiment corpus).",
