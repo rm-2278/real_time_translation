@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 23,
-  "last_updated": "2026-11-05T00:10:08.573172+00:00",
+  "last_updated": "2026-11-05T00:12:25.085065+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2597,6 +2597,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-05T00:10:08.573137+00:00",
       "note": "Cycle 83 SEARCH_PAPERS: 6 WebSearch passes, 2 new paper stubs added (wmt2026-verbalized-confidence-judge, compactqe2026-small-open-weight-qe) after URL-dedup check against all 73 existing entries; everything else re-found was an already-known duplicate. Backlog already at 6-item cap (3 queued, 3 needs_human), so no hypothesis work this cycle per playbook."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-05T00:12:25.085030+00:00",
+      "note": "Cycle 83 EXTRACT_PAPERS: compactqe2026-small-open-weight-qe extracted via WebSearch fallback (WebFetch EGRESS_BLOCKED to arxiv.org/aclanthology.org). wmt2026-verbalized-confidence-judge left at found -- ID<->title match unconfirmed on reconfirmation search, not upgrading without independent confirmation per playbook."
     }
   ]
 }
