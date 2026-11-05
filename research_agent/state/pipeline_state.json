@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 24,
-  "last_updated": "2026-11-05T00:17:14.665877+00:00",
+  "last_updated": "2026-11-05T12:09:03.254646+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2645,6 +2645,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-05T00:17:14.665815+00:00",
       "note": "Cycle 83 REFLECT complete (see reflections.md). Backlog at cap, every item blocked on human action -- advancing to a fresh literature pass for cycle 84 rather than forcing more hypothesis generation."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-05T12:09:03.254603+00:00",
+      "note": "Cycle 84: 4 WebSearch queries for post-survey literature (stability/flicker policies, LLM-as-MT cascade comparisons, judge-calibration angle, vendor ASR latency). Confirmed wmt2026-verbalized-confidence-judge's identity (was unconfirmed since cycle 83) via a direct aclanthology.org search hit. Stubbed 1 new paper (calibrating-llm-judges-linear-probes-2026, judge-calibration technique, applicability to this repo's API-only judge call site flagged as unverified). All other candidates were already in papers.json under existing ids (dedup check passed) or were low-quality SEO blogs not meeting the existing sourcing bar."
     }
   ]
 }
