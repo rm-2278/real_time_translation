@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 24,
-  "last_updated": "2026-11-06T12:13:00.603940+00:00",
+  "last_updated": "2026-11-06T12:13:18.292552+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2669,6 +2669,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-06T12:13:00.603909+00:00",
       "note": "GENERATE_HYPOTHESES cycle 84: no new hypotheses written, backlog at cap (6: 3 queued/approved_by_human, 3 proposed/needs_human, unchanged since cycle 79). wmt2026-verbalized-confidence-judge flagged as next candidate once a slot opens."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-06T12:13:18.292518+00:00",
+      "note": "HUMAN_APPROVAL cycle 84: no hypothesis has approval unset or bare 'proposed' needing a fresh decision this cycle (3 queued/approved_by_human already set in a prior cycle, 3 proposed/needs_human already escalated to pending_approval.json in a prior cycle -- WAITING_APPROVAL's self-approval-block precedent means this session cannot move those 3 out of needs_human itself, not re-attempting). At least one hypothesis (3, in fact) is queued with approval != needs_human, so advancing to RUN_EXPERIMENTS per PLAYBOOK.md rather than WAITING_APPROVAL."
     }
   ]
 }
