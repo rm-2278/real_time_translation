@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 24,
-  "last_updated": "2026-11-06T12:12:25.797436+00:00",
+  "last_updated": "2026-11-06T12:13:00.603940+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2663,6 +2663,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-06T12:12:25.797400+00:00",
       "note": "READ_PAPERS cycle 84: summarized wmt2026-verbalized-confidence-judge + calibrating-llm-judges-linear-probes-2026, cross-referenced against existing h-judge-* hypotheses/experiments -- no duplicate found; verbalized-confidence flagged as a new candidate angle, probe-calibration method confirmed non-portable (no hidden-state access via public Gemini API)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-06T12:13:00.603909+00:00",
+      "note": "GENERATE_HYPOTHESES cycle 84: no new hypotheses written, backlog at cap (6: 3 queued/approved_by_human, 3 proposed/needs_human, unchanged since cycle 79). wmt2026-verbalized-confidence-judge flagged as next candidate once a slot opens."
     }
   ]
 }
