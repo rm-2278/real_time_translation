@@ -5441,3 +5441,95 @@ better use of the next unattended cycle than forcing more hypothesis
 generation into an already-full, correctly-blocked backlog.
 `pipeline_state.json`'s own `cycle` JSON counter increments on this
 transition per its usual rule.
+
+---
+
+## Cycle 84 (2026-11-06, scheduled run, continuation of a cycle started by a prior session)
+
+**What worked / what didn't:** Picked up at `READ_PAPERS` (prior session
+in this same narrated cycle had already done `SEARCH_PAPERS` and
+`EXTRACT_PAPERS`). Wrote real from-scratch summaries for the two
+cycle-84 `"extracted"` papers (`wmt2026-verbalized-confidence-judge`,
+`calibrating-llm-judges-linear-probes-2026`) and did the actual
+cross-reference step properly (grepped `experiments/*.json`/
+`results.csv` for judge-related files, read every existing `h-judge-*`
+hypothesis's title, read `translation_fidelity_judge.py` directly rather
+than reasoning about its API surface from the paper abstract alone) --
+confirmed the linear-probe calibration method is genuinely not portable
+(no hidden-state access via the public Gemini API, matches the paper's
+own caveat) and that "per-item verbalized confidence" is a real, novel,
+not-yet-tried angle distinct from every tested judge hypothesis so far
+(rubric-decomposition changes what's scored, reasoning-order changes
+when the judge reasons, neither adds a confidence signal). Then ran the
+full `GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS ->
+ANALYZE_RESULTS -> WRITE_REPORT` chain in the same session since every
+step downstream turned out to be a legitimate no-op (backlog still at
+the 6-item cap, same as cycles 79-83; all 3 queued hypotheses
+re-confirmed blocked on the same OpenAI/Deepgram-WS issues, now a 7th
+consecutive identical reproduction) -- this matches the playbook's
+"continue into the next state if you have budget and the unit finishes
+cleanly" guidance rather than stopping artificially at `READ_PAPERS`
+when there was nothing substantive left to decide in the states after it.
+
+**Bug hit and fixed this cycle, worth flagging as a reusable lesson:**
+when using the Edit tool to append new sentences to an existing JSON
+string value in `hypotheses.json`, my first attempt put a literal blank
+line (`"...done.\n\nRE-CONFIRMED (cycle 84)..."` as an actual multi-line
+`new_string`, not an escaped `\n\n`) into the replacement text. This
+produced a raw, unescaped newline character inside a JSON string
+literal, which is syntactically invalid JSON (control characters must be
+escaped) -- caught immediately by validating with
+`python3 -c "import json; json.load(...)"` right after editing, before
+committing, which is exactly why that validation step is worth doing
+every time a JSON state file is hand-edited with free-text content, not
+just before `orchestrator.py advance` calls that already do their own
+validation. Fixed by rewriting the edit to stay on one line (space-joined
+instead of blank-line-joined). **Playbook update applied:** added a
+one-line caution to the Hard rules section (see diff) telling future
+sessions to never let an `Edit` `new_string` targeting a JSON string
+value contain a literal newline -- keep appended text on the same line,
+space-separated, when extending an existing JSON string field, and
+always re-validate the file with `python3 -c "import json; json.load(...)"`
+immediately after such an edit, before committing.
+
+**Backlog calibration:** N/A again, same reasoning as cycles 79-83 --
+every slot is genuinely blocked on a human action (3 on
+`pending_approval.json` needing an approval signal, 3 queued but
+blocked: 2 on environment/network, 1 on viewing time), not on idea
+generation. Not writing new hypotheses on top of a full, correctly-blocked
+backlog. The one new candidate surfaced this cycle
+(judge per-item verbalized confidence, grounded in
+`wmt2026-verbalized-confidence-judge`) is recorded in that paper's
+`key_findings` and in this cycle's report as the next
+`GENERATE_HYPOTHESES` candidate once a slot opens, not written up as an
+actual hypothesis entry yet (would just push the backlog past the cap).
+
+**Budget policy:** No change proposed. Zero spend again this cycle (pure
+WebSearch-derived paper summarization this session inherited + local
+reachability/websocket checks, no live Deepgram/LLM API calls).
+
+**Should this playbook itself change?** Yes, one small addition, already
+applied: the JSON-newline-in-Edit caution described above, added to the
+Hard rules section. Also worth noting for a future cycle (not acted on
+now, just flagged): the OpenAI-connect-rejected and Deepgram-listen-
+websocket-upgrade-mangled blockers are now each confirmed stable across
+7 consecutive cycles (72, 78, 80, 81, 82, 83, 84) -- per the existing
+cycle-72 note about not re-testing a fully-stable block every single
+cycle forever, a future session could reasonably skip the live
+reachability re-check for these two specific hosts for a cycle or two
+and trust the existing record, UNLESS a human signals the environment
+changed. Not changing the playbook's actual instruction yet since "check
+every cycle" has so far been cheap (one curl + one websocket probe) and
+still has some value as a tripwire for a silent environment fix.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+85). Same reasoning as cycles 79-84: backlog is at cap and every item is
+blocked on a human action, so another literature pass is a better use of
+the next unattended cycle than forcing more hypothesis generation into
+an already-full, correctly-blocked backlog. A good next-cycle angle:
+follow up on judge verbalized-confidence/calibration literature further
+(this cycle's two papers were themselves found via that search angle in
+cycle 83/84) to see if a second independent paper corroborates the
+per-item-confidence framing before it gets written up as a hypothesis.
+`pipeline_state.json`'s own `cycle` JSON counter increments on this
+transition per its usual rule.

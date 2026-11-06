@@ -770,3 +770,18 @@ working memory, not a human-facing report) answering honestly:
   to this playbook's own bookkeeping.
 - If `uv run ruff check .` fails on code you wrote, fix it before
   committing.
+- **When using the `Edit` tool to extend an existing JSON string value**
+  (e.g. appending a re-confirmation note to a hypothesis's
+  `result_summary` or a paper's `key_findings` entry) -- never let the
+  `new_string` contain a literal newline/blank line. A real line break in
+  the replacement text becomes a raw, unescaped control character inside
+  a JSON string literal, which is invalid JSON (found cycle 84,
+  2026-11-06: a first attempt wrote `"...done.\n\nRE-CONFIRMED..."` as an
+  actual multi-line block instead of an escaped `\n\n`, breaking
+  `hypotheses.json`). Keep appended text on the same line, space-joined
+  with what came before, when extending an existing JSON string field.
+  Always re-validate with `python3 -c "import json;
+  json.load(open('path/to/file.json'))"` immediately after hand-editing
+  any `research_agent/state/*.json` file with free-text content, before
+  committing -- this catches the mistake immediately, cheaply, every
+  time.
