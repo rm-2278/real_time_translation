@@ -1569,12 +1569,13 @@
       "venue": "WMT 2026 (Eleventh Conference on Machine Translation), shared-task system paper",
       "url": "https://aclanthology.org/2026.wmt-main.107/",
       "source": "websearch",
-      "status": "found",
+      "status": "extracted",
       "summary": "",
       "key_findings": [
         "UNCONFIRMED IDENTITY (cycle 83): best WebSearch candidate for this exact ACL Anthology ID (2026.wmt-main.107) is 'Leveraging Verbalized Confidence in LLM-as-a-Judge for Automated Translation Quality Evaluation' by Richard Servajean, Mohammad Golam Sohrab, Lucie Kunitomo-Jacquin, Matiss Rikters (WMT26 program, Oct 28 2026 slot per statmt.org/wmt26/program.html; a GitHub repo sshrichard/WMT-Evaluation-Shared-Task-2026 describes a WMT2026 QE shared-task submission covering segment-level score prediction with/without verbalized confidence) -- but a follow-up search for this exact author list + 'verbalized confidence' + WMT 2026 returned ZERO matching results, so this title/author match is NOT independently confirmed and should not be treated as settled fact.",
         "Per PLAYBOOK.md's repeated 'verify empirically, don't reason abstractly' lesson, deliberately leaving status at 'found' rather than 'extracted' until a future session can either WebFetch aclanthology.org/2026.wmt-main.107/ directly (host was EGRESS_BLOCKED this session, getaddrinfo ENOTFOUND -- may be allowed in a different environment) or otherwise independently confirm the title.",
-        "IDENTITY CONFIRMED (cycle 84, 2026-11-05): a fresh WebSearch for the exact anthology id string (\"2026.wmt-main.107\" verbalized confidence judge) returned the aclanthology.org/2026.wmt-main.107/ page itself in the result set, with the search engine summary directly stating the resolved title/authors/page-range (1730-1738, Oct 2026) -- a materially different, independent confirmation path than cycle 83 (which only had a GitHub-repo-name guess plus a zero-match author-list search). Title/authors updated above accordingly. Still leaving status at 'found' rather than 'extracted' since no actual claims/numbers have been pulled from the body yet -- that is EXTRACT_PAPERS work for this same cycle, not SEARCH_PAPERS."
+        "IDENTITY CONFIRMED (cycle 84, 2026-11-05): a fresh WebSearch for the exact anthology id string (\"2026.wmt-main.107\" verbalized confidence judge) returned the aclanthology.org/2026.wmt-main.107/ page itself in the result set, with the search engine summary directly stating the resolved title/authors/page-range (1730-1738, Oct 2026) -- a materially different, independent confirmation path than cycle 83 (which only had a GitHub-repo-name guess plus a zero-match author-list search). Title/authors updated above accordingly. Still leaving status at 'found' rather than 'extracted' since no actual claims/numbers have been pulled from the body yet -- that is EXTRACT_PAPERS work for this same cycle, not SEARCH_PAPERS.",
+        "EXTRACTED (cycle 84, 2026-11-05): full abstract/body not retrievable (aclanthology.org EGRESS_BLOCKED, getaddrinfo ENOTFOUND, same as cycle 83; WebFetch retried this cycle to confirm, still blocked). WebSearch abstract-fallback (title-exact-match query) returned only snippet-level info, no verbatim abstract text and no concrete correlation/accuracy numbers: this is a WMT 2026 shared-task system-paper using an LLM-as-a-judge within the MQM (Multidimensional Quality Metrics) error-typology framework, where the judge model additionally reports a verbalized confidence score per flagged error type (not just one overall segment score). Code reported as published on GitHub by the authors (repo name not independently confirmed this cycle). A second, more targeted WebSearch for the exact author list + 'WMT26' + correlation/results keywords found NO matching results at all -- the paper's own reported numbers (e.g. whether per-error-type confidence improves correlation with human MQM scores vs. a single overall score, by how much) remain unconfirmed. Treat as 'extracted' in the sense that the method/setup is now understood well enough to ground a hypothesis description, NOT in the sense that quantitative results have been verified -- any hypothesis grounded in this paper should describe the mechanism (per-error-type verbalized confidence from an MQM-style judge) rather than cite a specific number from it, or should flag the number as paper-unconfirmed if cited at all."
       ],
       "relevant_to": [],
       "_extraction_note": "Identity now confirmed (cycle 84) -- EXTRACT_PAPERS may proceed to pull claims/numbers from the abstract via WebFetch or WebSearch abstract-fallback per PLAYBOOK.md."
@@ -1601,14 +1602,21 @@
     {
       "id": "calibrating-llm-judges-linear-probes-2026",
       "title": "Calibrating LLM Judges: Linear Probes for Fast and Reliable Uncertainty Estimation",
-      "authors": "unconfirmed (ACL 2026 Industry Track)",
+      "authors": "Bhaktipriya Radharapu, Eshika Saxena, Kenneth Li, Chenxi Whitehouse, Adina Williams, Nicola Cancedda (FAIR at Meta / Meta Superintelligence Labs)",
       "year": 2026,
-      "venue": "ACL 2026 Industry Track",
+      "venue": "ACL 2026 (Proceedings of the 64th Annual Meeting of the ACL, Volume 6: Industry Track)",
       "url": "https://arxiv.org/pdf/2512.22245",
       "source": "websearch",
-      "status": "found",
+      "status": "extracted",
       "summary": "",
-      "key_findings": [],
+      "key_findings": [
+        "EXTRACTED (cycle 84, 2026-11-05): arxiv.org EGRESS_BLOCKED (getaddrinfo ENOTFOUND) for both the pdf and abs/html URLs, same host-block pattern as aclanthology.org. WebSearch abstract-fallback (exact title query) returned usable snippet-level detail, no verbatim abstract text.",
+        "Method: trains linear probes (Brier-score-loss objective) on a judge LLM's internal hidden states to produce calibrated uncertainty estimates, with no additional fine-tuning of the judge model itself.",
+        "Evaluated across reasoning, mathematics, factuality, coding, and subjective human-preference judgment tasks -- NOT machine translation specifically.",
+        "Reported results (WebSearch summary, not independently verified against the paper's own tables): probes achieve better calibration than existing (non-probe) calibration methods at roughly 10x lower compute cost, generalize to unseen evaluation domains, and are more accurate specifically on high-confidence predictions.",
+        "Reported caveat: the probes give conservative estimates that underperform on easier datasets, but may suit safety-critical deployments that prioritize a low false-positive rate.",
+        "CONFIRMED CAVEAT (carried over from the cycle-84 _search_note, now verified as the real blocker, not just flagged as unverified): this technique requires read access to the judge model's own hidden states/internal activations to train the probe. This repo's translation_fidelity_judge.judge() calls Gemini only through the public generativelanguage.googleapis.com API, which exposes no hidden-state or logit access -- so this technique is NOT directly applicable to this repo's actual judge call site without a self-hosted/open-weights judge model, which is out of scope per this repo's API-only architecture (same class of inapplicability as exposst2026/sasst2026 noted in PLAYBOOK.md). Any hypothesis grounding itself in this paper should either (a) propose a self-hosted open-weights judge as a prerequisite (large scope change, likely needs_human) or (b) extract a narrower, API-compatible idea from the paper (e.g. using verbalized rather than probe-based confidence, which overlaps with wmt2026-verbalized-confidence-judge above) rather than the probe method itself."
+      ],
       "relevant_to": [
         "judge-reliability-thread"
       ],
