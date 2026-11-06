@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 24,
-  "last_updated": "2026-11-06T12:13:18.292552+00:00",
+  "last_updated": "2026-11-06T12:15:55.517104+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2675,6 +2675,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-06T12:13:18.292518+00:00",
       "note": "HUMAN_APPROVAL cycle 84: no hypothesis has approval unset or bare 'proposed' needing a fresh decision this cycle (3 queued/approved_by_human already set in a prior cycle, 3 proposed/needs_human already escalated to pending_approval.json in a prior cycle -- WAITING_APPROVAL's self-approval-block precedent means this session cannot move those 3 out of needs_human itself, not re-attempting). At least one hypothesis (3, in fact) is queued with approval != needs_human, so advancing to RUN_EXPERIMENTS per PLAYBOOK.md rather than WAITING_APPROVAL."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-06T12:15:55.517071+00:00",
+      "note": "RUN_EXPERIMENTS cycle 84: all 3 queued hypotheses re-confirmed blocked (OpenAI connect_rejected, Deepgram WS upgrade-header mangling, human viewing time), no new experiment ran, nothing to analyze -- pass-through per PLAYBOOK.md (direct RUN_EXPERIMENTS -> WRITE_REPORT is an illegal transition)."
     }
   ]
 }
