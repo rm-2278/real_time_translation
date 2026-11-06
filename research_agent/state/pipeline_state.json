@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 24,
-  "last_updated": "2026-11-06T00:09:00.977740+00:00",
+  "last_updated": "2026-11-06T12:12:25.797436+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2657,6 +2657,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-06T00:09:00.977710+00:00",
       "note": "Cycle 84 EXTRACT_PAPERS: both 'found' papers (wmt2026-verbalized-confidence-judge, calibrating-llm-judges-linear-probes-2026) extracted via WebSearch abstract-fallback (aclanthology.org/arxiv.org both EGRESS_BLOCKED this session). wmt2026 paper: MQM-judge with per-error-type verbalized confidence, no concrete numbers retrievable. calibrating-llm-judges paper: linear probes on judge hidden states for calibration -- confirmed NOT directly applicable to this repo's API-only Gemini judge (no hidden-state access). Both set status=extracted."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-06T12:12:25.797400+00:00",
+      "note": "READ_PAPERS cycle 84: summarized wmt2026-verbalized-confidence-judge + calibrating-llm-judges-linear-probes-2026, cross-referenced against existing h-judge-* hypotheses/experiments -- no duplicate found; verbalized-confidence flagged as a new candidate angle, probe-calibration method confirmed non-portable (no hidden-state access via public Gemini API)."
     }
   ]
 }
