@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 26,
-  "last_updated": "2026-11-07T12:12:46.406602+00:00",
+  "last_updated": "2026-11-07T12:13:04.612179+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2771,6 +2771,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-07T12:12:46.406533+00:00",
       "note": "Cycle 86 READ_PAPERS: wrote summary/key_findings for xing2026-iwslt-test-time-adaptation-offline-mfm-simulst, status=read. Cross-referenced against experiments/*.json, experiments/results.csv, git log -- no existing hypothesis/experiment duplicates its 3 mechanisms (hybrid VAD+duration chunking, wait-(k,s,n) policy, multi-turn-conversation prompting framing). Base-model identity (API vs self-hosted) remains unconfirmed, blocking the chunking/policy angles; the multi-turn-conversation-framing angle is independently testable against this repo's own llm_translator.py regardless, flagged as the strongest future GENERATE_HYPOTHESES candidate once a backlog slot opens."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-07T12:13:04.612144+00:00",
+      "note": "Cycle 86 GENERATE_HYPOTHESES: backlog still at the 6 queued/proposed cap (3 queued approved_by_human, 3 proposed needs_human), all still blocked on human action (OpenAI connect-rejected, Deepgram WS mangled, rm-2278's own viewing time, or pending approval signal). Per PLAYBOOK.md's backlog-cap rule, did NOT write a new hypothesis this cycle even though xing2026's multi-turn-conversation-framing angle is a clean candidate -- flagged in papers.json for the next cycle a slot opens. No file changes this state beyond the state transition itself."
     }
   ]
 }
