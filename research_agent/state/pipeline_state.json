@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 26,
-  "last_updated": "2026-11-07T12:11:10.630954+00:00",
+  "last_updated": "2026-11-07T12:12:06.723803+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2759,6 +2759,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-07T12:11:10.630911+00:00",
       "note": "Cycle 86 SEARCH_PAPERS: 2 WebSearch queries (general SimulST streaming-policy sweep + judge-calibration sweep), 1 new stub added (xing2026-iwslt-test-time-adaptation-offline-mfm-simulst, ACL Anthology 2026.iwslt-1.27) after dedup-checking all candidates against existing papers.json url fields. See papers.json _websearch_note_cycle86 for full detail."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-07T12:12:06.723769+00:00",
+      "note": "Cycle 86 EXTRACT_PAPERS: WebFetch to aclanthology.org EGRESS_BLOCKED (consistent with every prior cycle), fell back to WebSearch per PLAYBOOK.md. Recovered full author list, page range, and method shape (hybrid VAD segmentation + wait-(k,s,n) policy, prompting-based test-time adaptation, no fine-tuning) for xing2026-iwslt-test-time-adaptation-offline-mfm-simulst, but could NOT confirm the base foundation model's identity (API-accessible vs self-hosted) or any BLEU/latency numbers from snippets alone -- flagged as a thin extraction pending full-text access, same caveat class as openwho-arabicthai-medical-judge-reliability-2026."
     }
   ]
 }
