@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 25,
-  "last_updated": "2026-11-07T00:10:42.102098+00:00",
+  "last_updated": "2026-11-07T00:11:48.877196+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2711,6 +2711,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-07T00:10:42.102074+00:00",
       "note": "Cycle 85 EXTRACT_PAPERS: WebFetch to arxiv.org EGRESS_BLOCKED (DNS resolution failure), same as every prior cycle. Fell back to WebSearch per playbook, got substantive quantitative detail (F1 0.02-0.23 range, Likert-beats-numeric calibration finding, verbalized-vs-model-probability/entropy comparison) for marashian2026-verbalized-vs-internal-confidence-mt. Set status=extracted."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-07T00:11:48.877132+00:00",
+      "note": "Cycle 85 GENERATE_HYPOTHESES: backlog at cap (6 = 3 queued approved_by_human [env/viewing-time-blocked] + 3 proposed needs_human in pending_approval.json), same situation as cycles 79-85. Not writing new hypotheses on top of a full, correctly-blocked backlog per PLAYBOOK.md's backlog-cap rule. Next candidate once a slot opens: h-judge-verbalized-confidence-likert-scale, grounded in this cycle's newly-read marashian2026-verbalized-vs-internal-confidence-mt (Likert>numeric scale finding) + wmt2026-verbalized-confidence-judge, flagged in papers.json."
     }
   ]
 }
