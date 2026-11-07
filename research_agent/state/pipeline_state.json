@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 26,
-  "last_updated": "2026-11-07T00:15:52.553197+00:00",
+  "last_updated": "2026-11-07T12:11:10.630954+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2753,6 +2753,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-07T00:15:52.553170+00:00",
       "note": "Cycle 85 REFLECT: good clean cycle, found and read 1 new corroborating paper on the judge verbalized-confidence thread (marashian2026), confirmed OpenAI/Deepgram-WS blockers stable for 8 consecutive cycles (flagged for a possible future playbook change, not acted on yet), backlog still at cap and correctly not expanded. Advancing REFLECT -> SEARCH_PAPERS (new narrated cycle 86) per the same reasoning as cycles 79-85: another literature pass is better use of the next unattended cycle than forcing hypothesis generation into an already-full backlog."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-07T12:11:10.630911+00:00",
+      "note": "Cycle 86 SEARCH_PAPERS: 2 WebSearch queries (general SimulST streaming-policy sweep + judge-calibration sweep), 1 new stub added (xing2026-iwslt-test-time-adaptation-offline-mfm-simulst, ACL Anthology 2026.iwslt-1.27) after dedup-checking all candidates against existing papers.json url fields. See papers.json _websearch_note_cycle86 for full detail."
     }
   ]
 }
