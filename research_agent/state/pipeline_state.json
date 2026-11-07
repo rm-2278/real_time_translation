@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 26,
-  "last_updated": "2026-11-07T12:14:34.032508+00:00",
+  "last_updated": "2026-11-07T12:14:42.742751+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2789,6 +2789,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-07T12:14:34.032476+00:00",
       "note": "Cycle 86 RUN_EXPERIMENTS: re-confirmed Deepgram REST (200)/Gemini REST (200) reachable but Deepgram listen-websocket still fails HTTP 400 'Connection header did not include upgrade' and api.openai.com still CONNECT-rejected (exit 56, HTTP 403) -- now 9 consecutive cycles for the OpenAI block. All 3 queued hypotheses remain blocked (2 on environment, 1 on rm-2278's own viewing time). No experiment run, no code change, logged $0.00. Pass-through per PLAYBOOK.md (RUN_EXPERIMENTS->WRITE_REPORT is not a legal transition; ANALYZE_RESULTS is the only legal next state)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-07T12:14:42.742719+00:00",
+      "note": "Cycle 86 ANALYZE_RESULTS: nothing to analyze, pass-through (no experiment ran this cycle -- all 3 queued hypotheses remain environment/viewing-time blocked, re-confirmed in RUN_EXPERIMENTS)."
     }
   ]
 }
