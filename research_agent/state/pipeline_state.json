@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 25,
-  "last_updated": "2026-11-07T00:09:50.925392+00:00",
+  "last_updated": "2026-11-07T00:10:42.102098+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2705,6 +2705,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-07T00:09:50.925362+00:00",
       "note": "Cycle 85 SEARCH_PAPERS: 2 WebSearch queries (judge verbalized-confidence follow-up + general SimulST streaming-policy sweep). Stubbed 1 new paper (marashian2026-verbalized-vs-internal-confidence-mt, arXiv 2606.17234), the second corroborating paper on the judge verbalized-confidence thread the cycle-84 reflection asked for. Checked candidate URLs against existing papers.json entries, no duplicates. Deliberately skipped stubbing 2 general calibration position/audit papers (lower priority, no MT-specific mechanism) and 2 streaming-policy papers requiring fine-tuning/self-hosted models (out of scope, API-only architecture)."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-07T00:10:42.102074+00:00",
+      "note": "Cycle 85 EXTRACT_PAPERS: WebFetch to arxiv.org EGRESS_BLOCKED (DNS resolution failure), same as every prior cycle. Fell back to WebSearch per playbook, got substantive quantitative detail (F1 0.02-0.23 range, Likert-beats-numeric calibration finding, verbalized-vs-model-probability/entropy comparison) for marashian2026-verbalized-vs-internal-confidence-mt. Set status=extracted."
     }
   ]
 }
