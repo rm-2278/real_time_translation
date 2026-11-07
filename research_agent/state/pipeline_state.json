@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 25,
-  "last_updated": "2026-11-06T12:18:07.740822+00:00",
+  "last_updated": "2026-11-07T00:09:50.925392+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2699,6 +2699,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-06T12:18:07.740790+00:00",
       "note": "REFLECT cycle 84 -> new narrated cycle 85: backlog still at cap (6), all items blocked on human action (3 pending_approval.json, 3 queued-but-environment/time-blocked). Advancing to a fresh literature pass per cycles 79-84's same reasoning. Next-cycle angle: follow up on judge verbalized-confidence/calibration literature further."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-07T00:09:50.925362+00:00",
+      "note": "Cycle 85 SEARCH_PAPERS: 2 WebSearch queries (judge verbalized-confidence follow-up + general SimulST streaming-policy sweep). Stubbed 1 new paper (marashian2026-verbalized-vs-internal-confidence-mt, arXiv 2606.17234), the second corroborating paper on the judge verbalized-confidence thread the cycle-84 reflection asked for. Checked candidate URLs against existing papers.json entries, no duplicates. Deliberately skipped stubbing 2 general calibration position/audit papers (lower priority, no MT-specific mechanism) and 2 streaming-policy papers requiring fine-tuning/self-hosted models (out of scope, API-only architecture)."
     }
   ]
 }
