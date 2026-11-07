@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 25,
-  "last_updated": "2026-11-07T00:14:05.918054+00:00",
+  "last_updated": "2026-11-07T00:14:11.897293+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2735,6 +2735,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-07T00:14:05.918025+00:00",
       "note": "Cycle 85 RUN_EXPERIMENTS: all 3 queued hypotheses re-confirmed blocked (h-judge-cross-model-agreement-check: api.openai.com connect_rejected; h-review-short-acronym-keyterm-false-positive: deepgram listen-websocket upgrade still HTTP 400; h-continuous-rating-cps-calibration: needs rm-2278's own viewing time). No queued hypothesis runnable. Pass-through to ANALYZE_RESULTS per PLAYBOOK.md (direct RUN_EXPERIMENTS -> WRITE_REPORT is an illegal transition), nothing new to analyze."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-07T00:14:11.897267+00:00",
+      "note": "Cycle 85 ANALYZE_RESULTS: nothing new to analyze (no experiment ran this cycle, same 3 blockers re-confirmed). Advancing to WRITE_REPORT to write the Japanese results report per PLAYBOOK.md."
     }
   ]
 }
