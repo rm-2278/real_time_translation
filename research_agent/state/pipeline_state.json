@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 25,
-  "last_updated": "2026-11-07T00:11:48.877196+00:00",
+  "last_updated": "2026-11-07T00:11:55.019477+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2717,6 +2717,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-07T00:11:48.877132+00:00",
       "note": "Cycle 85 GENERATE_HYPOTHESES: backlog at cap (6 = 3 queued approved_by_human [env/viewing-time-blocked] + 3 proposed needs_human in pending_approval.json), same situation as cycles 79-85. Not writing new hypotheses on top of a full, correctly-blocked backlog per PLAYBOOK.md's backlog-cap rule. Next candidate once a slot opens: h-judge-verbalized-confidence-likert-scale, grounded in this cycle's newly-read marashian2026-verbalized-vs-internal-confidence-mt (Likert>numeric scale finding) + wmt2026-verbalized-confidence-judge, flagged in papers.json."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-07T00:11:55.019446+00:00",
+      "note": "Cycle 85 GENERATE_HYPOTHESES confirmed: backlog at cap, no new hypotheses added, no proposed/approval-null entries to process (all 6 backlog items already have approval set: 3 approved_by_human, 3 needs_human). Advancing to HUMAN_APPROVAL to re-check auto-approvability."
     }
   ]
 }
