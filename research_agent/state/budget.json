@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-05",
+  "date": "2026-11-07",
   "spent_today_usd": 0.0,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
@@ -289,6 +289,11 @@
       "at": "2026-10-30T12:19:09.983941+00:00",
       "amount_usd": 0.02,
       "note": "h-alternating-turn-context-format: alternating_turns_context_replay.py, 60 new gemini-3-flash-preview translate calls (15 segments x 2 conditions x 2 repeats) + 4 gemini-3.1-flash-lite fidelity-judge calls (one per repeat), zero new Deepgram spend (replay of already-recorded asr/translation pairs from experiments/20260915_h_continuation_anchor_test_rpmunlimited.json). Estimated by scaling against cycle 16's measured ~/bin/bash.01/46-call rate for similarly short single-segment translate calls."
+    },
+    {
+      "at": "2026-11-07T00:13:59.400445+00:00",
+      "amount_usd": 0.0,
+      "note": "cycle 85 RUN_EXPERIMENTS: re-confirmed all 3 queued hypotheses still blocked (openai connect_rejected, deepgram ws upgrade mangled, human viewing time), zero new Deepgram/LLM API spend (reachability probes only)"
     }
   ]
 }
