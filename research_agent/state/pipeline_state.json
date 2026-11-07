@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 25,
-  "last_updated": "2026-11-07T00:11:55.019477+00:00",
+  "last_updated": "2026-11-07T00:12:06.309688+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2723,6 +2723,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-07T00:11:55.019446+00:00",
       "note": "Cycle 85 GENERATE_HYPOTHESES confirmed: backlog at cap, no new hypotheses added, no proposed/approval-null entries to process (all 6 backlog items already have approval set: 3 approved_by_human, 3 needs_human). Advancing to HUMAN_APPROVAL to re-check auto-approvability."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-07T00:12:06.309650+00:00",
+      "note": "Cycle 85 HUMAN_APPROVAL: all 6 backlog hypotheses already have approval set (3 approved_by_human: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration; 3 needs_human already in pending_approval.json, unchanged). Nothing new to check-budget. At least one hypothesis (the 3 approved_by_human ones) is queued with approval != needs_human, so advancing to RUN_EXPERIMENTS per PLAYBOOK.md."
     }
   ]
 }
