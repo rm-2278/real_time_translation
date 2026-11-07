@@ -5603,3 +5603,77 @@ streaming-policy sweep in case a fine-tuning-free, API-compatible method
 shows up (this cycle's SimulMEGA/StreamUni hits both needed training,
 unlike DOA/SimulU/HPO already in corpus). `pipeline_state.json`'s own
 `cycle` JSON counter increments on this transition per its usual rule.
+
+## Cycle 86 (2026-11-07, scheduled run)
+
+**What worked / what didn't:** A clean, successful cycle: found one new,
+genuinely non-duplicate paper (xing2026-iwslt-test-time-adaptation-offline-mfm-simulst,
+ACL Anthology 2026.iwslt-1.27), dedup-checked it correctly despite an
+initial id mislabeling in the first WebSearch batch (resolved via a
+targeted follow-up query on distinctive method terms rather than trusting
+the first snippet's id at face value -- worth remembering as a technique:
+when a search result's own id/title looks like it might collide with an
+already-known paper, a second query using distinctive method terms from
+the snippet, not just the title, is what actually disambiguates it).
+EXTRACT_PAPERS was thin this time -- WebFetch to aclanthology.org was
+EGRESS_BLOCKED as always, and even the WebSearch fallback could not
+recover the paper's base foundation model identity or any quantitative
+results, unlike most prior cycles' extractions. Correctly did NOT write a
+hypothesis grounded in this paper while that question is open (per the
+playbook's verify-before-hypothesizing rule), and correctly identified
+the one sub-angle (multi-turn-conversation prompting framing) that is
+testable regardless of the unresolved question, flagging it for later
+instead of either forcing a premature hypothesis or discarding the paper
+entirely.
+
+**Was the hypothesis backlog well-calibrated?** N/A again, same as cycles
+79-85 -- all 6 backlog slots remain genuinely blocked on a human action
+(API/network access for 2, viewing time for 1, an explicit approval
+signal for 3), not on idea generation. Correctly did not write a new
+hypothesis on top of an already-full, correctly-blocked backlog.
+
+**Budget policy:** No change proposed. Zero spend again this cycle (pure
+WebSearch-derived paper summarization + reachability/websocket checks, no
+live Deepgram/LLM API calls -- logged $0.00 via log-cost).
+
+**Should this playbook itself change? Yes -- acted on it this cycle.**
+The api.openai.com CONNECT-rejection re-confirmed identical for a 9th
+consecutive cycle this session (72, 78, 80, 81, 82, 83, 84, 85, 86), and
+the Deepgram listen-websocket upgrade-mangling has been identical since
+cycle 5 -- both far past the point the cycle-84/85 reflections already
+flagged as worth acting on ("a 9th or 10th identical result... is
+probably the point to actually add a skip-after-N-stable-results clause
+to PLAYBOOK.md"). Rather than defer a third time, edited PLAYBOOK.md's
+RUN_EXPERIMENTS section to add a "Reduced-cadence reachability checks
+once a block is well-established" clause: for a (host, check-type) pair
+with 5+ identical consecutive confirmed blocks, skip the live probe and
+reuse the last-confirmed result (citing when it was last actually
+checked), UNLESS it's been 10+ cycles since the last live check (forces
+a fresh tripwire check), a human signals the environment may have
+changed, or a hypothesis newly needs that host/protocol for the first
+time. Deliberately did NOT touch the approval-gate or budget-check steps
+-- this edit only reduces redundant *environment-reachability* re-probing
+cadence, which is squarely a "repeatedly working around a wrong/stale
+instruction" case the playbook's own REFLECT section invites fixing, not
+a safety-relevant gate. Practical effect starting cycle 87: the
+OpenAI/Deepgram-WS checks for the 2 already-blocked queued hypotheses can
+be skipped unless 10 cycles have passed since the last live check or a
+human signal arrives -- freeing a little budget-free tool-call overhead
+each cycle for literature work instead. This does NOT apply to
+`h-judge-cross-gemini-model-agreement-check` (Gemini-only, not yet
+verified blocked) or to `h-continuous-rating-cps-calibration` (not an
+environment block at all) -- both still get whatever check PLAYBOOK.md's
+normal RUN_EXPERIMENTS section specifies when their turn comes.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+87). The backlog is still at cap and every item still blocked on a human
+action, so another literature pass remains the better use of the next
+unattended cycle. Good next-cycle angles: (1) try to resolve
+xing2026-iwslt-test-time-adaptation-offline-mfm-simulst's base-model
+identity via a differently-worded search (e.g. searching for the authors'
+names directly, or for IWSLT 2026 system-description tables that list
+base models per team) before writing a hypothesis grounded in it; (2) if
+that doesn't resolve quickly, the multi-turn-conversation-framing angle
+is still writable as a hypothesis on its own once a backlog slot opens,
+independent of the base-model question. `pipeline_state.json`'s own
+`cycle` JSON counter increments on this transition per its usual rule.

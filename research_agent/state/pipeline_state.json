@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "REFLECT",
-  "cycle": 26,
-  "last_updated": "2026-11-07T12:15:43.729844+00:00",
+  "current_state": "SEARCH_PAPERS",
+  "cycle": 27,
+  "last_updated": "2026-11-07T12:17:06.839061+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2801,6 +2801,12 @@
       "to": "REFLECT",
       "at": "2026-11-07T12:15:43.729802+00:00",
       "note": "Cycle 86 WRITE_REPORT: wrote research_agent/reports/20261107_cycle86_report.md covering SEARCH_PAPERS (new stub: xing2026-iwslt-test-time-adaptation-offline-mfm-simulst), thin EXTRACT/READ (base model identity unresolved), GENERATE_HYPOTHESES (no-op, backlog at cap), HUMAN_APPROVAL (no-op), RUN_EXPERIMENTS (all 3 queued hypotheses re-confirmed blocked; OpenAI connect-rejected now 9 consecutive cycles). 00_pipeline_overview_ja.md not touched -- pipeline shape unchanged this cycle."
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-11-07T12:17:06.839032+00:00",
+      "note": "Cycle 86 REFLECT: appended reflections.md entry. Edited PLAYBOOK.md to add a reduced-cadence reachability-check clause (skip live re-probe for a host/check-type pair with 5+ identical consecutive confirmed blocks, unless 10+ cycles since last live check or a human signal) -- acting on the threshold cycle-85's reflection explicitly flagged (OpenAI CONNECT-rejection now 9 consecutive cycles, Deepgram WS-upgrade-mangling since cycle 5). Did not touch the approval gate or budget-check steps. Advancing to new narrated cycle 87 (SEARCH_PAPERS): backlog still at cap, another literature pass is the better use of the next unattended cycle; priority angle is resolving xing2026-iwslt-test-time-adaptation-offline-mfm-simulst's base-model identity."
     }
   ]
 }

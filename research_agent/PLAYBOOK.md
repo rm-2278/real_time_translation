@@ -520,6 +520,33 @@ asyncio.run(main())
   concluding the whole hypothesis is blocked on font availability; only the
   *human-viewing-time* part of this hypothesis is a genuine, unavoidable
   block in an unattended session, not the rendering step itself.
+  **Reduced-cadence reachability checks once a block is well-established**
+  (decided cycle 86, 2026-11-07, acting on a threshold the cycle-85
+  reflection explicitly flagged in advance): the api.openai.com CONNECT-
+  rejection has now reproduced identically across 9 consecutive cycles
+  (72, 78, 80, 81, 82, 83, 84, 85, 86) and the Deepgram listen-websocket
+  upgrade-mangling across every cycle since cycle 5 -- both far past the
+  point where a fresh live re-check each cycle teaches anything new. From
+  cycle 87 onward: for a specific (host, check-type) pair that has
+  produced the IDENTICAL blocked signature on **5 or more** consecutive
+  prior RUN_EXPERIMENTS checks (count by reading the hypothesis's own
+  `blocked_reason`/`result_summary` re-confirmation history, not a
+  separate counter), skip the live probe for that pair and instead reuse
+  the last-confirmed result, citing the cycle/date it was last actually
+  checked, UNLESS: (a) it has been 10+ cycles since that pair was last
+  live-checked (do one fresh check then, to catch a silent environment
+  change -- this is a tripwire, not a permanent exemption), or (b) a human
+  has signaled (in a report comment, a live session, or by editing
+  `pending_approval.json`/`hypotheses.json`) that the environment may have
+  changed, or (c) a *different* check for the same hypothesis would
+  newly need this host/protocol (e.g. a hypothesis that previously only
+  needed Gemini now also needs OpenAI) -- always check a pair for the
+  first time a hypothesis actually needs it. This only changes the
+  RUN_EXPERIMENTS re-check cadence for hosts/protocols with a long stable
+  block record; it does NOT change anything about the approval gate, the
+  budget-check step, or how a genuinely new or not-yet-checked
+  hypothesis's environment needs are verified (those are still checked
+  fresh every time, per the rest of this section).
   If any of these fail (this can legitimately happen -- e.g. a cloud
   sandbox where secrets haven't been provisioned yet, a fresh
   environment without ffmpeg, or -- distinct from a missing/bad key --
