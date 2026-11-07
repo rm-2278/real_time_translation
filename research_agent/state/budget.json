@@ -294,6 +294,11 @@
       "at": "2026-11-07T00:13:59.400445+00:00",
       "amount_usd": 0.0,
       "note": "cycle 85 RUN_EXPERIMENTS: re-confirmed all 3 queued hypotheses still blocked (openai connect_rejected, deepgram ws upgrade mangled, human viewing time), zero new Deepgram/LLM API spend (reachability probes only)"
+    },
+    {
+      "at": "2026-11-07T12:14:28.804401+00:00",
+      "amount_usd": 0.0,
+      "note": "cycle 86 RUN_EXPERIMENTS: re-confirmed all 3 queued hypotheses still blocked (openai connect_rejected -- now 9 consecutive cycles, deepgram ws upgrade mangled, human viewing time), zero new Deepgram/LLM API spend (reachability probes only)"
     }
   ]
 }

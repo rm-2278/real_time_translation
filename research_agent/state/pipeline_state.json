@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 26,
-  "last_updated": "2026-11-07T12:13:20.796165+00:00",
+  "last_updated": "2026-11-07T12:14:34.032508+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2783,6 +2783,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-07T12:13:20.796132+00:00",
       "note": "Cycle 86 HUMAN_APPROVAL: no hypothesis with null/proposed-unprocessed approval found -- all 6 backlog entries already carry a resolved approval (3 queued/approved_by_human, 3 proposed/needs_human, already in pending_approval.json from prior cycles). Per PLAYBOOK.md's WAITING_APPROVAL precedent (reflections.md cycle 36), did NOT attempt the known-denied self-approval write for the needs_human entries. 3 hypotheses are queued with approval=approved_by_human, so advancing directly to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-07T12:14:34.032476+00:00",
+      "note": "Cycle 86 RUN_EXPERIMENTS: re-confirmed Deepgram REST (200)/Gemini REST (200) reachable but Deepgram listen-websocket still fails HTTP 400 'Connection header did not include upgrade' and api.openai.com still CONNECT-rejected (exit 56, HTTP 403) -- now 9 consecutive cycles for the OpenAI block. All 3 queued hypotheses remain blocked (2 on environment, 1 on rm-2278's own viewing time). No experiment run, no code change, logged $0.00. Pass-through per PLAYBOOK.md (RUN_EXPERIMENTS->WRITE_REPORT is not a legal transition; ANALYZE_RESULTS is the only legal next state)."
     }
   ]
 }
