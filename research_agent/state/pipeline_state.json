@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 26,
-  "last_updated": "2026-11-07T12:13:04.612179+00:00",
+  "last_updated": "2026-11-07T12:13:20.796165+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2777,6 +2777,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-07T12:13:04.612144+00:00",
       "note": "Cycle 86 GENERATE_HYPOTHESES: backlog still at the 6 queued/proposed cap (3 queued approved_by_human, 3 proposed needs_human), all still blocked on human action (OpenAI connect-rejected, Deepgram WS mangled, rm-2278's own viewing time, or pending approval signal). Per PLAYBOOK.md's backlog-cap rule, did NOT write a new hypothesis this cycle even though xing2026's multi-turn-conversation-framing angle is a clean candidate -- flagged in papers.json for the next cycle a slot opens. No file changes this state beyond the state transition itself."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-07T12:13:20.796132+00:00",
+      "note": "Cycle 86 HUMAN_APPROVAL: no hypothesis with null/proposed-unprocessed approval found -- all 6 backlog entries already carry a resolved approval (3 queued/approved_by_human, 3 proposed/needs_human, already in pending_approval.json from prior cycles). Per PLAYBOOK.md's WAITING_APPROVAL precedent (reflections.md cycle 36), did NOT attempt the known-denied self-approval write for the needs_human entries. 3 hypotheses are queued with approval=approved_by_human, so advancing directly to RUN_EXPERIMENTS."
     }
   ]
 }
