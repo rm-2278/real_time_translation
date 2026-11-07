@@ -5533,3 +5533,73 @@ cycle 83/84) to see if a second independent paper corroborates the
 per-item-confidence framing before it gets written up as a hypothesis.
 `pipeline_state.json`'s own `cycle` JSON counter increments on this
 transition per its usual rule.
+
+## Cycle 85 (2026-11-07, scheduled run)
+
+**What worked / what didn't:** The full loop ran cleanly end to end in one
+session: SEARCH_PAPERS -> EXTRACT_PAPERS -> READ_PAPERS ->
+GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS ->
+ANALYZE_RESULTS -> WRITE_REPORT -> REFLECT, with a commit after every
+meaningful step. The cycle-84 reflection's suggested next-cycle angle
+(find a second independent paper corroborating the judge
+verbalized-confidence thread) paid off directly: found
+marashian2026-verbalized-vs-internal-confidence-mt (arXiv 2606.17234) on
+the first targeted WebSearch query, dedup-checked by arxiv id against all
+76 existing papers.json urls before stubbing (no near-miss this time).
+arxiv.org WebFetch was EGRESS_BLOCKED as expected (same signature every
+cycle since cycle 2) -- the WebSearch-abstract-fallback this playbook
+already prescribes got substantive, specific numbers (F1 0.02-0.23,
+Likert-beats-numeric calibration, low internal/verbalized correlation),
+not just marketing language, so nothing was lost by the block. Nothing
+failed or needed working around this cycle -- a genuinely quiet,
+successful cycle with one small concrete research payoff: a reusable
+design detail (ask for confidence on a Likert/ordinal scale, not 0-100)
+for whenever a judge-verbalized-confidence hypothesis actually gets
+written.
+
+**Was the hypothesis backlog well-calibrated?** N/A again, same reasoning
+as cycles 79-84 -- all 6 backlog slots (3 queued approved_by_human, 3
+proposed needs_human in pending_approval.json) remain genuinely blocked
+on a human action (API/network access for 2, viewing time for 1, an
+explicit approval signal for 3), not on idea generation. Correctly did
+NOT write a new hypothesis on top of an already-full, correctly-blocked
+backlog, even though this cycle's reading surfaced a clean, concrete new
+candidate (judge Likert-scale verbalized confidence). Recorded that
+candidate in papers.json's _search_note_cycle85 as the next
+GENERATE_HYPOTHESES priority once a slot opens, same pattern as cycle 84.
+
+**Budget policy:** No change proposed. Zero spend again this cycle (pure
+WebSearch-derived paper summarization + reachability/websocket checks, no
+live Deepgram/LLM API calls -- logged $0.00 via log-cost).
+
+**Should this playbook itself change?** No edit made this cycle. One
+thing flagged for a near-future cycle to actually decide on (not acted on
+now, just escalating the cycle-84 note): the OpenAI-connect-rejected and
+Deepgram-listen-websocket-upgrade-mangled blockers are now confirmed
+stable across **8** consecutive cycles (72, 78, 80, 81, 82, 83, 84, 85),
+not 7. The cycle-84 reflection already suggested a future session could
+reasonably skip the live re-check for a cycle or two once this record
+gets long enough, but deferred actually doing so since the check is cheap
+(one curl + one websocket probe) and still has tripwire value. That
+reasoning still holds this cycle (the check cost nothing but ~2 tool
+calls), so I'm not changing PLAYBOOK.md's RUN_EXPERIMENTS instructions
+yet -- but if a 9th or 10th identical result lands in a future cycle with
+still no human signal that the environment changed, that is probably the
+point to actually add a "skip after N stable identical results, trust the
+blocked_reason record instead" clause to PLAYBOOK.md rather than keep
+re-flagging the same observation every cycle without acting on it. Noting
+this explicitly so a future session doesn't have to re-derive it.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+86). Backlog is still at cap and every item is still blocked on a human
+action, so another literature pass is a better use of the next
+unattended cycle than forcing more hypothesis generation. A good
+next-cycle angle: EXTRACT_PAPERS-level follow-up search specifically for
+the five verbalized-confidence method names/definitions in
+marashian2026-verbalized-vs-internal-confidence-mt (not recoverable from
+WebSearch snippets this cycle) before the next GENERATE_HYPOTHESES pass
+needs to cite one by name; otherwise, continue the general SimulST
+streaming-policy sweep in case a fine-tuning-free, API-compatible method
+shows up (this cycle's SimulMEGA/StreamUni hits both needed training,
+unlike DOA/SimulU/HPO already in corpus). `pipeline_state.json`'s own
+`cycle` JSON counter increments on this transition per its usual rule.
