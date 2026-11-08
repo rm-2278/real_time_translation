@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-07",
+  "date": "2026-11-08",
   "spent_today_usd": 0.0,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
@@ -299,6 +299,11 @@
       "at": "2026-11-07T12:14:28.804401+00:00",
       "amount_usd": 0.0,
       "note": "cycle 86 RUN_EXPERIMENTS: re-confirmed all 3 queued hypotheses still blocked (openai connect_rejected -- now 9 consecutive cycles, deepgram ws upgrade mangled, human viewing time), zero new Deepgram/LLM API spend (reachability probes only)"
+    },
+    {
+      "at": "2026-11-08T12:14:21.098630+00:00",
+      "amount_usd": 0.0,
+      "note": "cycle 87: code fix only (caption_video_demo.py font fallback + reading_units_per_sec CLI flag), smoke-tested locally, no live Deepgram/Gemini/OpenAI API calls"
     }
   ]
 }

@@ -33,8 +33,24 @@ from real_time_translation.captions.subtitle_formatter import (
 )
 
 CANVAS_W, CANVAS_H = 1280, 720
-FONT_PATH = "/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc"
-FONT_INDEX = 0
+# macOS path first (where this was originally developed); Linux cloud
+# containers have no Hiragino font, so fall back to IPAGothic, which ships
+# on this repo's cloud sandbox image at this path (found cycle 83,
+# 2026-11-05, h-continuous-rating-cps-calibration).
+_FONT_CANDIDATES = [
+    ("/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc", 0),
+    ("/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf", 0),
+    ("/usr/share/fonts/truetype/fonts-japanese-gothic.ttf", 0),
+]
+try:
+    FONT_PATH, FONT_INDEX = next(
+        (p, i) for p, i in _FONT_CANDIDATES if Path(p).exists()
+    )
+except StopIteration:
+    raise SystemExit(
+        "No Japanese font found; checked: "
+        + ", ".join(p for p, _ in _FONT_CANDIDATES)
+    ) from None
 FONT_SIZE = 42
 LINE_GAP = 12
 BOTTOM_MARGIN = 90
@@ -299,6 +315,7 @@ def render(
     output_dir: Path,
     style: str = "outline",
     background: str = "color",
+    reading_units_per_sec: float = 4.0,
 ) -> tuple[Path, Path]:
     data = _load_experiment(experiment_path)
     events = data["results"]["events"]
@@ -324,7 +341,11 @@ def render(
         duration_seconds = max(end_times)
 
     raw_cues = extract_utterance_cues(events)
-    cues = format_naive(raw_cues) if mode == "naive" else format_readable(raw_cues)
+    cues = (
+        format_naive(raw_cues)
+        if mode == "naive"
+        else format_readable(raw_cues, reading_units_per_sec=reading_units_per_sec)
+    )
     if not cues:
         raise SystemExit(f"No translation cues extracted from {experiment_path}")
 
@@ -475,6 +496,13 @@ def main(argv: list[str] | None = None) -> None:
         "color canvas (frozen on the last frame for any caption tail that "
         "runs past the clip's own duration).",
     )
+    parser.add_argument(
+        "--reading-units-per-sec",
+        type=float,
+        default=4.0,
+        help="format_readable's reading-speed target (Netflix norm is 4.0, "
+        "kanji weighted 2x); only affects --mode readable.",
+    )
     args = parser.parse_args(argv)
 
     video_path, srt_path = render(
@@ -484,6 +512,7 @@ def main(argv: list[str] | None = None) -> None:
         args.output_dir,
         style=args.style,
         background=args.background,
+        reading_units_per_sec=args.reading_units_per_sec,
     )
     print(f"Wrote: {video_path}")
     print(f"Wrote: {srt_path}")
