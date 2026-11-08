@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 27,
-  "last_updated": "2026-11-08T12:14:52.367926+00:00",
+  "last_updated": "2026-11-08T12:14:56.825421+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2843,6 +2843,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-08T12:14:52.367904+00:00",
       "note": "Cycle 87 RUN_EXPERIMENTS: no hypothesis reached tested status. Made real code progress on h-continuous-rating-cps-calibration (Linux font fallback + --reading-units-per-sec CLI flag in caption_video_demo.py, smoke-tested) but the actual human-rating step and the named source video are still unavailable in this sandbox, so it remains queued, not tested. Re-confirmed api.openai.com still CONNECT-rejected (10th consecutive cycle, blocks h-judge-cross-model-agreement-check). Reused cached Deepgram listen-websocket block result per the new reduced-cadence clause (blocks h-review-short-acronym-keyterm-false-positive) -- Deepgram/Gemini REST both freshly re-confirmed reachable (200). No live API-cost experiment ran; logged $0.00. Nothing to analyze, pass-through to ANALYZE_RESULTS (RUN_EXPERIMENTS -> WRITE_REPORT is not a legal direct transition per orchestrator.py)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-08T12:14:56.825393+00:00",
+      "note": "Cycle 87 ANALYZE_RESULTS: pass-through, no tested hypothesis this cycle to analyze."
     }
   ]
 }
