@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 27,
-  "last_updated": "2026-11-08T12:09:28.441688+00:00",
+  "last_updated": "2026-11-08T12:11:00.183254+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2813,6 +2813,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-08T12:09:28.441551+00:00",
       "note": "Cycle 87 SEARCH_PAPERS: resolved xing2026-iwslt-test-time-adaptation-offline-mfm-simulst's base-model identity (Qwen3-Omni, open-weights/self-hosted, confirmed via 2 independent WebSearch queries) -- updated its key_findings in papers.json. General sweep for new post-survey literature found nothing new (all hits were already-catalogued or previously-excluded fine-tuning-required papers: StreamUni/FASST/EASiST). No new 'found' stubs this cycle."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-08T12:11:00.183232+00:00",
+      "note": "Cycle 87 EXTRACT_PAPERS: pass-through, no papers with status 'found' to extract (xing2026's base-model resolution was done in-place during SEARCH_PAPERS and already has status 'read')."
     }
   ]
 }
