@@ -510,16 +510,42 @@ asyncio.run(main())
   **If a queued hypothesis's `required_changes` involves
   `caption_video_demo.py` (or any other script that burns in Japanese
   captions via Pillow/TTF)** (found cycle 83, 2026-11-05,
-  h-continuous-rating-cps-calibration): its `FONT_PATH` module constant is
-  hardcoded to a macOS-only path
-  (`/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc`) that does not exist on
-  a Linux cloud container, so a real re-render fails there outright. A
-  usable Japanese TTF *is* available on this sandbox's Linux image at
-  `/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf` (IPAGothic) -- check
-  for that path (or run `fc-list | grep -i noto.*cjk` as a fallback) before
-  concluding the whole hypothesis is blocked on font availability; only the
-  *human-viewing-time* part of this hypothesis is a genuine, unavoidable
-  block in an unattended session, not the rendering step itself.
+  h-continuous-rating-cps-calibration; fixed in code cycle 87, 2026-11-08):
+  its `FONT_PATH` module constant used to be hardcoded to a macOS-only path
+  (`/System/Library/Fonts/ヒラギノ角ゴシック W6.ttc`), which does not exist
+  on a Linux cloud container, so a real re-render failed there outright.
+  As of cycle 87 `caption_video_demo.py` falls back to
+  `/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf` (IPAGothic, confirmed
+  present on this sandbox's Linux image) when the macOS path is missing --
+  smoke-tested end-to-end (render + sampled output frame) that cycle. If a
+  future session hits a *different* missing-font failure (e.g. a new
+  sandbox image without IPAGothic either), add another candidate to
+  `_FONT_CANDIDATES` rather than reverting this fix, and try
+  `fc-list | grep -i noto.*cjk` to find what's actually available first.
+  Only the *human-viewing-time* part of this hypothesis (and, separately,
+  whether the specific source video file it names is present in this
+  container -- see the next note) remains a genuine, unavoidable block in
+  an unattended session, not the rendering step itself.
+  **A queued hypothesis can be blocked by a missing local source file, not
+  just a missing API key** (found cycle 87, 2026-11-08,
+  h-continuous-rating-cps-calibration): this hypothesis's own protocol
+  names a specific experiment JSON
+  (`20260918_llm2025_ep8_zenhan_full_lecture_v2_dict.json`) whose
+  `input.path` points at a local lecture recording
+  (`video/LLM2025...mp4`) that is rm-2278's own local file, never
+  committed to the repo -- only `experiments/refs/` (cached YouTube clips)
+  and a handful of short clips under `experiments/clips/` actually exist
+  in a cloud container's working copy. The usual environment checks (API
+  keys, ffmpeg, Deepgram/Gemini reachability) all pass fine in this case;
+  the block is specific to that one experiment JSON's referenced video
+  file, not a general environment problem. Before concluding a
+  video-re-render hypothesis is runnable just because the API/ffmpeg
+  checks pass, also confirm the specific `input.path` file (or whatever
+  local asset the hypothesis's `required_changes` names) actually exists
+  in this session's working copy with a plain `ls`/`Path.exists()` check --
+  if it doesn't, note that distinctly from an API-reachability block (it
+  needs the human to provide the file, or the hypothesis to be re-targeted
+  at an already-present clip, not a network/credentials fix).
   **Reduced-cadence reachability checks once a block is well-established**
   (decided cycle 86, 2026-11-07, acting on a threshold the cycle-85
   reflection explicitly flagged in advance): the api.openai.com CONNECT-

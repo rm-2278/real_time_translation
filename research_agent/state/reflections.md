@@ -5677,3 +5677,90 @@ that doesn't resolve quickly, the multi-turn-conversation-framing angle
 is still writable as a hypothesis on its own once a backlog slot opens,
 independent of the base-model question. `pipeline_state.json`'s own
 `cycle` JSON counter increments on this transition per its usual rule.
+
+
+## Cycle 87 (2026-11-08, scheduled session)
+
+**What worked?** The cycle-86 reflection's suggested angle -- resolve
+xing2026's base-model identity via a differently-worded search rather
+than guessing -- paid off cleanly: two independently-phrased WebSearch
+queries (author names directly; a general IWSLT-2026 base-model sweep)
+both converged on the same specific answer (Qwen3-Omni), and one of them
+spontaneously distinguished it from CUHKSZ's separate use of the same
+model family, which is stronger corroboration than a single query would
+give. This confirms the "cross-validate via differently-worded queries"
+technique (already informally used in past cycles, e.g. cycle 86's own
+mislabeled-id resolution) as worth naming explicitly for future thin-
+extraction cases where a single WebSearch pass leaves a factual gap.
+
+Separately, rather than spending this cycle on a 10th identical
+environment-reachability re-confirmation for the two already-blocked
+queued hypotheses (now partly skippable thanks to last cycle's
+reduced-cadence clause), the freed-up effort went into actually fixing
+the one concrete, non-environment blocker still sitting on
+h-continuous-rating-cps-calibration (the Linux font path) and adding the
+CLI flag its own protocol needs. This was deliberately scoped down from
+the hypothesis's full remaining work -- did not build the keypress-
+logging rating tool itself, since no human is present to validate it and
+guessing at its design blind seemed more likely to produce unused/wrong
+tooling than to help. Also surfaced a genuinely new blocker class while
+investigating this hypothesis: its named source video file is rm-2278's
+own local recording, never committed to the repo, so even a fully fixed
+rendering pipeline can't complete this hypothesis's exact protocol in an
+unattended cloud container. Recorded this as a new, reusable PLAYBOOK
+note (distinct from the font fix) since it's a failure mode ("API keys
+fine, ffmpeg fine, but the experiment's own referenced local file isn't
+there") the existing RUN_EXPERIMENTS checklist didn't cover.
+
+What didn't work / was a net-zero: the general post-survey literature
+sweep (1 query) surfaced nothing new, same outcome as cycles 53 and 85's
+general sweeps -- the easy new-paper territory in this specific sub-area
+appears largely exhausted for now, with genuinely new material more
+likely to come from a targeted resolve-an-open-question search (like the
+xing2026 one) than a broad sweep. Worth keeping both query types in the
+rotation, but not expecting much yield from the broad one each cycle.
+
+**Was the hypothesis backlog well-calibrated?** Still N/A, same as cycles
+79-86 -- all 6 backlog slots remain blocked on a human action (OpenAI
+network access for 1, Deepgram WS network access for 1, human
+viewing-time + a missing local video file for 1, an explicit approval
+signal for 3). Correctly did not write a new hypothesis on top of an
+already-full, correctly-blocked backlog. Note the *texture* of the block
+on h-continuous-rating-cps-calibration has shifted this cycle from "two
+blockers, one of which (font) is fixable in-session" to "two blockers,
+neither fixable without a human" -- worth flagging to rm-2278 in the
+report (done) as a concrete, small ask (provide the source video, or
+approve re-targeting the protocol at an already-present short clip)
+rather than leaving it as a vague "needs human time" note indefinitely.
+
+**Budget policy:** No change proposed. Zero spend again this cycle (the
+caption_video_demo.py smoke test used no Deepgram/Gemini/OpenAI calls at
+all, purely local ffmpeg/Pillow rendering against an already-cached short
+clip) -- logged $0.00 via log-cost.
+
+**Should this playbook itself change? Yes -- two small, concrete edits
+made this cycle.** (1) Updated the cycle-83 FONT_PATH note to reflect
+that the fix has actually landed in code now, with guidance for what to
+do if a *different* missing-font failure shows up on a future sandbox
+image. (2) Added a new note (same RUN_EXPERIMENTS section) that a queued
+hypothesis's environment readiness isn't fully captured by the existing
+API-key/ffmpeg/reachability checklist alone -- a hypothesis can also be
+blocked by a local source file (e.g. a specific `input.path` in the
+experiment JSON it names) simply not existing in this session's working
+copy, which needs its own explicit `ls`/`Path.exists()` check and its own
+distinct blocked-reason framing (not a network/credentials problem, so
+don't waste a cycle re-checking curl/websocket reachability for it).
+Deliberately did not touch the approval-gate, budget-check, or the
+cycle-86 reduced-cadence clause itself.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+88). The backlog is still at cap and every item still blocked on a human
+action, so another literature pass remains the better use of the next
+unattended cycle. Good next-cycle angle: the multi-turn-conversation-
+framing angle from xing2026 (now that its base-model question is
+resolved, nothing blocks writing a hypothesis around it except the
+backlog cap) is the strongest concrete candidate for the next
+GENERATE_HYPOTHESES pass once a slot opens -- prioritize that over a
+fresh broad sweep if a slot does open before much more literature
+accumulates. `pipeline_state.json`'s own `cycle` JSON counter increments
+on this transition per its usual rule.
