@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 27,
-  "last_updated": "2026-11-08T12:11:13.297499+00:00",
+  "last_updated": "2026-11-08T12:11:20.111398+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2831,6 +2831,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-08T12:11:13.297470+00:00",
       "note": "Cycle 87 GENERATE_HYPOTHESES: backlog at cap (3 queued + 3 proposed = 6). All 3 proposed entries already carry a resolved approval='needs_human' (not null) -- no unfinished HUMAN_APPROVAL work sitting unprocessed. Did not write a new hypothesis on top of an already-full, correctly-blocked backlog, per PLAYBOOK.md."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-08T12:11:20.111375+00:00",
+      "note": "Cycle 87 HUMAN_APPROVAL: no hypothesis with null/proposed-unprocessed approval found -- all 6 backlog entries already carry a resolved approval (3 queued/approved_by_human: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration; 3 proposed/needs_human: h-judge-repeat-independent-batches-corrected-design, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check). At least one hypothesis (3, in fact) is queued with approval != needs_human, so advancing to RUN_EXPERIMENTS."
     }
   ]
 }
