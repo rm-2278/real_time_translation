@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 27,
-  "last_updated": "2026-11-07T12:17:06.839061+00:00",
+  "last_updated": "2026-11-08T12:09:28.441688+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2807,6 +2807,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-07T12:17:06.839032+00:00",
       "note": "Cycle 86 REFLECT: appended reflections.md entry. Edited PLAYBOOK.md to add a reduced-cadence reachability-check clause (skip live re-probe for a host/check-type pair with 5+ identical consecutive confirmed blocks, unless 10+ cycles since last live check or a human signal) -- acting on the threshold cycle-85's reflection explicitly flagged (OpenAI CONNECT-rejection now 9 consecutive cycles, Deepgram WS-upgrade-mangling since cycle 5). Did not touch the approval gate or budget-check steps. Advancing to new narrated cycle 87 (SEARCH_PAPERS): backlog still at cap, another literature pass is the better use of the next unattended cycle; priority angle is resolving xing2026-iwslt-test-time-adaptation-offline-mfm-simulst's base-model identity."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-08T12:09:28.441551+00:00",
+      "note": "Cycle 87 SEARCH_PAPERS: resolved xing2026-iwslt-test-time-adaptation-offline-mfm-simulst's base-model identity (Qwen3-Omni, open-weights/self-hosted, confirmed via 2 independent WebSearch queries) -- updated its key_findings in papers.json. General sweep for new post-survey literature found nothing new (all hits were already-catalogued or previously-excluded fine-tuning-required papers: StreamUni/FASST/EASiST). No new 'found' stubs this cycle."
     }
   ]
 }
