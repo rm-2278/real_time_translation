@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 27,
-  "last_updated": "2026-11-08T12:11:20.111398+00:00",
+  "last_updated": "2026-11-08T12:14:52.367926+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2837,6 +2837,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-08T12:11:20.111375+00:00",
       "note": "Cycle 87 HUMAN_APPROVAL: no hypothesis with null/proposed-unprocessed approval found -- all 6 backlog entries already carry a resolved approval (3 queued/approved_by_human: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration; 3 proposed/needs_human: h-judge-repeat-independent-batches-corrected-design, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check). At least one hypothesis (3, in fact) is queued with approval != needs_human, so advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-08T12:14:52.367904+00:00",
+      "note": "Cycle 87 RUN_EXPERIMENTS: no hypothesis reached tested status. Made real code progress on h-continuous-rating-cps-calibration (Linux font fallback + --reading-units-per-sec CLI flag in caption_video_demo.py, smoke-tested) but the actual human-rating step and the named source video are still unavailable in this sandbox, so it remains queued, not tested. Re-confirmed api.openai.com still CONNECT-rejected (10th consecutive cycle, blocks h-judge-cross-model-agreement-check). Reused cached Deepgram listen-websocket block result per the new reduced-cadence clause (blocks h-review-short-acronym-keyterm-false-positive) -- Deepgram/Gemini REST both freshly re-confirmed reachable (200). No live API-cost experiment ran; logged $0.00. Nothing to analyze, pass-through to ANALYZE_RESULTS (RUN_EXPERIMENTS -> WRITE_REPORT is not a legal direct transition per orchestrator.py)."
     }
   ]
 }
