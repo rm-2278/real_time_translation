@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 27,
-  "last_updated": "2026-11-08T12:11:04.311549+00:00",
+  "last_updated": "2026-11-08T12:11:13.297499+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2825,6 +2825,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-08T12:11:04.311527+00:00",
       "note": "Cycle 87 READ_PAPERS: pass-through, no papers with status 'extracted' to turn into read summaries this cycle (nothing new was extracted)."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-08T12:11:13.297470+00:00",
+      "note": "Cycle 87 GENERATE_HYPOTHESES: backlog at cap (3 queued + 3 proposed = 6). All 3 proposed entries already carry a resolved approval='needs_human' (not null) -- no unfinished HUMAN_APPROVAL work sitting unprocessed. Did not write a new hypothesis on top of an already-full, correctly-blocked backlog, per PLAYBOOK.md."
     }
   ]
 }
