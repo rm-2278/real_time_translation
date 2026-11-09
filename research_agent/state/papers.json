@@ -1743,6 +1743,39 @@
       ],
       "relevant_to": [],
       "_read_cross_reference_note_cycle88": "READ_PAPERS (cycle 88, 2026-11-09): same grep/git-log check as the other 2 cycle-88 papers -- no existing hypothesis or experiment touches reasoning-model-specific judge behavior. Resolved the open model-identity question flagged in EXTRACT_PAPERS by reading src/real_time_translation/experiments/translation_fidelity_judge.py directly (per PLAYBOOK's field-verification rule, not assumed): judge() uses gemini-3.1-flash-lite, a non-reasoning-tier model, so this paper's LRM-specific diagnostics do not directly apply to the current production judge. Not a basis for a new hypothesis unless/until a future cycle considers switching the judge to an extended-reasoning model -- noted as background only."
+    },
+    {
+      "id": "li2601-grading-scale-llm-judge-alignment",
+      "title": "Grading Scale Impact on LLM-as-a-Judge: Human-LLM Alignment Is Highest on 0-5 Grading Scale",
+      "url": "https://arxiv.org/abs/2601.03444",
+      "venue": "arXiv:2601.03444 (cs.CL)",
+      "year": 2026,
+      "authors": "Weiyue Li et al.",
+      "status": "found",
+      "source": "websearch",
+      "relevant_to": []
+    },
+    {
+      "id": "eamt2026-gemba-mqm-v2-compact-qe",
+      "title": "A 2026 EAMT paper building on GEMBA-MQM V2 (merges post-editing + ESA scoring into one inference step, drops document context for smaller open models)",
+      "url": "https://aclanthology.org/2026.eamt-1.9.pdf",
+      "venue": "ACL Anthology 2026.eamt-1.9 (EAMT 2026)",
+      "year": 2026,
+      "authors": "unconfirmed (not yet fetched)",
+      "status": "found",
+      "source": "websearch",
+      "relevant_to": []
+    },
+    {
+      "id": "fu2505-how-reliable-multilingual-llm-judge",
+      "title": "How Reliable is Multilingual LLM-as-a-Judge?",
+      "url": "https://arxiv.org/abs/2505.12201",
+      "venue": "arXiv:2505.12201 (cs.CL)",
+      "year": 2025,
+      "authors": "Xiyan Fu, Wei Liu",
+      "status": "found",
+      "source": "websearch",
+      "relevant_to": []
     }
   ],
   "_websearch_note_cycle88": "Cycle 88 SEARCH_PAPERS pass (2026-11-09, scheduled/unattended session): ran 3 WebSearch queries targeting the playbook's named gaps -- (1) 'simultaneous speech translation retranslation flicker stability policy 2026 arxiv' (new stability/flicker policies) returned only pre-2026 work already read in this corpus (arivazhagan2019-erasure's own arXiv 1912.03393, chen2024-revision-controllable-decoding, Google's live-caption-stability blog, a 2024 dynamic-masking paper not previously catalogued but superseded in relevance by simulmask2024-attention-mask-decision-policy already in corpus) -- no new stub from this query; (2) 'LLM-as-judge machine translation evaluation reliability new method November 2026' (judge-reliability thread) surfaced 2 genuinely new, on-topic candidates not in papers.json by URL: mmad2412-multiagent-debate-mt-eval (ACL 2025, arXiv:2412.20127, splits MQM criteria across debating agent judges, directly relevant to the already-tested h-judge-rubric-decomposition-schematic-adherence line -- a decomposed-criteria method distinct from this repo's own single-pass rubric-decomposition approach) and wat2026-rubric-judge-patent-claims (ACL Anthology 2026.wat-1.6, reports COMETKiwi/MetricX showing low correlation with human eval on a specialized-domain translation task, a vendor-metric-vs-LLM-judge-reliability data point from a different specialized domain than this repo's own En-Ja subtitle domain); (3) 'cascade vs end-to-end speech translation comparison 2026 arxiv low latency' (cascade-vs-e2e gap) returned only 2020-2023 work already superseded by papi2026-hearing-to-translate-cascade-vs-speechllm's 2026 benchmark already in this corpus -- no new stub. A 3rd candidate surfaced by query (2), arxiv2510-reasoning-models-translation-evaluators (arXiv:2510.20780, reports large reasoning models as MT judges can cut 'thinking budget' ~35x while improving MQM-correlation performance), is also added as a new stub -- potentially relevant to this repo's own judge-reasoning-before-score thread (h-judge-reasoning-before-score-noise, tested) as a possible follow-up on cost/reasoning-length tradeoffs, though translation_fidelity_judge.judge() currently uses a fixed, non-reasoning-model judge call, so applicability needs checking during EXTRACT_PAPERS/READ_PAPERS, not assumed from the abstract. All 3 candidate URLs checked against every existing papers.json url field before stubbing, per the cycle-82 dedup rule -- none are duplicates. Backlog is already at the 6 queued+proposed cap (unchanged since cycle 84: 3 queued/approved_by_human -- h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration; 3 proposed/needs_human -- h-judge-repeat-independent-batches-corrected-design, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check), so no new hypothesis writing attempted this cycle, consistent with PLAYBOOK.md's GENERATE_HYPOTHESES cap rule. These 3 stubs are candidate grounding for a future GENERATE_HYPOTHESES pass once a backlog slot opens, continuing the active judge-reliability investigation thread (same thread as cycles 72, 75, 81, 84-87). Advancing to EXTRACT_PAPERS.",

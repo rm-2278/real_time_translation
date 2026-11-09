@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 29,
-  "last_updated": "2026-11-09T00:16:49.073433+00:00",
+  "last_updated": "2026-11-09T12:09:39.887335+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2915,6 +2915,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-09T00:16:49.073402+00:00",
       "note": "Cycle 88 REFLECT: appended reflections.md entry. No PLAYBOOK.md edit this cycle -- the cycle-86 reduced-cadence clause applied cleanly with no ambiguity. Advancing to SEARCH_PAPERS (narrated cycle 89); backlog still at cap, another literature pass remains the best use of the next unattended cycle, prioritizing a second judge-reliability query or the never-cited-paper pivot over the now-exhausted stability/flicker and cascade-vs-e2e angles."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-09T12:09:39.887306+00:00",
+      "note": "Cycle 89 SEARCH_PAPERS: per cycle-88 reflection, deprioritized the now-exhausted stability/flicker and cascade-vs-e2e query angles and ran a second judge-reliability WebSearch pass instead. Found 3 new candidate papers not already in papers.json (checked by URL, not just title): li2601-grading-scale-llm-judge-alignment (arXiv 2601.03444, 0-5 grading scale maximizes human-LLM ICC alignment vs 0-10), eamt2026-gemba-mqm-v2-compact-qe (ACL Anthology 2026.eamt-1.9, builds on GEMBA-MQM V2's repeated-run aggregation for smaller open models), fu2505-how-reliable-multilingual-llm-judge (arXiv 2505.12201, multilingual LLM-judge consistency varies sharply by language, ensemble helps). Added as found stubs."
     }
   ]
 }
