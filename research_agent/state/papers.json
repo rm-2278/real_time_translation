@@ -1673,32 +1673,56 @@
     {
       "id": "mmad2412-multiagent-debate-mt-eval",
       "title": "M-MAD: Multidimensional Multi-Agent Debate for Advanced Machine Translation Evaluation",
-      "authors": "Zhu et al. (ACL 2025)",
+      "authors": "Zhaopeng Feng et al. (8 authors total, ACL 2025, pp. 7084-7107)",
       "year": 2025,
-      "venue": "arXiv:2412.20127 (also ACL 2025)",
+      "venue": "arXiv:2412.20127 (also ACL 2025, long paper)",
       "url": "https://arxiv.org/pdf/2412.20127",
       "source": "websearch",
-      "status": "found"
+      "status": "extracted",
+      "extraction_method": "websearch_fallback_cycle88: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED, consistent with every prior cycle's finding for this host), fell back to WebSearch on the exact title + 'abstract' per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
+      "extracted_claims": [
+        "Problem framing: LLM-as-a-judge methods for MT evaluation have historically lagged behind learned reference-based automatic metrics (e.g. COMET-family) in correlation with human judgment.",
+        "Method ('M-MAD'): splits the MQM (Multidimensional Quality Metrics) error taxonomy into separate evaluation dimensions, then runs a 'Pro-Con Debate' -- a two-agent debating group argues for/against a quality judgment within each dimension independently -- before a separate judge agent evaluates the validity of each side's argument, discards redundant points, and synthesizes a final per-dimension verdict; per-dimension verdicts are then merged into one overall score.",
+        "Result: M-MAD reportedly outperforms existing single-pass LLM-as-a-judge methods and becomes competitive with SOTA reference-based automatic metrics, even when the underlying LLM is a comparatively weak/cheap model (GPT-4o-mini) -- i.e. the debate structure itself, not just a stronger base model, is credited for the gain.",
+        "Code and data are publicly released on GitHub (exact repo URL not recovered from search snippets)."
+      ],
+      "relevance_note_cycle88": "This repo's translation_fidelity_judge.judge() is a single-pass, single-agent, single-LLM-call judge (no debate, no per-dimension decomposition, no cross-examination of its own verdict). M-MAD's result suggests that a multi-agent debate structure can itself reduce judge noise/bias even on a fixed (even weaker) underlying model -- a different mechanism from this repo's own already-tested rubric-decomposition line (h-judge-rubric-decomposition-schematic-adherence et al., which decomposes the PROMPT's requested criteria but still makes one single LLM call, not multiple debating calls). Potentially a genuinely new angle (a 'does a 2-call pro/con debate reduce this repo's own judge's repeat-to-repeat noise floor, measured against the already-established cycle 19-21 noise-floor methodology' hypothesis) rather than a duplicate of the rubric-decomposition thread -- but this roughly doubles (or more) the judge-call cost per span, so it would need an explicit estimated_cost_usd and would compete for a backlog slot against the already-queued judge hypotheses. Needs reading the full method (beyond the abstract) before finalizing a hypothesis, per PLAYBOOK's verify-before-hypothesizing rule -- not written up this cycle (GENERATE_HYPOTHESES is not the current state, and the backlog is already at the 6-item cap)."
     },
     {
       "id": "wat2026-rubric-judge-patent-claims",
-      "title": "Rubric-based LLM-as-a-Judge for patent claim translation (WAT 2026)",
-      "authors": "unknown (not recovered from search snippet)",
+      "title": "Towards a Rubric-based LLM-as-a-Judge for Patent Claim Translation Evaluation",
+      "authors": "Yingyi Fu, Takehito Utsuro, Masaaki Nagata",
       "year": 2026,
-      "venue": "ACL Anthology 2026.wat-1.6 (WAT 2026)",
+      "venue": "ACL Anthology 2026.wat-1.6 (WAT 2026, pp. 84-103)",
       "url": "https://aclanthology.org/2026.wat-1.6/",
       "source": "websearch",
-      "status": "found"
+      "status": "extracted",
+      "extraction_method": "websearch_fallback_cycle88: WebFetch to aclanthology.org returned ENOTFOUND (EGRESS_BLOCKED, same host class as every prior cycle's finding), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
+      "extracted_claims": [
+        "Domain: patent claim translation (a specialized, terminology-dense domain, not this repo's live-subtitle/lecture domain), motivated by the WAT2025 patent task finding that general-purpose neural reference-based metrics (COMETKiwi, MetricX) correlate relatively poorly with human judgment on patent claims specifically.",
+        "Method: a patent-specific rubric with 5 evaluation dimensions, each decomposed into checklist items (a companion system paper, UTSK26, reports 16 checklist items total across the 5 dimensions), prompting a GPT model (GPT-5.2 per the companion system paper) to answer each checklist item, then aggregating answers into a single 0-100 score.",
+        "Result: this rubric/checklist-based LLM judge correlates best with human judgment among the methods compared (better than COMETKiwi and MetricX) on the patent-claim-translation task."
+      ],
+      "relevance_note_cycle88": "Structurally close to this repo's own already-tested rubric-decomposition line (h-judge-rubric-decomposition-schematic-adherence, h-judge-schematic-adherence-knowncost-resample, h-judge-schematic-adherence-sliding-context-windows) -- both use named sub-criteria/checklist items rather than one holistic score. Confirms the decomposed-rubric direction has independent, newer, domain-different support, but does not by itself suggest a new mechanism this repo's judge hasn't already tried; the domain (patent claims) is far from this repo's live-subtitle domain, so the specific 5-dimension/16-item rubric content would not transfer directly. Lower priority for a new hypothesis than mmad2412 or arxiv2510 above; mainly useful as corroborating citation for the existing tested rubric-decomposition hypotheses in a future report, not a new angle."
     },
     {
       "id": "arxiv2510-reasoning-models-translation-evaluators",
       "title": "Are Large Reasoning Models Good Translation Evaluators? Analysis and Performance Boost",
-      "authors": "unknown (not recovered from search snippet)",
+      "authors": "Runzhe Zhan et al. (University of Macau / CAS Shenzhen)",
       "year": 2025,
-      "venue": "arXiv:2510.20780",
+      "venue": "arXiv:2510.20780 (submitted 2025-10-23; accepted NeurIPS 2025)",
       "url": "https://arxiv.org/html/2510.20780v1",
       "source": "websearch",
-      "status": "found"
+      "status": "extracted",
+      "extraction_method": "websearch_fallback_cycle88: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
+      "extracted_claims": [
+        "Framed as the first systematic analysis of Large Reasoning Models (LRMs, i.e. chain-of-thought/extended-reasoning LLMs) as MT judges, evaluated on WMT24 Metrics benchmarks.",
+        "Diagnostic finding 1: LRMs used as MT judges are prone to over-analysis on easy/simple translation cases and tend toward score overestimation -- i.e. more reasoning does not uniformly help, and can introduce its own bias on cases that don't need deep analysis.",
+        "Diagnostic finding 2: the LRM's final scoring mechanism itself (how reasoning is converted into a numeric score) is a specific weak point that contributes to the overestimation bias, distinct from the reasoning content itself.",
+        "Proposed fix ('ThinMQM'): fine-tunes/trains the LRM on synthetic, human-like reasoning trajectories to calibrate its thinking process -- this REQUIRES a model-training step (not just prompting), so the training method itself is not portable to this repo's API-only architecture (same inapplicability class as exposst2026/sasst2026/StreamUni already noted in papers.json).",
+        "Reported effect of ThinMQM: cuts 'thinking budget' (reasoning token usage) by roughly 35x while simultaneously improving MQM-correlation evaluation performance, consistent across LRM scales from 7B to 32B parameters; reports a concrete +8.7 correlation-point improvement in at least one comparison."
+      ],
+      "relevance_note_cycle88": "The ThinMQM training method itself is not applicable here (no fine-tuning path), but the two DIAGNOSTIC findings (over-analysis/overestimation on easy cases; the scoring-mechanism-not-the-reasoning being the weak point) are claims ABOUT reasoning-based judges in general, not tied to the training fix -- potentially relevant context for interpreting this repo's own h-judge-reasoning-before-score-noise result (tested, checked whether judge() already requests reasoning before the score) and h-judge-rubric-decomposition-schematic-adherence line, IF translation_fidelity_judge.judge()'s current model is itself a reasoning/extended-thinking model (needs verifying against the actual model name/config in llm_translator.py or translation_fidelity_judge.py before treating this as applicable -- not assumed from the abstract alone, per PLAYBOOK's field-verification rule). Not written up as a hypothesis this cycle (backlog at cap); flagging the model-identity check as the first thing a future READ_PAPERS/GENERATE_HYPOTHESES pass should do before grounding anything in this paper."
     }
   ],
   "_websearch_note_cycle88": "Cycle 88 SEARCH_PAPERS pass (2026-11-09, scheduled/unattended session): ran 3 WebSearch queries targeting the playbook's named gaps -- (1) 'simultaneous speech translation retranslation flicker stability policy 2026 arxiv' (new stability/flicker policies) returned only pre-2026 work already read in this corpus (arivazhagan2019-erasure's own arXiv 1912.03393, chen2024-revision-controllable-decoding, Google's live-caption-stability blog, a 2024 dynamic-masking paper not previously catalogued but superseded in relevance by simulmask2024-attention-mask-decision-policy already in corpus) -- no new stub from this query; (2) 'LLM-as-judge machine translation evaluation reliability new method November 2026' (judge-reliability thread) surfaced 2 genuinely new, on-topic candidates not in papers.json by URL: mmad2412-multiagent-debate-mt-eval (ACL 2025, arXiv:2412.20127, splits MQM criteria across debating agent judges, directly relevant to the already-tested h-judge-rubric-decomposition-schematic-adherence line -- a decomposed-criteria method distinct from this repo's own single-pass rubric-decomposition approach) and wat2026-rubric-judge-patent-claims (ACL Anthology 2026.wat-1.6, reports COMETKiwi/MetricX showing low correlation with human eval on a specialized-domain translation task, a vendor-metric-vs-LLM-judge-reliability data point from a different specialized domain than this repo's own En-Ja subtitle domain); (3) 'cascade vs end-to-end speech translation comparison 2026 arxiv low latency' (cascade-vs-e2e gap) returned only 2020-2023 work already superseded by papi2026-hearing-to-translate-cascade-vs-speechllm's 2026 benchmark already in this corpus -- no new stub. A 3rd candidate surfaced by query (2), arxiv2510-reasoning-models-translation-evaluators (arXiv:2510.20780, reports large reasoning models as MT judges can cut 'thinking budget' ~35x while improving MQM-correlation performance), is also added as a new stub -- potentially relevant to this repo's own judge-reasoning-before-score thread (h-judge-reasoning-before-score-noise, tested) as a possible follow-up on cost/reasoning-length tradeoffs, though translation_fidelity_judge.judge() currently uses a fixed, non-reasoning-model judge call, so applicability needs checking during EXTRACT_PAPERS/READ_PAPERS, not assumed from the abstract. All 3 candidate URLs checked against every existing papers.json url field before stubbing, per the cycle-82 dedup rule -- none are duplicates. Backlog is already at the 6 queued+proposed cap (unchanged since cycle 84: 3 queued/approved_by_human -- h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration; 3 proposed/needs_human -- h-judge-repeat-independent-batches-corrected-design, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check), so no new hypothesis writing attempted this cycle, consistent with PLAYBOOK.md's GENERATE_HYPOTHESES cap rule. These 3 stubs are candidate grounding for a future GENERATE_HYPOTHESES pass once a backlog slot opens, continuing the active judge-reliability investigation thread (same thread as cycles 72, 75, 81, 84-87). Advancing to EXTRACT_PAPERS.",
