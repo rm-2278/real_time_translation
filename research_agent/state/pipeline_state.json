@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 28,
-  "last_updated": "2026-11-09T00:09:29.179992+00:00",
+  "last_updated": "2026-11-09T00:10:49.732691+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2867,6 +2867,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-09T00:09:29.179960+00:00",
       "note": "Cycle 88 SEARCH_PAPERS: ran 3 targeted WebSearch queries (stability/flicker policy, LLM-judge reliability, cascade-vs-e2e), found 3 new candidates not duplicated by URL (mmad2412-multiagent-debate-mt-eval, wat2026-rubric-judge-patent-claims, arxiv2510-reasoning-models-translation-evaluators), all relevant to the active judge-reliability thread. Backlog at 6/6 cap, all blocked on human action, so no new hypothesis writing this cycle."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-09T00:10:49.732662+00:00",
+      "note": "Cycle 88 EXTRACT_PAPERS: WebFetch to arxiv.org/aclanthology.org EGRESS_BLOCKED (ENOTFOUND) again, fell back to WebSearch per playbook. Extracted substantive claims for all 3 new stubs (mmad2412 multi-agent-debate judge, wat2026 rubric-checklist judge for patent claims, arxiv2510 LRM-as-judge diagnostics+ThinMQM training fix). ThinMQM's training method flagged as not portable (no fine-tuning path), but its diagnostic findings about reasoning-judge overestimation may still be relevant pending a model-identity check."
     }
   ]
 }
