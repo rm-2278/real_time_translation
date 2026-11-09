@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-08",
+  "date": "2026-11-09",
   "spent_today_usd": 0.0,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
@@ -304,6 +304,11 @@
       "at": "2026-11-08T12:14:21.098630+00:00",
       "amount_usd": 0.0,
       "note": "cycle 87: code fix only (caption_video_demo.py font fallback + reading_units_per_sec CLI flag), smoke-tested locally, no live Deepgram/Gemini/OpenAI API calls"
+    },
+    {
+      "at": "2026-11-09T00:14:47.771640+00:00",
+      "amount_usd": 0.0,
+      "note": "cycle 88 RUN_EXPERIMENTS: all 3 queued hypotheses remain environment/human blocked (api.openai.com CONNECT-rejected 10th+ cycle, reused per reduced-cadence; Deepgram listen-WS upgrade-mangled 10+ cycle, reused per reduced-cadence; h-continuous-rating-cps-calibration needs human viewing time + missing video file). No live experiment ran."
     }
   ]
 }
