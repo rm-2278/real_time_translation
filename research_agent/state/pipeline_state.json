@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 28,
-  "last_updated": "2026-11-08T12:16:52.944575+00:00",
+  "last_updated": "2026-11-09T00:09:29.179992+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2861,6 +2861,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-08T12:16:52.944555+00:00",
       "note": "Cycle 87 REFLECT: appended reflections.md entry. Edited PLAYBOOK.md: (1) updated the cycle-83 FONT_PATH note to reflect the Linux font-fallback fix landed this cycle, (2) added a new note that a queued hypothesis can be blocked by a missing local source file (distinct from an API/network block), found via h-continuous-rating-cps-calibration's referenced video not existing in this container. Advancing to SEARCH_PAPERS (narrated cycle 88); backlog still at cap, another literature pass is the best use of the next unattended cycle, with the xing2026 multi-turn-conversation-framing angle as the strongest GENERATE_HYPOTHESES candidate once a slot opens."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-09T00:09:29.179960+00:00",
+      "note": "Cycle 88 SEARCH_PAPERS: ran 3 targeted WebSearch queries (stability/flicker policy, LLM-judge reliability, cascade-vs-e2e), found 3 new candidates not duplicated by URL (mmad2412-multiagent-debate-mt-eval, wat2026-rubric-judge-patent-claims, arxiv2510-reasoning-models-translation-evaluators), all relevant to the active judge-reliability thread. Backlog at 6/6 cap, all blocked on human action, so no new hypothesis writing this cycle."
     }
   ]
 }
