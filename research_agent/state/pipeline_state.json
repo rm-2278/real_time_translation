@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 28,
-  "last_updated": "2026-11-09T00:10:49.732691+00:00",
+  "last_updated": "2026-11-09T00:12:21.266974+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2873,6 +2873,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-09T00:10:49.732662+00:00",
       "note": "Cycle 88 EXTRACT_PAPERS: WebFetch to arxiv.org/aclanthology.org EGRESS_BLOCKED (ENOTFOUND) again, fell back to WebSearch per playbook. Extracted substantive claims for all 3 new stubs (mmad2412 multi-agent-debate judge, wat2026 rubric-checklist judge for patent claims, arxiv2510 LRM-as-judge diagnostics+ThinMQM training fix). ThinMQM's training method flagged as not portable (no fine-tuning path), but its diagnostic findings about reasoning-judge overestimation may still be relevant pending a model-identity check."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-09T00:12:21.266938+00:00",
+      "note": "Cycle 88 READ_PAPERS: wrote from-scratch summaries + key_findings for mmad2412 (multi-agent debate judge), wat2026-rubric-judge-patent-claims (checklist judge, different domain), arxiv2510-reasoning-models-translation-evaluators (LRM-judge diagnostics + ThinMQM training fix). Cross-referenced all 3 against experiments/results.csv, experiments/*.json filenames, and git log -- confirmed none duplicate existing judge experiments (closest is the single-call judge_decomposed() line, distinct from mmad2412's multi-call debate). Resolved arxiv2510's open applicability question by reading translation_fidelity_judge.py directly: judge model is gemini-3.1-flash-lite (non-reasoning tier), so the LRM-specific diagnostics don't transfer to the current judge -- background only, not hypothesis-grounding. mmad2412 is the strongest new GENERATE_HYPOTHESES candidate once a backlog slot opens."
     }
   ]
 }
