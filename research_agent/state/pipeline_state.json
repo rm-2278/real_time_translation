@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 28,
-  "last_updated": "2026-11-09T00:12:37.200184+00:00",
+  "last_updated": "2026-11-09T00:12:48.256066+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2885,6 +2885,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-09T00:12:37.200151+00:00",
       "note": "Cycle 88 GENERATE_HYPOTHESES: backlog is at the 6-item queued+proposed cap (3 queued/approved_by_human, 3 proposed/needs_human), with no proposed entry carrying a null/unprocessed approval -- per PLAYBOOK.md's backlog-cap rule, not writing a new hypothesis this cycle. mmad2412-multiagent-debate-mt-eval (read this cycle) is the strongest candidate for the next GENERATE_HYPOTHESES pass once a slot opens, ahead of the never-cited-paper pivot list."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-09T00:12:48.256027+00:00",
+      "note": "Cycle 88 HUMAN_APPROVAL: no hypothesis with null/proposed-unprocessed approval found -- all 6 backlog entries already carry a resolved approval (3 queued/approved_by_human: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration; 3 proposed/needs_human: h-judge-repeat-independent-batches-corrected-design, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check), same as cycle 87. At least one hypothesis (3) is queued with approval != needs_human, so advancing to RUN_EXPERIMENTS."
     }
   ]
 }
