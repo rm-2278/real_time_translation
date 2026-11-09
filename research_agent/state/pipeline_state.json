@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 28,
-  "last_updated": "2026-11-09T00:12:48.256066+00:00",
+  "last_updated": "2026-11-09T00:14:57.130988+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2891,6 +2891,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-09T00:12:48.256027+00:00",
       "note": "Cycle 88 HUMAN_APPROVAL: no hypothesis with null/proposed-unprocessed approval found -- all 6 backlog entries already carry a resolved approval (3 queued/approved_by_human: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration; 3 proposed/needs_human: h-judge-repeat-independent-batches-corrected-design, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check), same as cycle 87. At least one hypothesis (3) is queued with approval != needs_human, so advancing to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-09T00:14:57.130949+00:00",
+      "note": "Cycle 88 RUN_EXPERIMENTS: no hypothesis reached tested status. All 3 queued hypotheses remain blocked (OpenAI CONNECT-rejection 10th+ cycle, Deepgram listen-WS upgrade-mangling 10+ cycle, both reused per reduced-cadence clause rather than re-probed since last live checks were only 1-2 cycles ago; h-continuous-rating-cps-calibration still needs human viewing time + the missing source video, unchanged since cycle 87's code fixes). Deepgram/Gemini REST both freshly re-confirmed reachable (200) this cycle; all 3 API keys confirmed set, ffmpeg present. No live API-cost experiment ran; logged /bin/bash.00. Nothing to analyze, pass-through to ANALYZE_RESULTS (RUN_EXPERIMENTS -> WRITE_REPORT is not a legal direct transition)."
     }
   ]
 }
