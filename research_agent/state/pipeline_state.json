@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 28,
-  "last_updated": "2026-11-09T00:14:57.130988+00:00",
+  "last_updated": "2026-11-09T00:15:02.319852+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2897,6 +2897,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-09T00:14:57.130949+00:00",
       "note": "Cycle 88 RUN_EXPERIMENTS: no hypothesis reached tested status. All 3 queued hypotheses remain blocked (OpenAI CONNECT-rejection 10th+ cycle, Deepgram listen-WS upgrade-mangling 10+ cycle, both reused per reduced-cadence clause rather than re-probed since last live checks were only 1-2 cycles ago; h-continuous-rating-cps-calibration still needs human viewing time + the missing source video, unchanged since cycle 87's code fixes). Deepgram/Gemini REST both freshly re-confirmed reachable (200) this cycle; all 3 API keys confirmed set, ffmpeg present. No live API-cost experiment ran; logged /bin/bash.00. Nothing to analyze, pass-through to ANALYZE_RESULTS (RUN_EXPERIMENTS -> WRITE_REPORT is not a legal direct transition)."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-09T00:15:02.319817+00:00",
+      "note": "Cycle 88 ANALYZE_RESULTS: pass-through, no tested hypothesis this cycle to analyze (all 3 queued remain environment/human blocked)."
     }
   ]
 }
