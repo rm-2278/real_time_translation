@@ -5764,3 +5764,96 @@ GENERATE_HYPOTHESES pass once a slot opens -- prioritize that over a
 fresh broad sweep if a slot does open before much more literature
 accumulates. `pipeline_state.json`'s own `cycle` JSON counter increments
 on this transition per its usual rule.
+
+## Cycle 88 (2026-11-09, scheduled session)
+
+**What worked this cycle:** A targeted literature pass (3 queries aimed
+at the playbook's named gaps -- stability/flicker, judge reliability,
+cascade-vs-e2e) found 3 genuinely new, on-topic papers in the judge-
+reliability thread (mmad2412 multi-agent-debate judge, wat2026
+rubric-checklist judge for patent claims, arxiv2510 LRM-judge
+diagnostics + ThinMQM). All 3 were taken all the way through EXTRACT ->
+READ in the same session (dedup-checked by URL, cross-referenced against
+experiments/results.csv, experiments/*.json filenames, and git log per
+the playbook's explicit instruction, not just eyeballed). The dedup/
+cross-reference discipline this playbook has accumulated over 87 prior
+cycles paid off directly: caught that none of the 3 duplicate anything
+already tested, and specifically that mmad2412's multi-agent-debate
+mechanism is structurally distinct from this repo's already-tested
+single-call judge_decomposed() line, not a re-skin of it.
+
+One genuinely useful piece of proactive verification: arxiv2510's core
+diagnostic (LRM-as-judge over-analysis/overestimation) is explicitly
+about *reasoning* models. Rather than letting that ambiguity sit
+unresolved in papers.json the way xing2026's base-model question sat
+unresolved for two cycles (85-86) before finally being chased down,
+this cycle read translation_fidelity_judge.py directly and confirmed the
+production judge model is gemini-3.1-flash-lite (non-reasoning tier),
+so the paper's own headline finding doesn't transfer to the current
+judge as configured. Recording this now, at READ_PAPERS time, means a
+future GENERATE_HYPOTHESES pass won't have to re-derive it or (worse)
+assume applicability from the abstract alone -- a small instance of the
+same field-verification discipline PLAYBOOK.md's GENERATE_HYPOTHESES
+section already names five separate times, applied one state earlier
+than usual.
+
+**What didn't work / was a net-zero:** The stability/flicker-policy and
+cascade-vs-e2e queries (the other 2 of PLAYBOOK's named gap categories)
+again surfaced nothing not already in papers.json -- same empty-handed
+outcome as cycles 53, 73, 79-87's repeated attempts at these same two
+angles. This sub-area of the literature now looks durably exhausted by
+a general WebSearch-level sweep; the judge-reliability thread remains
+the only one still reliably yielding new, distinct papers cycle after
+cycle (72, 75, 81, 83-88). Worth explicitly deprioritizing the
+stability/flicker and cascade-vs-e2e query slots in favor of a second
+judge-reliability query, or a never-cited-paper pivot, in future
+cycles -- not a playbook rule change, just a practical allocation note
+for future SEARCH_PAPERS passes.
+
+**Was the hypothesis backlog well-calibrated?** Still N/A, same as
+cycles 79-87 -- all 6 backlog slots remain blocked on a human action
+(OpenAI network access for 1, Deepgram WS network access for 1, human
+viewing-time + a missing local video file for 1, an explicit approval
+signal for 3). Correctly did not write a new hypothesis on top of an
+already-full, correctly-blocked backlog, even with 3 fresh, well-
+grounded candidate papers now sitting read-but-uncited in papers.json
+(mmad2412, wat2026-rubric-judge-patent-claims, arxiv2510) -- the backlog
+cap exists precisely to keep depth over breadth, and respecting it here
+means one of these candidates (mmad2412, the strongest) should be the
+first thing written up once a slot actually opens, rather than treated
+as pressure to relax the cap.
+
+**Budget policy:** No change proposed. Zero spend this cycle (no live
+API calls at all -- the OpenAI/Deepgram-WS checks were reused from
+cached results per the reduced-cadence clause, and h-continuous-rating
+-cps-calibration had no new code work to do). Logged $0.00 via log-cost.
+
+**Should this playbook itself change? No edit made this cycle.** The
+reduced-cadence clause (added cycle 86) worked exactly as designed for
+both the OpenAI and Deepgram-WS checks this cycle, with no ambiguity
+about whether to skip or re-probe (both pairs' last live checks were
+well under the 10-cycle tripwire) -- a clean, uneventful application,
+not a new finding worth writing down. The only friction this cycle was
+re-deriving which branch research_agent/ lives on (feat/rm2278/
+async-containers, not main) from `git branch -a`/`git log`, but
+PLAYBOOK.md's Step 0 already documents this exact situation explicitly
+-- re-reading that section before orienting (rather than assuming main)
+would have saved the one extra `git fetch --prune` round-trip, but this
+is a "follow Step 0 more carefully" note for future sessions, not a gap
+in the playbook's own content. Deliberately did not touch the
+approval-gate, budget-check, or the reduced-cadence clause itself.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+89). The backlog is still at cap and all 6 items are still blocked on
+human action, so there is no urgency to reach GENERATE_HYPOTHESES early
+-- another literature pass continues to be the best use of the next
+unattended cycle, this time prioritizing a second judge-reliability
+query (or the never-cited-paper pivot technique) over the now-exhausted
+stability/flicker and cascade-vs-e2e angles, per the note above. Good
+next-cycle GENERATE_HYPOTHESES candidate once a slot opens: mmad2412's
+multi-agent-debate judge mechanism (ahead of xing2026's multi-turn-
+conversation-framing angle flagged in cycle 87, which remains a valid
+second choice) -- note that a debate-based hypothesis needs an honest,
+likely-higher estimated_cost_usd (2+ judge calls per span) when it is
+eventually written up. `pipeline_state.json`'s own `cycle` JSON counter
+increments on this transition per its usual rule.
