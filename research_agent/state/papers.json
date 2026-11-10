@@ -1751,9 +1751,17 @@
       "venue": "arXiv:2601.03444 (cs.CL)",
       "year": 2026,
       "authors": "Weiyue Li et al.",
-      "status": "found",
+      "status": "extracted",
       "source": "websearch",
-      "relevant_to": []
+      "relevant_to": [],
+      "extraction_method": "websearch_fallback_cycle90: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED, same as cycle 88), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
+      "extracted_claims": [
+        "Authors: Weiyue Li et al. (15 authors total), submitted 2026-01-06 (cs.CL, cross-listed cs.AI/cs.HC).",
+        "Studies the effect of the grading SCALE itself on LLM-judge/human alignment, distinct from prior work on prompt-sensitivity -- both humans and LLMs rated the same responses on three scales (0-5, 0-10, 0-100) across six benchmarks spanning objective, open-ended subjective, and mixed tasks (fractional scores allowed per one secondary summary; not independently confirmed from the primary text via this fallback).",
+        "Main finding: averaged across tasks, the 0-5 scale gives the strongest human-LLM agreement; 0-10 is consistently the weakest scale, even in cases where within-population (human-human or LLM-LLM) reliability is high on that same scale.",
+        "Pooled/aggregate reliability numbers can mask subgroup differences: broken out by gender, both male and female human-rater subgroups independently show the strongest alignment with the LLM judge specifically on the 0-5 scale.",
+        "CAVEAT (not yet independently verified against the primary PDF/HTML due to EGRESS_BLOCKED on arxiv.org this cycle): the 0-5 vs 0-10 vs 0-100 scale detail and the exact magnitude of the alignment gap were drawn from a secondary review site (themoonlight.io), not the paper itself -- treat the qualitative direction (narrower scale, e.g. 0-5, aligns better than a wider one like 0-10) as the claim to ground any hypothesis in, and re-verify exact numbers from the primary source before citing a specific figure in a report."
+      ]
     },
     {
       "id": "eamt2026-gemba-mqm-v2-compact-qe",
@@ -1761,10 +1769,18 @@
       "url": "https://aclanthology.org/2026.eamt-1.9.pdf",
       "venue": "ACL Anthology 2026.eamt-1.9 (EAMT 2026)",
       "year": 2026,
-      "authors": "unconfirmed (not yet fetched)",
-      "status": "found",
+      "authors": "unconfirmed -- likely overlaps with a related arXiv preprint (2605.15763) sharing near-identical text; CompactQE (small open-weight LLM QE) appears to be this paper's own name per a secondary aggregator (bittide.aicompass.dev), not independently confirmed from the primary PDF",
+      "status": "extracted",
       "source": "websearch",
-      "relevant_to": []
+      "relevant_to": [],
+      "extraction_method": "websearch_fallback_cycle90: WebFetch to aclanthology.org returned ENOTFOUND (EGRESS_BLOCKED), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction. The primary abstract/results table was NOT retrievable this cycle via either method -- claims below are reconstructed from a near-duplicate preprint's introduction text and a secondary aggregator summary, not the EAMT PDF itself.",
+      "extracted_claims": [
+        "Core idea: extends GEMBA-MQM V2's prompting to do post-editing AND error-detection/ESA scoring in a single inference call (one model call instead of a separate post-edit pass), with more detailed error descriptions than the V2 baseline.",
+        "Target use case: designed for SMALLER, open-weight models that fit on consumer-grade GPUs (up to ~32GB VRAM) -- deliberately drops document-level context (unlike GEMBA-MQM V2) specifically to fit these models' smaller context windows.",
+        "Baseline being compared against: GEMBA-MQM V2, an MQM-inspired reference-free LLM evaluation metric that handles LLM output stochasticity by aggregating scores across 10 separate inference runs per item -- expensive at 10x inference cost per evaluated segment.",
+        "Likely relevance to this repo: a cheaper (fewer inference calls per segment, works on smaller models), reference-free, single-call MQM-style metric is architecturally closer to this repo's own single-call translation_fidelity_judge.judge() design than the 10-run GEMBA-MQM V2 baseline is -- but no concrete accuracy/correlation numbers were retrievable this cycle to judge whether the single-call simplification costs reliability.",
+        "UNRESOLVED: could not confirm the paper's actual reported MQM-correlation or QE-accuracy numbers, nor its exact title/author list, from either WebFetch or WebSearch this cycle -- EAMT Anthology PDF fetch is blocked (ENOTFOUND) and WebSearch only surfaced related/adjacent papers, not this one's own results table. Needs a repeat WebFetch attempt once aclanthology.org is reachable, or this entry should not be used to ground a hypothesis's numeric claims until confirmed."
+      ]
     },
     {
       "id": "fu2505-how-reliable-multilingual-llm-judge",
@@ -1772,10 +1788,19 @@
       "url": "https://arxiv.org/abs/2505.12201",
       "venue": "arXiv:2505.12201 (cs.CL)",
       "year": 2025,
-      "authors": "Xiyan Fu, Wei Liu",
-      "status": "found",
+      "authors": "Xiyan Fu, Wei Liu (arXiv listing); HTML version additionally lists Anette Frank as a co-author -- author list inconsistent across sources, not resolved this cycle",
+      "status": "extracted",
       "source": "websearch",
-      "relevant_to": []
+      "relevant_to": [],
+      "extraction_method": "websearch_fallback_cycle90: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
+      "extracted_claims": [
+        "Submitted 2025-05-18 (cs.CL). Tests whether LLM-as-judge verdicts stay CONSISTENT across parallel texts that differ only by language (i.e. the same underlying content translated/presented in different languages) -- a multilingual consistency question, distinct from this repo's own single-language (En source / Ja target) judge-noise threads already in papers.json.",
+        "Main finding: LLMs struggle to give consistent judgments across languages for the same underlying content; consistency is weakest specifically for lower-resource languages.",
+        "Neither using a multilingually-trained judge model nor scaling up model size fixed the cross-language inconsistency -- i.e. this isn't simply a 'bigger/more multilingual model' problem.",
+        "Proposed mitigation: an ensemble strategy (combining multiple judge calls/models) to improve real-world consistency -- not yet verified which specific ensembling method, or by how much it helps, from primary source this cycle.",
+        "UNCONFIRMED (secondary-source only, not verified against primary arXiv text this cycle): a secondary summary site reports the study covered 5 models, 5 tasks, and 25 languages -- flagged as needing re-verification, not yet a citable number.",
+        "Relevance note (not yet tested, flag only): this repo's judge is single-language (always En->Ja), so the paper's core cross-language-consistency mechanism doesn't directly map onto a hypothesis without a reinterpretation -- e.g. it could motivate checking whether judge() behaves differently depending on which LANGUAGE PAIR direction or domain-specific Japanese register is being scored, which is a different question than the paper's own cross-language design. Needs a concrete, testable angle before this grounds a hypothesis, per PLAYBOOK's GENERATE_HYPOTHESES verification rule."
+      ]
     }
   ],
   "_websearch_note_cycle88": "Cycle 88 SEARCH_PAPERS pass (2026-11-09, scheduled/unattended session): ran 3 WebSearch queries targeting the playbook's named gaps -- (1) 'simultaneous speech translation retranslation flicker stability policy 2026 arxiv' (new stability/flicker policies) returned only pre-2026 work already read in this corpus (arivazhagan2019-erasure's own arXiv 1912.03393, chen2024-revision-controllable-decoding, Google's live-caption-stability blog, a 2024 dynamic-masking paper not previously catalogued but superseded in relevance by simulmask2024-attention-mask-decision-policy already in corpus) -- no new stub from this query; (2) 'LLM-as-judge machine translation evaluation reliability new method November 2026' (judge-reliability thread) surfaced 2 genuinely new, on-topic candidates not in papers.json by URL: mmad2412-multiagent-debate-mt-eval (ACL 2025, arXiv:2412.20127, splits MQM criteria across debating agent judges, directly relevant to the already-tested h-judge-rubric-decomposition-schematic-adherence line -- a decomposed-criteria method distinct from this repo's own single-pass rubric-decomposition approach) and wat2026-rubric-judge-patent-claims (ACL Anthology 2026.wat-1.6, reports COMETKiwi/MetricX showing low correlation with human eval on a specialized-domain translation task, a vendor-metric-vs-LLM-judge-reliability data point from a different specialized domain than this repo's own En-Ja subtitle domain); (3) 'cascade vs end-to-end speech translation comparison 2026 arxiv low latency' (cascade-vs-e2e gap) returned only 2020-2023 work already superseded by papi2026-hearing-to-translate-cascade-vs-speechllm's 2026 benchmark already in this corpus -- no new stub. A 3rd candidate surfaced by query (2), arxiv2510-reasoning-models-translation-evaluators (arXiv:2510.20780, reports large reasoning models as MT judges can cut 'thinking budget' ~35x while improving MQM-correlation performance), is also added as a new stub -- potentially relevant to this repo's own judge-reasoning-before-score thread (h-judge-reasoning-before-score-noise, tested) as a possible follow-up on cost/reasoning-length tradeoffs, though translation_fidelity_judge.judge() currently uses a fixed, non-reasoning-model judge call, so applicability needs checking during EXTRACT_PAPERS/READ_PAPERS, not assumed from the abstract. All 3 candidate URLs checked against every existing papers.json url field before stubbing, per the cycle-82 dedup rule -- none are duplicates. Backlog is already at the 6 queued+proposed cap (unchanged since cycle 84: 3 queued/approved_by_human -- h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration; 3 proposed/needs_human -- h-judge-repeat-independent-batches-corrected-design, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check), so no new hypothesis writing attempted this cycle, consistent with PLAYBOOK.md's GENERATE_HYPOTHESES cap rule. These 3 stubs are candidate grounding for a future GENERATE_HYPOTHESES pass once a backlog slot opens, continuing the active judge-reliability investigation thread (same thread as cycles 72, 75, 81, 84-87). Advancing to EXTRACT_PAPERS.",
