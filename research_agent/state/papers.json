@@ -1751,9 +1751,11 @@
       "venue": "arXiv:2601.03444 (cs.CL)",
       "year": 2026,
       "authors": "Weiyue Li et al.",
-      "status": "extracted",
+      "status": "read",
       "source": "websearch",
-      "relevant_to": [],
+      "relevant_to": [
+        "judge-reliability-thread"
+      ],
       "extraction_method": "websearch_fallback_cycle89: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED, same as cycle 88), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
       "extracted_claims": [
         "Authors: Weiyue Li et al. (15 authors total), submitted 2026-01-06 (cs.CL, cross-listed cs.AI/cs.HC).",
@@ -1761,6 +1763,14 @@
         "Main finding: averaged across tasks, the 0-5 scale gives the strongest human-LLM agreement; 0-10 is consistently the weakest scale, even in cases where within-population (human-human or LLM-LLM) reliability is high on that same scale.",
         "Pooled/aggregate reliability numbers can mask subgroup differences: broken out by gender, both male and female human-rater subgroups independently show the strongest alignment with the LLM judge specifically on the 0-5 scale.",
         "CAVEAT (not yet independently verified against the primary PDF/HTML due to EGRESS_BLOCKED on arxiv.org this cycle): the 0-5 vs 0-10 vs 0-100 scale detail and the exact magnitude of the alignment gap were drawn from a secondary review site (themoonlight.io), not the paper itself -- treat the qualitative direction (narrower scale, e.g. 0-5, aligns better than a wider one like 0-10) as the claim to ground any hypothesis in, and re-verify exact numbers from the primary source before citing a specific figure in a report."
+      ],
+      "summary": "Studies whether the numeric grading SCALE itself (0-5 vs 0-10 vs 0-100) affects human-LLM judge alignment, holding the prompt and task fixed, across six benchmarks spanning objective, open-ended, and mixed tasks. Averaged across tasks, the 0-5 scale gives the strongest human-LLM agreement and 0-10 is consistently the weakest, with the pattern holding even when within-population (human-human or LLM-LLM) reliability is high on the weaker scale. The 0-5 advantage replicates when the human raters are split by gender, so it is not an artifact of one subgroup. Not independently verified against the primary PDF this cycle (arxiv.org WebFetch EGRESS_BLOCKED, extracted via WebSearch fallback from a secondary review site) -- the qualitative direction is trustworthy but exact alignment-gap numbers are not yet confirmed from source.",
+      "key_findings": [
+        "0-5 grading scale gives the highest human-LLM alignment of the three scales tested (0-5, 0-10, 0-100); 0-10 is the weakest.",
+        "The ranking holds even for scales with high within-population (human-only or LLM-only) reliability -- a scale can be internally consistent yet align poorly with the other population.",
+        "Effect replicates across male and female human-rater subgroups independently, not just in the pooled average.",
+        "Directly relevant to this repo: translation_fidelity_judge.py's production judge() uses a 0-100 scale, the scale this paper found weakest for human-LLM alignment among the three tested (0-5/0-10/0-100) -- not yet tested empirically against this repo's own human-free workflow, but a concrete, cheap-to-test angle for a future hypothesis.",
+        "Exact magnitude of the 0-5 vs 0-10/0-100 alignment gap still unconfirmed from the primary source as of this cycle; only the qualitative direction should be cited until re-verified."
       ]
     },
     {
@@ -1770,9 +1780,11 @@
       "venue": "ACL Anthology 2026.eamt-1.9 (EAMT 2026)",
       "year": 2026,
       "authors": "unconfirmed -- likely overlaps with a related arXiv preprint (2605.15763) sharing near-identical text; CompactQE (small open-weight LLM QE) appears to be this paper's own name per a secondary aggregator (bittide.aicompass.dev), not independently confirmed from the primary PDF",
-      "status": "extracted",
+      "status": "read",
       "source": "websearch",
-      "relevant_to": [],
+      "relevant_to": [
+        "judge-reliability-thread"
+      ],
       "extraction_method": "websearch_fallback_cycle89: WebFetch to aclanthology.org returned ENOTFOUND (EGRESS_BLOCKED), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction. The primary abstract/results table was NOT retrievable this cycle via either method -- claims below are reconstructed from a near-duplicate preprint's introduction text and a secondary aggregator summary, not the EAMT PDF itself.",
       "extracted_claims": [
         "Core idea: extends GEMBA-MQM V2's prompting to do post-editing AND error-detection/ESA scoring in a single inference call (one model call instead of a separate post-edit pass), with more detailed error descriptions than the V2 baseline.",
@@ -1780,6 +1792,13 @@
         "Baseline being compared against: GEMBA-MQM V2, an MQM-inspired reference-free LLM evaluation metric that handles LLM output stochasticity by aggregating scores across 10 separate inference runs per item -- expensive at 10x inference cost per evaluated segment.",
         "Likely relevance to this repo: a cheaper (fewer inference calls per segment, works on smaller models), reference-free, single-call MQM-style metric is architecturally closer to this repo's own single-call translation_fidelity_judge.judge() design than the 10-run GEMBA-MQM V2 baseline is -- but no concrete accuracy/correlation numbers were retrievable this cycle to judge whether the single-call simplification costs reliability.",
         "UNRESOLVED: could not confirm the paper's actual reported MQM-correlation or QE-accuracy numbers, nor its exact title/author list, from either WebFetch or WebSearch this cycle -- EAMT Anthology PDF fetch is blocked (ENOTFOUND) and WebSearch only surfaced related/adjacent papers, not this one's own results table. Needs a repeat WebFetch attempt once aclanthology.org is reachable, or this entry should not be used to ground a hypothesis's numeric claims until confirmed."
+      ],
+      "summary": "A 2026 EAMT paper (title/author list still unconfirmed; provisionally called CompactQE per a secondary aggregator) that extends GEMBA-MQM V2's MQM-style prompting to do post-editing and ESA-style error scoring in a single inference call, aimed at smaller open-weight models (fits on consumer-grade GPUs up to ~32GB). Unlike GEMBA-MQM V2's baseline design -- which aggregates 10 separate inference runs per segment to deal with LLM stochasticity, and keeps document-level context -- this method deliberately drops document context to fit smaller context windows, trading some context-awareness for a single, cheaper inference call per segment. The primary PDF (aclanthology.org) was EGRESS_BLOCKED both this cycle and the prior extraction attempt; claims are reconstructed from a near-duplicate preprint's introduction and a secondary aggregator, and the paper's own reported MQM-correlation/QE-accuracy numbers remain unconfirmed.",
+      "key_findings": [
+        "Core method: single-inference-call post-edit + ESA/error-scoring combined, vs. GEMBA-MQM V2's separate passes and 10x-inference stochasticity-aggregation baseline.",
+        "Deliberately targets smaller open-weight models by dropping document-level context to fit limited context windows -- a context-vs-model-size tradeoff, not a free improvement.",
+        "Architecturally this single-call design is closer to this repo's own single-call translation_fidelity_judge.judge() than to GEMBA-MQM V2's 10-run aggregation -- relevant precedent, but no retrievable accuracy numbers yet to say whether the single-call simplification costs reliability.",
+        "UNRESOLVED as of this cycle: no concrete MQM-correlation/QE-accuracy numbers, and the paper's own exact title/author list, were retrievable via either WebFetch or WebSearch -- treat as a precedent for the single-call-vs-multi-call design question only, not as a source of citable numbers, until re-verified."
       ]
     },
     {
@@ -1789,9 +1808,11 @@
       "venue": "arXiv:2505.12201 (cs.CL)",
       "year": 2025,
       "authors": "Xiyan Fu, Wei Liu (arXiv listing); HTML version additionally lists Anette Frank as a co-author -- author list inconsistent across sources, not resolved this cycle",
-      "status": "extracted",
+      "status": "read",
       "source": "websearch",
-      "relevant_to": [],
+      "relevant_to": [
+        "judge-reliability-thread"
+      ],
       "extraction_method": "websearch_fallback_cycle89: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
       "extracted_claims": [
         "Submitted 2025-05-18 (cs.CL). Tests whether LLM-as-judge verdicts stay CONSISTENT across parallel texts that differ only by language (i.e. the same underlying content translated/presented in different languages) -- a multilingual consistency question, distinct from this repo's own single-language (En source / Ja target) judge-noise threads already in papers.json.",
@@ -1800,6 +1821,14 @@
         "Proposed mitigation: an ensemble strategy (combining multiple judge calls/models) to improve real-world consistency -- not yet verified which specific ensembling method, or by how much it helps, from primary source this cycle.",
         "UNCONFIRMED (secondary-source only, not verified against primary arXiv text this cycle): a secondary summary site reports the study covered 5 models, 5 tasks, and 25 languages -- flagged as needing re-verification, not yet a citable number.",
         "Relevance note (not yet tested, flag only): this repo's judge is single-language (always En->Ja), so the paper's core cross-language-consistency mechanism doesn't directly map onto a hypothesis without a reinterpretation -- e.g. it could motivate checking whether judge() behaves differently depending on which LANGUAGE PAIR direction or domain-specific Japanese register is being scored, which is a different question than the paper's own cross-language design. Needs a concrete, testable angle before this grounds a hypothesis, per PLAYBOOK's GENERATE_HYPOTHESES verification rule."
+      ],
+      "summary": "Tests whether LLM-as-judge verdicts stay consistent across parallel texts that differ only by language -- i.e. judging the same underlying content presented in different languages -- rather than this repo's own single-direction (En source / Ja target) judge-noise question. Finds that LLM judges struggle to give consistent verdicts across languages for the same content, with consistency weakest for lower-resource languages, and that neither a multilingually-trained judge model nor simply scaling up model size fixes the inconsistency. Proposes an ensemble-of-judges mitigation to improve real-world consistency, though the specific ensembling method and its effect size are not yet confirmed from the primary source this cycle (arxiv.org WebFetch EGRESS_BLOCKED, WebSearch fallback used).",
+      "key_findings": [
+        "LLM judges are inconsistent across languages when judging the same underlying content, and the inconsistency is worst for lower-resource languages.",
+        "Scaling judge model size, or using a multilingually-trained judge, does not fix the cross-language inconsistency -- rules out the simplest fixes.",
+        "Proposed mitigation is ensembling multiple judge calls/models, not yet verified for method or magnitude from the primary text.",
+        "Does not map directly onto this repo's judge design (always En->Ja, a single language pair, not a cross-language consistency check) -- per PLAYBOOK.md's GENERATE_HYPOTHESES verification rule, this needs a concrete reinterpretation (e.g. checking whether judge() behaves differently across different Japanese registers/domains) before it can ground a testable hypothesis, not a direct application of the paper's own cross-language design.",
+        "Secondary-source-only detail (5 models x 5 tasks x 25 languages) still flagged as unconfirmed against the primary arXiv text."
       ]
     }
   ],
