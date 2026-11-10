@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 29,
-  "last_updated": "2026-11-09T12:09:39.887335+00:00",
+  "last_updated": "2026-11-10T00:09:39.041035+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2921,6 +2921,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-09T12:09:39.887306+00:00",
       "note": "Cycle 89 SEARCH_PAPERS: per cycle-88 reflection, deprioritized the now-exhausted stability/flicker and cascade-vs-e2e query angles and ran a second judge-reliability WebSearch pass instead. Found 3 new candidate papers not already in papers.json (checked by URL, not just title): li2601-grading-scale-llm-judge-alignment (arXiv 2601.03444, 0-5 grading scale maximizes human-LLM ICC alignment vs 0-10), eamt2026-gemba-mqm-v2-compact-qe (ACL Anthology 2026.eamt-1.9, builds on GEMBA-MQM V2's repeated-run aggregation for smaller open models), fu2505-how-reliable-multilingual-llm-judge (arXiv 2505.12201, multilingual LLM-judge consistency varies sharply by language, ensemble helps). Added as found stubs."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-10T00:09:39.040998+00:00",
+      "note": "Extracted claims for the 3 cycle-89 judge-reliability stubs (li2601-grading-scale-llm-judge-alignment, eamt2026-gemba-mqm-v2-compact-qe, fu2505-how-reliable-multilingual-llm-judge) via WebSearch fallback (arxiv.org/aclanthology.org both EGRESS_BLOCKED this cycle). eamt2026 entry's primary abstract/results still unresolved -- flagged, not used for numeric claims yet. Advancing to READ_PAPERS."
     }
   ]
 }
