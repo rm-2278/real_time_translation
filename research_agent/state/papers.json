@@ -1754,7 +1754,7 @@
       "status": "extracted",
       "source": "websearch",
       "relevant_to": [],
-      "extraction_method": "websearch_fallback_cycle90: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED, same as cycle 88), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
+      "extraction_method": "websearch_fallback_cycle89: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED, same as cycle 88), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
       "extracted_claims": [
         "Authors: Weiyue Li et al. (15 authors total), submitted 2026-01-06 (cs.CL, cross-listed cs.AI/cs.HC).",
         "Studies the effect of the grading SCALE itself on LLM-judge/human alignment, distinct from prior work on prompt-sensitivity -- both humans and LLMs rated the same responses on three scales (0-5, 0-10, 0-100) across six benchmarks spanning objective, open-ended subjective, and mixed tasks (fractional scores allowed per one secondary summary; not independently confirmed from the primary text via this fallback).",
@@ -1773,7 +1773,7 @@
       "status": "extracted",
       "source": "websearch",
       "relevant_to": [],
-      "extraction_method": "websearch_fallback_cycle90: WebFetch to aclanthology.org returned ENOTFOUND (EGRESS_BLOCKED), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction. The primary abstract/results table was NOT retrievable this cycle via either method -- claims below are reconstructed from a near-duplicate preprint's introduction text and a secondary aggregator summary, not the EAMT PDF itself.",
+      "extraction_method": "websearch_fallback_cycle89: WebFetch to aclanthology.org returned ENOTFOUND (EGRESS_BLOCKED), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction. The primary abstract/results table was NOT retrievable this cycle via either method -- claims below are reconstructed from a near-duplicate preprint's introduction text and a secondary aggregator summary, not the EAMT PDF itself.",
       "extracted_claims": [
         "Core idea: extends GEMBA-MQM V2's prompting to do post-editing AND error-detection/ESA scoring in a single inference call (one model call instead of a separate post-edit pass), with more detailed error descriptions than the V2 baseline.",
         "Target use case: designed for SMALLER, open-weight models that fit on consumer-grade GPUs (up to ~32GB VRAM) -- deliberately drops document-level context (unlike GEMBA-MQM V2) specifically to fit these models' smaller context windows.",
@@ -1792,7 +1792,7 @@
       "status": "extracted",
       "source": "websearch",
       "relevant_to": [],
-      "extraction_method": "websearch_fallback_cycle90: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
+      "extraction_method": "websearch_fallback_cycle89: WebFetch to arxiv.org returned ENOTFOUND (EGRESS_BLOCKED), fell back to WebSearch per PLAYBOOK.md's EXTRACT_PAPERS fallback instruction.",
       "extracted_claims": [
         "Submitted 2025-05-18 (cs.CL). Tests whether LLM-as-judge verdicts stay CONSISTENT across parallel texts that differ only by language (i.e. the same underlying content translated/presented in different languages) -- a multilingual consistency question, distinct from this repo's own single-language (En source / Ja target) judge-noise threads already in papers.json.",
         "Main finding: LLMs struggle to give consistent judgments across languages for the same underlying content; consistency is weakest specifically for lower-resource languages.",
