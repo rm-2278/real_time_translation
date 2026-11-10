@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 29,
-  "last_updated": "2026-11-10T00:09:39.041035+00:00",
+  "last_updated": "2026-11-10T12:10:55.541550+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2927,6 +2927,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-10T00:09:39.040998+00:00",
       "note": "Extracted claims for the 3 cycle-89 judge-reliability stubs (li2601-grading-scale-llm-judge-alignment, eamt2026-gemba-mqm-v2-compact-qe, fu2505-how-reliable-multilingual-llm-judge) via WebSearch fallback (arxiv.org/aclanthology.org both EGRESS_BLOCKED this cycle). eamt2026 entry's primary abstract/results still unresolved -- flagged, not used for numeric claims yet. Advancing to READ_PAPERS."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-10T12:10:55.541528+00:00",
+      "note": "READ_PAPERS cycle 89: summarized li2601-grading-scale-llm-judge-alignment, eamt2026-gemba-mqm-v2-compact-qe, fu2505-how-reliable-multilingual-llm-judge (real summary + key_findings, status read). Cross-referenced against experiments/results.csv and judge_*.json -- grading-scale effect on this repo's own 0-100 judge, and single-call-vs-aggregated judge design, are both untested here; fu2505's cross-language-consistency framing does not map directly onto this repo's single-direction En->Ja judge without reinterpretation. Backlog still at cap (6 queued/proposed, all blocked on human action) so GENERATE_HYPOTHESES this cycle should note these as grounding candidates for whenever a slot opens, not write new hypotheses on top of a full backlog."
     }
   ]
 }
