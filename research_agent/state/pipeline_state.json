@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 29,
-  "last_updated": "2026-11-10T12:10:55.541550+00:00",
+  "last_updated": "2026-11-10T12:11:21.269157+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2933,6 +2933,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-10T12:10:55.541528+00:00",
       "note": "READ_PAPERS cycle 89: summarized li2601-grading-scale-llm-judge-alignment, eamt2026-gemba-mqm-v2-compact-qe, fu2505-how-reliable-multilingual-llm-judge (real summary + key_findings, status read). Cross-referenced against experiments/results.csv and judge_*.json -- grading-scale effect on this repo's own 0-100 judge, and single-call-vs-aggregated judge design, are both untested here; fu2505's cross-language-consistency framing does not map directly onto this repo's single-direction En->Ja judge without reinterpretation. Backlog still at cap (6 queued/proposed, all blocked on human action) so GENERATE_HYPOTHESES this cycle should note these as grounding candidates for whenever a slot opens, not write new hypotheses on top of a full backlog."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-10T12:11:21.269132+00:00",
+      "note": "GENERATE_HYPOTHESES cycle 89: backlog confirmed still at cap (3 queued + 3 proposed = 6; all 3 proposed already needs_human/terminal per pending_approval.json, all 3 queued already approved_by_human but environment-blocked). Correctly did NOT write a new hypothesis on top of a full, correctly-blocked backlog, per PLAYBOOK's explicit rule. li2601-grading-scale-llm-judge-alignment (judge() uses 0-100, the scale that paper found weakest for human-LLM alignment) is now the strongest grounding candidate once a slot opens -- noted for a future cycle, not written up yet."
     }
   ]
 }
