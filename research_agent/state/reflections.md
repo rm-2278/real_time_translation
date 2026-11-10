@@ -5857,3 +5857,67 @@ second choice) -- note that a debate-based hypothesis needs an honest,
 likely-higher estimated_cost_usd (2+ judge calls per span) when it is
 eventually written up. `pipeline_state.json`'s own `cycle` JSON counter
 increments on this transition per its usual rule.
+
+## Cycle 89 (2026-11-10, scheduled session)
+
+**What worked:** Finished the READ_PAPERS work the prior session's
+EXTRACT_PAPERS had queued up (li2601-grading-scale-llm-judge-alignment,
+eamt2026-gemba-mqm-v2-compact-qe, fu2505-how-reliable-multilingual-llm-judge):
+real summaries + key_findings written, cross-referenced against
+experiments/results.csv and experiments/judge_*.json (neither
+grading-scale effects nor single-call-vs-aggregated judge design are
+tested anywhere in this repo's existing experiments). The most concrete,
+cheap, directly-actionable finding this cycle: li2601 reports 0-5 is the
+strongest human-LLM-judge-alignment scale and 0-10 the weakest of
+{0-5, 0-10, 0-100} tested -- and translation_fidelity_judge.py's
+production judge() currently uses 0-100, the scale that paper found
+weakest. This is a concrete, $0-cost-capable (a retroactive re-prompt
+replay over already-saved (source, translation) pairs, same convention as
+h_judge_verbosity_length_bias_retroactive) hypothesis candidate for
+whenever a backlog slot opens -- stronger than mmad2412's multi-agent
+debate angle (cycle 88's pick) on cost grounds, though mmad2412 remains a
+good second choice. fu2505's cross-language-consistency framing does not
+map directly onto this repo's single-direction En->Ja judge and would
+need a genuine reinterpretation before grounding a hypothesis (noted in
+papers.json, not treated as directly testable as-is).
+
+**Hypothesis backlog well-calibrated?** Still at cap (3 queued + 3
+proposed = 6), same as cycles 79-88, all 6 still blocked on human action
+(OpenAI network access for 1, Deepgram WS network access for 1, human
+viewing-time + a missing local video file for 1, an explicit approval
+signal for 3). Correctly did not write a new hypothesis on top of an
+already-full backlog despite now having two strong, well-grounded,
+cheap candidates ready (li2601's grading-scale test, mmad2412's debate
+judge) -- the cap exists precisely so depth beats breadth, and the right
+move is to have these ready to write up the moment a slot actually opens,
+not to relax the cap to fit them in now.
+
+**Budget policy:** No change proposed. Zero spend this cycle (no live API
+calls -- OpenAI/Deepgram-WS checks were reused from cycle 86's
+cached results per the reduced-cadence clause, well under its 10-cycle
+tripwire, and h-continuous-rating-cps-calibration had no new code work to
+do this cycle). Logged $0.00 via log-cost.
+
+**Should this playbook itself change? No edit made this cycle.** The
+reduced-cadence clause continues to apply cleanly with no ambiguity. One
+small process note, not a playbook gap: this session correctly followed
+Step 0's explicit instruction to check `git branch -a`/`git log` before
+assuming `main`, so no wasted round-trip this time (unlike cycle 88's own
+admitted friction on this point) -- worth nothing further, just confirms
+re-reading Step 0 carefully does pay off as promised.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+90). The backlog is still full and blocked on human action, so there is
+still no urgency to reach GENERATE_HYPOTHESES early even with two strong
+candidates in hand -- another literature pass is still the best use of
+free cycles while waiting. Suggest next cycle's SEARCH_PAPERS query
+either continue mining the judge-reliability thread (now well-covered:
+grading scale, cross-language consistency, single-vs-multi-call
+aggregation, multi-agent debate, rubric decomposition are all read) or
+switch to the never-cited-paper pivot technique (grep `papers.json` for
+`grounded_in`-absent ids) to surface a genuinely different angle, since
+judge-reliability may be approaching diminishing returns as a search
+theme specifically (not as a hypothesis-grounding theme -- li2601 and
+mmad2412 remain excellent ungrounded candidates for whenever a slot
+opens). `pipeline_state.json`'s own `cycle` JSON counter increments on
+this transition per its usual rule.
