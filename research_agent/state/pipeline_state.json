@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 29,
-  "last_updated": "2026-11-10T12:12:24.901768+00:00",
+  "last_updated": "2026-11-10T12:12:46.395369+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2945,6 +2945,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-10T12:12:24.901742+00:00",
       "note": "HUMAN_APPROVAL cycle 89: no unprocessed hypotheses (all 3 proposed already needs_human/terminal in pending_approval.json, all 3 queued already approved_by_human). Advancing to RUN_EXPERIMENTS since 3 hypotheses are queued with approval != needs_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration), per the playbook's advance condition -- even though all 3 are expected to still be environment/human-blocked per recent cycles."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-10T12:12:46.395347+00:00",
+      "note": "RUN_EXPERIMENTS cycle 89: no new experiment run (all 3 queued hypotheses blocked). Pass-through to ANALYZE_RESULTS per playbook (direct RUN_EXPERIMENTS -> WRITE_REPORT is not a legal transition)."
     }
   ]
 }
