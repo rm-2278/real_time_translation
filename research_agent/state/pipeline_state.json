@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 30,
-  "last_updated": "2026-11-10T12:14:36.876975+00:00",
+  "last_updated": "2026-11-11T00:08:47.837940+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2969,6 +2969,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-10T12:14:36.876946+00:00",
       "note": "REFLECT cycle 89 -> SEARCH_PAPERS (cycle 89 -> 90). Backlog still full/blocked on human action; continuing literature passes while waiting. See reflections.md cycle 89 entry for next-query suggestions (never-cited-paper pivot, or a final judge-reliability pass) and the two strong, ungrounded hypothesis candidates ready for whenever a slot opens (li2601 grading-scale, mmad2412 multi-agent debate)."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-11T00:08:47.837913+00:00",
+      "note": "Cycle 90: WebSearch pass found 2 new stubs (afzal2603-pause-aware-game-commentary-decoding, podziubanchuk2026-eacl-estonian-simulst-demo) after checking existing papers.json urls for dupes (AlignAtt4LLM/CUHKSZ resurfaced but already tracked). No new vendor-ASR-latency paper found this pass."
     }
   ]
 }
