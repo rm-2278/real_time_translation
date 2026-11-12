@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 30,
-  "last_updated": "2026-11-12T12:07:49.583418+00:00",
+  "last_updated": "2026-11-12T12:09:26.309203+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2999,6 +2999,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-12T12:07:49.583387+00:00",
       "note": "cycle 90 HUMAN_APPROVAL: no hypothesis has approval unset/'proposed' needing processing -- all 3 proposed entries already carry approval=needs_human (escalated in earlier cycles, recorded in pending_approval.json). The 3 queued hypotheses already carry approval=approved_by_human, so advancing to RUN_EXPERIMENTS per the 'advance once at least one hypothesis is queued with approval != needs_human' rule."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-12T12:09:26.309161+00:00",
+      "note": "cycle 90 RUN_EXPERIMENTS: no new experiment ran (all 3 queued hypotheses environment/human blocked, re-confirmed live this cycle). Pass-through to ANALYZE_RESULTS per PLAYBOOK.md (no direct RUN_EXPERIMENTS -> WRITE_REPORT transition) -- nothing new to analyze."
     }
   ]
 }
