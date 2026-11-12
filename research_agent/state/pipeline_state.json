@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 30,
-  "last_updated": "2026-11-12T12:07:40.568391+00:00",
+  "last_updated": "2026-11-12T12:07:49.583418+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2993,6 +2993,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-12T12:07:40.568362+00:00",
       "note": "cycle 90 GENERATE_HYPOTHESES: backlog already at cap (3 queued + 3 proposed = 6/6 per PLAYBOOK's queued+proposed count rule); afzal2603 and podziubanchuk2026 (this cycle's 2 read papers) did not ground any new testable hypothesis per their own READ_PAPERS note. No new hypotheses added. All 3 proposed entries already carry approval=needs_human (already escalated in pending_approval.json in prior cycles), so no unfinished HUMAN_APPROVAL work was silently skipped."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-12T12:07:49.583387+00:00",
+      "note": "cycle 90 HUMAN_APPROVAL: no hypothesis has approval unset/'proposed' needing processing -- all 3 proposed entries already carry approval=needs_human (escalated in earlier cycles, recorded in pending_approval.json). The 3 queued hypotheses already carry approval=approved_by_human, so advancing to RUN_EXPERIMENTS per the 'advance once at least one hypothesis is queued with approval != needs_human' rule."
     }
   ]
 }
