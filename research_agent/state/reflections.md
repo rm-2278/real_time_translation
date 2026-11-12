@@ -5921,3 +5921,65 @@ theme specifically (not as a hypothesis-grounding theme -- li2601 and
 mmad2412 remain excellent ungrounded candidates for whenever a slot
 opens). `pipeline_state.json`'s own `cycle` JSON counter increments on
 this transition per its usual rule.
+
+## Cycle 90 (2026-11-12, scheduled session)
+
+**What worked:** The GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS
+-> ANALYZE_RESULTS -> WRITE_REPORT chain this cycle was entirely mechanical
+(backlog full, no HUMAN_APPROVAL work pending, all 3 queued hypotheses
+already blocked) and completed cleanly with no surprises. The two papers
+read last cycle (afzal2603 game-commentary pacing, podziubanchuk2026
+Estonian fixed-5-word chunking) were correctly assessed as not grounding a
+new hypothesis -- afzal2603's timing policy assumes a free-running,
+source-independent generation loop (game commentary never waits for new
+source content), unlike this repo's source-availability-gated translation
+trigger; podziubanchuk2026's fixed-chunk-size idea is real but entangled
+with an unverified finetuning requirement, same caveat class as
+exposst2026/sasst2026. Correctly not forced into a hypothesis just to fill
+a slot that was already full anyway.
+
+**What didn't change / minor process note:** Chose to live-recheck
+OpenAI CONNECT and the Deepgram listen-websocket handshake this cycle even
+though the reduced-cadence clause (last live check cycle 86, only 4 cycles
+prior, well under the 10-cycle tripwire) would have permitted reusing the
+cached result -- justification was that this session also happened to see
+all three API keys explicitly set, prompting a "is anything actually
+different now" check rather than blind reuse. Both checks reproduced the
+identical signatures (OpenAI: CONNECT tunnel 403; Deepgram WS: HTTP 400
+upgrade-header-missing). In hindsight this was a reasonable one-off
+extra-caution check (triggered by the scheduling prompt's own hedge about
+possibly-missing keys turning out not to apply), not something to repeat
+every cycle -- future cycles should go back to trusting the reduced-cadence
+clause as written unless a similar "something external changed" signal
+shows up again. No wasted effort, but no new information gained either.
+
+**Backlog calibration:** Still at the 6/6 cap, unchanged for many cycles
+now (all 3 queued hypotheses environment/human blocked; all 3 proposed
+already escalated to needs_human in pending_approval.json). This is not
+mis-calibration -- it reflects a real, external bottleneck (OpenAI egress
+block, Deepgram WS upgrade mangling, and a human-viewing-time requirement)
+that this unattended session cannot resolve itself. The playbook's own
+depth-over-breadth principle is being correctly honored: two strong
+ungrounded candidates (li2601 grading-scale, mmad2412 multi-agent debate)
+are sitting ready rather than being force-fit into an already-full
+backlog.
+
+**Budget policy:** No change proposed. Zero spend this cycle (one fresh,
+justified live re-check of both long-standing blockers, no live API/ASR
+calls). Logged $0.00 via log-cost.
+
+**Should this playbook itself change? No edit made this cycle.** The
+reduced-cadence clause and the backlog-cap rule both continued to apply
+cleanly. No new ambiguity or workaround was needed this cycle.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+91). The backlog is still full and blocked on human action, so there is
+still no urgency to reach GENERATE_HYPOTHESES early -- another literature
+pass remains the best use of free cycles while waiting. Suggest next
+cycle's SEARCH_PAPERS query switch to the never-cited-paper pivot
+technique (grep `papers.json` for `grounded_in`-absent ids) since the
+judge-reliability search theme is likely near diminishing returns (li2601,
+eamt2026-gemba-mqm-v2-compact-qe, fu2505 all read; li2601 and mmad2412
+remain excellent ungrounded candidates for whenever a slot opens).
+`pipeline_state.json`'s own `cycle` JSON counter increments on this
+transition per its usual rule.
