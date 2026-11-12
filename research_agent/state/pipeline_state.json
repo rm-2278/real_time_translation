@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 30,
-  "last_updated": "2026-11-12T00:09:52.561322+00:00",
+  "last_updated": "2026-11-12T12:07:40.568391+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2987,6 +2987,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-12T00:09:52.561290+00:00",
       "note": "cycle 90 READ_PAPERS: summarized afzal2603 (game-commentary pacing -- checked vs _translation_worker, no hypothesis grounded, source-availability-gated vs free-running-timer mismatch) and podziubanchuk2026 (Estonian SimulST fixed-5-word chunking -- untested axis vs existing duration-based sweeps, but finetuning-separability unverified)"
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-12T12:07:40.568362+00:00",
+      "note": "cycle 90 GENERATE_HYPOTHESES: backlog already at cap (3 queued + 3 proposed = 6/6 per PLAYBOOK's queued+proposed count rule); afzal2603 and podziubanchuk2026 (this cycle's 2 read papers) did not ground any new testable hypothesis per their own READ_PAPERS note. No new hypotheses added. All 3 proposed entries already carry approval=needs_human (already escalated in pending_approval.json in prior cycles), so no unfinished HUMAN_APPROVAL work was silently skipped."
     }
   ]
 }
