@@ -1838,7 +1838,7 @@
       "venue": "LREC 2026 (pp. 9188-9201); also arXiv:2603.02655 (cs.CL)",
       "year": 2026,
       "authors": "Anum Afzal, Yuki Saito, Hiroya Takamura, Katsuhito Sudoh, Shinnosuke Takamichi, Graham Neubig, Florian Matthes, Tatsuya Ishigaki",
-      "status": "extracted",
+      "status": "read",
       "source": "websearch",
       "relevant_to": [],
       "_found_note_cycle90": "Found via SEARCH_PAPERS cycle 90 WebSearch for streaming/LLM prompting literature. Prompting-only (no finetuning) dynamic-interval decoding for WHEN a multimodal LLM should emit output, tested on Japanese/English game commentary; authors frame it against WAIT/WRITE simultaneous-translation policies. Potentially relevant to this repo's translation_worker emit-timing decision as a prompting-only (not finetuning) angle -- not yet verified against this repo's actual pipeline.py code; needs EXTRACT_PAPERS/READ_PAPERS pass before grounding any hypothesis.",
@@ -1849,6 +1849,13 @@
         "Evaluated on Japanese and English racing-game and fighting-game video datasets. Main finding: dynamic-interval decoding produces commentary timing and content more closely aligned with real human commentator timing than fixed-interval decoding, using prompting alone (no model training).",
         "Authors release a multilingual benchmark dataset, trained models, and implementation code for future real-time video-commentary research -- but the models/implementation release is for the commentary-generation task itself, not something this repo's translation pipeline would consume directly.",
         "Relevance note (not yet verified against this repo's code): this repo's pipeline.py `_translation_worker`/`_emit_batch_result` already makes an analogous WHEN-to-emit decision for translation batches (separate from the WHAT, i.e. the translation content itself). The dynamic-interval idea -- pace the next decision on an estimate of how long the previous output 'consumes' before re-querying -- is prompting-only and so fits this repo's API-only architecture, but it is a TIMING/pacing policy for a generation-only task (game commentary never needs to wait for new source content), not a source-availability-gated streaming-translation problem like this repo's wait-k/local-agreement-style gating -- needs a concrete check against `_translation_worker`'s actual batching/gating logic before this can ground a specific, testable hypothesis, not just an abstract analogy."
+      ],
+      "summary": "Studies WHEN a multimodal LLM should emit the next line of live game commentary (Japanese and English racing/fighting-game video), arguing prior prompting-based commentary work solved WHAT to say but ignored timing. Compares two prompting-only (no finetuning) re-query policies: fixed-interval (re-query at a constant time step) vs. dynamic-interval (re-query paced on the estimated spoken duration of the previous generated line). Dynamic-interval matches real human commentator timing noticeably better than fixed-interval, with no model training required.",
+      "key_findings": [
+        "Timing (WHEN to emit) and content (WHAT to say) are separable decisions for live generation, and prior prompting-only MLLM commentary work under-addressed the timing half.",
+        "Dynamic-interval decoding (pace the next re-query on the previous output's estimated spoken duration) beats fixed-interval decoding on alignment with real human commentator timing, using prompting alone.",
+        "Checked against this repo's pipeline.py `_translation_worker`: this repo's re-translation is triggered by new ASR source material arriving (a source-availability-gated wait-k/local-agreement-style policy), not by a free-running output-paced timer -- game commentary never has to wait for new source content, so the dynamic-interval idea is a pacing policy for a different kind of problem, not a drop-in substitute for this repo's gating logic.",
+        "Because the paper's own technique is prompting-only, it would fit this repo's API-only (no finetuning) architecture if a genuinely analogous timing decision existed here -- but no such analogous, untested decision was found this pass; not grounding a hypothesis this cycle."
       ]
     },
     {
@@ -1858,7 +1865,7 @@
       "venue": "EACL 2026 Demo track (pp. 575-582), ACL Anthology 2026.eacl-demo.40",
       "year": 2026,
       "authors": "Bohdan Podziubanchuk, Aivo Olev, Jiaming Kong, Tanel Alumäe",
-      "status": "extracted",
+      "status": "read",
       "source": "websearch",
       "relevant_to": [],
       "_found_note_cycle90": "Found via SEARCH_PAPERS cycle 90 WebSearch. Streaming ASR (Zipformer/Icefall) + LLM translating fixed five-word chunks, each ending in an end-of-text token; reports 10.2% ASR WER, BLEU 26.1 (et->en), 3-6s latency. CAVEAT per secondary summary: the chunk-boundary LLM was finetuned specifically to emit partial translations on five-word chunks -- same finetuning-required caveat as exposst2026/sasst2026 already in this file, so may not be directly testable in this repo's API-only (no finetuning) architecture; needs its own check during EXTRACT_PAPERS/READ_PAPERS, same verification rule as those two entries, before assuming the fixed-chunk-size idea alone (without finetuning) is what's being evaluated.",
@@ -1869,6 +1876,13 @@
         "Reported numbers (UNCONFIRMED against primary PDF, secondary-summary only): 10.2% ASR WER; BLEU 26.1 for Estonian->English.",
         "CAVEAT (same caveat class already flagged for exposst2026-adaptive-masking-positioning and sasst2026-syntax-aware-chunking in this file): per the secondary summary, the chunk-boundary LLM was specifically FINE-TUNED to emit partial translations correctly at five-word chunk boundaries -- this is not a prompting-only technique, so the finetuned model itself is not directly reproducible in this repo's API-only (Gemini/OpenAI via LangChain, no self-hosted/finetuned model) architecture.",
         "Relevance note (not yet verified -- needs its own READ_PAPERS-stage check before grounding a hypothesis): the FIXED-CHUNK-SIZE idea in isolation (re-translate every N source words, independent of utterance/sentence boundaries) might be separable from the finetuning requirement and testable as a prompting-only variant against this repo's existing chunk-length/endpointing sweep experiments already in experiments/ -- but this needs to be checked concretely (is a fixed-word-count chunking policy, prompted rather than finetuned, actually a novel angle not already covered by the existing chunk-length sweeps?) before assuming it's testable just because fixed-chunk-size sounds simple; do not assume it is separable from the finetuning without checking."
+      ],
+      "summary": "Describes a deployed simultaneous Estonian<->English/Russian/Ukrainian speech-to-text translation web app: streaming ASR (Zipformer/Icefall) feeding an LLM-based translation model that consumes fixed five-word source chunks, each chunk boundary marked by an explicit end-of-text token. Reports end-to-end latency of 3-6s, 10.2% ASR WER, and BLEU 26.1 for Estonian->English (numbers from a secondary summary, not confirmed against the primary PDF, since arxiv.org/aclanthology.org WebFetch was blocked this session).",
+      "key_findings": [
+        "Demonstrates a real deployed simultaneous-translation web app with single-digit-second end-to-end latency, built from streaming ASR + a chunk-boundary LLM translator.",
+        "Its fixed-chunk-size policy chunks by WORD COUNT (every 5 source words) rather than by silence/endpointing duration -- a different axis from this repo's existing chunk-length/endpointing sweeps in experiments/, which vary endpointing duration (ms), not a fixed word count per chunk (checked via grep over experiments/*.json and results.csv's notes/experiment_name columns: no existing run varies a fixed source-word-count chunk boundary).",
+        "CAVEAT: per the secondary summary, the chunk-boundary LLM was specifically fine-tuned to emit correct partial translations at five-word boundaries -- the reported latency/BLEU numbers are not necessarily achievable with a prompting-only model the way this repo's API-only (Gemini/OpenAI via LangChain) architecture requires. Same finetuning-required caveat class already flagged for exposst2026-adaptive-masking-positioning and sasst2026-syntax-aware-chunking.",
+        "The fixed-word-count chunking idea in isolation (prompted, not finetuned) is a genuinely untested axis against this repo's own chunk-length sweeps, but whether a prompting-only model can reproduce the finetuned model's reported quality at hard 5-word boundaries is unverified -- a candidate for GENERATE_HYPOTHESES, flagged as speculative pending the finetuning-separability check this entry's own prior note required."
       ]
     }
   ],
