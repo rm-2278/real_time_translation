@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 30,
-  "last_updated": "2026-11-12T12:09:26.309203+00:00",
+  "last_updated": "2026-11-12T12:09:29.826479+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3005,6 +3005,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-12T12:09:26.309161+00:00",
       "note": "cycle 90 RUN_EXPERIMENTS: no new experiment ran (all 3 queued hypotheses environment/human blocked, re-confirmed live this cycle). Pass-through to ANALYZE_RESULTS per PLAYBOOK.md (no direct RUN_EXPERIMENTS -> WRITE_REPORT transition) -- nothing new to analyze."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-12T12:09:29.826443+00:00",
+      "note": "cycle 90 ANALYZE_RESULTS: pass-through, nothing new to analyze this cycle."
     }
   ]
 }
