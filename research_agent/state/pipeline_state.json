@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 30,
-  "last_updated": "2026-11-11T12:11:10.119011+00:00",
+  "last_updated": "2026-11-12T00:09:52.561322+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -2981,6 +2981,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-11T12:11:10.118982+00:00",
       "note": "cycle 90 EXTRACT_PAPERS: extracted claims for 2 found-status paper stubs (afzal2603 pause-aware game-commentary decoding, podziubanchuk2026 Estonian simulST demo) via WebSearch fallback (arxiv.org/aclanthology.org both EGRESS_BLOCKED/ENOTFOUND this session). Both marked extracted."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-12T00:09:52.561290+00:00",
+      "note": "cycle 90 READ_PAPERS: summarized afzal2603 (game-commentary pacing -- checked vs _translation_worker, no hypothesis grounded, source-availability-gated vs free-running-timer mismatch) and podziubanchuk2026 (Estonian SimulST fixed-5-word chunking -- untested axis vs existing duration-based sweeps, but finetuning-separability unverified)"
     }
   ]
 }
