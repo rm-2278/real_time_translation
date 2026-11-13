@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 31,
-  "last_updated": "2026-11-12T12:10:49.722078+00:00",
+  "last_updated": "2026-11-13T00:10:09.959452+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3023,6 +3023,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-12T12:10:49.722041+00:00",
       "note": "REFLECT cycle 90 -> SEARCH_PAPERS (cycle 90 -> 91). Backlog still full/blocked on human action; continuing literature passes while waiting. See reflections.md cycle 90 entry for next-query suggestion (never-cited-paper pivot) and the two strong ungrounded hypothesis candidates ready for whenever a slot opens (li2601 grading-scale, mmad2412 multi-agent debate)."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-13T00:10:09.959223+00:00",
+      "note": "cycle 91: found 2 new papers (thompson2609-caption-metrics-dhh-latency-bias, uspat11715475-live-translation-caption-eval) via caption-display/latency search angle; fixed 1 pre-existing undetected duplicate (stable-prefix-dynamic-lagging-2026 -> hoang2026-dynamic-lagging)"
     }
   ]
 }
