@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 31,
-  "last_updated": "2026-11-13T00:10:09.959452+00:00",
+  "last_updated": "2026-11-13T12:09:03.797148+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3029,6 +3029,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-13T00:10:09.959223+00:00",
       "note": "cycle 91: found 2 new papers (thompson2609-caption-metrics-dhh-latency-bias, uspat11715475-live-translation-caption-eval) via caption-display/latency search angle; fixed 1 pre-existing undetected duplicate (stable-prefix-dynamic-lagging-2026 -> hoang2026-dynamic-lagging)"
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-13T12:09:03.797121+00:00",
+      "note": "cycle 91: extracted claims for both found papers (thompson2609 DHH caption-metrics survey, uspat11715475 live-translation-eval patent) via WebSearch fallback (arxiv.org/image-ppubs.uspto.gov WebFetch ENOTFOUND this session). Both marked status=extracted with extraction_method + extracted_claims fields; uspat11715475's found-note mischaracterization (display technique vs. actual extrinsic eval method) corrected in extracted_claims."
     }
   ]
 }
