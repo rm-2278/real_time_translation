@@ -5983,3 +5983,58 @@ eamt2026-gemba-mqm-v2-compact-qe, fu2505 all read; li2601 and mmad2412
 remain excellent ungrounded candidates for whenever a slot opens).
 `pipeline_state.json`'s own `cycle` JSON counter increments on this
 transition per its usual rule.
+
+## Cycle 91 (2026-11-14, scheduled session, fresh container)
+
+**What worked:** Resumed cleanly from a prior same-day session that had already
+done SEARCH_PAPERS -> EXTRACT_PAPERS -> READ_PAPERS -> GENERATE_HYPOTHESES for
+this cycle (thompson2609, uspat11715475). This session correctly recognized
+the backlog was already at the 6/6 cap with no `proposed` entries sitting at
+`approval: null` (i.e. no unfinished HUMAN_APPROVAL work hiding behind the
+cap), so it correctly wrote zero new hypotheses this cycle instead of forcing
+uspat11715475 into an already-full backlog -- noted it instead as the
+strongest candidate for the next open slot, same pattern as li2601/mmad2412
+in cycle 90's reflection. The rest of the cycle (HUMAN_APPROVAL ->
+RUN_EXPERIMENTS -> ANALYZE_RESULTS -> WRITE_REPORT) was mechanical: all 3
+queued hypotheses remain blocked by the same two long-standing network issues
+(api.openai.com CONNECT-rejected, Deepgram listen-websocket upgrade-mangled)
+plus one human-viewing-time/missing-file block, and the reduced-cadence clause
+was applied correctly (last live check cycle 90, only 1 cycle prior, well
+under the 10-cycle tripwire -> reused cached results, no network probe spent).
+Also independently re-verified (via `find`/`ls`) that this fresh container
+still has no `video/` directory and no LLM2025 source file, confirming the
+human-viewing-time hypothesis's block is unrelated to any
+environment/container change.
+
+**What didn't:** Nothing surprising this cycle. A fresh container had all
+three API keys set and ffmpeg present (unlike the "if missing" branches
+PLAYBOOK.md hedges for), so no environment-setup workaround was needed.
+
+**Backlog calibration:** Still at the 6/6 cap, unchanged for many cycles
+(cycles ~86 onward). Not mis-calibration -- a real external bottleneck
+(2 network blocks + 1 human-time/file block on the queued side, 3
+self-approval-blocked entries on the proposed side). uspat11715475 (MeetDot-
+style extrinsic word-guessing eval, concretely actionable per this cycle's
+READ_PAPERS cross-reference) is ready the moment a slot opens.
+
+**Budget policy:** No change proposed. $0 spent this cycle (zero live API
+calls -- reused cached reachability results per reduced-cadence, logged via
+log-cost).
+
+**Should this playbook itself change? No edit made this cycle.** The
+reduced-cadence clause, the backlog-cap counting rule (queued + proposed,
+not just queued), and the RUN_EXPERIMENTS -> ANALYZE_RESULTS legal-transition
+note all continued to apply cleanly with no ambiguity or workaround needed.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle 92).
+Since no backlog slot is open, a GENERATE_HYPOTHESES-only cycle would just
+re-hit the same full-cap no-op this cycle already did; continuing to build
+the literature base (so uspat11715475-caliber candidates are ready whenever
+a slot opens) remains the best use of free cycles. Per cycle 91's own
+SEARCH_PAPERS note, four established search angles (cascade-vs-e2e,
+flicker-policy, LLM-prompting, vendor-ASR-latency) are saturated; the
+caption-display/latency angle that surfaced thompson2609/uspat11715475 this
+cycle was productive and worth one more pass, and/or try the never-cited-
+paper mining technique (grep `papers.json` for `grounded_in`-absent ids) as
+an alternative fresh-angle source. `pipeline_state.json`'s own `cycle` JSON
+counter increments on this transition per its usual rule.
