@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 31,
-  "last_updated": "2026-11-14T12:09:47.358544+00:00",
+  "last_updated": "2026-11-14T12:09:50.649390+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3059,6 +3059,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-14T12:09:47.358510+00:00",
       "note": "cycle 91: nothing to analyze -- no new experiment ran (all 3 queued hypotheses environment/human blocked). Passing through per PLAYBOOK.md's RUN_EXPERIMENTS note that a direct RUN_EXPERIMENTS -> WRITE_REPORT jump is illegal; only ANALYZE_RESULTS is a legal next state."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-14T12:09:50.649351+00:00",
+      "note": "cycle 91 ANALYZE_RESULTS: pass-through, no experiment data to analyze this cycle."
     }
   ]
 }
