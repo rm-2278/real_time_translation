@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 31,
-  "last_updated": "2026-11-14T12:08:56.393772+00:00",
+  "last_updated": "2026-11-14T12:09:47.358544+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3053,6 +3053,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-14T12:08:56.393732+00:00",
       "note": "cycle 91 HUMAN_APPROVAL: no new work needed. The 3 proposed hypotheses already carry approval=needs_human and are already recorded in pending_approval.json from prior cycles (self-approval write is a documented terminal block per reflections.md cycle 36 / PLAYBOOK WAITING_APPROVAL -- not re-attempted). The 3 queued hypotheses already carry approval=approved_by_human from a prior human sign-off, satisfying the >=1 queued-and-approvable condition to advance to RUN_EXPERIMENTS."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-14T12:09:47.358510+00:00",
+      "note": "cycle 91: nothing to analyze -- no new experiment ran (all 3 queued hypotheses environment/human blocked). Passing through per PLAYBOOK.md's RUN_EXPERIMENTS note that a direct RUN_EXPERIMENTS -> WRITE_REPORT jump is illegal; only ANALYZE_RESULTS is a legal next state."
     }
   ]
 }
