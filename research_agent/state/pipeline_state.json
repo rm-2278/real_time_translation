@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 31,
-  "last_updated": "2026-11-14T00:08:41.393623+00:00",
+  "last_updated": "2026-11-14T12:08:46.353790+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3041,6 +3041,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-14T00:08:41.393591+00:00",
       "note": "cycle 91 READ_PAPERS: summarized thompson2609 (DHH caption-latency-rating survey) and uspat11715475 (MeetDot-style extrinsic word-guessing accuracy+latency evaluation patent); cross-referenced against experiments/src, no overlap found, both genuinely untried angles for hypothesis generation"
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-14T12:08:46.353761+00:00",
+      "note": "cycle 91 GENERATE_HYPOTHESES: backlog already at the 6/6 cap (3 queued: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, all approved_by_human; 3 proposed: h-judge-repeat-independent-batches-corrected-design, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check, all already approval=needs_human and already logged in pending_approval.json -- not unfinished HUMAN_APPROVAL work, just terminal pending a human signal). Per PLAYBOOK depth-over-breadth rule, no new hypothesis written this cycle. uspat11715475 (MeetDot-style extrinsic word-guessing accuracy+latency-fused eval, read this cycle in READ_PAPERS) is flagged as a strong, concretely-actionable, never-grounded candidate for whenever a backlog slot opens -- see papers.json _read_cross_reference_note_cycle91. thompson2609 (DHH caption-latency-rating survey) is motivational/validating only, not a new testable mechanism."
     }
   ]
 }
