@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 32,
-  "last_updated": "2026-11-15T00:09:02.467396+00:00",
+  "last_updated": "2026-11-15T12:07:59.117594+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3083,6 +3083,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-15T00:09:02.467357+00:00",
       "note": "cycle 92 SEARCH_PAPERS: found 2 new papers (ernesti2026-ijcai-deepl-voice-finalize-policy, karakanta2021-delay-to-display-subtitling), checked against existing papers.json urls, no duplicates/backlog unchanged (still 6/6 queued+proposed cap)"
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-15T12:07:59.117571+00:00",
+      "note": "cycle 92 EXTRACT_PAPERS: extracted claims for ernesti2026-ijcai-deepl-voice-finalize-policy and karakanta2021-delay-to-display-subtitling via WebSearch fallback (both ijcai.org and arxiv.org WebFetch EGRESS_BLOCKED). No numeric results recovered for either, noted in extraction notes."
     }
   ]
 }
