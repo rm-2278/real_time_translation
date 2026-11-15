@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 32,
-  "last_updated": "2026-11-14T12:11:16.861620+00:00",
+  "last_updated": "2026-11-15T00:09:02.467396+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3077,6 +3077,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-14T12:11:16.861588+00:00",
       "note": "cycle 91 REFLECT -> SEARCH_PAPERS (new narrated cycle 92): no backlog slot open, continuing literature base so uspat11715475-caliber candidates are ready. Suggest continuing the caption-display/latency angle and/or the never-cited-paper mining technique next."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-15T00:09:02.467357+00:00",
+      "note": "cycle 92 SEARCH_PAPERS: found 2 new papers (ernesti2026-ijcai-deepl-voice-finalize-policy, karakanta2021-delay-to-display-subtitling), checked against existing papers.json urls, no duplicates/backlog unchanged (still 6/6 queued+proposed cap)"
     }
   ]
 }
