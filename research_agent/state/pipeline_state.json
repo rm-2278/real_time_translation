@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 32,
-  "last_updated": "2026-11-16T12:08:05.164204+00:00",
+  "last_updated": "2026-11-16T12:08:43.862997+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3107,6 +3107,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-16T12:08:05.164176+00:00",
       "note": "cycle 92 HUMAN_APPROVAL: re-verified check-budget for the 3 proposed/needs_human entries (all would AUTO_APPROVE under current budget.json caps), but per the established self-approval-block precedent (reflections.md cycle 36, pending_approval.json's own reasons for these 3 entries) did NOT re-attempt the auto_approved/queued write -- left them as-is (needs_human, already in pending_approval.json). Advancing since 3 hypotheses (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration) are already queued with approval=approved_by_human."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-16T12:08:43.862968+00:00",
+      "note": "cycle 92 RUN_EXPERIMENTS: all 3 queued hypotheses blocked (env/human, per reduced-cadence clause, no fresh live probe needed). Pass-through, nothing to analyze."
     }
   ]
 }
