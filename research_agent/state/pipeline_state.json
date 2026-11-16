@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 32,
-  "last_updated": "2026-11-15T12:07:59.117594+00:00",
+  "last_updated": "2026-11-16T00:08:18.775380+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3089,6 +3089,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-15T12:07:59.117571+00:00",
       "note": "cycle 92 EXTRACT_PAPERS: extracted claims for ernesti2026-ijcai-deepl-voice-finalize-policy and karakanta2021-delay-to-display-subtitling via WebSearch fallback (both ijcai.org and arxiv.org WebFetch EGRESS_BLOCKED). No numeric results recovered for either, noted in extraction notes."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-16T00:08:18.775353+00:00",
+      "note": "cycle 92 READ_PAPERS: wrote real summaries for ernesti2026-ijcai-deepl-voice-finalize-policy and karakanta2021-delay-to-display-subtitling, marked status read. Cross-referenced both against experiments/results.csv, experiments/*.json filenames, caption_video_demo.py's current block-render-per-cue logic, and git log -- confirms karakanta2021's scrolling-line display axis is genuinely untested; no new overlap found for ernesti2026 beyond existing soft-anchor/masking-holdback/prefix-lock line."
     }
   ]
 }
