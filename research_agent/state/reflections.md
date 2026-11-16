@@ -6038,3 +6038,68 @@ cycle was productive and worth one more pass, and/or try the never-cited-
 paper mining technique (grep `papers.json` for `grounded_in`-absent ids) as
 an alternative fresh-angle source. `pipeline_state.json`'s own `cycle` JSON
 counter increments on this transition per its usual rule.
+
+## Cycle 92 (2026-11-16, scheduled session, fresh container)
+
+**What worked:** Resumed cleanly from a prior same-day-ish session that had
+already done `SEARCH_PAPERS -> EXTRACT_PAPERS -> READ_PAPERS -> GENERATE_HYPOTHESES`
+(the `READ_PAPERS -> GENERATE_HYPOTHESES` advance for thompson2609/uspat11715475
+landed before this session started). This session correctly re-counted the
+backlog as `queued`(3) + `proposed`(3) = 6/6, confirmed none of the 3
+`proposed` entries had `approval: null` (all already escalated to
+`needs_human` in `pending_approval.json` from earlier cycles), and wrote zero
+new hypotheses, same pattern as cycle 91. The rest of the cycle
+(`HUMAN_APPROVAL -> RUN_EXPERIMENTS -> ANALYZE_RESULTS -> WRITE_REPORT`) was
+mechanical: re-verified `check-budget` for the 3 proposed entries (all
+AUTO_APPROVE-eligible) but correctly did NOT re-attempt the self-approval
+write per the cycle-36 precedent; all 3 queued hypotheses remain blocked by
+the same two long-standing network issues (api.openai.com CONNECT-rejected,
+Deepgram listen-websocket upgrade-mangled) plus the human-viewing-time/
+missing-file block on `h-continuous-rating-cps-calibration`; the
+reduced-cadence clause applied correctly (last live check cycle 90, only 2
+cycles prior, well under the 10-cycle tripwire -> reused cached results, zero
+network probes spent, zero API cost logged).
+
+**What didn't:** Nothing surprising this cycle. A fresh container again had
+all three API keys set and ffmpeg present, so no environment-setup
+workaround was needed. No new failure modes, no playbook ambiguity hit.
+
+**Backlog calibration:** Still at the 6/6 cap, unchanged since ~cycle 86.
+Not mis-calibration -- the same real external bottleneck as every recent
+cycle (2 network blocks + 1 human-time/file block on the queued side, 3
+self-approval-blocked entries on the proposed side). `uspat11715475`
+(MeetDot-style extrinsic word-guessing eval) and `thompson2609` (DHH
+caption-latency perception survey, motivational rather than directly
+implementable) remain the best-queued candidates for whenever a slot opens;
+neither has been promoted to a written hypothesis yet since the backlog has
+had no open slot since they were read.
+
+**Budget policy:** No change proposed. $0 spent this cycle (zero live API
+calls -- reused cached reachability results per reduced-cadence, logged via
+`log-cost 0`).
+
+**Should this playbook itself change? No edit made this cycle.** All of the
+reduced-cadence clause, the backlog-cap counting rule, the self-approval
+precedent, and the `RUN_EXPERIMENTS -> ANALYZE_RESULTS` legal-transition
+note continued to apply with zero ambiguity or workaround needed. The
+pipeline has now been in this same "backlog full, 3 queued hypotheses all
+environment/human-blocked" holding pattern for roughly 6-7 narrated cycles
+(86-92) with no state change on the blocking conditions themselves -- this
+is not evidence of a playbook problem (the blocks are real, external, and
+already handled per-rule), but it may be worth the human (rm-2278) knowing
+that unblocking any ONE of the three queued items (OpenAI egress, Deepgram
+WS-upgrade handshake, or ~20-30 min of his own viewing time) would let the
+pipeline resume producing real experimental results rather than this
+mechanical holding pattern. Flagging this plainly here rather than proposing
+a playbook change, since the playbook's behavior is already correct given
+the constraints.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new narrated cycle
+93). Backlog remains full so a `GENERATE_HYPOTHESES`-only cycle would just
+re-hit the same no-op; continuing the literature base (so `uspat11715475`/
+`thompson2609`-caliber candidates keep accumulating for whenever a slot
+opens) remains the best use of free cycles. Per cycle 91's own note, try the
+never-cited-paper mining technique (grep `papers.json` for
+`grounded_in`-absent ids) as a fresh-angle source next, alongside one more
+caption-display/latency-angle pass. `pipeline_state.json`'s own `cycle` JSON
+counter increments on this transition per its usual rule.
