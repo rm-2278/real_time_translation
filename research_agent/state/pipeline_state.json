@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 32,
-  "last_updated": "2026-11-16T00:08:18.775380+00:00",
+  "last_updated": "2026-11-16T12:07:20.036527+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3095,6 +3095,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-16T00:08:18.775353+00:00",
       "note": "cycle 92 READ_PAPERS: wrote real summaries for ernesti2026-ijcai-deepl-voice-finalize-policy and karakanta2021-delay-to-display-subtitling, marked status read. Cross-referenced both against experiments/results.csv, experiments/*.json filenames, caption_video_demo.py's current block-render-per-cue logic, and git log -- confirms karakanta2021's scrolling-line display axis is genuinely untested; no new overlap found for ernesti2026 beyond existing soft-anchor/masking-holdback/prefix-lock line."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-16T12:07:20.036499+00:00",
+      "note": "cycle 92 GENERATE_HYPOTHESES: backlog already at the 6/6 cap (3 queued: h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, all approved_by_human; 3 proposed/needs_human already escalated in pending_approval.json: h-judge-repeat-independent-batches-corrected-design, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check). Wrote zero new hypotheses this cycle per the backlog-cap rule (counting queued+proposed together). thompson2609-caption-metrics-dhh-latency-bias and uspat11715475-live-translation-caption-eval (both read cycle 92) remain the strongest ungrounded candidates for the next open backlog slot. No unfinished HUMAN_APPROVAL work found (all 3 proposed entries already have approval=needs_human, already in pending_approval.json from prior cycles)."
     }
   ]
 }
