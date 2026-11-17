@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 33,
-  "last_updated": "2026-11-17T00:08:58.058486+00:00",
+  "last_updated": "2026-11-17T12:08:21.866590+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3137,6 +3137,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-17T00:08:58.058456+00:00",
       "note": "cycle 93 SEARCH_PAPERS: found 3 new non-duplicate papers (easist2025-unidirectional-simulst, caal2609-causality-aware-s2st-policy, mocha2601-streaming-asr-decoder-llm-latency) via 2 WebSearch passes targeting LLM-as-MT prompting and stability/flicker/wait-k gaps. Checked against existing url fields, no duplicates."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-17T12:08:21.866558+00:00",
+      "note": "EXTRACT_PAPERS cycle 93: extracted claims for easist2025-unidirectional-simulst, caal2609-causality-aware-s2st-policy, mocha2601-streaming-asr-decoder-llm-latency via WebSearch fallback (arxiv.org WebFetch ENOTFOUND this session). Advancing to READ_PAPERS to turn these into full summaries/key_findings."
     }
   ]
 }
