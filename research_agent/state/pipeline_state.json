@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 33,
-  "last_updated": "2026-11-18T00:08:35.947089+00:00",
+  "last_updated": "2026-11-18T12:16:03.522924+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3149,6 +3149,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-18T00:08:35.946789+00:00",
       "note": "cycle 93 READ_PAPERS: summarized easist2025-unidirectional-simulst (not implementable, analogy only), caal2609-causality-aware-s2st-policy (CAAL avoidable/unavoidable latency decomposition, cross-referenced against existing mt_latency_decomposition.py/simul_latency_metrics.py/h-computation-aware-laal-enja -- potential retroactive hypothesis angle), mocha2601-streaming-asr-decoder-llm-latency (Mandarin ASR-only, background context only). No re-test of already-covered ground found."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-18T12:16:03.522893+00:00",
+      "note": "cycle 93 GENERATE_HYPOTHESES: backlog already at cap (5 queued + 1 proposed/needs_human = 6, the playbook's ~6 ceiling), so no new hypothesis written this cycle despite cycle 93's READ_PAPERS surfacing a promising $0 retroactive-analysis angle (caal2609's avoidable/unavoidable-delay decomposition, cross-referenced against mt_latency_decomposition.py/simul_latency_metrics.py) -- deferred to a future GENERATE_HYPOTHESES pass once the backlog has room. No unfinished HUMAN_APPROVAL work found (the one proposed hypothesis already has approval=needs_human, not null)."
     }
   ]
 }
