@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 33,
-  "last_updated": "2026-11-18T12:16:03.522924+00:00",
+  "last_updated": "2026-11-18T12:16:14.020575+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3155,6 +3155,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-18T12:16:03.522893+00:00",
       "note": "cycle 93 GENERATE_HYPOTHESES: backlog already at cap (5 queued + 1 proposed/needs_human = 6, the playbook's ~6 ceiling), so no new hypothesis written this cycle despite cycle 93's READ_PAPERS surfacing a promising $0 retroactive-analysis angle (caal2609's avoidable/unavoidable-delay decomposition, cross-referenced against mt_latency_decomposition.py/simul_latency_metrics.py) -- deferred to a future GENERATE_HYPOTHESES pass once the backlog has room. No unfinished HUMAN_APPROVAL work found (the one proposed hypothesis already has approval=needs_human, not null)."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-18T12:16:14.020535+00:00",
+      "note": "cycle 93 HUMAN_APPROVAL: re-checked all queued/proposed hypotheses -- 5 queued already approved_by_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-soft-anchor-gate-exempt-utterance-end, h-judge-cross-gemini-model-agreement-check), 1 proposed with approval=needs_human already escalated per the self-approval-block precedent (h-judge-repeat-independent-batches-corrected-design, in pending_approval.json). Nothing new to approve or escalate. At least one hypothesis (h-judge-cross-gemini-model-agreement-check) is queued with approval != needs_human, so advancing to RUN_EXPERIMENTS."
     }
   ]
 }
