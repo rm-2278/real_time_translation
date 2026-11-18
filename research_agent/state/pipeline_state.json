@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 33,
-  "last_updated": "2026-11-17T12:08:21.866590+00:00",
+  "last_updated": "2026-11-18T00:08:35.947089+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3143,6 +3143,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-17T12:08:21.866558+00:00",
       "note": "EXTRACT_PAPERS cycle 93: extracted claims for easist2025-unidirectional-simulst, caal2609-causality-aware-s2st-policy, mocha2601-streaming-asr-decoder-llm-latency via WebSearch fallback (arxiv.org WebFetch ENOTFOUND this session). Advancing to READ_PAPERS to turn these into full summaries/key_findings."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-18T00:08:35.946789+00:00",
+      "note": "cycle 93 READ_PAPERS: summarized easist2025-unidirectional-simulst (not implementable, analogy only), caal2609-causality-aware-s2st-policy (CAAL avoidable/unavoidable latency decomposition, cross-referenced against existing mt_latency_decomposition.py/simul_latency_metrics.py/h-computation-aware-laal-enja -- potential retroactive hypothesis angle), mocha2601-streaming-asr-decoder-llm-latency (Mandarin ASR-only, background context only). No re-test of already-covered ground found."
     }
   ]
 }
