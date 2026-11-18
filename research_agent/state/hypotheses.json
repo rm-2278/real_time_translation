@@ -1357,8 +1357,10 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.05,
       "approval": "approved_by_human",
-      "status": "queued",
-      "experiment_ids": [],
+      "status": "testing",
+      "experiment_ids": [
+        "experiments/judge_cross_gemini_model_replay.json"
+      ],
       "result_summary": "",
       "blocked_reason": "check-budget(0.05) returned AUTO_APPROVE and uses_existing_clips=true (normal auto-approve path per PLAYBOOK.md HUMAN_APPROVAL), but per the established precedent (reflections.md cycle 36, and the identical pattern already recorded for h-judge-repeat-independent-batches-corrected-design and h-soft-anchor-gate-exempt-utterance-end in pending_approval.json), this execution environment's own permission classifier denies the self-approval write itself (an unattended session writing approval=auto_approved/status=queued for a hypothesis that session's own lineage proposed), regardless of which hypothesis. PLAYBOOK.md's WAITING_APPROVAL section explicitly instructs not to re-attempt this known-denied write 'just in case', so this cycle escalated directly to needs_human without re-testing it empirically again."
     }
