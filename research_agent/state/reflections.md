@@ -6103,3 +6103,83 @@ never-cited-paper mining technique (grep `papers.json` for
 `grounded_in`-absent ids) as a fresh-angle source next, alongside one more
 caption-display/latency-angle pass. `pipeline_state.json`'s own `cycle` JSON
 counter increments on this transition per its usual rule.
+
+## Cycle 93 (2026-11-18, scheduled session)
+
+**What worked:** This cycle's RUN_EXPERIMENTS actually ran a live experiment
+and produced a real, non-blocked finding, the first in a while after
+cycles 88-92's mechanical "all 3 queued hypotheses remain blocked"
+holding pattern. Two things made this possible: (1) rm-2278 approved
+`h-judge-cross-gemini-model-agreement-check` and
+`h-soft-anchor-gate-exempt-utterance-end` between cycles 92 and 93
+(commit `c26e12d`), unblocking a Gemini-only hypothesis that needed
+neither the blocked OpenAI host nor the blocked Deepgram listen-websocket
+upgrade; (2) this session's environment happened to have a
+proxy-injected-credentials notice explicitly naming `api.deepgram.com` as
+allowed, which was a genuine, concrete signal the environment might have
+changed (unlike an ordinary scheduled re-check with no such signal) --
+worth deviating from the reduced-cadence cache-reuse clause to live-check
+again. The live check confirmed REST is now explicitly allowed (200) but
+the listen-websocket upgrade handshake is STILL mangled (HTTP 400,
+identical to every cycle since 5) -- a useful, nuanced result: the
+environment did partially change (REST), but the actual blocker for live
+ASR experiments (the WS upgrade) did not. Good instinct to re-check live
+rather than either (a) blindly trusting a stale cached verdict or (b)
+assuming "REST now works" meant "the experiment can run" without
+checking the specific protocol the real runner needs -- this is exactly
+the REST-vs-websocket distinction PLAYBOOK.md's cycle-3 note already
+warns about, now re-confirmed from the opposite direction (REST opened,
+WS still closed, rather than both closed).
+
+**What didn't:** The Cohen's kappa computation the hypothesis's own
+`predicted_effect` called for degenerated on this specific 27-pair,
+heavily ceiling-clustered sample (see new PLAYBOOK.md ANALYZE_RESULTS
+note added this cycle). Caught before being reported as a real "chance
+level agreement" finding, but it's the kind of thing a less careful pass
+would have reported uncritically -- added to PLAYBOOK.md as a dated,
+reusable lesson since this is a distinct bug class from the six prior
+"verify empirically" instances (a quantile-banding method silently
+breaking under distributional skew, not a factual/boundary-condition
+mistake).
+
+**Backlog calibration:** Still well-calibrated. The cap (5 queued + 1
+proposed = 6 going into this cycle) correctly held off writing a new
+hypothesis despite `caal2609`'s promising $0 CAAL-decomposition angle
+being read this very cycle -- that idea is recorded and will be the
+natural first candidate once GENERATE_HYPOTHESES is reached again with a
+free slot (now 5/6 after this cycle's `tested` transition). No change to
+search-query direction needed; `easist2025`/`mocha2601` confirmed this
+repo's API-only, Deepgram-ASR architecture continues to rule out most
+custom-model SimulST papers as direct implementations, same pattern as
+many prior cycles -- analogy/comparison framing remains the right way to
+use that class of paper, not a reason to stop searching for it (useful
+background/motivation value even when not directly actionable).
+
+**Budget policy:** No change proposed. $0.05 spent this cycle (27
+gemini-3.6-flash calls + 1 gemini-3.1-flash-lite call), well inside both
+caps; `check-budget`/approval-gate behavior worked exactly as designed
+(no self-approval attempted, since this hypothesis was already
+human-approved before this session started).
+
+**Should this playbook itself change?** Yes, one addition made this
+cycle: a new dated ANALYZE_RESULTS note about tertile-banded Cohen's
+kappa degenerating under ceiling-clustered score distributions (see
+PLAYBOOK.md). No other edit needed -- the reduced-cadence clause's own
+carve-out for "a human has signaled... the environment may have changed"
+(clause b) didn't exactly name "a proxy-injected-credentials notice" as
+qualifying, but it was clearly in that same spirit and the right call
+this cycle; worth explicitly adding "an explicit proxy/environment
+configuration notice naming a previously-blocked host as newly allowed"
+as a concrete example under that clause so a future session doesn't have
+to re-derive the same judgment call from first principles. Not edited
+this cycle to avoid over-indexing on a single observation -- if this
+situation recurs, promote it to an explicit clause example then.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` (skipping a
+fresh `SEARCH_PAPERS` pass) rather than `SEARCH_PAPERS`, since the
+backlog now has exactly one open slot and `caal2609`'s CAAL-decomposition
+angle (read this very cycle, not yet promoted to a hypothesis) is a
+concrete, already-identified, high-priority $0 candidate that a fresh
+literature search is unlikely to beat for next-cycle value. Resume
+literature search again once that slot is filled or the idea turns out
+not to pan out on closer inspection.

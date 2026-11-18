@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "REFLECT",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 33,
-  "last_updated": "2026-11-18T12:18:46.868729+00:00",
+  "last_updated": "2026-11-18T12:19:38.426489+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3179,6 +3179,12 @@
       "to": "REFLECT",
       "at": "2026-11-18T12:18:46.868697+00:00",
       "note": "cycle 93: writing reflections.md entry."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-18T12:19:38.426462+00:00",
+      "note": "cycle 93 REFLECT: skipping fresh SEARCH_PAPERS, going straight to GENERATE_HYPOTHESES since backlog has 1 open slot and caal2609's CAAL-decomposition angle (read this cycle, not yet promoted) is a concrete, already-identified $0 candidate."
     }
   ]
 }

@@ -738,6 +738,32 @@ asyncio.run(main())
   worked example. Any future script that matches an English term's
   boundary against this repo's committed JA output should use the same
   ASCII-only-lookaround pattern, not `\b`.
+- **Before trusting a tertile-banded (or any quantile-banded) chance-corrected
+  agreement measure like Cohen's kappa on judge scores, check that the
+  underlying score distribution isn't severely ceiling- (or floor-) clustered
+  for either side being compared** (found cycle 93, 2026-11-18,
+  h-judge-cross-gemini-model-agreement-check): that hypothesis's own
+  `predicted_effect` called for a tertile-banded Cohen's kappa alongside
+  Pearson/Spearman correlation. On the actual 27-pair sample, the alt model's
+  scores were so heavily clustered at the ceiling (21/27 pairs scored exactly
+  100) that the upper tertile cutoff collapsed onto 100 itself, causing the
+  banding function to classify every single score as "low" regardless of its
+  actual value -- producing `kappa=0.0` that looked like a coincidentally
+  clean "no better than chance" result but was actually a method artifact
+  (observed agreement == expected agreement only because the banding broke,
+  not because of genuine chance-level disagreement). Caught by printing the
+  raw sorted score lists for both sides before trusting the kappa number, the
+  same "verify empirically, don't reason abstractly" discipline as every
+  other dated note in this section. Fix applied: dropped the degenerate kappa
+  from the result rather than reporting it, and leaned on the
+  Pearson/Spearman correlations plus the raw mean/signed delta instead, which
+  remained informative despite the same ceiling-clustering. If a future
+  hypothesis needs a genuinely working chance-corrected agreement measure on
+  a ceiling-heavy score distribution, consider a coarser 2-band split
+  (e.g. median split, or a domain-meaningful absolute threshold) instead of
+  tertiles, and always print both sides' raw score distributions first to
+  confirm the chosen cutoffs actually separate the data before computing
+  kappa.
 - Compare the new experiment's metrics (chrF, latency, and, once
   `h-flicker-metric` has landed, normalized erasure) against the relevant
   baseline row(s) in `experiments/results.csv`.
