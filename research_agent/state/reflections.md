@@ -6183,3 +6183,74 @@ concrete, already-identified, high-priority $0 candidate that a fresh
 literature search is unlikely to beat for next-cycle value. Resume
 literature search again once that slot is filled or the idea turns out
 not to pan out on closer inspection.
+
+## Cycle 94 (2026-11-19, scheduled session)
+
+**What worked:** Resumed cleanly from `HUMAN_APPROVAL` with exactly the
+single `caal2609`-derived hypothesis (`h-caal-avoidable-unavoidable-al-decomposition`)
+cycle 93 flagged as the natural next candidate -- GENERATE_HYPOTHESES had
+already written it before this session started. AUTO_APPROVE + $0 +
+`uses_existing_clips` went through the normal path cleanly: no self-approval
+denial this time (unlike the `pending_approval.json` precedent), consistent
+with that precedent being specific to moving something *out of*
+`needs_human`, not to the ordinary first-time AUTO_APPROVE write. Delegated
+the actual implementation (new script, join-key verification, unit tests,
+full-corpus run, result writeup, state advances through to `WRITE_REPORT`)
+to a forked subagent to keep this session's own context free for
+orchestration/review -- worked well; the fork's join-key check caught a
+real bug (positional vs. dict-identity grouping mismatch between
+`mt_latency_decomposition.batch_latencies()` and
+`utterance_end_mix.classify_batches()`, affecting 2/110 JSONs) before it
+could corrupt any numbers, exactly the kind of verification PLAYBOOK.md's
+GENERATE_HYPOTHESES section has repeatedly had to learn the hard way.
+
+**What didn't:** The fork's analysis surfaced two things the hypothesis
+text did not anticipate: (1) 5 of the 11 below-0.5 `avoidable_fraction`
+runs are NOT explained by the predicted `rpm=9` rate-limit confound (they
+run at the normal `rpm=60`) -- a genuinely open question, correctly left
+unresolved rather than forced into the rpm bucket; (2) a mean ~44% of
+batches per run are silently excluded from the computation because
+`mt_latency_decomposition.py`'s `content_ready_wallclock` lookup fails to
+find a matching `asr_interim` event -- meaning every number in this
+cycle's result is from roughly half of each run's batches, not a census.
+Neither is a implementation mistake in the new script; both are real
+pre-existing gaps in the underlying data/matching logic that this
+retroactive analysis exposed. Flagging both plainly in `result_summary`
+and the Japanese report, per the standing "verify empirically, don't
+silently fold into the wrong bucket" discipline, rather than reporting
+the headline mean/median numbers uncritically.
+
+**Backlog calibration:** Still well-calibrated -- went into this cycle at
+5 queued (post cycle-93 `tested` transition) + 0 proposed, added 0 new
+hypotheses (none needed; the one that existed was processed through to
+`tested`), and the backlog now sits at 4 queued with a newly-identified,
+concrete, high-value $0 candidate for next cycle (root-causing the 5
+unexplained low-`avoidable_fraction` runs, or alternatively the
+`content_ready_wallclock` ~44% exclusion gap -- both arguably higher
+priority than reaching further into the paper backlog right now, since
+they bear directly on the trustworthiness of this cycle's own numbers).
+
+**Budget policy:** No change proposed. $0 spent this cycle (purely
+retroactive analysis, `log-cost 0`), no live API calls made at all --
+moot whether Deepgram/Gemini keys were reachable this session (they were,
+per a passive environment check, but this hypothesis never needed them).
+
+**Should this playbook itself change?** No edit made this cycle. The
+HUMAN_APPROVAL AUTO_APPROVE path and the WAITING_APPROVAL self-approval-block
+precedent both behaved exactly as documented, with no new ambiguity
+surfaced. The join-key risk this cycle (positional vs. dict-identity
+grouping) is a specific-enough, one-off implementation detail of the new
+`caal_decomposition.py` script (not a generalizable repo-wide gotcha like
+the six dated GENERATE_HYPOTHESES entries) that it doesn't warrant a new
+dated playbook note of its own -- documented in the commit message and
+`result_summary` instead, which is sufficient for anyone revisiting this
+specific script.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` directly
+(skipping a fresh `SEARCH_PAPERS` pass) rather than `SEARCH_PAPERS`,
+since this cycle's own analysis produced two concrete, high-priority,
+likely-$0 candidate angles (the unexplained rpm=60 low-avoidable_fraction
+runs; the `content_ready_wallclock` exclusion gap) that are better used
+to fill the one open backlog slot than a fresh literature pass would be.
+Resume literature search again once that slot is filled or neither angle
+pans out on closer inspection.
