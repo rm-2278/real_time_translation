@@ -1378,10 +1378,11 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/caal_decomposition.csv"
-      ]
+      ],
+      "result_summary": "Prediction largely confirmed. Joined mt_latency_decomposition's queue_wait_s/stream_duration_s with utterance_end_mix's is_utterance_end flag and simul_latency_metrics's ca_al_char_s (cross-reference only) across all 105 experiment JSONs with events; no API spend. avoidable_fraction mean=0.852, median=0.950, min=0.268, max=0.998, with 94/105 (89.5%) runs above 0.5 as predicted. The predicted exception (tight gemini_rpm_limit inflating queue_wait_s into a rate-limit artifact rather than a free scheduling choice) holds for 6 of the 11 below-0.5 runs (rpm=9), but does NOT explain the other 5 (llm2024_8_part1_full, llm2024_8_part1_full_baseline_no_dict, post_dedup_fix_check, hardest_5min_gpt54nano, calibration_rpm60 all run at rpm=60) -- this subset's low avoidable_fraction is an open question, not yet root-caused, flagged for a future cycle rather than silently folded into the same rpm-confound bucket. Separate, significant data-completeness caveat found during this analysis: mean 44.2% (range 0-93%) of batches per run are excluded from both totals because mt_latency_decomposition's content_ready_wallclock lookup can't find a matching asr_interim event for their asr_end_time, so avoidable_fraction is computed from roughly half of each run's batches on average, not all of them -- the reported numbers should be read as a sample, not a census, until that gap is understood. Join-key verification (per PLAYBOOK.md) found and handled a real mismatch risk: a (asr_start_time, asr_end_time) key can recur non-contiguously within one run (2/110 JSONs); handled with a positional (not dict-keyed) join, asserted equal key-for-key at runtime, which held clean across all 105 runs."
     }
   ]
 }
