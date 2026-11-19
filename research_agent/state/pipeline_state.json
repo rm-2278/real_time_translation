@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 33,
-  "last_updated": "2026-11-19T12:08:48.975029+00:00",
+  "last_updated": "2026-11-19T12:15:33.388837+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3197,6 +3197,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-19T12:08:48.974908+00:00",
       "note": "cycle 94: h-caal-avoidable-unavoidable-al-decomposition auto-approved ($0 retroactive analysis, uses_existing_clips). No other proposed/null-approval hypotheses this cycle (only h-judge-repeat-independent-batches-corrected-design remains needs_human, already terminal per WAITING_APPROVAL precedent)."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-19T12:15:33.388801+00:00",
+      "note": "h-caal-avoidable-unavoidable-al-decomposition: caal_decomposition.py written+tested (7 unit tests), run over all 105 experiment JSONs with events, no API spend. avoidable_fraction mean=0.852 median=0.950 min=0.268 max=0.998."
     }
   ]
 }
