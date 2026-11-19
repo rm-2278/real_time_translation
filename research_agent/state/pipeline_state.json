@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 33,
-  "last_updated": "2026-11-19T00:09:26.686843+00:00",
+  "last_updated": "2026-11-19T12:08:48.975029+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3191,6 +3191,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-19T00:09:26.686703+00:00",
       "note": "cycle 94: wrote h-caal-avoidable-unavoidable-al-decomposition, grounded in caal2609 (read cycle 93). Backlog now 6 queued/proposed (at cap: 4 queued, 1 proposed/needs_human carryover, 1 new proposed). Cross-checked against h-mt-queue-wait-post-gap-residual/h-post-gap-queue-wait-persistence to confirm this is a distinct, broader general-decomposition question, not a duplicate."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-19T12:08:48.974908+00:00",
+      "note": "cycle 94: h-caal-avoidable-unavoidable-al-decomposition auto-approved ($0 retroactive analysis, uses_existing_clips). No other proposed/null-approval hypotheses this cycle (only h-judge-repeat-independent-batches-corrected-design remains needs_human, already terminal per WAITING_APPROVAL precedent)."
     }
   ]
 }
