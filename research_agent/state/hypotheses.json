@@ -1377,8 +1377,8 @@
       "required_changes": "New analysis script src/real_time_translation/experiments/caal_decomposition.py (console script), importing and reusing (not reimplementing) mt_latency_decomposition.batch_latencies(), utterance_end_mix.py's existing batch classification logic, and simul_latency_metrics.py's existing per-batch settle-delay/AL plumbing -- join all three on the shared (asr_start_time, asr_end_time) key, verify at implementation time (per PLAYBOOK's standing GENERATE_HYPOTHESES instruction) that this key actually lines up 1:1 across all three modules' own grouping logic before trusting the join, not just assumed from this description. Output a per-run CSV (experiments/caal_decomposition.csv) with avoidable_s_total, unavoidable_s_total, avoidable_fraction, and the run's existing ca_al_char_s for cross-reference, plus unit tests on a small synthetic batch list covering both soft-finalized and genuine-final cases. Purely retroactive over existing experiment JSONs -- no new Deepgram/LLM calls, no live pipeline changes.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed"
+      "approval": "auto_approved",
+      "status": "queued"
     }
   ]
 }
