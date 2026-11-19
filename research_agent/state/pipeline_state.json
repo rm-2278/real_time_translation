@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 33,
-  "last_updated": "2026-11-18T12:19:38.426489+00:00",
+  "last_updated": "2026-11-19T00:09:26.686843+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3185,6 +3185,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-18T12:19:38.426462+00:00",
       "note": "cycle 93 REFLECT: skipping fresh SEARCH_PAPERS, going straight to GENERATE_HYPOTHESES since backlog has 1 open slot and caal2609's CAAL-decomposition angle (read this cycle, not yet promoted) is a concrete, already-identified $0 candidate."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-19T00:09:26.686703+00:00",
+      "note": "cycle 94: wrote h-caal-avoidable-unavoidable-al-decomposition, grounded in caal2609 (read cycle 93). Backlog now 6 queued/proposed (at cap: 4 queued, 1 proposed/needs_human carryover, 1 new proposed). Cross-checked against h-mt-queue-wait-post-gap-residual/h-post-gap-queue-wait-persistence to confirm this is a distinct, broader general-decomposition question, not a duplicate."
     }
   ]
 }
