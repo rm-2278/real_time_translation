@@ -339,6 +339,11 @@
       "at": "2026-11-18T12:17:27.345960+00:00",
       "amount_usd": 0.0,
       "note": "cycle 93 RUN_EXPERIMENTS: re-confirmed OpenAI CONNECT-rejected and Deepgram listen-WS upgrade-mangled (live re-check, not reused-cache, prompted by this session's proxy config explicitly allowing+injecting Deepgram REST credentials); h-continuous-rating-cps-calibration still blocked on human viewing time + missing source video. No live experiment on these three, zero API spend."
+    },
+    {
+      "at": "2026-11-19T12:15:21.288653+00:00",
+      "amount_usd": 0.0,
+      "note": "h-caal-avoidable-unavoidable-al-decomposition: purely retroactive analysis, no new API calls"
     }
   ]
 }
