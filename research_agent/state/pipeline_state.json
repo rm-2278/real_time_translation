@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 33,
-  "last_updated": "2026-11-19T12:15:33.388837+00:00",
+  "last_updated": "2026-11-19T12:16:05.872800+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3203,6 +3203,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-19T12:15:33.388801+00:00",
       "note": "h-caal-avoidable-unavoidable-al-decomposition: caal_decomposition.py written+tested (7 unit tests), run over all 105 experiment JSONs with events, no API spend. avoidable_fraction mean=0.852 median=0.950 min=0.268 max=0.998."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-19T12:16:05.872767+00:00",
+      "note": "h-caal-avoidable-unavoidable-al-decomposition tested: avoidable_fraction confirmed well above 50% for most runs (89.5%), with two caveats surfaced (partial rpm confound, ~44% batch exclusion for missing content_ready). Status -> tested."
     }
   ]
 }
