@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "WRITE_REPORT",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 33,
-  "last_updated": "2026-11-19T12:16:05.872800+00:00",
+  "last_updated": "2026-11-19T12:18:04.030909+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3209,6 +3209,18 @@
       "to": "WRITE_REPORT",
       "at": "2026-11-19T12:16:05.872767+00:00",
       "note": "h-caal-avoidable-unavoidable-al-decomposition tested: avoidable_fraction confirmed well above 50% for most runs (89.5%), with two caveats surfaced (partial rpm confound, ~44% batch exclusion for missing content_ready). Status -> tested."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-11-19T12:17:22.440770+00:00",
+      "note": "cycle 94: Japanese report written covering CAAL avoidable/unavoidable decomposition (mean avoidable_fraction=0.852, 89.5% runs >0.5), unresolved rpm=60 exception flagged, content_ready_wallclock ~44% exclusion caveat noted."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-19T12:18:04.030878+00:00",
+      "note": "cycle 94 reflect: backlog at 4 queued/0 proposed, one open slot; two concrete /bin/bash candidate angles identified (unexplained rpm=60 low-avoidable_fraction runs; content_ready_wallclock ~44% exclusion gap) -- skipping fresh SEARCH_PAPERS, going straight to GENERATE_HYPOTHESES to pursue one of these."
     }
   ]
 }
