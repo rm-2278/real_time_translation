@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
-  "cycle": 33,
-  "last_updated": "2026-11-20T12:09:08.645316+00:00",
+  "current_state": "SEARCH_PAPERS",
+  "cycle": 34,
+  "last_updated": "2026-11-20T12:13:44.974787+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3269,6 +3269,30 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-20T12:09:08.645284+00:00",
       "note": "HUMAN_APPROVAL cycle 96 -- check-budget(0.0) returned AUTO_APPROVE for h-content-ready-fallback-downstream-revalidation (uses_existing_clips=true), auto-approved/queued. h-judge-repeat-independent-batches-corrected-design remains needs_human/terminal (no human signal since cycle 93, per WAITING_APPROVAL section's self-approval-block rule -- not touched). 5 hypotheses now queued with approval != needs_human."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-20T12:10:38.471370+00:00",
+      "note": "h-content-ready-fallback-downstream-revalidation run complete, moving to analysis of the shifted CSVs."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-20T12:11:44.010672+00:00",
+      "note": "h-content-ready-fallback-downstream-revalidation tested, result_summary written. Proceeding to write cycle 96 Japanese report."
+    },
+    {
+      "from": "WRITE_REPORT",
+      "to": "REFLECT",
+      "at": "2026-11-20T12:12:35.181474+00:00",
+      "note": "Cycle 96 report written. Proceeding to self-reflection."
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-11-20T12:13:44.974756+00:00",
+      "note": "REFLECT cycle 96 complete -- downstream revalidation of 3 tested hypotheses against the cycle-95-corrected join done, qualitative conclusions held but 2 quantitative claims superseded (1 strengthened to a cleaner null, 1 weakened below 50% for one run). Advancing to SEARCH_PAPERS for cycle 97: last literature pass was cycle 92->93, 4 cycles ago -- overdue for a fresh pass even though the rpm=60 avoidable_fraction lead remains available as a non-literature backup candidate."
     }
   ]
 }

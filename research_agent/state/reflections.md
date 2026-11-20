@@ -6328,3 +6328,79 @@ rpm=60 low-`avoidable_fraction` runs from cycle 94 (now itself needing a
 re-check against this cycle's updated `caal_decomposition.csv` numbers
 before being pursued, since the specific runs/values may have shifted).
 Resume literature search once that slot is filled or neither pans out.
+
+## Cycle 96 (2026-11-20, scheduled session)
+
+**What worked / what didn't:** Picked up candidate (1) from cycle 95's
+note above: re-ran `post_gap_queue_wait.py` and `word_order_reordering_proxy.py`
+(zero code changes -- both already consumed `batch_latencies()` with no
+duplicated logic, confirmed by reading their imports first per this
+hypothesis's own `required_changes`) against the cycle-95-corrected join.
+This closed the loop this playbook's own ANALYZE_RESULTS-adjacent rule
+implies: a shared-helper fix must not be left as a dangling TODO against
+already-`tested` hypotheses indefinitely. The diff was real and
+non-trivial in all three outputs (not a no-op rerun), and -- usefully --
+the direction was NOT the "obviously bigger effect now" story a lazier
+pass might have assumed: `h-post-gap-queue-wait-persistence`'s own
+"explains a majority of the residual for both runs" claim actually
+*weakened* (one of the two runs dropped from 54.7% to 42.1%, below
+50%), while `h-enja-word-order-reordering-proxy-latency`'s previously-
+ambiguous secondary result (inconsistent-sign, n=157) *strengthened*
+into a clean, well-powered, consistent-sign null (n=2503). Deliberately
+did NOT silently rewrite the three original hypotheses' own
+`result_summary` fields -- the new hypothesis's own `result_summary` and
+this cycle's report carry the re-confirmation instead, leaving a decision
+for a future cycle (or the human) about whether to fold it back onto the
+original three entries. This mirrors cycle 95's own judgment call about
+not silently propagating a shared-helper fix, applied one level further
+downstream -- worth noting as the second instance of that same shape of
+decision, in case a third instance means it should be named as a reusable
+technique in PLAYBOOK.md per this file's own "reinvented twice" rule
+(not quite there yet at two).
+
+**One new incidental finding, flagged but not chased further:** the two
+non-cycle-61 "incidental" runs in `post_gap_queue_wait.csv`
+(`full_llm2025_zenhan_gemini3flash_s0`, `full_llm2025_zenhan_gpt54mini_s0`)
+now show `explanatory_share_of_gapexcl_al` just above 1.0 (was 0.18/0.25)
+-- a mathematically-possible-but-substantively-implausible "explains over
+100% of the residual" value, most likely an interaction between the
+baseline-mean inflation effect (predicted by cycle 95, confirmed here) and
+these two runs' small gap counts (5, 6). Recorded as a data-quality
+caveat in both `hypotheses.json` and the report rather than investigated
+further, since these runs were already outside the original cycle-61
+question's scope -- but worth remembering if a future hypothesis leans on
+`post_gap_queue_wait.csv` rows for runs with few excluded gaps: check this
+ratio isn't >1 before trusting it at face value.
+
+**Backlog calibration:** Entered this cycle at 4 queued + 1 proposed (5),
+added 1 new hypothesis to fill the open slot, which then went all the way
+to `tested` within the same session, returning the backlog to 4 queued +
+1 proposed (5) with one open slot again. Well-calibrated and consistent
+with cycle 95's own assessment of the same shape of cycle (high-value,
+fully depth-first, not a shallow variant) -- this was the planned
+follow-through on that cycle's own deferred item, not a new direction.
+
+**Budget policy:** No change proposed. $0 spent this cycle (purely
+retroactive rerun of two already-existing analysis scripts against
+already-existing experiment JSONs, `log-cost 0`), no live API calls.
+
+**Should this playbook itself change?** No edit made. Nothing in this
+cycle hit an unclear or wrong instruction -- the GENERATE_HYPOTHESES,
+HUMAN_APPROVAL, RUN_EXPERIMENTS, and ANALYZE_RESULTS sections all applied
+cleanly to a hypothesis whose own shape (rerun existing scripts, diff
+against committed CSVs, decide whether the shift is real) was already
+well-covered by the existing ANALYZE_RESULTS config-diff discipline, just
+applied to a code-level join fix instead of a config mismatch.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` for cycle 97 (not
+`GENERATE_HYPOTHESES` again). The last real literature pass was cycle
+92->93 (2026-11-16); cycles 93-96 all skipped it in favor of concrete,
+already-known-needed backlog work (data-dependency fixes and their
+downstream revalidation), which was the right call each time but has now
+run four cycles without fresh literature input. The one open backlog slot
+does not strictly need a new paper -- the still-unresolved rpm=60
+low-`avoidable_fraction` runs from cycle 94 (re-check needed against the
+now-twice-updated `caal_decomposition.csv` numbers before being pursued)
+remains available as a non-literature-grounded $0 candidate if the search
+doesn't turn up anything better -- but four cycles is long enough that a
+fresh pass is overdue on its own terms, not just as a fallback.
