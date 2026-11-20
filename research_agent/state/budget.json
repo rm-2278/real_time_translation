@@ -349,6 +349,11 @@
       "at": "2026-11-20T00:13:35.351552+00:00",
       "amount_usd": 0.0,
       "note": "h-content-ready-wallclock-nearest-interim-fallback: purely retroactive fix to mt_latency_decomposition.py's content_ready_wallclock join + unit tests + rerun of both dependent analyses across all 151 experiment JSONs, zero new API calls"
+    },
+    {
+      "at": "2026-11-20T12:10:18.947531+00:00",
+      "amount_usd": 0.0,
+      "note": "h-content-ready-fallback-downstream-revalidation"
     }
   ]
 }
