@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 33,
-  "last_updated": "2026-11-19T12:18:04.030909+00:00",
+  "last_updated": "2026-11-20T00:09:40.056615+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3221,6 +3221,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-19T12:18:04.030878+00:00",
       "note": "cycle 94 reflect: backlog at 4 queued/0 proposed, one open slot; two concrete /bin/bash candidate angles identified (unexplained rpm=60 low-avoidable_fraction runs; content_ready_wallclock ~44% exclusion gap) -- skipping fresh SEARCH_PAPERS, going straight to GENERATE_HYPOTHESES to pursue one of these."
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-20T00:09:40.056584+00:00",
+      "note": "Backlog at cap (6 queued/proposed) after adding h-content-ready-wallclock-nearest-interim-fallback (cycle 95, /bin/bash retroactive, roots-causes cycle 94's content_ready_wallclock gap). Moving to HUMAN_APPROVAL to process the new hypothesis and any other unset/proposed approvals."
     }
   ]
 }
