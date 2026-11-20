@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "REFLECT",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 33,
-  "last_updated": "2026-11-20T00:15:59.925934+00:00",
+  "last_updated": "2026-11-20T00:16:36.671131+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3251,6 +3251,12 @@
       "to": "REFLECT",
       "at": "2026-11-20T00:15:59.925902+00:00",
       "note": "Cycle 95 report written. Proceeding to self-reflection."
+    },
+    {
+      "from": "REFLECT",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-20T00:16:36.671101+00:00",
+      "note": "REFLECT cycle 95 complete -- content_ready_wallclock fix validated, two follow-up candidates identified (re-validate 3 downstream hypotheses against corrected join; re-check rpm=60 low-avoidable_fraction runs against updated numbers), advance to GENERATE_HYPOTHESES (1 slot open)."
     }
   ]
 }

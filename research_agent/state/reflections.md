@@ -6254,3 +6254,77 @@ runs; the `content_ready_wallclock` exclusion gap) that are better used
 to fill the one open backlog slot than a fresh literature pass would be.
 Resume literature search again once that slot is filled or neither angle
 pans out on closer inspection.
+
+## Cycle 95 (2026-11-20, scheduled session)
+
+**What worked:** Resumed from `GENERATE_HYPOTHESES` and picked the
+`content_ready_wallclock` exclusion-gap angle cycle 94's reflection flagged
+(over the other flagged angle, the unexplained rpm=60 low-avoidable_fraction
+runs) specifically because it bears on the *trustworthiness* of every
+existing `mt_latency_decomposition.py`/`caal_decomposition.py` number, not
+just one more analysis on top. Root-caused it empirically before writing
+the hypothesis text (per the standing GENERATE_HYPOTHESES discipline):
+instrumented the actual join across all 110 experiment JSONs rather than
+reasoning from the code alone, which immediately showed the gap correlates
+almost perfectly with `is_utterance_end` (never missing when False, 86%
+missing when True) and that 98% of the missing cases have a usable prior
+interim at a consistent ~0.6s offset -- strong enough signal that the fix
+(nearest-prior fallback) was obviously correct before implementing it, not
+a guess. The whole GENERATE_HYPOTHESES -> ... -> WRITE_REPORT chain fit in
+one session with no interruption; committed after every step per the
+standing commit-often rule.
+
+**What didn't / a new judgment call worth recording:** Running the fix
+surfaced that two *other* existing scripts (`word_order_reordering_proxy.py`,
+`post_gap_queue_wait.py`) also consume `batch_latencies()` and would see
+their own numbers shift too -- their CSVs regenerated with materially
+different values when tried. These three hypotheses are already
+`status: tested` with human-facing conclusions written up against the old
+(incomplete) join. Decided NOT to just rerun-and-commit those three files
+alongside this cycle's work, even though the code change plainly makes
+them more correct: silently overwriting a `tested` hypothesis's recorded
+experiment output, without re-reading and re-confirming that hypothesis's
+own `result_summary` still holds under the new numbers, is exactly the kind
+of silent-drift risk this playbook's ANALYZE_RESULTS section warns about
+for config drift -- the same principle should apply to a shared-dependency
+code fix, not just a config mismatch. Reverted those three CSVs
+(`git checkout`) and instead logged them as a named follow-up candidate in
+the report and this entry. This is a new, generalizable case worth stating
+plainly for future cycles: **when a bug fix to a shared analysis helper
+changes a downstream number that an already-`tested` hypothesis's
+`result_summary` depended on, treat re-validating that hypothesis as its
+own explicit unit of work (its own GENERATE_HYPOTHESES entry or at least
+its own RUN_EXPERIMENTS pass), not a free side effect of the fix.**
+
+**Backlog calibration:** Entered this cycle at 4 queued + 1 proposed (5),
+added 1 new hypothesis (content_ready_wallclock fix) to reach the 6 cap,
+then that one moved all the way to `tested` within the same session,
+bringing the backlog back down to 4 queued + 1 proposed (5) with one open
+slot. Well-calibrated -- the new hypothesis was high-value (data-quality
+fix affecting multiple prior analyses) and fully depth-first, not another
+shallow variant.
+
+**Budget policy:** No change proposed. $0 spent this cycle (purely
+retroactive code fix + re-analysis, `log-cost 0`), no live API calls.
+
+**Should this playbook itself change?** No edit made. The HUMAN_APPROVAL
+AUTO_APPROVE path (first-time write, not a `needs_human` self-approval
+case) behaved exactly per the cycle-93-confirmed distinction already
+documented in PLAYBOOK.md's WAITING_APPROVAL section -- no new ambiguity.
+The "don't silently propagate a shared-helper fix into other already-tested
+hypotheses' committed outputs" judgment call above is specific enough to
+this one incident that it's recorded here rather than as a new dated
+PLAYBOOK.md note; promote it to PLAYBOOK.md only if a future cycle hits the
+same shape of problem a second time (per this playbook's own "a technique
+reinvented twice should be written down" rule).
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` directly
+(skipping a fresh `SEARCH_PAPERS` pass), since this cycle produced two
+concrete, likely-$0 candidates for the one open backlog slot: (1)
+re-validating `h-enja-word-order-reordering-proxy-latency`,
+`h-mt-queue-wait-post-gap-residual`, and `h-post-gap-queue-wait-persistence`
+against the corrected `batch_latencies()` join; (2) the still-unresolved
+rpm=60 low-`avoidable_fraction` runs from cycle 94 (now itself needing a
+re-check against this cycle's updated `caal_decomposition.csv` numbers
+before being pursued, since the specific runs/values may have shifted).
+Resume literature search once that slot is filled or neither pans out.
