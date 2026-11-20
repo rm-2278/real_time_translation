@@ -1397,11 +1397,12 @@
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
       "approval": "auto_approved",
-      "status": "testing",
+      "status": "tested",
       "experiment_ids": [
         "experiments/mt_latency_decomposition.csv",
         "experiments/caal_decomposition.csv"
-      ]
+      ],
+      "result_summary": "Prediction confirmed. Added a nearest-preceding-asr_interim fallback to mt_latency_decomposition.py's batch_latencies()/_content_ready_lookup() (new content_ready_is_exact bool field distinguishes exact-match from fallback-derived queue_wait_s, per predicted_effect) and re-ran it plus caal_decomposition.py (imports batch_latencies(), no logic duplicated) across all 151 experiment JSONs (110 with events). queue_wait_s sample grew from 6002 to 12251 of 12380 batches -- exclusion rate dropped from 51.5% (matching cycle 94's reported 44.2% mean-per-run) to 1.0% (129 batches), and those 129 are confirmed genuinely unrecoverable (no earlier asr_interim event exists at all for them), not a bug in the fallback. This is a real, non-trivial shift in the dependent numbers, not just a completeness formality: caal_decomposition.csv's avoidable_fraction moved from mean=0.852/median=0.950 (cycle 94, ~56% sample) to mean=0.743/median=0.840 (this cycle, ~99% sample); the share of runs with avoidable_fraction>0.5 fell from 94/105 (89.5%) to 78/105 (74.3%). The headline qualitative conclusion (most of this repo's AL gap traces to avoidable scheduling/timer policy, not an architectural ceiling) still holds, but cycle 94's specific numbers should be treated as superseded by these, now that the sample is far closer to a census. 4 new unit tests (exact match, fallback-to-nearest-prior, no-prior-interim-at-all, and a later-than-batch interim correctly NOT used as a fallback) plus the full existing suite (63 tests) and ruff all pass. Found incidentally, NOT acted on this cycle to keep scope bounded: word_order_reordering_proxy.py and post_gap_queue_wait.py also consume batch_latencies() and would likewise see their own queue_wait_s-derived numbers shift if rerun -- their CSVs were regenerated during this investigation then deliberately reverted (git checkout) rather than committed, since those three hypotheses (h-enja-word-order-reordering-proxy-latency, h-mt-queue-wait-post-gap-residual, h-post-gap-queue-wait-persistence) are already status=tested with write-ups based on the OLD join, and silently updating their output files without re-reviewing those write-ups would be exactly the kind of silent-drift risk PLAYBOOK.md warns against. Flagging as a candidate follow-up hypothesis (re-validate those three against the corrected join) rather than doing it inline here."
     }
   ]
 }
