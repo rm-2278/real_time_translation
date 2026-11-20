@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 33,
-  "last_updated": "2026-11-20T00:09:40.056615+00:00",
+  "last_updated": "2026-11-20T00:10:32.123179+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3227,6 +3227,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-20T00:09:40.056584+00:00",
       "note": "Backlog at cap (6 queued/proposed) after adding h-content-ready-wallclock-nearest-interim-fallback (cycle 95, /bin/bash retroactive, roots-causes cycle 94's content_ready_wallclock gap). Moving to HUMAN_APPROVAL to process the new hypothesis and any other unset/proposed approvals."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-20T00:10:32.123146+00:00",
+      "note": "4 hypotheses queued with approval != needs_human (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-soft-anchor-gate-exempt-utterance-end) plus newly auto-approved h-content-ready-wallclock-nearest-interim-fallback (5 total). h-judge-repeat-independent-batches-corrected-design remains needs_human/terminal."
     }
   ]
 }
