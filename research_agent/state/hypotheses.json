@@ -1396,8 +1396,8 @@
       "required_changes": "Modify src/real_time_translation/experiments/mt_latency_decomposition.py's _content_ready_lookup()/batch_latencies(): keep the existing exact-match dict lookup as the primary path, and add a sorted-list-of-interim-end-times fallback (bisect to the nearest end_time strictly below the batch's asr_end_time) only when the exact match misses. Add a content_ready_is_exact: bool field to BatchLatency (True for the existing exact-match path, False for the new fallback path, so downstream consumers can report the two separately per predicted_effect) and keep content_ready_wallclock=None (as today) only for the genuine no-earlier-interim case. Add unit tests covering: exact match (existing behavior unchanged), fallback-to-nearest-prior (the new path), and no-prior-interim-at-all (stays None) -- a small synthetic event list for each case, no live data needed. Then re-run mt_latency_decomposition.py and caal_decomposition.py (import/reuse, do not duplicate logic) across all existing experiment JSONs and diff the new aggregate queue_wait_s/avoidable_fraction numbers against the cycle-94 ones already in experiments/mt_latency_decomposition.csv and experiments/caal_decomposition.csv, calling out the size of the shift. Purely retroactive over existing experiment JSONs -- no new Deepgram/LLM calls, no live pipeline changes.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed"
+      "approval": "auto_approved",
+      "status": "queued"
     }
   ]
 }
