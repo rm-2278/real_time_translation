@@ -27,13 +27,41 @@ same key `flicker_metrics.group_translation` uses):
     event's playback_offset) - content_ready_wallclock
   stream_duration_s = (batch's last event's playback_offset) - (batch's
     first event's playback_offset)
-Both are None for a batch whose content_ready timestamp can't be found
-(e.g. the very first batch of a run, or a schema gap).
+Both are None for a batch whose content_ready timestamp can't be found at
+all, even via the fallback below (e.g. the very first batch of a run, or a
+schema gap).
+
+Exact-match gap and nearest-interim fallback (found/fixed cycle 95,
+2026-11-20, h-content-ready-wallclock-nearest-interim-fallback): the exact
+`asr_end_time` lookup above misses for a mean 44% of batches per run across
+all 110 experiment JSONs with events, because `video_segment.py`/
+`youtube_segment.py`'s `on_result()` only emits `kind="asr_interim"` while
+`result.is_final` is False -- once Deepgram finalizes an utterance, its own
+`asr_end_time` commonly extends slightly past the last interim's
+`asr_end_time` (the endpointing/settle window), so no `asr_interim` event
+ever reports that exact end_time. Measured directly: batches with
+`is_utterance_end=False` never miss; `is_utterance_end=True` batches miss
+86% of the time; batches with `is_utterance_end` unset miss 41% of the
+time. Of all missing batches, 98% still have a valid EARLIER `asr_interim`
+to fall back to (median gap to that interim's own `asr_end_time`: ~0.6s,
+well under the 2.5s `deepgram_max_interim_duration` soft-finalize timer in
+all but 0.2% of cases) -- only ~1% of all batches have no earlier interim
+at all (true first-batch-of-run/schema-gap cases). `batch_latencies()`
+therefore falls back to the playback_offset of the asr_interim with the
+largest `asr_end_time` strictly less than the batch's own `asr_end_time`
+when the exact match misses, and reports whether a given batch's
+`content_ready_wallclock` came from the exact match or the fallback via
+`content_ready_is_exact`, so downstream consumers can report the two
+separately rather than silently pooling them (the fallback's timestamp is
+itself ~0.6s earlier than the true content-ready moment on average, so a
+fallback-derived `queue_wait_s` runs systematically higher than an
+exact-match one by roughly that amount).
 """
 
 from __future__ import annotations
 
 import argparse
+import bisect
 import csv
 import glob
 import json
@@ -47,6 +75,7 @@ from real_time_translation.experiments.stats import mean, median
 class BatchLatency:
     key: tuple[float, float]
     content_ready_wallclock: float | None
+    content_ready_is_exact: bool | None
     first_event_wallclock: float
     last_event_wallclock: float
     queue_wait_s: float | None
@@ -69,8 +98,20 @@ def _content_ready_lookup(events: list[dict]) -> dict[float, float]:
     return lookup
 
 
+def _nearest_prior_content_ready(
+    content_ready: dict[float, float], sorted_end_times: list[float], end_time: float
+) -> float | None:
+    """playback_offset of the asr_interim with the largest asr_end_time
+    strictly less than `end_time`, or None if no such interim exists."""
+    idx = bisect.bisect_left(sorted_end_times, end_time)
+    if idx == 0:
+        return None
+    return content_ready[sorted_end_times[idx - 1]]
+
+
 def batch_latencies(events: list[dict]) -> list[BatchLatency]:
     content_ready = _content_ready_lookup(events)
+    sorted_end_times = sorted(content_ready)
     results: list[BatchLatency] = []
     current_key: tuple[float, float] | None = None
     offsets: list[float] = []
@@ -78,12 +119,21 @@ def batch_latencies(events: list[dict]) -> list[BatchLatency]:
     def flush() -> None:
         if not offsets or current_key is None:
             return
-        ready = content_ready.get(current_key[1])
+        end_time = current_key[1]
+        ready = content_ready.get(end_time)
+        is_exact: bool | None = True if ready is not None else None
+        if ready is None:
+            ready = _nearest_prior_content_ready(
+                content_ready, sorted_end_times, end_time
+            )
+            if ready is not None:
+                is_exact = False
         queue_wait = (offsets[0] - ready) if ready is not None else None
         results.append(
             BatchLatency(
                 key=current_key,
                 content_ready_wallclock=ready,
+                content_ready_is_exact=is_exact,
                 first_event_wallclock=offsets[0],
                 last_event_wallclock=offsets[-1],
                 queue_wait_s=queue_wait,
@@ -111,8 +161,12 @@ class DecompositionReport:
     experiment_name: str
     num_batches: int
     num_batches_with_queue_wait: int
+    num_batches_with_queue_wait_exact: int
+    num_batches_with_queue_wait_fallback: int
     queue_wait_mean_s: float | None
     queue_wait_median_s: float | None
+    queue_wait_exact_mean_s: float | None
+    queue_wait_fallback_mean_s: float | None
     stream_duration_mean_s: float | None
     stream_duration_median_s: float | None
 
@@ -123,14 +177,28 @@ def analyze_experiment(path: Path) -> DecompositionReport:
     events = data.get("results", {}).get("events", [])
     batches = batch_latencies(events)
     queue_waits = [b.queue_wait_s for b in batches if b.queue_wait_s is not None]
+    exact_waits = [
+        b.queue_wait_s
+        for b in batches
+        if b.queue_wait_s is not None and b.content_ready_is_exact
+    ]
+    fallback_waits = [
+        b.queue_wait_s
+        for b in batches
+        if b.queue_wait_s is not None and b.content_ready_is_exact is False
+    ]
     streams = [b.stream_duration_s for b in batches]
     return DecompositionReport(
         json_path=str(path),
         experiment_name=data.get("experiment_name", path.stem),
         num_batches=len(batches),
         num_batches_with_queue_wait=len(queue_waits),
+        num_batches_with_queue_wait_exact=len(exact_waits),
+        num_batches_with_queue_wait_fallback=len(fallback_waits),
         queue_wait_mean_s=mean(queue_waits),
         queue_wait_median_s=median(queue_waits),
+        queue_wait_exact_mean_s=mean(exact_waits),
+        queue_wait_fallback_mean_s=mean(fallback_waits),
         stream_duration_mean_s=mean(streams),
         stream_duration_median_s=median(streams),
     )
@@ -155,6 +223,8 @@ def main() -> None:
 
     reports: list[DecompositionReport] = []
     all_queue_waits: list[float] = []
+    all_exact_waits: list[float] = []
+    all_fallback_waits: list[float] = []
     all_streams: list[float] = []
     for path in paths:
         try:
@@ -169,6 +239,10 @@ def main() -> None:
         for b in batch_latencies(events):
             if b.queue_wait_s is not None:
                 all_queue_waits.append(b.queue_wait_s)
+                if b.content_ready_is_exact:
+                    all_exact_waits.append(b.queue_wait_s)
+                elif b.content_ready_is_exact is False:
+                    all_fallback_waits.append(b.queue_wait_s)
             all_streams.append(b.stream_duration_s)
 
     args.out_csv.parent.mkdir(parents=True, exist_ok=True)
@@ -180,8 +254,12 @@ def main() -> None:
                 "json_path",
                 "num_batches",
                 "num_batches_with_queue_wait",
+                "num_batches_with_queue_wait_exact",
+                "num_batches_with_queue_wait_fallback",
                 "queue_wait_mean_s",
                 "queue_wait_median_s",
+                "queue_wait_exact_mean_s",
+                "queue_wait_fallback_mean_s",
                 "stream_duration_mean_s",
                 "stream_duration_median_s",
             ]
@@ -193,8 +271,12 @@ def main() -> None:
                     r.json_path,
                     r.num_batches,
                     r.num_batches_with_queue_wait,
+                    r.num_batches_with_queue_wait_exact,
+                    r.num_batches_with_queue_wait_fallback,
                     r.queue_wait_mean_s,
                     r.queue_wait_median_s,
+                    r.queue_wait_exact_mean_s,
+                    r.queue_wait_fallback_mean_s,
                     r.stream_duration_mean_s,
                     r.stream_duration_median_s,
                 ]
@@ -206,6 +288,18 @@ def main() -> None:
             f"queue_wait_s across {len(all_queue_waits)} batch(es): "
             f"mean={mean(all_queue_waits):.3f} median={median(all_queue_waits):.3f} "
             f"min={min(all_queue_waits):.3f} max={max(all_queue_waits):.3f}"
+        )
+        print(
+            f"  of which exact-match: {len(all_exact_waits)} "
+            f"(mean={mean(all_exact_waits):.3f})"
+            if all_exact_waits
+            else "  of which exact-match: 0"
+        )
+        print(
+            f"  of which nearest-interim fallback: {len(all_fallback_waits)} "
+            f"(mean={mean(all_fallback_waits):.3f})"
+            if all_fallback_waits
+            else "  of which nearest-interim fallback: 0"
         )
     if all_streams:
         print(
