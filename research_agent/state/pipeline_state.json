@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 33,
-  "last_updated": "2026-11-20T12:08:43.623400+00:00",
+  "last_updated": "2026-11-20T12:09:08.645316+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3263,6 +3263,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-20T12:08:43.623356+00:00",
       "note": "GENERATE_HYPOTHESES cycle 96 -- added h-content-ready-fallback-downstream-revalidation (retroactive, $0), filling the 1 open backlog slot per cycle 95's reflection (re-validate h-enja-word-order-reordering-proxy-latency / h-mt-queue-wait-post-gap-residual / h-post-gap-queue-wait-persistence against the corrected batch_latencies() join). Backlog now at cap (5 queued/approved-not-run + this 1 proposed = 6). Moving to HUMAN_APPROVAL."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-20T12:09:08.645284+00:00",
+      "note": "HUMAN_APPROVAL cycle 96 -- check-budget(0.0) returned AUTO_APPROVE for h-content-ready-fallback-downstream-revalidation (uses_existing_clips=true), auto-approved/queued. h-judge-repeat-independent-batches-corrected-design remains needs_human/terminal (no human signal since cycle 93, per WAITING_APPROVAL section's self-approval-block rule -- not touched). 5 hypotheses now queued with approval != needs_human."
     }
   ]
 }

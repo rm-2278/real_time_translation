@@ -1418,8 +1418,8 @@
       "required_changes": "No code changes to word_order_reordering_proxy.py or post_gap_queue_wait.py themselves (both already import batch_latencies() from the now-fixed mt_latency_decomposition.py with no duplicated logic). Simply rerun both scripts' existing entry points over the same experiment JSONs each hypothesis originally used (post_gap_queue_wait.py / post_gap_queue_wait_persistence over the 2 cycle-61 outlier full-lecture runs plus whatever the generic experiments/*.json glob picks up, matching h-post-gap-queue-wait-persistence's own already-documented incidental-runs behavior; word_order_reordering_proxy.py over all experiments/*.json with results.events), regenerate experiments/post_gap_queue_wait.csv, experiments/post_gap_queue_wait_persistence.csv, and experiments/word_order_reordering_proxy.csv, and diff each new CSV against its currently-committed version (python3 -c with csv/pandas is enough) before deciding whether to update each hypothesis's result_summary. Only overwrite a hypothesis's result_summary/CSV if the rerun shows a real, explainable shift (same diff-and-explain discipline as ANALYZE_RESULTS's config-drift check) -- if a rerun turns out identical or negligibly different, say so plainly and leave status=tested with a short re-confirmation note appended (space-joined on one line per the JSON-editing hard rule) rather than rewriting the whole result_summary. Purely retroactive over existing experiment JSONs already used by these three hypotheses -- no new Deepgram/LLM calls, no live pipeline changes.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed"
+      "approval": "auto_approved",
+      "status": "queued"
     }
   ]
 }
