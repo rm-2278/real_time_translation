@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 34,
-  "last_updated": "2026-11-20T12:13:44.974787+00:00",
+  "last_updated": "2026-11-21T00:08:13.079650+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3293,6 +3293,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-20T12:13:44.974756+00:00",
       "note": "REFLECT cycle 96 complete -- downstream revalidation of 3 tested hypotheses against the cycle-95-corrected join done, qualitative conclusions held but 2 quantitative claims superseded (1 strengthened to a cleaner null, 1 weakened below 50% for one run). Advancing to SEARCH_PAPERS for cycle 97: last literature pass was cycle 92->93, 4 cycles ago -- overdue for a fresh pass even though the rpm=60 avoidable_fraction lead remains available as a non-literature backup candidate."
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-21T00:08:13.079621+00:00",
+      "note": "SEARCH_PAPERS cycle 97: 3 WebSearch queries (streaming policy 2026, caption flicker/stability 2026, Deepgram ASR latency Nov 2026). Most hits already read; 4 new stubs added after url-based dedup check: reina2026-entropy-information-loss-simulst (original REINA loss paper, distinct from the already-read overread-bias follow-up), streamuni2025-unified-speechllm-streaming, deepl-slator-caption-churn-2026 (cross-vendor caption-stability field study), smallest-ai-streaming-asr-comparison-2026 (vendor ASR latency comparison, secondary to aa-wer-streaming-2026)."
     }
   ]
 }
