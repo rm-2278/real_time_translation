@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 34,
-  "last_updated": "2026-11-21T00:08:13.079650+00:00",
+  "last_updated": "2026-11-21T12:09:53.555646+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3299,6 +3299,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-21T00:08:13.079621+00:00",
       "note": "SEARCH_PAPERS cycle 97: 3 WebSearch queries (streaming policy 2026, caption flicker/stability 2026, Deepgram ASR latency Nov 2026). Most hits already read; 4 new stubs added after url-based dedup check: reina2026-entropy-information-loss-simulst (original REINA loss paper, distinct from the already-read overread-bias follow-up), streamuni2025-unified-speechllm-streaming, deepl-slator-caption-churn-2026 (cross-vendor caption-stability field study), smallest-ai-streaming-asr-comparison-2026 (vendor ASR latency comparison, secondary to aa-wer-streaming-2026)."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-21T12:09:53.555617+00:00",
+      "note": "Extracted claims for 4 cycle-97 stubs (reina2026-entropy-information-loss-simulst, streamuni2025-unified-speechllm-streaming, deepl-slator-caption-churn-2026, smallest-ai-streaming-asr-comparison-2026) via WebSearch-abstract fallback (arxiv.org/deepl.com/smallest.ai WebFetch all ENOTFOUND this session). All 4 now status=extracted."
     }
   ]
 }
