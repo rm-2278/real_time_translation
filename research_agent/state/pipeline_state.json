@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "REFLECT",
-  "cycle": 34,
-  "last_updated": "2026-11-22T12:57:23.901661+00:00",
+  "current_state": "SEARCH_PAPERS",
+  "cycle": 35,
+  "last_updated": "2026-11-22T12:58:38.418026+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3341,6 +3341,12 @@
       "to": "REFLECT",
       "at": "2026-11-22T12:57:23.901636+00:00",
       "note": "cycle 97 WRITE_REPORT: Japanese report written covering GENERATE_HYPOTHESES (no new hypotheses from 4 new papers) and the full h-soft-anchor-gate-exempt-utterance-end run/analysis. Advancing to REFLECT."
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-11-22T12:58:38.418001+00:00",
+      "note": "cycle 97 REFLECT -> SEARCH_PAPERS (new cycle 98). Backlog has 2 open slots (3 queued, all env/human-blocked, + 1 proposed needs_human); will check never-cited papers.json entries first (pivot-angle technique) before a fresh WebSearch pass. Added PLAYBOOK.md note on model-retirement/SDK-default drift (gemini-3-flash-preview 404ing) found this cycle."
     }
   ]
 }
