@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 34,
-  "last_updated": "2026-11-22T12:09:51.065626+00:00",
+  "last_updated": "2026-11-22T12:56:08.713190+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3323,6 +3323,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-22T12:09:51.065599+00:00",
       "note": "cycle 97 HUMAN_APPROVAL: no hypotheses with approval unset/needing a fresh decision -- the 4 queued hypotheses already carry approval=approved_by_human from prior cycles, and the 1 proposed hypothesis already carries approval=needs_human and is logged in pending_approval.json (terminal per WAITING_APPROVAL section until a human signal arrives -- not re-attempting that write). Advancing to RUN_EXPERIMENTS since 4 queued hypotheses with approval != needs_human are available."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-22T12:56:08.713159+00:00",
+      "note": "cycle 97: ran h-soft-anchor-gate-exempt-utterance-end live (Gemini-only replay, gemini-3.1-flash-lite fallback). Set status=tested with full result_summary already (analysis done inline with the run given the clean, unambiguous result -- prediction (a) confirmed, major caveat found re: span 69 is_utterance_end=True contradicting the hypothesis's own assumption, prediction (b) underpowered). Advancing through ANALYZE_RESULTS since the analysis is already complete and committed."
     }
   ]
 }
