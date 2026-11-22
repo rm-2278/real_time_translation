@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 34,
-  "last_updated": "2026-11-22T12:56:08.713190+00:00",
+  "last_updated": "2026-11-22T12:56:14.811280+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3329,6 +3329,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-22T12:56:08.713159+00:00",
       "note": "cycle 97: ran h-soft-anchor-gate-exempt-utterance-end live (Gemini-only replay, gemini-3.1-flash-lite fallback). Set status=tested with full result_summary already (analysis done inline with the run given the clean, unambiguous result -- prediction (a) confirmed, major caveat found re: span 69 is_utterance_end=True contradicting the hypothesis's own assumption, prediction (b) underpowered). Advancing through ANALYZE_RESULTS since the analysis is already complete and committed."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-22T12:56:14.811259+00:00",
+      "note": "cycle 97 ANALYZE_RESULTS: analysis already complete (see hypotheses.json result_summary and results.csv row committed in a96507a). No further decomposition needed -- the signal is already clear and the key caveat (span 69 is_utterance_end=True) directly checked against the batch record. Advancing to WRITE_REPORT."
     }
   ]
 }
