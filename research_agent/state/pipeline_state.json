@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 34,
-  "last_updated": "2026-11-22T12:09:34.203341+00:00",
+  "last_updated": "2026-11-22T12:09:51.065626+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3317,6 +3317,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-22T12:09:34.203231+00:00",
       "note": "cycle 97: no new hypotheses from the 4 new papers (all non-actionable or duplicate h-combined-translate-completeness-signal/h-semantic-completeness-gating); backlog stays at 4 queued + 1 proposed(needs_human), under cap. Proceeding to HUMAN_APPROVAL to process the already-approved queued hypotheses."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-22T12:09:51.065599+00:00",
+      "note": "cycle 97 HUMAN_APPROVAL: no hypotheses with approval unset/needing a fresh decision -- the 4 queued hypotheses already carry approval=approved_by_human from prior cycles, and the 1 proposed hypothesis already carries approval=needs_human and is logged in pending_approval.json (terminal per WAITING_APPROVAL section until a human signal arrives -- not re-attempting that write). Advancing to RUN_EXPERIMENTS since 4 queued hypotheses with approval != needs_human are available."
     }
   ]
 }
