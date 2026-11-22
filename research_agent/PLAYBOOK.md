@@ -573,6 +573,31 @@ asyncio.run(main())
   budget-check step, or how a genuinely new or not-yet-checked
   hypothesis's environment needs are verified (those are still checked
   fresh every time, per the rest of this section).
+  **A queued hypothesis can also be blocked by model retirement, not just
+  key/network reachability** (found cycle 97, 2026-11-22,
+  h-soft-anchor-gate-exempt-utterance-end): the soft-anchor-gate replay
+  line's scripts all read `src_models["llm_model"]` from an old source
+  experiment JSON and reuse that exact model name (gemini-3-flash-preview,
+  still in use as recently as cycle ~74/20261030). As of this cycle that
+  name 404s through the google-genai SDK ("not found for API version v1")
+  even though `ListModels` still lists it and a raw v1beta REST call can
+  still reach it directly -- an SDK-default-API-version / model-retirement
+  drift, distinct from the Deepgram-WS/OpenAI network blocks above (this is
+  model availability, not reachability or auth). Before trusting an old
+  replay script's recorded model name, smoke-test it with one cheap call
+  first; if it fails, fall back to `config.gemini_model` (the repo's own
+  current default, already what `translation_fidelity_judge.judge()`
+  hardcodes) applied UNIFORMLY across every condition in that run -- not
+  just the one that happened to trip the error -- so the within-run A/B
+  comparison stays valid. Record both the original and actual model names
+  in the output JSON (e.g. `models.llm_model` vs.
+  `models.llm_model_original_in_source`) and flag plainly in
+  `result_summary` that this breaks direct numeric comparability to that
+  hypothesis line's own historical absolute metrics (NE, fidelity, etc.),
+  same as any other config-mismatch confound per this section's existing
+  discipline -- it does NOT block the experiment outright the way a
+  network/auth failure does, so don't treat it as an environment blocker to
+  skip past; just substitute the model and keep going.
   If any of these fail (this can legitimately happen -- e.g. a cloud
   sandbox where secrets haven't been provisioned yet, a fresh
   environment without ffmpeg, or -- distinct from a missing/bad key --

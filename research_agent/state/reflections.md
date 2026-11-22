@@ -6404,3 +6404,84 @@ now-twice-updated `caal_decomposition.csv` numbers before being pursued)
 remains available as a non-literature-grounded $0 candidate if the search
 doesn't turn up anything better -- but four cycles is long enough that a
 fresh pass is overdue on its own terms, not just as a fallback.
+
+## Cycle 97 (2026-11-22, scheduled session)
+
+**What worked:** The GENERATE_HYPOTHESES cross-check caught a real duplicate
+before any work was wasted on it -- streamuni2025's one portable idea (CoT
+completeness reasoning folded into the translation call) turned out to be
+exactly what h-combined-translate-completeness-signal already implemented
+and tested. Writing a new hypothesis for it would have been a near-total
+repeat. Checking relevant_to/grounded_in against the actual hypothesis
+corpus before writing new text, not just skimming paper summaries, is doing
+its job.
+
+The bigger win this cycle: h-soft-anchor-gate-exempt-utterance-end's own
+description explicitly flagged "span 69... is_utterance_end=False... verify
+this directly against the span's own batch record before relying on it" --
+and when actually checked against this run's own data, it was TRUE, not
+False. The hypothesis's central premise (exempting is_utterance_end batches
+preserves protection on the flagship disfluency-hallucination case) was
+backwards. This is the playbook's "verify empirically, don't reason
+abstractly" rule working exactly as intended -- the hypothesis author
+(a past cycle of this same agent lineage) correctly flagged the risk in
+advance, and this cycle's verification step caught it before the result
+got written up wrong. Worth noting as a positive case alongside the five
+dated failure instances already in GENERATE_HYPOTHESES/ANALYZE_RESULTS --
+the discipline isn't just catching past mistakes, it's catching a
+self-flagged uncertainty before it becomes one.
+
+**What didn't go smoothly:** gemini-3-flash-preview (the model every prior
+script in the soft-anchor-gate line used, including one as recent as cycle
+~74/20261030) now 404s through this environment's google-genai SDK ("not
+found for API version v1"), while still being listed by ListModels and
+reachable via a raw v1beta REST call -- an SDK-default-API-version /
+model-retirement issue, not a key or reachability problem. Worked around it
+with an automatic fallback to config.gemini_model (gemini-3.1-flash-lite,
+already judge()'s own hardcoded model) applied uniformly to all 4
+conditions in the same run, so the internal A/B stayed valid; flagged
+clearly that this breaks direct comparability to this hypothesis line's
+own historical absolute NE numbers. Added a note to PLAYBOOK.md's
+RUN_EXPERIMENTS section about this since it will very likely recur the next
+time an old script's hardcoded/recorded model name gets retired -- this is
+a new, distinct environment-drift category from the already-documented
+Deepgram-WS/OpenAI network blocks (a model-availability drift, not a
+network/auth one), worth a fresh live check whenever resuming an old
+replay script rather than assuming it still works.
+
+**Backlog calibration:** Entered the cycle at 4 queued + 1 proposed (5).
+Added 0 new hypotheses (correctly -- none of the 4 new papers offered a
+genuinely untested angle). Closed out h-soft-anchor-gate-exempt-utterance-end
+(tested, not adopted) via a live run this same session. Ending backlog:
+3 queued (all environment/human-blocked: OpenAI, Deepgram-WS, human viewing
+time) + 1 proposed (needs_human, terminal) = 4, two slots under the cap.
+Well-calibrated -- this cycle correctly prioritized processing an existing
+runnable hypothesis over padding the backlog with speculative new ones from
+thin literature.
+
+**Budget policy:** $0.35 spent this cycle (2728 Gemini-only calls), well
+within both caps. No change proposed.
+
+**Should this playbook itself change?** Yes -- added a RUN_EXPERIMENTS note
+(model-retirement/SDK-default drift, parallel to the existing Deepgram-WS/
+OpenAI network-block notes) documenting the gemini-3-flash-preview 404 and
+the fallback pattern (test the source JSON's own llm_model with one cheap
+call before committing to it; fall back to config.gemini_model uniformly
+across every condition in the run if it fails; record both the original
+and actual model names in the output JSON). This is a distinct, reusable
+failure mode from the already-documented network/auth blockers and deserves
+its own note so a future cycle resuming any of this repo's many
+gemini-3-flash-preview-era replay scripts doesn't have to rediscover it.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new cycle). The last
+literature pass was this cycle's own (cycle 97), so a fresh search isn't
+overdue yet -- but the backlog now has 2 open slots and 3/4 of the current
+queue is environment/human-blocked, so building up a couple of fresh,
+hopefully-runnable hypotheses (ideally $0 retroactive ones, per the
+standing preference) is worth prioritizing over immediately re-searching.
+Decided to still start at SEARCH_PAPERS rather than jumping straight to
+GENERATE_HYPOTHESES, since literature grounding has produced this cycle's
+most substantive finding (the StreamUni/h-combined-translate-completeness-
+signal duplicate check) and the existing paper base's never-cited list is
+worth a quick check first (the "mine never-cited papers" pivot-angle
+technique) before deciding a fresh WebSearch pass is or isn't needed.
