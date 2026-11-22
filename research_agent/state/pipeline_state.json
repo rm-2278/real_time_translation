@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 34,
-  "last_updated": "2026-11-21T12:09:53.555646+00:00",
+  "last_updated": "2026-11-22T00:08:44.638415+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3305,6 +3305,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-21T12:09:53.555617+00:00",
       "note": "Extracted claims for 4 cycle-97 stubs (reina2026-entropy-information-loss-simulst, streamuni2025-unified-speechllm-streaming, deepl-slator-caption-churn-2026, smallest-ai-streaming-asr-comparison-2026) via WebSearch-abstract fallback (arxiv.org/deepl.com/smallest.ai WebFetch all ENOTFOUND this session). All 4 now status=extracted."
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-22T00:08:44.638388+00:00",
+      "note": "READ_PAPERS cycle 97: wrote summary/key_findings for reina2026-entropy-information-loss-simulst, streamuni2025-unified-speechllm-streaming, deepl-slator-caption-churn-2026, smallest-ai-streaming-asr-comparison-2026 (all now status=read). Cross-referenced against experiments/results.csv, experiments/*.json filenames, and git log -- none of the 4 papers' specific angles are already tested (log-prob entropy gating not reproducible via this repo's HTTP-only LLM client; vendor caption-churn/ASR benchmarks are field studies, not directly retestable). Backlog currently 4 queued + 1 proposed(needs_human) -- at the cap, so GENERATE_HYPOTHESES should prioritize processing h-judge-repeat-independent-batches-corrected-design's needs_human status check (still blocked per WAITING_APPROVAL rules) over adding new hypotheses unless a slot frees up."
     }
   ]
 }
