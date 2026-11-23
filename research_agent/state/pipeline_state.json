@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 36,
-  "last_updated": "2026-11-23T12:12:09.927404+00:00",
+  "last_updated": "2026-11-23T12:13:07.444704+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3431,6 +3431,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-23T12:12:09.927368+00:00",
       "note": "cycle 99: all hypotheses needing approval already resolved (4 queued/approved, 1 proposed/needs_human terminal per WAITING_APPROVAL rule) -- nothing new to decide"
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-23T12:13:07.444668+00:00",
+      "note": "cycle 99: pass-through, nothing to analyze, all queued hypotheses blocked in RUN_EXPERIMENTS"
     }
   ]
 }
