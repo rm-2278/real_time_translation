@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 35,
-  "last_updated": "2026-11-23T00:11:44.594283+00:00",
+  "last_updated": "2026-11-23T00:13:42.748258+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3365,6 +3365,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-23T00:11:44.594253+00:00",
       "note": "cycle 98: 3 papers read; domainknowledge2025 is a genuinely new, concretely testable angle (demonstration/retrieval-based domain prompting vs this repo's terminology-only dictionary.csv), grammamt2024/manyshot2026 downgraded to background-only (low-resource regime mismatch)"
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-23T00:13:42.748222+00:00",
+      "note": "cycle 98: 1 new hypothesis added (h-dictionary-demonstration-augmented-prompt), backlog now 5/6 queued+proposed"
     }
   ]
 }
