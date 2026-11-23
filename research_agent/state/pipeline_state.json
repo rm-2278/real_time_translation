@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "READ_PAPERS",
+  "current_state": "GENERATE_HYPOTHESES",
   "cycle": 35,
-  "last_updated": "2026-11-23T00:11:07.174691+00:00",
+  "last_updated": "2026-11-23T00:11:44.594283+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3359,6 +3359,12 @@
       "to": "READ_PAPERS",
       "at": "2026-11-23T00:11:07.174662+00:00",
       "note": "cycle 98: extracted claims for 3 new stubs via WebSearch fallback (arxiv.org blocked); verified domainknowledge2025's retrieval-vs-generation angle is genuinely untested against experiments/"
+    },
+    {
+      "from": "READ_PAPERS",
+      "to": "GENERATE_HYPOTHESES",
+      "at": "2026-11-23T00:11:44.594253+00:00",
+      "note": "cycle 98: 3 papers read; domainknowledge2025 is a genuinely new, concretely testable angle (demonstration/retrieval-based domain prompting vs this repo's terminology-only dictionary.csv), grammamt2024/manyshot2026 downgraded to background-only (low-resource regime mismatch)"
     }
   ]
 }
