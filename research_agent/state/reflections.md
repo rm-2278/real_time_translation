@@ -6485,3 +6485,93 @@ most substantive finding (the StreamUni/h-combined-translate-completeness-
 signal duplicate check) and the existing paper base's never-cited list is
 worth a quick check first (the "mine never-cited papers" pivot-angle
 technique) before deciding a fresh WebSearch pass is or isn't needed.
+
+## Cycle 98 (2026-11-23, scheduled session)
+
+**What worked:** A genuinely productive literature cycle despite most WebSearch
+hits turning out to be already-known. Checking every candidate's exact URL
+(not just title) against `papers.json` before adding a stub caught that
+essentially all cascade-vs-e2e, flicker-policy, and vendor-ASR-latency
+candidates this cycle's searches surfaced were already present under
+existing ids -- a direct, concrete confirmation of cycle 97's own guess that
+the paper base is now broad enough that fresh search increasingly returns
+rediscoveries rather than new material, at least for those three gap areas.
+The LLM-as-MT-prompting gap area was the exception and paid off: reading
+`domainknowledge2025-retrieval-vs-generation-inference` in full (not just its
+abstract snippet) surfaced a concrete, directly-applicable finding
+(demonstrations+retrieval beat terminology+generation for LLM translation
+domain knowledge) that maps cleanly onto a specific, already-confirmed defect
+in this repo's own code (`dictionary.py`'s terminology-only
+`format_for_prompt()`, and the 20/133 "attention" leak rate
+`h-dictionary-term-compliance-leakage` found at cycle 74). Writing
+`h-dictionary-demonstration-augmented-prompt` directly against that existing
+leak evidence, rather than inventing a fresh untested angle from scratch, is
+a stronger hypothesis than a purely literature-driven guess would have been --
+worth remembering as a reusable move: when a new paper's finding has a
+LEGIBLE, ALREADY-INSTRUMENTED analogue in this repo's own prior hypothesis
+results, ground the new hypothesis in that existing result, not just the
+paper.
+
+**What didn't:** Zero live experiments ran this cycle, the same outcome as
+most recent cycles. This is now a long-running structural fact, not a new
+finding -- both long-documented network blocks (Deepgram listen-websocket
+upgrade-mangling since cycle 5, api.openai.com CONNECT-rejection since cycle
+72) reproduced with the identical signature as every prior check, confirmed
+fresh this cycle rather than reused from cache for two different reasons:
+(1) this session's own proxy-injected-credentials notice explicitly named
+`api.deepgram.com` as newly allowed, the same kind of concrete
+environment-change signal that justified cycle 93's deviation from the
+reduced-cadence cache-reuse default; (2) the OpenAI pair's last live check
+(cycle 86) was 12 cycles stale, past PLAYBOOK.md's own 10-cycle tripwire. Both
+re-checks came back unchanged. This means every currently-queued hypothesis,
+including the brand-new one written this cycle, is now blocked on the same
+two network issues (or, for `h-continuous-rating-cps-calibration`, on human
+time) -- a new hypothesis cannot outrun an environment blocker just by being
+well-designed if its own protocol needs a live Deepgram ASR run, which this
+one does (no way to test an in-prompt dictionary-formatting change without
+actually running translation against real ASR output). In retrospect, a
+purely-retroactive ($0, no-live-API) hypothesis would have had a better
+chance of actually running this cycle, given the now very long block
+history -- worth weighing more heavily next time a new hypothesis is being
+designed while both network blocks are still active.
+
+**Was the hypothesis backlog well-calibrated?** Entered the cycle at 4
+queued + 1 proposed (needs_human, terminal) = 5/6. Added exactly 1 new
+hypothesis (not the 1-3 the playbook allows), consistent with "prioritize
+depth over breadth" and because only 1 slot was worth filling with a
+genuinely strong, concretely-grounded candidate rather than padding to the
+cap with weaker ones from the two background-only papers (`grammamt2024`,
+`manyshot2026`) also read this cycle. Ending backlog: 5 queued/proposed, 1
+slot under cap -- correct not to add a second one just to use the slot, per
+the same discipline cycle 97 and earlier cycles already established. All 5
+are now environment/human-blocked, which is an increasingly uncomfortable
+backlog shape (100% blocked) but not a hypothesis-generation-quality
+problem -- the ideas are fine, the sandbox's own network policy is the
+bottleneck.
+
+**Budget policy:** $0.00 spent this cycle (no live API calls succeeded). No
+change proposed.
+
+**Should this playbook itself change?** No edit made this cycle. One
+observation worth flagging for a future REFLECT to actually act on if it
+keeps recurring: with 5/5 of the current backlog now blocked and the new
+hypothesis added this cycle also landing in the blocked bucket immediately,
+a future GENERATE_HYPOTHESES pass should weight $0 retroactive-analysis
+hypotheses even more heavily than the playbook's existing "cheapest first"
+preference already implies, specifically when both long-standing network
+blocks are still unresolved at hypothesis-design time -- not a playbook rule
+change yet, just a judgment call to apply more consistently next time a
+network-requiring vs. retroactive-analysis hypothesis choice comes up during
+GENERATE_HYPOTHESES itself (as opposed to RUN_EXPERIMENTS, where this
+tradeoff is already explicit).
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new cycle). The
+LLM-as-MT-prompting literature thread just opened by `domainknowledge2025`
+this cycle is worth a brief continued look (e.g. whether either paper's
+related-work/citations point to a follow-up with an even more directly
+testable mechanism) before defaulting straight to GENERATE_HYPOTHESES, but
+given this cycle's own finding that the other three gap areas are now mostly
+saturated, a future session should feel free to lean on the never-cited-paper
+mining technique instead if a quick targeted search doesn't turn up anything
+new. `pipeline_state.json`'s own `cycle` JSON counter increments on this
+transition per its usual rule.
