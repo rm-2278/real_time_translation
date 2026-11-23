@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-22",
-  "spent_today_usd": 0.35,
+  "date": "2026-11-23",
+  "spent_today_usd": 0.0,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
   "total_spent_usd": 4.27,
@@ -359,6 +359,11 @@
       "at": "2026-11-22T12:55:02.248848+00:00",
       "amount_usd": 0.35,
       "note": "h-soft-anchor-gate-exempt-utterance-end: soft_anchor_gate_exempt_utterance_end_replay.py, 2728 total calls (1944 translate + 784 judge, gemini-3.1-flash-lite fallback -- see experiment JSON's model note) across both existing source experiments, zero new Deepgram spend (replay of already-recorded source deltas). Estimated by scaling against cycle 20/21's measured ~2046-call/$0.35-0.40 rate (similar call count, cheaper flash-lite model roughly offsetting the slightly higher count)."
+    },
+    {
+      "at": "2026-11-23T00:16:12.758027+00:00",
+      "amount_usd": 0.0,
+      "note": "cycle 98: all 4 queued hypotheses blocked (Deepgram WS upgrade HTTP 400, OpenAI CONNECT 403, human viewing time), zero live API calls, no experiment run"
     }
   ]
 }
