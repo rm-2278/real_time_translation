@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "ANALYZE_RESULTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 36,
-  "last_updated": "2026-11-23T12:13:07.444704+00:00",
+  "last_updated": "2026-11-23T12:13:11.440757+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3437,6 +3437,12 @@
       "to": "ANALYZE_RESULTS",
       "at": "2026-11-23T12:13:07.444668+00:00",
       "note": "cycle 99: pass-through, nothing to analyze, all queued hypotheses blocked in RUN_EXPERIMENTS"
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-23T12:13:11.440735+00:00",
+      "note": "cycle 99: nothing to analyze, pass-through"
     }
   ]
 }
