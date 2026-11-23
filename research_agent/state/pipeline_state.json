@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 35,
-  "last_updated": "2026-11-23T00:10:09.547235+00:00",
+  "last_updated": "2026-11-23T00:11:07.174691+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3353,6 +3353,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-23T00:10:09.547042+00:00",
       "note": "cycle 98: 3 new paper stubs added (grammamt2024, domainknowledge2025-retrieval-vs-generation-inference, manyshot2026-icl-retrieval-lowresource-mt), targeting LLM-as-MT prompting gap; other gap areas already covered by existing 97 entries"
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-23T00:11:07.174662+00:00",
+      "note": "cycle 98: extracted claims for 3 new stubs via WebSearch fallback (arxiv.org blocked); verified domainknowledge2025's retrieval-vs-generation angle is genuinely untested against experiments/"
     }
   ]
 }
