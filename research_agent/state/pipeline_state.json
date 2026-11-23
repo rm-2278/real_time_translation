@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 36,
-  "last_updated": "2026-11-23T12:08:53.022608+00:00",
+  "last_updated": "2026-11-23T12:09:39.508952+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3407,6 +3407,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-23T12:08:53.022575+00:00",
       "note": "cycle 99: 3 new paper stubs found (refine2024-constraint-aware-iterative-dict-rag, dragft2024-dict-rag-finetune-domain-mt, shpigunov2026-unlp-enuk-legal-rag-mt), all continuing the dictionary/domain-RAG prompting thread"
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-23T12:09:39.508903+00:00",
+      "note": "cycle 99: 3 papers extracted via WebSearch fallback (arxiv.org/aclanthology.org WebFetch blocked)"
     }
   ]
 }
