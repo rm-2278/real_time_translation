@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 36,
-  "last_updated": "2026-11-23T00:18:01.969526+00:00",
+  "last_updated": "2026-11-23T12:08:53.022608+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3401,6 +3401,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-23T00:18:01.969494+00:00",
       "note": "cycle 98 REFLECT complete: advancing to new cycle 99, SEARCH_PAPERS (continue LLM-as-MT-prompting thread briefly, else lean on never-cited-paper mining)"
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-23T12:08:53.022575+00:00",
+      "note": "cycle 99: 3 new paper stubs found (refine2024-constraint-aware-iterative-dict-rag, dragft2024-dict-rag-finetune-domain-mt, shpigunov2026-unlp-enuk-legal-rag-mt), all continuing the dictionary/domain-RAG prompting thread"
     }
   ]
 }
