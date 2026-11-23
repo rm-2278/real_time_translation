@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 35,
-  "last_updated": "2026-11-23T00:13:42.748258+00:00",
+  "last_updated": "2026-11-23T00:14:11.553476+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3371,6 +3371,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-23T00:13:42.748222+00:00",
       "note": "cycle 98: 1 new hypothesis added (h-dictionary-demonstration-augmented-prompt), backlog now 5/6 queued+proposed"
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-23T00:14:11.553443+00:00",
+      "note": "cycle 98: 4 hypotheses now queued+approvable (h-judge-cross-model-agreement-check, h-review-short-acronym-keyterm-false-positive, h-continuous-rating-cps-calibration, h-dictionary-demonstration-augmented-prompt); 1 remains needs_human (terminal)"
     }
   ]
 }
