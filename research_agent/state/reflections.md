@@ -6575,3 +6575,84 @@ saturated, a future session should feel free to lean on the never-cited-paper
 mining technique instead if a quick targeted search doesn't turn up anything
 new. `pipeline_state.json`'s own `cycle` JSON counter increments on this
 transition per its usual rule.
+
+## Cycle 99 (2026-11-23, scheduled session)
+
+**What worked / what didn't?** Clean SEARCH_PAPERS -> EXTRACT_PAPERS ->
+READ_PAPERS -> GENERATE_HYPOTHESES -> HUMAN_APPROVAL -> RUN_EXPERIMENTS ->
+ANALYZE_RESULTS -> WRITE_REPORT pass, continuing the dictionary/domain-RAG
+prompting thread cycle 98's own reflection flagged for follow-up. Found 3
+new, genuinely non-duplicate papers (checked every candidate against
+existing papers.json url fields before stubbing, per the cycle-82 lesson):
+refine2024-constraint-aware-iterative-dict-rag (embedding-based dict-entry
+RAG + iterative self-check), dragft2024-dict-rag-finetune-domain-mt
+(dict-rephrasing + RAG + fine-tuning, fine-tuning leg inapplicable here),
+and shpigunov2026-unlp-enuk-legal-rag-mt (corpus-level translation-unit RAG,
+different language pair/domain). arxiv.org/aclanthology.org WebFetch was
+ENOTFOUND again this session (same broad block as every prior cycle since
+14), WebSearch-abstract fallback worked as documented. What didn't fully
+land: none of the three new papers' abstract-level material was concrete
+enough to safely ground a NEW, sufficiently-differentiated hypothesis
+beyond what h-dictionary-demonstration-augmented-prompt (queued since
+cycle 98) already tests -- an isolated ablation of dict-rephrasing alone,
+or of the dictionary-RAG step alone vs. the self-check step alone, wasn't
+available from search snippets for either refine2024 or dragft2024, so
+writing a hypothesis that assumed a specific effect size or mechanism
+split would have violated this playbook's own "verify empirically, don't
+reason abstractly" discipline. Chose not to force a weaker hypothesis just
+to fill the one open backlog slot.
+
+**Was the hypothesis backlog well-calibrated?** Entered and left the cycle
+at 4 queued + 1 proposed (needs_human, terminal) = 5/6, unchanged -- zero
+new hypotheses added this cycle. This is now the SECOND consecutive cycle
+(98, 99) where the entire backlog sits 100% environment/human-blocked
+(Deepgram WS upgrade-mangling since cycle 5, OpenAI CONNECT-rejection
+since cycle 72, one genuine human-time blocker). Cycle 98's own reflection
+explicitly flagged that a future GENERATE_HYPOTHESES pass should weight $0
+retroactive-analysis hypotheses more heavily given this exact situation --
+that flag was NOT acted on this cycle: I considered one concrete
+candidate (checking whether this repo's own with-dict-vs-without-dict pair,
+experiments/20260724_llm2024_8_part1_full.json vs
+..._baseline_no_dict.json, shows the same BLEU-beats-COMET-style asymmetry
+dragft2024 reports) but found both JSONs' chrf_score/xcomet_score fields
+are null, so that specific retroactive angle needs a scoring step run
+first (not itself free of design questions -- e.g. no reference JA
+translation is committed for computing chrF against) and I judged it
+out of scope to design and execute within this cycle's remaining budget
+rather than rush it. Flagging again, more concretely this time: a
+genuinely promising $0 retroactive-analysis candidate for a near-future
+cycle is "compute reference-based scores (chrF via sacrebleu, which is
+already a project dependency per pyproject.toml -- confirm before
+assuming) for the existing llm2024_8_part1_full/baseline_no_dict pair,
+if a usable JA reference transcript can be sourced or constructed, and
+check whether the lexical (chrF) vs semantic (judge/COMET-style) metrics
+diverge the way dragft2024 reports" -- concrete enough to attempt directly
+next time instead of writing it up as a hypothesis first.
+
+**Budget policy:** $0.00 spent this cycle (no live API calls attempted,
+consistent with reusing cached reachability results per the reduced-cadence
+clause rather than re-probing). No change proposed.
+
+**Should this playbook itself change?** No edit made this cycle. The
+reduced-cadence clause (cycle 86) worked exactly as designed this cycle --
+both long-blocked (host, check-type) pairs were within their respective
+re-check windows (Deepgram WS: last live-checked cycle 98, 1 cycle prior;
+OpenAI: last live-checked cycle 93, 6 cycles prior), so this cycle reused
+cached results with no live probe at all, which is the intended behavior
+and saved a cycle's worth of redundant network calls. One judgment-level
+observation, not a playbook defect: cycle 98's reflection already named
+the right priority (favor $0 hypotheses while the backlog is blocked) but
+that alone wasn't enough to produce one this cycle, because "prefer $0
+hypotheses" is a preference ordering over candidates that exist, not a
+prompt to go looking for one when the literature search didn't surface a
+qualifying candidate. Worth being more deliberate about next time: treat
+"search existing experiments/*.json for an unexploited retroactive
+analysis angle" as its own explicit sub-step within GENERATE_HYPOTHESES,
+independent of what SEARCH_PAPERS happened to turn up that cycle, rather
+than only reaching for one if a paper happens to suggest it. Not changing
+the file's text over a single cycle's miss, but flagging it for a third
+occurrence.
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new cycle).
+`pipeline_state.json`'s own `cycle` JSON counter increments on this
+transition per its usual rule.
