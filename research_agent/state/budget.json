@@ -364,6 +364,11 @@
       "at": "2026-11-23T00:16:12.758027+00:00",
       "amount_usd": 0.0,
       "note": "cycle 98: all 4 queued hypotheses blocked (Deepgram WS upgrade HTTP 400, OpenAI CONNECT 403, human viewing time), zero live API calls, no experiment run"
+    },
+    {
+      "at": "2026-11-23T12:13:01.943211+00:00",
+      "amount_usd": 0.0,
+      "note": "cycle 99: all 4 queued hypotheses blocked (Deepgram WS upgrade HTTP 400, OpenAI CONNECT 403, human viewing time), zero live API calls, no experiment run (reused cached reachability per reduced-cadence clause)"
     }
   ]
 }
