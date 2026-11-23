@@ -2226,10 +2226,18 @@
       "venue": "arXiv:2411.08348",
       "url": "https://arxiv.org/abs/2411.08348",
       "source": "websearch",
-      "status": "extracted",
-      "summary": "",
-      "key_findings": [],
-      "relevant_to": [],
+      "status": "read",
+      "summary": "Proposes a two-stage LLM translation pipeline: (1) extract keywords from the source sentence and retrieve their translations from a bilingual dictionary via embedding-based nearest-neighbor RAG, injecting them into the prompt, then (2) an iterative self-checking/revision pass where the LLM checks its own draft against the retrieved lexical+semantic constraints and revises. Tested on Llama/Qwen base models over FLORES-200 and WMT, reporting gains over non-dictionary baselines concentrated in faithfulness/robustness and low-resource settings. Exact numeric deltas were not recoverable via the WebSearch-abstract fallback used this cycle (arxiv.org WebFetch blocked) -- full-PDF access would be needed to cite specific BLEU/COMET numbers.",
+      "key_findings": [
+        "Keyword-level dictionary RAG (embedding nearest-neighbor retrieval, not a static lookup table) outperforms a no-dictionary baseline, concentrated in faithfulness/robustness metrics and low-resource language pairs.",
+        "Adds an iterative self-checking/revision step on top of dictionary-augmented prompting, specifically to counter hallucination risk introduced by longer, constraint-heavy prompts -- a mechanism this repo's single-pass terminology injection does not have.",
+        "Relevant to this repo's dictionary.py/DICTIONARY_PATH mechanism as a second, complementary angle beyond h-dictionary-demonstration-augmented-prompt (already queued): embedding-based retrieval of the *dictionary entry itself* (vs. a fixed static glossary lookup), plus a revision pass, rather than a single hand-picked demonstration sentence.",
+        "CAVEAT: no isolated ablation of the dictionary-RAG step alone (vs. the self-checking step alone) was found in the abstract-level material -- would need the full paper to know how much of the reported gain is attributable to which half of the two-stage pipeline."
+      ],
+      "relevant_to": [
+        "LLM translation prompt design",
+        "h-dictionary-demonstration-augmented-prompt"
+      ],
       "_found_note_cycle99": "Found via SEARCH_PAPERS cycle 99 WebSearch continuing the LLM-as-MT-prompting/domain-knowledge thread cycle 98's reflection flagged for follow-up (domainknowledge2025, grammamt2024). Per search snippet: extracts keywords from the source sentence, looks up each one's translation via nearest-neighbor search in a bilingual dictionary's embedding space, feeds the result into the LLM prompt via RAG, then does iterative constraint-aware revision passes. Directly relevant to this repo's own dictionary.csv glossary-injection mechanism -- a concrete alternative/extension to a static glossary lookup (embedding-based nearest-neighbor retrieval + iterative revision) worth comparing against this repo's current prompting approach once read in full. Checked every existing papers.json url field (grep '2411.08348') -- not already present. Not yet read in full.",
       "_extract_note_cycle99": "EXTRACT_PAPERS cycle 99: arxiv.org WebFetch getaddrinfo ENOTFOUND (host not resolvable in this session, same EGRESS_BLOCKED class as cycle 14's note), used WebSearch-abstract fallback; method=websearch. Concrete claims: extracts keywords from the source sentence, retrieves their translations from a bilingual dictionary via RAG, integrates them into the sentence, then runs an iterative self-checking/revision step where the LLM checks its own output against lexical+semantic constraints to reduce hallucination from long/constraint-heavy prompts. Tested on Llama and Qwen base models over FLORES-200 and WMT datasets; reports gains over baselines especially for faithfulness/robustness and in low-resource settings -- exact numeric deltas not found in search snippets, would need full-PDF access to cite specific BLEU/COMET numbers."
     },
@@ -2241,10 +2249,17 @@
       "venue": "arXiv:2402.15061 (v2 Dec 2024)",
       "url": "https://arxiv.org/abs/2402.15061",
       "source": "websearch",
-      "status": "extracted",
-      "summary": "",
-      "key_findings": [],
-      "relevant_to": [],
+      "status": "read",
+      "summary": "DragFT combines three techniques for domain-specific LLM translation: dictionary-enhanced prompting (dict-rephrasing: rewriting the source sentence by substituting in target-language domain terms before translation, rather than appending a glossary list), RAG-based few-shot example retrieval from a domain corpus, and fine-tuning on the retrieved examples. Evaluated with BLEU and COMET across IT/Law/Medical domains (Chinese-English / German-English), reporting it beats GPT-3.5/GPT-4o on these domain sets, with BLEU improving notably more than COMET -- attributed to better handling of domain terminology specifically (a surface-form-sensitive metric moving more than a semantics-sensitive one).",
+      "key_findings": [
+        "Dict-rephrasing (substituting domain terms directly into the source sentence pre-translation) is a different mechanism from this repo's current approach (appending a terminology list to the system prompt via dictionary.py.format_for_prompt()) -- a source-side rewrite rather than a prompt-side hint.",
+        "BLEU improves more than COMET from the dictionary component, i.e. lexical/terminology-surface accuracy gains outpace semantic-fidelity gains -- a pattern worth checking for in this repo's own with-dict-vs-without-dict comparison (experiments/20260724_llm2024_8_part1_full.json vs ..._baseline_no_dict.json) if/when a reference-based score (chrF/xCOMET, both currently null in those two JSONs' metrics block) is computed for that pair.",
+        "The fine-tuning leg is NOT usable in this repo's API-only architecture (no self-hosted model access) -- same constraint that already ruled out exposst2026/sasst2026 per this playbook's never-cited-paper-mining caveat. Only the dict-rephrasing prompting piece is plausibly testable here.",
+        "No isolated ablation of dict-rephrasing alone (without RAG examples or fine-tuning) was found in the abstract-level material -- the reported BLEU/COMET gap is for the full three-part pipeline, not the prompting-only piece this repo could actually test. A partial table snippet (~45.64 BLEU/~85.55 COMET for Llama2-13B on IT) surfaced in search results but is UNVERIFIED against the full paper and should not be cited as a clean number."
+      ],
+      "relevant_to": [
+        "LLM translation prompt design"
+      ],
       "_found_note_cycle99": "Found via SEARCH_PAPERS cycle 99 WebSearch, same pass as refine2024-constraint-aware-iterative-dict-rag above. Per search snippets: three-part framework (dictionary-enhanced prompting that rephrases the source sentence by swapping in target-language domain terms, RAG-based few-shot example retrieval from a domain corpus, and fine-tuning on those retrieved examples). CAVEAT flagged at found-time, to verify during EXTRACT_PAPERS/READ_PAPERS: the fine-tuning component is not usable in this repo's API-only architecture (no self-hosted model access, same constraint that already ruled out exposst2026/sasst2026 per this playbook's never-cited-paper-mining caveat) -- only the dictionary-enhanced-prompting (dict-rephrasing) piece is plausibly testable here; confirm this when reading in full rather than assuming the whole framework transfers. Checked every existing papers.json url field (grep '2402.15061') -- not already present.",
       "_extract_note_cycle99": "EXTRACT_PAPERS cycle 99: arxiv.org WebFetch getaddrinfo ENOTFOUND, used WebSearch-abstract fallback; method=websearch. Concrete claims: three-part framework (dict-enhanced prompting / dict-rephrasing that swaps domain terms into the source sentence's target-language form, RAG-based few-shot example retrieval from a domain corpus, then fine-tuning on retrieved examples). Evaluated with BLEU + COMET across IT/Law/Medical domains; reports DragFT beats GPT-3.5/GPT-4o on these domain sets, and that the BLEU improvement is notably larger than the COMET improvement (attributed to better domain-terminology handling specifically, i.e. a metric that's more terminology-sensitive moves more than one that's more semantics-sensitive). One partial table snippet shows Llama2-13B ~45.64 BLEU / ~85.55 COMET on IT -- UNVERIFIED against the full paper, do not cite as a clean baseline number without reading the source table directly. CAVEAT (per found-time note): the fine-tuning leg isn't usable in this repo's API-only architecture; only the dict-rephrasing prompting piece is plausibly testable here, and it is not isolated from the other two legs in any ablation found via search snippets so far -- would need the full paper's ablation table to know dict-rephrasing's standalone effect size before this is anything more than background."
     },
@@ -2256,10 +2271,18 @@
       "venue": "UNLP 2026 (Fifth Ukrainian NLP Conference)",
       "url": "https://aclanthology.org/2026.unlp-1.1/",
       "source": "websearch",
-      "status": "extracted",
-      "summary": "",
-      "key_findings": [],
-      "relevant_to": [],
+      "status": "read",
+      "summary": "Studies EN->Ukrainian legal/military domain translation using retrieval-augmented generation: a private bilingual corpus (chosen specifically to avoid WMT-style public-test-set contamination in frontier models) is embedded and indexed in Qdrant, and semantically-similar translation UNITS (not single terms) are retrieved via cosine similarity and fed as in-context examples to Gemma 3 / Gemini 3 Flash. The central research question is whether a smaller model plus retrieval can match or beat a frontier model given no extra context -- i.e. retrieval as a substitute for raw model scale, not just an incremental accuracy bump.",
+      "key_findings": [
+        "Retrieves whole translation-pair units via embedding similarity from a domain corpus, not single dictionary terms -- a corpus-based retrieval variant, complementary to the term-level dictionary RAG in refine2024-constraint-aware-iterative-dict-rag above and to domainknowledge2025's demonstrations-beat-terminology finding (both lines agree real retrieved examples beat static terminology).",
+        "Different language pair (EN->Ukrainian, not EN->JA) and a different domain (legal/military, not ML/AI lecture content) -- findings are suggestive, not directly transferable evidence for this repo.",
+        "Exact numeric win/loss margins for RAG vs. no-retrieval were not recoverable via the WebSearch-abstract fallback used this cycle (aclanthology.org WebFetch blocked) -- would need full-PDF access.",
+        "UNRESOLVED DISCREPANCY (flag before citing further): a conference table-of-contents snippet lists different authors (Lavreniuk/Mudryi/Chaklosh) for the same title/slot vs. the paper's own first page (Shpigunov alone). Do not silently pick one side without checking the actual PDF if this paper is ever cited in a hypothesis."
+      ],
+      "relevant_to": [
+        "LLM translation prompt design",
+        "h-dictionary-demonstration-augmented-prompt"
+      ],
       "_found_note_cycle99": "Found via SEARCH_PAPERS cycle 99 WebSearch, same pass as the two entries above. EN->Ukrainian legal/military domain translation using RAG: retrieves semantically-similar translation units via vector embeddings from a private bilingual corpus, feeds them to Gemma 3/Gemini 3 Flash as in-context examples; built a custom controlled evaluation framework specifically to avoid WMT-style public test-set contamination. Different language pair (not EN->JA) but same retrieval-augmented-prompting technique family as domainknowledge2025/refine2024-constraint-aware-iterative-dict-rag -- a corpus-based (translation-pair) retrieval variant rather than a glossary/dictionary-based one, useful as a third comparison point for this repo's own dictionary-injection approach once read in full. Checked every existing papers.json url field (grep 'unlp-1.1') -- not already present (unlp2026-holistic-vs-decomposed-scale is a DIFFERENT UNLP 2026 paper, unlp-1.10, already read).",
       "_extract_note_cycle99": "EXTRACT_PAPERS cycle 99: aclanthology.org WebFetch getaddrinfo ENOTFOUND, used WebSearch-abstract fallback; method=websearch. Concrete claims: private EN->Ukrainian legal/military bilingual corpus (deliberately private to avoid WMT-style public test-set contamination in frontier models); semantically-similar translation units retrieved via vector embeddings, indexed in Qdrant, cosine-similarity retrieval, fed as in-context examples to Gemma 3 / Gemini 3 Flash. Core research question: can a smaller model + retrieval match or beat a frontier model given NO extra context -- i.e. the paper's framing is specifically about retrieval substituting for raw model scale, not just an accuracy bump. Exact numeric win/loss margins not found in search snippets, would need full-PDF access to cite. NOTE: a conference table-of-contents snippet lists different authors (Lavreniuk/Mudryi/Chaklosh) for the same title/slot vs. the paper's own first page (Shpigunov alone) -- flagging as an unresolved discrepancy to verify if this paper is ever cited in a hypothesis, not something to silently pick one side of without checking the actual PDF."
     }
