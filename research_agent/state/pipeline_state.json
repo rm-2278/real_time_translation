@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 38,
-  "last_updated": "2026-11-24T00:18:25.202086+00:00",
+  "last_updated": "2026-11-24T12:09:06.924564+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3509,6 +3509,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-24T00:18:25.202055+00:00",
       "note": "cycle 100 -> 101: new cycle. This was a notably productive cycle (first real new live-API experiment run in a long stretch, clean position-bias finding) -- no immediate reason to skip straight to GENERATE_HYPOTHESES"
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-24T12:09:06.924364+00:00",
+      "note": "Cycle 101 SEARCH_PAPERS: WebSearch pass on cycle-100 reflection's recommended angle (judge pairwise position-bias mitigation) plus a general EN-JA/SimulST scan (nothing new, already-known papers only). Added 3 non-duplicate stubs: soumik2026-judging-the-judges-debiasing-factorial (arXiv 2604.23178, factorial bias-mitigation-strategy study), vardasbi2025-spotify-adaptive-repetition-position-bias (arXiv 2507.17788, adaptive early-stopping for position-bias-mitigating repeats), xu2026-pointwise-pairwise-rubric-position-bias (arXiv 2602.02219, balanced-permutation mitigation for rubric-based judge position bias). All ground in h-judge-pairwise-anchored-comparison-sensitivity's cycle-100 severe-position-bias finding."
     }
   ]
 }
