@@ -2285,6 +2285,52 @@
       ],
       "_found_note_cycle99": "Found via SEARCH_PAPERS cycle 99 WebSearch, same pass as the two entries above. EN->Ukrainian legal/military domain translation using RAG: retrieves semantically-similar translation units via vector embeddings from a private bilingual corpus, feeds them to Gemma 3/Gemini 3 Flash as in-context examples; built a custom controlled evaluation framework specifically to avoid WMT-style public test-set contamination. Different language pair (not EN->JA) but same retrieval-augmented-prompting technique family as domainknowledge2025/refine2024-constraint-aware-iterative-dict-rag -- a corpus-based (translation-pair) retrieval variant rather than a glossary/dictionary-based one, useful as a third comparison point for this repo's own dictionary-injection approach once read in full. Checked every existing papers.json url field (grep 'unlp-1.1') -- not already present (unlp2026-holistic-vs-decomposed-scale is a DIFFERENT UNLP 2026 paper, unlp-1.10, already read).",
       "_extract_note_cycle99": "EXTRACT_PAPERS cycle 99: aclanthology.org WebFetch getaddrinfo ENOTFOUND, used WebSearch-abstract fallback; method=websearch. Concrete claims: private EN->Ukrainian legal/military bilingual corpus (deliberately private to avoid WMT-style public test-set contamination in frontier models); semantically-similar translation units retrieved via vector embeddings, indexed in Qdrant, cosine-similarity retrieval, fed as in-context examples to Gemma 3 / Gemini 3 Flash. Core research question: can a smaller model + retrieval match or beat a frontier model given NO extra context -- i.e. the paper's framing is specifically about retrieval substituting for raw model scale, not just an accuracy bump. Exact numeric win/loss margins not found in search snippets, would need full-PDF access to cite. NOTE: a conference table-of-contents snippet lists different authors (Lavreniuk/Mudryi/Chaklosh) for the same title/slot vs. the paper's own first page (Shpigunov alone) -- flagging as an unresolved discrepancy to verify if this paper is ever cited in a hypothesis, not something to silently pick one side of without checking the actual PDF."
+    },
+    {
+      "id": "rate2026-beyond-literal-mapping-nontransliteval",
+      "title": "Beyond Literal Mapping: Benchmarking and Improving Non-Literal Translation Evaluation",
+      "authors": "Yanzhi Tian, Cunxiang Wang, Zeming Liu, Heyan Huang, Wenbo Yu, Dawei Song, Jie Tang, Yuhang Guo",
+      "year": 2026,
+      "venue": "ACL 2026 (Main, Anthology 2026.acl-long.205)",
+      "url": "https://arxiv.org/abs/2601.07338",
+      "source": "websearch",
+      "status": "found",
+      "_found_note_cycle100": "Found via SEARCH_PAPERS cycle 100 WebSearch (LLM-as-judge MT evaluation reliability angle). Introduces MENT, a 7,530-item human-annotated meta-evaluation dataset for non-literal (idiom/metaphor/culture-bound) translation, and RATE (Reflective Agentic Translation Evaluation): a multi-agent judge with a Core Agent orchestrating an Evaluation sub-agent (pointwise scoring), a Search sub-agent (online knowledge retrieval for culture-bound references), and a Comparison sub-agent (pairwise calibration). Reports LLM-as-judge generally beats traditional metrics but suffers static-knowledge-cutoff and score-inconsistency problems that RATE's search+calibration steps are meant to address. Directly relevant to this repo's own judge-reliability hypothesis thread (h-judge-cross-gemini-model-agreement-check, h-judge-noise-repeats-power-check, etc.) as a potential external validation angle or inspiration for a cheaper single-agent mitigation (e.g. adding a calibration/search step to translation_fidelity_judge.judge()). Checked papers.json url field for arxiv.org/2601.07338 and aclanthology.org/2026.acl-long.205 -- not already present.",
+      "relevant_to": [
+        "judge reliability / LLM-as-judge noise",
+        "h-judge-cross-gemini-model-agreement-check",
+        "h-judge-noise-repeats-power-check"
+      ]
+    },
+    {
+      "id": "jptlbench2026-anchored-pairwise-ja-en",
+      "title": "JP-TL-Bench: Anchored Pairwise LLM Evaluation for Bidirectional Japanese-English Translation",
+      "authors": "Leonard Lin, Adam Lensenmayer (Shisa.AI)",
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "url": "https://arxiv.org/abs/2601.00223",
+      "source": "websearch",
+      "status": "found",
+      "_found_note_cycle100": "Found via SEARCH_PAPERS cycle 100 WebSearch (EN<->JA translation evaluation angle, this repo's own language pair). 70-item EN->JA / JA->EN benchmark (Easy/Hard tiers covering register, ambiguity, cultural adaptation, terminology) evaluated by pairwise comparison against a FIXED, versioned anchor set (~1400 comparisons per candidate: 70 items x 20 anchors), aggregated via a Bradley-Terry model into win rates + a normalized 0-10 logistic-transform score. Explicitly positions itself as a dev-time-iteration complement to llm-jp-eval, not a replacement, and notes BLEU/COMET lose discriminative power at high quality levels -- same motivation as this repo's own move toward judge()-based fidelity scoring over chrF alone. Potentially relevant as a methodology template (anchored pairwise + Bradley-Terry) for stabilizing this repo's own judge-noise problem (cycle 19-21's reflections.md thread), rather than as a direct EN->JA data source (its domain -- general register/culture/terminology items -- differs from this repo's ML-lecture-domain clips). Checked papers.json for arxiv.org/2601.00223 -- not already present.",
+      "relevant_to": [
+        "EN->JA translation evaluation methodology",
+        "judge reliability / LLM-as-judge noise"
+      ]
+    },
+    {
+      "id": "wat2026-patent-claims-task2-findings",
+      "title": "Findings of the 2nd Patent Claims Translation/Evaluation Task at WAT 2026",
+      "authors": "Toshiaki Nakazawa, Shohei Tsunakawa, Isao Goto, Katsuhito Sudoh, Shoichi Okuyama, Takashi Ieda, Masaaki Nagata",
+      "year": 2026,
+      "venue": "WAT 2026 (13th Workshop on Asian Translation, Anthology 2026.wat-1.11)",
+      "url": "https://aclanthology.org/2026.wat-1.11/",
+      "source": "websearch",
+      "status": "found",
+      "_found_note_cycle100": "Found via SEARCH_PAPERS cycle 100 WebSearch (EN<->JA quality evaluation angle). Second-year shared task: participants annotate MT error spans/categories/severities plus a holistic quality score for EN->JA and JA->EN patent-claim translations (long, single-sentence, terminologically demanding -- a small error can change legal scope); 3 teams submitted. First-year findings (carried forward) already established that reference-free automatic metrics correlate poorly with human judgment in this domain -- a cautionary data point for this repo's own reliance on an LLM judge as a reference-free fidelity proxy, even though the domain (patent claims vs. ML-lecture speech) differs sharply. A companion paper in the same proceedings (Fu, Utsuro, Nagata) proposes a rubric-based LLM-as-judge method for patent claims that reportedly gets the best human-correlation on the WAT2025 test set -- a possible rubric-design reference if this repo's judge prompt is ever revisited, though not yet read in full. Checked papers.json for aclanthology.org/2026.wat-1.11 -- not already present.",
+      "relevant_to": [
+        "EN->JA translation evaluation methodology",
+        "judge reliability / LLM-as-judge noise"
+      ]
     }
   ],
   "_websearch_note_cycle92": "Cycle 92 SEARCH_PAPERS pass (2026-11-15, scheduled/unattended session): ran 2 WebSearch queries per cycle-91 reflection's suggestion to take one more pass at the caption-display/latency angle and the stability/flicker-policy angle. Query 1 ('live caption display latency reading speed simultaneous translation 2026 arxiv') surfaced karakanta2021-delay-to-display-subtitling (arXiv:2107.08807, pre-2026 but newly found, a distinct display-MODE comparison not duplicating the existing reading-speed-norms/flicker-parameter papers) plus re-confirmed podziubanchuk2026-eacl-estonian-simulst-demo (already in corpus, not re-added) and a vendor latency-budget blog post (not peer-reviewed, not stubbed). Query 2 ('streaming machine translation stability flicker policy 2026 arxiv new method') surfaced ernesti2026-ijcai-deepl-voice-finalize-policy (IJCAI 2026 demo, genuinely new, on the same finalize/stability-policy axis as this repo's soft-anchor line) and re-confirmed zoom2025-self-speculative-retranslation and hoang2026-dynamic-lagging/stable-prefix-dynamic-lagging-2026 (both already in corpus by URL, not re-added -- checked via grep per the cycle-82 dedup rule before stubbing anything). Both new candidates' URLs (arxiv.org/abs/2107.08807, ijcai.org/proceedings/2026/962) were absent from every existing papers.json url field. Did not attempt the never-cited-paper-mining technique this cycle (that is a GENERATE_HYPOTHESES-stage move per PLAYBOOK.md, not a SEARCH_PAPERS one, and the backlog is still at the 6/6 queued+proposed cap -- see hypotheses.json, unchanged since cycle ~86 -- so no new hypothesis writing is due regardless). Advancing to EXTRACT_PAPERS for these 2 new stubs.",
