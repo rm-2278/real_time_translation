@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 37,
-  "last_updated": "2026-11-24T00:12:49.606748+00:00",
+  "last_updated": "2026-11-24T00:13:20.658335+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3479,6 +3479,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-24T00:12:49.606716+00:00",
       "note": "cycle 100: added 1 new hypothesis (h-judge-pairwise-anchored-comparison-sensitivity, $0.01 est, Gemini-only replay, no new Deepgram/OpenAI need); backlog now 4 queued + 2 proposed = 6, at the ~6 cap -- no further new hypotheses this cycle"
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-24T00:13:20.658298+00:00",
+      "note": "cycle 100: 1 new hypothesis auto_approved and queued; backlog now 5 queued + 1 proposed/needs_human (terminal, unchanged). Proceeding to RUN_EXPERIMENTS"
     }
   ]
 }
