@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 37,
-  "last_updated": "2026-11-24T00:10:16.136730+00:00",
+  "last_updated": "2026-11-24T00:12:49.606748+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3473,6 +3473,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-24T00:10:16.136699+00:00",
       "note": "cycle 100: 3 papers read (RATE/MENT agentic judge, JP-TL-Bench anchored-pairwise+Bradley-Terry, WAT2026 patent-claims task2). Cross-referenced against experiments/results.csv's extensive existing judge-noise thread (2026-10-19 through 2026-10-27: reasoning-order, block-order, holistic-vs-decomposed, repeat-count, verbosity-bias, schematic-adherence) -- none of those tried pairwise/anchored comparison or a retrieval-augmented judge, so the anchored-pairwise and search-augmented-judge angles are genuinely untested, not duplicative"
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-24T00:12:49.606716+00:00",
+      "note": "cycle 100: added 1 new hypothesis (h-judge-pairwise-anchored-comparison-sensitivity, $0.01 est, Gemini-only replay, no new Deepgram/OpenAI need); backlog now 4 queued + 2 proposed = 6, at the ~6 cap -- no further new hypotheses this cycle"
     }
   ]
 }
