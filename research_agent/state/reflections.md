@@ -6656,3 +6656,82 @@ occurrence.
 **Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new cycle).
 `pipeline_state.json`'s own `cycle` JSON counter increments on this
 transition per its usual rule.
+
+
+## Cycle 100 (2026-11-24, scheduled session)
+
+**What worked:** Cycle 98's reflection-flagged priority ("favor $0
+retroactive hypotheses while the backlog is blocked") finally paid off in
+a concrete, visible way this cycle: the new paper-grounded hypothesis
+(h-judge-pairwise-anchored-comparison-sensitivity, $0.01, Gemini-only
+replay) was the ONLY queued item that didn't need Deepgram WS or OpenAI,
+so when the RUN_EXPERIMENTS environment check this cycle found
+DEEPGRAM_API_KEY/GOOGLE_API_KEY/OPENAI_API_KEY all actually SET in this
+session for the first time in the pipeline's history, there was something
+runnable to point that environment at immediately. Also notable: the
+result itself was unusually clean for this backlog -- a 20/20 unanimous
+position-bias confound, not another ceiling-effect/underpowered
+inconclusive the way several recent judge-noise checks have landed. Worth
+remembering as a design lesson for future judge-format hypotheses: when
+testing a NEW judge format (not just a prompt tweak to the existing one),
+build the position/order-swap control into the very first run rather
+than as a follow-up, the way this hypothesis did from the start -- it is
+what turned "pairwise is noisy sometimes" into "pairwise is completely
+confounded by slot position for this exact prompt," a much stronger and
+more actionable finding.
+
+**What didn't:** Nothing used this cycle's genuinely novel environment
+state (keys set) for anything beyond the one hypothesis that happened to
+already be designed Gemini-only. The other 3 environment-blocked queued
+hypotheses (OpenAI cross-model check, Deepgram-WS-requiring ASR-only
+runner, Deepgram-WS-requiring dictionary-demonstration full-pipeline run)
+are still exactly as blocked as before -- keys being set did not change
+anything for them, since their blockers are the OpenAI host-level CONNECT
+denial and the Deepgram WS-upgrade-handshake mangling, both independent
+of key presence (now re-confirmed, not just inferred, with real keys
+actually in hand). This was expected going in (PLAYBOOK.md already
+documents the REST/WS-upgrade distinction clearly from cycle 3/5), but
+it's worth being explicit that "keys are now set" is NOT itself cause to
+expect the backlog to start unblocking -- the next thing to actually
+watch for is a change in the WS-upgrade or OpenAI CONNECT signatures
+themselves, not key presence.
+
+**Backlog calibration:** Still well-calibrated at depth over breadth --
+5 queued + 1 proposed/needs_human (terminal) after this cycle's additions
+and one hypothesis moving to tested, within the ~6 cap. The backlog's
+remaining 3 environment-blocked items and 1 human-time-blocked item are
+worth keeping (none should be abandoned -- they are all still genuinely
+testable, just not in this specific sandbox state), not replaced. No
+search-query change recommended; the EN-JA-evaluation and
+judge-reliability angles tried this cycle were productive (found 3 new,
+non-duplicate papers) and are not yet exhausted -- a plausible next-cycle
+search angle is "LLM judge pairwise comparison position bias mitigation"
+directly, now that this cycle's finding makes that a concrete follow-up
+question rather than a speculative one.
+
+**Budget policy:** $0.01 spent this cycle (the first nonzero live-API
+spend in several cycles). No change proposed to the $3/batch, $7/day caps
+-- nowhere close to either.
+
+**Should this playbook itself change?** No edit made this cycle. The
+existing RUN_EXPERIMENTS section's REST-vs-WS-upgrade distinction and its
+environment-setup notes (venv via python3.13, uv pip install -e
+".[experiments]", ruff via a separate uv pip install) all worked exactly
+as written, with no new gap found. The one new fact this cycle
+established -- that API keys being present in the shell environment is
+possible in this pipeline's execution context, not merely hypothetical --
+doesn't change any instruction's correctness, since the playbook already
+treats "keys set" and "host/protocol reachable" as two independently-
+checked things, which is exactly what this cycle needed. Flagging instead
+of editing: if a future cycle finds the Deepgram WS-upgrade or OpenAI
+CONNECT signatures have changed shape (not just re-confirmed identical),
+that would be the moment to also revisit whether any of the 3
+still-queued environment-blocked hypotheses need their required_changes
+re-verified against current code before running (per the cycle-97
+model-retirement lesson: a long-blocked hypothesis's own
+required_changes/scripts may reference something that has since drifted,
+same as an old recorded model name can 404).
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new cycle).
+`pipeline_state.json`'s own `cycle` JSON counter increments on this
+transition per its usual rule.
