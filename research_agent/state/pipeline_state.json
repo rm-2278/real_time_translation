@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "ANALYZE_RESULTS",
   "cycle": 37,
-  "last_updated": "2026-11-24T00:13:20.658335+00:00",
+  "last_updated": "2026-11-24T00:16:12.960933+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3485,6 +3485,12 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-24T00:13:20.658298+00:00",
       "note": "cycle 100: 1 new hypothesis auto_approved and queued; backlog now 5 queued + 1 proposed/needs_human (terminal, unchanged). Proceeding to RUN_EXPERIMENTS"
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-24T00:16:12.960902+00:00",
+      "note": "cycle 100: ran h-judge-pairwise-anchored-comparison-sensitivity (real new Gemini-only experiment); other 4 queued hypotheses re-confirmed blocked (OpenAI CONNECT 403, Deepgram WS upgrade HTTP 400 -- notably DEEPGRAM_API_KEY/GOOGLE_API_KEY/OPENAI_API_KEY were all found SET in this session for the first time in pipeline history, but WS-upgrade mangling and OpenAI host block persist regardless)"
     }
   ]
 }
