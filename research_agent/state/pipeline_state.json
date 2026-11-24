@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 37,
-  "last_updated": "2026-11-23T12:14:49.717840+00:00",
+  "last_updated": "2026-11-24T00:08:51.106409+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3455,6 +3455,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-23T12:14:49.717799+00:00",
       "note": "cycle 99 -> 100: new cycle, no literature-adjacent gap left unexplored this pass"
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-24T00:08:51.106107+00:00",
+      "note": "cycle 100: 3 new paper stubs added (rate2026-beyond-literal-mapping-nontransliteval, jptlbench2026-anchored-pairwise-ja-en, wat2026-patent-claims-task2-findings) -- judge-reliability and EN-JA eval methodology threads; several other candidate searches (streaming stability policy, flicker reduction, cascade-vs-e2e latency) all re-found papers already in papers.json"
     }
   ]
 }
