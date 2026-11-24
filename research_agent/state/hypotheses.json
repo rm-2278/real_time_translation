@@ -1458,8 +1458,8 @@
       "required_changes": "New script src/real_time_translation/experiments/judge_pairwise_comparison.py that: (1) loads the two already-recorded full_translation strings (and their shared source text, reconstructed from results.segments[*].source_text, joined in order) from experiments/20260916_compression_actions_prompt.json's baseline_replay and compression_actions conditions -- no new translation generation, pure replay of already-recorded text; (2) defines a new judge prompt (separate from translation_fidelity_judge.judge(), does not modify that file or its call sites) that presents the source text plus 'Translation A' and 'Translation B' and asks only for a verdict (which retains more source information, or a tie) with brief reasoning, no numeric score, in the production gemini-3.1-flash-lite model used by this backlog's other judge-noise checks; (3) runs N=20 repeats, 10 with compression_actions as 'A'/baseline_replay as 'B' and 10 with the assignment swapped, so order effects are visible the same way h-judge-block-order-position-bias measured them; (4) reports verdict rate (how often compression_actions is picked as better, regardless of its A/B slot) and a separate breakdown by slot (A-slot win rate vs B-slot win rate) to isolate position bias from content preference; (5) logs the actual API spend the same way as this backlog's other $0.05-tier judge-only hypotheses. Zero new Deepgram spend, zero new translation generation -- only new spend is 20 new gemini-3.1-flash-lite judge calls, estimated at roughly $0.01 by scaling against this backlog's own measured ~$0.0004-0.0006/call rate for similarly-sized judge prompts (e.g. h-judge-block-order-position-bias's 136 calls for $0.05).",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.01,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
