@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "REFLECT",
-  "cycle": 37,
-  "last_updated": "2026-11-24T00:17:44.546303+00:00",
+  "current_state": "SEARCH_PAPERS",
+  "cycle": 38,
+  "last_updated": "2026-11-24T00:18:25.202086+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3503,6 +3503,12 @@
       "to": "REFLECT",
       "at": "2026-11-24T00:17:44.546267+00:00",
       "note": "cycle 100: report written"
+    },
+    {
+      "from": "REFLECT",
+      "to": "SEARCH_PAPERS",
+      "at": "2026-11-24T00:18:25.202055+00:00",
+      "note": "cycle 100 -> 101: new cycle. This was a notably productive cycle (first real new live-API experiment run in a long stretch, clean position-bias finding) -- no immediate reason to skip straight to GENERATE_HYPOTHESES"
     }
   ]
 }
