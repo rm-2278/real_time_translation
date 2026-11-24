@@ -1,0 +1,167 @@
+{
+  "source": "experiments/20260916_compression_actions_prompt.json",
+  "better_condition": "compression_actions",
+  "worse_condition": "baseline_replay",
+  "known_retention_scores": {
+    "compression_actions": 85,
+    "baseline_replay": 75
+  },
+  "n_repeats": 20,
+  "content_preference": {
+    "better_condition_win_rate": 0.5,
+    "worse_condition_win_rate": 0.5,
+    "tie_rate": 0.0,
+    "better_wins": 10,
+    "worse_wins": 10,
+    "ties": 0
+  },
+  "position_bias_check": {
+    "verdict_slot_a_rate": 0.0,
+    "better_condition_win_rate_when_in_slot_a": 0.0,
+    "better_condition_win_rate_when_in_slot_b": 1.0,
+    "notes": "If verdict_slot_a_rate is far from 0.5 regardless of which condition occupies slot A, that is a raw A/B positional bias in the prompt/model itself. If better_condition_win_rate differs sharply between slot A and slot B, swapping sides is changing the content verdict, not just a label -- a stronger warning sign than the raw slot-A rate alone."
+  },
+  "rows": [
+    {
+      "repeat_index": 0,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B accurately identifies the 'tokenizer' (トークナイザー) which appears in the source as the phonetic garble 'token errors', whereas Translation A omits this critical technical entity."
+    },
+    {
+      "repeat_index": 1,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Both translations struggle with the incoherent source, but Translation B more accurately identifies the 'token' segment and captures the causal link regarding the 'modeling of dependencies' slightly better than A."
+    },
+    {
+      "repeat_index": 2,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B accurately identifies 'tokenizer' (トークナイザー) which corresponds to the speaker's 'token errors' (a common ASR misinterpretation of 'tokenizer'), whereas Translation A ignores this critical technical step."
+    },
+    {
+      "repeat_index": 3,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Translation B more accurately translates the technical process described (e.g., explaining the splitting of the sequence into subwords and the explicit mention of tokenization), whereas Translation A's phrasing regarding the sequence splitting is less clear."
+    },
+    {
+      "repeat_index": 4,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B correctly identifies 'tokenizer' (トークナイザー) where Translation A incorrectly translates 'token errors' (as 'token'), which is closer to the intended meaning despite the disfluent source speech."
+    },
+    {
+      "repeat_index": 5,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Translation B more accurately captures the segment regarding tokenization and sequence splitting, and it correctly identifies 'token' where Translation A inaccurately interprets it as 'tokenizer' errors."
+    },
+    {
+      "repeat_index": 6,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B correctly identifies 'tokenizer' (トークナイザー) where Translation A incorrectly translates 'token errors' as a literal phonetic transcription or confusion, better reflecting the intended technical content of the source."
+    },
+    {
+      "repeat_index": 7,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Translation B more accurately captures the tokenization process described in the source ('トークンに分割して' vs 'トークナイザーがそのシーケンスを分割し') and maintains better logical flow regarding the modeling of dependencies."
+    },
+    {
+      "repeat_index": 8,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B correctly identifies 'tokenizer' in the context of sequence splitting ('トークナイザーがそのシーケンスを分割'), whereas Translation A confuses this term, leading to better factual accuracy regarding the technical process described."
+    },
+    {
+      "repeat_index": 9,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Translation B more accurately captures the technical progression of the transformer explanation, particularly in translating the tokenization process and the causal mention of 'modeling dependencies' which was slightly obscured in Translation A."
+    },
+    {
+      "repeat_index": 10,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B correctly identifies 'tokenizer' in the context of the source segment 'token errors' (a clear ASR misinterpretation of 'tokenizer'), whereas Translation A ignores this substantive technical term."
+    },
+    {
+      "repeat_index": 11,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Translation B more accurately captures the technical progression, specifically correctly identifying 'token' ('トークン') where Translation A uses the literal mistranslation 'トークナイザー' (tokenizer), and it maintains the technical flow of the sequence processing better."
+    },
+    {
+      "repeat_index": 12,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B correctly identifies 'tokenizer' (トークナイザー) in the context of splitting sequences into subwords, whereas Translation A mistranslates 'token errors' as 'token' followed by a splitting verb, missing the technical nuance of the source's intended meaning."
+    },
+    {
+      "repeat_index": 13,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Translation B more accurately captures the technical progression, correctly identifying the tokenization process ('トークンに分割して') where Translation A uses a mistranslation ('トークナイザーがそのシーケンスを分割し'). Translation B also better handles the speaker's fragmented delivery regarding the modeling of dependencies."
+    },
+    {
+      "repeat_index": 14,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B correctly identifies 'tokenizer' (トークナイザー) where Translation A incorrectly translates 'token errors' (or the ambiguous source audio) as simply 'token' (トークン), providing better technical accuracy regarding the Transformer pipeline."
+    },
+    {
+      "repeat_index": 15,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Translation B is slightly more accurate in capturing the technical process, specifically correctly identifying 'token' ('トークン') where Translation A uses the literal and incorrect 'token errors' ('トークナイザー'), and it better maintains the logical flow of the technical explanation."
+    },
+    {
+      "repeat_index": 16,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B correctly identifies 'tokenizer' (トークナイザー) in the context of splitting sequences, whereas Translation A mistranslates 'token errors' as just 'token' (トークン) while missing the specific action performed on the sequence."
+    },
+    {
+      "repeat_index": 17,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Translation B more accurately captures the technical flow and terminology, specifically translating 'token errors' (ASR error for tokenizer) as 'トークンに分割して' (segmenting into tokens) and correctly identifying the logical progression of the transformer explanation better than A."
+    },
+    {
+      "repeat_index": 18,
+      "better_slot": "A",
+      "verdict_slot": "B",
+      "content_preferred": "baseline_replay",
+      "reasoning": "Translation B accurately identifies 'tokenizer' (トークナイザー) where the source transcript was garbled as 'token errors', whereas Translation A mistakenly translates 'token errors' literally."
+    },
+    {
+      "repeat_index": 19,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "compression_actions",
+      "reasoning": "Translation B more accurately translates the technical process described, specifically the sequence-to-token splitting process ('トークンに分割して' vs 'トークナイザーがそのシーケンスを分割し'), and maintains better logical flow regarding the modeling of dependencies."
+    }
+  ],
+  "notes": "Pairwise-comparison judge format (no numeric score, single verdict: A/B/tie) applied to an already-established, modest (10-point) real retention-score difference between two already-recorded full_translation texts on the identical source. Zero new Deepgram spend, zero new translation generation -- only new spend is N_REPEATS new gemini-3.1-flash-lite judge calls. Single pair, not a well-powered sweep across many pairs -- a clear result here is suggestive, not conclusive proof for every magnitude of difference, same discipline as this backlog's other single-pair judge-noise findings."
+}
