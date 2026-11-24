@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 37,
-  "last_updated": "2026-11-24T00:08:51.106409+00:00",
+  "last_updated": "2026-11-24T00:09:28.243475+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3461,6 +3461,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-24T00:08:51.106107+00:00",
       "note": "cycle 100: 3 new paper stubs added (rate2026-beyond-literal-mapping-nontransliteval, jptlbench2026-anchored-pairwise-ja-en, wat2026-patent-claims-task2-findings) -- judge-reliability and EN-JA eval methodology threads; several other candidate searches (streaming stability policy, flicker reduction, cascade-vs-e2e latency) all re-found papers already in papers.json"
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-24T00:09:28.243445+00:00",
+      "note": "cycle 100: extraction done for 3 new stubs via WebSearch-abstract fallback (arxiv.org/aclanthology.org WebFetch ENOTFOUND, consistent with every prior cycle)"
     }
   ]
 }
