@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 38,
-  "last_updated": "2026-11-24T12:09:06.924564+00:00",
+  "last_updated": "2026-11-25T00:09:19.186850+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3515,6 +3515,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-24T12:09:06.924364+00:00",
       "note": "Cycle 101 SEARCH_PAPERS: WebSearch pass on cycle-100 reflection's recommended angle (judge pairwise position-bias mitigation) plus a general EN-JA/SimulST scan (nothing new, already-known papers only). Added 3 non-duplicate stubs: soumik2026-judging-the-judges-debiasing-factorial (arXiv 2604.23178, factorial bias-mitigation-strategy study), vardasbi2025-spotify-adaptive-repetition-position-bias (arXiv 2507.17788, adaptive early-stopping for position-bias-mitigating repeats), xu2026-pointwise-pairwise-rubric-position-bias (arXiv 2602.02219, balanced-permutation mitigation for rubric-based judge position bias). All ground in h-judge-pairwise-anchored-comparison-sensitivity's cycle-100 severe-position-bias finding."
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-25T00:09:19.186821+00:00",
+      "note": "cycle 101: extracted 3 position-bias-mitigation papers (soumik2026-judging-the-judges-debiasing-factorial, vardasbi2025-spotify-adaptive-repetition-position-bias, xu2026-pointwise-pairwise-rubric-position-bias) via WebSearch fallback (arxiv.org WebFetch EGRESS_BLOCKED)"
     }
   ]
 }
