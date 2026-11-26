@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 38,
-  "last_updated": "2026-11-26T00:09:44.351388+00:00",
+  "last_updated": "2026-11-26T00:10:13.172731+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3533,6 +3533,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-26T00:09:44.351363+00:00",
       "note": "cycle 101 GENERATE_HYPOTHESES complete: added 1 new hypothesis (h-judge-pairwise-swap-agreement-mitigation-retroactive), grounded in soumik2026/xu2026 (read this cycle), a $0 retroactive re-analysis of the already-recorded judge_pairwise_comparison.json testing whether the standard swap-and-check-agreement mitigation correctly flags cycle 100's deterministic position-bias finding as unusable. Backlog count (queued+proposed) now 6 (4 queued + 2 proposed-with-approval-set: h-judge-repeat-independent-batches-corrected-design needs_human, this new one approval=null/not yet processed), at the ~6 cap -- no further hypotheses added this cycle per depth-over-breadth."
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-26T00:10:13.172705+00:00",
+      "note": "cycle 101 HUMAN_APPROVAL: checked budget for h-judge-pairwise-swap-agreement-mitigation-retroactive ($0.0) -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued. No other hypothesis had approval still null/proposed-unprocessed this cycle (h-judge-repeat-independent-batches-corrected-design was already needs_human from a prior cycle, left as-is per the WAITING_APPROVAL self-approval-block precedent -- that is a different state, not touched here). 5 hypotheses now queued with approval != needs_human."
     }
   ]
 }

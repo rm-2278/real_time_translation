@@ -1477,8 +1477,8 @@
       "required_changes": "New script src/real_time_translation/experiments/judge_pairwise_swap_agreement_retroactive.py that: (1) loads experiments/judge_pairwise_comparison.json (already committed, no new API calls); (2) splits its 20 rows into the better_slot=='A' group and better_slot=='B' group (10 each); (3) pairs them index-for-index (both groups are independent i.i.d. repeats of the identical comparison, so any pairing is valid -- not a same-instance-run-twice design, which this already-recorded data does not have) and computes, per pair, whether content_preferred matches between the two members -- an 'agree' pair's content_preferred is trusted, a 'disagree' pair is discarded per the swap-and-agree rule; (4) reports agreement_rate, the implied winner among agreeing pairs (if any), and separately the naive pooled aggregate (content_preferred counts across all 20 rows ignoring slot) for contrast; (5) writes experiments/<date>_h_judge_pairwise_swap_agreement_retroactive.json and appends a results.csv row per CLAUDE.md's logging convention. Zero new Deepgram spend, zero new LLM/judge calls, zero new translation generation -- pure arithmetic over an already-committed JSON file.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
