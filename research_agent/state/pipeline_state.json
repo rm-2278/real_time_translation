@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "GENERATE_HYPOTHESES",
+  "current_state": "HUMAN_APPROVAL",
   "cycle": 38,
-  "last_updated": "2026-11-25T12:08:18.755072+00:00",
+  "last_updated": "2026-11-26T00:09:44.351388+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3527,6 +3527,12 @@
       "to": "GENERATE_HYPOTHESES",
       "at": "2026-11-25T12:08:18.755038+00:00",
       "note": "READ_PAPERS cycle 101 complete: wrote summaries/key_findings for soumik2026/vardasbi2025/xu2026, confirmed no existing experiment tests position-swap/permutation/dynamic-repeat mitigation (only judge_pairwise_comparison.json establishes the problem, no mitigation tried)"
+    },
+    {
+      "from": "GENERATE_HYPOTHESES",
+      "to": "HUMAN_APPROVAL",
+      "at": "2026-11-26T00:09:44.351363+00:00",
+      "note": "cycle 101 GENERATE_HYPOTHESES complete: added 1 new hypothesis (h-judge-pairwise-swap-agreement-mitigation-retroactive), grounded in soumik2026/xu2026 (read this cycle), a $0 retroactive re-analysis of the already-recorded judge_pairwise_comparison.json testing whether the standard swap-and-check-agreement mitigation correctly flags cycle 100's deterministic position-bias finding as unusable. Backlog count (queued+proposed) now 6 (4 queued + 2 proposed-with-approval-set: h-judge-repeat-independent-batches-corrected-design needs_human, this new one approval=null/not yet processed), at the ~6 cap -- no further hypotheses added this cycle per depth-over-breadth."
     }
   ]
 }
