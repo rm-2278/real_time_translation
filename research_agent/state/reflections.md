@@ -6811,3 +6811,93 @@ above). `pipeline_state.json`'s own `cycle` JSON counter does NOT
 increment on this transition (only increments on `REFLECT ->
 SEARCH_PAPERS`); the narrated cycle count for reports/commits still
 advances to 102 on the next pass through any state.
+
+## Cycle 102 (2026-11-26, scheduled session)
+
+**What worked this cycle?** The GENERATE_HYPOTHESES step picked up exactly
+the concrete next step cycle 101's own reflection had already identified
+(test the swap-and-agree mitigation's complementary high-agreement case on
+a pair with an obvious, not subtle, quality gap), which meant zero time
+spent re-deriving direction. Finding a good candidate pair was itself a
+useful mechanical step: grepping all `experiments/*.json` for
+`retention_score`/`judge_scores` turned up
+`20260919_h_soft_anchor_generalization_guest_talk.json` span 9 (a 40-point
+gap with a concrete, checkable cause -- a dropped repeated clause) in one
+pass, rather than having to run a new experiment just to get a comparison
+pair. Equally useful: reading `soft_anchor_generalization_replay.py` before
+writing the implementation caught that the hypothesis's own
+`required_changes` text had the wrong assumption about which text was
+actually judged (repeats[0][-1], last batch only, not a joined full
+translation) -- caught and corrected before running anything, the same
+discipline PLAYBOOK.md's GENERATE_HYPOTHESES section has flagged five
+times now for different event-field assumptions. Worth noting explicitly:
+this makes six.
+
+**What didn't work / what was learned?** The hypothesis's own prediction
+(agreement_rate >= 0.8 given an obvious gap) was wrong -- the actual
+result was 0.2. But the *reason* it was wrong is more interesting than a
+simple "hypothesis disproven": reading all 20 rows' reasoning text showed
+the judge's content signal was never actually reversed (0/20 rows ever
+favored the worse condition) -- the low agreement_rate comes entirely from
+an asymmetry where the judge commits decisively to "B" 10/10 times when
+the better candidate is there, but hedges with "tie" 8/10 times when the
+*same* better candidate is in slot A. The binary content_preferred-match
+agreement check (used identically in this script and
+`judge_pairwise_swap_agreement_retroactive.py`) cannot tell "reversed
+verdict" apart from "tie-vs-decisive asymmetry" -- it scores both as
+disagreement. This is a real limitation of the metric this backlog has
+now used twice, not just of this one pair's result. I did not retrofit a
+softer metric post hoc (that would be moving the goalposts after seeing
+the data) -- instead I reported the raw agreement_rate as the literal
+test of the stated prediction (which failed) and separately surfaced the
+tie-rate/per-slot breakdown that explains *why*, in both the hypothesis's
+result_summary and the Japanese report. A future hypothesis should
+explicitly design a refined metric (e.g. treating a tie as a draw that
+excludes the pair from scoring rather than counting it as disagreement
+with a decisive verdict, or weighting partial credit) and test it against
+both this pair and the cycle-100/101 pair to confirm it behaves sensibly
+on both known cases before trusting it elsewhere.
+
+**Was the hypothesis backlog well-calibrated?** Yes -- this was exactly
+the kind of depth-over-breadth move the backlog cap is meant to encourage
+(one new hypothesis, directly following up on the prior cycle's own
+flagged gap, not a breadth-seeking new direction). Backlog sits at 5
+queued + 1 proposed (the long-standing `needs_human` entry) = 6, at the
+cap. The newly-surfaced "tie-vs-decisive metric limitation" is a strong,
+concrete candidate for next cycle's hypothesis -- cheaper and more
+targeted than a fresh literature search, similar to how cycle 101's own
+reflection fed directly into this cycle.
+
+**Is the auto-approval budget policy still right?** No change proposed.
+$0.01 spent this cycle (total $4.29), nowhere near the $3/batch or
+$7/day caps. The HUMAN_APPROVAL step for a freshly-proposed (never
+previously escalated) auto-approvable hypothesis went through cleanly --
+worth noting as a confirmation that the environment's permission
+classifier (per the WAITING_APPROVAL section's cycle-36 finding) keys
+specifically on re-approving an already-`needs_human`-escalated entry,
+not on `approval: auto_approved`/`status: queued` writes in general. This
+cycle is a clean positive data point for that distinction, which the
+playbook's existing text already asserts but had not been freshly
+re-confirmed in a while.
+
+**Should this playbook itself change?** No edit made this cycle. The
+existing GENERATE_HYPOTHESES guidance (verify event-field/text-provenance
+assumptions against actual generating code before finalizing hypothesis
+text) worked exactly as written and caught a real mistake before it cost
+an experiment run. The ANALYZE_RESULTS section could eventually gain a
+dated note about the tie-vs-decisive-asymmetry metric limitation found
+this cycle (parallel to its existing noise-floor and kappa-degeneracy
+notes), but I'm deferring that until the follow-up hypothesis (refined
+metric, tested against both known pairs) actually confirms a fix is
+warranted -- adding the note now, before a tested resolution exists, would
+describe a problem without yet having the "here's the fix" half the other
+dated notes in that section all have.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` directly
+(skipping a fresh `SEARCH_PAPERS` pass), since this cycle's own result
+makes the next hypothesis obvious (a refined agreement metric that
+separates "tie" from "reversed verdict", tested against both the
+cycle-100/101 pair and this cycle's pair) without needing new literature.
+`pipeline_state.json`'s own `cycle` JSON counter does NOT increment on
+this transition; the narrated cycle count for reports/commits advances to
+103 on the next pass through any state.
