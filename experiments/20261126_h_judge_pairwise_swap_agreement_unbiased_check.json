@@ -1,0 +1,265 @@
+{
+  "source": "experiments/20260919_h_soft_anchor_generalization_guest_talk.json",
+  "span_index": 9,
+  "source_full": "subaward by subaward, and we will have and we will have a embedded",
+  "better_condition": "soft_anchor_replay",
+  "worse_condition": "baseline_replay",
+  "known_judge_scores": {
+    "soft_anchor_replay": 100,
+    "baseline_replay": 60
+  },
+  "n_repeats": 20,
+  "swap_agreement_mitigation": {
+    "method": "Built in from the start (not a later retroactive pass): 10 repeats with BETTER_CONDITION in slot A, 10 with it in slot B; pair index-for-index across the two slot groups and trust only agreeing pairs' verdicts, per soumik2026/xu2026's swap-and-aggregate mitigation.",
+    "n_pairs": 10,
+    "agreement_rate": 0.2,
+    "n_agree": 2,
+    "n_disagree": 8,
+    "trusted_better_wins": 2,
+    "trusted_worse_wins": 0,
+    "pairs": [
+      {
+        "pair_index": 0,
+        "a_slot_row_repeat_index": 0,
+        "b_slot_row_repeat_index": 1,
+        "a_slot_row_content_preferred": "tie",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 1,
+        "a_slot_row_repeat_index": 2,
+        "b_slot_row_repeat_index": 3,
+        "a_slot_row_content_preferred": "tie",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 2,
+        "a_slot_row_repeat_index": 4,
+        "b_slot_row_repeat_index": 5,
+        "a_slot_row_content_preferred": "tie",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 3,
+        "a_slot_row_repeat_index": 6,
+        "b_slot_row_repeat_index": 7,
+        "a_slot_row_content_preferred": "tie",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 4,
+        "a_slot_row_repeat_index": 8,
+        "b_slot_row_repeat_index": 9,
+        "a_slot_row_content_preferred": "soft_anchor_replay",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": true,
+        "trusted_winner": "soft_anchor_replay"
+      },
+      {
+        "pair_index": 5,
+        "a_slot_row_repeat_index": 10,
+        "b_slot_row_repeat_index": 11,
+        "a_slot_row_content_preferred": "soft_anchor_replay",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": true,
+        "trusted_winner": "soft_anchor_replay"
+      },
+      {
+        "pair_index": 6,
+        "a_slot_row_repeat_index": 12,
+        "b_slot_row_repeat_index": 13,
+        "a_slot_row_content_preferred": "tie",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 7,
+        "a_slot_row_repeat_index": 14,
+        "b_slot_row_repeat_index": 15,
+        "a_slot_row_content_preferred": "tie",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 8,
+        "a_slot_row_repeat_index": 16,
+        "b_slot_row_repeat_index": 17,
+        "a_slot_row_content_preferred": "tie",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 9,
+        "a_slot_row_repeat_index": 18,
+        "b_slot_row_repeat_index": 19,
+        "a_slot_row_content_preferred": "tie",
+        "b_slot_row_content_preferred": "soft_anchor_replay",
+        "agree": false,
+        "trusted_winner": null
+      }
+    ]
+  },
+  "naive_pooled_aggregate_for_contrast": {
+    "better_condition_win_rate": 0.6,
+    "worse_condition_win_rate": 0.0,
+    "tie_rate": 0.4
+  },
+  "position_bias_check": {
+    "verdict_slot_a_rate": 0.1,
+    "notes": "If verdict_slot_a_rate is far from 0.5 regardless of which condition occupies slot A, that is a raw positional bias in the prompt/model itself, independent of the swap-and-agree pairing result above."
+  },
+  "rows": [
+    {
+      "repeat_index": 0,
+      "better_slot": "A",
+      "verdict_slot": "tie",
+      "content_preferred": "tie",
+      "reasoning": "Both translations retain the substantive meaning of the fragment; Translation A includes an explanatory gloss for the technical term while B remains more literal, but both reflect the incomplete source information equally."
+    },
+    {
+      "repeat_index": 1,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun '我々は' (we) which matches the source text, whereas Translation A omits the subject entirely."
+    },
+    {
+      "repeat_index": 2,
+      "better_slot": "A",
+      "verdict_slot": "tie",
+      "content_preferred": "tie",
+      "reasoning": "Both translations capture the core terminology 'subaward' and 'embedded' accurately, and both reflect the fragmented, incomplete nature of the original source text equally."
+    },
+    {
+      "repeat_index": 3,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun 'we' (我々) which is present in the source transcript, whereas Translation A omits it."
+    },
+    {
+      "repeat_index": 4,
+      "better_slot": "A",
+      "verdict_slot": "tie",
+      "content_preferred": "tie",
+      "reasoning": "Both translations capture the identical substantive content of the source phrase; neither manages to translate the incomplete final thought into a meaningful context, as the source itself is truncated."
+    },
+    {
+      "repeat_index": 5,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun '我々は' (we) which corresponds to the source text 'we will have', whereas Translation A omits the subject entirely."
+    },
+    {
+      "repeat_index": 6,
+      "better_slot": "A",
+      "verdict_slot": "tie",
+      "content_preferred": "tie",
+      "reasoning": "Both translations capture the core terminology 'subaward' and 'embedded', and both reflect the fragmented nature of the source sentence equally well."
+    },
+    {
+      "repeat_index": 7,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun 'we' (我々) which is present in the source transcript, whereas Translation A omits it."
+    },
+    {
+      "repeat_index": 8,
+      "better_slot": "A",
+      "verdict_slot": "A",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation A correctly includes the repetition of the subject ('we will have') present in the source, whereas Translation B omits it entirely."
+    },
+    {
+      "repeat_index": 9,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun 'we' (我々) which is present in the source transcript, whereas Translation A omits it."
+    },
+    {
+      "repeat_index": 10,
+      "better_slot": "A",
+      "verdict_slot": "A",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation A correctly includes the subject-verb phrase 'we will have' (我々は...持っている/ある), whereas Translation B omits this information entirely."
+    },
+    {
+      "repeat_index": 11,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun 'we' ('我々は'), which is explicitly present in the source text, whereas Translation A omits it."
+    },
+    {
+      "repeat_index": 12,
+      "better_slot": "A",
+      "verdict_slot": "tie",
+      "content_preferred": "tie",
+      "reasoning": "Both translations capture the key terms 'subaward' and 'embedded' accurately, and both reflect the fragmented nature of the source text equally well."
+    },
+    {
+      "repeat_index": 13,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun '我々は' (we) which matches the source's 'we will have', whereas Translation A omits the subject entirely."
+    },
+    {
+      "repeat_index": 14,
+      "better_slot": "A",
+      "verdict_slot": "tie",
+      "content_preferred": "tie",
+      "reasoning": "Both translations capture the key term 'subaward' and the phrase 'embedded' while omitting the repetitive disfluencies present in the source transcript."
+    },
+    {
+      "repeat_index": 15,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun 'we' (我々) which is present in the source transcript, whereas Translation A omits it."
+    },
+    {
+      "repeat_index": 16,
+      "better_slot": "A",
+      "verdict_slot": "tie",
+      "content_preferred": "tie",
+      "reasoning": "Both translations capture the key term 'subaward' and the concept of 'embedded' while omitting the repetitive, disfluent filler phrases from the source."
+    },
+    {
+      "repeat_index": 17,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun 'we' (我々は) which is present in the source, whereas Translation A omits the subject entirely."
+    },
+    {
+      "repeat_index": 18,
+      "better_slot": "A",
+      "verdict_slot": "tie",
+      "content_preferred": "tie",
+      "reasoning": "Both translations capture the core terminology 'subaward' and 'embedded' accurately, and both reflect the fragmented, incomplete nature of the source sentence equally."
+    },
+    {
+      "repeat_index": 19,
+      "better_slot": "B",
+      "verdict_slot": "B",
+      "content_preferred": "soft_anchor_replay",
+      "reasoning": "Translation B includes the pronoun 'we' (我々は), which corresponds to the 'we will have' segment in the source transcript, whereas Translation A omits it."
+    }
+  ],
+  "notes": "Swap-and-require-agreement pairwise-judge design applied to a real, obvious (40-point) already-recorded fidelity gap on span_index=9 of experiments/20260919_h_soft_anchor_generalization_guest_talk.json (baseline_replay drops 'we will have' entirely; soft_anchor_replay retains it). Texts used are each condition's condition_repeats[condition][0][-1] (repeat 0, last batch), matching exactly what soft_anchor_generalization_replay.py's own judge() call scored 60/100 on -- see this module's docstring for why (that script judges only the last batch's translation against the full span source, not a joined full translation). Zero new Deepgram spend, zero new translation generation -- only new spend is N_REPEATS new gemini-3.1-flash-lite judge calls. Single pair, not a sweep -- a clear result here is suggestive, not conclusive proof for every magnitude of difference."
+}
