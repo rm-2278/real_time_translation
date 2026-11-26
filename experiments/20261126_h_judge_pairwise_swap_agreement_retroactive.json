@@ -1,0 +1,118 @@
+{
+  "source": "experiments/judge_pairwise_comparison.json",
+  "better_condition": "compression_actions",
+  "worse_condition": "baseline_replay",
+  "known_retention_scores": {
+    "compression_actions": 85,
+    "baseline_replay": 75
+  },
+  "n_pairs": 10,
+  "swap_agreement_mitigation": {
+    "method": "Pair each better_slot=='A' row with a better_slot=='B' row (index-order; both groups are independent i.i.d. repeats of the identical comparison, not a same-instance-twice design, so any pairing is valid). A pair 'agrees' if both members' content_preferred match; only agreeing pairs' verdicts are trusted, per soumik2026/xu2026's swap-and-aggregate mitigation.",
+    "agreement_rate": 0.0,
+    "n_agree": 0,
+    "n_disagree": 10,
+    "trusted_better_wins": 0,
+    "trusted_worse_wins": 0,
+    "pairs": [
+      {
+        "pair_index": 0,
+        "a_slot_row_repeat_index": 0,
+        "b_slot_row_repeat_index": 1,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 1,
+        "a_slot_row_repeat_index": 2,
+        "b_slot_row_repeat_index": 3,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 2,
+        "a_slot_row_repeat_index": 4,
+        "b_slot_row_repeat_index": 5,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 3,
+        "a_slot_row_repeat_index": 6,
+        "b_slot_row_repeat_index": 7,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 4,
+        "a_slot_row_repeat_index": 8,
+        "b_slot_row_repeat_index": 9,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 5,
+        "a_slot_row_repeat_index": 10,
+        "b_slot_row_repeat_index": 11,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 6,
+        "a_slot_row_repeat_index": 12,
+        "b_slot_row_repeat_index": 13,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 7,
+        "a_slot_row_repeat_index": 14,
+        "b_slot_row_repeat_index": 15,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 8,
+        "a_slot_row_repeat_index": 16,
+        "b_slot_row_repeat_index": 17,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      },
+      {
+        "pair_index": 9,
+        "a_slot_row_repeat_index": 18,
+        "b_slot_row_repeat_index": 19,
+        "a_slot_row_content_preferred": "baseline_replay",
+        "b_slot_row_content_preferred": "compression_actions",
+        "agree": false,
+        "trusted_winner": null
+      }
+    ]
+  },
+  "naive_pooled_aggregate_for_contrast": {
+    "method": "Counts content_preferred across all rows, ignoring slot entirely -- the aggregate a session would compute if it did NOT apply the swap-and-agree mitigation.",
+    "n_rows": 20,
+    "better_condition_win_rate": 0.5,
+    "worse_condition_win_rate": 0.5,
+    "tie_rate": 0.0
+  },
+  "notes": "Retroactive-only analysis, zero new judge calls, zero new spend. Tests whether the swap-and-check-agreement mitigation (soumik2026's named most-common debiasing fix; xu2026's balanced-permutation-then-aggregate) correctly identifies cycle 100's already-confirmed deterministic pairwise-judge position bias as unusable (agreement_rate far below what a genuinely content-driven verdict would show), in contrast to a naive pooled aggregate that ignores slot and may report a misleadingly clean-looking result instead."
+}

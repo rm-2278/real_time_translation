@@ -374,6 +374,11 @@
       "at": "2026-11-24T00:15:22.542857+00:00",
       "amount_usd": 0.01,
       "note": "h-judge-pairwise-anchored-comparison-sensitivity: judge_pairwise_comparison.py, 20 gemini-3.1-flash-lite calls, zero new Deepgram spend (replay of already-recorded compression_actions_prompt baseline/treatment pair). Estimated by scaling against this backlog's own measured ~0.0004-0.0006 USD/call rate for similarly-sized judge prompts."
+    },
+    {
+      "at": "2026-11-26T00:11:22.750987+00:00",
+      "amount_usd": 0.0,
+      "note": "h-judge-pairwise-swap-agreement-mitigation-retroactive: retroactive re-analysis of judge_pairwise_comparison.json, zero new judge calls, zero spend"
     }
   ]
 }
