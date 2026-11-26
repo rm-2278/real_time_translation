@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "RUN_EXPERIMENTS",
+  "current_state": "WRITE_REPORT",
   "cycle": 38,
-  "last_updated": "2026-11-26T00:10:13.172731+00:00",
+  "last_updated": "2026-11-26T00:12:16.839807+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3539,6 +3539,18 @@
       "to": "RUN_EXPERIMENTS",
       "at": "2026-11-26T00:10:13.172705+00:00",
       "note": "cycle 101 HUMAN_APPROVAL: checked budget for h-judge-pairwise-swap-agreement-mitigation-retroactive ($0.0) -> AUTO_APPROVE, uses_existing_clips=true -> approval=auto_approved, status=queued. No other hypothesis had approval still null/proposed-unprocessed this cycle (h-judge-repeat-independent-batches-corrected-design was already needs_human from a prior cycle, left as-is per the WAITING_APPROVAL self-approval-block precedent -- that is a different state, not touched here). 5 hypotheses now queued with approval != needs_human."
+    },
+    {
+      "from": "RUN_EXPERIMENTS",
+      "to": "ANALYZE_RESULTS",
+      "at": "2026-11-26T00:11:56.733819+00:00",
+      "note": "cycle 101 RUN_EXPERIMENTS: picked the single $0 queued hypothesis (h-judge-pairwise-swap-agreement-mitigation-retroactive). Wrote and ran judge_pairwise_swap_agreement_retroactive.py (ruff clean), zero new API calls. Logged $0. status=testing."
+    },
+    {
+      "from": "ANALYZE_RESULTS",
+      "to": "WRITE_REPORT",
+      "at": "2026-11-26T00:12:16.839780+00:00",
+      "note": "cycle 101 ANALYZE_RESULTS: h-judge-pairwise-swap-agreement-mitigation-retroactive CONFIRMED (agreement_rate=0.0, naive pooled aggregate would have shown a misleading 50/50 tie). status=tested."
     }
   ]
 }
