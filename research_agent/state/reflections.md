@@ -6735,3 +6735,79 @@ same as an old recorded model name can 404).
 **Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new cycle).
 `pipeline_state.json`'s own `cycle` JSON counter increments on this
 transition per its usual rule.
+
+
+## Cycle 101 (2026-11-26, scheduled session)
+
+**What worked:** A fully end-to-end cycle, `GENERATE_HYPOTHESES ->
+HUMAN_APPROVAL -> RUN_EXPERIMENTS -> ANALYZE_RESULTS -> WRITE_REPORT ->
+REFLECT`, picking up exactly where the prior session's `READ_PAPERS`
+left off (cycle 101 was split across two sessions: literature read in an
+earlier session, hypothesis/experiment/report in this one). The new
+hypothesis (`h-judge-pairwise-swap-agreement-mitigation-retroactive`)
+was deliberately designed as a pure retroactive re-analysis of
+already-committed data (`experiments/judge_pairwise_comparison.json`'s
+20 rows, which already carry both `better_slot` and `verdict_slot` per
+row) -- zero new API calls, $0, no environment dependency at all (no
+Deepgram, no Gemini, no ffmpeg needed), so it ran to completion in one
+pass with no blocker. This is the cheapest and most reliable kind of
+hypothesis this backlog can produce, and this cycle is a clean example
+of picking one deliberately rather than defaulting to a new live-API
+experiment. Result: CONFIRMED as predicted -- the swap-and-check-
+agreement mitigation (soumik2026/xu2026, read last session) correctly
+flags cycle 100's already-known deterministic position bias as
+unusable (`agreement_rate=0.0`), while a naive pooled aggregate would
+have reported a misleadingly clean 50/50 tie. A genuinely useful,
+concrete finding with essentially zero risk.
+
+**What didn't work / limits:** This result only shows the mitigation
+catches a bias that was *already known to exist* in this specific data
+-- it does not test the complementary, equally important question of
+whether the same mitigation correctly shows HIGH agreement (i.e. does
+NOT produce false negatives) on a comparison that is genuinely unbiased.
+Both failure modes matter for trusting the technique going forward; only
+one is now checked. Flagged explicitly in the hypothesis's own
+`result_summary` and in this cycle's Japanese report rather than
+overclaiming.
+
+**Backlog calibration:** 4 queued + 1 proposed/needs_human (terminal)
+after this cycle (one hypothesis moved from queued to tested, one new
+one added and immediately resolved in the same cycle) -- comfortably
+under the ~6 cap, with room to add 1-2 more next cycle. Depth over
+breadth remains the right call; no hypothesis here duplicates existing
+work (confirmed via the READ_PAPERS cross-reference in the prior
+session).
+
+**Search-query implication for next cycle:** This cycle's own finding
+makes a concrete, high-value next hypothesis obvious without needing a
+fresh literature pass: test the same swap-and-agree mitigation on a
+comparison that is NOT already known to be biased (e.g. a fresh pair
+with a larger, more obvious quality gap than the modest 10-point
+compression_actions/baseline_replay pair, to check whether agreement is
+correctly HIGH when the content signal should dominate). Unlike most of
+this backlog's blocked queue, this one needs only new Gemini judge
+calls (same host/protocol h-judge-pairwise-anchored-comparison-
+sensitivity already used successfully in cycle 100) -- no Deepgram
+websocket, no OpenAI -- so it is actually runnable in this sandbox's
+current environment, unlike 3 of the 4 currently-queued items. This is
+exactly the kind of "existing paper base already clearly supports more
+untested hypotheses" situation PLAYBOOK.md's REFLECT section names as
+grounds to skip straight to `GENERATE_HYPOTHESES` rather than spending a
+cycle on a fresh `SEARCH_PAPERS` pass that would likely just re-find
+already-known papers (as happened for the first two search angles tried
+last session before the judge-reliability angle paid off).
+
+**Budget policy:** $0 spent this cycle. No change proposed to the
+$3/batch, $7/day caps.
+
+**Should this playbook itself change?** No edit made this cycle.
+Nothing in this cycle's work exposed an unclear or wrong instruction --
+the $0-retroactive-first guidance in RUN_EXPERIMENTS and the backlog-cap
+counting rule in GENERATE_HYPOTHESES both worked exactly as written.
+
+**Next state:** Advancing `REFLECT -> GENERATE_HYPOTHESES` directly
+(skipping a fresh `SEARCH_PAPERS` pass this cycle, per the reasoning
+above). `pipeline_state.json`'s own `cycle` JSON counter does NOT
+increment on this transition (only increments on `REFLECT ->
+SEARCH_PAPERS`); the narrated cycle count for reports/commits still
+advances to 102 on the next pass through any state.
