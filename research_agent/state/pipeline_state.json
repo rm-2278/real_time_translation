@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "HUMAN_APPROVAL",
+  "current_state": "RUN_EXPERIMENTS",
   "cycle": 38,
-  "last_updated": "2026-11-26T12:09:16.227171+00:00",
+  "last_updated": "2026-11-26T12:10:32.754826+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3569,6 +3569,12 @@
       "to": "HUMAN_APPROVAL",
       "at": "2026-11-26T12:09:16.227134+00:00",
       "note": "cycle 102: added h-judge-pairwise-swap-agreement-unbiased-check (complementary high-agreement check on a 40pt-gap pair, span 9 of 20260919_h_soft_anchor_generalization_guest_talk.json); backlog 4 queued + 2 proposed = 6, at cap"
+    },
+    {
+      "from": "HUMAN_APPROVAL",
+      "to": "RUN_EXPERIMENTS",
+      "at": "2026-11-26T12:10:32.754801+00:00",
+      "note": "cycle 102: h-judge-pairwise-swap-agreement-unbiased-check auto-approved and queued; 5 queued total with approval != needs_human"
     }
   ]
 }
