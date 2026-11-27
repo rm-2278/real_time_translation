@@ -6901,3 +6901,72 @@ cycle-100/101 pair and this cycle's pair) without needing new literature.
 `pipeline_state.json`'s own `cycle` JSON counter does NOT increment on
 this transition; the narrated cycle count for reports/commits advances to
 103 on the next pass through any state.
+
+## Cycle 103 (2026-11-27, scheduled session)
+
+**What worked this cycle?** Same pattern as cycle 102: GENERATE_HYPOTHESES
+picked up exactly the concrete next step cycle 102's own reflection had
+already flagged (a refined metric that treats "tie" as a softer
+disagreement than a genuine reversal, tested against both the cycle-101
+and cycle-102 pairs) -- zero time spent re-deriving direction, zero new
+literature search needed. This was also the cheapest possible kind of
+hypothesis (pure retroactive re-analysis of two already-committed JSON
+files, $0, zero new API calls), which made it trivial to pick first per
+the backlog's own "prefer $0 retroactive hypotheses first" rule. The
+result came out as a clean, unambiguous confirmation on both sides (0.0
+stays 0.0 for the genuine-reversal file, 0.2 rises to 1.0 for the
+tie-hedge file), which is a satisfying contrast to cycle 102's own
+partial/nuanced result -- this cycle's hypothesis was specifically
+designed to explain *why* cycle 102 looked nuanced, and it did so cleanly.
+One operational friction: this cloud container had no `.venv` at all (a
+fresh container, not a resumed one), so this cycle's first real step was
+environment setup (`python3.13 -m venv .venv` + `uv pip install -e
+".[experiments]"`) before any code could run -- PLAYBOOK.md's existing
+environment-setup notes (cycle 3/4/5) already cover this exact procedure,
+so no new discovery here, just a confirmation the documented workaround
+still works unchanged on 2026-11-27.
+
+**Was the hypothesis backlog well-calibrated?** Yes, same assessment as
+cycle 102: this was depth-over-breadth (one new hypothesis, a direct
+follow-up closing a gap this backlog's own prior cycle surfaced, not a
+breadth-seeking new direction). Backlog is back to 5 (4 queued + 1
+proposed/needs_human) after this cycle's hypothesis moved from queued to
+tested, with room for one more before hitting the ~6 cap. No pressure to
+add more this cycle -- the next GENERATE_HYPOTHESES pass should look at
+whether a genuinely new direction (not another judge-pairwise variant) is
+overdue, since this backlog has now run four consecutive pairwise-judge
+hypotheses in a row (cycles 100-103) on the same general theme. A fresh
+SEARCH_PAPERS pass next cycle, rather than another direct
+GENERATE_HYPOTHESES shortcut, is probably warranted for exactly that
+reason -- not because anything is broken, but to avoid the backlog
+narrowing into a single thread for a fifth cycle running.
+
+**Is the auto-approval budget policy still right?** No change proposed.
+$0 spent this cycle (total still $4.29). The HUMAN_APPROVAL step for a
+freshly-proposed hypothesis again went through cleanly with no
+permission-classifier denial, a third consecutive clean data point (after
+cycles 101 and 102) for the distinction this playbook's WAITING_APPROVAL
+section already asserts: the self-approval block keys on re-approving an
+already-`needs_human`-escalated entry, not on fresh `auto_approved`/
+`queued` writes in general.
+
+**Should this playbook itself change?** Yes -- added a new dated note to
+the ANALYZE_RESULTS section (parallel to the existing noise-floor and
+kappa-degeneracy notes) documenting that a swap-and-require-agreement
+pairwise-judge check must classify "tie" separately from a genuine
+reversed verdict via a 3-way breakdown (agree/reversed/tie_hedge) rather
+than one binary agree/disagree number, with the cycle 102/103 numbers as
+the worked example. This is exactly the kind of playbook edit the REFLECT
+section calls for: cycle 102 explicitly deferred writing this note until
+"the follow-up hypothesis actually confirms a fix is warranted" -- that
+follow-up ran this cycle and confirmed it, so the deferred edit is made
+now, with a tested resolution attached (not just a flagged problem).
+
+**Next state:** Advancing `REFLECT -> SEARCH_PAPERS` (new cycle), per the
+reasoning above -- four consecutive cycles (100-103) on the same
+pairwise-judge-noise thread is enough depth for now; a fresh literature
+pass is likely to surface a genuinely new angle rather than another
+variant of the same analysis. `pipeline_state.json`'s own `cycle` JSON
+counter DOES increment on this transition (REFLECT -> SEARCH_PAPERS); the
+narrated cycle count for reports/commits advances to 104 on the next pass
+through any state.

@@ -789,6 +789,33 @@ asyncio.run(main())
   tertiles, and always print both sides' raw score distributions first to
   confirm the chosen cutoffs actually separate the data before computing
   kappa.
+- **A swap-and-require-agreement pairwise-judge check must classify a "tie"
+  verdict separately from a genuine reversed verdict, not fold both into one
+  binary agree/disagree outcome** (found cycle 102, 2026-11-26, confirmed
+  with a fix cycle 103, 2026-11-27, h-judge-pairwise-tie-decisive-aware-
+  agreement-metric): `judge_pairwise_swap_agreement_retroactive.py`'s
+  strict-equality check (`row_a["content_preferred"] ==
+  row_b["content_preferred"]`) scored two very different cycle-101/102
+  cases as equally "low agreement" (0.0 and 0.2) -- but cycle 102's pair had
+  ZERO reversed verdicts (the content signal never flipped) and was only
+  scored low because 8/10 same-content repeats hedged with "tie" in one
+  slot while committing decisively in the other, a materially milder
+  problem than cycle 101's genuine, deterministic content-blind flip.
+  Cycle 103's `judge_pairwise_tie_aware_agreement.py` re-analyzed both
+  already-recorded files with a 3-way per-pair classification (`agree` /
+  `reversed` / `tie_hedge`, using the literal `"tie"` string in
+  `content_preferred`) and a tie-exclusive effective agreement rate (`agree
+  / (agree + reversed)`, `tie_hedge` pairs excluded from that ratio's
+  denominator rather than counted as disagreement): on cycle 101's file
+  this correctly stayed at 0.0 (10/10 pairs genuinely "reversed", 0
+  "tie_hedge" -- confirming it is still unusable, not falsely rescued), and
+  on cycle 102's file it correctly rose to 1.0 (8/10 pairs "tie_hedge", 0
+  "reversed" -- confirming the content signal was fully consistent all
+  along). Any future pairwise-judge hypothesis using the swap-and-agree
+  design should report this 3-way breakdown (and the tie-exclusive rate
+  alongside the strict rate), not just a single binary agreement number --
+  but do not assume `tie_hedge` is always benign; check the full breakdown
+  each time rather than skipping straight to the tie-exclusive rate.
 - Compare the new experiment's metrics (chrF, latency, and, once
   `h-flicker-metric` has landed, normalized erasure) against the relevant
   baseline row(s) in `experiments/results.csv`.
