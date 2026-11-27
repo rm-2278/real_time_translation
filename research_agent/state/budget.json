@@ -1,6 +1,6 @@
 {
-  "date": "2026-11-26",
-  "spent_today_usd": 0.01,
+  "date": "2026-11-27",
+  "spent_today_usd": 0.0,
   "daily_cap_usd": 7.0,
   "per_batch_cap_usd": 3.0,
   "total_spent_usd": 4.29,
@@ -384,6 +384,11 @@
       "at": "2026-11-26T12:13:43.494542+00:00",
       "amount_usd": 0.01,
       "note": "h-judge-pairwise-swap-agreement-unbiased-check: judge_pairwise_swap_agreement_unbiased_check.py, 20 new gemini-3.1-flash-lite calls (swap-and-agree design built in from the start), zero new Deepgram spend (replay of already-recorded condition_repeats[condition][0][-1] text from experiments/20260919_h_soft_anchor_generalization_guest_talk.json span 9). Estimated by scaling against h-judge-pairwise-anchored-comparison-sensitivity's measured 20-call/$0.01 rate."
+    },
+    {
+      "at": "2026-11-27T00:10:33.852707+00:00",
+      "amount_usd": 0.0,
+      "note": "h-judge-pairwise-tie-decisive-aware-agreement-metric: judge_pairwise_tie_aware_agreement.py, pure retroactive re-analysis of experiments/judge_pairwise_comparison.json and experiments/20261126_h_judge_pairwise_swap_agreement_unbiased_check.json, zero new API calls"
     }
   ]
 }
