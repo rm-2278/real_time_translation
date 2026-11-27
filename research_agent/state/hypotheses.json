@@ -1515,8 +1515,8 @@
       "required_changes": "New script src/real_time_translation/experiments/judge_pairwise_tie_aware_agreement.py that: (1) loads both experiments/judge_pairwise_comparison.json and experiments/20261126_h_judge_pairwise_swap_agreement_unbiased_check.json (already committed, no new API calls); (2) for each file, reproduces judge_pairwise_swap_agreement_retroactive.py's exact index-for-index better_slot=='A'-vs-better_slot=='B' pairing (do not modify that existing script -- import/reuse its pairing logic or re-implement it identically, verified against its current source to avoid silently drifting from the already-validated pairing method); (3) for each pair, classifies it into exactly one of 'agree' (both content_preferred decisive and equal), 'reversed' (both decisive, both not equal, neither is 'tie'), or 'tie_hedge' (at least one member's content_preferred is 'tie') -- using the literal string 'tie' as it actually appears in content_preferred fields (confirmed present in the unbiased_check file's rows, confirmed absent from judge_pairwise_comparison.json's rows, per a direct read of both files before finalizing this categorization, not assumed); (4) reports, per file, the counts/rates of all three categories plus the tie-exclusive effective agreement rate (agree / (agree + reversed), with tie_hedge pairs excluded from that specific ratio's denominator but still reported separately in full); (5) writes experiments/<date>_h_judge_pairwise_tie_aware_agreement.json (both files' results side by side) and appends two results.csv rows (one per source file) per CLAUDE.md's logging convention; (6) logs $0 actual spend via `orchestrator.py log-cost 0`. Zero new Deepgram spend, zero new LLM/judge calls, zero new translation generation -- pure arithmetic over two already-committed JSON files.",
       "uses_existing_clips": true,
       "estimated_cost_usd": 0.0,
-      "approval": null,
-      "status": "proposed",
+      "approval": "auto_approved",
+      "status": "queued",
       "experiment_ids": [],
       "result_summary": ""
     }
