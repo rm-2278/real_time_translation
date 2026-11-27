@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "SEARCH_PAPERS",
+  "current_state": "EXTRACT_PAPERS",
   "cycle": 39,
-  "last_updated": "2026-11-27T00:13:12.453915+00:00",
+  "last_updated": "2026-11-27T12:09:26.592881+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3635,6 +3635,12 @@
       "to": "SEARCH_PAPERS",
       "at": "2026-11-27T00:13:12.453887+00:00",
       "note": "cycle 103 REFLECT complete; four consecutive cycles (100-103) on the same pairwise-judge-noise thread, fresh literature pass warranted next cycle to avoid narrowing further"
+    },
+    {
+      "from": "SEARCH_PAPERS",
+      "to": "EXTRACT_PAPERS",
+      "at": "2026-11-27T12:09:26.592839+00:00",
+      "note": "cycle 104 SEARCH_PAPERS: 4 WebSearch queries on non-pairwise-judge angles per cycle-103 reflection; added InfiniSST (2503.02969, context-window/KV-cache management) as new found stub, enriched aa-wer-streaming-2026 with previously-missing Deepgram WER numbers, confirmed rest as pre-existing duplicates by url, flagged a 2607.13158 id-collision oddity for READ_PAPERS"
     }
   ]
 }
