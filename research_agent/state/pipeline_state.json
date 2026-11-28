@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "current_state": "EXTRACT_PAPERS",
+  "current_state": "READ_PAPERS",
   "cycle": 39,
-  "last_updated": "2026-11-27T12:09:26.592881+00:00",
+  "last_updated": "2026-11-28T00:07:18.560582+00:00",
   "active_hypothesis_ids": [],
   "active_experiment_batch": null,
   "history": [
@@ -3641,6 +3641,12 @@
       "to": "EXTRACT_PAPERS",
       "at": "2026-11-27T12:09:26.592839+00:00",
       "note": "cycle 104 SEARCH_PAPERS: 4 WebSearch queries on non-pairwise-judge angles per cycle-103 reflection; added InfiniSST (2503.02969, context-window/KV-cache management) as new found stub, enriched aa-wer-streaming-2026 with previously-missing Deepgram WER numbers, confirmed rest as pre-existing duplicates by url, flagged a 2607.13158 id-collision oddity for READ_PAPERS"
+    },
+    {
+      "from": "EXTRACT_PAPERS",
+      "to": "READ_PAPERS",
+      "at": "2026-11-28T00:07:18.560541+00:00",
+      "note": "Extracted infinisst2025-unbounded-streaming-kv-window via WebSearch fallback (arxiv.org ENOTFOUND in this sandbox); abstract-level claims + ACL Findings 2025 venue confirmed. Caveat: repo is API-only, cannot touch KV-cache internals -- READ_PAPERS must assess whether the cache-management POLICY suggests anything testable at prompt-construction level."
     }
   ]
 }
